@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3ControlClient: ClientRuntime.Client {
     public static let clientName = "S3ControlClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: S3ControlClient.S3ControlClientConfiguration
     let serviceName = "S3 Control"
@@ -386,9 +386,9 @@ extension S3ControlClient {
     ///
     /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter AssociateAccessGrantsIdentityCenterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAccessGrantsIdentityCenterInput`)
     ///
-    /// - Returns: `AssociateAccessGrantsIdentityCenterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAccessGrantsIdentityCenterOutput`)
     public func associateAccessGrantsIdentityCenter(input: AssociateAccessGrantsIdentityCenterInput) async throws -> AssociateAccessGrantsIdentityCenterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -450,9 +450,9 @@ extension S3ControlClient {
     ///
     /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the [CreateAccessGrantsInstance](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsInstance.html). You must also have registered at least one S3 data location in your S3 Access Grants instance using [CreateAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsLocation.html). Permissions You must have the s3:CreateAccessGrant permission to use this operation. Additional Permissions For any directory identity - sso:DescribeInstance and sso:DescribeApplication For directory users - identitystore:DescribeUser For directory groups - identitystore:DescribeGroup You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter CreateAccessGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessGrantInput`)
     ///
-    /// - Returns: `CreateAccessGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessGrantOutput`)
     public func createAccessGrant(input: CreateAccessGrantInput) async throws -> CreateAccessGrantOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -514,9 +514,9 @@ extension S3ControlClient {
     ///
     /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account. Permissions You must have the s3:CreateAccessGrantsInstance permission to use this operation. Additional Permissions To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter CreateAccessGrantsInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessGrantsInstanceInput`)
     ///
-    /// - Returns: `CreateAccessGrantsInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessGrantsInstanceOutput`)
     public func createAccessGrantsInstance(input: CreateAccessGrantsInstanceInput) async throws -> CreateAccessGrantsInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -587,9 +587,9 @@ extension S3ControlClient {
     ///
     /// When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role [using a policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-location.html). S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications. Permissions You must have the s3:CreateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission for the specified IAM role: iam:PassRole You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter CreateAccessGrantsLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessGrantsLocationInput`)
     ///
-    /// - Returns: `CreateAccessGrantsLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessGrantsLocationOutput`)
     public func createAccessGrantsLocation(input: CreateAccessGrantsLocationInput) async throws -> CreateAccessGrantsLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -662,9 +662,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter CreateAccessPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessPointInput`)
     ///
-    /// - Returns: `CreateAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessPointOutput`)
     public func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -734,9 +734,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter CreateAccessPointForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessPointForObjectLambdaInput`)
     ///
-    /// - Returns: `CreateAccessPointForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessPointForObjectLambdaOutput`)
     public func createAccessPointForObjectLambda(input: CreateAccessPointForObjectLambdaInput) async throws -> CreateAccessPointForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -814,9 +814,9 @@ extension S3ControlClient {
     ///
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
     ///
-    /// - Parameter CreateBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketInput`)
     ///
-    /// - Returns: `CreateBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -897,9 +897,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -980,9 +980,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter CreateMultiRegionAccessPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMultiRegionAccessPointInput`)
     ///
-    /// - Returns: `CreateMultiRegionAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMultiRegionAccessPointOutput`)
     public func createMultiRegionAccessPoint(input: CreateMultiRegionAccessPointInput) async throws -> CreateMultiRegionAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1045,9 +1045,9 @@ extension S3ControlClient {
     ///
     /// Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see [Working with S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups-overview.html). To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter CreateStorageLensGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStorageLensGroupInput`)
     ///
-    /// - Returns: `CreateStorageLensGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStorageLensGroupOutput`)
     public func createStorageLensGroup(input: CreateStorageLensGroupInput) async throws -> CreateStorageLensGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1108,9 +1108,9 @@ extension S3ControlClient {
     ///
     /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessGrantInput`)
     ///
-    /// - Returns: `DeleteAccessGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessGrantOutput`)
     public func deleteAccessGrant(input: DeleteAccessGrantInput) async throws -> DeleteAccessGrantOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1169,9 +1169,9 @@ extension S3ControlClient {
     ///
     /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See [DeleteAccessGrant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) and [DeleteAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrantsLocation.html). If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See [AssociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_AssociateAccessGrantsIdentityCenter.html) and [DissociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DissociateAccessGrantsIdentityCenter.html). Permissions You must have the s3:DeleteAccessGrantsInstance permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessGrantsInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessGrantsInstanceInput`)
     ///
-    /// - Returns: `DeleteAccessGrantsInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsInstanceOutput`)
     public func deleteAccessGrantsInstance(input: DeleteAccessGrantsInstanceInput) async throws -> DeleteAccessGrantsInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1230,9 +1230,9 @@ extension S3ControlClient {
     ///
     /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance. Permissions You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessGrantsInstanceResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessGrantsInstanceResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsInstanceResourcePolicyOutput`)
     public func deleteAccessGrantsInstanceResourcePolicy(input: DeleteAccessGrantsInstanceResourcePolicyInput) async throws -> DeleteAccessGrantsInstanceResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1291,9 +1291,9 @@ extension S3ControlClient {
     ///
     /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See [Delete a grant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants. Permissions You must have the s3:DeleteAccessGrantsLocation permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessGrantsLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessGrantsLocationInput`)
     ///
-    /// - Returns: `DeleteAccessGrantsLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsLocationOutput`)
     public func deleteAccessGrantsLocation(input: DeleteAccessGrantsLocationInput) async throws -> DeleteAccessGrantsLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1361,9 +1361,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointInput`)
     ///
-    /// - Returns: `DeleteAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointOutput`)
     public func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1430,9 +1430,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessPointForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointForObjectLambdaInput`)
     ///
-    /// - Returns: `DeleteAccessPointForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointForObjectLambdaOutput`)
     public func deleteAccessPointForObjectLambda(input: DeleteAccessPointForObjectLambdaInput) async throws -> DeleteAccessPointForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1497,9 +1497,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessPointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointPolicyInput`)
     ///
-    /// - Returns: `DeleteAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointPolicyOutput`)
     public func deleteAccessPointPolicy(input: DeleteAccessPointPolicyInput) async throws -> DeleteAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1564,9 +1564,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessPointPolicyForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointPolicyForObjectLambdaInput`)
     ///
-    /// - Returns: `DeleteAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointPolicyForObjectLambdaOutput`)
     public func deleteAccessPointPolicyForObjectLambda(input: DeleteAccessPointPolicyForObjectLambdaInput) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1624,9 +1624,9 @@ extension S3ControlClient {
     ///
     /// Deletes an existing access point scope for a directory bucket. When you delete the scope of an access point, all prefixes and permissions are deleted. To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteAccessPointScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointScopeInput`)
     ///
-    /// - Returns: `DeleteAccessPointScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointScopeOutput`)
     public func deleteAccessPointScope(input: DeleteAccessPointScopeInput) async throws -> DeleteAccessPointScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1690,9 +1690,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter DeleteBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketInput`)
     ///
-    /// - Returns: `DeleteBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1757,9 +1757,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteBucketLifecycleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketLifecycleConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketLifecycleConfigurationOutput`)
     public func deleteBucketLifecycleConfiguration(input: DeleteBucketLifecycleConfigurationInput) async throws -> DeleteBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1824,9 +1824,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketPolicyInput`)
     ///
-    /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketPolicyOutput`)
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1891,9 +1891,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketReplicationInput`)
     ///
-    /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketReplicationOutput`)
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1958,9 +1958,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketTaggingInput`)
     ///
-    /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketTaggingOutput`)
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2027,9 +2027,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteJobTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobTaggingInput`)
     ///
-    /// - Returns: `DeleteJobTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobTaggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2105,9 +2105,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteMultiRegionAccessPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMultiRegionAccessPointInput`)
     ///
-    /// - Returns: `DeleteMultiRegionAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMultiRegionAccessPointOutput`)
     public func deleteMultiRegionAccessPoint(input: DeleteMultiRegionAccessPointInput) async throws -> DeleteMultiRegionAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2177,9 +2177,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicAccessBlockInput`)
     ///
-    /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicAccessBlockOutput`)
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2237,9 +2237,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteStorageLensConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageLensConfigurationInput`)
     ///
-    /// - Returns: `DeleteStorageLensConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageLensConfigurationOutput`)
     public func deleteStorageLensConfiguration(input: DeleteStorageLensConfigurationInput) async throws -> DeleteStorageLensConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2297,9 +2297,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteStorageLensConfigurationTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageLensConfigurationTaggingInput`)
     ///
-    /// - Returns: `DeleteStorageLensConfigurationTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageLensConfigurationTaggingOutput`)
     public func deleteStorageLensConfigurationTagging(input: DeleteStorageLensConfigurationTaggingInput) async throws -> DeleteStorageLensConfigurationTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2357,9 +2357,9 @@ extension S3ControlClient {
     ///
     /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DeleteStorageLensGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageLensGroupInput`)
     ///
-    /// - Returns: `DeleteStorageLensGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageLensGroupOutput`)
     public func deleteStorageLensGroup(input: DeleteStorageLensGroupInput) async throws -> DeleteStorageLensGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2428,9 +2428,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DescribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobInput`)
     ///
-    /// - Returns: `DescribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2507,9 +2507,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DescribeMultiRegionAccessPointOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMultiRegionAccessPointOperationInput`)
     ///
-    /// - Returns: `DescribeMultiRegionAccessPointOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMultiRegionAccessPointOperationOutput`)
     public func describeMultiRegionAccessPointOperation(input: DescribeMultiRegionAccessPointOperationInput) async throws -> DescribeMultiRegionAccessPointOperationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2568,9 +2568,9 @@ extension S3ControlClient {
     ///
     /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance. Permissions You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must have the sso:DeleteApplication permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter DissociateAccessGrantsIdentityCenterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DissociateAccessGrantsIdentityCenterInput`)
     ///
-    /// - Returns: `DissociateAccessGrantsIdentityCenterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DissociateAccessGrantsIdentityCenterOutput`)
     public func dissociateAccessGrantsIdentityCenter(input: DissociateAccessGrantsIdentityCenterInput) async throws -> DissociateAccessGrantsIdentityCenterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2629,9 +2629,9 @@ extension S3ControlClient {
     ///
     /// Get the details of an access grant from your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrant permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantInput`)
     ///
-    /// - Returns: `GetAccessGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantOutput`)
     public func getAccessGrant(input: GetAccessGrantInput) async throws -> GetAccessGrantOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2690,9 +2690,9 @@ extension S3ControlClient {
     ///
     /// Retrieves the S3 Access Grants instance for a Region in your account. Permissions You must have the s3:GetAccessGrantsInstance permission to use this operation. GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessGrantsInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantsInstanceInput`)
     ///
-    /// - Returns: `GetAccessGrantsInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceOutput`)
     public func getAccessGrantsInstance(input: GetAccessGrantsInstanceInput) async throws -> GetAccessGrantsInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2751,9 +2751,9 @@ extension S3ControlClient {
     ///
     /// Retrieve the S3 Access Grants instance that contains a particular prefix. Permissions You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation. Additional Permissions The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessGrantsInstanceForPrefixInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantsInstanceForPrefixInput`)
     ///
-    /// - Returns: `GetAccessGrantsInstanceForPrefixOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceForPrefixOutput`)
     public func getAccessGrantsInstanceForPrefix(input: GetAccessGrantsInstanceForPrefixInput) async throws -> GetAccessGrantsInstanceForPrefixOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2813,9 +2813,9 @@ extension S3ControlClient {
     ///
     /// Returns the resource policy of the S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessGrantsInstanceResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantsInstanceResourcePolicyInput`)
     ///
-    /// - Returns: `GetAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceResourcePolicyOutput`)
     public func getAccessGrantsInstanceResourcePolicy(input: GetAccessGrantsInstanceResourcePolicyInput) async throws -> GetAccessGrantsInstanceResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2874,9 +2874,9 @@ extension S3ControlClient {
     ///
     /// Retrieves the details of a particular location registered in your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsLocation permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessGrantsLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantsLocationInput`)
     ///
-    /// - Returns: `GetAccessGrantsLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantsLocationOutput`)
     public func getAccessGrantsLocation(input: GetAccessGrantsLocationInput) async throws -> GetAccessGrantsLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2944,9 +2944,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointInput`)
     ///
-    /// - Returns: `GetAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointOutput`)
     public func getAccessPoint(input: GetAccessPointInput) async throws -> GetAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3009,9 +3009,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessPointConfigurationForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointConfigurationForObjectLambdaInput`)
     ///
-    /// - Returns: `GetAccessPointConfigurationForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointConfigurationForObjectLambdaOutput`)
     public func getAccessPointConfigurationForObjectLambda(input: GetAccessPointConfigurationForObjectLambdaInput) async throws -> GetAccessPointConfigurationForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3078,9 +3078,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessPointForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointForObjectLambdaInput`)
     ///
-    /// - Returns: `GetAccessPointForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointForObjectLambdaOutput`)
     public func getAccessPointForObjectLambda(input: GetAccessPointForObjectLambdaInput) async throws -> GetAccessPointForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3145,9 +3145,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessPointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointPolicyInput`)
     ///
-    /// - Returns: `GetAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyOutput`)
     public func getAccessPointPolicy(input: GetAccessPointPolicyInput) async throws -> GetAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3212,9 +3212,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessPointPolicyForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointPolicyForObjectLambdaInput`)
     ///
-    /// - Returns: `GetAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyForObjectLambdaOutput`)
     public func getAccessPointPolicyForObjectLambda(input: GetAccessPointPolicyForObjectLambdaInput) async throws -> GetAccessPointPolicyForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3272,9 +3272,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see [Managing Data Access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessPointPolicyStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointPolicyStatusInput`)
     ///
-    /// - Returns: `GetAccessPointPolicyStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyStatusOutput`)
     public func getAccessPointPolicyStatus(input: GetAccessPointPolicyStatusInput) async throws -> GetAccessPointPolicyStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3332,9 +3332,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Returns the status of the resource policy associated with an Object Lambda Access Point. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessPointPolicyStatusForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointPolicyStatusForObjectLambdaInput`)
     ///
-    /// - Returns: `GetAccessPointPolicyStatusForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyStatusForObjectLambdaOutput`)
     public func getAccessPointPolicyStatusForObjectLambda(input: GetAccessPointPolicyStatusForObjectLambdaInput) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3392,9 +3392,9 @@ extension S3ControlClient {
     ///
     /// Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetAccessPointScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointScopeInput`)
     ///
-    /// - Returns: `GetAccessPointScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointScopeOutput`)
     public func getAccessPointScope(input: GetAccessPointScopeInput) async throws -> GetAccessPointScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3461,9 +3461,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketInput`)
     ///
-    /// - Returns: `GetBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketOutput`)
     public func getBucket(input: GetBucketInput) async throws -> GetBucketOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3542,9 +3542,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketLifecycleConfigurationInput`)
     ///
-    /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketLifecycleConfigurationOutput`)
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3611,9 +3611,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketPolicyInput`)
     ///
-    /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketPolicyOutput`)
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3675,9 +3675,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html)
     ///
-    /// - Parameter GetBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketReplicationInput`)
     ///
-    /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketReplicationOutput`)
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3749,9 +3749,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html)
     ///
-    /// - Parameter GetBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketTaggingInput`)
     ///
-    /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketTaggingOutput`)
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3815,9 +3815,9 @@ extension S3ControlClient {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
     ///
-    /// - Parameter GetBucketVersioningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketVersioningInput`)
     ///
-    /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketVersioningOutput`)
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3875,9 +3875,9 @@ extension S3ControlClient {
     ///
     /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The [temporary credential](https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html) is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetDataAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataAccessInput`)
     ///
-    /// - Returns: `GetDataAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataAccessOutput`)
     public func getDataAccess(input: GetDataAccessInput) async throws -> GetDataAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3946,9 +3946,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetJobTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobTaggingInput`)
     ///
-    /// - Returns: `GetJobTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobTaggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4024,9 +4024,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetMultiRegionAccessPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMultiRegionAccessPointInput`)
     ///
-    /// - Returns: `GetMultiRegionAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointOutput`)
     public func getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput) async throws -> GetMultiRegionAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4092,9 +4092,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetMultiRegionAccessPointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyInput`)
     ///
-    /// - Returns: `GetMultiRegionAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyOutput`)
     public func getMultiRegionAccessPointPolicy(input: GetMultiRegionAccessPointPolicyInput) async throws -> GetMultiRegionAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4160,9 +4160,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetMultiRegionAccessPointPolicyStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyStatusInput`)
     ///
-    /// - Returns: `GetMultiRegionAccessPointPolicyStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyStatusOutput`)
     public func getMultiRegionAccessPointPolicyStatus(input: GetMultiRegionAccessPointPolicyStatusInput) async throws -> GetMultiRegionAccessPointPolicyStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4234,9 +4234,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetMultiRegionAccessPointRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMultiRegionAccessPointRoutesInput`)
     ///
-    /// - Returns: `GetMultiRegionAccessPointRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointRoutesOutput`)
     public func getMultiRegionAccessPointRoutes(input: GetMultiRegionAccessPointRoutesInput) async throws -> GetMultiRegionAccessPointRoutesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4302,9 +4302,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetPublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicAccessBlockInput`)
     ///
-    /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicAccessBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4367,9 +4367,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Gets the Amazon S3 Storage Lens configuration. For more information, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetStorageLensConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageLensConfigurationInput`)
     ///
-    /// - Returns: `GetStorageLensConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageLensConfigurationOutput`)
     public func getStorageLensConfiguration(input: GetStorageLensConfigurationInput) async throws -> GetStorageLensConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4427,9 +4427,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetStorageLensConfigurationTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageLensConfigurationTaggingInput`)
     ///
-    /// - Returns: `GetStorageLensConfigurationTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageLensConfigurationTaggingOutput`)
     public func getStorageLensConfigurationTagging(input: GetStorageLensConfigurationTaggingInput) async throws -> GetStorageLensConfigurationTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4487,9 +4487,9 @@ extension S3ControlClient {
     ///
     /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter GetStorageLensGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageLensGroupInput`)
     ///
-    /// - Returns: `GetStorageLensGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageLensGroupOutput`)
     public func getStorageLensGroup(input: GetStorageLensGroupInput) async throws -> GetStorageLensGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4547,9 +4547,9 @@ extension S3ControlClient {
     ///
     /// Returns the list of access grants in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrants permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListAccessGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessGrantsInput`)
     ///
-    /// - Returns: `ListAccessGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessGrantsOutput`)
     public func listAccessGrants(input: ListAccessGrantsInput) async throws -> ListAccessGrantsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4609,9 +4609,9 @@ extension S3ControlClient {
     ///
     /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListAccessGrantsInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessGrantsInstancesInput`)
     ///
-    /// - Returns: `ListAccessGrantsInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessGrantsInstancesOutput`)
     public func listAccessGrantsInstances(input: ListAccessGrantsInstancesInput) async throws -> ListAccessGrantsInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4671,9 +4671,9 @@ extension S3ControlClient {
     ///
     /// Returns a list of the locations registered in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListAccessGrantsLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessGrantsLocationsInput`)
     ///
-    /// - Returns: `ListAccessGrantsLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessGrantsLocationsOutput`)
     public func listAccessGrantsLocations(input: ListAccessGrantsLocationsInput) async throws -> ListAccessGrantsLocationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4742,9 +4742,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListAccessPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPointsInput`)
     ///
-    /// - Returns: `ListAccessPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPointsOutput`)
     public func listAccessPoints(input: ListAccessPointsInput) async throws -> ListAccessPointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4803,9 +4803,9 @@ extension S3ControlClient {
     ///
     /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see [ListAccesspoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html). To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListAccessPointsForDirectoryBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPointsForDirectoryBucketsInput`)
     ///
-    /// - Returns: `ListAccessPointsForDirectoryBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPointsForDirectoryBucketsOutput`)
     public func listAccessPointsForDirectoryBuckets(input: ListAccessPointsForDirectoryBucketsInput) async throws -> ListAccessPointsForDirectoryBucketsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4873,9 +4873,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListAccessPointsForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPointsForObjectLambdaInput`)
     ///
-    /// - Returns: `ListAccessPointsForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPointsForObjectLambdaOutput`)
     public func listAccessPointsForObjectLambda(input: ListAccessPointsForObjectLambdaInput) async throws -> ListAccessPointsForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4934,9 +4934,9 @@ extension S3ControlClient {
     ///
     /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see [List the caller's access grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-list-grants.html) in the Amazon S3 User Guide. Permissions You must have the s3:ListCallerAccessGrants permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListCallerAccessGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCallerAccessGrantsInput`)
     ///
-    /// - Returns: `ListCallerAccessGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCallerAccessGrantsOutput`)
     public func listCallerAccessGrants(input: ListCallerAccessGrantsInput) async throws -> ListCallerAccessGrantsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5007,9 +5007,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5086,9 +5086,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListMultiRegionAccessPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMultiRegionAccessPointsInput`)
     ///
-    /// - Returns: `ListMultiRegionAccessPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMultiRegionAccessPointsOutput`)
     public func listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput) async throws -> ListMultiRegionAccessPointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5148,9 +5148,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListRegionalBuckets.html#API_control_ListRegionalBuckets_Examples) section. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListRegionalBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegionalBucketsInput`)
     ///
-    /// - Returns: `ListRegionalBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegionalBucketsOutput`)
     public func listRegionalBuckets(input: ListRegionalBucketsInput) async throws -> ListRegionalBucketsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5209,9 +5209,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListStorageLensConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStorageLensConfigurationsInput`)
     ///
-    /// - Returns: `ListStorageLensConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStorageLensConfigurationsOutput`)
     public func listStorageLensConfigurations(input: ListStorageLensConfigurationsInput) async throws -> ListStorageLensConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5270,9 +5270,9 @@ extension S3ControlClient {
     ///
     /// Lists all the Storage Lens groups in the specified home Region. To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListStorageLensGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStorageLensGroupsInput`)
     ///
-    /// - Returns: `ListStorageLensGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStorageLensGroupsOutput`)
     public func listStorageLensGroups(input: ListStorageLensGroupsInput) async throws -> ListStorageLensGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5344,9 +5344,9 @@ extension S3ControlClient {
     ///
     /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5404,9 +5404,9 @@ extension S3ControlClient {
     ///
     /// Updates the resource policy of the S3 Access Grants instance. Permissions You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutAccessGrantsInstanceResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccessGrantsInstanceResourcePolicyInput`)
     ///
-    /// - Returns: `PutAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessGrantsInstanceResourcePolicyOutput`)
     public func putAccessGrantsInstanceResourcePolicy(input: PutAccessGrantsInstanceResourcePolicyInput) async throws -> PutAccessGrantsInstanceResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5473,9 +5473,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutAccessPointConfigurationForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccessPointConfigurationForObjectLambdaInput`)
     ///
-    /// - Returns: `PutAccessPointConfigurationForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessPointConfigurationForObjectLambdaOutput`)
     public func putAccessPointConfigurationForObjectLambda(input: PutAccessPointConfigurationForObjectLambdaInput) async throws -> PutAccessPointConfigurationForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5543,9 +5543,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutAccessPointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccessPointPolicyInput`)
     ///
-    /// - Returns: `PutAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessPointPolicyOutput`)
     public func putAccessPointPolicy(input: PutAccessPointPolicyInput) async throws -> PutAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5613,9 +5613,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutAccessPointPolicyForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccessPointPolicyForObjectLambdaInput`)
     ///
-    /// - Returns: `PutAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessPointPolicyForObjectLambdaOutput`)
     public func putAccessPointPolicyForObjectLambda(input: PutAccessPointPolicyForObjectLambdaInput) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5676,9 +5676,9 @@ extension S3ControlClient {
     ///
     /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutAccessPointScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccessPointScopeInput`)
     ///
-    /// - Returns: `PutAccessPointScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessPointScopeOutput`)
     public func putAccessPointScope(input: PutAccessPointScopeInput) async throws -> PutAccessPointScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5743,9 +5743,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html)
     ///
-    /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketLifecycleConfigurationInput`)
     ///
-    /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketLifecycleConfigurationOutput`)
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5811,9 +5811,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html)
     ///
-    /// - Parameter PutBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketPolicyInput`)
     ///
-    /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketPolicyOutput`)
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5888,9 +5888,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html)
     ///
-    /// - Parameter PutBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketReplicationInput`)
     ///
-    /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketReplicationOutput`)
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5987,9 +5987,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html)
     ///
-    /// - Parameter PutBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketTaggingInput`)
     ///
-    /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketTaggingOutput`)
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6067,9 +6067,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutBucketVersioningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketVersioningInput`)
     ///
-    /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketVersioningOutput`)
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6162,9 +6162,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutJobTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutJobTaggingInput`)
     ///
-    /// - Returns: `PutJobTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutJobTaggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6240,9 +6240,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutMultiRegionAccessPointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMultiRegionAccessPointPolicyInput`)
     ///
-    /// - Returns: `PutMultiRegionAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMultiRegionAccessPointPolicyOutput`)
     public func putMultiRegionAccessPointPolicy(input: PutMultiRegionAccessPointPolicyInput) async throws -> PutMultiRegionAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6312,9 +6312,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutPublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPublicAccessBlockInput`)
     ///
-    /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPublicAccessBlockOutput`)
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6375,9 +6375,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Working with Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutStorageLensConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutStorageLensConfigurationInput`)
     ///
-    /// - Returns: `PutStorageLensConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutStorageLensConfigurationOutput`)
     public func putStorageLensConfiguration(input: PutStorageLensConfigurationInput) async throws -> PutStorageLensConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6438,9 +6438,9 @@ extension S3ControlClient {
     ///
     /// This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter PutStorageLensConfigurationTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutStorageLensConfigurationTaggingInput`)
     ///
-    /// - Returns: `PutStorageLensConfigurationTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutStorageLensConfigurationTaggingOutput`)
     public func putStorageLensConfigurationTagging(input: PutStorageLensConfigurationTaggingInput) async throws -> PutStorageLensConfigurationTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6514,9 +6514,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter SubmitMultiRegionAccessPointRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitMultiRegionAccessPointRoutesInput`)
     ///
-    /// - Returns: `SubmitMultiRegionAccessPointRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitMultiRegionAccessPointRoutesOutput`)
     public func submitMultiRegionAccessPointRoutes(input: SubmitMultiRegionAccessPointRoutesInput) async throws -> SubmitMultiRegionAccessPointRoutesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -6600,9 +6600,9 @@ extension S3ControlClient {
     ///
     /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6676,9 +6676,9 @@ extension S3ControlClient {
     ///
     /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -6737,9 +6737,9 @@ extension S3ControlClient {
     ///
     /// Updates the IAM role of a registered location in your S3 Access Grants instance. Permissions You must have the s3:UpdateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission: iam:PassRole You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter UpdateAccessGrantsLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessGrantsLocationInput`)
     ///
-    /// - Returns: `UpdateAccessGrantsLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessGrantsLocationOutput`)
     public func updateAccessGrantsLocation(input: UpdateAccessGrantsLocationInput) async throws -> UpdateAccessGrantsLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6812,9 +6812,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter UpdateJobPriorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobPriorityInput`)
     ///
-    /// - Returns: `UpdateJobPriorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobPriorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6892,9 +6892,9 @@ extension S3ControlClient {
     ///
     /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter UpdateJobStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobStatusInput`)
     ///
-    /// - Returns: `UpdateJobStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6962,9 +6962,9 @@ extension S3ControlClient {
     ///
     /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
-    /// - Parameter UpdateStorageLensGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStorageLensGroupInput`)
     ///
-    /// - Returns: `UpdateStorageLensGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStorageLensGroupOutput`)
     public func updateStorageLensGroup(input: UpdateStorageLensGroupInput) async throws -> UpdateStorageLensGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)

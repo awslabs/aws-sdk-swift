@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GuardDutyClient: ClientRuntime.Client {
     public static let clientName = "GuardDutyClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: GuardDutyClient.GuardDutyClientConfiguration
     let serviceName = "GuardDuty"
@@ -374,9 +374,9 @@ extension GuardDutyClient {
     ///
     /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation.
     ///
-    /// - Parameter AcceptAdministratorInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptAdministratorInvitationInput`)
     ///
-    /// - Returns: `AcceptAdministratorInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptAdministratorInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension GuardDutyClient {
     /// Accepts the invitation to be monitored by a GuardDuty administrator account.
     @available(*, deprecated, message: "This operation is deprecated, use AcceptAdministratorInvitation instead")
     ///
-    /// - Parameter AcceptInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptInvitationInput`)
     ///
-    /// - Returns: `AcceptInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,9 +511,9 @@ extension GuardDutyClient {
     ///
     /// Archives GuardDuty findings that are specified by the list of finding IDs. Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
     ///
-    /// - Parameter ArchiveFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ArchiveFindingsInput`)
     ///
-    /// - Returns: `ArchiveFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ArchiveFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension GuardDutyClient {
     ///
     /// Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter CreateDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDetectorInput`)
     ///
-    /// - Returns: `CreateDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,9 +655,9 @@ extension GuardDutyClient {
     ///
     /// Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see [Quotas for GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_limits.html).
     ///
-    /// - Parameter CreateFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFilterInput`)
     ///
-    /// - Returns: `CreateFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
     ///
-    /// - Parameter CreateIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIPSetInput`)
     ///
-    /// - Returns: `CreateIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -794,9 +794,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new Malware Protection plan for the protected resource. When you create a Malware Protection plan, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see [Amazon Web Services service terms for GuardDuty Malware Protection](http://aws.amazon.com/service-terms/#87._Amazon_GuardDuty).
     ///
-    /// - Parameter CreateMalwareProtectionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMalwareProtectionPlanInput`)
     ///
-    /// - Returns: `CreateMalwareProtectionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMalwareProtectionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,9 +865,9 @@ extension GuardDutyClient {
     ///
     /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member. When you use CreateMembers as an Organizations delegated administrator, GuardDuty applies your organization's auto-enable settings to the member accounts in this request, irrespective of the accounts being new or existing members. For more information about the existing auto-enable settings for your organization, see [DescribeOrganizationConfiguration](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeOrganizationConfiguration.html). If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
-    /// - Parameter CreateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembersInput`)
     ///
-    /// - Returns: `CreateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,9 +933,9 @@ extension GuardDutyClient {
     ///
     /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination resource must exist.
     ///
-    /// - Parameter CreatePublishingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePublishingDestinationInput`)
     ///
-    /// - Returns: `CreatePublishingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePublishingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,9 +1002,9 @@ extension GuardDutyClient {
     ///
     /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
     ///
-    /// - Parameter CreateSampleFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSampleFindingsInput`)
     ///
-    /// - Returns: `CreateSampleFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSampleFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1070,9 +1070,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new threat entity set. In a threat entity set, you can provide known malicious IP addresses and domains for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts.
     ///
-    /// - Parameter CreateThreatEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThreatEntitySetInput`)
     ///
-    /// - Returns: `CreateThreatEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThreatEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1139,9 +1139,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
     ///
-    /// - Parameter CreateThreatIntelSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThreatIntelSetInput`)
     ///
-    /// - Returns: `CreateThreatIntelSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThreatIntelSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1209,9 +1209,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new trusted entity set. In the trusted entity set, you can provide IP addresses and domains that you believe are secure for communication in your Amazon Web Services environment. GuardDuty will not generate findings for the entries that are specified in a trusted entity set. At any given time, you can have only one trusted entity set. Only users of the administrator account can manage the entity sets, which automatically apply to member accounts.
     ///
-    /// - Parameter CreateTrustedEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrustedEntitySetInput`)
     ///
-    /// - Returns: `CreateTrustedEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrustedEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,9 +1278,9 @@ extension GuardDutyClient {
     ///
     /// Declines invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
     ///
-    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeclineInvitationsInput`)
     ///
-    /// - Returns: `DeclineInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeclineInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1346,9 +1346,9 @@ extension GuardDutyClient {
     ///
     /// Deletes an Amazon GuardDuty detector that is specified by the detector ID.
     ///
-    /// - Parameter DeleteDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDetectorInput`)
     ///
-    /// - Returns: `DeleteDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,9 +1411,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the filter specified by the filter name.
     ///
-    /// - Parameter DeleteFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFilterInput`)
     ///
-    /// - Returns: `DeleteFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1476,9 +1476,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
     ///
-    /// - Parameter DeleteIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIPSetInput`)
     ///
-    /// - Returns: `DeleteIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1541,9 +1541,9 @@ extension GuardDutyClient {
     ///
     /// Deletes invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
     ///
-    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvitationsInput`)
     ///
-    /// - Returns: `DeleteInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1609,9 +1609,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the Malware Protection plan ID associated with the Malware Protection plan resource. Use this API only when you no longer want to protect the resource associated with this Malware Protection plan ID.
     ///
-    /// - Parameter DeleteMalwareProtectionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMalwareProtectionPlanInput`)
     ///
-    /// - Returns: `DeleteMalwareProtectionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMalwareProtectionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1676,9 +1676,9 @@ extension GuardDutyClient {
     ///
     /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty for a member account in your organization.
     ///
-    /// - Parameter DeleteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMembersInput`)
     ///
-    /// - Returns: `DeleteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,9 +1744,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the publishing definition with the specified destinationId.
     ///
-    /// - Parameter DeletePublishingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublishingDestinationInput`)
     ///
-    /// - Returns: `DeletePublishingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublishingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1809,9 +1809,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the threat entity set that is associated with the specified threatEntitySetId.
     ///
-    /// - Parameter DeleteThreatEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThreatEntitySetInput`)
     ///
-    /// - Returns: `DeleteThreatEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThreatEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1874,9 +1874,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
     ///
-    /// - Parameter DeleteThreatIntelSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThreatIntelSetInput`)
     ///
-    /// - Returns: `DeleteThreatIntelSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThreatIntelSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1939,9 +1939,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the trusted entity set that is associated with the specified trustedEntitySetId.
     ///
-    /// - Parameter DeleteTrustedEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrustedEntitySetInput`)
     ///
-    /// - Returns: `DeleteTrustedEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrustedEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2004,9 +2004,9 @@ extension GuardDutyClient {
     ///
     /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter DescribeMalwareScansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMalwareScansInput`)
     ///
-    /// - Returns: `DescribeMalwareScansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMalwareScansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2072,9 +2072,9 @@ extension GuardDutyClient {
     ///
     /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2138,9 +2138,9 @@ extension GuardDutyClient {
     ///
     /// Returns information about the publishing destination specified by the provided destinationId.
     ///
-    /// - Parameter DescribePublishingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePublishingDestinationInput`)
     ///
-    /// - Returns: `DescribePublishingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePublishingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2203,9 +2203,9 @@ extension GuardDutyClient {
     ///
     /// Removes the existing GuardDuty delegated administrator of the organization. Only the organization's management account can run this API operation.
     ///
-    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DisableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2271,9 +2271,9 @@ extension GuardDutyClient {
     ///
     /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty in a member account.
     ///
-    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromAdministratorAccountInput`)
     ///
-    /// - Returns: `DisassociateFromAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2337,9 +2337,9 @@ extension GuardDutyClient {
     /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API.
     @available(*, deprecated, message: "This operation is deprecated, use DisassociateFromAdministratorAccount instead")
     ///
-    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromMasterAccountInput`)
     ///
-    /// - Returns: `DisassociateFromMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,9 +2402,9 @@ extension GuardDutyClient {
     ///
     /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your organization. If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
-    /// - Parameter DisassociateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMembersInput`)
     ///
-    /// - Returns: `DisassociateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2470,9 +2470,9 @@ extension GuardDutyClient {
     ///
     /// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's management account can run this API operation.
     ///
-    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `EnableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2544,9 +2544,9 @@ extension GuardDutyClient {
     ///
     /// * When an individual account (not associated with an organization) runs this API, it will return success (HTTP 200) but no content.
     ///
-    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdministratorAccountInput`)
     ///
-    /// - Returns: `GetAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2609,9 +2609,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources.
     ///
-    /// - Parameter GetCoverageStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoverageStatisticsInput`)
     ///
-    /// - Returns: `GetCoverageStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoverageStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2677,9 +2677,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves a GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter GetDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDetectorInput`)
     ///
-    /// - Returns: `GetDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2742,9 +2742,9 @@ extension GuardDutyClient {
     ///
     /// Returns the details of the filter specified by the filter name.
     ///
-    /// - Parameter GetFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFilterInput`)
     ///
-    /// - Returns: `GetFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2807,9 +2807,9 @@ extension GuardDutyClient {
     ///
     /// Describes Amazon GuardDuty findings specified by finding IDs.
     ///
-    /// - Parameter GetFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsInput`)
     ///
-    /// - Returns: `GetFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2875,9 +2875,9 @@ extension GuardDutyClient {
     ///
     /// Lists GuardDuty findings statistics for the specified detector ID. You must provide either findingStatisticTypes or groupBy parameter, and not both. You can use the maxResults and orderBy parameters only when using groupBy. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter GetFindingsStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsStatisticsInput`)
     ///
-    /// - Returns: `GetFindingsStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2943,9 +2943,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the IPSet specified by the ipSetId.
     ///
-    /// - Parameter GetIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIPSetInput`)
     ///
-    /// - Returns: `GetIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3008,9 +3008,9 @@ extension GuardDutyClient {
     ///
     /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
     ///
-    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvitationsCountInput`)
     ///
-    /// - Returns: `GetInvitationsCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvitationsCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3073,9 +3073,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the Malware Protection plan details associated with a Malware Protection plan ID.
     ///
-    /// - Parameter GetMalwareProtectionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMalwareProtectionPlanInput`)
     ///
-    /// - Returns: `GetMalwareProtectionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMalwareProtectionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3140,9 +3140,9 @@ extension GuardDutyClient {
     ///
     /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter GetMalwareScanSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMalwareScanSettingsInput`)
     ///
-    /// - Returns: `GetMalwareScanSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMalwareScanSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3206,9 +3206,9 @@ extension GuardDutyClient {
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     @available(*, deprecated, message: "This operation is deprecated, use GetAdministratorAccount instead")
     ///
-    /// - Parameter GetMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMasterAccountInput`)
     ///
-    /// - Returns: `GetMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3271,9 +3271,9 @@ extension GuardDutyClient {
     ///
     /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter GetMemberDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemberDetectorsInput`)
     ///
-    /// - Returns: `GetMemberDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemberDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3339,9 +3339,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
     ///
-    /// - Parameter GetMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembersInput`)
     ///
-    /// - Returns: `GetMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3407,9 +3407,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves how many active member accounts have each feature enabled within GuardDuty. Only a delegated GuardDuty administrator of an organization can run this API. When you create a new organization, it might take up to 24 hours to generate the statistics for the entire organization.
     ///
-    /// - Parameter GetOrganizationStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrganizationStatisticsInput`)
     ///
-    /// - Returns: `GetOrganizationStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrganizationStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3472,9 +3472,9 @@ extension GuardDutyClient {
     ///
     /// Provides the number of days left for each data source used in the free trial period.
     ///
-    /// - Parameter GetRemainingFreeTrialDaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRemainingFreeTrialDaysInput`)
     ///
-    /// - Returns: `GetRemainingFreeTrialDaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRemainingFreeTrialDaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3540,9 +3540,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the threat entity set associated with the specified threatEntitySetId.
     ///
-    /// - Parameter GetThreatEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThreatEntitySetInput`)
     ///
-    /// - Returns: `GetThreatEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThreatEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3605,9 +3605,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
     ///
-    /// - Parameter GetThreatIntelSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThreatIntelSetInput`)
     ///
-    /// - Returns: `GetThreatIntelSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThreatIntelSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3670,9 +3670,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the trusted entity set associated with the specified trustedEntitySetId.
     ///
-    /// - Parameter GetTrustedEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrustedEntitySetInput`)
     ///
-    /// - Returns: `GetTrustedEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrustedEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3735,9 +3735,9 @@ extension GuardDutyClient {
     ///
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see [Understanding How Usage Costs are Calculated](https://docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations).
     ///
-    /// - Parameter GetUsageStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageStatisticsInput`)
     ///
-    /// - Returns: `GetUsageStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3803,9 +3803,9 @@ extension GuardDutyClient {
     ///
     /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see [Managing accounts with organizations](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html). To invite Amazon Web Services accounts, the first step is to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accounts by invitation. The invited accounts can either accept or decline the invitation from their GuardDuty accounts. Each invited Amazon Web Services account can choose to accept the invitation from only one Amazon Web Services account. For more information, see [Managing GuardDuty accounts by invitation](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html). After the invite has been accepted and you choose to disassociate a member account (by using [DisassociateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DisassociateMembers.html)) from your account, the details of the member account obtained by invoking [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html), including the associated email addresses, will be retained. This is done so that you can invoke InviteMembers without the need to invoke [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) again. To remove the details associated with a member account, you must also invoke [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html). If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
-    /// - Parameter InviteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InviteMembersInput`)
     ///
-    /// - Returns: `InviteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InviteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3871,9 +3871,9 @@ extension GuardDutyClient {
     ///
     /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources.
     ///
-    /// - Parameter ListCoverageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoverageInput`)
     ///
-    /// - Returns: `ListCoverageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoverageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3939,9 +3939,9 @@ extension GuardDutyClient {
     ///
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     ///
-    /// - Parameter ListDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDetectorsInput`)
     ///
-    /// - Returns: `ListDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4005,9 +4005,9 @@ extension GuardDutyClient {
     ///
     /// Returns a paginated list of the current filters.
     ///
-    /// - Parameter ListFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFiltersInput`)
     ///
-    /// - Returns: `ListFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4071,9 +4071,9 @@ extension GuardDutyClient {
     ///
     /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter ListFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsInput`)
     ///
-    /// - Returns: `ListFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4139,9 +4139,9 @@ extension GuardDutyClient {
     ///
     /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
     ///
-    /// - Parameter ListIPSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIPSetsInput`)
     ///
-    /// - Returns: `ListIPSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIPSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4205,9 +4205,9 @@ extension GuardDutyClient {
     ///
     /// Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
     ///
-    /// - Parameter ListInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
-    /// - Returns: `ListInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4271,9 +4271,9 @@ extension GuardDutyClient {
     ///
     /// Lists the Malware Protection plan IDs associated with the protected resources in your Amazon Web Services account.
     ///
-    /// - Parameter ListMalwareProtectionPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMalwareProtectionPlansInput`)
     ///
-    /// - Returns: `ListMalwareProtectionPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMalwareProtectionPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4338,9 +4338,9 @@ extension GuardDutyClient {
     ///
     /// Lists details about all member accounts for the current GuardDuty administrator account.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4404,9 +4404,9 @@ extension GuardDutyClient {
     ///
     /// Lists the accounts designated as GuardDuty delegated administrators. Only the organization's management account can run this API operation.
     ///
-    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationAdminAccountsInput`)
     ///
-    /// - Returns: `ListOrganizationAdminAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationAdminAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4470,9 +4470,9 @@ extension GuardDutyClient {
     ///
     /// Returns a list of publishing destinations associated with the specified detectorId.
     ///
-    /// - Parameter ListPublishingDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPublishingDestinationsInput`)
     ///
-    /// - Returns: `ListPublishingDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPublishingDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4536,9 +4536,9 @@ extension GuardDutyClient {
     ///
     /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4602,9 +4602,9 @@ extension GuardDutyClient {
     ///
     /// Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the threat entity sets that are returned as a response, belong to the administrator account.
     ///
-    /// - Parameter ListThreatEntitySetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThreatEntitySetsInput`)
     ///
-    /// - Returns: `ListThreatEntitySetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThreatEntitySetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4668,9 +4668,9 @@ extension GuardDutyClient {
     ///
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     ///
-    /// - Parameter ListThreatIntelSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThreatIntelSetsInput`)
     ///
-    /// - Returns: `ListThreatIntelSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThreatIntelSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4734,9 +4734,9 @@ extension GuardDutyClient {
     ///
     /// Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the trusted entity sets that are returned as a response, belong to the administrator account.
     ///
-    /// - Parameter ListTrustedEntitySetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustedEntitySetsInput`)
     ///
-    /// - Returns: `ListTrustedEntitySetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustedEntitySetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4800,9 +4800,9 @@ extension GuardDutyClient {
     ///
     /// Initiates the malware scan. Invoking this API will automatically create the [Service-linked role](https://docs.aws.amazon.com/guardduty/latest/ug/slr-permissions-malware-protection.html) in the corresponding account. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see [DescribeMalwareScans](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeMalwareScans.html).
     ///
-    /// - Parameter StartMalwareScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMalwareScanInput`)
     ///
-    /// - Returns: `StartMalwareScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMalwareScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4869,9 +4869,9 @@ extension GuardDutyClient {
     ///
     /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the [StopMonitoringMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_StopMonitoringMembers.html) operation.
     ///
-    /// - Parameter StartMonitoringMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMonitoringMembersInput`)
     ///
-    /// - Returns: `StartMonitoringMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMonitoringMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4937,9 +4937,9 @@ extension GuardDutyClient {
     ///
     /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.
     ///
-    /// - Parameter StopMonitoringMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopMonitoringMembersInput`)
     ///
-    /// - Returns: `StopMonitoringMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopMonitoringMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5005,9 +5005,9 @@ extension GuardDutyClient {
     ///
     /// Adds tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5074,9 +5074,9 @@ extension GuardDutyClient {
     ///
     /// Unarchives GuardDuty findings specified by the findingIds.
     ///
-    /// - Parameter UnarchiveFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnarchiveFindingsInput`)
     ///
-    /// - Returns: `UnarchiveFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnarchiveFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5142,9 +5142,9 @@ extension GuardDutyClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5209,9 +5209,9 @@ extension GuardDutyClient {
     ///
     /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter UpdateDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorInput`)
     ///
-    /// - Returns: `UpdateDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5277,9 +5277,9 @@ extension GuardDutyClient {
     ///
     /// Updates the filter specified by the filter name.
     ///
-    /// - Parameter UpdateFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFilterInput`)
     ///
-    /// - Returns: `UpdateFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5345,9 +5345,9 @@ extension GuardDutyClient {
     ///
     /// Marks the specified GuardDuty findings as useful or not useful.
     ///
-    /// - Parameter UpdateFindingsFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFindingsFeedbackInput`)
     ///
-    /// - Returns: `UpdateFindingsFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingsFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5413,9 +5413,9 @@ extension GuardDutyClient {
     ///
     /// Updates the IPSet specified by the IPSet ID.
     ///
-    /// - Parameter UpdateIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIPSetInput`)
     ///
-    /// - Returns: `UpdateIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5482,9 +5482,9 @@ extension GuardDutyClient {
     ///
     /// Updates an existing Malware Protection plan resource.
     ///
-    /// - Parameter UpdateMalwareProtectionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMalwareProtectionPlanInput`)
     ///
-    /// - Returns: `UpdateMalwareProtectionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMalwareProtectionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5552,9 +5552,9 @@ extension GuardDutyClient {
     ///
     /// Updates the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter UpdateMalwareScanSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMalwareScanSettingsInput`)
     ///
-    /// - Returns: `UpdateMalwareScanSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMalwareScanSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5620,9 +5620,9 @@ extension GuardDutyClient {
     ///
     /// Contains information on member accounts to be updated. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter UpdateMemberDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMemberDetectorsInput`)
     ///
-    /// - Returns: `UpdateMemberDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMemberDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5688,9 +5688,9 @@ extension GuardDutyClient {
     ///
     /// Configures the delegated administrator account with the provided values. You must provide a value for either autoEnableOrganizationMembers or autoEnable, but not both. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5756,9 +5756,9 @@ extension GuardDutyClient {
     ///
     /// Updates information about the publishing destination specified by the destinationId.
     ///
-    /// - Parameter UpdatePublishingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePublishingDestinationInput`)
     ///
-    /// - Returns: `UpdatePublishingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePublishingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5824,9 +5824,9 @@ extension GuardDutyClient {
     ///
     /// Updates the threat entity set associated with the specified threatEntitySetId.
     ///
-    /// - Parameter UpdateThreatEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThreatEntitySetInput`)
     ///
-    /// - Returns: `UpdateThreatEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThreatEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5892,9 +5892,9 @@ extension GuardDutyClient {
     ///
     /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
     ///
-    /// - Parameter UpdateThreatIntelSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThreatIntelSetInput`)
     ///
-    /// - Returns: `UpdateThreatIntelSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThreatIntelSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5961,9 +5961,9 @@ extension GuardDutyClient {
     ///
     /// Updates the trusted entity set associated with the specified trustedEntitySetId.
     ///
-    /// - Parameter UpdateTrustedEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrustedEntitySetInput`)
     ///
-    /// - Returns: `UpdateTrustedEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrustedEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

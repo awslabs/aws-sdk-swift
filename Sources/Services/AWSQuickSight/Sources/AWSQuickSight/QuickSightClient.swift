@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QuickSightClient: ClientRuntime.Client {
     public static let clientName = "QuickSightClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: QuickSightClient.QuickSightClientConfiguration
     let serviceName = "QuickSight"
@@ -373,9 +373,9 @@ extension QuickSightClient {
     ///
     /// Creates new reviewed answers for a Q Topic.
     ///
-    /// - Parameter BatchCreateTopicReviewedAnswerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateTopicReviewedAnswerInput`)
     ///
-    /// - Returns: `BatchCreateTopicReviewedAnswerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateTopicReviewedAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension QuickSightClient {
     ///
     /// Deletes reviewed answers for Q Topic.
     ///
-    /// - Parameter BatchDeleteTopicReviewedAnswerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteTopicReviewedAnswerInput`)
     ///
-    /// - Returns: `BatchDeleteTopicReviewedAnswerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteTopicReviewedAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension QuickSightClient {
     ///
     /// Cancels an ongoing ingestion of data into SPICE.
     ///
-    /// - Parameter CancelIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelIngestionInput`)
     ///
-    /// - Returns: `CancelIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -585,9 +585,9 @@ extension QuickSightClient {
     ///
     /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize QuickSight by removing QuickSight sample assets and videos for all new users, see [Customizing QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
     ///
-    /// - Parameter CreateAccountCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountCustomizationInput`)
     ///
-    /// - Returns: `CreateAccountCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,9 +660,9 @@ extension QuickSightClient {
     ///
     /// Creates an QuickSight account, or subscribes to QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see [Sign up for Amazon Web Services](https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html) in the Amazon QuickSight User Guide. The person who signs up for QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see [IAM Policy Examples for QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html) in the QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to QuickSight, see [Passing IAM roles to QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role) in the QuickSight User Guide. You can't set default resource access on the new account from the QuickSight API. Instead, add default resource access from the QuickSight console. For more information about setting default resource access to Amazon Web Services services, see [Setting default resource access to Amazon Web Services services](https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html) in the QuickSight User Guide.
     ///
-    /// - Parameter CreateAccountSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountSubscriptionInput`)
     ///
-    /// - Returns: `CreateAccountSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,9 +735,9 @@ extension QuickSightClient {
     ///
     /// Creates an analysis in Amazon QuickSight. Analyses can be created either from a template or from an AnalysisDefinition.
     ///
-    /// - Parameter CreateAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnalysisInput`)
     ///
-    /// - Returns: `CreateAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,9 +809,9 @@ extension QuickSightClient {
     ///
     /// Creates an QuickSight brand.
     ///
-    /// - Parameter CreateBrandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBrandInput`)
     ///
-    /// - Returns: `CreateBrandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBrandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,9 +881,9 @@ extension QuickSightClient {
     ///
     /// Creates a custom permissions profile.
     ///
-    /// - Parameter CreateCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomPermissionsInput`)
     ///
-    /// - Returns: `CreateCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -957,9 +957,9 @@ extension QuickSightClient {
     ///
     /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. A dashboard is an entity in QuickSight that identifies QuickSight reports, created from analyses. You can share QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     ///
-    /// - Parameter CreateDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDashboardInput`)
     ///
-    /// - Returns: `CreateDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1031,9 +1031,9 @@ extension QuickSightClient {
     ///
     /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source.
     ///
-    /// - Parameter CreateDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSetInput`)
     ///
-    /// - Returns: `CreateDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1106,9 +1106,9 @@ extension QuickSightClient {
     ///
     /// Creates a data source.
     ///
-    /// - Parameter CreateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSourceInput`)
     ///
-    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1181,9 +1181,9 @@ extension QuickSightClient {
     ///
     /// Creates an empty shared folder.
     ///
-    /// - Parameter CreateFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFolderInput`)
     ///
-    /// - Returns: `CreateFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1256,9 +1256,9 @@ extension QuickSightClient {
     ///
     /// Adds an asset, such as a dashboard, analysis, or dataset into a folder.
     ///
-    /// - Parameter CreateFolderMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFolderMembershipInput`)
     ///
-    /// - Returns: `CreateFolderMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFolderMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1327,9 +1327,9 @@ extension QuickSightClient {
     ///
     /// Use the CreateGroup operation to create a group in QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is arn:aws:quicksight:::group/default/ . The response is a group object.
     ///
-    /// - Parameter CreateGroupInput : The request object for this operation.
+    /// - Parameter input: The request object for this operation. (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : The response object for this operation.
+    /// - Returns: The response object for this operation. (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1402,9 +1402,9 @@ extension QuickSightClient {
     ///
     /// Adds an Amazon QuickSight user to an Amazon QuickSight group.
     ///
-    /// - Parameter CreateGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupMembershipInput`)
     ///
-    /// - Returns: `CreateGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,9 +1472,9 @@ extension QuickSightClient {
     ///
     /// Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces, use assignment names that are unique.
     ///
-    /// - Parameter CreateIAMPolicyAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIAMPolicyAssignmentInput`)
     ///
-    /// - Returns: `CreateIAMPolicyAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIAMPolicyAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1545,9 +1545,9 @@ extension QuickSightClient {
     ///
     /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see [How do I create an IAM policy to control access to Amazon EC2 resources using tags?](http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/) in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
     ///
-    /// - Parameter CreateIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngestionInput`)
     ///
-    /// - Returns: `CreateIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1618,9 +1618,9 @@ extension QuickSightClient {
     ///
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     ///
-    /// - Parameter CreateNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNamespaceInput`)
     ///
-    /// - Returns: `CreateNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1694,9 +1694,9 @@ extension QuickSightClient {
     ///
     /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
     ///
-    /// - Parameter CreateRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRefreshScheduleInput`)
     ///
-    /// - Returns: `CreateRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1768,9 +1768,9 @@ extension QuickSightClient {
     ///
     /// Use CreateRoleMembership to add an existing QuickSight group to an existing role.
     ///
-    /// - Parameter CreateRoleMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoleMembershipInput`)
     ///
-    /// - Returns: `CreateRoleMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoleMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,9 +1838,9 @@ extension QuickSightClient {
     ///
     /// Creates a template either from a TemplateDefinition or from an existing QuickSight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
     ///
-    /// - Parameter CreateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1913,9 +1913,9 @@ extension QuickSightClient {
     ///
     /// Creates a template alias for a template.
     ///
-    /// - Parameter CreateTemplateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateAliasInput`)
     ///
-    /// - Returns: `CreateTemplateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1986,9 +1986,9 @@ extension QuickSightClient {
     ///
     /// Creates a theme. A theme is set of configuration options for color and layout. Themes apply to analyses and dashboards. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Amazon QuickSight User Guide.
     ///
-    /// - Parameter CreateThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThemeInput`)
     ///
-    /// - Returns: `CreateThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2060,9 +2060,9 @@ extension QuickSightClient {
     ///
     /// Creates a theme alias for a theme.
     ///
-    /// - Parameter CreateThemeAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThemeAliasInput`)
     ///
-    /// - Returns: `CreateThemeAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThemeAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2134,9 +2134,9 @@ extension QuickSightClient {
     ///
     /// Creates a new Q topic.
     ///
-    /// - Parameter CreateTopicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTopicInput`)
     ///
-    /// - Returns: `CreateTopicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2208,9 +2208,9 @@ extension QuickSightClient {
     ///
     /// Creates a topic refresh schedule.
     ///
-    /// - Parameter CreateTopicRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTopicRefreshScheduleInput`)
     ///
-    /// - Returns: `CreateTopicRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTopicRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2282,9 +2282,9 @@ extension QuickSightClient {
     ///
     /// Creates a new VPC connection.
     ///
-    /// - Parameter CreateVPCConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVPCConnectionInput`)
     ///
-    /// - Returns: `CreateVPCConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVPCConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2356,9 +2356,9 @@ extension QuickSightClient {
     ///
     /// Unapplies a custom permissions profile from an account.
     ///
-    /// - Parameter DeleteAccountCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountCustomPermissionInput`)
     ///
-    /// - Returns: `DeleteAccountCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2435,9 +2435,9 @@ extension QuickSightClient {
     ///
     /// Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and QuickSight namespace.
     ///
-    /// - Parameter DeleteAccountCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountCustomizationInput`)
     ///
-    /// - Returns: `DeleteAccountCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2523,9 +2523,9 @@ extension QuickSightClient {
     ///
     /// Consider exporting critical dashboards and data before proceeding with account deletion. Use the DeleteAccountSubscription operation to delete an QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
     ///
-    /// - Parameter DeleteAccountSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountSubscriptionInput`)
     ///
-    /// - Returns: `DeleteAccountSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2593,9 +2593,9 @@ extension QuickSightClient {
     ///
     /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     ///
-    /// - Parameter DeleteAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnalysisInput`)
     ///
-    /// - Returns: `DeleteAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2672,9 +2672,9 @@ extension QuickSightClient {
     ///
     /// Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand. Deletes an QuickSight brand.
     ///
-    /// - Parameter DeleteBrandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrandInput`)
     ///
-    /// - Returns: `DeleteBrandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2741,9 +2741,9 @@ extension QuickSightClient {
     ///
     /// Deletes a brand assignment.
     ///
-    /// - Parameter DeleteBrandAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrandAssignmentInput`)
     ///
-    /// - Returns: `DeleteBrandAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrandAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2810,9 +2810,9 @@ extension QuickSightClient {
     ///
     /// Deletes a custom permissions profile.
     ///
-    /// - Parameter DeleteCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomPermissionsInput`)
     ///
-    /// - Returns: `DeleteCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2882,9 +2882,9 @@ extension QuickSightClient {
     ///
     /// Deletes a dashboard.
     ///
-    /// - Parameter DeleteDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDashboardInput`)
     ///
-    /// - Returns: `DeleteDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2952,9 +2952,9 @@ extension QuickSightClient {
     ///
     /// Deletes a dataset.
     ///
-    /// - Parameter DeleteDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSetInput`)
     ///
-    /// - Returns: `DeleteDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3020,9 +3020,9 @@ extension QuickSightClient {
     ///
     /// Deletes the dataset refresh properties of the dataset.
     ///
-    /// - Parameter DeleteDataSetRefreshPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSetRefreshPropertiesInput`)
     ///
-    /// - Returns: `DeleteDataSetRefreshPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSetRefreshPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3090,9 +3090,9 @@ extension QuickSightClient {
     ///
     /// Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
     ///
-    /// - Parameter DeleteDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSourceInput`)
     ///
-    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3158,9 +3158,9 @@ extension QuickSightClient {
     ///
     /// Deletes a linked Amazon Q Business application from an QuickSight account
     ///
-    /// - Parameter DeleteDefaultQBusinessApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDefaultQBusinessApplicationInput`)
     ///
-    /// - Returns: `DeleteDefaultQBusinessApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDefaultQBusinessApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3227,9 +3227,9 @@ extension QuickSightClient {
     ///
     /// Deletes an empty folder.
     ///
-    /// - Parameter DeleteFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFolderInput`)
     ///
-    /// - Returns: `DeleteFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3298,9 +3298,9 @@ extension QuickSightClient {
     ///
     /// Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
     ///
-    /// - Parameter DeleteFolderMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFolderMembershipInput`)
     ///
-    /// - Returns: `DeleteFolderMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFolderMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3367,9 +3367,9 @@ extension QuickSightClient {
     ///
     /// Removes a user group from Amazon QuickSight.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3437,9 +3437,9 @@ extension QuickSightClient {
     ///
     /// Removes a user from a group so that the user is no longer a member of the group.
     ///
-    /// - Parameter DeleteGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupMembershipInput`)
     ///
-    /// - Returns: `DeleteGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3507,9 +3507,9 @@ extension QuickSightClient {
     ///
     /// Deletes an existing IAM policy assignment.
     ///
-    /// - Parameter DeleteIAMPolicyAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIAMPolicyAssignmentInput`)
     ///
-    /// - Returns: `DeleteIAMPolicyAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIAMPolicyAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3577,9 +3577,9 @@ extension QuickSightClient {
     ///
     /// Deletes all access scopes and authorized targets that are associated with a service from the QuickSight IAM Identity Center application. This operation is only supported for QuickSight accounts that use IAM Identity Center.
     ///
-    /// - Parameter DeleteIdentityPropagationConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentityPropagationConfigInput`)
     ///
-    /// - Returns: `DeleteIdentityPropagationConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentityPropagationConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3645,9 +3645,9 @@ extension QuickSightClient {
     ///
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset.
     ///
-    /// - Parameter DeleteNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNamespaceInput`)
     ///
-    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3715,9 +3715,9 @@ extension QuickSightClient {
     ///
     /// Deletes a refresh schedule from a dataset.
     ///
-    /// - Parameter DeleteRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRefreshScheduleInput`)
     ///
-    /// - Returns: `DeleteRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3784,9 +3784,9 @@ extension QuickSightClient {
     ///
     /// Removes custom permissions from the role.
     ///
-    /// - Parameter DeleteRoleCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoleCustomPermissionInput`)
     ///
-    /// - Returns: `DeleteRoleCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoleCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3854,9 +3854,9 @@ extension QuickSightClient {
     ///
     /// Removes a group from a role.
     ///
-    /// - Parameter DeleteRoleMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoleMembershipInput`)
     ///
-    /// - Returns: `DeleteRoleMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoleMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3924,9 +3924,9 @@ extension QuickSightClient {
     ///
     /// Deletes a template.
     ///
-    /// - Parameter DeleteTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3995,9 +3995,9 @@ extension QuickSightClient {
     ///
     /// Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
     ///
-    /// - Parameter DeleteTemplateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateAliasInput`)
     ///
-    /// - Returns: `DeleteTemplateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4063,9 +4063,9 @@ extension QuickSightClient {
     ///
     /// Deletes a theme.
     ///
-    /// - Parameter DeleteThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThemeInput`)
     ///
-    /// - Returns: `DeleteThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4134,9 +4134,9 @@ extension QuickSightClient {
     ///
     /// Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to.
     ///
-    /// - Parameter DeleteThemeAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThemeAliasInput`)
     ///
-    /// - Returns: `DeleteThemeAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThemeAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4203,9 +4203,9 @@ extension QuickSightClient {
     ///
     /// Deletes a topic.
     ///
-    /// - Parameter DeleteTopicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTopicInput`)
     ///
-    /// - Returns: `DeleteTopicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4272,9 +4272,9 @@ extension QuickSightClient {
     ///
     /// Deletes a topic refresh schedule.
     ///
-    /// - Parameter DeleteTopicRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTopicRefreshScheduleInput`)
     ///
-    /// - Returns: `DeleteTopicRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTopicRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4343,9 +4343,9 @@ extension QuickSightClient {
     ///
     /// Deletes the Amazon QuickSight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4413,9 +4413,9 @@ extension QuickSightClient {
     ///
     /// Deletes a user identified by its principal ID.
     ///
-    /// - Parameter DeleteUserByPrincipalIdInput :
+    /// - Parameter input: (Type: `DeleteUserByPrincipalIdInput`)
     ///
-    /// - Returns: `DeleteUserByPrincipalIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserByPrincipalIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4483,9 +4483,9 @@ extension QuickSightClient {
     ///
     /// Deletes a custom permissions profile from a user.
     ///
-    /// - Parameter DeleteUserCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserCustomPermissionInput`)
     ///
-    /// - Returns: `DeleteUserCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4554,9 +4554,9 @@ extension QuickSightClient {
     ///
     /// Deletes a VPC connection.
     ///
-    /// - Parameter DeleteVPCConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVPCConnectionInput`)
     ///
-    /// - Returns: `DeleteVPCConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVPCConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4624,9 +4624,9 @@ extension QuickSightClient {
     ///
     /// Describes the custom permissions profile that is applied to an account.
     ///
-    /// - Parameter DescribeAccountCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountCustomPermissionInput`)
     ///
-    /// - Returns: `DescribeAccountCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4709,9 +4709,9 @@ extension QuickSightClient {
     ///
     /// * Applied customizations - Within an Amazon Web Services Region, a set of QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
     ///
-    /// - Parameter DescribeAccountCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountCustomizationInput`)
     ///
-    /// - Returns: `DescribeAccountCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4779,9 +4779,9 @@ extension QuickSightClient {
     ///
     /// Describes the settings that were used when your QuickSight subscription was first created in this Amazon Web Services account.
     ///
-    /// - Parameter DescribeAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountSettingsInput`)
     ///
-    /// - Returns: `DescribeAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4848,9 +4848,9 @@ extension QuickSightClient {
     ///
     /// Use the DescribeAccountSubscription operation to receive a description of an QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     ///
-    /// - Parameter DescribeAccountSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountSubscriptionInput`)
     ///
-    /// - Returns: `DescribeAccountSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4917,9 +4917,9 @@ extension QuickSightClient {
     ///
     /// Provides a summary of the metadata for an analysis.
     ///
-    /// - Parameter DescribeAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnalysisInput`)
     ///
-    /// - Returns: `DescribeAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4986,9 +4986,9 @@ extension QuickSightClient {
     ///
     /// Provides a detailed description of the definition of an analysis. If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the [DescribeAnalysis](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeAnalysis.html) instead.
     ///
-    /// - Parameter DescribeAnalysisDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnalysisDefinitionInput`)
     ///
-    /// - Returns: `DescribeAnalysisDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnalysisDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5057,9 +5057,9 @@ extension QuickSightClient {
     ///
     /// Provides the read and write permissions for an analysis.
     ///
-    /// - Parameter DescribeAnalysisPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnalysisPermissionsInput`)
     ///
-    /// - Returns: `DescribeAnalysisPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnalysisPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5125,9 +5125,9 @@ extension QuickSightClient {
     ///
     /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts.
     ///
-    /// - Parameter DescribeAssetBundleExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetBundleExportJobInput`)
     ///
-    /// - Returns: `DescribeAssetBundleExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetBundleExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5191,9 +5191,9 @@ extension QuickSightClient {
     ///
     /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts.
     ///
-    /// - Parameter DescribeAssetBundleImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetBundleImportJobInput`)
     ///
-    /// - Returns: `DescribeAssetBundleImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetBundleImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5257,9 +5257,9 @@ extension QuickSightClient {
     ///
     /// Describes a brand.
     ///
-    /// - Parameter DescribeBrandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrandInput`)
     ///
-    /// - Returns: `DescribeBrandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5327,9 +5327,9 @@ extension QuickSightClient {
     ///
     /// Describes a brand assignment.
     ///
-    /// - Parameter DescribeBrandAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrandAssignmentInput`)
     ///
-    /// - Returns: `DescribeBrandAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrandAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5396,9 +5396,9 @@ extension QuickSightClient {
     ///
     /// Describes the published version of the brand.
     ///
-    /// - Parameter DescribeBrandPublishedVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrandPublishedVersionInput`)
     ///
-    /// - Returns: `DescribeBrandPublishedVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrandPublishedVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5465,9 +5465,9 @@ extension QuickSightClient {
     ///
     /// Describes a custom permissions profile.
     ///
-    /// - Parameter DescribeCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomPermissionsInput`)
     ///
-    /// - Returns: `DescribeCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5535,9 +5535,9 @@ extension QuickSightClient {
     ///
     /// Provides a summary for a dashboard.
     ///
-    /// - Parameter DescribeDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardInput`)
     ///
-    /// - Returns: `DescribeDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5605,9 +5605,9 @@ extension QuickSightClient {
     ///
     /// Provides a detailed description of the definition of a dashboard. If you do not need to know details about the content of a dashboard, for instance if you are trying to check the status of a recently created or updated dashboard, use the [DescribeDashboard](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboard.html) instead.
     ///
-    /// - Parameter DescribeDashboardDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardDefinitionInput`)
     ///
-    /// - Returns: `DescribeDashboardDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5677,9 +5677,9 @@ extension QuickSightClient {
     ///
     /// Describes read and write permissions for a dashboard.
     ///
-    /// - Parameter DescribeDashboardPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardPermissionsInput`)
     ///
-    /// - Returns: `DescribeDashboardPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5745,9 +5745,9 @@ extension QuickSightClient {
     ///
     /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus.
     ///
-    /// - Parameter DescribeDashboardSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardSnapshotJobInput`)
     ///
-    /// - Returns: `DescribeDashboardSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5813,9 +5813,9 @@ extension QuickSightClient {
     ///
     /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id has not reached a terminal state..
     ///
-    /// - Parameter DescribeDashboardSnapshotJobResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardSnapshotJobResultInput`)
     ///
-    /// - Returns: `DescribeDashboardSnapshotJobResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardSnapshotJobResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5883,9 +5883,9 @@ extension QuickSightClient {
     ///
     /// Describes an existing dashboard QA configuration.
     ///
-    /// - Parameter DescribeDashboardsQAConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardsQAConfigurationInput`)
     ///
-    /// - Returns: `DescribeDashboardsQAConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardsQAConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5952,9 +5952,9 @@ extension QuickSightClient {
     ///
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
     ///
-    /// - Parameter DescribeDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSetInput`)
     ///
-    /// - Returns: `DescribeDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6020,9 +6020,9 @@ extension QuickSightClient {
     ///
     /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
-    /// - Parameter DescribeDataSetPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSetPermissionsInput`)
     ///
-    /// - Returns: `DescribeDataSetPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSetPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6088,9 +6088,9 @@ extension QuickSightClient {
     ///
     /// Describes the refresh properties of a dataset.
     ///
-    /// - Parameter DescribeDataSetRefreshPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSetRefreshPropertiesInput`)
     ///
-    /// - Returns: `DescribeDataSetRefreshPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSetRefreshPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6158,9 +6158,9 @@ extension QuickSightClient {
     ///
     /// Describes a data source.
     ///
-    /// - Parameter DescribeDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSourceInput`)
     ///
-    /// - Returns: `DescribeDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6226,9 +6226,9 @@ extension QuickSightClient {
     ///
     /// Describes the resource permissions for a data source.
     ///
-    /// - Parameter DescribeDataSourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSourcePermissionsInput`)
     ///
-    /// - Returns: `DescribeDataSourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6294,9 +6294,9 @@ extension QuickSightClient {
     ///
     /// Describes a Amazon Q Business application that is linked to an QuickSight account.
     ///
-    /// - Parameter DescribeDefaultQBusinessApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDefaultQBusinessApplicationInput`)
     ///
-    /// - Returns: `DescribeDefaultQBusinessApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDefaultQBusinessApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6363,9 +6363,9 @@ extension QuickSightClient {
     ///
     /// Describes a folder.
     ///
-    /// - Parameter DescribeFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFolderInput`)
     ///
-    /// - Returns: `DescribeFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6432,9 +6432,9 @@ extension QuickSightClient {
     ///
     /// Describes permissions for a folder.
     ///
-    /// - Parameter DescribeFolderPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFolderPermissionsInput`)
     ///
-    /// - Returns: `DescribeFolderPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFolderPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6503,9 +6503,9 @@ extension QuickSightClient {
     ///
     /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
     ///
-    /// - Parameter DescribeFolderResolvedPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFolderResolvedPermissionsInput`)
     ///
-    /// - Returns: `DescribeFolderResolvedPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFolderResolvedPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6574,9 +6574,9 @@ extension QuickSightClient {
     ///
     /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
     ///
-    /// - Parameter DescribeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupInput`)
     ///
-    /// - Returns: `DescribeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6644,9 +6644,9 @@ extension QuickSightClient {
     ///
     /// Use the DescribeGroupMembership operation to determine if a user is a member of the specified group. If the user exists and is a member of the specified group, an associated GroupMember object is returned.
     ///
-    /// - Parameter DescribeGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupMembershipInput`)
     ///
-    /// - Returns: `DescribeGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6714,9 +6714,9 @@ extension QuickSightClient {
     ///
     /// Describes an existing IAM policy assignment, as specified by the assignment name.
     ///
-    /// - Parameter DescribeIAMPolicyAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIAMPolicyAssignmentInput`)
     ///
-    /// - Returns: `DescribeIAMPolicyAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIAMPolicyAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6783,9 +6783,9 @@ extension QuickSightClient {
     ///
     /// Describes a SPICE ingestion.
     ///
-    /// - Parameter DescribeIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIngestionInput`)
     ///
-    /// - Returns: `DescribeIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6852,9 +6852,9 @@ extension QuickSightClient {
     ///
     /// Provides a summary and status of IP rules.
     ///
-    /// - Parameter DescribeIpRestrictionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpRestrictionInput`)
     ///
-    /// - Returns: `DescribeIpRestrictionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpRestrictionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6920,9 +6920,9 @@ extension QuickSightClient {
     ///
     /// Describes all customer managed key registrations in a QuickSight account.
     ///
-    /// - Parameter DescribeKeyRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyRegistrationInput`)
     ///
-    /// - Returns: `DescribeKeyRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6988,9 +6988,9 @@ extension QuickSightClient {
     ///
     /// Describes the current namespace.
     ///
-    /// - Parameter DescribeNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNamespaceInput`)
     ///
-    /// - Returns: `DescribeNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7057,9 +7057,9 @@ extension QuickSightClient {
     ///
     /// Describes a personalization configuration.
     ///
-    /// - Parameter DescribeQPersonalizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQPersonalizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeQPersonalizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQPersonalizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7126,9 +7126,9 @@ extension QuickSightClient {
     ///
     /// Describes the state of a QuickSight Q Search configuration.
     ///
-    /// - Parameter DescribeQuickSightQSearchConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQuickSightQSearchConfigurationInput`)
     ///
-    /// - Returns: `DescribeQuickSightQSearchConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQuickSightQSearchConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7195,9 +7195,9 @@ extension QuickSightClient {
     ///
     /// Provides a summary of a refresh schedule.
     ///
-    /// - Parameter DescribeRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRefreshScheduleInput`)
     ///
-    /// - Returns: `DescribeRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7264,9 +7264,9 @@ extension QuickSightClient {
     ///
     /// Describes all custom permissions that are mapped to a role.
     ///
-    /// - Parameter DescribeRoleCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRoleCustomPermissionInput`)
     ///
-    /// - Returns: `DescribeRoleCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRoleCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7334,9 +7334,9 @@ extension QuickSightClient {
     ///
     /// Describes a template's metadata.
     ///
-    /// - Parameter DescribeTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTemplateInput`)
     ///
-    /// - Returns: `DescribeTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7406,9 +7406,9 @@ extension QuickSightClient {
     ///
     /// Describes the template alias for a template.
     ///
-    /// - Parameter DescribeTemplateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTemplateAliasInput`)
     ///
-    /// - Returns: `DescribeTemplateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTemplateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7473,9 +7473,9 @@ extension QuickSightClient {
     ///
     /// Provides a detailed description of the definition of a template. If you do not need to know details about the content of a template, for instance if you are trying to check the status of a recently created or updated template, use the [DescribeTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeTemplate.html) instead.
     ///
-    /// - Parameter DescribeTemplateDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTemplateDefinitionInput`)
     ///
-    /// - Returns: `DescribeTemplateDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTemplateDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7545,9 +7545,9 @@ extension QuickSightClient {
     ///
     /// Describes read and write permissions on a template.
     ///
-    /// - Parameter DescribeTemplatePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTemplatePermissionsInput`)
     ///
-    /// - Returns: `DescribeTemplatePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTemplatePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7614,9 +7614,9 @@ extension QuickSightClient {
     ///
     /// Describes a theme.
     ///
-    /// - Parameter DescribeThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThemeInput`)
     ///
-    /// - Returns: `DescribeThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7685,9 +7685,9 @@ extension QuickSightClient {
     ///
     /// Describes the alias for a theme.
     ///
-    /// - Parameter DescribeThemeAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThemeAliasInput`)
     ///
-    /// - Returns: `DescribeThemeAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThemeAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7754,9 +7754,9 @@ extension QuickSightClient {
     ///
     /// Describes the read and write permissions for a theme.
     ///
-    /// - Parameter DescribeThemePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThemePermissionsInput`)
     ///
-    /// - Returns: `DescribeThemePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThemePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7823,9 +7823,9 @@ extension QuickSightClient {
     ///
     /// Describes a topic.
     ///
-    /// - Parameter DescribeTopicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicInput`)
     ///
-    /// - Returns: `DescribeTopicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7891,9 +7891,9 @@ extension QuickSightClient {
     ///
     /// Describes the permissions of a topic.
     ///
-    /// - Parameter DescribeTopicPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicPermissionsInput`)
     ///
-    /// - Returns: `DescribeTopicPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7959,9 +7959,9 @@ extension QuickSightClient {
     ///
     /// Describes the status of a topic refresh.
     ///
-    /// - Parameter DescribeTopicRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicRefreshInput`)
     ///
-    /// - Returns: `DescribeTopicRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8027,9 +8027,9 @@ extension QuickSightClient {
     ///
     /// Deletes a topic refresh schedule.
     ///
-    /// - Parameter DescribeTopicRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicRefreshScheduleInput`)
     ///
-    /// - Returns: `DescribeTopicRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8098,9 +8098,9 @@ extension QuickSightClient {
     ///
     /// Returns information about a user, given the user name.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8168,9 +8168,9 @@ extension QuickSightClient {
     ///
     /// Describes a VPC connection.
     ///
-    /// - Parameter DescribeVPCConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVPCConnectionInput`)
     ///
-    /// - Returns: `DescribeVPCConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVPCConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8246,9 +8246,9 @@ extension QuickSightClient {
     ///
     /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
-    /// - Parameter GenerateEmbedUrlForAnonymousUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateEmbedUrlForAnonymousUserInput`)
     ///
-    /// - Returns: `GenerateEmbedUrlForAnonymousUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateEmbedUrlForAnonymousUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8329,9 +8329,9 @@ extension QuickSightClient {
     ///
     /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
-    /// - Parameter GenerateEmbedUrlForRegisteredUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserInput`)
     ///
-    /// - Returns: `GenerateEmbedUrlForRegisteredUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8404,9 +8404,9 @@ extension QuickSightClient {
     ///
     /// Generates an embed URL that you can use to embed an QuickSight experience in your website. This action can be used for any type of user that is registered in an QuickSight account that uses IAM Identity Center for authentication. This API requires [identity-enhanced IAM Role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html#types-identity-enhanced-iam-role-sessions) for the authenticated user that the API call is being made for. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant QuickSight resource and permissions.
     ///
-    /// - Parameter GenerateEmbedUrlForRegisteredUserWithIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserWithIdentityInput`)
     ///
-    /// - Returns: `GenerateEmbedUrlForRegisteredUserWithIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserWithIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8492,9 +8492,9 @@ extension QuickSightClient {
     ///
     /// For more information, see [Embedding Analytics Using GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
-    /// - Parameter GetDashboardEmbedUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDashboardEmbedUrlInput`)
     ///
-    /// - Returns: `GetDashboardEmbedUrlOutput` : Output returned from the GetDashboardEmbedUrl operation.
+    /// - Returns: Output returned from the GetDashboardEmbedUrl operation. (Type: `GetDashboardEmbedUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8572,9 +8572,9 @@ extension QuickSightClient {
     ///
     /// * [Customizing Access to the Amazon QuickSight Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html)
     ///
-    /// - Parameter GetSessionEmbedUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionEmbedUrlInput`)
     ///
-    /// - Returns: `GetSessionEmbedUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionEmbedUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8645,9 +8645,9 @@ extension QuickSightClient {
     ///
     /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
     ///
-    /// - Parameter ListAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnalysesInput`)
     ///
-    /// - Returns: `ListAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnalysesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8713,9 +8713,9 @@ extension QuickSightClient {
     ///
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
     ///
-    /// - Parameter ListAssetBundleExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetBundleExportJobsInput`)
     ///
-    /// - Returns: `ListAssetBundleExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetBundleExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8782,9 +8782,9 @@ extension QuickSightClient {
     ///
     /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
     ///
-    /// - Parameter ListAssetBundleImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetBundleImportJobsInput`)
     ///
-    /// - Returns: `ListAssetBundleImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetBundleImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8851,9 +8851,9 @@ extension QuickSightClient {
     ///
     /// Lists all brands in an QuickSight account.
     ///
-    /// - Parameter ListBrandsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrandsInput`)
     ///
-    /// - Returns: `ListBrandsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrandsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8919,9 +8919,9 @@ extension QuickSightClient {
     ///
     /// Returns a list of all the custom permissions profiles.
     ///
-    /// - Parameter ListCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomPermissionsInput`)
     ///
-    /// - Returns: `ListCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8990,9 +8990,9 @@ extension QuickSightClient {
     ///
     /// Lists all the versions of the dashboards in the QuickSight subscription.
     ///
-    /// - Parameter ListDashboardVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDashboardVersionsInput`)
     ///
-    /// - Returns: `ListDashboardVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDashboardVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9060,9 +9060,9 @@ extension QuickSightClient {
     ///
     /// Lists dashboards in an Amazon Web Services account.
     ///
-    /// - Parameter ListDashboardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDashboardsInput`)
     ///
-    /// - Returns: `ListDashboardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDashboardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9128,9 +9128,9 @@ extension QuickSightClient {
     ///
     /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     ///
-    /// - Parameter ListDataSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSetsInput`)
     ///
-    /// - Returns: `ListDataSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9197,9 +9197,9 @@ extension QuickSightClient {
     ///
     /// Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
     ///
-    /// - Parameter ListDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourcesInput`)
     ///
-    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9266,9 +9266,9 @@ extension QuickSightClient {
     ///
     /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
     ///
-    /// - Parameter ListFolderMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFolderMembersInput`)
     ///
-    /// - Returns: `ListFolderMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFolderMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9337,9 +9337,9 @@ extension QuickSightClient {
     ///
     /// Lists all folders in an account.
     ///
-    /// - Parameter ListFoldersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFoldersInput`)
     ///
-    /// - Returns: `ListFoldersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFoldersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9408,9 +9408,9 @@ extension QuickSightClient {
     ///
     /// List all folders that a resource is a member of.
     ///
-    /// - Parameter ListFoldersForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFoldersForResourceInput`)
     ///
-    /// - Returns: `ListFoldersForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFoldersForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9479,9 +9479,9 @@ extension QuickSightClient {
     ///
     /// Lists member users in a group.
     ///
-    /// - Parameter ListGroupMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupMembershipsInput`)
     ///
-    /// - Returns: `ListGroupMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9551,9 +9551,9 @@ extension QuickSightClient {
     ///
     /// Lists all user groups in Amazon QuickSight.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9623,9 +9623,9 @@ extension QuickSightClient {
     ///
     /// Lists the IAM policy assignments in the current Amazon QuickSight account.
     ///
-    /// - Parameter ListIAMPolicyAssignmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIAMPolicyAssignmentsInput`)
     ///
-    /// - Returns: `ListIAMPolicyAssignmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIAMPolicyAssignmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9693,9 +9693,9 @@ extension QuickSightClient {
     ///
     /// Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for the IAM policies assigned to the specified user and group, or groups that the user belongs to.
     ///
-    /// - Parameter ListIAMPolicyAssignmentsForUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIAMPolicyAssignmentsForUserInput`)
     ///
-    /// - Returns: `ListIAMPolicyAssignmentsForUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIAMPolicyAssignmentsForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9764,9 +9764,9 @@ extension QuickSightClient {
     ///
     /// Lists all services and authorized targets that the QuickSight IAM Identity Center application can access. This operation is only supported for QuickSight accounts that use IAM Identity Center.
     ///
-    /// - Parameter ListIdentityPropagationConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityPropagationConfigsInput`)
     ///
-    /// - Returns: `ListIdentityPropagationConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityPropagationConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9833,9 +9833,9 @@ extension QuickSightClient {
     ///
     /// Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
     ///
-    /// - Parameter ListIngestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngestionsInput`)
     ///
-    /// - Returns: `ListIngestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngestionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9904,9 +9904,9 @@ extension QuickSightClient {
     ///
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     ///
-    /// - Parameter ListNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNamespacesInput`)
     ///
-    /// - Returns: `ListNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9976,9 +9976,9 @@ extension QuickSightClient {
     ///
     /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
     ///
-    /// - Parameter ListRefreshSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRefreshSchedulesInput`)
     ///
-    /// - Returns: `ListRefreshSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRefreshSchedulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10045,9 +10045,9 @@ extension QuickSightClient {
     ///
     /// Lists all groups that are associated with a role.
     ///
-    /// - Parameter ListRoleMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoleMembershipsInput`)
     ///
-    /// - Returns: `ListRoleMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoleMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10118,9 +10118,9 @@ extension QuickSightClient {
     ///
     /// Lists the tags assigned to a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10186,9 +10186,9 @@ extension QuickSightClient {
     ///
     /// Lists all the aliases of a template.
     ///
-    /// - Parameter ListTemplateAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateAliasesInput`)
     ///
-    /// - Returns: `ListTemplateAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10255,9 +10255,9 @@ extension QuickSightClient {
     ///
     /// Lists all the versions of the templates in the current Amazon QuickSight account.
     ///
-    /// - Parameter ListTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateVersionsInput`)
     ///
-    /// - Returns: `ListTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10325,9 +10325,9 @@ extension QuickSightClient {
     ///
     /// Lists all the templates in the current Amazon QuickSight account.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10395,9 +10395,9 @@ extension QuickSightClient {
     ///
     /// Lists all the aliases of a theme.
     ///
-    /// - Parameter ListThemeAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThemeAliasesInput`)
     ///
-    /// - Returns: `ListThemeAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThemeAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10466,9 +10466,9 @@ extension QuickSightClient {
     ///
     /// Lists all the versions of the themes in the current Amazon Web Services account.
     ///
-    /// - Parameter ListThemeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThemeVersionsInput`)
     ///
-    /// - Returns: `ListThemeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThemeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10537,9 +10537,9 @@ extension QuickSightClient {
     ///
     /// Lists all the themes in the current Amazon Web Services account.
     ///
-    /// - Parameter ListThemesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThemesInput`)
     ///
-    /// - Returns: `ListThemesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThemesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10608,9 +10608,9 @@ extension QuickSightClient {
     ///
     /// Lists all of the refresh schedules for a topic.
     ///
-    /// - Parameter ListTopicRefreshSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTopicRefreshSchedulesInput`)
     ///
-    /// - Returns: `ListTopicRefreshSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTopicRefreshSchedulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10679,9 +10679,9 @@ extension QuickSightClient {
     ///
     /// Lists all reviewed answers for a Q Topic.
     ///
-    /// - Parameter ListTopicReviewedAnswersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTopicReviewedAnswersInput`)
     ///
-    /// - Returns: `ListTopicReviewedAnswersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTopicReviewedAnswersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10747,9 +10747,9 @@ extension QuickSightClient {
     ///
     /// Lists all of the topics within an account.
     ///
-    /// - Parameter ListTopicsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTopicsInput`)
     ///
-    /// - Returns: `ListTopicsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTopicsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10816,9 +10816,9 @@ extension QuickSightClient {
     ///
     /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
     ///
-    /// - Parameter ListUserGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserGroupsInput`)
     ///
-    /// - Returns: `ListUserGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10887,9 +10887,9 @@ extension QuickSightClient {
     ///
     /// Returns a list of all of the Amazon QuickSight users belonging to this account.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10959,9 +10959,9 @@ extension QuickSightClient {
     ///
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an Amazon Web Services account.
     ///
-    /// - Parameter ListVPCConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVPCConnectionsInput`)
     ///
-    /// - Returns: `ListVPCConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVPCConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11029,9 +11029,9 @@ extension QuickSightClient {
     ///
     /// Predicts existing visuals or generates new visuals to answer a given query. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see [UpdateQuickSightQSearchConfiguration](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateQuickSightQSearchConfiguration.html).
     ///
-    /// - Parameter PredictQAResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PredictQAResultsInput`)
     ///
-    /// - Returns: `PredictQAResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PredictQAResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11099,9 +11099,9 @@ extension QuickSightClient {
     ///
     /// Creates or updates the dataset refresh properties for the dataset.
     ///
-    /// - Parameter PutDataSetRefreshPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDataSetRefreshPropertiesInput`)
     ///
-    /// - Returns: `PutDataSetRefreshPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDataSetRefreshPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11173,9 +11173,9 @@ extension QuickSightClient {
     ///
     /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the QuickSight API, QuickSight generates a registration URL. The user accesses this registration URL to create their account. QuickSight doesn't send a registration email to users who are registered from the QuickSight API. If you want new users to receive a registration email, then add those users in the QuickSight console. For more information on registering a new user in the QuickSight console, see [ Inviting users to access QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users).
     ///
-    /// - Parameter RegisterUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterUserInput`)
     ///
-    /// - Returns: `RegisterUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11248,9 +11248,9 @@ extension QuickSightClient {
     ///
     /// Restores an analysis.
     ///
-    /// - Parameter RestoreAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreAnalysisInput`)
     ///
-    /// - Returns: `RestoreAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11320,9 +11320,9 @@ extension QuickSightClient {
     ///
     /// Searches for analyses that belong to the user specified in the filter. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
-    /// - Parameter SearchAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAnalysesInput`)
     ///
-    /// - Returns: `SearchAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAnalysesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11392,9 +11392,9 @@ extension QuickSightClient {
     ///
     /// Searches for dashboards that belong to a user. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
-    /// - Parameter SearchDashboardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDashboardsInput`)
     ///
-    /// - Returns: `SearchDashboardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDashboardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11464,9 +11464,9 @@ extension QuickSightClient {
     ///
     /// Use the SearchDataSets operation to search for datasets that belong to an account.
     ///
-    /// - Parameter SearchDataSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDataSetsInput`)
     ///
-    /// - Returns: `SearchDataSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDataSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11536,9 +11536,9 @@ extension QuickSightClient {
     ///
     /// Use the SearchDataSources operation to search for data sources that belong to an account.
     ///
-    /// - Parameter SearchDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDataSourcesInput`)
     ///
-    /// - Returns: `SearchDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11608,9 +11608,9 @@ extension QuickSightClient {
     ///
     /// Searches the subfolders in a folder.
     ///
-    /// - Parameter SearchFoldersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchFoldersInput`)
     ///
-    /// - Returns: `SearchFoldersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchFoldersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11682,9 +11682,9 @@ extension QuickSightClient {
     ///
     /// Use the SearchGroups operation to search groups in a specified QuickSight namespace using the supplied filters.
     ///
-    /// - Parameter SearchGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchGroupsInput`)
     ///
-    /// - Returns: `SearchGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11757,9 +11757,9 @@ extension QuickSightClient {
     ///
     /// Searches for any Q topic that exists in an QuickSight account.
     ///
-    /// - Parameter SearchTopicsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTopicsInput`)
     ///
-    /// - Returns: `SearchTopicsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTopicsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11829,9 +11829,9 @@ extension QuickSightClient {
     ///
     /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     ///
-    /// - Parameter StartAssetBundleExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAssetBundleExportJobInput`)
     ///
-    /// - Returns: `StartAssetBundleExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAssetBundleExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11902,9 +11902,9 @@ extension QuickSightClient {
     ///
     /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified QuickSight assets into an QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your QuickSight account. Each QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     ///
-    /// - Parameter StartAssetBundleImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAssetBundleImportJobInput`)
     ///
-    /// - Returns: `StartAssetBundleImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAssetBundleImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12005,9 +12005,9 @@ extension QuickSightClient {
     ///
     /// * The size of the generated snapshots.
     ///
-    /// - Parameter StartDashboardSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDashboardSnapshotJobInput`)
     ///
-    /// - Returns: `StartDashboardSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDashboardSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12080,9 +12080,9 @@ extension QuickSightClient {
     ///
     /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see [Scheduling and sending QuickSight reports by email](https://docs.aws.amazon.com/quicksight/latest/user/sending-reports.html) and [Configuring email report settings for a QuickSight dashboard](https://docs.aws.amazon.com/quicksight/latest/user/email-reports-from-dashboard.html) in the Amazon QuickSight User Guide.
     ///
-    /// - Parameter StartDashboardSnapshotJobScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDashboardSnapshotJobScheduleInput`)
     ///
-    /// - Returns: `StartDashboardSnapshotJobScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDashboardSnapshotJobScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12154,9 +12154,9 @@ extension QuickSightClient {
     ///
     /// * QuickSight doesn't currently support the tag editor for Resource Groups.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12226,9 +12226,9 @@ extension QuickSightClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12295,9 +12295,9 @@ extension QuickSightClient {
     ///
     /// Applies a custom permissions profile to an account.
     ///
-    /// - Parameter UpdateAccountCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountCustomPermissionInput`)
     ///
-    /// - Returns: `UpdateAccountCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12366,9 +12366,9 @@ extension QuickSightClient {
     ///
     /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
     ///
-    /// - Parameter UpdateAccountCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountCustomizationInput`)
     ///
-    /// - Returns: `UpdateAccountCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12440,9 +12440,9 @@ extension QuickSightClient {
     ///
     /// Updates the Amazon QuickSight settings in your Amazon Web Services account.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12512,9 +12512,9 @@ extension QuickSightClient {
     ///
     /// Updates an analysis in Amazon QuickSight
     ///
-    /// - Parameter UpdateAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnalysisInput`)
     ///
-    /// - Returns: `UpdateAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12585,9 +12585,9 @@ extension QuickSightClient {
     ///
     /// Updates the read and write permissions for an analysis.
     ///
-    /// - Parameter UpdateAnalysisPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnalysisPermissionsInput`)
     ///
-    /// - Returns: `UpdateAnalysisPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnalysisPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12658,9 +12658,9 @@ extension QuickSightClient {
     ///
     /// Updates an QuickSight application with a token exchange grant. This operation only supports QuickSight applications that are registered with IAM Identity Center.
     ///
-    /// - Parameter UpdateApplicationWithTokenExchangeGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationWithTokenExchangeGrantInput`)
     ///
-    /// - Returns: `UpdateApplicationWithTokenExchangeGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationWithTokenExchangeGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12729,9 +12729,9 @@ extension QuickSightClient {
     ///
     /// Updates a brand.
     ///
-    /// - Parameter UpdateBrandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrandInput`)
     ///
-    /// - Returns: `UpdateBrandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12801,9 +12801,9 @@ extension QuickSightClient {
     ///
     /// Updates a brand assignment.
     ///
-    /// - Parameter UpdateBrandAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrandAssignmentInput`)
     ///
-    /// - Returns: `UpdateBrandAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrandAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12873,9 +12873,9 @@ extension QuickSightClient {
     ///
     /// Updates the published version of a brand.
     ///
-    /// - Parameter UpdateBrandPublishedVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrandPublishedVersionInput`)
     ///
-    /// - Returns: `UpdateBrandPublishedVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrandPublishedVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12945,9 +12945,9 @@ extension QuickSightClient {
     ///
     /// Updates a custom permissions profile.
     ///
-    /// - Parameter UpdateCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomPermissionsInput`)
     ///
-    /// - Returns: `UpdateCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13019,9 +13019,9 @@ extension QuickSightClient {
     ///
     /// Updates a dashboard in an Amazon Web Services account. Updating a Dashboard creates a new dashboard version but does not immediately publish the new version. You can update the published version of a dashboard by using the [UpdateDashboardPublishedVersion](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateDashboardPublishedVersion.html) API operation.
     ///
-    /// - Parameter UpdateDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardInput`)
     ///
-    /// - Returns: `UpdateDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13092,9 +13092,9 @@ extension QuickSightClient {
     ///
     /// Updates the linked analyses on a dashboard.
     ///
-    /// - Parameter UpdateDashboardLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardLinksInput`)
     ///
-    /// - Returns: `UpdateDashboardLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13165,9 +13165,9 @@ extension QuickSightClient {
     ///
     /// Updates read and write permissions on a dashboard.
     ///
-    /// - Parameter UpdateDashboardPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardPermissionsInput`)
     ///
-    /// - Returns: `UpdateDashboardPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13238,9 +13238,9 @@ extension QuickSightClient {
     ///
     /// Updates the published version of a dashboard.
     ///
-    /// - Parameter UpdateDashboardPublishedVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardPublishedVersionInput`)
     ///
-    /// - Returns: `UpdateDashboardPublishedVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardPublishedVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13307,9 +13307,9 @@ extension QuickSightClient {
     ///
     /// Updates a Dashboard QA configuration.
     ///
-    /// - Parameter UpdateDashboardsQAConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardsQAConfigurationInput`)
     ///
-    /// - Returns: `UpdateDashboardsQAConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardsQAConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13379,9 +13379,9 @@ extension QuickSightClient {
     ///
     /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
     ///
-    /// - Parameter UpdateDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSetInput`)
     ///
-    /// - Returns: `UpdateDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13453,9 +13453,9 @@ extension QuickSightClient {
     ///
     /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
-    /// - Parameter UpdateDataSetPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSetPermissionsInput`)
     ///
-    /// - Returns: `UpdateDataSetPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSetPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13525,9 +13525,9 @@ extension QuickSightClient {
     ///
     /// Updates a data source.
     ///
-    /// - Parameter UpdateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourceInput`)
     ///
-    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13598,9 +13598,9 @@ extension QuickSightClient {
     ///
     /// Updates the permissions to a data source.
     ///
-    /// - Parameter UpdateDataSourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourcePermissionsInput`)
     ///
-    /// - Returns: `UpdateDataSourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13670,9 +13670,9 @@ extension QuickSightClient {
     ///
     /// Updates a Amazon Q Business application that is linked to a QuickSight account.
     ///
-    /// - Parameter UpdateDefaultQBusinessApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDefaultQBusinessApplicationInput`)
     ///
-    /// - Returns: `UpdateDefaultQBusinessApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDefaultQBusinessApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13743,9 +13743,9 @@ extension QuickSightClient {
     ///
     /// Updates the name of a folder.
     ///
-    /// - Parameter UpdateFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFolderInput`)
     ///
-    /// - Returns: `UpdateFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13817,9 +13817,9 @@ extension QuickSightClient {
     ///
     /// Updates permissions of a folder.
     ///
-    /// - Parameter UpdateFolderPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFolderPermissionsInput`)
     ///
-    /// - Returns: `UpdateFolderPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFolderPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13890,9 +13890,9 @@ extension QuickSightClient {
     ///
     /// Changes a group description.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13963,9 +13963,9 @@ extension QuickSightClient {
     ///
     /// Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request. This overwrites all of the users included in Identities.
     ///
-    /// - Parameter UpdateIAMPolicyAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIAMPolicyAssignmentInput`)
     ///
-    /// - Returns: `UpdateIAMPolicyAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIAMPolicyAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14036,9 +14036,9 @@ extension QuickSightClient {
     ///
     /// Adds or updates services and authorized targets to configure what the QuickSight IAM Identity Center application can access. This operation is only supported for QuickSight accounts using IAM Identity Center
     ///
-    /// - Parameter UpdateIdentityPropagationConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdentityPropagationConfigInput`)
     ///
-    /// - Returns: `UpdateIdentityPropagationConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdentityPropagationConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14107,9 +14107,9 @@ extension QuickSightClient {
     ///
     /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule, VpcIdRestrictionRule, or VpcEndpointIdRestrictionRule. To use this operation, you must provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map.
     ///
-    /// - Parameter UpdateIpRestrictionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIpRestrictionInput`)
     ///
-    /// - Returns: `UpdateIpRestrictionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIpRestrictionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14179,9 +14179,9 @@ extension QuickSightClient {
     ///
     /// Updates a customer managed key in a QuickSight account.
     ///
-    /// - Parameter UpdateKeyRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyRegistrationInput`)
     ///
-    /// - Returns: `UpdateKeyRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14256,9 +14256,9 @@ extension QuickSightClient {
     ///
     /// Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an QuickSight dashboard. To use this operation, turn on session capacity pricing for your QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with QuickSight, see [Using QuickSight with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the QuickSight User Guide.
     ///
-    /// - Parameter UpdatePublicSharingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePublicSharingSettingsInput`)
     ///
-    /// - Returns: `UpdatePublicSharingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePublicSharingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14328,9 +14328,9 @@ extension QuickSightClient {
     ///
     /// Updates a personalization configuration.
     ///
-    /// - Parameter UpdateQPersonalizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQPersonalizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateQPersonalizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQPersonalizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14401,9 +14401,9 @@ extension QuickSightClient {
     ///
     /// Updates the state of a QuickSight Q Search configuration.
     ///
-    /// - Parameter UpdateQuickSightQSearchConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuickSightQSearchConfigurationInput`)
     ///
-    /// - Returns: `UpdateQuickSightQSearchConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuickSightQSearchConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14473,9 +14473,9 @@ extension QuickSightClient {
     ///
     /// Updates a refresh schedule for a dataset.
     ///
-    /// - Parameter UpdateRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRefreshScheduleInput`)
     ///
-    /// - Returns: `UpdateRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14546,9 +14546,9 @@ extension QuickSightClient {
     ///
     /// Updates the custom permissions that are associated with a role.
     ///
-    /// - Parameter UpdateRoleCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoleCustomPermissionInput`)
     ///
-    /// - Returns: `UpdateRoleCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoleCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14619,9 +14619,9 @@ extension QuickSightClient {
     ///
     /// Updates the SPICE capacity configuration for a QuickSight account.
     ///
-    /// - Parameter UpdateSPICECapacityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSPICECapacityConfigurationInput`)
     ///
-    /// - Returns: `UpdateSPICECapacityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSPICECapacityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14690,9 +14690,9 @@ extension QuickSightClient {
     ///
     /// Updates a template from an existing Amazon QuickSight analysis or another template.
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14764,9 +14764,9 @@ extension QuickSightClient {
     ///
     /// Updates the template alias of a template.
     ///
-    /// - Parameter UpdateTemplateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateAliasInput`)
     ///
-    /// - Returns: `UpdateTemplateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14835,9 +14835,9 @@ extension QuickSightClient {
     ///
     /// Updates the resource permissions for a template.
     ///
-    /// - Parameter UpdateTemplatePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplatePermissionsInput`)
     ///
-    /// - Returns: `UpdateTemplatePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplatePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14908,9 +14908,9 @@ extension QuickSightClient {
     ///
     /// Updates a theme.
     ///
-    /// - Parameter UpdateThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemeInput`)
     ///
-    /// - Returns: `UpdateThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14982,9 +14982,9 @@ extension QuickSightClient {
     ///
     /// Updates an alias of a theme.
     ///
-    /// - Parameter UpdateThemeAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemeAliasInput`)
     ///
-    /// - Returns: `UpdateThemeAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemeAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15097,9 +15097,9 @@ extension QuickSightClient {
     ///
     /// * To specify no permissions, omit the permissions list.
     ///
-    /// - Parameter UpdateThemePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemePermissionsInput`)
     ///
-    /// - Returns: `UpdateThemePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15170,9 +15170,9 @@ extension QuickSightClient {
     ///
     /// Updates a topic.
     ///
-    /// - Parameter UpdateTopicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTopicInput`)
     ///
-    /// - Returns: `UpdateTopicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15244,9 +15244,9 @@ extension QuickSightClient {
     ///
     /// Updates the permissions of a topic.
     ///
-    /// - Parameter UpdateTopicPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTopicPermissionsInput`)
     ///
-    /// - Returns: `UpdateTopicPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTopicPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15318,9 +15318,9 @@ extension QuickSightClient {
     ///
     /// Updates a topic refresh schedule.
     ///
-    /// - Parameter UpdateTopicRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTopicRefreshScheduleInput`)
     ///
-    /// - Returns: `UpdateTopicRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTopicRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15392,9 +15392,9 @@ extension QuickSightClient {
     ///
     /// Updates an Amazon QuickSight user.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15465,9 +15465,9 @@ extension QuickSightClient {
     ///
     /// Updates a custom permissions profile for a user.
     ///
-    /// - Parameter UpdateUserCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserCustomPermissionInput`)
     ///
-    /// - Returns: `UpdateUserCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15539,9 +15539,9 @@ extension QuickSightClient {
     ///
     /// Updates a VPC connection.
     ///
-    /// - Parameter UpdateVPCConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVPCConnectionInput`)
     ///
-    /// - Returns: `UpdateVPCConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVPCConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

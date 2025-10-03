@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PanoramaClient: ClientRuntime.Client {
     public static let clientName = "PanoramaClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PanoramaClient.PanoramaClientConfiguration
     let serviceName = "Panorama"
@@ -373,9 +373,9 @@ extension PanoramaClient {
     ///
     /// Creates an application instance and deploys it to a device.
     ///
-    /// - Parameter CreateApplicationInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInstanceInput`)
     ///
-    /// - Returns: `CreateApplicationInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension PanoramaClient {
     ///
     /// Creates a job to run on a device. A job can update a device's software or reboot it.
     ///
-    /// - Parameter CreateJobForDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobForDevicesInput`)
     ///
-    /// - Returns: `CreateJobForDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobForDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension PanoramaClient {
     ///
     /// Creates a camera stream node.
     ///
-    /// - Parameter CreateNodeFromTemplateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNodeFromTemplateJobInput`)
     ///
-    /// - Returns: `CreateNodeFromTemplateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNodeFromTemplateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension PanoramaClient {
     ///
     /// Creates a package and storage location in an Amazon S3 access point.
     ///
-    /// - Parameter CreatePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePackageInput`)
     ///
-    /// - Returns: `CreatePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,9 +654,9 @@ extension PanoramaClient {
     ///
     /// Imports a node package.
     ///
-    /// - Parameter CreatePackageImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePackageImportJobInput`)
     ///
-    /// - Returns: `CreatePackageImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackageImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension PanoramaClient {
     ///
     /// Deletes a device.
     ///
-    /// - Parameter DeleteDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceInput`)
     ///
-    /// - Returns: `DeleteDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,9 +792,9 @@ extension PanoramaClient {
     ///
     /// Deletes a package. To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
     ///
-    /// - Parameter DeletePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackageInput`)
     ///
-    /// - Returns: `DeletePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,9 +861,9 @@ extension PanoramaClient {
     ///
     /// Deregisters a package version.
     ///
-    /// - Parameter DeregisterPackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterPackageVersionInput`)
     ///
-    /// - Returns: `DeregisterPackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterPackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,9 +930,9 @@ extension PanoramaClient {
     ///
     /// Returns information about an application instance on a device.
     ///
-    /// - Parameter DescribeApplicationInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationInstanceInput`)
     ///
-    /// - Returns: `DescribeApplicationInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -998,9 +998,9 @@ extension PanoramaClient {
     ///
     /// Returns information about an application instance's configuration manifest.
     ///
-    /// - Parameter DescribeApplicationInstanceDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationInstanceDetailsInput`)
     ///
-    /// - Returns: `DescribeApplicationInstanceDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationInstanceDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1066,9 +1066,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a device.
     ///
-    /// - Parameter DescribeDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeviceInput`)
     ///
-    /// - Returns: `DescribeDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1133,9 +1133,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a device job.
     ///
-    /// - Parameter DescribeDeviceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeviceJobInput`)
     ///
-    /// - Returns: `DescribeDeviceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeviceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1201,9 +1201,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a node.
     ///
-    /// - Parameter DescribeNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNodeInput`)
     ///
-    /// - Returns: `DescribeNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1270,9 +1270,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a job to create a camera stream node.
     ///
-    /// - Parameter DescribeNodeFromTemplateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNodeFromTemplateJobInput`)
     ///
-    /// - Returns: `DescribeNodeFromTemplateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNodeFromTemplateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1337,9 +1337,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a package.
     ///
-    /// - Parameter DescribePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageInput`)
     ///
-    /// - Returns: `DescribePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1405,9 +1405,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a package import job.
     ///
-    /// - Parameter DescribePackageImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageImportJobInput`)
     ///
-    /// - Returns: `DescribePackageImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,9 +1472,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a package version.
     ///
-    /// - Parameter DescribePackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageVersionInput`)
     ///
-    /// - Returns: `DescribePackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1541,9 +1541,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of application instance dependencies.
     ///
-    /// - Parameter ListApplicationInstanceDependenciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationInstanceDependenciesInput`)
     ///
-    /// - Returns: `ListApplicationInstanceDependenciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationInstanceDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1607,9 +1607,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of application node instances.
     ///
-    /// - Parameter ListApplicationInstanceNodeInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationInstanceNodeInstancesInput`)
     ///
-    /// - Returns: `ListApplicationInstanceNodeInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationInstanceNodeInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1673,9 +1673,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of application instances.
     ///
-    /// - Parameter ListApplicationInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationInstancesInput`)
     ///
-    /// - Returns: `ListApplicationInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1739,9 +1739,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of devices.
     ///
-    /// - Parameter ListDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesInput`)
     ///
-    /// - Returns: `ListDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1807,9 +1807,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of jobs.
     ///
-    /// - Parameter ListDevicesJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesJobsInput`)
     ///
-    /// - Returns: `ListDevicesJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1876,9 +1876,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of camera stream node jobs.
     ///
-    /// - Parameter ListNodeFromTemplateJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodeFromTemplateJobsInput`)
     ///
-    /// - Returns: `ListNodeFromTemplateJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodeFromTemplateJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1944,9 +1944,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of nodes.
     ///
-    /// - Parameter ListNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodesInput`)
     ///
-    /// - Returns: `ListNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2011,9 +2011,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of package import jobs.
     ///
-    /// - Parameter ListPackageImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackageImportJobsInput`)
     ///
-    /// - Returns: `ListPackageImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackageImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2079,9 +2079,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of packages.
     ///
-    /// - Parameter ListPackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackagesInput`)
     ///
-    /// - Returns: `ListPackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2148,9 +2148,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2214,9 +2214,9 @@ extension PanoramaClient {
     ///
     /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
     ///
-    /// - Parameter ProvisionDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionDeviceInput`)
     ///
-    /// - Returns: `ProvisionDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2285,9 +2285,9 @@ extension PanoramaClient {
     ///
     /// Registers a package version.
     ///
-    /// - Parameter RegisterPackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterPackageVersionInput`)
     ///
-    /// - Returns: `RegisterPackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterPackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2355,9 +2355,9 @@ extension PanoramaClient {
     ///
     /// Removes an application instance.
     ///
-    /// - Parameter RemoveApplicationInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveApplicationInstanceInput`)
     ///
-    /// - Returns: `RemoveApplicationInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveApplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2423,9 +2423,9 @@ extension PanoramaClient {
     ///
     /// Signal camera nodes to stop or resume.
     ///
-    /// - Parameter SignalApplicationInstanceNodeInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SignalApplicationInstanceNodeInstancesInput`)
     ///
-    /// - Returns: `SignalApplicationInstanceNodeInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SignalApplicationInstanceNodeInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2493,9 +2493,9 @@ extension PanoramaClient {
     ///
     /// Tags a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2562,9 +2562,9 @@ extension PanoramaClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2629,9 +2629,9 @@ extension PanoramaClient {
     ///
     /// Updates a device's metadata.
     ///
-    /// - Parameter UpdateDeviceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceMetadataInput`)
     ///
-    /// - Returns: `UpdateDeviceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

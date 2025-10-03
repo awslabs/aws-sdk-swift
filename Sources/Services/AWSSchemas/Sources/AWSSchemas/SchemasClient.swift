@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SchemasClient: ClientRuntime.Client {
     public static let clientName = "SchemasClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SchemasClient.SchemasClientConfiguration
     let serviceName = "schemas"
@@ -374,9 +374,9 @@ extension SchemasClient {
     ///
     /// Creates a discoverer.
     ///
-    /// - Parameter CreateDiscovererInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDiscovererInput`)
     ///
-    /// - Returns: `CreateDiscovererOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDiscovererOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension SchemasClient {
     ///
     /// Creates a registry.
     ///
-    /// - Parameter CreateRegistryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegistryInput`)
     ///
-    /// - Returns: `CreateRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension SchemasClient {
     ///
     /// Creates a schema definition. Inactive schemas will be deleted after two years.
     ///
-    /// - Parameter CreateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSchemaInput`)
     ///
-    /// - Returns: `CreateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension SchemasClient {
     ///
     /// Deletes a discoverer.
     ///
-    /// - Parameter DeleteDiscovererInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDiscovererInput`)
     ///
-    /// - Returns: `DeleteDiscovererOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDiscovererOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,9 +657,9 @@ extension SchemasClient {
     ///
     /// Deletes a Registry.
     ///
-    /// - Parameter DeleteRegistryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegistryInput`)
     ///
-    /// - Returns: `DeleteRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -726,9 +726,9 @@ extension SchemasClient {
     ///
     /// Delete the resource-based policy attached to the specified registry.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -796,9 +796,9 @@ extension SchemasClient {
     ///
     /// Delete a schema definition.
     ///
-    /// - Parameter DeleteSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaInput`)
     ///
-    /// - Returns: `DeleteSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,9 +865,9 @@ extension SchemasClient {
     ///
     /// Delete the schema version definition
     ///
-    /// - Parameter DeleteSchemaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaVersionInput`)
     ///
-    /// - Returns: `DeleteSchemaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,9 +934,9 @@ extension SchemasClient {
     ///
     /// Describe the code binding URI.
     ///
-    /// - Parameter DescribeCodeBindingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCodeBindingInput`)
     ///
-    /// - Returns: `DescribeCodeBindingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCodeBindingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,9 +1004,9 @@ extension SchemasClient {
     ///
     /// Describes the discoverer.
     ///
-    /// - Parameter DescribeDiscovererInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDiscovererInput`)
     ///
-    /// - Returns: `DescribeDiscovererOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDiscovererOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,9 +1073,9 @@ extension SchemasClient {
     ///
     /// Describes the registry.
     ///
-    /// - Parameter DescribeRegistryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistryInput`)
     ///
-    /// - Returns: `DescribeRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,9 +1142,9 @@ extension SchemasClient {
     ///
     /// Retrieve the schema definition.
     ///
-    /// - Parameter DescribeSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSchemaInput`)
     ///
-    /// - Returns: `DescribeSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1211,9 +1211,9 @@ extension SchemasClient {
     /// Performs the `ExportSchema` operation on the `Schemas` service.
     ///
     ///
-    /// - Parameter ExportSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportSchemaInput`)
     ///
-    /// - Returns: `ExportSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1282,9 +1282,9 @@ extension SchemasClient {
     ///
     /// Get the code binding source URI.
     ///
-    /// - Parameter GetCodeBindingSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeBindingSourceInput`)
     ///
-    /// - Returns: `GetCodeBindingSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeBindingSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1352,9 +1352,9 @@ extension SchemasClient {
     ///
     /// Get the discovered schema that was generated based on sampled events.
     ///
-    /// - Parameter GetDiscoveredSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDiscoveredSchemaInput`)
     ///
-    /// - Returns: `GetDiscoveredSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDiscoveredSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,9 +1423,9 @@ extension SchemasClient {
     ///
     /// Retrieves the resource-based policy attached to a given registry.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1493,9 +1493,9 @@ extension SchemasClient {
     ///
     /// List the discoverers.
     ///
-    /// - Parameter ListDiscoverersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDiscoverersInput`)
     ///
-    /// - Returns: `ListDiscoverersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDiscoverersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1562,9 +1562,9 @@ extension SchemasClient {
     ///
     /// List the registries.
     ///
-    /// - Parameter ListRegistriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegistriesInput`)
     ///
-    /// - Returns: `ListRegistriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegistriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1631,9 +1631,9 @@ extension SchemasClient {
     ///
     /// Provides a list of the schema versions and related information.
     ///
-    /// - Parameter ListSchemaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemaVersionsInput`)
     ///
-    /// - Returns: `ListSchemaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1701,9 +1701,9 @@ extension SchemasClient {
     ///
     /// List the schemas.
     ///
-    /// - Parameter ListSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemasInput`)
     ///
-    /// - Returns: `ListSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1770,9 +1770,9 @@ extension SchemasClient {
     ///
     /// Get tags for resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1837,9 +1837,9 @@ extension SchemasClient {
     ///
     /// Put code binding URI
     ///
-    /// - Parameter PutCodeBindingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutCodeBindingInput`)
     ///
-    /// - Returns: `PutCodeBindingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutCodeBindingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1908,9 +1908,9 @@ extension SchemasClient {
     ///
     /// The name of the policy.
     ///
-    /// - Parameter PutResourcePolicyInput : The name of the policy.
+    /// - Parameter input: The name of the policy. (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1982,9 +1982,9 @@ extension SchemasClient {
     ///
     /// Search the schemas
     ///
-    /// - Parameter SearchSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSchemasInput`)
     ///
-    /// - Returns: `SearchSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension SchemasClient {
     ///
     /// Starts the discoverer
     ///
-    /// - Parameter StartDiscovererInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDiscovererInput`)
     ///
-    /// - Returns: `StartDiscovererOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDiscovererOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2120,9 +2120,9 @@ extension SchemasClient {
     ///
     /// Stops the discoverer
     ///
-    /// - Parameter StopDiscovererInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDiscovererInput`)
     ///
-    /// - Returns: `StopDiscovererOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDiscovererOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,9 +2189,9 @@ extension SchemasClient {
     ///
     /// Add tags to a resource.
     ///
-    /// - Parameter TagResourceInput :
+    /// - Parameter input: (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2259,9 +2259,9 @@ extension SchemasClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2327,9 +2327,9 @@ extension SchemasClient {
     ///
     /// Updates the discoverer
     ///
-    /// - Parameter UpdateDiscovererInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDiscovererInput`)
     ///
-    /// - Returns: `UpdateDiscovererOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDiscovererOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2399,9 +2399,9 @@ extension SchemasClient {
     ///
     /// Updates a registry.
     ///
-    /// - Parameter UpdateRegistryInput : Updates the registry.
+    /// - Parameter input: Updates the registry. (Type: `UpdateRegistryInput`)
     ///
-    /// - Returns: `UpdateRegistryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRegistryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2471,9 +2471,9 @@ extension SchemasClient {
     ///
     /// Updates the schema definition Inactive schemas will be deleted after two years.
     ///
-    /// - Parameter UpdateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSchemaInput`)
     ///
-    /// - Returns: `UpdateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

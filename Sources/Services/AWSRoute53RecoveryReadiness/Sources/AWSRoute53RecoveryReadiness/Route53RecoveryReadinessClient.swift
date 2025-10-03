@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53RecoveryReadinessClient: ClientRuntime.Client {
     public static let clientName = "Route53RecoveryReadinessClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration
     let serviceName = "Route53 Recovery Readiness"
@@ -373,9 +373,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a cell in an account.
     ///
-    /// - Parameter CreateCellInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCellInput`)
     ///
-    /// - Returns: `CreateCellOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCellOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
     ///
-    /// - Parameter CreateCrossAccountAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCrossAccountAuthorizationInput`)
     ///
-    /// - Returns: `CreateCrossAccountAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCrossAccountAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
     ///
-    /// - Parameter CreateReadinessCheckInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReadinessCheckInput`)
     ///
-    /// - Returns: `CreateReadinessCheckOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReadinessCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
     ///
-    /// - Parameter CreateRecoveryGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecoveryGroupInput`)
     ///
-    /// - Returns: `CreateRecoveryGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecoveryGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,9 +657,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
     ///
-    /// - Parameter CreateResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceSetInput`)
     ///
-    /// - Returns: `CreateResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -728,9 +728,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Delete a cell. When successful, the response code is 204, with no response body.
     ///
-    /// - Parameter DeleteCellInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCellInput`)
     ///
-    /// - Returns: `DeleteCellOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCellOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -796,9 +796,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Deletes cross account readiness authorization.
     ///
-    /// - Parameter DeleteCrossAccountAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCrossAccountAuthorizationInput`)
     ///
-    /// - Returns: `DeleteCrossAccountAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCrossAccountAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,9 +863,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Deletes a readiness check.
     ///
-    /// - Parameter DeleteReadinessCheckInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReadinessCheckInput`)
     ///
-    /// - Returns: `DeleteReadinessCheckOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReadinessCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -931,9 +931,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Deletes a recovery group.
     ///
-    /// - Parameter DeleteRecoveryGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecoveryGroupInput`)
     ///
-    /// - Returns: `DeleteRecoveryGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecoveryGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -999,9 +999,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Deletes a resource set.
     ///
-    /// - Parameter DeleteResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceSetInput`)
     ///
-    /// - Returns: `DeleteResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1067,9 +1067,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
     ///
-    /// - Parameter GetArchitectureRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetArchitectureRecommendationsInput`)
     ///
-    /// - Returns: `GetArchitectureRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetArchitectureRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,9 +1136,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
     ///
-    /// - Parameter GetCellInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCellInput`)
     ///
-    /// - Returns: `GetCellOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCellOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,9 +1204,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
     ///
-    /// - Parameter GetCellReadinessSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCellReadinessSummaryInput`)
     ///
-    /// - Returns: `GetCellReadinessSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCellReadinessSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,9 +1273,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets details about a readiness check.
     ///
-    /// - Parameter GetReadinessCheckInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadinessCheckInput`)
     ///
-    /// - Returns: `GetReadinessCheckOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadinessCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,9 +1341,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
     ///
-    /// - Parameter GetReadinessCheckResourceStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadinessCheckResourceStatusInput`)
     ///
-    /// - Returns: `GetReadinessCheckResourceStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadinessCheckResourceStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1410,9 +1410,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
     ///
-    /// - Parameter GetReadinessCheckStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadinessCheckStatusInput`)
     ///
-    /// - Returns: `GetReadinessCheckStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadinessCheckStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1479,9 +1479,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets details about a recovery group, including a list of the cells that are included in it.
     ///
-    /// - Parameter GetRecoveryGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryGroupInput`)
     ///
-    /// - Returns: `GetRecoveryGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecoveryGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1547,9 +1547,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
     ///
-    /// - Parameter GetRecoveryGroupReadinessSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryGroupReadinessSummaryInput`)
     ///
-    /// - Returns: `GetRecoveryGroupReadinessSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecoveryGroupReadinessSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1616,9 +1616,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Displays the details about a resource set, including a list of the resources in the set.
     ///
-    /// - Parameter GetResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSetInput`)
     ///
-    /// - Returns: `GetResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1684,9 +1684,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the cells for an account.
     ///
-    /// - Parameter ListCellsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCellsInput`)
     ///
-    /// - Returns: `ListCellsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCellsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,9 +1752,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the cross-account readiness authorizations that are in place for an account.
     ///
-    /// - Parameter ListCrossAccountAuthorizationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrossAccountAuthorizationsInput`)
     ///
-    /// - Returns: `ListCrossAccountAuthorizationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrossAccountAuthorizationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,9 +1820,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the readiness checks for an account.
     ///
-    /// - Parameter ListReadinessChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadinessChecksInput`)
     ///
-    /// - Returns: `ListReadinessChecksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadinessChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1888,9 +1888,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the recovery groups in an account.
     ///
-    /// - Parameter ListRecoveryGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryGroupsInput`)
     ///
-    /// - Returns: `ListRecoveryGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecoveryGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1956,9 +1956,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the resource sets in an account.
     ///
-    /// - Parameter ListResourceSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSetsInput`)
     ///
-    /// - Returns: `ListResourceSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2024,9 +2024,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists all readiness rules, or lists the readiness rules for a specific resource type.
     ///
-    /// - Parameter ListRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesInput`)
     ///
-    /// - Returns: `ListRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,9 +2092,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourcesInput`)
     ///
-    /// - Returns: `ListTagsForResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2158,9 +2158,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,9 +2227,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2294,9 +2294,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Updates a cell to replace the list of nested cells with a new list of nested cells.
     ///
-    /// - Parameter UpdateCellInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCellInput`)
     ///
-    /// - Returns: `UpdateCellOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCellOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2365,9 +2365,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Updates a readiness check.
     ///
-    /// - Parameter UpdateReadinessCheckInput : Name of a readiness check to describe.
+    /// - Parameter input: Name of a readiness check to describe. (Type: `UpdateReadinessCheckInput`)
     ///
-    /// - Returns: `UpdateReadinessCheckOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReadinessCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2436,9 +2436,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Updates a recovery group.
     ///
-    /// - Parameter UpdateRecoveryGroupInput : Name of a recovery group.
+    /// - Parameter input: Name of a recovery group. (Type: `UpdateRecoveryGroupInput`)
     ///
-    /// - Returns: `UpdateRecoveryGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecoveryGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2507,9 +2507,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Updates a resource set.
     ///
-    /// - Parameter UpdateResourceSetInput : Name of a resource set.
+    /// - Parameter input: Name of a resource set. (Type: `UpdateResourceSetInput`)
     ///
-    /// - Returns: `UpdateResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

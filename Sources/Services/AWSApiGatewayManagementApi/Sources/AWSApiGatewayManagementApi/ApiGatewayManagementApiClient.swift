@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApiGatewayManagementApiClient: ClientRuntime.Client {
     public static let clientName = "ApiGatewayManagementApiClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfiguration
     let serviceName = "ApiGatewayManagementApi"
@@ -371,9 +371,9 @@ extension ApiGatewayManagementApiClient {
     ///
     /// Delete the connection with the provided id.
     ///
-    /// - Parameter DeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -437,9 +437,9 @@ extension ApiGatewayManagementApiClient {
     ///
     /// Get information about the connection with the provided id.
     ///
-    /// - Parameter GetConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionInput`)
     ///
-    /// - Returns: `GetConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -503,9 +503,9 @@ extension ApiGatewayManagementApiClient {
     ///
     /// Sends the provided data to the specified connection.
     ///
-    /// - Parameter PostToConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostToConnectionInput`)
     ///
-    /// - Returns: `PostToConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostToConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

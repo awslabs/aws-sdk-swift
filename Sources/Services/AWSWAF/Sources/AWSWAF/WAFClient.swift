@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WAFClient: ClientRuntime.Client {
     public static let clientName = "WAFClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: WAFClient.WAFClientConfiguration
     let serviceName = "WAF"
@@ -383,9 +383,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateByteMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateByteMatchSetInput`)
     ///
-    /// - Returns: `CreateByteMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateByteMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,9 +485,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateGeoMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGeoMatchSetInput`)
     ///
-    /// - Returns: `CreateGeoMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGeoMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIPSetInput`)
     ///
-    /// - Returns: `CreateIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -709,9 +709,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateRateBasedRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRateBasedRuleInput`)
     ///
-    /// - Returns: `CreateRateBasedRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRateBasedRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -813,9 +813,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateRegexMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegexMatchSetInput`)
     ///
-    /// - Returns: `CreateRegexMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegexMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -895,9 +895,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateRegexPatternSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegexPatternSetInput`)
     ///
-    /// - Returns: `CreateRegexPatternSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegexPatternSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -988,9 +988,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleInput`)
     ///
-    /// - Returns: `CreateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1090,9 +1090,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleGroupInput`)
     ///
-    /// - Returns: `CreateRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1175,9 +1175,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateSizeConstraintSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSizeConstraintSetInput`)
     ///
-    /// - Returns: `CreateSizeConstraintSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSizeConstraintSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1277,9 +1277,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateSqlInjectionMatchSetInput : A request to create a [SqlInjectionMatchSet].
+    /// - Parameter input: A request to create a [SqlInjectionMatchSet]. (Type: `CreateSqlInjectionMatchSetInput`)
     ///
-    /// - Returns: `CreateSqlInjectionMatchSetOutput` : The response to a CreateSqlInjectionMatchSet request.
+    /// - Returns: The response to a CreateSqlInjectionMatchSet request. (Type: `CreateSqlInjectionMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1383,9 +1383,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWebACLInput`)
     ///
-    /// - Returns: `CreateWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1477,9 +1477,9 @@ extension WAFClient {
     ///
     /// Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create the web ACL and its resources in AWS WAFV2. Use this to migrate your AWS WAF Classic web ACL to the latest version of AWS WAF. This is part of a larger migration procedure for web ACLs from AWS WAF Classic to the latest version of AWS WAF. For the full procedure, including caveats and manual steps to complete the migration and switch over to the new web ACL, see [Migrating your AWS WAF Classic resources to AWS WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-migrating-from-classic.html) in the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
     ///
-    /// - Parameter CreateWebACLMigrationStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWebACLMigrationStackInput`)
     ///
-    /// - Returns: `CreateWebACLMigrationStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWebACLMigrationStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1602,9 +1602,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter CreateXssMatchSetInput : A request to create an [XssMatchSet].
+    /// - Parameter input: A request to create an [XssMatchSet]. (Type: `CreateXssMatchSetInput`)
     ///
-    /// - Returns: `CreateXssMatchSetOutput` : The response to a CreateXssMatchSet request.
+    /// - Returns: The response to a CreateXssMatchSet request. (Type: `CreateXssMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1699,9 +1699,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteByteMatchSet request.
     ///
-    /// - Parameter DeleteByteMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteByteMatchSetInput`)
     ///
-    /// - Returns: `DeleteByteMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteByteMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1790,9 +1790,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteGeoMatchSet request.
     ///
-    /// - Parameter DeleteGeoMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGeoMatchSetInput`)
     ///
-    /// - Returns: `DeleteGeoMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGeoMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1881,9 +1881,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteIPSet request.
     ///
-    /// - Parameter DeleteIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIPSetInput`)
     ///
-    /// - Returns: `DeleteIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1966,9 +1966,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes the [LoggingConfiguration] from the specified web ACL.
     ///
-    /// - Parameter DeleteLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2036,9 +2036,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes an IAM policy from the specified RuleGroup. The user making the request must be the owner of the RuleGroup.
     ///
-    /// - Parameter DeletePermissionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionPolicyInput`)
     ///
-    /// - Returns: `DeletePermissionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2112,9 +2112,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteRateBasedRule request.
     ///
-    /// - Parameter DeleteRateBasedRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRateBasedRuleInput`)
     ///
-    /// - Returns: `DeleteRateBasedRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRateBasedRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2205,9 +2205,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteRegexMatchSet request.
     ///
-    /// - Parameter DeleteRegexMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegexMatchSetInput`)
     ///
-    /// - Returns: `DeleteRegexMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegexMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2290,9 +2290,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Permanently deletes a [RegexPatternSet]. You can't delete a RegexPatternSet if it's still used in any RegexMatchSet or if the RegexPatternSet is not empty.
     ///
-    /// - Parameter DeleteRegexPatternSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegexPatternSetInput`)
     ///
-    /// - Returns: `DeleteRegexPatternSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegexPatternSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2381,9 +2381,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteRule request.
     ///
-    /// - Parameter DeleteRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleInput`)
     ///
-    /// - Returns: `DeleteRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2474,9 +2474,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteRuleGroup request.
     ///
-    /// - Parameter DeleteRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleGroupInput`)
     ///
-    /// - Returns: `DeleteRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2577,9 +2577,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteSizeConstraintSet request.
     ///
-    /// - Parameter DeleteSizeConstraintSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSizeConstraintSetInput`)
     ///
-    /// - Returns: `DeleteSizeConstraintSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSizeConstraintSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2668,9 +2668,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteSqlInjectionMatchSet request.
     ///
-    /// - Parameter DeleteSqlInjectionMatchSetInput : A request to delete a [SqlInjectionMatchSet] from AWS WAF.
+    /// - Parameter input: A request to delete a [SqlInjectionMatchSet] from AWS WAF. (Type: `DeleteSqlInjectionMatchSetInput`)
     ///
-    /// - Returns: `DeleteSqlInjectionMatchSetOutput` : The response to a request to delete a [SqlInjectionMatchSet] from AWS WAF.
+    /// - Returns: The response to a request to delete a [SqlInjectionMatchSet] from AWS WAF. (Type: `DeleteSqlInjectionMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2759,9 +2759,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteWebACL request.
     ///
-    /// - Parameter DeleteWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebACLInput`)
     ///
-    /// - Returns: `DeleteWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2852,9 +2852,9 @@ extension WAFClient {
     ///
     /// * Submit a DeleteXssMatchSet request.
     ///
-    /// - Parameter DeleteXssMatchSetInput : A request to delete an [XssMatchSet] from AWS WAF.
+    /// - Parameter input: A request to delete an [XssMatchSet] from AWS WAF. (Type: `DeleteXssMatchSetInput`)
     ///
-    /// - Returns: `DeleteXssMatchSetOutput` : The response to a request to delete an [XssMatchSet] from AWS WAF.
+    /// - Returns: The response to a request to delete an [XssMatchSet] from AWS WAF. (Type: `DeleteXssMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2937,9 +2937,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [ByteMatchSet] specified by ByteMatchSetId.
     ///
-    /// - Parameter GetByteMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetByteMatchSetInput`)
     ///
-    /// - Returns: `GetByteMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetByteMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3007,9 +3007,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. When you want to create, update, or delete AWS WAF objects, get a change token and include the change token in the create, update, or delete request. Change tokens ensure that your application doesn't submit conflicting requests to AWS WAF. Each create, update, or delete request must use a unique change token. If your application submits a GetChangeToken request and then submits a second GetChangeToken request before submitting a create, update, or delete request, the second GetChangeToken request returns the same value as the first GetChangeToken request. When you use a change token in a create, update, or delete request, the status of the change token changes to PENDING, which indicates that AWS WAF is propagating the change to all AWS WAF servers. Use GetChangeTokenStatus to determine the status of your change token.
     ///
-    /// - Parameter GetChangeTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChangeTokenInput`)
     ///
-    /// - Returns: `GetChangeTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChangeTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3081,9 +3081,9 @@ extension WAFClient {
     ///
     /// * INSYNC: Propagation is complete.
     ///
-    /// - Parameter GetChangeTokenStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChangeTokenStatusInput`)
     ///
-    /// - Returns: `GetChangeTokenStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChangeTokenStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3150,9 +3150,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [GeoMatchSet] that is specified by GeoMatchSetId.
     ///
-    /// - Parameter GetGeoMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGeoMatchSetInput`)
     ///
-    /// - Returns: `GetGeoMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGeoMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3220,9 +3220,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [IPSet] that is specified by IPSetId.
     ///
-    /// - Parameter GetIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIPSetInput`)
     ///
-    /// - Returns: `GetIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3290,9 +3290,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [LoggingConfiguration] for the specified web ACL.
     ///
-    /// - Parameter GetLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggingConfigurationInput`)
     ///
-    /// - Returns: `GetLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3359,9 +3359,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the IAM policy attached to the RuleGroup.
     ///
-    /// - Parameter GetPermissionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPermissionPolicyInput`)
     ///
-    /// - Returns: `GetPermissionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPermissionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3428,9 +3428,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [RateBasedRule] that is specified by the RuleId that you included in the GetRateBasedRule request.
     ///
-    /// - Parameter GetRateBasedRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRateBasedRuleInput`)
     ///
-    /// - Returns: `GetRateBasedRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRateBasedRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3498,9 +3498,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of IP addresses currently being blocked by the [RateBasedRule] that is specified by the RuleId. The maximum number of managed keys that will be blocked is 10,000. If more than 10,000 addresses exceed the rate limit, the 10,000 addresses with the highest rates will be blocked.
     ///
-    /// - Parameter GetRateBasedRuleManagedKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRateBasedRuleManagedKeysInput`)
     ///
-    /// - Returns: `GetRateBasedRuleManagedKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRateBasedRuleManagedKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3587,9 +3587,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [RegexMatchSet] specified by RegexMatchSetId.
     ///
-    /// - Parameter GetRegexMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegexMatchSetInput`)
     ///
-    /// - Returns: `GetRegexMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegexMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3657,9 +3657,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [RegexPatternSet] specified by RegexPatternSetId.
     ///
-    /// - Parameter GetRegexPatternSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegexPatternSetInput`)
     ///
-    /// - Returns: `GetRegexPatternSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegexPatternSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3727,9 +3727,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [Rule] that is specified by the RuleId that you included in the GetRule request.
     ///
-    /// - Parameter GetRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleInput`)
     ///
-    /// - Returns: `GetRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3797,9 +3797,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [RuleGroup] that is specified by the RuleGroupId that you included in the GetRuleGroup request. To view the rules in a rule group, use [ListActivatedRulesInRuleGroup].
     ///
-    /// - Parameter GetRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleGroupInput`)
     ///
-    /// - Returns: `GetRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3866,9 +3866,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Gets detailed information about a specified number of requests--a sample--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that you choose. You can specify a sample size of up to 500 requests, and you can specify any time range in the previous three hours. GetSampledRequests returns a time range, which is usually the time range that you specified. However, if your resource (such as a CloudFront distribution) received 5,000 requests before the specified time range elapsed, GetSampledRequests returns an updated time range. This new time range indicates the actual period during which AWS WAF selected the requests in the sample.
     ///
-    /// - Parameter GetSampledRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSampledRequestsInput`)
     ///
-    /// - Returns: `GetSampledRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSampledRequestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3935,9 +3935,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [SizeConstraintSet] specified by SizeConstraintSetId.
     ///
-    /// - Parameter GetSizeConstraintSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSizeConstraintSetInput`)
     ///
-    /// - Returns: `GetSizeConstraintSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSizeConstraintSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4005,9 +4005,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [SqlInjectionMatchSet] that is specified by SqlInjectionMatchSetId.
     ///
-    /// - Parameter GetSqlInjectionMatchSetInput : A request to get a [SqlInjectionMatchSet].
+    /// - Parameter input: A request to get a [SqlInjectionMatchSet]. (Type: `GetSqlInjectionMatchSetInput`)
     ///
-    /// - Returns: `GetSqlInjectionMatchSetOutput` : The response to a [GetSqlInjectionMatchSet] request.
+    /// - Returns: The response to a [GetSqlInjectionMatchSet] request. (Type: `GetSqlInjectionMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4075,9 +4075,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [WebACL] that is specified by WebACLId.
     ///
-    /// - Parameter GetWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWebACLInput`)
     ///
-    /// - Returns: `GetWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4145,9 +4145,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the [XssMatchSet] that is specified by XssMatchSetId.
     ///
-    /// - Parameter GetXssMatchSetInput : A request to get an [XssMatchSet].
+    /// - Parameter input: A request to get an [XssMatchSet]. (Type: `GetXssMatchSetInput`)
     ///
-    /// - Returns: `GetXssMatchSetOutput` : The response to a [GetXssMatchSet] request.
+    /// - Returns: The response to a [GetXssMatchSet] request. (Type: `GetXssMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4215,9 +4215,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [ActivatedRule] objects.
     ///
-    /// - Parameter ListActivatedRulesInRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActivatedRulesInRuleGroupInput`)
     ///
-    /// - Returns: `ListActivatedRulesInRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActivatedRulesInRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4303,9 +4303,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [ByteMatchSetSummary] objects.
     ///
-    /// - Parameter ListByteMatchSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListByteMatchSetsInput`)
     ///
-    /// - Returns: `ListByteMatchSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListByteMatchSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4372,9 +4372,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [GeoMatchSetSummary] objects in the response.
     ///
-    /// - Parameter ListGeoMatchSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGeoMatchSetsInput`)
     ///
-    /// - Returns: `ListGeoMatchSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGeoMatchSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4441,9 +4441,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [IPSetSummary] objects in the response.
     ///
-    /// - Parameter ListIPSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIPSetsInput`)
     ///
-    /// - Returns: `ListIPSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIPSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4510,9 +4510,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [LoggingConfiguration] objects.
     ///
-    /// - Parameter ListLoggingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLoggingConfigurationsInput`)
     ///
-    /// - Returns: `ListLoggingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLoggingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4598,9 +4598,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RuleSummary] objects.
     ///
-    /// - Parameter ListRateBasedRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRateBasedRulesInput`)
     ///
-    /// - Returns: `ListRateBasedRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRateBasedRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4667,9 +4667,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RegexMatchSetSummary] objects.
     ///
-    /// - Parameter ListRegexMatchSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegexMatchSetsInput`)
     ///
-    /// - Returns: `ListRegexMatchSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegexMatchSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4736,9 +4736,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RegexPatternSetSummary] objects.
     ///
-    /// - Parameter ListRegexPatternSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegexPatternSetsInput`)
     ///
-    /// - Returns: `ListRegexPatternSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegexPatternSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4805,9 +4805,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RuleGroup] objects.
     ///
-    /// - Parameter ListRuleGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleGroupsInput`)
     ///
-    /// - Returns: `ListRuleGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4873,9 +4873,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RuleSummary] objects.
     ///
-    /// - Parameter ListRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesInput`)
     ///
-    /// - Returns: `ListRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4942,9 +4942,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [SizeConstraintSetSummary] objects.
     ///
-    /// - Parameter ListSizeConstraintSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSizeConstraintSetsInput`)
     ///
-    /// - Returns: `ListSizeConstraintSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSizeConstraintSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5011,9 +5011,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [SqlInjectionMatchSet] objects.
     ///
-    /// - Parameter ListSqlInjectionMatchSetsInput : A request to list the [SqlInjectionMatchSet] objects created by the current AWS account.
+    /// - Parameter input: A request to list the [SqlInjectionMatchSet] objects created by the current AWS account. (Type: `ListSqlInjectionMatchSetsInput`)
     ///
-    /// - Returns: `ListSqlInjectionMatchSetsOutput` : The response to a [ListSqlInjectionMatchSets] request.
+    /// - Returns: The response to a [ListSqlInjectionMatchSets] request. (Type: `ListSqlInjectionMatchSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5080,9 +5080,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [RuleGroup] objects that you are subscribed to.
     ///
-    /// - Parameter ListSubscribedRuleGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscribedRuleGroupsInput`)
     ///
-    /// - Returns: `ListSubscribedRuleGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscribedRuleGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5149,9 +5149,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Retrieves the tags associated with the specified AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5240,9 +5240,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [WebACLSummary] objects in the response.
     ///
-    /// - Parameter ListWebACLsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWebACLsInput`)
     ///
-    /// - Returns: `ListWebACLsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWebACLsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5309,9 +5309,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns an array of [XssMatchSet] objects.
     ///
-    /// - Parameter ListXssMatchSetsInput : A request to list the [XssMatchSet] objects created by the current AWS account.
+    /// - Parameter input: A request to list the [XssMatchSet] objects created by the current AWS account. (Type: `ListXssMatchSetsInput`)
     ///
-    /// - Returns: `ListXssMatchSetsOutput` : The response to a [ListXssMatchSets] request.
+    /// - Returns: The response to a [ListXssMatchSets] request. (Type: `ListXssMatchSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5385,9 +5385,9 @@ extension WAFClient {
     ///
     /// When you successfully enable logging using a PutLoggingConfiguration request, AWS WAF will create a service linked role with the necessary permissions to write logs to the Amazon Kinesis Data Firehose. For more information, see [Logging Web ACL Traffic Information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the AWS WAF Developer Guide.
     ///
-    /// - Parameter PutLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLoggingConfigurationInput`)
     ///
-    /// - Returns: `PutLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5478,9 +5478,9 @@ extension WAFClient {
     ///
     /// For more information, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html). An example of a valid policy parameter is shown in the Examples section below.
     ///
-    /// - Parameter PutPermissionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPermissionPolicyInput`)
     ///
-    /// - Returns: `PutPermissionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPermissionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5565,9 +5565,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use. Associates tags with the specified AWS resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. Tagging is only available through the API, SDKs, and CLI. You can't manage or view tags through the AWS WAF Classic console. You can use this action to tag the AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5657,9 +5657,9 @@ extension WAFClient {
     ///
     /// This is AWS WAF Classic documentation. For more information, see [AWS WAF Classic](https://docs.aws.amazon.com/waf/latest/developerguide/classic-waf-chapter.html) in the developer guide. For the latest version of AWS WAF, use the AWS WAFV2 API and see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html). With the latest version, AWS WAF has a single set of endpoints for regional and global use.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5770,9 +5770,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateByteMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateByteMatchSetInput`)
     ///
-    /// - Returns: `UpdateByteMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateByteMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5899,9 +5899,9 @@ extension WAFClient {
     ///
     /// When you update an GeoMatchSet, you specify the country that you want to add and/or the country that you want to delete. If you want to change a country, you delete the existing country and add the new one. For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateGeoMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGeoMatchSetInput`)
     ///
-    /// - Returns: `UpdateGeoMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGeoMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6044,9 +6044,9 @@ extension WAFClient {
     ///
     /// When you update an IPSet, you specify the IP addresses that you want to add and/or the IP addresses that you want to delete. If you want to change an IP address, you delete the existing IP address and add the new one. You can insert a maximum of 1000 addresses in a single request. For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIPSetInput`)
     ///
-    /// - Returns: `UpdateIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6176,9 +6176,9 @@ extension WAFClient {
     ///
     /// Further, you specify a RateLimit of 1,000. By adding this RateBasedRule to a WebACL, you could limit requests to your login page without affecting the rest of your site.
     ///
-    /// - Parameter UpdateRateBasedRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRateBasedRuleInput`)
     ///
-    /// - Returns: `UpdateRateBasedRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRateBasedRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6312,9 +6312,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateRegexMatchSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRegexMatchSetInput`)
     ///
-    /// - Returns: `UpdateRegexMatchSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRegexMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6432,9 +6432,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateRegexPatternSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRegexPatternSetInput`)
     ///
-    /// - Returns: `UpdateRegexPatternSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRegexPatternSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6545,9 +6545,9 @@ extension WAFClient {
     ///
     /// If you want to replace one ByteMatchSet or IPSet with another, you delete the existing one and add the new one. For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleInput`)
     ///
-    /// - Returns: `UpdateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6672,9 +6672,9 @@ extension WAFClient {
     ///
     /// If you want to replace one Rule with another, you delete the existing one and add the new one. For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleGroupInput`)
     ///
-    /// - Returns: `UpdateRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6804,9 +6804,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateSizeConstraintSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSizeConstraintSetInput`)
     ///
-    /// - Returns: `UpdateSizeConstraintSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSizeConstraintSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6938,9 +6938,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateSqlInjectionMatchSetInput : A request to update a [SqlInjectionMatchSet].
+    /// - Parameter input: A request to update a [SqlInjectionMatchSet]. (Type: `UpdateSqlInjectionMatchSetInput`)
     ///
-    /// - Returns: `UpdateSqlInjectionMatchSetOutput` : The response to an [UpdateSqlInjectionMatchSets] request.
+    /// - Returns: The response to an [UpdateSqlInjectionMatchSets] request. (Type: `UpdateSqlInjectionMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7073,9 +7073,9 @@ extension WAFClient {
     ///
     /// Be aware that if you try to add a RATE_BASED rule to a web ACL without setting the rule type when first creating the rule, the [UpdateWebACL] request will fail because the request tries to add a REGULAR rule (the default rule type) with the specified ID, which does not exist. For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebACLInput`)
     ///
-    /// - Returns: `UpdateWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7208,9 +7208,9 @@ extension WAFClient {
     ///
     /// For more information about how to use the AWS WAF API to allow or block HTTP requests, see the [AWS WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/).
     ///
-    /// - Parameter UpdateXssMatchSetInput : A request to update an [XssMatchSet].
+    /// - Parameter input: A request to update an [XssMatchSet]. (Type: `UpdateXssMatchSetInput`)
     ///
-    /// - Returns: `UpdateXssMatchSetOutput` : The response to an [UpdateXssMatchSets] request.
+    /// - Returns: The response to an [UpdateXssMatchSets] request. (Type: `UpdateXssMatchSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

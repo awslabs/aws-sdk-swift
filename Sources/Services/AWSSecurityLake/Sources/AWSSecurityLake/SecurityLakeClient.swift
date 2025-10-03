@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityLakeClient: ClientRuntime.Client {
     public static let clientName = "SecurityLakeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityLakeClient.SecurityLakeClientConfiguration
     let serviceName = "SecurityLake"
@@ -372,9 +372,9 @@ extension SecurityLakeClient {
     ///
     /// Adds a natively supported Amazon Web Services service as an Amazon Security Lake source. Enables source types for member accounts in required Amazon Web Services Regions, based on the parameters you specify. You can choose any source type in any Region for either accounts that are part of a trusted organization or standalone accounts. Once you add an Amazon Web Services service as a source, Security Lake starts collecting logs and events from it. You can use this API only to enable natively supported Amazon Web Services services as a source. Use CreateCustomLogSource to enable data collection from a custom source.
     ///
-    /// - Parameter CreateAwsLogSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAwsLogSourceInput`)
     ///
-    /// - Returns: `CreateAwsLogSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAwsLogSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension SecurityLakeClient {
     ///
     /// Adds a third-party custom source in Amazon Security Lake, from the Amazon Web Services Region where you want to create a custom source. Security Lake can collect logs and events from third-party custom sources. After creating the appropriate IAM role to invoke Glue crawler, use this API to add a custom source name in Security Lake. This operation creates a partition in the Amazon S3 bucket for Security Lake as the target location for log files from the custom source. In addition, this operation also creates an associated Glue table and an Glue crawler.
     ///
-    /// - Parameter CreateCustomLogSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomLogSourceInput`)
     ///
-    /// - Returns: `CreateCustomLogSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomLogSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension SecurityLakeClient {
     ///
     /// Initializes an Amazon Security Lake instance with the provided (or default) configuration. You can enable Security Lake in Amazon Web Services Regions with customized settings before enabling log collection in Regions. To specify particular Regions, configure these Regions using the configurations parameter. If you have already enabled Security Lake in a Region when you call this command, the command will update the Region if you provide new configuration parameters. If you have not already enabled Security Lake in the Region when you call this API, it will set up the data lake in the Region with the specified configurations. When you enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call and after you create subscribers using the CreateSubscriber API. This includes ingesting security data from sources, storing data, and making data accessible to subscribers. Security Lake also enables all the existing settings and resources that it stores or maintains for your Amazon Web Services account in the current Region, including security log and event data. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/what-is-security-lake.html).
     ///
-    /// - Parameter CreateDataLakeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataLakeInput`)
     ///
-    /// - Returns: `CreateDataLakeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataLakeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension SecurityLakeClient {
     ///
     /// Creates the specified notification subscription in Amazon Security Lake for the organization you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically.
     ///
-    /// - Parameter CreateDataLakeExceptionSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataLakeExceptionSubscriptionInput`)
     ///
-    /// - Returns: `CreateDataLakeExceptionSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataLakeExceptionSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,9 +660,9 @@ extension SecurityLakeClient {
     ///
     /// Automatically enables Amazon Security Lake for new member accounts in your organization. Security Lake is not automatically enabled for any existing member accounts in your organization. This operation merges the new data lake organization configuration with the existing configuration for Security Lake in your organization. If you want to create a new data lake organization configuration, you must delete the existing one using [DeleteDataLakeOrganizationConfiguration](https://docs.aws.amazon.com/security-lake/latest/APIReference/API_DeleteDataLakeOrganizationConfiguration.html).
     ///
-    /// - Parameter CreateDataLakeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataLakeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `CreateDataLakeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataLakeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,9 +732,9 @@ extension SecurityLakeClient {
     ///
     /// Creates a subscriber for accounts that are already enabled in Amazon Security Lake. You can create a subscriber with access to data in the current Amazon Web Services Region.
     ///
-    /// - Parameter CreateSubscriberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriberInput`)
     ///
-    /// - Returns: `CreateSubscriberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,9 +804,9 @@ extension SecurityLakeClient {
     ///
     /// Notifies the subscriber when new data is written to the data lake for the sources that the subscriber consumes in Security Lake. You can create only one subscriber notification per subscriber.
     ///
-    /// - Parameter CreateSubscriberNotificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriberNotificationInput`)
     ///
-    /// - Returns: `CreateSubscriberNotificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriberNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -876,9 +876,9 @@ extension SecurityLakeClient {
     ///
     /// Removes a natively supported Amazon Web Services service as an Amazon Security Lake source. You can remove a source for one or more Regions. When you remove the source, Security Lake stops collecting data from that source in the specified Regions and accounts, and subscribers can no longer consume new data from the source. However, subscribers can still consume data that Security Lake collected from the source before removal. You can choose any source type in any Amazon Web Services Region for either accounts that are part of a trusted organization or standalone accounts.
     ///
-    /// - Parameter DeleteAwsLogSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAwsLogSourceInput`)
     ///
-    /// - Returns: `DeleteAwsLogSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAwsLogSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension SecurityLakeClient {
     ///
     /// Removes a custom log source from Amazon Security Lake, to stop sending data from the custom source to Security Lake.
     ///
-    /// - Parameter DeleteCustomLogSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomLogSourceInput`)
     ///
-    /// - Returns: `DeleteCustomLogSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomLogSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1018,9 +1018,9 @@ extension SecurityLakeClient {
     ///
     /// When you disable Amazon Security Lake from your account, Security Lake is disabled in all Amazon Web Services Regions and it stops collecting data from your sources. Also, this API automatically takes steps to remove the account from Security Lake. However, Security Lake retains all of your existing settings and the resources that it created in your Amazon Web Services account in the current Amazon Web Services Region. The DeleteDataLake operation does not delete the data that is stored in your Amazon S3 bucket, which is owned by your Amazon Web Services account. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/disable-security-lake.html).
     ///
-    /// - Parameter DeleteDataLakeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataLakeInput`)
     ///
-    /// - Returns: `DeleteDataLakeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataLakeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1090,9 +1090,9 @@ extension SecurityLakeClient {
     ///
     /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
     ///
-    /// - Parameter DeleteDataLakeExceptionSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataLakeExceptionSubscriptionInput`)
     ///
-    /// - Returns: `DeleteDataLakeExceptionSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataLakeExceptionSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1159,9 +1159,9 @@ extension SecurityLakeClient {
     ///
     /// Turns off automatic enablement of Amazon Security Lake for member accounts that are added to an organization in Organizations. Only the delegated Security Lake administrator for an organization can perform this operation. If the delegated Security Lake administrator performs this operation, new member accounts won't automatically contribute data to the data lake.
     ///
-    /// - Parameter DeleteDataLakeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataLakeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DeleteDataLakeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataLakeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1231,9 +1231,9 @@ extension SecurityLakeClient {
     ///
     /// Deletes the subscription permission and all notification settings for accounts that are already enabled in Amazon Security Lake. When you run DeleteSubscriber, the subscriber will no longer consume data from Security Lake and the subscriber is removed. This operation deletes the subscriber and removes access to data in the current Amazon Web Services Region.
     ///
-    /// - Parameter DeleteSubscriberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubscriberInput`)
     ///
-    /// - Returns: `DeleteSubscriberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1300,9 +1300,9 @@ extension SecurityLakeClient {
     ///
     /// Deletes the specified subscription notification in Amazon Security Lake for the organization you specify.
     ///
-    /// - Parameter DeleteSubscriberNotificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubscriberNotificationInput`)
     ///
-    /// - Returns: `DeleteSubscriberNotificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubscriberNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,9 +1369,9 @@ extension SecurityLakeClient {
     ///
     /// Deletes the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
     ///
-    /// - Parameter DeregisterDataLakeDelegatedAdministratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterDataLakeDelegatedAdministratorInput`)
     ///
-    /// - Returns: `DeregisterDataLakeDelegatedAdministratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterDataLakeDelegatedAdministratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1438,9 +1438,9 @@ extension SecurityLakeClient {
     ///
     /// Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
     ///
-    /// - Parameter GetDataLakeExceptionSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataLakeExceptionSubscriptionInput`)
     ///
-    /// - Returns: `GetDataLakeExceptionSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataLakeExceptionSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,9 +1507,9 @@ extension SecurityLakeClient {
     ///
     /// Retrieves the configuration that will be automatically set up for accounts added to the organization after the organization has onboarded to Amazon Security Lake. This API does not take input parameters.
     ///
-    /// - Parameter GetDataLakeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataLakeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `GetDataLakeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataLakeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1576,9 +1576,9 @@ extension SecurityLakeClient {
     ///
     /// Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.
     ///
-    /// - Parameter GetDataLakeSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataLakeSourcesInput`)
     ///
-    /// - Returns: `GetDataLakeSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataLakeSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1648,9 +1648,9 @@ extension SecurityLakeClient {
     ///
     /// Retrieves the subscription information for the specified subscription ID. You can get information about a specific subscriber.
     ///
-    /// - Parameter GetSubscriberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriberInput`)
     ///
-    /// - Returns: `GetSubscriberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,9 +1717,9 @@ extension SecurityLakeClient {
     ///
     /// Lists the Amazon Security Lake exceptions that you can use to find the source of problems and fix them.
     ///
-    /// - Parameter ListDataLakeExceptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataLakeExceptionsInput`)
     ///
-    /// - Returns: `ListDataLakeExceptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataLakeExceptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1789,9 +1789,9 @@ extension SecurityLakeClient {
     ///
     /// Retrieves the Amazon Security Lake configuration object for the specified Amazon Web Services Regions. You can use this operation to determine whether Security Lake is enabled for a Region.
     ///
-    /// - Parameter ListDataLakesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataLakesInput`)
     ///
-    /// - Returns: `ListDataLakesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataLakesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,9 +1859,9 @@ extension SecurityLakeClient {
     ///
     /// Retrieves the log sources.
     ///
-    /// - Parameter ListLogSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLogSourcesInput`)
     ///
-    /// - Returns: `ListLogSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLogSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1931,9 +1931,9 @@ extension SecurityLakeClient {
     ///
     /// Lists all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list of subscriptions associated with a specific organization or Amazon Web Services account.
     ///
-    /// - Parameter ListSubscribersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscribersInput`)
     ///
-    /// - Returns: `ListSubscribersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscribersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2001,9 +2001,9 @@ extension SecurityLakeClient {
     ///
     /// Retrieves the tags (keys and values) that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2070,9 +2070,9 @@ extension SecurityLakeClient {
     ///
     /// Designates the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
     ///
-    /// - Parameter RegisterDataLakeDelegatedAdministratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterDataLakeDelegatedAdministratorInput`)
     ///
-    /// - Returns: `RegisterDataLakeDelegatedAdministratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterDataLakeDelegatedAdministratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2142,9 +2142,9 @@ extension SecurityLakeClient {
     ///
     /// Adds or updates one or more tags that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region. A tag is a label that you can define and associate with Amazon Web Services resources. Each tag consists of a required tag key and an associated tag value. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor for a tag key. Tags can help you identify, categorize, and manage resources in different ways, such as by owner, environment, or other criteria. For more information, see [Tagging Amazon Security Lake resources](https://docs.aws.amazon.com/security-lake/latest/userguide/tagging-resources.html) in the Amazon Security Lake User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2214,9 +2214,9 @@ extension SecurityLakeClient {
     ///
     /// Removes one or more tags (keys and values) from an Amazon Security Lake resource: a subscriber, or the data lake configuration for your Amazon Web Services account in a particular Amazon Web Services Region.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2284,9 +2284,9 @@ extension SecurityLakeClient {
     ///
     /// You can use UpdateDataLake to specify where to store your security data, how it should be encrypted at rest and for how long. You can add a [Rollup Region](https://docs.aws.amazon.com/security-lake/latest/userguide/manage-regions.html#add-rollup-region) to consolidate data from multiple Amazon Web Services Regions, replace default encryption (SSE-S3) with [Customer Manged Key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk), or specify transition and expiration actions through storage [Lifecycle management](https://docs.aws.amazon.com/security-lake/latest/userguide/lifecycle-management.html). The UpdateDataLake API works as an "upsert" operation that performs an insert if the specified item or record does not exist, or an update if it already exists. Security Lake securely stores your data at rest using Amazon Web Services encryption solutions. For more details, see [Data protection in Amazon Security Lake](https://docs.aws.amazon.com/security-lake/latest/userguide/data-protection.html). For example, omitting the key encryptionConfiguration from a Region that is included in an update call that currently uses KMS will leave that Region's KMS key in place, but specifying encryptionConfiguration: {kmsKeyId: 'S3_MANAGED_KEY'} for that same Region will reset the key to S3-managed. For more details about lifecycle management and how to update retention settings for one or more Regions after enabling Security Lake, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/lifecycle-management.html).
     ///
-    /// - Parameter UpdateDataLakeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataLakeInput`)
     ///
-    /// - Returns: `UpdateDataLakeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataLakeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2356,9 +2356,9 @@ extension SecurityLakeClient {
     ///
     /// Updates the specified notification subscription in Amazon Security Lake for the organization you specify.
     ///
-    /// - Parameter UpdateDataLakeExceptionSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataLakeExceptionSubscriptionInput`)
     ///
-    /// - Returns: `UpdateDataLakeExceptionSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataLakeExceptionSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2428,9 +2428,9 @@ extension SecurityLakeClient {
     ///
     /// Updates an existing subscription for the given Amazon Security Lake account ID. You can update a subscriber by changing the sources that the subscriber consumes data from.
     ///
-    /// - Parameter UpdateSubscriberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubscriberInput`)
     ///
-    /// - Returns: `UpdateSubscriberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,9 +2500,9 @@ extension SecurityLakeClient {
     ///
     /// Updates an existing notification method for the subscription (SQS or HTTPs endpoint) or switches the notification subscription endpoint for a subscriber.
     ///
-    /// - Parameter UpdateSubscriberNotificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubscriberNotificationInput`)
     ///
-    /// - Returns: `UpdateSubscriberNotificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubscriberNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

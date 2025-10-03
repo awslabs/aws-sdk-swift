@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerClient.LicenseManagerClientConfiguration
     let serviceName = "License Manager"
@@ -373,9 +373,9 @@ extension LicenseManagerClient {
     ///
     /// Accepts the specified grant.
     ///
-    /// - Parameter AcceptGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptGrantInput`)
     ///
-    /// - Returns: `AcceptGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension LicenseManagerClient {
     ///
     /// Checks in the specified license. Check in a license when it is no longer in use.
     ///
-    /// - Parameter CheckInLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckInLicenseInput`)
     ///
-    /// - Returns: `CheckInLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckInLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension LicenseManagerClient {
     ///
     /// Checks out the specified license for offline use.
     ///
-    /// - Parameter CheckoutBorrowLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckoutBorrowLicenseInput`)
     ///
-    /// - Returns: `CheckoutBorrowLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckoutBorrowLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -600,9 +600,9 @@ extension LicenseManagerClient {
     ///
     /// Checks out the specified license. If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
     ///
-    /// - Parameter CheckoutLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckoutLicenseInput`)
     ///
-    /// - Returns: `CheckoutLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckoutLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -677,9 +677,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     ///
-    /// - Parameter CreateGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGrantInput`)
     ///
-    /// - Returns: `CreateGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -751,9 +751,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a new version of the specified grant. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     ///
-    /// - Parameter CreateGrantVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGrantVersionInput`)
     ///
-    /// - Returns: `CreateGrantVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGrantVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,9 +825,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a license.
     ///
-    /// - Parameter CreateLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseInput`)
     ///
-    /// - Returns: `CreateLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,9 +899,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
     ///
-    /// - Parameter CreateLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseConfigurationInput`)
     ///
-    /// - Returns: `CreateLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,9 +972,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a new license conversion task.
     ///
-    /// - Parameter CreateLicenseConversionTaskForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseConversionTaskForResourceInput`)
     ///
-    /// - Returns: `CreateLicenseConversionTaskForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseConversionTaskForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,9 +1045,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a report generator.
     ///
-    /// - Parameter CreateLicenseManagerReportGeneratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseManagerReportGeneratorInput`)
     ///
-    /// - Returns: `CreateLicenseManagerReportGeneratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseManagerReportGeneratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,9 +1120,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a new version of the specified license.
     ///
-    /// - Parameter CreateLicenseVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseVersionInput`)
     ///
-    /// - Returns: `CreateLicenseVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1195,9 +1195,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license.
     ///
-    /// - Parameter CreateTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTokenInput`)
     ///
-    /// - Returns: `CreateTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1270,9 +1270,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified grant.
     ///
-    /// - Parameter DeleteGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGrantInput`)
     ///
-    /// - Returns: `DeleteGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1344,9 +1344,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified license.
     ///
-    /// - Parameter DeleteLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseInput`)
     ///
-    /// - Returns: `DeleteLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,9 +1419,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified license configuration. You cannot delete a license configuration that is in use.
     ///
-    /// - Parameter DeleteLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseConfigurationInput`)
     ///
-    /// - Returns: `DeleteLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1491,9 +1491,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
     ///
-    /// - Parameter DeleteLicenseManagerReportGeneratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseManagerReportGeneratorInput`)
     ///
-    /// - Returns: `DeleteLicenseManagerReportGeneratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseManagerReportGeneratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1566,9 +1566,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified token. Must be called in the license home Region.
     ///
-    /// - Parameter DeleteTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTokenInput`)
     ///
-    /// - Returns: `DeleteTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1640,9 +1640,9 @@ extension LicenseManagerClient {
     ///
     /// Extends the expiration date for license consumption.
     ///
-    /// - Parameter ExtendLicenseConsumptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExtendLicenseConsumptionInput`)
     ///
-    /// - Returns: `ExtendLicenseConsumptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExtendLicenseConsumptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1714,9 +1714,9 @@ extension LicenseManagerClient {
     ///
     /// Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour.
     ///
-    /// - Parameter GetAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessTokenInput`)
     ///
-    /// - Returns: `GetAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1786,9 +1786,9 @@ extension LicenseManagerClient {
     ///
     /// Gets detailed information about the specified grant.
     ///
-    /// - Parameter GetGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGrantInput`)
     ///
-    /// - Returns: `GetGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,9 +1860,9 @@ extension LicenseManagerClient {
     ///
     /// Gets detailed information about the specified license.
     ///
-    /// - Parameter GetLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseInput`)
     ///
-    /// - Returns: `GetLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1933,9 +1933,9 @@ extension LicenseManagerClient {
     ///
     /// Gets detailed information about the specified license configuration.
     ///
-    /// - Parameter GetLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseConfigurationInput`)
     ///
-    /// - Returns: `GetLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2005,9 +2005,9 @@ extension LicenseManagerClient {
     ///
     /// Gets information about the specified license type conversion task.
     ///
-    /// - Parameter GetLicenseConversionTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseConversionTaskInput`)
     ///
-    /// - Returns: `GetLicenseConversionTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseConversionTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2077,9 +2077,9 @@ extension LicenseManagerClient {
     ///
     /// Gets information about the specified report generator.
     ///
-    /// - Parameter GetLicenseManagerReportGeneratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseManagerReportGeneratorInput`)
     ///
-    /// - Returns: `GetLicenseManagerReportGeneratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseManagerReportGeneratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2152,9 +2152,9 @@ extension LicenseManagerClient {
     ///
     /// Gets detailed information about the usage of the specified license.
     ///
-    /// - Parameter GetLicenseUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseUsageInput`)
     ///
-    /// - Returns: `GetLicenseUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2225,9 +2225,9 @@ extension LicenseManagerClient {
     ///
     /// Gets the License Manager settings for the current Region.
     ///
-    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSettingsInput`)
     ///
-    /// - Returns: `GetServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2296,9 +2296,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
     ///
-    /// - Parameter ListAssociationsForLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociationsForLicenseConfigurationInput`)
     ///
-    /// - Returns: `ListAssociationsForLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociationsForLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2369,9 +2369,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the grants distributed for the specified license.
     ///
-    /// - Parameter ListDistributedGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributedGrantsInput`)
     ///
-    /// - Returns: `ListDistributedGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributedGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2443,9 +2443,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the license configuration operations that failed.
     ///
-    /// - Parameter ListFailuresForLicenseConfigurationOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFailuresForLicenseConfigurationOperationsInput`)
     ///
-    /// - Returns: `ListFailuresForLicenseConfigurationOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFailuresForLicenseConfigurationOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2515,9 +2515,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the license configurations for your account.
     ///
-    /// - Parameter ListLicenseConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseConfigurationsInput`)
     ///
-    /// - Returns: `ListLicenseConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2588,9 +2588,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the license type conversion tasks for your account.
     ///
-    /// - Parameter ListLicenseConversionTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseConversionTasksInput`)
     ///
-    /// - Returns: `ListLicenseConversionTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseConversionTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2660,9 +2660,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the report generators for your account.
     ///
-    /// - Parameter ListLicenseManagerReportGeneratorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseManagerReportGeneratorsInput`)
     ///
-    /// - Returns: `ListLicenseManagerReportGeneratorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseManagerReportGeneratorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2735,9 +2735,9 @@ extension LicenseManagerClient {
     ///
     /// Describes the license configurations for the specified resource.
     ///
-    /// - Parameter ListLicenseSpecificationsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseSpecificationsForResourceInput`)
     ///
-    /// - Returns: `ListLicenseSpecificationsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseSpecificationsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2807,9 +2807,9 @@ extension LicenseManagerClient {
     ///
     /// Lists all versions of the specified license.
     ///
-    /// - Parameter ListLicenseVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseVersionsInput`)
     ///
-    /// - Returns: `ListLicenseVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2879,9 +2879,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the licenses for your account.
     ///
-    /// - Parameter ListLicensesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicensesInput`)
     ///
-    /// - Returns: `ListLicensesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicensesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2952,9 +2952,9 @@ extension LicenseManagerClient {
     ///
     /// Lists grants that are received. Received grants are grants created while specifying the recipient as this Amazon Web Services account, your organization, or an organizational unit (OU) to which this member account belongs.
     ///
-    /// - Parameter ListReceivedGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedGrantsInput`)
     ///
-    /// - Returns: `ListReceivedGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3026,9 +3026,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the grants received for all accounts in the organization.
     ///
-    /// - Parameter ListReceivedGrantsForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedGrantsForOrganizationInput`)
     ///
-    /// - Returns: `ListReceivedGrantsForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedGrantsForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3100,9 +3100,9 @@ extension LicenseManagerClient {
     ///
     /// Lists received licenses.
     ///
-    /// - Parameter ListReceivedLicensesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedLicensesInput`)
     ///
-    /// - Returns: `ListReceivedLicensesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedLicensesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3174,9 +3174,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the licenses received for all accounts in the organization.
     ///
-    /// - Parameter ListReceivedLicensesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedLicensesForOrganizationInput`)
     ///
-    /// - Returns: `ListReceivedLicensesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedLicensesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3248,9 +3248,9 @@ extension LicenseManagerClient {
     ///
     /// Lists resources managed using Systems Manager inventory.
     ///
-    /// - Parameter ListResourceInventoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceInventoryInput`)
     ///
-    /// - Returns: `ListResourceInventoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceInventoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3322,9 +3322,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the tags for the specified resource. For more information about tagging support in License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html) operation.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3394,9 +3394,9 @@ extension LicenseManagerClient {
     ///
     /// Lists your tokens.
     ///
-    /// - Parameter ListTokensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTokensInput`)
     ///
-    /// - Returns: `ListTokensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTokensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3466,9 +3466,9 @@ extension LicenseManagerClient {
     ///
     /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
     ///
-    /// - Parameter ListUsageForLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsageForLicenseConfigurationInput`)
     ///
-    /// - Returns: `ListUsageForLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsageForLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3539,9 +3539,9 @@ extension LicenseManagerClient {
     ///
     /// Rejects the specified grant.
     ///
-    /// - Parameter RejectGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectGrantInput`)
     ///
-    /// - Returns: `RejectGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3621,9 +3621,9 @@ extension LicenseManagerClient {
     ///
     /// * Report generators
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3693,9 +3693,9 @@ extension LicenseManagerClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3765,9 +3765,9 @@ extension LicenseManagerClient {
     ///
     /// Modifies the attributes of an existing license configuration.
     ///
-    /// - Parameter UpdateLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLicenseConfigurationInput`)
     ///
-    /// - Returns: `UpdateLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3839,9 +3839,9 @@ extension LicenseManagerClient {
     ///
     /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
     ///
-    /// - Parameter UpdateLicenseManagerReportGeneratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLicenseManagerReportGeneratorInput`)
     ///
-    /// - Returns: `UpdateLicenseManagerReportGeneratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLicenseManagerReportGeneratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3914,9 +3914,9 @@ extension LicenseManagerClient {
     ///
     /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
     ///
-    /// - Parameter UpdateLicenseSpecificationsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLicenseSpecificationsForResourceInput`)
     ///
-    /// - Returns: `UpdateLicenseSpecificationsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLicenseSpecificationsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3989,9 +3989,9 @@ extension LicenseManagerClient {
     ///
     /// Updates License Manager settings for the current Region.
     ///
-    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSettingsInput`)
     ///
-    /// - Returns: `UpdateServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

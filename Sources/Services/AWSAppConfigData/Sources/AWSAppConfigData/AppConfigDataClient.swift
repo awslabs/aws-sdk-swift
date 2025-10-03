@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppConfigDataClient: ClientRuntime.Client {
     public static let clientName = "AppConfigDataClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppConfigDataClient.AppConfigDataClientConfiguration
     let serviceName = "AppConfigData"
@@ -377,9 +377,9 @@ extension AppConfigDataClient {
     ///
     /// * GetLatestConfiguration is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
     ///
-    /// - Parameter GetLatestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLatestConfigurationInput`)
     ///
-    /// - Returns: `GetLatestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLatestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension AppConfigDataClient {
     ///
     /// Starts a configuration session used to retrieve a deployed configuration. For more information about this API action and to view example CLI commands that show how to use it with the [GetLatestConfiguration] API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration) in the AppConfig User Guide.
     ///
-    /// - Parameter StartConfigurationSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConfigurationSessionInput`)
     ///
-    /// - Returns: `StartConfigurationSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConfigurationSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamQueryClient: ClientRuntime.Client {
     public static let clientName = "TimestreamQueryClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamQueryClient.TimestreamQueryClientConfiguration
     let serviceName = "Timestream Query"
@@ -374,9 +374,9 @@ extension TimestreamQueryClient {
     ///
     /// Cancels a query that has been issued. Cancellation is provided only if the query has not completed running before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a CancellationMessage, indicating that the query has already been canceled. See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.cancel-query.html) for details.
     ///
-    /// - Parameter CancelQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelQueryInput`)
     ///
-    /// - Returns: `CancelQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension TimestreamQueryClient {
     ///
     /// Create a scheduled query that will be run on your behalf at the configured schedule. Timestream assumes the execution role provided as part of the ScheduledQueryExecutionRoleArn parameter to run the query. You can use the NotificationConfiguration parameter to configure notification for your scheduled query operations.
     ///
-    /// - Parameter CreateScheduledQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduledQueryInput`)
     ///
-    /// - Returns: `CreateScheduledQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScheduledQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension TimestreamQueryClient {
     ///
     /// Deletes a given scheduled query. This is an irreversible operation.
     ///
-    /// - Parameter DeleteScheduledQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduledQueryInput`)
     ///
-    /// - Returns: `DeleteScheduledQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduledQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,9 +594,9 @@ extension TimestreamQueryClient {
     ///
     /// Describes the settings for your account that include the query pricing model and the configured maximum TCUs the service can use for your query workload. You're charged only for the duration of compute units used for your workloads.
     ///
-    /// - Parameter DescribeAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountSettingsInput`)
     ///
-    /// - Returns: `DescribeAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -674,9 +674,9 @@ extension TimestreamQueryClient {
     ///
     /// For detailed information on how and when to use and implement DescribeEndpoints, see [The Endpoint Discovery Pattern](https://docs.aws.amazon.com/timestream/latest/developerguide/Using.API.html#Using-API.endpoint-discovery).
     ///
-    /// - Parameter DescribeEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointsInput`)
     ///
-    /// - Returns: `DescribeEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -744,9 +744,9 @@ extension TimestreamQueryClient {
     ///
     /// Provides detailed information about a scheduled query.
     ///
-    /// - Parameter DescribeScheduledQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScheduledQueryInput`)
     ///
-    /// - Returns: `DescribeScheduledQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScheduledQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -817,9 +817,9 @@ extension TimestreamQueryClient {
     ///
     /// You can use this API to run a scheduled query manually. If you enabled QueryInsights, this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights, see [Using query insights to optimize queries in Amazon Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html).
     ///
-    /// - Parameter ExecuteScheduledQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteScheduledQueryInput`)
     ///
-    /// - Returns: `ExecuteScheduledQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteScheduledQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -891,9 +891,9 @@ extension TimestreamQueryClient {
     ///
     /// Gets a list of all scheduled queries in the caller's Amazon account and Region. ListScheduledQueries is eventually consistent.
     ///
-    /// - Parameter ListScheduledQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScheduledQueriesInput`)
     ///
-    /// - Returns: `ListScheduledQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScheduledQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,9 +963,9 @@ extension TimestreamQueryClient {
     ///
     /// List all tags on a Timestream query resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1034,9 +1034,9 @@ extension TimestreamQueryClient {
     ///
     /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with ValidateOnly set to true.
     ///
-    /// - Parameter PrepareQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PrepareQueryInput`)
     ///
-    /// - Returns: `PrepareQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PrepareQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,9 +1114,9 @@ extension TimestreamQueryClient {
     ///
     /// * If the IAM principal of the query initiator and the result reader are not the same and/or the query initiator and the result reader do not have the same query string in the query requests, the query will fail with an Invalid pagination token error.
     ///
-    /// - Parameter QueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryInput`)
     ///
-    /// - Returns: `QueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1189,9 +1189,9 @@ extension TimestreamQueryClient {
     ///
     /// Associate a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1261,9 +1261,9 @@ extension TimestreamQueryClient {
     ///
     /// Removes the association of tags from a Timestream query resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,9 +1332,9 @@ extension TimestreamQueryClient {
     ///
     /// Transitions your account to use TCUs for query pricing and modifies the maximum query compute units that you've configured. If you reduce the value of MaxQueryTCU to a desired configuration, the new value can take up to 24 hours to be effective. After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,9 +1404,9 @@ extension TimestreamQueryClient {
     ///
     /// Update a scheduled query.
     ///
-    /// - Parameter UpdateScheduledQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduledQueryInput`)
     ///
-    /// - Returns: `UpdateScheduledQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScheduledQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

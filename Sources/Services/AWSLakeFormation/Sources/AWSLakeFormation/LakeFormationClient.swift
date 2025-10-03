@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LakeFormationClient: ClientRuntime.Client {
     public static let clientName = "LakeFormationClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: LakeFormationClient.LakeFormationClientConfiguration
     let serviceName = "LakeFormation"
@@ -373,9 +373,9 @@ extension LakeFormationClient {
     ///
     /// Attaches one or more LF-tags to an existing resource.
     ///
-    /// - Parameter AddLFTagsToResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddLFTagsToResourceInput`)
     ///
-    /// - Returns: `AddLFTagsToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddLFTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension LakeFormationClient {
     ///
     /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session. This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a role would look as follows:
     ///
-    /// - Parameter AssumeDecoratedRoleWithSAMLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeDecoratedRoleWithSAMLInput`)
     ///
-    /// - Returns: `AssumeDecoratedRoleWithSAMLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeDecoratedRoleWithSAMLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension LakeFormationClient {
     ///
     /// Batch operation to grant permissions to the principal.
     ///
-    /// - Parameter BatchGrantPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGrantPermissionsInput`)
     ///
-    /// - Returns: `BatchGrantPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGrantPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension LakeFormationClient {
     ///
     /// Batch operation to revoke permissions from the principal.
     ///
-    /// - Parameter BatchRevokePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchRevokePermissionsInput`)
     ///
-    /// - Returns: `BatchRevokePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchRevokePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,9 +652,9 @@ extension LakeFormationClient {
     ///
     /// Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
     ///
-    /// - Parameter CancelTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTransactionInput`)
     ///
-    /// - Returns: `CancelTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -725,9 +725,9 @@ extension LakeFormationClient {
     ///
     /// Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
     ///
-    /// - Parameter CommitTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CommitTransactionInput`)
     ///
-    /// - Returns: `CommitTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CommitTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -797,9 +797,9 @@ extension LakeFormationClient {
     ///
     /// Creates a data cell filter to allow one to grant access to certain columns on certain rows.
     ///
-    /// - Parameter CreateDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataCellsFilterInput`)
     ///
-    /// - Returns: `CreateDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,9 +870,9 @@ extension LakeFormationClient {
     ///
     /// Creates an LF-tag with the specified name and values.
     ///
-    /// - Parameter CreateLFTagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLFTagInput`)
     ///
-    /// - Returns: `CreateLFTagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLFTagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,9 +942,9 @@ extension LakeFormationClient {
     ///
     /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the caller’s account or if the underlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression.
     ///
-    /// - Parameter CreateLFTagExpressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLFTagExpressionInput`)
     ///
-    /// - Returns: `CreateLFTagExpressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLFTagExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1014,9 +1014,9 @@ extension LakeFormationClient {
     ///
     /// Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
     ///
-    /// - Parameter CreateLakeFormationIdentityCenterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLakeFormationIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `CreateLakeFormationIdentityCenterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLakeFormationIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,9 +1086,9 @@ extension LakeFormationClient {
     ///
     /// Enforce Lake Formation permissions for the given databases, tables, and principals.
     ///
-    /// - Parameter CreateLakeFormationOptInInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLakeFormationOptInInput`)
     ///
-    /// - Returns: `CreateLakeFormationOptInOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLakeFormationOptInOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1159,9 +1159,9 @@ extension LakeFormationClient {
     ///
     /// Deletes a data cell filter.
     ///
-    /// - Parameter DeleteDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataCellsFilterInput`)
     ///
-    /// - Returns: `DeleteDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1230,9 +1230,9 @@ extension LakeFormationClient {
     ///
     /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
     ///
-    /// - Parameter DeleteLFTagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLFTagInput`)
     ///
-    /// - Returns: `DeleteLFTagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLFTagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,9 +1301,9 @@ extension LakeFormationClient {
     ///
     /// Deletes the LF-Tag expression. The caller must be a data lake admin or have DROP permissions on the LF-Tag expression. Deleting a LF-Tag expression will also delete all LFTagPolicy permissions referencing the LF-Tag expression.
     ///
-    /// - Parameter DeleteLFTagExpressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLFTagExpressionInput`)
     ///
-    /// - Returns: `DeleteLFTagExpressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLFTagExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,9 +1372,9 @@ extension LakeFormationClient {
     ///
     /// Deletes an IAM Identity Center connection with Lake Formation.
     ///
-    /// - Parameter DeleteLakeFormationIdentityCenterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLakeFormationIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `DeleteLakeFormationIdentityCenterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLakeFormationIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1444,9 +1444,9 @@ extension LakeFormationClient {
     ///
     /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
     ///
-    /// - Parameter DeleteLakeFormationOptInInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLakeFormationOptInInput`)
     ///
-    /// - Returns: `DeleteLakeFormationOptInOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLakeFormationOptInOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1516,9 +1516,9 @@ extension LakeFormationClient {
     ///
     /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels. The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see [Rolling Back Amazon S3 Writes](https://docs.aws.amazon.com/lake-formation/latest/dg/transactions-data-operations.html#rolling-back-writes).
     ///
-    /// - Parameter DeleteObjectsOnCancelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectsOnCancelInput`)
     ///
-    /// - Returns: `DeleteObjectsOnCancelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectsOnCancelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1590,9 +1590,9 @@ extension LakeFormationClient {
     ///
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
     ///
-    /// - Parameter DeregisterResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterResourceInput`)
     ///
-    /// - Returns: `DeregisterResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1660,9 +1660,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves the instance ARN and application ARN for the connection.
     ///
-    /// - Parameter DescribeLakeFormationIdentityCenterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLakeFormationIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `DescribeLakeFormationIdentityCenterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLakeFormationIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1731,9 +1731,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves the current data access role for the given resource registered in Lake Formation.
     ///
-    /// - Parameter DescribeResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourceInput`)
     ///
-    /// - Returns: `DescribeResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1801,9 +1801,9 @@ extension LakeFormationClient {
     ///
     /// Returns the details of a single transaction.
     ///
-    /// - Parameter DescribeTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransactionInput`)
     ///
-    /// - Returns: `DescribeTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1871,9 +1871,9 @@ extension LakeFormationClient {
     ///
     /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted. Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
     ///
-    /// - Parameter ExtendTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExtendTransactionInput`)
     ///
-    /// - Returns: `ExtendTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExtendTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1944,9 +1944,9 @@ extension LakeFormationClient {
     ///
     /// Returns a data cells filter.
     ///
-    /// - Parameter GetDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataCellsFilterInput`)
     ///
-    /// - Returns: `GetDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2015,9 +2015,9 @@ extension LakeFormationClient {
     ///
     /// Returns the identity of the invoking principal.
     ///
-    /// - Parameter GetDataLakePrincipalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataLakePrincipalInput`)
     ///
-    /// - Returns: `GetDataLakePrincipalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataLakePrincipalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2081,9 +2081,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
     ///
-    /// - Parameter GetDataLakeSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataLakeSettingsInput`)
     ///
-    /// - Returns: `GetDataLakeSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataLakeSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2150,9 +2150,9 @@ extension LakeFormationClient {
     ///
     /// Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
     ///
-    /// - Parameter GetEffectivePermissionsForPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEffectivePermissionsForPathInput`)
     ///
-    /// - Returns: `GetEffectivePermissionsForPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEffectivePermissionsForPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2220,9 +2220,9 @@ extension LakeFormationClient {
     ///
     /// Returns an LF-tag definition.
     ///
-    /// - Parameter GetLFTagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLFTagInput`)
     ///
-    /// - Returns: `GetLFTagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLFTagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2291,9 +2291,9 @@ extension LakeFormationClient {
     ///
     /// Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have DESCRIBE permission on the LF-Tag expression resource.
     ///
-    /// - Parameter GetLFTagExpressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLFTagExpressionInput`)
     ///
-    /// - Returns: `GetLFTagExpressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLFTagExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2362,9 +2362,9 @@ extension LakeFormationClient {
     ///
     /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning.
     ///
-    /// - Parameter GetQueryStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStateInput`)
     ///
-    /// - Returns: `GetQueryStateOutput` : A structure for the output.
+    /// - Returns: A structure for the output. (Type: `GetQueryStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2431,9 +2431,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves statistics on the planning and execution of a query.
     ///
-    /// - Parameter GetQueryStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatisticsInput`)
     ///
-    /// - Returns: `GetQueryStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2503,9 +2503,9 @@ extension LakeFormationClient {
     ///
     /// Returns the LF-tags applied to a resource.
     ///
-    /// - Parameter GetResourceLFTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceLFTagsInput`)
     ///
-    /// - Returns: `GetResourceLFTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceLFTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2575,9 +2575,9 @@ extension LakeFormationClient {
     ///
     /// Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
     ///
-    /// - Parameter GetTableObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableObjectsInput`)
     ///
-    /// - Returns: `GetTableObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2648,9 +2648,9 @@ extension LakeFormationClient {
     ///
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
     ///
-    /// - Parameter GetTemporaryGluePartitionCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemporaryGluePartitionCredentialsInput`)
     ///
-    /// - Returns: `GetTemporaryGluePartitionCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemporaryGluePartitionCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2720,9 +2720,9 @@ extension LakeFormationClient {
     ///
     /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakeformation:GetDataAccess permission on the resource.
     ///
-    /// - Parameter GetTemporaryGlueTableCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemporaryGlueTableCredentialsInput`)
     ///
-    /// - Returns: `GetTemporaryGlueTableCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemporaryGlueTableCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2792,9 +2792,9 @@ extension LakeFormationClient {
     ///
     /// Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
     ///
-    /// - Parameter GetWorkUnitResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkUnitResultsInput`)
     ///
-    /// - Returns: `GetWorkUnitResultsOutput` : A structure for the output.
+    /// - Returns: A structure for the output. (Type: `GetWorkUnitResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2863,9 +2863,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves the work units generated by the StartQueryPlanning operation.
     ///
-    /// - Parameter GetWorkUnitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkUnitsInput`)
     ///
-    /// - Returns: `GetWorkUnitsOutput` : A structure for the output.
+    /// - Returns: A structure for the output. (Type: `GetWorkUnitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2934,9 +2934,9 @@ extension LakeFormationClient {
     ///
     /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
-    /// - Parameter GrantPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GrantPermissionsInput`)
     ///
-    /// - Returns: `GrantPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GrantPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3003,9 +3003,9 @@ extension LakeFormationClient {
     ///
     /// Lists all the data cell filters on a table.
     ///
-    /// - Parameter ListDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataCellsFilterInput`)
     ///
-    /// - Returns: `ListDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3073,9 +3073,9 @@ extension LakeFormationClient {
     ///
     /// Returns the LF-Tag expressions in caller’s account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
     ///
-    /// - Parameter ListLFTagExpressionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLFTagExpressionsInput`)
     ///
-    /// - Returns: `ListLFTagExpressionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLFTagExpressionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3144,9 +3144,9 @@ extension LakeFormationClient {
     ///
     /// Lists LF-tags that the requester has permission to view.
     ///
-    /// - Parameter ListLFTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLFTagsInput`)
     ///
-    /// - Returns: `ListLFTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLFTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3215,9 +3215,9 @@ extension LakeFormationClient {
     ///
     /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
     ///
-    /// - Parameter ListLakeFormationOptInsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLakeFormationOptInsInput`)
     ///
-    /// - Returns: `ListLakeFormationOptInsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLakeFormationOptInsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3285,9 +3285,9 @@ extension LakeFormationClient {
     ///
     /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
-    /// - Parameter ListPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionsInput`)
     ///
-    /// - Returns: `ListPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3354,9 +3354,9 @@ extension LakeFormationClient {
     ///
     /// Lists the resources registered to be managed by the Data Catalog.
     ///
-    /// - Parameter ListResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
-    /// - Returns: `ListResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3423,9 +3423,9 @@ extension LakeFormationClient {
     ///
     /// Returns the configuration of all storage optimizers associated with a specified table.
     ///
-    /// - Parameter ListTableStorageOptimizersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTableStorageOptimizersInput`)
     ///
-    /// - Returns: `ListTableStorageOptimizersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTableStorageOptimizersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3493,9 +3493,9 @@ extension LakeFormationClient {
     ///
     /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned. This operation can help you identify uncommitted transactions or to get information about transactions.
     ///
-    /// - Parameter ListTransactionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTransactionsInput`)
     ///
-    /// - Returns: `ListTransactionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTransactionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3562,9 +3562,9 @@ extension LakeFormationClient {
     ///
     /// Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html). This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
     ///
-    /// - Parameter PutDataLakeSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDataLakeSettingsInput`)
     ///
-    /// - Returns: `PutDataLakeSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDataLakeSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3630,9 +3630,9 @@ extension LakeFormationClient {
     ///
     /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location. ResourceArn = arn:aws:s3:::my-bucket/ UseServiceLinkedRole = true If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn: arn:aws:iam::12345:role/my-data-access-role
     ///
-    /// - Parameter RegisterResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterResourceInput`)
     ///
-    /// - Returns: `RegisterResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3703,9 +3703,9 @@ extension LakeFormationClient {
     ///
     /// Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in tableWithColumns to specify column input.
     ///
-    /// - Parameter RemoveLFTagsFromResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveLFTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveLFTagsFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveLFTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3776,9 +3776,9 @@ extension LakeFormationClient {
     ///
     /// Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
     ///
-    /// - Parameter RevokePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokePermissionsInput`)
     ///
-    /// - Returns: `RevokePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3845,9 +3845,9 @@ extension LakeFormationClient {
     ///
     /// This operation allows a search on DATABASE resources by TagCondition. This operation is used by admins who want to grant user permissions on certain TagConditions. Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared.
     ///
-    /// - Parameter SearchDatabasesByLFTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDatabasesByLFTagsInput`)
     ///
-    /// - Returns: `SearchDatabasesByLFTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDatabasesByLFTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3917,9 +3917,9 @@ extension LakeFormationClient {
     ///
     /// This operation allows a search on TABLE resources by LFTags. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify whether the returned resources can be shared.
     ///
-    /// - Parameter SearchTablesByLFTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTablesByLFTagsInput`)
     ///
-    /// - Returns: `SearchTablesByLFTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTablesByLFTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3989,9 +3989,9 @@ extension LakeFormationClient {
     ///
     /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the GetWorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
     ///
-    /// - Parameter StartQueryPlanningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryPlanningInput`)
     ///
-    /// - Returns: `StartQueryPlanningOutput` : A structure for the output.
+    /// - Returns: A structure for the output. (Type: `StartQueryPlanningOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4059,9 +4059,9 @@ extension LakeFormationClient {
     ///
     /// Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
     ///
-    /// - Parameter StartTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTransactionInput`)
     ///
-    /// - Returns: `StartTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4127,9 +4127,9 @@ extension LakeFormationClient {
     ///
     /// Updates a data cell filter.
     ///
-    /// - Parameter UpdateDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataCellsFilterInput`)
     ///
-    /// - Returns: `UpdateDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4199,9 +4199,9 @@ extension LakeFormationClient {
     ///
     /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
     ///
-    /// - Parameter UpdateLFTagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLFTagInput`)
     ///
-    /// - Returns: `UpdateLFTagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLFTagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4271,9 +4271,9 @@ extension LakeFormationClient {
     ///
     /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permission grants that reference the given LF-Tag expression.
     ///
-    /// - Parameter UpdateLFTagExpressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLFTagExpressionInput`)
     ///
-    /// - Returns: `UpdateLFTagExpressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLFTagExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4343,9 +4343,9 @@ extension LakeFormationClient {
     ///
     /// Updates the IAM Identity Center connection parameters.
     ///
-    /// - Parameter UpdateLakeFormationIdentityCenterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLakeFormationIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `UpdateLakeFormationIdentityCenterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLakeFormationIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4415,9 +4415,9 @@ extension LakeFormationClient {
     ///
     /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
     ///
-    /// - Parameter UpdateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceInput`)
     ///
-    /// - Returns: `UpdateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4485,9 +4485,9 @@ extension LakeFormationClient {
     ///
     /// Updates the manifest of Amazon S3 objects that make up the specified governed table.
     ///
-    /// - Parameter UpdateTableObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableObjectsInput`)
     ///
-    /// - Returns: `UpdateTableObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4560,9 +4560,9 @@ extension LakeFormationClient {
     ///
     /// Updates the configuration of the storage optimizers for a table.
     ///
-    /// - Parameter UpdateTableStorageOptimizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableStorageOptimizerInput`)
     ///
-    /// - Returns: `UpdateTableStorageOptimizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableStorageOptimizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

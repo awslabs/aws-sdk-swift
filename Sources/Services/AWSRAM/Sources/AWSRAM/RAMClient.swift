@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RAMClient: ClientRuntime.Client {
     public static let clientName = "RAMClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: RAMClient.RAMClientConfiguration
     let serviceName = "RAM"
@@ -372,9 +372,9 @@ extension RAMClient {
     ///
     /// Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the invitation, the resources included in the resource share are available to interact with in the relevant Amazon Web Services Management Consoles and tools.
     ///
-    /// - Parameter AcceptResourceShareInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptResourceShareInvitationInput`)
     ///
-    /// - Returns: `AcceptResourceShareInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptResourceShareInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension RAMClient {
     ///
     /// Adds the specified list of principals and list of resources to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
     ///
-    /// - Parameter AssociateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceShareInput`)
     ///
-    /// - Returns: `AssociateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,9 +525,9 @@ extension RAMClient {
     ///
     /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permission only if there are currently no resources of that resource type currently in the resource share.
     ///
-    /// - Parameter AssociateResourceSharePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceSharePermissionInput`)
     ///
-    /// - Returns: `AssociateResourceSharePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceSharePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,9 +598,9 @@ extension RAMClient {
     ///
     /// Creates a customer managed permission for a specified resource type that you can attach to resource shares. It is created in the Amazon Web Services Region in which you call the operation.
     ///
-    /// - Parameter CreatePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionInput`)
     ///
-    /// - Returns: `CreatePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -674,9 +674,9 @@ extension RAMClient {
     ///
     /// Creates a new version of the specified customer managed permission. The new version is automatically set as the default version of the customer managed permission. New resource shares automatically use the default permission. Existing resource shares continue to use their original permission versions, but you can use [ReplacePermissionAssociations] to update them. If the specified customer managed permission already has the maximum of 5 versions, then you must delete one of the existing versions before you can create a new one.
     ///
-    /// - Parameter CreatePermissionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionVersionInput`)
     ///
-    /// - Returns: `CreatePermissionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -750,9 +750,9 @@ extension RAMClient {
     ///
     /// Creates a resource share. You can provide a list of the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for the resources that you want to share, a list of principals you want to share the resources with, and the permissions to grant those principals. Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
     ///
-    /// - Parameter CreateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceShareInput`)
     ///
-    /// - Returns: `CreateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -828,9 +828,9 @@ extension RAMClient {
     ///
     /// Deletes the specified customer managed permission in the Amazon Web Services Region in which you call this operation. You can delete a customer managed permission only if it isn't attached to any resource share. The operation deletes all versions associated with the customer managed permission.
     ///
-    /// - Parameter DeletePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionInput`)
     ///
-    /// - Returns: `DeletePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,9 +899,9 @@ extension RAMClient {
     ///
     /// Deletes one version of a customer managed permission. The version you specify must not be attached to any resource share and must not be the default version for the permission. If a customer managed permission has the maximum of 5 versions, then you must delete at least one version before you can create another.
     ///
-    /// - Parameter DeletePermissionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionVersionInput`)
     ///
-    /// - Returns: `DeletePermissionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -971,9 +971,9 @@ extension RAMClient {
     ///
     /// Deletes the specified resource share. This doesn't delete any of the resources that were associated with the resource share; it only stops the sharing of those resources through this resource share.
     ///
-    /// - Parameter DeleteResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceShareInput`)
     ///
-    /// - Returns: `DeleteResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,9 +1044,9 @@ extension RAMClient {
     ///
     /// Removes the specified principals or resources from participating in the specified resource share.
     ///
-    /// - Parameter DisassociateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceShareInput`)
     ///
-    /// - Returns: `DisassociateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,9 +1120,9 @@ extension RAMClient {
     ///
     /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a resource share only if there are currently no resources of the relevant resource type currently attached to the resource share.
     ///
-    /// - Parameter DisassociateResourceSharePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceSharePermissionInput`)
     ///
-    /// - Returns: `DisassociateResourceSharePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceSharePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1194,9 +1194,9 @@ extension RAMClient {
     ///
     /// Enables resource sharing within your organization in Organizations. This operation creates a service-linked role called AWSServiceRoleForResourceAccessManager that has the IAM managed policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits RAM to retrieve information about the organization and its structure. This lets you share resources with all of the accounts in the calling account's organization by specifying the organization ID, or all of the accounts in an organizational unit (OU) by specifying the OU ID. Until you enable sharing within the organization, you can specify only individual Amazon Web Services accounts, or for supported resource types, IAM roles and users. You must call this operation from an IAM role or user in the organization's management account.
     ///
-    /// - Parameter EnableSharingWithAwsOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSharingWithAwsOrganizationInput`)
     ///
-    /// - Returns: `EnableSharingWithAwsOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSharingWithAwsOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1260,9 +1260,9 @@ extension RAMClient {
     ///
     /// Retrieves the contents of a managed permission in JSON format.
     ///
-    /// - Parameter GetPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPermissionInput`)
     ///
-    /// - Returns: `GetPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,9 +1332,9 @@ extension RAMClient {
     ///
     /// Retrieves the resource policies for the specified resources that you own and have shared.
     ///
-    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePoliciesInput`)
     ///
-    /// - Returns: `GetResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,9 +1404,9 @@ extension RAMClient {
     ///
     /// Retrieves the lists of resources and principals that associated for resource shares that you own.
     ///
-    /// - Parameter GetResourceShareAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceShareAssociationsInput`)
     ///
-    /// - Returns: `GetResourceShareAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceShareAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1477,9 +1477,9 @@ extension RAMClient {
     ///
     /// Retrieves details about invitations that you have received for resource shares.
     ///
-    /// - Parameter GetResourceShareInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceShareInvitationsInput`)
     ///
-    /// - Returns: `GetResourceShareInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceShareInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,9 +1551,9 @@ extension RAMClient {
     ///
     /// Retrieves details about the resource shares that you own or that are shared with you.
     ///
-    /// - Parameter GetResourceSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSharesInput`)
     ///
-    /// - Returns: `GetResourceSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1623,9 +1623,9 @@ extension RAMClient {
     ///
     /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
     ///
-    /// - Parameter ListPendingInvitationResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPendingInvitationResourcesInput`)
     ///
-    /// - Returns: `ListPendingInvitationResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPendingInvitationResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1698,9 +1698,9 @@ extension RAMClient {
     ///
     /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.
     ///
-    /// - Parameter ListPermissionAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionAssociationsInput`)
     ///
-    /// - Returns: `ListPermissionAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1769,9 +1769,9 @@ extension RAMClient {
     ///
     /// Lists the available versions of the specified RAM permission.
     ///
-    /// - Parameter ListPermissionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionVersionsInput`)
     ///
-    /// - Returns: `ListPermissionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1842,9 +1842,9 @@ extension RAMClient {
     ///
     /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
     ///
-    /// - Parameter ListPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionsInput`)
     ///
-    /// - Returns: `ListPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1913,9 +1913,9 @@ extension RAMClient {
     ///
     /// Lists the principals that you are sharing resources with or that are sharing resources with you.
     ///
-    /// - Parameter ListPrincipalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrincipalsInput`)
     ///
-    /// - Returns: `ListPrincipalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrincipalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1985,9 +1985,9 @@ extension RAMClient {
     ///
     /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [ReplacePermissionAssociationsWork] operation.
     ///
-    /// - Parameter ListReplacePermissionAssociationsWorkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReplacePermissionAssociationsWorkInput`)
     ///
-    /// - Returns: `ListReplacePermissionAssociationsWorkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReplacePermissionAssociationsWorkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2055,9 +2055,9 @@ extension RAMClient {
     ///
     /// Lists the RAM permissions that are associated with a resource share.
     ///
-    /// - Parameter ListResourceSharePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSharePermissionsInput`)
     ///
-    /// - Returns: `ListResourceSharePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSharePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2128,9 +2128,9 @@ extension RAMClient {
     ///
     /// Lists the resource types that can be shared by RAM.
     ///
-    /// - Parameter ListResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTypesInput`)
     ///
-    /// - Returns: `ListResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2198,9 +2198,9 @@ extension RAMClient {
     ///
     /// Lists the resources that you added to a resource share or the resources that are shared with you.
     ///
-    /// - Parameter ListResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
-    /// - Returns: `ListResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2277,9 +2277,9 @@ extension RAMClient {
     ///
     /// * After you promote a resource share, if the original CREATED_FROM_POLICY managed permission has no other associations to A resource share, then RAM automatically deletes it.
     ///
-    /// - Parameter PromotePermissionCreatedFromPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PromotePermissionCreatedFromPolicyInput`)
     ///
-    /// - Returns: `PromotePermissionCreatedFromPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromotePermissionCreatedFromPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2350,9 +2350,9 @@ extension RAMClient {
     ///
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation promotes the resource share to a STANDARD resource share that is fully manageable in RAM. When you promote a resource share, you can then manage the resource share in RAM and it becomes visible to all of the principals you shared it with. Before you perform this operation, you should first run [PromotePermissionCreatedFromPolicy]to ensure that you have an appropriate customer managed permission that can be associated with this resource share after its is promoted. If this operation can't find a managed permission that exactly matches the existing CREATED_FROM_POLICY permission, then this operation fails.
     ///
-    /// - Parameter PromoteResourceShareCreatedFromPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PromoteResourceShareCreatedFromPolicyInput`)
     ///
-    /// - Returns: `PromoteResourceShareCreatedFromPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromoteResourceShareCreatedFromPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2424,9 +2424,9 @@ extension RAMClient {
     ///
     /// Rejects an invitation to a resource share from another Amazon Web Services account.
     ///
-    /// - Parameter RejectResourceShareInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectResourceShareInvitationInput`)
     ///
-    /// - Returns: `RejectResourceShareInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectResourceShareInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,9 +2500,9 @@ extension RAMClient {
     ///
     /// Updates all resource shares that use a managed permission to a different managed permission. This operation always applies the default version of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a specified version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default version of the permission by specifying the same value for the fromPermissionArn and toPermissionArn parameters. You can use the optional fromPermissionVersion parameter to update only those resources that use a specified version of the managed permission to the new managed permission. To successfully perform this operation, you must have permission to update the resource-based policy on all affected resource types.
     ///
-    /// - Parameter ReplacePermissionAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplacePermissionAssociationsInput`)
     ///
-    /// - Returns: `ReplacePermissionAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplacePermissionAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2574,9 +2574,9 @@ extension RAMClient {
     ///
     /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automatically use this new default permission. Existing resource shares continue to use their original permission version, but you can use [ReplacePermissionAssociations] to update them.
     ///
-    /// - Parameter SetDefaultPermissionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetDefaultPermissionVersionInput`)
     ///
-    /// - Returns: `SetDefaultPermissionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDefaultPermissionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2647,9 +2647,9 @@ extension RAMClient {
     ///
     /// Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the tags are attached to only the resource share, not to the resources that are in the resource share. The tags on a managed permission are the same for all versions of the managed permission.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2721,9 +2721,9 @@ extension RAMClient {
     ///
     /// Removes the specified tag key and value pairs from the specified resource share or managed permission.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2792,9 +2792,9 @@ extension RAMClient {
     ///
     /// Modifies some of the properties of the specified resource share.
     ///
-    /// - Parameter UpdateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceShareInput`)
     ///
-    /// - Returns: `UpdateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

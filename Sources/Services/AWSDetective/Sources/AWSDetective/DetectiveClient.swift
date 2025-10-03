@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DetectiveClient: ClientRuntime.Client {
     public static let clientName = "DetectiveClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DetectiveClient.DetectiveClientConfiguration
     let serviceName = "Detective"
@@ -373,9 +373,9 @@ extension DetectiveClient {
     ///
     /// Accepts an invitation for the member account to contribute data to a behavior graph. This operation can only be called by an invited member account. The request provides the ARN of behavior graph. The member account status in the graph must be INVITED.
     ///
-    /// - Parameter AcceptInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptInvitationInput`)
     ///
-    /// - Returns: `AcceptInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension DetectiveClient {
     ///
     /// Gets data source package information for the behavior graph.
     ///
-    /// - Parameter BatchGetGraphMemberDatasourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetGraphMemberDatasourcesInput`)
     ///
-    /// - Returns: `BatchGetGraphMemberDatasourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetGraphMemberDatasourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension DetectiveClient {
     ///
     /// Gets information on the data source package history for an account.
     ///
-    /// - Parameter BatchGetMembershipDatasourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetMembershipDatasourcesInput`)
     ///
-    /// - Returns: `BatchGetMembershipDatasourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetMembershipDatasourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension DetectiveClient {
     ///
     /// Creates a new behavior graph for the calling account, and sets that account as the administrator account. This operation is called by the account that is enabling Detective. The operation also enables Detective for the calling account in the currently selected Region. It returns the ARN of the new behavior graph. CreateGraph triggers a process to create the corresponding data tables for the new behavior graph. An account can only be the administrator account for one behavior graph within a Region. If the same account calls CreateGraph with the same administrator account, it always returns the same behavior graph ARN. It does not create a new behavior graph.
     ///
-    /// - Parameter CreateGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphInput`)
     ///
-    /// - Returns: `CreateGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension DetectiveClient {
     ///
     /// * The accounts that CreateMembers was unable to process. This list includes accounts that were already invited to be member accounts in the behavior graph.
     ///
-    /// - Parameter CreateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembersInput`)
     ///
-    /// - Returns: `CreateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension DetectiveClient {
     ///
     /// Disables the specified behavior graph and queues it to be deleted. This operation removes the behavior graph from each member account's list of behavior graphs. DeleteGraph can only be called by the administrator account for a behavior graph.
     ///
-    /// - Parameter DeleteGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGraphInput`)
     ///
-    /// - Returns: `DeleteGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -807,9 +807,9 @@ extension DetectiveClient {
     ///
     /// Removes the specified member accounts from the behavior graph. The removed accounts no longer contribute data to the behavior graph. This operation can only be called by the administrator account for the behavior graph. For invited accounts, the removed accounts are deleted from the list of accounts in the behavior graph. To restore the account, the administrator account must send another invitation. For organization accounts in the organization behavior graph, the Detective administrator account can always enable the organization account again. Organization accounts that are not enabled as member accounts are not included in the ListMembers results for the organization behavior graph. An administrator account cannot use DeleteMembers to remove their own account from the behavior graph. To disable a behavior graph, the administrator account uses the DeleteGraph API method.
     ///
-    /// - Parameter DeleteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMembersInput`)
     ///
-    /// - Returns: `DeleteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,9 +878,9 @@ extension DetectiveClient {
     ///
     /// Returns information about the configuration for the organization behavior graph. Currently indicates whether to automatically enable new organization accounts as member accounts. Can only be called by the Detective administrator account for the organization.
     ///
-    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension DetectiveClient {
     ///
     /// Removes the Detective administrator account in the current Region. Deletes the organization behavior graph. Can only be called by the organization management account. Removing the Detective administrator account does not affect the delegated administrator account for Detective in Organizations. To remove the delegated administrator account in Organizations, use the Organizations API. Removing the delegated administrator account also removes the Detective administrator account in all Regions, except for Regions where the Detective administrator account is the organization management account.
     ///
-    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DisableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,9 +1015,9 @@ extension DetectiveClient {
     ///
     /// Removes the member account from the specified behavior graph. This operation can only be called by an invited member account that has the ENABLED status. DisassociateMembership cannot be called by an organization account in the organization behavior graph. For the organization behavior graph, the Detective administrator account determines which organization accounts to enable or disable as member accounts.
     ///
-    /// - Parameter DisassociateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMembershipInput`)
     ///
-    /// - Returns: `DisassociateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,9 +1086,9 @@ extension DetectiveClient {
     ///
     /// Designates the Detective administrator account for the organization in the current Region. If the account does not have Detective enabled, then enables Detective for that account and creates a new behavior graph. Can only be called by the organization management account. If the organization has a delegated administrator account in Organizations, then the Detective administrator account must be either the delegated administrator account or the organization management account. If the organization does not have a delegated administrator account in Organizations, then you can choose any account in the organization. If you choose an account other than the organization management account, Detective calls Organizations to make that account the delegated administrator account for Detective. The organization management account cannot be the delegated administrator account.
     ///
-    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `EnableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1156,9 +1156,9 @@ extension DetectiveClient {
     ///
     /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. GetInvestigation returns the investigation results of an investigation for a behavior graph.
     ///
-    /// - Parameter GetInvestigationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvestigationInput`)
     ///
-    /// - Returns: `GetInvestigationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvestigationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,9 +1227,9 @@ extension DetectiveClient {
     ///
     /// Returns the membership details for specified member accounts for a behavior graph.
     ///
-    /// - Parameter GetMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembersInput`)
     ///
-    /// - Returns: `GetMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1297,9 +1297,9 @@ extension DetectiveClient {
     ///
     /// Lists data source packages in the behavior graph.
     ///
-    /// - Parameter ListDatasourcePackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasourcePackagesInput`)
     ///
-    /// - Returns: `ListDatasourcePackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasourcePackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1367,9 +1367,9 @@ extension DetectiveClient {
     ///
     /// Returns the list of behavior graphs that the calling account is an administrator account of. This operation can only be called by an administrator account. Because an account can currently only be the administrator of one behavior graph within a Region, the results always contain a single behavior graph.
     ///
-    /// - Parameter ListGraphsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGraphsInput`)
     ///
-    /// - Returns: `ListGraphsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGraphsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1436,9 +1436,9 @@ extension DetectiveClient {
     ///
     /// Gets the indicators from an investigation. You can use the information from the indicators to determine if an IAM user and/or IAM role is involved in an unusual activity that could indicate malicious behavior and its impact.
     ///
-    /// - Parameter ListIndicatorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndicatorsInput`)
     ///
-    /// - Returns: `ListIndicatorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndicatorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,9 +1507,9 @@ extension DetectiveClient {
     ///
     /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. ListInvestigations lists all active Detective investigations.
     ///
-    /// - Parameter ListInvestigationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvestigationsInput`)
     ///
-    /// - Returns: `ListInvestigationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvestigationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,9 +1578,9 @@ extension DetectiveClient {
     ///
     /// Retrieves the list of open and accepted behavior graph invitations for the member account. This operation can only be called by an invited member account. Open invitations are invitations that the member account has not responded to. The results do not include behavior graphs for which the member account declined the invitation. The results also do not include behavior graphs that the member account resigned from or was removed from.
     ///
-    /// - Parameter ListInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
-    /// - Returns: `ListInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1647,9 +1647,9 @@ extension DetectiveClient {
     ///
     /// Retrieves the list of member accounts for a behavior graph. For invited accounts, the results do not include member accounts that were removed from the behavior graph. For the organization behavior graph, the results do not include organization accounts that the Detective administrator account has not enabled as member accounts.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,9 +1717,9 @@ extension DetectiveClient {
     ///
     /// Returns information about the Detective administrator account for an organization. Can only be called by the organization management account.
     ///
-    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationAdminAccountsInput`)
     ///
-    /// - Returns: `ListOrganizationAdminAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationAdminAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1787,9 +1787,9 @@ extension DetectiveClient {
     ///
     /// Returns the tag values that are assigned to a behavior graph.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1854,9 +1854,9 @@ extension DetectiveClient {
     ///
     /// Rejects an invitation to contribute the account data to a behavior graph. This operation must be called by an invited member account that has the INVITED status. RejectInvitation cannot be called by an organization account in the organization behavior graph. In the organization behavior graph, organization accounts do not receive an invitation.
     ///
-    /// - Parameter RejectInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectInvitationInput`)
     ///
-    /// - Returns: `RejectInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1925,9 +1925,9 @@ extension DetectiveClient {
     ///
     /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. StartInvestigation initiates an investigation on an entity in a behavior graph.
     ///
-    /// - Parameter StartInvestigationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartInvestigationInput`)
     ///
-    /// - Returns: `StartInvestigationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartInvestigationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2000,9 +2000,9 @@ extension DetectiveClient {
     ///
     /// * If Detective cannot enable the member account, the status remains ACCEPTED_BUT_DISABLED.
     ///
-    /// - Parameter StartMonitoringMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMonitoringMemberInput`)
     ///
-    /// - Returns: `StartMonitoringMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMonitoringMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2076,9 +2076,9 @@ extension DetectiveClient {
     ///
     /// Applies tag values to a behavior graph.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2146,9 +2146,9 @@ extension DetectiveClient {
     ///
     /// Removes tags from a behavior graph.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2214,9 +2214,9 @@ extension DetectiveClient {
     ///
     /// Starts a data source package for the Detective behavior graph.
     ///
-    /// - Parameter UpdateDatasourcePackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasourcePackagesInput`)
     ///
-    /// - Returns: `UpdateDatasourcePackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasourcePackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2289,9 +2289,9 @@ extension DetectiveClient {
     ///
     /// Updates the state of an investigation.
     ///
-    /// - Parameter UpdateInvestigationStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInvestigationStateInput`)
     ///
-    /// - Returns: `UpdateInvestigationStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInvestigationStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,9 +2360,9 @@ extension DetectiveClient {
     ///
     /// Updates the configuration for the Organizations integration in the current Region. Can only be called by the Detective administrator account for the organization.
     ///
-    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

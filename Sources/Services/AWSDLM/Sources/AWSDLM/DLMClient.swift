@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DLMClient: ClientRuntime.Client {
     public static let clientName = "DLMClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DLMClient.DLMClientConfiguration
     let serviceName = "DLM"
@@ -385,9 +385,9 @@ extension DLMClient {
     ///
     /// For more information, see [ Default policies vs custom policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/policy-differences.html). If you create a default policy, you can specify the request parameters either in the request body, or in the PolicyDetails request structure, but not both.
     ///
-    /// - Parameter CreateLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLifecyclePolicyInput`)
     ///
-    /// - Returns: `CreateLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -454,9 +454,9 @@ extension DLMClient {
     ///
     /// Deletes the specified lifecycle policy and halts the automated operations that the policy specified. For more information about deleting a policy, see [Delete lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#delete).
     ///
-    /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLifecyclePolicyInput`)
     ///
-    /// - Returns: `DeleteLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension DLMClient {
     ///
     /// Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use [GetLifecyclePolicy](https://docs.aws.amazon.com/dlm/latest/APIReference/API_GetLifecyclePolicy.html).
     ///
-    /// - Parameter GetLifecyclePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecyclePoliciesInput`)
     ///
-    /// - Returns: `GetLifecyclePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecyclePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension DLMClient {
     ///
     /// Gets detailed information about the specified lifecycle policy.
     ///
-    /// - Parameter GetLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecyclePolicyInput`)
     ///
-    /// - Returns: `GetLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,9 +654,9 @@ extension DLMClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -720,9 +720,9 @@ extension DLMClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -789,9 +789,9 @@ extension DLMClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,9 +856,9 @@ extension DLMClient {
     ///
     /// Updates the specified lifecycle policy. For more information about updating a policy, see [Modify lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#modify).
     ///
-    /// - Parameter UpdateLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLifecyclePolicyInput`)
     ///
-    /// - Returns: `UpdateLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMRecommendedActionsClient: ClientRuntime.Client {
     public static let clientName = "BCMRecommendedActionsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration
     let serviceName = "BCM Recommended Actions"
@@ -372,9 +372,9 @@ extension BCMRecommendedActionsClient {
     ///
     /// Returns a list of recommended actions that match the filter criteria.
     ///
-    /// - Parameter ListRecommendedActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendedActionsInput`)
     ///
-    /// - Returns: `ListRecommendedActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendedActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

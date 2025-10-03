@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointEmailClient: ClientRuntime.Client {
     public static let clientName = "PinpointEmailClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointEmailClient.PinpointEmailClientConfiguration
     let serviceName = "Pinpoint Email"
@@ -373,9 +373,9 @@ extension PinpointEmailClient {
     ///
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails you send using Amazon Pinpoint. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
-    /// - Parameter CreateConfigurationSetInput : A request to create a configuration set.
+    /// - Parameter input: A request to create a configuration set. (Type: `CreateConfigurationSetInput`)
     ///
-    /// - Returns: `CreateConfigurationSetOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension PinpointEmailClient {
     ///
     /// Create an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
     ///
-    /// - Parameter CreateConfigurationSetEventDestinationInput : A request to add an event destination to a configuration set.
+    /// - Parameter input: A request to add an event destination to a configuration set. (Type: `CreateConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `CreateConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension PinpointEmailClient {
     ///
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool.
     ///
-    /// - Parameter CreateDedicatedIpPoolInput : A request to create a new dedicated IP pool.
+    /// - Parameter input: A request to create a new dedicated IP pool. (Type: `CreateDedicatedIpPoolInput`)
     ///
-    /// - Returns: `CreateDedicatedIpPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateDedicatedIpPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension PinpointEmailClient {
     ///
     /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     ///
-    /// - Parameter CreateDeliverabilityTestReportInput : A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
+    /// - Parameter input: A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon Pinpoint then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test. (Type: `CreateDeliverabilityTestReportInput`)
     ///
-    /// - Returns: `CreateDeliverabilityTestReportOutput` : Information about the predictive inbox placement test that you created.
+    /// - Returns: Information about the predictive inbox placement test that you created. (Type: `CreateDeliverabilityTestReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension PinpointEmailClient {
     ///
     /// Verifies an email identity for use with Amazon Pinpoint. In Amazon Pinpoint, an identity is an email address or domain that you use when you send email. Before you can use an identity to send email with Amazon Pinpoint, you first have to verify it. By verifying an address, you demonstrate that you're the owner of the address, and that you've given Amazon Pinpoint permission to send email from the address. When you verify an email address, Amazon Pinpoint sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon Pinpoint detects these records in the DNS configuration for your domain. It usually takes around 72 hours to complete the domain verification process.
     ///
-    /// - Parameter CreateEmailIdentityInput : A request to begin the verification process for an email identity (an email address or domain).
+    /// - Parameter input: A request to begin the verification process for an email identity (an email address or domain). (Type: `CreateEmailIdentityInput`)
     ///
-    /// - Returns: `CreateEmailIdentityOutput` : If the email identity is a domain, this object contains tokens that you can use to create a set of CNAME records. To sucessfully verify your domain, you have to add these records to the DNS configuration for your domain. If the email identity is an email address, this object is empty.
+    /// - Returns: If the email identity is a domain, this object contains tokens that you can use to create a set of CNAME records. To sucessfully verify your domain, you have to add these records to the DNS configuration for your domain. If the email identity is an email address, this object is empty. (Type: `CreateEmailIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,9 +732,9 @@ extension PinpointEmailClient {
     ///
     /// Delete an existing configuration set. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
-    /// - Parameter DeleteConfigurationSetInput : A request to delete a configuration set.
+    /// - Parameter input: A request to delete a configuration set. (Type: `DeleteConfigurationSetInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension PinpointEmailClient {
     ///
     /// Delete an event destination. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
-    /// - Parameter DeleteConfigurationSetEventDestinationInput : A request to delete an event destination from a configuration set.
+    /// - Parameter input: A request to delete an event destination from a configuration set. (Type: `DeleteConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,9 +865,9 @@ extension PinpointEmailClient {
     ///
     /// Delete a dedicated IP pool.
     ///
-    /// - Parameter DeleteDedicatedIpPoolInput : A request to delete a dedicated IP pool.
+    /// - Parameter input: A request to delete a dedicated IP pool. (Type: `DeleteDedicatedIpPoolInput`)
     ///
-    /// - Returns: `DeleteDedicatedIpPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteDedicatedIpPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,9 +932,9 @@ extension PinpointEmailClient {
     ///
     /// Deletes an email identity that you previously verified for use with Amazon Pinpoint. An identity can be either an email address or a domain name.
     ///
-    /// - Parameter DeleteEmailIdentityInput : A request to delete an existing email identity. When you delete an identity, you lose the ability to use Amazon Pinpoint to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again.
+    /// - Parameter input: A request to delete an existing email identity. When you delete an identity, you lose the ability to use Amazon Pinpoint to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again. (Type: `DeleteEmailIdentityInput`)
     ///
-    /// - Returns: `DeleteEmailIdentityOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteEmailIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -999,9 +999,9 @@ extension PinpointEmailClient {
     ///
     /// Obtain information about the email-sending status and capabilities of your Amazon Pinpoint account in the current AWS Region.
     ///
-    /// - Parameter GetAccountInput : A request to obtain information about the email-sending capabilities of your Amazon Pinpoint account.
+    /// - Parameter input: A request to obtain information about the email-sending capabilities of your Amazon Pinpoint account. (Type: `GetAccountInput`)
     ///
-    /// - Returns: `GetAccountOutput` : A list of details about the email-sending capabilities of your Amazon Pinpoint account in the current AWS Region.
+    /// - Returns: A list of details about the email-sending capabilities of your Amazon Pinpoint account in the current AWS Region. (Type: `GetAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1064,9 +1064,9 @@ extension PinpointEmailClient {
     ///
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
     ///
-    /// - Parameter GetBlacklistReportsInput : A request to retrieve a list of the blacklists that your dedicated IP addresses appear on.
+    /// - Parameter input: A request to retrieve a list of the blacklists that your dedicated IP addresses appear on. (Type: `GetBlacklistReportsInput`)
     ///
-    /// - Returns: `GetBlacklistReportsOutput` : An object that contains information about blacklist events.
+    /// - Returns: An object that contains information about blacklist events. (Type: `GetBlacklistReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,9 +1131,9 @@ extension PinpointEmailClient {
     ///
     /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
-    /// - Parameter GetConfigurationSetInput : A request to obtain information about a configuration set.
+    /// - Parameter input: A request to obtain information about a configuration set. (Type: `GetConfigurationSetInput`)
     ///
-    /// - Returns: `GetConfigurationSetOutput` : Information about a configuration set.
+    /// - Returns: Information about a configuration set. (Type: `GetConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,9 +1197,9 @@ extension PinpointEmailClient {
     ///
     /// Retrieve a list of event destinations that are associated with a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
-    /// - Parameter GetConfigurationSetEventDestinationsInput : A request to obtain information about the event destinations for a configuration set.
+    /// - Parameter input: A request to obtain information about the event destinations for a configuration set. (Type: `GetConfigurationSetEventDestinationsInput`)
     ///
-    /// - Returns: `GetConfigurationSetEventDestinationsOutput` : Information about an event destination for a configuration set.
+    /// - Returns: Information about an event destination for a configuration set. (Type: `GetConfigurationSetEventDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1263,9 +1263,9 @@ extension PinpointEmailClient {
     ///
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
     ///
-    /// - Parameter GetDedicatedIpInput : A request to obtain more information about a dedicated IP address.
+    /// - Parameter input: A request to obtain more information about a dedicated IP address. (Type: `GetDedicatedIpInput`)
     ///
-    /// - Returns: `GetDedicatedIpOutput` : Information about a dedicated IP address.
+    /// - Returns: Information about a dedicated IP address. (Type: `GetDedicatedIpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,9 +1329,9 @@ extension PinpointEmailClient {
     ///
     /// List the dedicated IP addresses that are associated with your Amazon Pinpoint account.
     ///
-    /// - Parameter GetDedicatedIpsInput : A request to obtain more information about dedicated IP pools.
+    /// - Parameter input: A request to obtain more information about dedicated IP pools. (Type: `GetDedicatedIpsInput`)
     ///
-    /// - Returns: `GetDedicatedIpsOutput` : Information about the dedicated IP addresses that are associated with your Amazon Pinpoint account.
+    /// - Returns: Information about the dedicated IP addresses that are associated with your Amazon Pinpoint account. (Type: `GetDedicatedIpsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,9 +1396,9 @@ extension PinpointEmailClient {
     ///
     /// Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
     ///
-    /// - Parameter GetDeliverabilityDashboardOptionsInput : Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
+    /// - Parameter input: Retrieve information about the status of the Deliverability dashboard for your Amazon Pinpoint account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/). (Type: `GetDeliverabilityDashboardOptionsInput`)
     ///
-    /// - Returns: `GetDeliverabilityDashboardOptionsOutput` : An object that shows the status of the Deliverability dashboard for your Amazon Pinpoint account.
+    /// - Returns: An object that shows the status of the Deliverability dashboard for your Amazon Pinpoint account. (Type: `GetDeliverabilityDashboardOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1462,9 +1462,9 @@ extension PinpointEmailClient {
     ///
     /// Retrieve the results of a predictive inbox placement test.
     ///
-    /// - Parameter GetDeliverabilityTestReportInput : A request to retrieve the results of a predictive inbox placement test.
+    /// - Parameter input: A request to retrieve the results of a predictive inbox placement test. (Type: `GetDeliverabilityTestReportInput`)
     ///
-    /// - Returns: `GetDeliverabilityTestReportOutput` : The results of the predictive inbox placement test.
+    /// - Returns: The results of the predictive inbox placement test. (Type: `GetDeliverabilityTestReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1528,9 +1528,9 @@ extension PinpointEmailClient {
     ///
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
     ///
-    /// - Parameter GetDomainDeliverabilityCampaignInput : Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
+    /// - Parameter input: Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation). (Type: `GetDomainDeliverabilityCampaignInput`)
     ///
-    /// - Returns: `GetDomainDeliverabilityCampaignOutput` : An object that contains all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
+    /// - Returns: An object that contains all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation). (Type: `GetDomainDeliverabilityCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,9 +1594,9 @@ extension PinpointEmailClient {
     ///
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email.
     ///
-    /// - Parameter GetDomainStatisticsReportInput : A request to obtain deliverability metrics for a domain.
+    /// - Parameter input: A request to obtain deliverability metrics for a domain. (Type: `GetDomainStatisticsReportInput`)
     ///
-    /// - Returns: `GetDomainStatisticsReportOutput` : An object that includes statistics that are related to the domain that you specified.
+    /// - Returns: An object that includes statistics that are related to the domain that you specified. (Type: `GetDomainStatisticsReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1661,9 +1661,9 @@ extension PinpointEmailClient {
     ///
     /// Provides information about a specific identity associated with your Amazon Pinpoint account, including the identity's verification status, its DKIM authentication status, and its custom Mail-From settings.
     ///
-    /// - Parameter GetEmailIdentityInput : A request to return details about an email identity.
+    /// - Parameter input: A request to return details about an email identity. (Type: `GetEmailIdentityInput`)
     ///
-    /// - Returns: `GetEmailIdentityOutput` : Details about an email identity.
+    /// - Returns: Details about an email identity. (Type: `GetEmailIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1727,9 +1727,9 @@ extension PinpointEmailClient {
     ///
     /// List all of the configuration sets associated with your Amazon Pinpoint account in the current region. In Amazon Pinpoint, configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
-    /// - Parameter ListConfigurationSetsInput : A request to obtain a list of configuration sets for your Amazon Pinpoint account in the current AWS Region.
+    /// - Parameter input: A request to obtain a list of configuration sets for your Amazon Pinpoint account in the current AWS Region. (Type: `ListConfigurationSetsInput`)
     ///
-    /// - Returns: `ListConfigurationSetsOutput` : A list of configuration sets in your Amazon Pinpoint account in the current AWS Region.
+    /// - Returns: A list of configuration sets in your Amazon Pinpoint account in the current AWS Region. (Type: `ListConfigurationSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1793,9 +1793,9 @@ extension PinpointEmailClient {
     ///
     /// List all of the dedicated IP pools that exist in your Amazon Pinpoint account in the current AWS Region.
     ///
-    /// - Parameter ListDedicatedIpPoolsInput : A request to obtain a list of dedicated IP pools.
+    /// - Parameter input: A request to obtain a list of dedicated IP pools. (Type: `ListDedicatedIpPoolsInput`)
     ///
-    /// - Returns: `ListDedicatedIpPoolsOutput` : A list of dedicated IP pools.
+    /// - Returns: A list of dedicated IP pools. (Type: `ListDedicatedIpPoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,9 +1859,9 @@ extension PinpointEmailClient {
     ///
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     ///
-    /// - Parameter ListDeliverabilityTestReportsInput : A request to list all of the predictive inbox placement tests that you've performed.
+    /// - Parameter input: A request to list all of the predictive inbox placement tests that you've performed. (Type: `ListDeliverabilityTestReportsInput`)
     ///
-    /// - Returns: `ListDeliverabilityTestReportsOutput` : A list of the predictive inbox placement test reports that are available for your account, regardless of whether or not those tests are complete.
+    /// - Returns: A list of the predictive inbox placement test reports that are available for your account, regardless of whether or not those tests are complete. (Type: `ListDeliverabilityTestReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1926,9 +1926,9 @@ extension PinpointEmailClient {
     ///
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
     ///
-    /// - Parameter ListDomainDeliverabilityCampaignsInput : Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
+    /// - Parameter input: Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain. (Type: `ListDomainDeliverabilityCampaignsInput`)
     ///
-    /// - Returns: `ListDomainDeliverabilityCampaignsOutput` : An array of objects that provide deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain.
+    /// - Returns: An array of objects that provide deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the domain. (Type: `ListDomainDeliverabilityCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1993,9 +1993,9 @@ extension PinpointEmailClient {
     ///
     /// Returns a list of all of the email identities that are associated with your Amazon Pinpoint account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't.
     ///
-    /// - Parameter ListEmailIdentitiesInput : A request to list all of the email identities associated with your Amazon Pinpoint account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.
+    /// - Parameter input: A request to list all of the email identities associated with your Amazon Pinpoint account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified. (Type: `ListEmailIdentitiesInput`)
     ///
-    /// - Returns: `ListEmailIdentitiesOutput` : A list of all of the identities that you've attempted to verify for use with Amazon Pinpoint, regardless of whether or not those identities were successfully verified.
+    /// - Returns: A list of all of the identities that you've attempted to verify for use with Amazon Pinpoint, regardless of whether or not those identities were successfully verified. (Type: `ListEmailIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2059,9 +2059,9 @@ extension PinpointEmailClient {
     ///
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2126,9 +2126,9 @@ extension PinpointEmailClient {
     ///
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
     ///
-    /// - Parameter PutAccountDedicatedIpWarmupAttributesInput : A request to enable or disable the automatic IP address warm-up feature.
+    /// - Parameter input: A request to enable or disable the automatic IP address warm-up feature. (Type: `PutAccountDedicatedIpWarmupAttributesInput`)
     ///
-    /// - Returns: `PutAccountDedicatedIpWarmupAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutAccountDedicatedIpWarmupAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2194,9 +2194,9 @@ extension PinpointEmailClient {
     ///
     /// Enable or disable the ability of your account to send email.
     ///
-    /// - Parameter PutAccountSendingAttributesInput : A request to change the ability of your account to send email.
+    /// - Parameter input: A request to change the ability of your account to send email. (Type: `PutAccountSendingAttributesInput`)
     ///
-    /// - Returns: `PutAccountSendingAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutAccountSendingAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,9 +2262,9 @@ extension PinpointEmailClient {
     ///
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
     ///
-    /// - Parameter PutConfigurationSetDeliveryOptionsInput : A request to associate a configuration set with a dedicated IP pool.
+    /// - Parameter input: A request to associate a configuration set with a dedicated IP pool. (Type: `PutConfigurationSetDeliveryOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetDeliveryOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetDeliveryOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2331,9 +2331,9 @@ extension PinpointEmailClient {
     ///
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific AWS Region.
     ///
-    /// - Parameter PutConfigurationSetReputationOptionsInput : A request to enable or disable tracking of reputation metrics for a configuration set.
+    /// - Parameter input: A request to enable or disable tracking of reputation metrics for a configuration set. (Type: `PutConfigurationSetReputationOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetReputationOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetReputationOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2400,9 +2400,9 @@ extension PinpointEmailClient {
     ///
     /// Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region.
     ///
-    /// - Parameter PutConfigurationSetSendingOptionsInput : A request to enable or disable the ability of Amazon Pinpoint to send emails that use a specific configuration set.
+    /// - Parameter input: A request to enable or disable the ability of Amazon Pinpoint to send emails that use a specific configuration set. (Type: `PutConfigurationSetSendingOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetSendingOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetSendingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2469,9 +2469,9 @@ extension PinpointEmailClient {
     ///
     /// Specify a custom domain to use for open and click tracking elements in email that you send using Amazon Pinpoint.
     ///
-    /// - Parameter PutConfigurationSetTrackingOptionsInput : A request to add a custom domain for tracking open and click events to a configuration set.
+    /// - Parameter input: A request to add a custom domain for tracking open and click events to a configuration set. (Type: `PutConfigurationSetTrackingOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetTrackingOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetTrackingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2538,9 +2538,9 @@ extension PinpointEmailClient {
     ///
     /// Move a dedicated IP address to an existing dedicated IP pool. The dedicated IP address that you specify must already exist, and must be associated with your Amazon Pinpoint account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
     ///
-    /// - Parameter PutDedicatedIpInPoolInput : A request to move a dedicated IP address to a dedicated IP pool.
+    /// - Parameter input: A request to move a dedicated IP address to a dedicated IP pool. (Type: `PutDedicatedIpInPoolInput`)
     ///
-    /// - Returns: `PutDedicatedIpInPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutDedicatedIpInPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2607,9 +2607,9 @@ extension PinpointEmailClient {
     ///
     ///
     ///
-    /// - Parameter PutDedicatedIpWarmupAttributesInput : A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address.
+    /// - Parameter input: A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address. (Type: `PutDedicatedIpWarmupAttributesInput`)
     ///
-    /// - Returns: `PutDedicatedIpWarmupAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutDedicatedIpWarmupAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2676,9 +2676,9 @@ extension PinpointEmailClient {
     ///
     /// Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
     ///
-    /// - Parameter PutDeliverabilityDashboardOptionInput : Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
+    /// - Parameter input: Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon Pinpoint. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/). (Type: `PutDeliverabilityDashboardOptionInput`)
     ///
-    /// - Returns: `PutDeliverabilityDashboardOptionOutput` : A response that indicates whether the Deliverability dashboard is enabled for your Amazon Pinpoint account.
+    /// - Returns: A response that indicates whether the Deliverability dashboard is enabled for your Amazon Pinpoint account. (Type: `PutDeliverabilityDashboardOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2747,9 +2747,9 @@ extension PinpointEmailClient {
     ///
     /// Used to enable or disable DKIM authentication for an email identity.
     ///
-    /// - Parameter PutEmailIdentityDkimAttributesInput : A request to enable or disable DKIM signing of email that you send from an email identity.
+    /// - Parameter input: A request to enable or disable DKIM signing of email that you send from an email identity. (Type: `PutEmailIdentityDkimAttributesInput`)
     ///
-    /// - Returns: `PutEmailIdentityDkimAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutEmailIdentityDkimAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2816,9 +2816,9 @@ extension PinpointEmailClient {
     ///
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. When you enable feedback forwarding, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you disable feedback forwarding, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
     ///
-    /// - Parameter PutEmailIdentityFeedbackAttributesInput : A request to set the attributes that control how bounce and complaint events are processed.
+    /// - Parameter input: A request to set the attributes that control how bounce and complaint events are processed. (Type: `PutEmailIdentityFeedbackAttributesInput`)
     ///
-    /// - Returns: `PutEmailIdentityFeedbackAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutEmailIdentityFeedbackAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2885,9 +2885,9 @@ extension PinpointEmailClient {
     ///
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity.
     ///
-    /// - Parameter PutEmailIdentityMailFromAttributesInput : A request to configure the custom MAIL FROM domain for a verified identity.
+    /// - Parameter input: A request to configure the custom MAIL FROM domain for a verified identity. (Type: `PutEmailIdentityMailFromAttributesInput`)
     ///
-    /// - Returns: `PutEmailIdentityMailFromAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutEmailIdentityMailFromAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2958,9 +2958,9 @@ extension PinpointEmailClient {
     ///
     /// * Raw – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.
     ///
-    /// - Parameter SendEmailInput : A request to send an email message.
+    /// - Parameter input: A request to send an email message. (Type: `SendEmailInput`)
     ///
-    /// - Returns: `SendEmailOutput` : A unique message ID that you receive when Amazon Pinpoint accepts an email for sending.
+    /// - Returns: A unique message ID that you receive when Amazon Pinpoint accepts an email for sending. (Type: `SendEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3032,9 +3032,9 @@ extension PinpointEmailClient {
     ///
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3102,9 +3102,9 @@ extension PinpointEmailClient {
     ///
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3170,9 +3170,9 @@ extension PinpointEmailClient {
     ///
     /// Update the configuration of an event destination for a configuration set. In Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
     ///
-    /// - Parameter UpdateConfigurationSetEventDestinationInput : A request to change the settings for an event destination for a configuration set.
+    /// - Parameter input: A request to change the settings for an event destination for a configuration set. (Type: `UpdateConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `UpdateConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `UpdateConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

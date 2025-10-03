@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EntityResolutionClient: ClientRuntime.Client {
     public static let clientName = "EntityResolutionClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: EntityResolutionClient.EntityResolutionClientConfiguration
     let serviceName = "EntityResolution"
@@ -375,9 +375,9 @@ extension EntityResolutionClient {
     ///
     /// Adds a policy statement object. To retrieve a list of existing policy statements, use the GetPolicy API.
     ///
-    /// - Parameter AddPolicyStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddPolicyStatementInput`)
     ///
-    /// - Returns: `AddPolicyStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddPolicyStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes multiple unique IDs in a matching workflow.
     ///
-    /// - Parameter BatchDeleteUniqueIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteUniqueIdInput`)
     ///
-    /// - Returns: `BatchDeleteUniqueIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteUniqueIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension EntityResolutionClient {
     ///
     /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API. Incremental processing is not supported for ID mapping workflows.
     ///
-    /// - Parameter CreateIdMappingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdMappingWorkflowInput`)
     ///
-    /// - Returns: `CreateIdMappingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdMappingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension EntityResolutionClient {
     ///
     /// Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
     ///
-    /// - Parameter CreateIdNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdNamespaceInput`)
     ///
-    /// - Returns: `CreateIdNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,9 +658,9 @@ extension EntityResolutionClient {
     ///
     /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///
-    /// - Parameter CreateMatchingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMatchingWorkflowInput`)
     ///
-    /// - Returns: `CreateMatchingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMatchingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension EntityResolutionClient {
     ///
     /// Creates a schema mapping, which defines the schema of the input customer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
     ///
-    /// - Parameter CreateSchemaMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSchemaMappingInput`)
     ///
-    /// - Returns: `CreateSchemaMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSchemaMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the IdMappingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
-    /// - Parameter DeleteIdMappingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdMappingWorkflowInput`)
     ///
-    /// - Returns: `DeleteIdMappingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdMappingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,9 +870,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the IdNamespace with a given name.
     ///
-    /// - Parameter DeleteIdNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdNamespaceInput`)
     ///
-    /// - Returns: `DeleteIdNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -937,9 +937,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
-    /// - Parameter DeleteMatchingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMatchingWorkflowInput`)
     ///
-    /// - Returns: `DeleteMatchingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMatchingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1005,9 +1005,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the policy statement.
     ///
-    /// - Parameter DeletePolicyStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyStatementInput`)
     ///
-    /// - Returns: `DeletePolicyStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,9 +1074,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     ///
-    /// - Parameter DeleteSchemaMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaMappingInput`)
     ///
-    /// - Returns: `DeleteSchemaMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,9 +1142,9 @@ extension EntityResolutionClient {
     ///
     /// Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3. The processing type (processingType) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
     ///
-    /// - Parameter GenerateMatchIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateMatchIdInput`)
     ///
-    /// - Returns: `GenerateMatchIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateMatchIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1213,9 +1213,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the status, metrics, and errors (if there are any) that are associated with a job.
     ///
-    /// - Parameter GetIdMappingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdMappingJobInput`)
     ///
-    /// - Returns: `GetIdMappingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdMappingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,9 +1281,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the IdMappingWorkflow with a given name, if it exists.
     ///
-    /// - Parameter GetIdMappingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdMappingWorkflowInput`)
     ///
-    /// - Returns: `GetIdMappingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdMappingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1349,9 +1349,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the IdNamespace with a given name, if it exists.
     ///
-    /// - Parameter GetIdNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdNamespaceInput`)
     ///
-    /// - Returns: `GetIdNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1417,9 +1417,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
     ///
-    /// - Parameter GetMatchIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMatchIdInput`)
     ///
-    /// - Returns: `GetMatchIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMatchIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1488,9 +1488,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the status, metrics, and errors (if there are any) that are associated with a job.
     ///
-    /// - Parameter GetMatchingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMatchingJobInput`)
     ///
-    /// - Returns: `GetMatchingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMatchingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1556,9 +1556,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the MatchingWorkflow with a given name, if it exists.
     ///
-    /// - Parameter GetMatchingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMatchingWorkflowInput`)
     ///
-    /// - Returns: `GetMatchingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMatchingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1624,9 +1624,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the resource-based policy.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,9 +1692,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the ProviderService of a given name.
     ///
-    /// - Parameter GetProviderServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProviderServiceInput`)
     ///
-    /// - Returns: `GetProviderServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProviderServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1760,9 +1760,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the SchemaMapping of a given name.
     ///
-    /// - Parameter GetSchemaMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaMappingInput`)
     ///
-    /// - Returns: `GetSchemaMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1828,9 +1828,9 @@ extension EntityResolutionClient {
     ///
     /// Lists all ID mapping jobs for a given workflow.
     ///
-    /// - Parameter ListIdMappingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdMappingJobsInput`)
     ///
-    /// - Returns: `ListIdMappingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdMappingJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1897,9 +1897,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all the IdMappingWorkflows that have been created for an Amazon Web Services account.
     ///
-    /// - Parameter ListIdMappingWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdMappingWorkflowsInput`)
     ///
-    /// - Returns: `ListIdMappingWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdMappingWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,9 +1965,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all ID namespaces.
     ///
-    /// - Parameter ListIdNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdNamespacesInput`)
     ///
-    /// - Returns: `ListIdNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2033,9 +2033,9 @@ extension EntityResolutionClient {
     ///
     /// Lists all jobs for a given workflow.
     ///
-    /// - Parameter ListMatchingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMatchingJobsInput`)
     ///
-    /// - Returns: `ListMatchingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMatchingJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2102,9 +2102,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account.
     ///
-    /// - Parameter ListMatchingWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMatchingWorkflowsInput`)
     ///
-    /// - Returns: `ListMatchingWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMatchingWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2170,9 +2170,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all the ProviderServices that are available in this Amazon Web Services Region.
     ///
-    /// - Parameter ListProviderServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProviderServicesInput`)
     ///
-    /// - Returns: `ListProviderServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProviderServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2238,9 +2238,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all the SchemaMappings that have been created for an Amazon Web Services account.
     ///
-    /// - Parameter ListSchemaMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemaMappingsInput`)
     ///
-    /// - Returns: `ListSchemaMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemaMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,9 +2306,9 @@ extension EntityResolutionClient {
     ///
     /// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2372,9 +2372,9 @@ extension EntityResolutionClient {
     ///
     /// Updates the resource-based policy.
     ///
-    /// - Parameter PutPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPolicyInput`)
     ///
-    /// - Returns: `PutPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2444,9 +2444,9 @@ extension EntityResolutionClient {
     ///
     /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint.
     ///
-    /// - Parameter StartIdMappingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartIdMappingJobInput`)
     ///
-    /// - Returns: `StartIdMappingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartIdMappingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2517,9 +2517,9 @@ extension EntityResolutionClient {
     ///
     /// Starts the MatchingJob of a workflow. The workflow must have previously been created using the CreateMatchingWorkflow endpoint.
     ///
-    /// - Parameter StartMatchingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMatchingJobInput`)
     ///
-    /// - Returns: `StartMatchingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMatchingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2587,9 +2587,9 @@ extension EntityResolutionClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2656,9 +2656,9 @@ extension EntityResolutionClient {
     ///
     /// Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2722,9 +2722,9 @@ extension EntityResolutionClient {
     ///
     /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed. Incremental processing is not supported for ID mapping workflows.
     ///
-    /// - Parameter UpdateIdMappingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdMappingWorkflowInput`)
     ///
-    /// - Returns: `UpdateIdMappingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdMappingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2793,9 +2793,9 @@ extension EntityResolutionClient {
     ///
     /// Updates an existing ID namespace.
     ///
-    /// - Parameter UpdateIdNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdNamespaceInput`)
     ///
-    /// - Returns: `UpdateIdNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2864,9 +2864,9 @@ extension EntityResolutionClient {
     ///
     /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///
-    /// - Parameter UpdateMatchingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMatchingWorkflowInput`)
     ///
-    /// - Returns: `UpdateMatchingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMatchingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2935,9 +2935,9 @@ extension EntityResolutionClient {
     ///
     /// Updates a schema mapping. A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
     ///
-    /// - Parameter UpdateSchemaMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSchemaMappingInput`)
     ///
-    /// - Returns: `UpdateSchemaMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSchemaMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

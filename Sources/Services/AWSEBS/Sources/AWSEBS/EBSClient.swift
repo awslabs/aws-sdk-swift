@@ -72,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EBSClient: ClientRuntime.Client {
     public static let clientName = "EBSClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: EBSClient.EBSClientConfiguration
     let serviceName = "EBS"
@@ -378,9 +378,9 @@ extension EBSClient {
     ///
     /// Seals and completes the snapshot after all of the required blocks of data have been written to it. Completing the snapshot changes the status to completed. You cannot write new blocks to a snapshot after it has been completed. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter CompleteSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteSnapshotInput`)
     ///
-    /// - Returns: `CompleteSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension EBSClient {
     ///
     /// Returns the data in a block in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter GetSnapshotBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSnapshotBlockInput`)
     ///
-    /// - Returns: `GetSnapshotBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSnapshotBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension EBSClient {
     ///
     /// Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter ListChangedBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChangedBlocksInput`)
     ///
-    /// - Returns: `ListChangedBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChangedBlocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension EBSClient {
     ///
     /// Returns information about the blocks in an Amazon Elastic Block Store snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter ListSnapshotBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSnapshotBlocksInput`)
     ///
-    /// - Returns: `ListSnapshotBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSnapshotBlocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,9 +658,9 @@ extension EBSClient {
     ///
     /// Writes a block of data to a snapshot. If the specified block contains data, the existing data is overwritten. The target snapshot must be in the pending state. Data written to a snapshot must be aligned with 512-KiB sectors. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter PutSnapshotBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSnapshotBlockInput`)
     ///
-    /// - Returns: `PutSnapshotBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSnapshotBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension EBSClient {
     ///
     /// Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the request completes. After creating the snapshot, use [ PutSnapshotBlock](https://docs.aws.amazon.com/ebs/latest/APIReference/API_PutSnapshotBlock.html) to write blocks of data to the snapshot. You should always retry requests that receive server (5xx) error responses, and ThrottlingException and RequestThrottledException client error responses. For more information see [Error retries](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/error-retries.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter StartSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSnapshotInput`)
     ///
-    /// - Returns: `StartSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

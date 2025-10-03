@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AuditManagerClient: ClientRuntime.Client {
     public static let clientName = "AuditManagerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AuditManagerClient.AuditManagerClientConfiguration
     let serviceName = "AuditManager"
@@ -372,9 +372,9 @@ extension AuditManagerClient {
     ///
     /// Associates an evidence folder to an assessment report in an Audit Manager assessment.
     ///
-    /// - Parameter AssociateAssessmentReportEvidenceFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAssessmentReportEvidenceFolderInput`)
     ///
-    /// - Returns: `AssociateAssessmentReportEvidenceFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAssessmentReportEvidenceFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension AuditManagerClient {
     ///
     /// Associates a list of evidence to an assessment report in an Audit Manager assessment.
     ///
-    /// - Parameter BatchAssociateAssessmentReportEvidenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateAssessmentReportEvidenceInput`)
     ///
-    /// - Returns: `BatchAssociateAssessmentReportEvidenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateAssessmentReportEvidenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension AuditManagerClient {
     ///
     /// Creates a batch of delegations for an assessment in Audit Manager.
     ///
-    /// - Parameter BatchCreateDelegationByAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateDelegationByAssessmentInput`)
     ///
-    /// - Returns: `BatchCreateDelegationByAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateDelegationByAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,9 +582,9 @@ extension AuditManagerClient {
     ///
     /// Deletes a batch of delegations for an assessment in Audit Manager.
     ///
-    /// - Parameter BatchDeleteDelegationByAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteDelegationByAssessmentInput`)
     ///
-    /// - Returns: `BatchDeleteDelegationByAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteDelegationByAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,9 +652,9 @@ extension AuditManagerClient {
     ///
     /// Disassociates a list of evidence from an assessment report in Audit Manager.
     ///
-    /// - Parameter BatchDisassociateAssessmentReportEvidenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateAssessmentReportEvidenceInput`)
     ///
-    /// - Returns: `BatchDisassociateAssessmentReportEvidenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateAssessmentReportEvidenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,9 +733,9 @@ extension AuditManagerClient {
     ///
     /// For more information about Audit Manager service restrictions, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     ///
-    /// - Parameter BatchImportEvidenceToAssessmentControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchImportEvidenceToAssessmentControlInput`)
     ///
-    /// - Returns: `BatchImportEvidenceToAssessmentControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchImportEvidenceToAssessmentControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,9 +804,9 @@ extension AuditManagerClient {
     ///
     /// Creates an assessment in Audit Manager.
     ///
-    /// - Parameter CreateAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssessmentInput`)
     ///
-    /// - Returns: `CreateAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -876,9 +876,9 @@ extension AuditManagerClient {
     ///
     /// Creates a custom framework in Audit Manager.
     ///
-    /// - Parameter CreateAssessmentFrameworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssessmentFrameworkInput`)
     ///
-    /// - Returns: `CreateAssessmentFrameworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssessmentFrameworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -947,9 +947,9 @@ extension AuditManagerClient {
     ///
     /// Creates an assessment report for the specified assessment.
     ///
-    /// - Parameter CreateAssessmentReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssessmentReportInput`)
     ///
-    /// - Returns: `CreateAssessmentReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssessmentReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1017,9 +1017,9 @@ extension AuditManagerClient {
     ///
     /// Creates a new custom control in Audit Manager.
     ///
-    /// - Parameter CreateControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateControlInput`)
     ///
-    /// - Returns: `CreateControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,9 +1088,9 @@ extension AuditManagerClient {
     ///
     /// Deletes an assessment in Audit Manager.
     ///
-    /// - Parameter DeleteAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssessmentInput`)
     ///
-    /// - Returns: `DeleteAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1155,9 +1155,9 @@ extension AuditManagerClient {
     ///
     /// Deletes a custom framework in Audit Manager.
     ///
-    /// - Parameter DeleteAssessmentFrameworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssessmentFrameworkInput`)
     ///
-    /// - Returns: `DeleteAssessmentFrameworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssessmentFrameworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1222,9 +1222,9 @@ extension AuditManagerClient {
     ///
     /// Deletes a share request for a custom framework in Audit Manager.
     ///
-    /// - Parameter DeleteAssessmentFrameworkShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssessmentFrameworkShareInput`)
     ///
-    /// - Returns: `DeleteAssessmentFrameworkShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssessmentFrameworkShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1297,9 +1297,9 @@ extension AuditManagerClient {
     ///
     /// If Audit Manager can’t access the assessment report in your S3 bucket, the report isn’t deleted. In this event, the DeleteAssessmentReport operation doesn’t fail. Instead, it proceeds to delete the associated metadata only. You must then delete the assessment report from the S3 bucket yourself. This scenario happens when Audit Manager receives a 403 (Forbidden) or 404 (Not Found) error from Amazon S3. To avoid this, make sure that your S3 bucket is available, and that you configured the correct permissions for Audit Manager to delete resources in your S3 bucket. For an example permissions policy that you can use, see [Assessment report destination permissions](https://docs.aws.amazon.com/audit-manager/latest/userguide/security_iam_id-based-policy-examples.html#full-administrator-access-assessment-report-destination) in the Audit Manager User Guide. For information about the issues that could cause a 403 (Forbidden) or 404 (Not Found) error from Amazon S3, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList) in the Amazon Simple Storage Service API Reference.
     ///
-    /// - Parameter DeleteAssessmentReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssessmentReportInput`)
     ///
-    /// - Returns: `DeleteAssessmentReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssessmentReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1364,9 +1364,9 @@ extension AuditManagerClient {
     ///
     /// Deletes a custom control in Audit Manager. When you invoke this operation, the custom control is deleted from any frameworks or assessments that it’s currently part of. As a result, Audit Manager will stop collecting evidence for that custom control in all of your assessments. This includes assessments that you previously created before you deleted the custom control.
     ///
-    /// - Parameter DeleteControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteControlInput`)
     ///
-    /// - Returns: `DeleteControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1431,9 +1431,9 @@ extension AuditManagerClient {
     ///
     /// Deregisters an account in Audit Manager. Before you deregister, you can use the [UpdateSettings](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_UpdateSettings.html) API operation to set your preferred data retention policy. By default, Audit Manager retains your data. If you want to delete your data, you can use the DeregistrationPolicy attribute to request the deletion of your data. For more information about data retention, see [Data Protection](https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html) in the Audit Manager User Guide.
     ///
-    /// - Parameter DeregisterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterAccountInput`)
     ///
-    /// - Returns: `DeregisterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1511,9 +1511,9 @@ extension AuditManagerClient {
     ///
     /// At this time, Audit Manager doesn't provide an option to delete evidence for a specific delegated administrator. Instead, when your management account deregisters Audit Manager, we perform a cleanup for the current delegated administrator account at the time of deregistration.
     ///
-    /// - Parameter DeregisterOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DeregisterOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1581,9 +1581,9 @@ extension AuditManagerClient {
     ///
     /// Disassociates an evidence folder from the specified assessment report in Audit Manager.
     ///
-    /// - Parameter DisassociateAssessmentReportEvidenceFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAssessmentReportEvidenceFolderInput`)
     ///
-    /// - Returns: `DisassociateAssessmentReportEvidenceFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAssessmentReportEvidenceFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1651,9 +1651,9 @@ extension AuditManagerClient {
     ///
     /// Gets the registration status of an account in Audit Manager.
     ///
-    /// - Parameter GetAccountStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountStatusInput`)
     ///
-    /// - Returns: `GetAccountStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1715,9 +1715,9 @@ extension AuditManagerClient {
     ///
     /// Gets information about a specified assessment.
     ///
-    /// - Parameter GetAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssessmentInput`)
     ///
-    /// - Returns: `GetAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1782,9 +1782,9 @@ extension AuditManagerClient {
     ///
     /// Gets information about a specified framework.
     ///
-    /// - Parameter GetAssessmentFrameworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssessmentFrameworkInput`)
     ///
-    /// - Returns: `GetAssessmentFrameworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssessmentFrameworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1849,9 +1849,9 @@ extension AuditManagerClient {
     ///
     /// Gets the URL of an assessment report in Audit Manager.
     ///
-    /// - Parameter GetAssessmentReportUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssessmentReportUrlInput`)
     ///
-    /// - Returns: `GetAssessmentReportUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssessmentReportUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1916,9 +1916,9 @@ extension AuditManagerClient {
     ///
     /// Gets a list of changelogs from Audit Manager.
     ///
-    /// - Parameter GetChangeLogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChangeLogsInput`)
     ///
-    /// - Returns: `GetChangeLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChangeLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1984,9 +1984,9 @@ extension AuditManagerClient {
     ///
     /// Gets information about a specified control.
     ///
-    /// - Parameter GetControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetControlInput`)
     ///
-    /// - Returns: `GetControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension AuditManagerClient {
     ///
     /// Gets a list of delegations from an audit owner to a delegate.
     ///
-    /// - Parameter GetDelegationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDelegationsInput`)
     ///
-    /// - Returns: `GetDelegationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDelegationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2118,9 +2118,9 @@ extension AuditManagerClient {
     ///
     /// Gets information about a specified evidence item.
     ///
-    /// - Parameter GetEvidenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEvidenceInput`)
     ///
-    /// - Returns: `GetEvidenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEvidenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2185,9 +2185,9 @@ extension AuditManagerClient {
     ///
     /// Gets all evidence from a specified evidence folder in Audit Manager.
     ///
-    /// - Parameter GetEvidenceByEvidenceFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEvidenceByEvidenceFolderInput`)
     ///
-    /// - Returns: `GetEvidenceByEvidenceFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEvidenceByEvidenceFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,9 +2262,9 @@ extension AuditManagerClient {
     ///
     /// For more information about Audit Manager service restrictions, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     ///
-    /// - Parameter GetEvidenceFileUploadUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEvidenceFileUploadUrlInput`)
     ///
-    /// - Returns: `GetEvidenceFileUploadUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEvidenceFileUploadUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2330,9 +2330,9 @@ extension AuditManagerClient {
     ///
     /// Gets an evidence folder from a specified assessment in Audit Manager.
     ///
-    /// - Parameter GetEvidenceFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEvidenceFolderInput`)
     ///
-    /// - Returns: `GetEvidenceFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEvidenceFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2397,9 +2397,9 @@ extension AuditManagerClient {
     ///
     /// Gets the evidence folders from a specified assessment in Audit Manager.
     ///
-    /// - Parameter GetEvidenceFoldersByAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEvidenceFoldersByAssessmentInput`)
     ///
-    /// - Returns: `GetEvidenceFoldersByAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEvidenceFoldersByAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2465,9 +2465,9 @@ extension AuditManagerClient {
     ///
     /// Gets a list of evidence folders that are associated with a specified control in an Audit Manager assessment.
     ///
-    /// - Parameter GetEvidenceFoldersByAssessmentControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEvidenceFoldersByAssessmentControlInput`)
     ///
-    /// - Returns: `GetEvidenceFoldersByAssessmentControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEvidenceFoldersByAssessmentControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2533,9 +2533,9 @@ extension AuditManagerClient {
     ///
     /// Gets the latest analytics data for all your current active assessments.
     ///
-    /// - Parameter GetInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightsInput`)
     ///
-    /// - Returns: `GetInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2598,9 +2598,9 @@ extension AuditManagerClient {
     ///
     /// Gets the latest analytics data for a specific active assessment.
     ///
-    /// - Parameter GetInsightsByAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightsByAssessmentInput`)
     ///
-    /// - Returns: `GetInsightsByAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightsByAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2665,9 +2665,9 @@ extension AuditManagerClient {
     ///
     /// Gets the name of the delegated Amazon Web Services administrator account for a specified organization.
     ///
-    /// - Parameter GetOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `GetOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2732,9 +2732,9 @@ extension AuditManagerClient {
     ///
     /// Gets a list of the Amazon Web Services services from which Audit Manager can collect evidence. Audit Manager defines which Amazon Web Services services are in scope for an assessment. Audit Manager infers this scope by examining the assessment’s controls and their data sources, and then mapping this information to one or more of the corresponding Amazon Web Services services that are in this list. For information about why it's no longer possible to specify services in scope manually, see [I can't edit the services in scope for my assessment](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-collection-issues.html#unable-to-edit-services) in the Troubleshooting section of the Audit Manager user guide.
     ///
-    /// - Parameter GetServicesInScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServicesInScopeInput`)
     ///
-    /// - Returns: `GetServicesInScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServicesInScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2798,9 +2798,9 @@ extension AuditManagerClient {
     ///
     /// Gets the settings for a specified Amazon Web Services account.
     ///
-    /// - Parameter GetSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSettingsInput`)
     ///
-    /// - Returns: `GetSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2863,9 +2863,9 @@ extension AuditManagerClient {
     ///
     /// Lists the latest analytics data for controls within a specific control domain and a specific active assessment. Control insights are listed only if the control belongs to the control domain and assessment that was specified. Moreover, the control must have collected evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these conditions are met, no data is listed for that control.
     ///
-    /// - Parameter ListAssessmentControlInsightsByControlDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssessmentControlInsightsByControlDomainInput`)
     ///
-    /// - Returns: `ListAssessmentControlInsightsByControlDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssessmentControlInsightsByControlDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2931,9 +2931,9 @@ extension AuditManagerClient {
     ///
     /// Returns a list of sent or received share requests for custom frameworks in Audit Manager.
     ///
-    /// - Parameter ListAssessmentFrameworkShareRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssessmentFrameworkShareRequestsInput`)
     ///
-    /// - Returns: `ListAssessmentFrameworkShareRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssessmentFrameworkShareRequestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2998,9 +2998,9 @@ extension AuditManagerClient {
     ///
     /// Returns a list of the frameworks that are available in the Audit Manager framework library.
     ///
-    /// - Parameter ListAssessmentFrameworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssessmentFrameworksInput`)
     ///
-    /// - Returns: `ListAssessmentFrameworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssessmentFrameworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3065,9 +3065,9 @@ extension AuditManagerClient {
     ///
     /// Returns a list of assessment reports created in Audit Manager.
     ///
-    /// - Parameter ListAssessmentReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssessmentReportsInput`)
     ///
-    /// - Returns: `ListAssessmentReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssessmentReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3132,9 +3132,9 @@ extension AuditManagerClient {
     ///
     /// Returns a list of current and past assessments from Audit Manager.
     ///
-    /// - Parameter ListAssessmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssessmentsInput`)
     ///
-    /// - Returns: `ListAssessmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssessmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3199,9 +3199,9 @@ extension AuditManagerClient {
     ///
     /// Lists the latest analytics data for control domains across all of your active assessments. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see [ListDomains](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html) in the Amazon Web Services Control Catalog API Reference. A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that control domain.
     ///
-    /// - Parameter ListControlDomainInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListControlDomainInsightsInput`)
     ///
-    /// - Returns: `ListControlDomainInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListControlDomainInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3267,9 +3267,9 @@ extension AuditManagerClient {
     ///
     /// Lists analytics data for control domains within a specified active assessment. Audit Manager supports the control domains that are provided by Amazon Web Services Control Catalog. For information about how to find a list of available control domains, see [ListDomains](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html) in the Amazon Web Services Control Catalog API Reference. A control domain is listed only if at least one of the controls within that domain collected evidence on the lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed for that domain.
     ///
-    /// - Parameter ListControlDomainInsightsByAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListControlDomainInsightsByAssessmentInput`)
     ///
-    /// - Returns: `ListControlDomainInsightsByAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListControlDomainInsightsByAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3335,9 +3335,9 @@ extension AuditManagerClient {
     ///
     /// Lists the latest analytics data for controls within a specific control domain across all active assessments. Control insights are listed only if the control belongs to the control domain that was specified and the control collected evidence on the lastUpdated date of controlInsightsMetadata. If neither of these conditions are met, no data is listed for that control.
     ///
-    /// - Parameter ListControlInsightsByControlDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListControlInsightsByControlDomainInput`)
     ///
-    /// - Returns: `ListControlInsightsByControlDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListControlInsightsByControlDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3403,9 +3403,9 @@ extension AuditManagerClient {
     ///
     /// Returns a list of controls from Audit Manager.
     ///
-    /// - Parameter ListControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListControlsInput`)
     ///
-    /// - Returns: `ListControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3470,9 +3470,9 @@ extension AuditManagerClient {
     ///
     /// Returns a list of keywords that are pre-mapped to the specified control data source.
     ///
-    /// - Parameter ListKeywordsForDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeywordsForDataSourceInput`)
     ///
-    /// - Returns: `ListKeywordsForDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeywordsForDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3537,9 +3537,9 @@ extension AuditManagerClient {
     ///
     /// Returns a list of all Audit Manager notifications.
     ///
-    /// - Parameter ListNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationsInput`)
     ///
-    /// - Returns: `ListNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3604,9 +3604,9 @@ extension AuditManagerClient {
     ///
     /// Returns a list of tags for the specified resource in Audit Manager.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3670,9 +3670,9 @@ extension AuditManagerClient {
     ///
     /// Enables Audit Manager for the specified Amazon Web Services account.
     ///
-    /// - Parameter RegisterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAccountInput`)
     ///
-    /// - Returns: `RegisterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3741,9 +3741,9 @@ extension AuditManagerClient {
     ///
     /// Enables an Amazon Web Services account within the organization as the delegated administrator for Audit Manager.
     ///
-    /// - Parameter RegisterOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `RegisterOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3823,9 +3823,9 @@ extension AuditManagerClient {
     ///
     /// When a sender [resends a share request](https://docs.aws.amazon.com/audit-manager/latest/userguide/framework-sharing.html#framework-sharing-resend), the snapshot is replaced with an updated version that corresponds with the latest version of the custom framework. When a recipient accepts a share request, the snapshot is replicated into their Amazon Web Services account under the Amazon Web Services Region that was specified in the share request. When you invoke the StartAssessmentFrameworkShare API, you are about to share a custom framework with another Amazon Web Services account. You may not share a custom framework that is derived from a standard framework if the standard framework is designated as not eligible for sharing by Amazon Web Services, unless you have obtained permission to do so from the owner of the standard framework. To learn more about which standard frameworks are eligible for sharing, see [Framework sharing eligibility](https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework-concepts-and-terminology.html#eligibility) in the Audit Manager User Guide.
     ///
-    /// - Parameter StartAssessmentFrameworkShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAssessmentFrameworkShareInput`)
     ///
-    /// - Returns: `StartAssessmentFrameworkShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAssessmentFrameworkShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3893,9 +3893,9 @@ extension AuditManagerClient {
     ///
     /// Tags the specified resource in Audit Manager.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3962,9 +3962,9 @@ extension AuditManagerClient {
     ///
     /// Removes a tag from a resource in Audit Manager.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4029,9 +4029,9 @@ extension AuditManagerClient {
     ///
     /// Edits an Audit Manager assessment.
     ///
-    /// - Parameter UpdateAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssessmentInput`)
     ///
-    /// - Returns: `UpdateAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4101,9 +4101,9 @@ extension AuditManagerClient {
     ///
     /// Updates a control within an assessment in Audit Manager.
     ///
-    /// - Parameter UpdateAssessmentControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssessmentControlInput`)
     ///
-    /// - Returns: `UpdateAssessmentControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssessmentControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4171,9 +4171,9 @@ extension AuditManagerClient {
     ///
     /// Updates the status of a control set in an Audit Manager assessment.
     ///
-    /// - Parameter UpdateAssessmentControlSetStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssessmentControlSetStatusInput`)
     ///
-    /// - Returns: `UpdateAssessmentControlSetStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssessmentControlSetStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4241,9 +4241,9 @@ extension AuditManagerClient {
     ///
     /// Updates a custom framework in Audit Manager.
     ///
-    /// - Parameter UpdateAssessmentFrameworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssessmentFrameworkInput`)
     ///
-    /// - Returns: `UpdateAssessmentFrameworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssessmentFrameworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4312,9 +4312,9 @@ extension AuditManagerClient {
     ///
     /// Updates a share request for a custom framework in Audit Manager.
     ///
-    /// - Parameter UpdateAssessmentFrameworkShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssessmentFrameworkShareInput`)
     ///
-    /// - Returns: `UpdateAssessmentFrameworkShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssessmentFrameworkShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4383,9 +4383,9 @@ extension AuditManagerClient {
     ///
     /// Updates the status of an assessment in Audit Manager.
     ///
-    /// - Parameter UpdateAssessmentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssessmentStatusInput`)
     ///
-    /// - Returns: `UpdateAssessmentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssessmentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4454,9 +4454,9 @@ extension AuditManagerClient {
     ///
     /// Updates a custom control in Audit Manager.
     ///
-    /// - Parameter UpdateControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateControlInput`)
     ///
-    /// - Returns: `UpdateControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4524,9 +4524,9 @@ extension AuditManagerClient {
     ///
     /// Updates Audit Manager settings for the current account.
     ///
-    /// - Parameter UpdateSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSettingsInput`)
     ///
-    /// - Returns: `UpdateSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4593,9 +4593,9 @@ extension AuditManagerClient {
     ///
     /// Validates the integrity of an assessment report in Audit Manager.
     ///
-    /// - Parameter ValidateAssessmentReportIntegrityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateAssessmentReportIntegrityInput`)
     ///
-    /// - Returns: `ValidateAssessmentReportIntegrityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateAssessmentReportIntegrityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

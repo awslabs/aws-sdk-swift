@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53RecoveryClusterClient: ClientRuntime.Client {
     public static let clientName = "Route53RecoveryClusterClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration
     let serviceName = "Route53 Recovery Cluster"
@@ -376,9 +376,9 @@ extension Route53RecoveryClusterClient {
     ///
     /// * [Working with routing controls in Route 53 ARC](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
     ///
-    /// - Parameter GetRoutingControlStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoutingControlStateInput`)
     ///
-    /// - Returns: `GetRoutingControlStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoutingControlStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,9 +453,9 @@ extension Route53RecoveryClusterClient {
     ///
     /// * [Working with routing controls in Route 53 ARC](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
     ///
-    /// - Parameter ListRoutingControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoutingControlsInput`)
     ///
-    /// - Returns: `ListRoutingControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoutingControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -530,9 +530,9 @@ extension Route53RecoveryClusterClient {
     ///
     /// * [Working with routing controls overall](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
     ///
-    /// - Parameter UpdateRoutingControlStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingControlStateInput`)
     ///
-    /// - Returns: `UpdateRoutingControlStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingControlStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -608,9 +608,9 @@ extension Route53RecoveryClusterClient {
     ///
     /// * [Working with routing controls overall](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.html)
     ///
-    /// - Parameter UpdateRoutingControlStatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingControlStatesInput`)
     ///
-    /// - Returns: `UpdateRoutingControlStatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingControlStatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

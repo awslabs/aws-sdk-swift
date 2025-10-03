@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GroundStationClient: ClientRuntime.Client {
     public static let clientName = "GroundStationClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: GroundStationClient.GroundStationClientConfiguration
     let serviceName = "GroundStation"
@@ -373,9 +373,9 @@ extension GroundStationClient {
     ///
     /// Cancels a contact with a specified contact ID.
     ///
-    /// - Parameter CancelContactInput :
+    /// - Parameter input: (Type: `CancelContactInput`)
     ///
-    /// - Returns: `CancelContactOutput` :
+    /// - Returns: (Type: `CancelContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -439,9 +439,9 @@ extension GroundStationClient {
     ///
     /// Creates a Config with the specified configData parameters. Only one type of configData can be specified.
     ///
-    /// - Parameter CreateConfigInput :
+    /// - Parameter input: (Type: `CreateConfigInput`)
     ///
-    /// - Returns: `CreateConfigOutput` :
+    /// - Returns: (Type: `CreateConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,9 +509,9 @@ extension GroundStationClient {
     ///
     /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
     ///
-    /// - Parameter CreateDataflowEndpointGroupInput :
+    /// - Parameter input: (Type: `CreateDataflowEndpointGroupInput`)
     ///
-    /// - Returns: `CreateDataflowEndpointGroupOutput` :
+    /// - Returns: (Type: `CreateDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -578,9 +578,9 @@ extension GroundStationClient {
     ///
     /// Creates an Ephemeris with the specified EphemerisData.
     ///
-    /// - Parameter CreateEphemerisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEphemerisInput`)
     ///
-    /// - Returns: `CreateEphemerisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEphemerisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,9 +647,9 @@ extension GroundStationClient {
     ///
     /// Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     ///
-    /// - Parameter CreateMissionProfileInput :
+    /// - Parameter input: (Type: `CreateMissionProfileInput`)
     ///
-    /// - Returns: `CreateMissionProfileOutput` :
+    /// - Returns: (Type: `CreateMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,9 +716,9 @@ extension GroundStationClient {
     ///
     /// Deletes a Config.
     ///
-    /// - Parameter DeleteConfigInput :
+    /// - Parameter input: (Type: `DeleteConfigInput`)
     ///
-    /// - Returns: `DeleteConfigOutput` :
+    /// - Returns: (Type: `DeleteConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,9 +782,9 @@ extension GroundStationClient {
     ///
     /// Deletes a dataflow endpoint group.
     ///
-    /// - Parameter DeleteDataflowEndpointGroupInput :
+    /// - Parameter input: (Type: `DeleteDataflowEndpointGroupInput`)
     ///
-    /// - Returns: `DeleteDataflowEndpointGroupOutput` :
+    /// - Returns: (Type: `DeleteDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,9 +848,9 @@ extension GroundStationClient {
     ///
     /// Deletes an ephemeris
     ///
-    /// - Parameter DeleteEphemerisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEphemerisInput`)
     ///
-    /// - Returns: `DeleteEphemerisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEphemerisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,9 +914,9 @@ extension GroundStationClient {
     ///
     /// Deletes a mission profile.
     ///
-    /// - Parameter DeleteMissionProfileInput :
+    /// - Parameter input: (Type: `DeleteMissionProfileInput`)
     ///
-    /// - Returns: `DeleteMissionProfileOutput` :
+    /// - Returns: (Type: `DeleteMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -980,9 +980,9 @@ extension GroundStationClient {
     ///
     /// Describes an existing contact.
     ///
-    /// - Parameter DescribeContactInput :
+    /// - Parameter input: (Type: `DescribeContactInput`)
     ///
-    /// - Returns: `DescribeContactOutput` :
+    /// - Returns: (Type: `DescribeContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1046,9 +1046,9 @@ extension GroundStationClient {
     ///
     /// Describes an existing ephemeris.
     ///
-    /// - Parameter DescribeEphemerisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEphemerisInput`)
     ///
-    /// - Returns: `DescribeEphemerisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEphemerisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,9 +1112,9 @@ extension GroundStationClient {
     ///
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent.
     ///
-    /// - Parameter GetAgentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgentConfigurationInput`)
     ///
-    /// - Returns: `GetAgentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,9 +1178,9 @@ extension GroundStationClient {
     ///
     /// Returns Config information. Only one Config response can be returned.
     ///
-    /// - Parameter GetConfigInput :
+    /// - Parameter input: (Type: `GetConfigInput`)
     ///
-    /// - Returns: `GetConfigOutput` :
+    /// - Returns: (Type: `GetConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1244,9 +1244,9 @@ extension GroundStationClient {
     ///
     /// Returns the dataflow endpoint group.
     ///
-    /// - Parameter GetDataflowEndpointGroupInput :
+    /// - Parameter input: (Type: `GetDataflowEndpointGroupInput`)
     ///
-    /// - Returns: `GetDataflowEndpointGroupOutput` :
+    /// - Returns: (Type: `GetDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,9 +1310,9 @@ extension GroundStationClient {
     ///
     /// Returns the number of reserved minutes used by account.
     ///
-    /// - Parameter GetMinuteUsageInput :
+    /// - Parameter input: (Type: `GetMinuteUsageInput`)
     ///
-    /// - Returns: `GetMinuteUsageOutput` :
+    /// - Returns: (Type: `GetMinuteUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,9 +1379,9 @@ extension GroundStationClient {
     ///
     /// Returns a mission profile.
     ///
-    /// - Parameter GetMissionProfileInput :
+    /// - Parameter input: (Type: `GetMissionProfileInput`)
     ///
-    /// - Returns: `GetMissionProfileOutput` :
+    /// - Returns: (Type: `GetMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1445,9 +1445,9 @@ extension GroundStationClient {
     ///
     /// Returns a satellite.
     ///
-    /// - Parameter GetSatelliteInput :
+    /// - Parameter input: (Type: `GetSatelliteInput`)
     ///
-    /// - Returns: `GetSatelliteOutput` :
+    /// - Returns: (Type: `GetSatelliteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1511,9 +1511,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of Config objects.
     ///
-    /// - Parameter ListConfigsInput :
+    /// - Parameter input: (Type: `ListConfigsInput`)
     ///
-    /// - Returns: `ListConfigsOutput` :
+    /// - Returns: (Type: `ListConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,9 +1578,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
     ///
-    /// - Parameter ListContactsInput :
+    /// - Parameter input: (Type: `ListContactsInput`)
     ///
-    /// - Returns: `ListContactsOutput` :
+    /// - Returns: (Type: `ListContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1647,9 +1647,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of DataflowEndpoint groups.
     ///
-    /// - Parameter ListDataflowEndpointGroupsInput :
+    /// - Parameter input: (Type: `ListDataflowEndpointGroupsInput`)
     ///
-    /// - Returns: `ListDataflowEndpointGroupsOutput` :
+    /// - Returns: (Type: `ListDataflowEndpointGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1714,9 +1714,9 @@ extension GroundStationClient {
     ///
     /// List existing ephemerides.
     ///
-    /// - Parameter ListEphemeridesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEphemeridesInput`)
     ///
-    /// - Returns: `ListEphemeridesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEphemeridesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1784,9 +1784,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of ground stations.
     ///
-    /// - Parameter ListGroundStationsInput :
+    /// - Parameter input: (Type: `ListGroundStationsInput`)
     ///
-    /// - Returns: `ListGroundStationsOutput` :
+    /// - Returns: (Type: `ListGroundStationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1851,9 +1851,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of mission profiles.
     ///
-    /// - Parameter ListMissionProfilesInput :
+    /// - Parameter input: (Type: `ListMissionProfilesInput`)
     ///
-    /// - Returns: `ListMissionProfilesOutput` :
+    /// - Returns: (Type: `ListMissionProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1918,9 +1918,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of satellites.
     ///
-    /// - Parameter ListSatellitesInput :
+    /// - Parameter input: (Type: `ListSatellitesInput`)
     ///
-    /// - Returns: `ListSatellitesOutput` :
+    /// - Returns: (Type: `ListSatellitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1985,9 +1985,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of tags for a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput :
+    /// - Parameter input: (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` :
+    /// - Returns: (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension GroundStationClient {
     ///
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station.
     ///
-    /// - Parameter RegisterAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAgentInput`)
     ///
-    /// - Returns: `RegisterAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2120,9 +2120,9 @@ extension GroundStationClient {
     ///
     /// Reserves a contact using specified parameters.
     ///
-    /// - Parameter ReserveContactInput :
+    /// - Parameter input: (Type: `ReserveContactInput`)
     ///
-    /// - Returns: `ReserveContactOutput` :
+    /// - Returns: (Type: `ReserveContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,9 +2189,9 @@ extension GroundStationClient {
     ///
     /// Assigns a tag to a resource.
     ///
-    /// - Parameter TagResourceInput :
+    /// - Parameter input: (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` :
+    /// - Returns: (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2258,9 +2258,9 @@ extension GroundStationClient {
     ///
     /// Deassigns a resource tag.
     ///
-    /// - Parameter UntagResourceInput :
+    /// - Parameter input: (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` :
+    /// - Returns: (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2325,9 +2325,9 @@ extension GroundStationClient {
     ///
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent.
     ///
-    /// - Parameter UpdateAgentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentStatusInput`)
     ///
-    /// - Returns: `UpdateAgentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2394,9 +2394,9 @@ extension GroundStationClient {
     ///
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     ///
-    /// - Parameter UpdateConfigInput :
+    /// - Parameter input: (Type: `UpdateConfigInput`)
     ///
-    /// - Returns: `UpdateConfigOutput` :
+    /// - Returns: (Type: `UpdateConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2463,9 +2463,9 @@ extension GroundStationClient {
     ///
     /// Updates an existing ephemeris
     ///
-    /// - Parameter UpdateEphemerisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEphemerisInput`)
     ///
-    /// - Returns: `UpdateEphemerisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEphemerisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2532,9 +2532,9 @@ extension GroundStationClient {
     ///
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     ///
-    /// - Parameter UpdateMissionProfileInput :
+    /// - Parameter input: (Type: `UpdateMissionProfileInput`)
     ///
-    /// - Returns: `UpdateMissionProfileOutput` :
+    /// - Returns: (Type: `UpdateMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

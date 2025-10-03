@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKMeetingsClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKMeetingsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMeetingsClient.ChimeSDKMeetingsClientConfiguration
     let serviceName = "Chime SDK Meetings"
@@ -373,9 +373,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter BatchCreateAttendeeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateAttendeeInput`)
     ///
-    /// - Returns: `BatchCreateAttendeeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateAttendeeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -461,9 +461,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// * When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     ///
-    /// - Parameter BatchUpdateAttendeeCapabilitiesExceptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateAttendeeCapabilitiesExceptInput`)
     ///
-    /// - Returns: `BatchUpdateAttendeeCapabilitiesExceptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateAttendeeCapabilitiesExceptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -536,9 +536,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter CreateAttendeeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAttendeeInput`)
     ///
-    /// - Returns: `CreateAttendeeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAttendeeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -615,9 +615,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// * Video.MaxResolution: HD
     ///
-    /// - Parameter CreateMeetingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMeetingInput`)
     ///
-    /// - Returns: `CreateMeetingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMeetingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,9 +694,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// * Video.MaxResolution: HD
     ///
-    /// - Parameter CreateMeetingWithAttendeesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMeetingWithAttendeesInput`)
     ///
-    /// - Returns: `CreateMeetingWithAttendeesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMeetingWithAttendeesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -770,9 +770,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter DeleteAttendeeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAttendeeInput`)
     ///
-    /// - Returns: `DeleteAttendeeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAttendeeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,9 +840,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter DeleteMeetingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMeetingInput`)
     ///
-    /// - Returns: `DeleteMeetingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMeetingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,9 +910,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter GetAttendeeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAttendeeInput`)
     ///
-    /// - Returns: `GetAttendeeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAttendeeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -980,9 +980,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter GetMeetingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMeetingInput`)
     ///
-    /// - Returns: `GetMeetingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMeetingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1050,9 +1050,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter ListAttendeesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttendeesInput`)
     ///
-    /// - Returns: `ListAttendeesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttendeesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,9 +1121,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Returns a list of the tags available for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,9 +1193,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. By default, Amazon Transcribe may use and store audio content processed by the service to develop and improve Amazon Web Services AI/ML services as further described in section 50 of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/). Using Amazon Transcribe may be subject to federal and state laws or regulations regarding the recording or interception of electronic communications. It is your and your end users’ responsibility to comply with all applicable laws regarding the recording, including properly notifying all participants in a recorded session or communication that the session or communication is being recorded, and obtaining all necessary consents. You can opt out from Amazon Web Services using audio content to develop and improve AWS AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
     ///
-    /// - Parameter StartMeetingTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMeetingTranscriptionInput`)
     ///
-    /// - Returns: `StartMeetingTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMeetingTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,9 +1269,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Stops transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. By default, Amazon Transcribe may use and store audio content processed by the service to develop and improve Amazon Web Services AI/ML services as further described in section 50 of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/). Using Amazon Transcribe may be subject to federal and state laws or regulations regarding the recording or interception of electronic communications. It is your and your end users’ responsibility to comply with all applicable laws regarding the recording, including properly notifying all participants in a recorded session or communication that the session or communication is being recorded, and obtaining all necessary consents. You can opt out from Amazon Web Services using audio content to develop and improve Amazon Web Services AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
     ///
-    /// - Parameter StopMeetingTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopMeetingTranscriptionInput`)
     ///
-    /// - Returns: `StopMeetingTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopMeetingTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,9 +1341,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// The resource that supports tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1425,9 +1425,9 @@ extension ChimeSDKMeetingsClient {
     /// Minimum permissions In addition to the tag:UntagResources permission required by this operation, you must also have the remove tags permission defined by the service that created the resource. For example, to remove the tags from an Amazon EC2 instance using the UntagResources operation, you must have both of the following permissions: tag:UntagResource
     ///     ChimeSDKMeetings:DeleteTags
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1512,9 +1512,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// * When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     ///
-    /// - Parameter UpdateAttendeeCapabilitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAttendeeCapabilitiesInput`)
     ///
-    /// - Returns: `UpdateAttendeeCapabilitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAttendeeCapabilitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

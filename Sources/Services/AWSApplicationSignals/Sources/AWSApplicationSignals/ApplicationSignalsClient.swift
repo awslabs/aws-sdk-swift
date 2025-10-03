@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationSignalsClient: ClientRuntime.Client {
     public static let clientName = "ApplicationSignalsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationSignalsClient.ApplicationSignalsClientConfiguration
     let serviceName = "Application Signals"
@@ -373,9 +373,9 @@ extension ApplicationSignalsClient {
     ///
     /// Use this operation to retrieve one or more service level objective (SLO) budget reports. An error budget is the amount of time or requests in an unhealthy state that your service can accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of downtime in a 30-day month. Budget reports include a health indicator, the attainment value, and remaining budget. For more information about SLO error budgets, see [ SLO concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-concepts).
     ///
-    /// - Parameter BatchGetServiceLevelObjectiveBudgetReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetServiceLevelObjectiveBudgetReportInput`)
     ///
-    /// - Returns: `BatchGetServiceLevelObjectiveBudgetReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetServiceLevelObjectiveBudgetReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,9 +441,9 @@ extension ApplicationSignalsClient {
     ///
     /// Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
     ///
-    /// - Parameter BatchUpdateExclusionWindowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateExclusionWindowsInput`)
     ///
-    /// - Returns: `BatchUpdateExclusionWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateExclusionWindowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -538,9 +538,9 @@ extension ApplicationSignalsClient {
     ///
     /// * autoscaling:DescribeAutoScalingGroups
     ///
-    /// - Parameter CreateServiceLevelObjectiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceLevelObjectiveInput`)
     ///
-    /// - Returns: `CreateServiceLevelObjectiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceLevelObjectiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -609,9 +609,9 @@ extension ApplicationSignalsClient {
     ///
     /// Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
     ///
-    /// - Parameter DeleteGroupingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupingConfigurationInput`)
     ///
-    /// - Returns: `DeleteGroupingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -675,9 +675,9 @@ extension ApplicationSignalsClient {
     ///
     /// Deletes the specified service level objective.
     ///
-    /// - Parameter DeleteServiceLevelObjectiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceLevelObjectiveInput`)
     ///
-    /// - Returns: `DeleteServiceLevelObjectiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceLevelObjectiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -741,9 +741,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns information about a service discovered by Application Signals.
     ///
-    /// - Parameter GetServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInput`)
     ///
-    /// - Returns: `GetServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -810,9 +810,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns information about one SLO created in the account.
     ///
-    /// - Parameter GetServiceLevelObjectiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceLevelObjectiveInput`)
     ///
-    /// - Returns: `GetServiceLevelObjectiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceLevelObjectiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -876,9 +876,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
     ///
-    /// - Parameter ListAuditFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAuditFindingsInput`)
     ///
-    /// - Returns: `ListAuditFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAuditFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -945,9 +945,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
     ///
-    /// - Parameter ListGroupingAttributeDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupingAttributeDefinitionsInput`)
     ///
-    /// - Returns: `ListGroupingAttributeDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupingAttributeDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1012,9 +1012,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
     ///
-    /// - Parameter ListServiceDependenciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceDependenciesInput`)
     ///
-    /// - Returns: `ListServiceDependenciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,9 +1081,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
     ///
-    /// - Parameter ListServiceDependentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceDependentsInput`)
     ///
-    /// - Returns: `ListServiceDependentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceDependentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,9 +1150,9 @@ extension ApplicationSignalsClient {
     ///
     /// Retrieves all exclusion windows configured for a specific SLO.
     ///
-    /// - Parameter ListServiceLevelObjectiveExclusionWindowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceLevelObjectiveExclusionWindowsInput`)
     ///
-    /// - Returns: `ListServiceLevelObjectiveExclusionWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceLevelObjectiveExclusionWindowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1217,9 +1217,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns a list of SLOs created in this account.
     ///
-    /// - Parameter ListServiceLevelObjectivesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceLevelObjectivesInput`)
     ///
-    /// - Returns: `ListServiceLevelObjectivesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceLevelObjectivesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,9 +1286,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns a list of the operations of this service that have been discovered by Application Signals. Only the operations that were invoked during the specified time range are returned.
     ///
-    /// - Parameter ListServiceOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceOperationsInput`)
     ///
-    /// - Returns: `ListServiceOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1355,9 +1355,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
     ///
-    /// - Parameter ListServiceStatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceStatesInput`)
     ///
-    /// - Returns: `ListServiceStatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceStatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,9 +1423,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1489,9 +1489,9 @@ extension ApplicationSignalsClient {
     ///
     /// Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1555,9 +1555,9 @@ extension ApplicationSignalsClient {
     ///
     /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
     ///
-    /// - Parameter PutGroupingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutGroupingConfigurationInput`)
     ///
-    /// - Returns: `PutGroupingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutGroupingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1641,9 +1641,9 @@ extension ApplicationSignalsClient {
     ///
     /// After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see [ Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
     ///
-    /// - Parameter StartDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDiscoveryInput`)
     ///
-    /// - Returns: `StartDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDiscoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1707,9 +1707,9 @@ extension ApplicationSignalsClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1776,9 +1776,9 @@ extension ApplicationSignalsClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1844,9 +1844,9 @@ extension ApplicationSignalsClient {
     ///
     /// Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained. You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
     ///
-    /// - Parameter UpdateServiceLevelObjectiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceLevelObjectiveInput`)
     ///
-    /// - Returns: `UpdateServiceLevelObjectiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceLevelObjectiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

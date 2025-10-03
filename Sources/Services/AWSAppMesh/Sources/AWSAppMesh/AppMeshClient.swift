@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppMeshClient: ClientRuntime.Client {
     public static let clientName = "AppMeshClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppMeshClient.AppMeshClientConfiguration
     let serviceName = "App Mesh"
@@ -373,9 +373,9 @@ extension AppMeshClient {
     ///
     /// Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see [Gateway routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/gateway-routes.html).
     ///
-    /// - Parameter CreateGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayRouteInput`)
     ///
-    /// - Returns: `CreateGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension AppMeshClient {
     ///
     /// Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see [Service meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html).
     ///
-    /// - Parameter CreateMeshInput :
+    /// - Parameter input: (Type: `CreateMeshInput`)
     ///
-    /// - Returns: `CreateMeshOutput` :
+    /// - Returns: (Type: `CreateMeshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -524,9 +524,9 @@ extension AppMeshClient {
     ///
     /// Creates a route that is associated with a virtual router. You can route several different protocols and define a retry policy for a route. Traffic can be routed to one or more virtual nodes. For more information about routes, see [Routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html).
     ///
-    /// - Parameter CreateRouteInput :
+    /// - Parameter input: (Type: `CreateRouteInput`)
     ///
-    /// - Returns: `CreateRouteOutput` :
+    /// - Returns: (Type: `CreateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -600,9 +600,9 @@ extension AppMeshClient {
     ///
     /// Creates a virtual gateway. A virtual gateway allows resources outside your mesh to communicate to resources that are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself. For more information about virtual gateways, see [Virtual gateways](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_gateways.html).
     ///
-    /// - Parameter CreateVirtualGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVirtualGatewayInput`)
     ///
-    /// - Returns: `CreateVirtualGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVirtualGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -676,9 +676,9 @@ extension AppMeshClient {
     ///
     /// Creates a virtual node within a service mesh. A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you create a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that your virtual node expects to communicate to is specified as a backend. The response metadata for your new virtual node contains the arn that is associated with the virtual node. Set this value to the full ARN; for example, arn:aws:appmesh:us-west-2:123456789012:myMesh/default/virtualNode/myApp) as the APPMESH_RESOURCE_ARN environment variable for your task group's Envoy proxy container in your task definition or pod spec. This is then mapped to the node.id and node.cluster Envoy parameters. By default, App Mesh uses the name of the resource you specified in APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and traces. You can override this behavior by setting the APPMESH_RESOURCE_CLUSTER environment variable with your own name. For more information about virtual nodes, see [Virtual nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html). You must be using 1.15.0 or later of the Envoy image when setting these variables. For more information aboutApp Mesh Envoy variables, see [Envoy image](https://docs.aws.amazon.com/app-mesh/latest/userguide/envoy.html) in the App Mesh User Guide.
     ///
-    /// - Parameter CreateVirtualNodeInput :
+    /// - Parameter input: (Type: `CreateVirtualNodeInput`)
     ///
-    /// - Returns: `CreateVirtualNodeOutput` :
+    /// - Returns: (Type: `CreateVirtualNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,9 +752,9 @@ extension AppMeshClient {
     ///
     /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see [Virtual routers](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html).
     ///
-    /// - Parameter CreateVirtualRouterInput :
+    /// - Parameter input: (Type: `CreateVirtualRouterInput`)
     ///
-    /// - Returns: `CreateVirtualRouterOutput` :
+    /// - Returns: (Type: `CreateVirtualRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -828,9 +828,9 @@ extension AppMeshClient {
     ///
     /// Creates a virtual service within a service mesh. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router. Dependent services call your virtual service by its virtualServiceName, and those requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service. For more information about virtual services, see [Virtual services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html).
     ///
-    /// - Parameter CreateVirtualServiceInput :
+    /// - Parameter input: (Type: `CreateVirtualServiceInput`)
     ///
-    /// - Returns: `CreateVirtualServiceOutput` :
+    /// - Returns: (Type: `CreateVirtualServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,9 +904,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing gateway route.
     ///
-    /// - Parameter DeleteGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayRouteInput`)
     ///
-    /// - Returns: `DeleteGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -975,9 +975,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing service mesh. You must delete all resources (virtual services, routes, virtual routers, and virtual nodes) in the service mesh before you can delete the mesh itself.
     ///
-    /// - Parameter DeleteMeshInput :
+    /// - Parameter input: (Type: `DeleteMeshInput`)
     ///
-    /// - Returns: `DeleteMeshOutput` :
+    /// - Returns: (Type: `DeleteMeshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,9 +1045,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing route.
     ///
-    /// - Parameter DeleteRouteInput :
+    /// - Parameter input: (Type: `DeleteRouteInput`)
     ///
-    /// - Returns: `DeleteRouteOutput` :
+    /// - Returns: (Type: `DeleteRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,9 +1116,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway routes are associated to it.
     ///
-    /// - Parameter DeleteVirtualGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVirtualGatewayInput`)
     ///
-    /// - Returns: `DeleteVirtualGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVirtualGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1187,9 +1187,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself.
     ///
-    /// - Parameter DeleteVirtualNodeInput : Deletes a virtual node input.
+    /// - Parameter input: Deletes a virtual node input. (Type: `DeleteVirtualNodeInput`)
     ///
-    /// - Returns: `DeleteVirtualNodeOutput` :
+    /// - Returns: (Type: `DeleteVirtualNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1258,9 +1258,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing virtual router. You must delete any routes associated with the virtual router before you can delete the router itself.
     ///
-    /// - Parameter DeleteVirtualRouterInput :
+    /// - Parameter input: (Type: `DeleteVirtualRouterInput`)
     ///
-    /// - Returns: `DeleteVirtualRouterOutput` :
+    /// - Returns: (Type: `DeleteVirtualRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,9 +1329,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing virtual service.
     ///
-    /// - Parameter DeleteVirtualServiceInput :
+    /// - Parameter input: (Type: `DeleteVirtualServiceInput`)
     ///
-    /// - Returns: `DeleteVirtualServiceOutput` :
+    /// - Returns: (Type: `DeleteVirtualServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1400,9 +1400,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing gateway route.
     ///
-    /// - Parameter DescribeGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayRouteInput`)
     ///
-    /// - Returns: `DescribeGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1470,9 +1470,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing service mesh.
     ///
-    /// - Parameter DescribeMeshInput :
+    /// - Parameter input: (Type: `DescribeMeshInput`)
     ///
-    /// - Returns: `DescribeMeshOutput` :
+    /// - Returns: (Type: `DescribeMeshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1540,9 +1540,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing route.
     ///
-    /// - Parameter DescribeRouteInput :
+    /// - Parameter input: (Type: `DescribeRouteInput`)
     ///
-    /// - Returns: `DescribeRouteOutput` :
+    /// - Returns: (Type: `DescribeRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,9 +1610,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing virtual gateway.
     ///
-    /// - Parameter DescribeVirtualGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVirtualGatewayInput`)
     ///
-    /// - Returns: `DescribeVirtualGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVirtualGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1680,9 +1680,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing virtual node.
     ///
-    /// - Parameter DescribeVirtualNodeInput :
+    /// - Parameter input: (Type: `DescribeVirtualNodeInput`)
     ///
-    /// - Returns: `DescribeVirtualNodeOutput` :
+    /// - Returns: (Type: `DescribeVirtualNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1750,9 +1750,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing virtual router.
     ///
-    /// - Parameter DescribeVirtualRouterInput :
+    /// - Parameter input: (Type: `DescribeVirtualRouterInput`)
     ///
-    /// - Returns: `DescribeVirtualRouterOutput` :
+    /// - Returns: (Type: `DescribeVirtualRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,9 +1820,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing virtual service.
     ///
-    /// - Parameter DescribeVirtualServiceInput :
+    /// - Parameter input: (Type: `DescribeVirtualServiceInput`)
     ///
-    /// - Returns: `DescribeVirtualServiceOutput` :
+    /// - Returns: (Type: `DescribeVirtualServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1890,9 +1890,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing gateway routes that are associated to a virtual gateway.
     ///
-    /// - Parameter ListGatewayRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewayRoutesInput`)
     ///
-    /// - Returns: `ListGatewayRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewayRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1960,9 +1960,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing service meshes.
     ///
-    /// - Parameter ListMeshesInput :
+    /// - Parameter input: (Type: `ListMeshesInput`)
     ///
-    /// - Returns: `ListMeshesOutput` :
+    /// - Returns: (Type: `ListMeshesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2030,9 +2030,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing routes in a service mesh.
     ///
-    /// - Parameter ListRoutesInput :
+    /// - Parameter input: (Type: `ListRoutesInput`)
     ///
-    /// - Returns: `ListRoutesOutput` :
+    /// - Returns: (Type: `ListRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2100,9 +2100,9 @@ extension AppMeshClient {
     ///
     /// List the tags for an App Mesh resource.
     ///
-    /// - Parameter ListTagsForResourceInput :
+    /// - Parameter input: (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` :
+    /// - Returns: (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2170,9 +2170,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing virtual gateways in a service mesh.
     ///
-    /// - Parameter ListVirtualGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVirtualGatewaysInput`)
     ///
-    /// - Returns: `ListVirtualGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVirtualGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2240,9 +2240,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing virtual nodes.
     ///
-    /// - Parameter ListVirtualNodesInput :
+    /// - Parameter input: (Type: `ListVirtualNodesInput`)
     ///
-    /// - Returns: `ListVirtualNodesOutput` :
+    /// - Returns: (Type: `ListVirtualNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2310,9 +2310,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing virtual routers in a service mesh.
     ///
-    /// - Parameter ListVirtualRoutersInput :
+    /// - Parameter input: (Type: `ListVirtualRoutersInput`)
     ///
-    /// - Returns: `ListVirtualRoutersOutput` :
+    /// - Returns: (Type: `ListVirtualRoutersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2380,9 +2380,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing virtual services in a service mesh.
     ///
-    /// - Parameter ListVirtualServicesInput :
+    /// - Parameter input: (Type: `ListVirtualServicesInput`)
     ///
-    /// - Returns: `ListVirtualServicesOutput` :
+    /// - Returns: (Type: `ListVirtualServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2450,9 +2450,9 @@ extension AppMeshClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
-    /// - Parameter TagResourceInput :
+    /// - Parameter input: (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` :
+    /// - Returns: (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2524,9 +2524,9 @@ extension AppMeshClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput :
+    /// - Parameter input: (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` :
+    /// - Returns: (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2597,9 +2597,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing gateway route that is associated to a specified virtual gateway in a service mesh.
     ///
-    /// - Parameter UpdateGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayRouteInput`)
     ///
-    /// - Returns: `UpdateGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2673,9 +2673,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing service mesh.
     ///
-    /// - Parameter UpdateMeshInput :
+    /// - Parameter input: (Type: `UpdateMeshInput`)
     ///
-    /// - Returns: `UpdateMeshOutput` :
+    /// - Returns: (Type: `UpdateMeshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2747,9 +2747,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing route for a specified service mesh and virtual router.
     ///
-    /// - Parameter UpdateRouteInput :
+    /// - Parameter input: (Type: `UpdateRouteInput`)
     ///
-    /// - Returns: `UpdateRouteOutput` :
+    /// - Returns: (Type: `UpdateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2823,9 +2823,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing virtual gateway in a specified service mesh.
     ///
-    /// - Parameter UpdateVirtualGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVirtualGatewayInput`)
     ///
-    /// - Returns: `UpdateVirtualGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVirtualGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2899,9 +2899,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing virtual node in a specified service mesh.
     ///
-    /// - Parameter UpdateVirtualNodeInput :
+    /// - Parameter input: (Type: `UpdateVirtualNodeInput`)
     ///
-    /// - Returns: `UpdateVirtualNodeOutput` :
+    /// - Returns: (Type: `UpdateVirtualNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2975,9 +2975,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing virtual router in a specified service mesh.
     ///
-    /// - Parameter UpdateVirtualRouterInput :
+    /// - Parameter input: (Type: `UpdateVirtualRouterInput`)
     ///
-    /// - Returns: `UpdateVirtualRouterOutput` :
+    /// - Returns: (Type: `UpdateVirtualRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3051,9 +3051,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing virtual service in a specified service mesh.
     ///
-    /// - Parameter UpdateVirtualServiceInput :
+    /// - Parameter input: (Type: `UpdateVirtualServiceInput`)
     ///
-    /// - Returns: `UpdateVirtualServiceOutput` :
+    /// - Returns: (Type: `UpdateVirtualServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

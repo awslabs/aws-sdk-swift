@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranslateClient: ClientRuntime.Client {
     public static let clientName = "TranslateClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: TranslateClient.TranslateClientConfiguration
     let serviceName = "Translate"
@@ -374,9 +374,9 @@ extension TranslateClient {
     ///
     /// Creates a parallel data resource in Amazon Translate by importing an input file from Amazon S3. Parallel data files contain examples that show how you want segments of text to be translated. By adding parallel data, you can influence the style, tone, and word choice in your translation output.
     ///
-    /// - Parameter CreateParallelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateParallelDataInput`)
     ///
-    /// - Returns: `CreateParallelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateParallelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -450,9 +450,9 @@ extension TranslateClient {
     ///
     /// Deletes a parallel data resource in Amazon Translate.
     ///
-    /// - Parameter DeleteParallelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteParallelDataInput`)
     ///
-    /// - Returns: `DeleteParallelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteParallelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension TranslateClient {
     ///
     /// A synchronous action that deletes a custom terminology.
     ///
-    /// - Parameter DeleteTerminologyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTerminologyInput`)
     ///
-    /// - Returns: `DeleteTerminologyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTerminologyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension TranslateClient {
     ///
     /// Gets the properties associated with an asynchronous batch translation job including name, ID, status, source and target languages, input/output S3 buckets, and so on.
     ///
-    /// - Parameter DescribeTextTranslationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTextTranslationJobInput`)
     ///
-    /// - Returns: `DescribeTextTranslationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTextTranslationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension TranslateClient {
     ///
     /// Provides information about a parallel data resource.
     ///
-    /// - Parameter GetParallelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParallelDataInput`)
     ///
-    /// - Returns: `GetParallelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParallelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,9 +733,9 @@ extension TranslateClient {
     ///
     /// Retrieves a custom terminology.
     ///
-    /// - Parameter GetTerminologyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTerminologyInput`)
     ///
-    /// - Returns: `GetTerminologyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTerminologyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,9 +804,9 @@ extension TranslateClient {
     ///
     /// Creates or updates a custom terminology, depending on whether one already exists for the given terminology name. Importing a terminology with the same name as an existing one will merge the terminologies based on the chosen merge strategy. The only supported merge strategy is OVERWRITE, where the imported terminology overwrites the existing terminology of the same name. If you import a terminology that overwrites an existing one, the new terminology takes up to 10 minutes to fully propagate. After that, translations have access to the new terminology.
     ///
-    /// - Parameter ImportTerminologyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportTerminologyInput`)
     ///
-    /// - Returns: `ImportTerminologyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportTerminologyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,9 +877,9 @@ extension TranslateClient {
     ///
     /// Provides a list of languages (RFC-5646 codes and names) that Amazon Translate supports.
     ///
-    /// - Parameter ListLanguagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLanguagesInput`)
     ///
-    /// - Returns: `ListLanguagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLanguagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension TranslateClient {
     ///
     /// Provides a list of your parallel data resources in Amazon Translate.
     ///
-    /// - Parameter ListParallelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListParallelDataInput`)
     ///
-    /// - Returns: `ListParallelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListParallelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1018,9 +1018,9 @@ extension TranslateClient {
     ///
     /// Lists all tags associated with a given Amazon Translate resource. For more information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,9 +1088,9 @@ extension TranslateClient {
     ///
     /// Provides a list of custom terminologies associated with your account.
     ///
-    /// - Parameter ListTerminologiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTerminologiesInput`)
     ///
-    /// - Returns: `ListTerminologiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTerminologiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1158,9 +1158,9 @@ extension TranslateClient {
     ///
     /// Gets a list of the batch translation jobs that you have submitted.
     ///
-    /// - Parameter ListTextTranslationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTextTranslationJobsInput`)
     ///
-    /// - Returns: `ListTextTranslationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTextTranslationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1229,9 +1229,9 @@ extension TranslateClient {
     ///
     /// Starts an asynchronous batch translation job. Use batch translation jobs to translate large volumes of text across multiple documents at once. For batch translation, you can input documents with different source languages (specify auto as the source language). You can specify one or more target languages. Batch translation translates each input document into each of the target languages. For more information, see [Asynchronous batch processing](https://docs.aws.amazon.com/translate/latest/dg/async.html). Batch translation jobs can be described with the [DescribeTextTranslationJob] operation, listed with the [ListTextTranslationJobs] operation, and stopped with the [StopTextTranslationJob] operation.
     ///
-    /// - Parameter StartTextTranslationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTextTranslationJobInput`)
     ///
-    /// - Returns: `StartTextTranslationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTextTranslationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1303,9 +1303,9 @@ extension TranslateClient {
     ///
     /// Stops an asynchronous batch translation job that is in progress. If the job's state is IN_PROGRESS, the job will be marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state. Otherwise, the job is put into the STOPPED state. Asynchronous batch translation jobs are started with the [StartTextTranslationJob] operation. You can use the [DescribeTextTranslationJob] or [ListTextTranslationJobs] operations to get a batch translation job's JobId.
     ///
-    /// - Parameter StopTextTranslationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTextTranslationJobInput`)
     ///
-    /// - Returns: `StopTextTranslationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTextTranslationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1373,9 +1373,9 @@ extension TranslateClient {
     ///
     /// Associates a specific tag with a resource. A tag is a key-value pair that adds as a metadata to a resource. For more information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1445,9 +1445,9 @@ extension TranslateClient {
     ///
     /// Translates the input document from the source language to the target language. This synchronous operation supports text, HTML, or Word documents as the input document. TranslateDocument supports translations from English to any supported language, and from any supported language to English. Therefore, specify either the source language code or the target language code as “en” (English). If you set the Formality parameter, the request will fail if the target language does not support formality. For a list of target languages that support formality, see [Setting formality](https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html).
     ///
-    /// - Parameter TranslateDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TranslateDocumentInput`)
     ///
-    /// - Returns: `TranslateDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TranslateDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,9 +1519,9 @@ extension TranslateClient {
     ///
     /// Translates input text from the source language to the target language. For a list of available languages and language codes, see [Supported languages](https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html).
     ///
-    /// - Parameter TranslateTextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TranslateTextInput`)
     ///
-    /// - Returns: `TranslateTextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TranslateTextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,9 +1594,9 @@ extension TranslateClient {
     ///
     /// Removes a specific tag associated with an Amazon Translate resource. For more information, see [ Tagging your resources](https://docs.aws.amazon.com/translate/latest/dg/tagging.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1665,9 +1665,9 @@ extension TranslateClient {
     ///
     /// Updates a previously created parallel data resource by importing a new input file from Amazon S3.
     ///
-    /// - Parameter UpdateParallelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateParallelDataInput`)
     ///
-    /// - Returns: `UpdateParallelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateParallelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

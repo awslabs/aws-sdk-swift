@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMGuiConnectClient: ClientRuntime.Client {
     public static let clientName = "SSMGuiConnectClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMGuiConnectClient.SSMGuiConnectClientConfiguration
     let serviceName = "SSM GuiConnect"
@@ -372,9 +372,9 @@ extension SSMGuiConnectClient {
     ///
     /// Deletes the preferences for recording RDP connections.
     ///
-    /// - Parameter DeleteConnectionRecordingPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionRecordingPreferencesInput`)
     ///
-    /// - Returns: `DeleteConnectionRecordingPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionRecordingPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension SSMGuiConnectClient {
     ///
     /// Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter GetConnectionRecordingPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionRecordingPreferencesInput`)
     ///
-    /// - Returns: `GetConnectionRecordingPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionRecordingPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension SSMGuiConnectClient {
     ///
     /// Updates the preferences for recording RDP connections.
     ///
-    /// - Parameter UpdateConnectionRecordingPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionRecordingPreferencesInput`)
     ///
-    /// - Returns: `UpdateConnectionRecordingPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionRecordingPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

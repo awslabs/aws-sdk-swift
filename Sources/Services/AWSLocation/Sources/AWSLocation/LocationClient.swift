@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LocationClient: ClientRuntime.Client {
     public static let clientName = "LocationClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: LocationClient.LocationClientConfiguration
     let serviceName = "Location"
@@ -373,9 +373,9 @@ extension LocationClient {
     ///
     /// Creates an association between a geofence collection and a tracker resource. This allows the tracker resource to communicate location data to the linked geofence collection. You can associate up to five geofence collections to each tracker resource. Currently not supported — Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
     ///
-    /// - Parameter AssociateTrackerConsumerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTrackerConsumerInput`)
     ///
-    /// - Returns: `AssociateTrackerConsumerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTrackerConsumerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension LocationClient {
     ///
     /// Deletes the position history of one or more devices from a tracker resource.
     ///
-    /// - Parameter BatchDeleteDevicePositionHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteDevicePositionHistoryInput`)
     ///
-    /// - Returns: `BatchDeleteDevicePositionHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteDevicePositionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension LocationClient {
     ///
     /// Deletes a batch of geofences from a geofence collection. This operation deletes the resource permanently.
     ///
-    /// - Parameter BatchDeleteGeofenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteGeofenceInput`)
     ///
-    /// - Returns: `BatchDeleteGeofenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteGeofenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -595,9 +595,9 @@ extension LocationClient {
     ///
     /// The last geofence that a device was observed within is tracked for 30 days after the most recent device position update. Geofence evaluation uses the given device position. It does not account for the optional Accuracy of a DevicePositionUpdate. The DeviceID is used as a string to represent the device. You do not need to have a Tracker associated with the DeviceID.
     ///
-    /// - Parameter BatchEvaluateGeofencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchEvaluateGeofencesInput`)
     ///
-    /// - Returns: `BatchEvaluateGeofencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchEvaluateGeofencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,9 +666,9 @@ extension LocationClient {
     ///
     /// Lists the latest device positions for requested devices.
     ///
-    /// - Parameter BatchGetDevicePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetDevicePositionInput`)
     ///
-    /// - Returns: `BatchGetDevicePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetDevicePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension LocationClient {
     ///
     /// A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
     ///
-    /// - Parameter BatchPutGeofenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutGeofenceInput`)
     ///
-    /// - Returns: `BatchPutGeofenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutGeofenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -808,9 +808,9 @@ extension LocationClient {
     ///
     /// Uploads position update data for one or more devices to a tracker resource (up to 10 devices per batch). Amazon Location uses the data when it reports the last known device position and position history. Amazon Location retains location data for 30 days. Position updates are handled based on the PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased, updates are evaluated against linked geofence collections, and location data is stored at a maximum of one position per 30 second interval. If your update frequency is more often than every 30 seconds, only one update per 30 seconds is stored for each unique device ID. When PositionFiltering is set to DistanceBased filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than 30 m (98.4 ft). When PositionFiltering is set to AccuracyBased filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than the measured accuracy. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device has moved less than 15 m. If PositionFiltering is set to AccuracyBased filtering, Amazon Location uses the default value { "Horizontal": 0} when accuracy is not provided on a DevicePositionUpdate.
     ///
-    /// - Parameter BatchUpdateDevicePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateDevicePositionInput`)
     ///
-    /// - Returns: `BatchUpdateDevicePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateDevicePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -883,9 +883,9 @@ extension LocationClient {
     ///
     /// * [Specifying a travel mode](https://docs.aws.amazon.com/location/previous/developerguide/travel-mode.html) using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck. If you specify walking for the travel mode and your data provider is Esri, the start and destination must be within 40km.
     ///
-    /// - Parameter CalculateRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CalculateRouteInput`)
     ///
-    /// - Returns: `CalculateRouteOutput` : Returns the result of the route calculation. Metadata includes legs and route summary.
+    /// - Returns: Returns the result of the route calculation. Metadata includes legs and route summary. (Type: `CalculateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -959,9 +959,9 @@ extension LocationClient {
     ///
     /// * [Specifying a travel mode](https://docs.aws.amazon.com/location/previous/developerguide/travel-mode.html) using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
     ///
-    /// - Parameter CalculateRouteMatrixInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CalculateRouteMatrixInput`)
     ///
-    /// - Returns: `CalculateRouteMatrixOutput` : Returns the result of the route matrix calculation.
+    /// - Returns: Returns the result of the route matrix calculation. (Type: `CalculateRouteMatrixOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1031,9 +1031,9 @@ extension LocationClient {
     ///
     /// Creates a geofence collection, which manages and stores geofences.
     ///
-    /// - Parameter CreateGeofenceCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGeofenceCollectionInput`)
     ///
-    /// - Returns: `CreateGeofenceCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGeofenceCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1103,9 +1103,9 @@ extension LocationClient {
     ///
     /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see [Using API keys](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html).
     ///
-    /// - Parameter CreateKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyInput`)
     ///
-    /// - Returns: `CreateKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1175,9 +1175,9 @@ extension LocationClient {
     ///
     /// Creates a map resource in your Amazon Web Services account, which provides map tiles of different styles sourced from global location data providers. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
-    /// - Parameter CreateMapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMapInput`)
     ///
-    /// - Returns: `CreateMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1247,9 +1247,9 @@ extension LocationClient {
     ///
     /// Creates a place index resource in your Amazon Web Services account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
-    /// - Parameter CreatePlaceIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePlaceIndexInput`)
     ///
-    /// - Returns: `CreatePlaceIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePlaceIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1319,9 +1319,9 @@ extension LocationClient {
     ///
     /// Creates a route calculator resource in your Amazon Web Services account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
-    /// - Parameter CreateRouteCalculatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRouteCalculatorInput`)
     ///
-    /// - Returns: `CreateRouteCalculatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteCalculatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1391,9 +1391,9 @@ extension LocationClient {
     ///
     /// Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
     ///
-    /// - Parameter CreateTrackerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrackerInput`)
     ///
-    /// - Returns: `CreateTrackerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrackerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1463,9 +1463,9 @@ extension LocationClient {
     ///
     /// Deletes a geofence collection from your Amazon Web Services account. This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
     ///
-    /// - Parameter DeleteGeofenceCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGeofenceCollectionInput`)
     ///
-    /// - Returns: `DeleteGeofenceCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGeofenceCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1531,9 +1531,9 @@ extension LocationClient {
     ///
     /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously.
     ///
-    /// - Parameter DeleteKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyInput`)
     ///
-    /// - Returns: `DeleteKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1600,9 +1600,9 @@ extension LocationClient {
     ///
     /// Deletes a map resource from your Amazon Web Services account. This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
     ///
-    /// - Parameter DeleteMapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMapInput`)
     ///
-    /// - Returns: `DeleteMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1668,9 +1668,9 @@ extension LocationClient {
     ///
     /// Deletes a place index resource from your Amazon Web Services account. This operation deletes the resource permanently.
     ///
-    /// - Parameter DeletePlaceIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlaceIndexInput`)
     ///
-    /// - Returns: `DeletePlaceIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlaceIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1736,9 +1736,9 @@ extension LocationClient {
     ///
     /// Deletes a route calculator resource from your Amazon Web Services account. This operation deletes the resource permanently.
     ///
-    /// - Parameter DeleteRouteCalculatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteCalculatorInput`)
     ///
-    /// - Returns: `DeleteRouteCalculatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteCalculatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,9 +1804,9 @@ extension LocationClient {
     ///
     /// Deletes a tracker resource from your Amazon Web Services account. This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
     ///
-    /// - Parameter DeleteTrackerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrackerInput`)
     ///
-    /// - Returns: `DeleteTrackerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrackerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,9 +1872,9 @@ extension LocationClient {
     ///
     /// Retrieves the geofence collection details.
     ///
-    /// - Parameter DescribeGeofenceCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGeofenceCollectionInput`)
     ///
-    /// - Returns: `DescribeGeofenceCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGeofenceCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1940,9 +1940,9 @@ extension LocationClient {
     ///
     /// Retrieves the API key resource details.
     ///
-    /// - Parameter DescribeKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyInput`)
     ///
-    /// - Returns: `DescribeKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2008,9 +2008,9 @@ extension LocationClient {
     ///
     /// Retrieves the map resource details.
     ///
-    /// - Parameter DescribeMapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMapInput`)
     ///
-    /// - Returns: `DescribeMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2076,9 +2076,9 @@ extension LocationClient {
     ///
     /// Retrieves the place index resource details.
     ///
-    /// - Parameter DescribePlaceIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePlaceIndexInput`)
     ///
-    /// - Returns: `DescribePlaceIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePlaceIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2144,9 +2144,9 @@ extension LocationClient {
     ///
     /// Retrieves the route calculator resource details.
     ///
-    /// - Parameter DescribeRouteCalculatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRouteCalculatorInput`)
     ///
-    /// - Returns: `DescribeRouteCalculatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRouteCalculatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,9 +2212,9 @@ extension LocationClient {
     ///
     /// Retrieves the tracker resource details.
     ///
-    /// - Parameter DescribeTrackerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrackerInput`)
     ///
-    /// - Returns: `DescribeTrackerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrackerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2280,9 +2280,9 @@ extension LocationClient {
     ///
     /// Removes the association between a tracker resource and a geofence collection. Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
     ///
-    /// - Parameter DisassociateTrackerConsumerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTrackerConsumerInput`)
     ///
-    /// - Returns: `DisassociateTrackerConsumerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTrackerConsumerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2348,9 +2348,9 @@ extension LocationClient {
     ///
     /// This action forecasts future geofence events that are likely to occur within a specified time horizon if a device continues moving at its current speed. Each forecasted event is associated with a geofence from a provided geofence collection. A forecast event can have one of the following states: ENTER: The device position is outside the referenced geofence, but the device may cross into the geofence during the forecasting time horizon if it maintains its current speed. EXIT: The device position is inside the referenced geofence, but the device may leave the geofence during the forecasted time horizon if the device maintains it's current speed. IDLE:The device is inside the geofence, and it will remain inside the geofence through the end of the time horizon if the device maintains it's current speed. Heading direction is not considered in the current version. The API takes a conservative approach and includes events that can occur for any heading.
     ///
-    /// - Parameter ForecastGeofenceEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ForecastGeofenceEventsInput`)
     ///
-    /// - Returns: `ForecastGeofenceEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ForecastGeofenceEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2419,9 +2419,9 @@ extension LocationClient {
     ///
     /// Retrieves a device's most recent position according to its sample time. Device positions are deleted after 30 days.
     ///
-    /// - Parameter GetDevicePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDevicePositionInput`)
     ///
-    /// - Returns: `GetDevicePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDevicePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2487,9 +2487,9 @@ extension LocationClient {
     ///
     /// Retrieves the device position history from a tracker resource within a specified range of time. Device positions are deleted after 30 days.
     ///
-    /// - Parameter GetDevicePositionHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDevicePositionHistoryInput`)
     ///
-    /// - Returns: `GetDevicePositionHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDevicePositionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2558,9 +2558,9 @@ extension LocationClient {
     ///
     /// Retrieves the geofence details from a geofence collection. The returned geometry will always match the geometry format used when the geofence was created.
     ///
-    /// - Parameter GetGeofenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGeofenceInput`)
     ///
-    /// - Returns: `GetGeofenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGeofenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2626,9 +2626,9 @@ extension LocationClient {
     ///
     /// Retrieves glyphs used to display labels on a map.
     ///
-    /// - Parameter GetMapGlyphsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMapGlyphsInput`)
     ///
-    /// - Returns: `GetMapGlyphsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMapGlyphsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2695,9 +2695,9 @@ extension LocationClient {
     ///
     /// Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image paired with a JSON document describing the offsets of individual icons that will be displayed on a rendered map.
     ///
-    /// - Parameter GetMapSpritesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMapSpritesInput`)
     ///
-    /// - Returns: `GetMapSpritesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMapSpritesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2764,9 +2764,9 @@ extension LocationClient {
     ///
     /// Retrieves the map style descriptor from a map resource. The style descriptor contains speciﬁcations on how features render on a map. For example, what data to display, what order to display the data in, and the style for the data. Style descriptors follow the Mapbox Style Specification.
     ///
-    /// - Parameter GetMapStyleDescriptorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMapStyleDescriptorInput`)
     ///
-    /// - Returns: `GetMapStyleDescriptorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMapStyleDescriptorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2833,9 +2833,9 @@ extension LocationClient {
     ///
     /// Retrieves a vector data tile from the map resource. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
     ///
-    /// - Parameter GetMapTileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMapTileInput`)
     ///
-    /// - Returns: `GetMapTileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMapTileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2911,9 +2911,9 @@ extension LocationClient {
     ///
     /// If your Place index resource is configured with Grab as your geolocation provider and Storage as Intended use, the GetPlace operation is unavailable. For more information, see [AWS service terms](http://aws.amazon.com/service-terms).
     ///
-    /// - Parameter GetPlaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlaceInput`)
     ///
-    /// - Returns: `GetPlaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2980,9 +2980,9 @@ extension LocationClient {
     ///
     /// A batch request to retrieve all device positions.
     ///
-    /// - Parameter ListDevicePositionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicePositionsInput`)
     ///
-    /// - Returns: `ListDevicePositionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicePositionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3050,9 +3050,9 @@ extension LocationClient {
     ///
     /// Lists geofence collections in your Amazon Web Services account.
     ///
-    /// - Parameter ListGeofenceCollectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGeofenceCollectionsInput`)
     ///
-    /// - Returns: `ListGeofenceCollectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGeofenceCollectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3120,9 +3120,9 @@ extension LocationClient {
     ///
     /// Lists geofences stored in a given geofence collection.
     ///
-    /// - Parameter ListGeofencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGeofencesInput`)
     ///
-    /// - Returns: `ListGeofencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGeofencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3191,9 +3191,9 @@ extension LocationClient {
     ///
     /// Lists API key resources in your Amazon Web Services account.
     ///
-    /// - Parameter ListKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeysInput`)
     ///
-    /// - Returns: `ListKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3261,9 +3261,9 @@ extension LocationClient {
     ///
     /// Lists map resources in your Amazon Web Services account.
     ///
-    /// - Parameter ListMapsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMapsInput`)
     ///
-    /// - Returns: `ListMapsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMapsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3331,9 +3331,9 @@ extension LocationClient {
     ///
     /// Lists place index resources in your Amazon Web Services account.
     ///
-    /// - Parameter ListPlaceIndexesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlaceIndexesInput`)
     ///
-    /// - Returns: `ListPlaceIndexesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlaceIndexesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3401,9 +3401,9 @@ extension LocationClient {
     ///
     /// Lists route calculator resources in your Amazon Web Services account.
     ///
-    /// - Parameter ListRouteCalculatorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRouteCalculatorsInput`)
     ///
-    /// - Returns: `ListRouteCalculatorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRouteCalculatorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3471,9 +3471,9 @@ extension LocationClient {
     ///
     /// Returns a list of tags that are applied to the specified Amazon Location resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3539,9 +3539,9 @@ extension LocationClient {
     ///
     /// Lists geofence collections currently associated to the given tracker resource.
     ///
-    /// - Parameter ListTrackerConsumersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrackerConsumersInput`)
     ///
-    /// - Returns: `ListTrackerConsumersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrackerConsumersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3610,9 +3610,9 @@ extension LocationClient {
     ///
     /// Lists tracker resources in your Amazon Web Services account.
     ///
-    /// - Parameter ListTrackersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrackersInput`)
     ///
-    /// - Returns: `ListTrackersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrackersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3680,9 +3680,9 @@ extension LocationClient {
     ///
     /// Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
     ///
-    /// - Parameter PutGeofenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutGeofenceInput`)
     ///
-    /// - Returns: `PutGeofenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutGeofenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3752,9 +3752,9 @@ extension LocationClient {
     ///
     /// Reverse geocodes a given coordinate and returns a legible address. Allows you to search for Places or points of interest near a given position.
     ///
-    /// - Parameter SearchPlaceIndexForPositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchPlaceIndexForPositionInput`)
     ///
-    /// - Returns: `SearchPlaceIndexForPositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchPlaceIndexForPositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3824,9 +3824,9 @@ extension LocationClient {
     ///
     /// Generates suggestions for addresses and points of interest based on partial or misspelled free-form text. This operation is also known as autocomplete, autosuggest, or fuzzy matching. Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe. You can search for suggested place names near a specified position by using BiasPosition, or filter results within a bounding box by using FilterBBox. These parameters are mutually exclusive; using both BiasPosition and FilterBBox in the same command returns an error.
     ///
-    /// - Parameter SearchPlaceIndexForSuggestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchPlaceIndexForSuggestionsInput`)
     ///
-    /// - Returns: `SearchPlaceIndexForSuggestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchPlaceIndexForSuggestionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3896,9 +3896,9 @@ extension LocationClient {
     ///
     /// Geocodes free-form text, such as an address, name, city, or region to allow you to search for Places or points of interest. Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe. You can search for places near a given position using BiasPosition, or filter results within a bounding box using FilterBBox. Providing both parameters simultaneously returns an error. Search results are returned in order of highest to lowest relevance.
     ///
-    /// - Parameter SearchPlaceIndexForTextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchPlaceIndexForTextInput`)
     ///
-    /// - Returns: `SearchPlaceIndexForTextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchPlaceIndexForTextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3968,9 +3968,9 @@ extension LocationClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the resource. If you specify a tag key that's already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate up to 50 tags with a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4039,9 +4039,9 @@ extension LocationClient {
     ///
     /// Removes one or more tags from the specified Amazon Location resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4108,9 +4108,9 @@ extension LocationClient {
     ///
     /// Updates the specified properties of a given geofence collection.
     ///
-    /// - Parameter UpdateGeofenceCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGeofenceCollectionInput`)
     ///
-    /// - Returns: `UpdateGeofenceCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGeofenceCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4179,9 +4179,9 @@ extension LocationClient {
     ///
     /// Updates the specified properties of a given API key resource.
     ///
-    /// - Parameter UpdateKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyInput`)
     ///
-    /// - Returns: `UpdateKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4250,9 +4250,9 @@ extension LocationClient {
     ///
     /// Updates the specified properties of a given map resource.
     ///
-    /// - Parameter UpdateMapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMapInput`)
     ///
-    /// - Returns: `UpdateMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4321,9 +4321,9 @@ extension LocationClient {
     ///
     /// Updates the specified properties of a given place index resource.
     ///
-    /// - Parameter UpdatePlaceIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlaceIndexInput`)
     ///
-    /// - Returns: `UpdatePlaceIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlaceIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4392,9 +4392,9 @@ extension LocationClient {
     ///
     /// Updates the specified properties for a given route calculator resource.
     ///
-    /// - Parameter UpdateRouteCalculatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRouteCalculatorInput`)
     ///
-    /// - Returns: `UpdateRouteCalculatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRouteCalculatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4463,9 +4463,9 @@ extension LocationClient {
     ///
     /// Updates the specified properties of a given tracker resource.
     ///
-    /// - Parameter UpdateTrackerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrackerInput`)
     ///
-    /// - Returns: `UpdateTrackerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrackerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4534,9 +4534,9 @@ extension LocationClient {
     ///
     /// Verifies the integrity of the device's position by determining if it was reported behind a proxy, and by comparing it to an inferred position estimated based on the device's state. The Location Integrity SDK provides enhanced features related to device verification, and it is available for use by request. To get access to the SDK, contact [Sales Support](https://aws.amazon.com/contact-us/sales-support/?pg=locationprice&cta=herobtn).
     ///
-    /// - Parameter VerifyDevicePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyDevicePositionInput`)
     ///
-    /// - Returns: `VerifyDevicePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyDevicePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

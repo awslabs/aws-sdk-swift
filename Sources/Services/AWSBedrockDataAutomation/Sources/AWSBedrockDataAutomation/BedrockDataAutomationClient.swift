@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockDataAutomationClient: ClientRuntime.Client {
     public static let clientName = "BedrockDataAutomationClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockDataAutomationClient.BedrockDataAutomationClientConfiguration
     let serviceName = "Bedrock Data Automation"
@@ -373,9 +373,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Creates an Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter CreateBlueprintInput : Create Blueprint Request
+    /// - Parameter input: Create Blueprint Request (Type: `CreateBlueprintInput`)
     ///
-    /// - Returns: `CreateBlueprintOutput` : Create Blueprint Response
+    /// - Returns: Create Blueprint Response (Type: `CreateBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter CreateBlueprintVersionInput : Create Blueprint Version Request
+    /// - Parameter input: Create Blueprint Version Request (Type: `CreateBlueprintVersionInput`)
     ///
-    /// - Returns: `CreateBlueprintVersionOutput` : Create Blueprint Version Response
+    /// - Returns: Create Blueprint Version Response (Type: `CreateBlueprintVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Creates an Amazon Bedrock Data Automation Project
     ///
-    /// - Parameter CreateDataAutomationProjectInput : Create DataAutomationProject Request
+    /// - Parameter input: Create DataAutomationProject Request (Type: `CreateDataAutomationProjectInput`)
     ///
-    /// - Returns: `CreateDataAutomationProjectOutput` : Create DataAutomationProject Response
+    /// - Returns: Create DataAutomationProject Response (Type: `CreateDataAutomationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Deletes an existing Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter DeleteBlueprintInput : Delete Blueprint Request
+    /// - Parameter input: Delete Blueprint Request (Type: `DeleteBlueprintInput`)
     ///
-    /// - Returns: `DeleteBlueprintOutput` : Delete Blueprint Response
+    /// - Returns: Delete Blueprint Response (Type: `DeleteBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Deletes an existing Amazon Bedrock Data Automation Project
     ///
-    /// - Parameter DeleteDataAutomationProjectInput : Delete DataAutomationProject Request
+    /// - Parameter input: Delete DataAutomationProject Request (Type: `DeleteDataAutomationProjectInput`)
     ///
-    /// - Returns: `DeleteDataAutomationProjectOutput` : Delete DataAutomationProject Response
+    /// - Returns: Delete DataAutomationProject Response (Type: `DeleteDataAutomationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Gets an existing Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter GetBlueprintInput : Get Blueprint Request
+    /// - Parameter input: Get Blueprint Request (Type: `GetBlueprintInput`)
     ///
-    /// - Returns: `GetBlueprintOutput` : Get Blueprint Response
+    /// - Returns: Get Blueprint Response (Type: `GetBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,9 +800,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Gets an existing Amazon Bedrock Data Automation Project
     ///
-    /// - Parameter GetDataAutomationProjectInput : Get DataAutomationProject Request
+    /// - Parameter input: Get DataAutomationProject Request (Type: `GetDataAutomationProjectInput`)
     ///
-    /// - Returns: `GetDataAutomationProjectOutput` : Get DataAutomationProject Response
+    /// - Returns: Get DataAutomationProject Response (Type: `GetDataAutomationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Lists all existing Amazon Bedrock Data Automation Blueprints
     ///
-    /// - Parameter ListBlueprintsInput : List Blueprint Request
+    /// - Parameter input: List Blueprint Request (Type: `ListBlueprintsInput`)
     ///
-    /// - Returns: `ListBlueprintsOutput` : List Blueprint Response
+    /// - Returns: List Blueprint Response (Type: `ListBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,9 +942,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Lists all existing Amazon Bedrock Data Automation Projects
     ///
-    /// - Parameter ListDataAutomationProjectsInput : List DataAutomationProject Request
+    /// - Parameter input: List DataAutomationProject Request (Type: `ListDataAutomationProjectsInput`)
     ///
-    /// - Returns: `ListDataAutomationProjectsOutput` : List DataAutomationProject Response
+    /// - Returns: List DataAutomationProject Response (Type: `ListDataAutomationProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,9 +1013,9 @@ extension BedrockDataAutomationClient {
     ///
     /// List tags for an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1084,9 +1084,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Tag an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1156,9 +1156,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Untag an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,9 +1227,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Updates an existing Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter UpdateBlueprintInput : Update Blueprint Request
+    /// - Parameter input: Update Blueprint Request (Type: `UpdateBlueprintInput`)
     ///
-    /// - Returns: `UpdateBlueprintOutput` : Update Blueprint Response
+    /// - Returns: Update Blueprint Response (Type: `UpdateBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1299,9 +1299,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Updates an existing Amazon Bedrock Data Automation Project
     ///
-    /// - Parameter UpdateDataAutomationProjectInput : Update DataAutomationProject Request
+    /// - Parameter input: Update DataAutomationProject Request (Type: `UpdateDataAutomationProjectInput`)
     ///
-    /// - Returns: `UpdateDataAutomationProjectOutput` : Update DataAutomationProject Response
+    /// - Returns: Update DataAutomationProject Response (Type: `UpdateDataAutomationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

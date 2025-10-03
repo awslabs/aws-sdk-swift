@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BudgetsClient: ClientRuntime.Client {
     public static let clientName = "BudgetsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BudgetsClient.BudgetsClientConfiguration
     let serviceName = "Budgets"
@@ -372,9 +372,9 @@ extension BudgetsClient {
     ///
     /// Creates a budget and, if included, notifications and subscribers. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your use case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples) section. Similarly, only one set of filter and metric selections can be present in the syntax at one time. Either FilterExpression and Metrics or CostFilters and CostTypes, not both or a different combination. We recommend using FilterExpression and Metrics as they provide more flexible and powerful filtering capabilities. The Request Syntax section shows the FilterExpression/Metrics syntax.
     ///
-    /// - Parameter CreateBudgetInput : Request of CreateBudget
+    /// - Parameter input: Request of CreateBudget (Type: `CreateBudgetInput`)
     ///
-    /// - Returns: `CreateBudgetOutput` : Response of CreateBudget
+    /// - Returns: Response of CreateBudget (Type: `CreateBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension BudgetsClient {
     ///
     /// Creates a budget action.
     ///
-    /// - Parameter CreateBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBudgetActionInput`)
     ///
-    /// - Returns: `CreateBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,9 +523,9 @@ extension BudgetsClient {
     ///
     /// Creates a notification. You must create the budget before you create the associated notification.
     ///
-    /// - Parameter CreateNotificationInput : Request of CreateNotification
+    /// - Parameter input: Request of CreateNotification (Type: `CreateNotificationInput`)
     ///
-    /// - Returns: `CreateNotificationOutput` : Response of CreateNotification
+    /// - Returns: Response of CreateNotification (Type: `CreateNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension BudgetsClient {
     ///
     /// Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
     ///
-    /// - Parameter CreateSubscriberInput : Request of CreateSubscriber
+    /// - Parameter input: Request of CreateSubscriber (Type: `CreateSubscriberInput`)
     ///
-    /// - Returns: `CreateSubscriberOutput` : Response of CreateSubscriber
+    /// - Returns: Response of CreateSubscriber (Type: `CreateSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension BudgetsClient {
     ///
     /// Deletes a budget. You can delete your budget at any time. Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
     ///
-    /// - Parameter DeleteBudgetInput : Request of DeleteBudget
+    /// - Parameter input: Request of DeleteBudget (Type: `DeleteBudgetInput`)
     ///
-    /// - Returns: `DeleteBudgetOutput` : Response of DeleteBudget
+    /// - Returns: Response of DeleteBudget (Type: `DeleteBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,9 +743,9 @@ extension BudgetsClient {
     ///
     /// Deletes a budget action.
     ///
-    /// - Parameter DeleteBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBudgetActionInput`)
     ///
-    /// - Returns: `DeleteBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -816,9 +816,9 @@ extension BudgetsClient {
     ///
     /// Deletes a notification. Deleting a notification also deletes the subscribers that are associated with the notification.
     ///
-    /// - Parameter DeleteNotificationInput : Request of DeleteNotification
+    /// - Parameter input: Request of DeleteNotification (Type: `DeleteNotificationInput`)
     ///
-    /// - Returns: `DeleteNotificationOutput` : Response of DeleteNotification
+    /// - Returns: Response of DeleteNotification (Type: `DeleteNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -888,9 +888,9 @@ extension BudgetsClient {
     ///
     /// Deletes a subscriber. Deleting the last subscriber to a notification also deletes the notification.
     ///
-    /// - Parameter DeleteSubscriberInput : Request of DeleteSubscriber
+    /// - Parameter input: Request of DeleteSubscriber (Type: `DeleteSubscriberInput`)
     ///
-    /// - Returns: `DeleteSubscriberOutput` : Response of DeleteSubscriber
+    /// - Returns: Response of DeleteSubscriber (Type: `DeleteSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,9 +960,9 @@ extension BudgetsClient {
     ///
     /// Describes a budget. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples) section.
     ///
-    /// - Parameter DescribeBudgetInput : Request of DescribeBudget
+    /// - Parameter input: Request of DescribeBudget (Type: `DescribeBudgetInput`)
     ///
-    /// - Returns: `DescribeBudgetOutput` : Response of DescribeBudget
+    /// - Returns: Response of DescribeBudget (Type: `DescribeBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1032,9 +1032,9 @@ extension BudgetsClient {
     ///
     /// Describes a budget action detail.
     ///
-    /// - Parameter DescribeBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetActionInput`)
     ///
-    /// - Returns: `DescribeBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1104,9 +1104,9 @@ extension BudgetsClient {
     ///
     /// Describes a budget action history detail.
     ///
-    /// - Parameter DescribeBudgetActionHistoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetActionHistoriesInput`)
     ///
-    /// - Returns: `DescribeBudgetActionHistoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetActionHistoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1177,9 +1177,9 @@ extension BudgetsClient {
     ///
     /// Describes all of the budget actions for an account.
     ///
-    /// - Parameter DescribeBudgetActionsForAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetActionsForAccountInput`)
     ///
-    /// - Returns: `DescribeBudgetActionsForAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetActionsForAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1249,9 +1249,9 @@ extension BudgetsClient {
     ///
     /// Describes all of the budget actions for a budget.
     ///
-    /// - Parameter DescribeBudgetActionsForBudgetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetActionsForBudgetInput`)
     ///
-    /// - Returns: `DescribeBudgetActionsForBudgetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetActionsForBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1322,9 +1322,9 @@ extension BudgetsClient {
     ///
     /// Lists the budget names and notifications that are associated with an account.
     ///
-    /// - Parameter DescribeBudgetNotificationsForAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetNotificationsForAccountInput`)
     ///
-    /// - Returns: `DescribeBudgetNotificationsForAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetNotificationsForAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,9 +1396,9 @@ extension BudgetsClient {
     ///
     /// Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     ///
-    /// - Parameter DescribeBudgetPerformanceHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetPerformanceHistoryInput`)
     ///
-    /// - Returns: `DescribeBudgetPerformanceHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetPerformanceHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1470,9 +1470,9 @@ extension BudgetsClient {
     ///
     /// Lists the budgets that are associated with an account. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples) section.
     ///
-    /// - Parameter DescribeBudgetsInput : Request of DescribeBudgets
+    /// - Parameter input: Request of DescribeBudgets (Type: `DescribeBudgetsInput`)
     ///
-    /// - Returns: `DescribeBudgetsOutput` : Response of DescribeBudgets
+    /// - Returns: Response of DescribeBudgets (Type: `DescribeBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1544,9 +1544,9 @@ extension BudgetsClient {
     ///
     /// Lists the notifications that are associated with a budget.
     ///
-    /// - Parameter DescribeNotificationsForBudgetInput : Request of DescribeNotificationsForBudget
+    /// - Parameter input: Request of DescribeNotificationsForBudget (Type: `DescribeNotificationsForBudgetInput`)
     ///
-    /// - Returns: `DescribeNotificationsForBudgetOutput` : Response of GetNotificationsForBudget
+    /// - Returns: Response of GetNotificationsForBudget (Type: `DescribeNotificationsForBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1618,9 +1618,9 @@ extension BudgetsClient {
     ///
     /// Lists the subscribers that are associated with a notification.
     ///
-    /// - Parameter DescribeSubscribersForNotificationInput : Request of DescribeSubscribersForNotification
+    /// - Parameter input: Request of DescribeSubscribersForNotification (Type: `DescribeSubscribersForNotificationInput`)
     ///
-    /// - Returns: `DescribeSubscribersForNotificationOutput` : Response of DescribeSubscribersForNotification
+    /// - Returns: Response of DescribeSubscribersForNotification (Type: `DescribeSubscribersForNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,9 +1692,9 @@ extension BudgetsClient {
     ///
     /// Executes a budget action.
     ///
-    /// - Parameter ExecuteBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteBudgetActionInput`)
     ///
-    /// - Returns: `ExecuteBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1765,9 +1765,9 @@ extension BudgetsClient {
     ///
     /// Lists tags associated with a budget or budget action resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1837,9 +1837,9 @@ extension BudgetsClient {
     ///
     /// Creates tags for a budget or budget action resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,9 +1910,9 @@ extension BudgetsClient {
     ///
     /// Deletes tags associated with a budget or budget action resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1982,9 +1982,9 @@ extension BudgetsClient {
     ///
     /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples) section. Similarly, only one set of filter and metric selections can be present in the syntax at one time. Either FilterExpression and Metrics or CostFilters and CostTypes, not both or a different combination. We recommend using FilterExpression and Metrics as they provide more flexible and powerful filtering capabilities. The Request Syntax section shows the FilterExpression/Metrics syntax.
     ///
-    /// - Parameter UpdateBudgetInput : Request of UpdateBudget
+    /// - Parameter input: Request of UpdateBudget (Type: `UpdateBudgetInput`)
     ///
-    /// - Returns: `UpdateBudgetOutput` : Response of UpdateBudget
+    /// - Returns: Response of UpdateBudget (Type: `UpdateBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2055,9 +2055,9 @@ extension BudgetsClient {
     ///
     /// Updates a budget action.
     ///
-    /// - Parameter UpdateBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBudgetActionInput`)
     ///
-    /// - Returns: `UpdateBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2128,9 +2128,9 @@ extension BudgetsClient {
     ///
     /// Updates a notification.
     ///
-    /// - Parameter UpdateNotificationInput : Request of UpdateNotification
+    /// - Parameter input: Request of UpdateNotification (Type: `UpdateNotificationInput`)
     ///
-    /// - Returns: `UpdateNotificationOutput` : Response of UpdateNotification
+    /// - Returns: Response of UpdateNotification (Type: `UpdateNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2201,9 +2201,9 @@ extension BudgetsClient {
     ///
     /// Updates a subscriber.
     ///
-    /// - Parameter UpdateSubscriberInput : Request of UpdateSubscriber
+    /// - Parameter input: Request of UpdateSubscriber (Type: `UpdateSubscriberInput`)
     ///
-    /// - Returns: `UpdateSubscriberOutput` : Response of UpdateSubscriber
+    /// - Returns: Response of UpdateSubscriber (Type: `UpdateSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

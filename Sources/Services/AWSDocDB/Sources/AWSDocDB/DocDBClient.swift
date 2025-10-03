@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DocDBClient: ClientRuntime.Client {
     public static let clientName = "DocDBClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBClient.DocDBClientConfiguration
     let serviceName = "DocDB"
@@ -372,9 +372,9 @@ extension DocDBClient {
     ///
     /// Adds a source identifier to an existing event notification subscription.
     ///
-    /// - Parameter AddSourceIdentifierToSubscriptionInput : Represents the input to [AddSourceIdentifierToSubscription].
+    /// - Parameter input: Represents the input to [AddSourceIdentifierToSubscription]. (Type: `AddSourceIdentifierToSubscriptionInput`)
     ///
-    /// - Returns: `AddSourceIdentifierToSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddSourceIdentifierToSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,9 +440,9 @@ extension DocDBClient {
     ///
     /// Adds metadata tags to an Amazon DocumentDB resource. You can use these tags with cost allocation reporting to track costs that are associated with Amazon DocumentDB resources or in a Condition statement in an Identity and Access Management (IAM) policy for Amazon DocumentDB.
     ///
-    /// - Parameter AddTagsToResourceInput : Represents the input to [AddTagsToResource].
+    /// - Parameter input: Represents the input to [AddTagsToResource]. (Type: `AddTagsToResourceInput`)
     ///
-    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,9 +509,9 @@ extension DocDBClient {
     ///
     /// Applies a pending maintenance action to a resource (for example, to an Amazon DocumentDB instance).
     ///
-    /// - Parameter ApplyPendingMaintenanceActionInput : Represents the input to [ApplyPendingMaintenanceAction].
+    /// - Parameter input: Represents the input to [ApplyPendingMaintenanceAction]. (Type: `ApplyPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `ApplyPendingMaintenanceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplyPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -578,9 +578,9 @@ extension DocDBClient {
     ///
     /// Copies the specified cluster parameter group.
     ///
-    /// - Parameter CopyDBClusterParameterGroupInput : Represents the input to [CopyDBClusterParameterGroup].
+    /// - Parameter input: Represents the input to [CopyDBClusterParameterGroup]. (Type: `CopyDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `CopyDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,9 +647,9 @@ extension DocDBClient {
     ///
     /// Copies a snapshot of a cluster. To copy a cluster snapshot from a shared manual cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared cluster snapshot. You can only copy a shared DB cluster snapshot, whether encrypted or not, in the same Amazon Web Services Region. To cancel the copy operation after it is in progress, delete the target cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that cluster snapshot is in the copying status.
     ///
-    /// - Parameter CopyDBClusterSnapshotInput : Represents the input to [CopyDBClusterSnapshot].
+    /// - Parameter input: Represents the input to [CopyDBClusterSnapshot]. (Type: `CopyDBClusterSnapshotInput`)
     ///
-    /// - Returns: `CopyDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -719,9 +719,9 @@ extension DocDBClient {
     ///
     /// Creates a new Amazon DocumentDB cluster.
     ///
-    /// - Parameter CreateDBClusterInput : Represents the input to [CreateDBCluster].
+    /// - Parameter input: Represents the input to [CreateDBCluster]. (Type: `CreateDBClusterInput`)
     ///
-    /// - Returns: `CreateDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension DocDBClient {
     ///
     /// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parameters for the database engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications directly to the default.docdb3.6 cluster parameter group. If your Amazon DocumentDB cluster is using the default cluster parameter group and you want to modify a value in it, you must first [ create a new parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-create.html) or [ copy an existing parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-copy.html), modify it, and then apply the modified parameter group to your cluster. For the new cluster parameter group and associated settings to take effect, you must then reboot the instances in the cluster without failover. For more information, see [ Modifying Amazon DocumentDB Cluster Parameter Groups](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-modify.html).
     ///
-    /// - Parameter CreateDBClusterParameterGroupInput : Represents the input of [CreateDBClusterParameterGroup].
+    /// - Parameter input: Represents the input of [CreateDBClusterParameterGroup]. (Type: `CreateDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `CreateDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,9 +870,9 @@ extension DocDBClient {
     ///
     /// Creates a snapshot of a cluster.
     ///
-    /// - Parameter CreateDBClusterSnapshotInput : Represents the input of [CreateDBClusterSnapshot].
+    /// - Parameter input: Represents the input of [CreateDBClusterSnapshot]. (Type: `CreateDBClusterSnapshotInput`)
     ///
-    /// - Returns: `CreateDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -941,9 +941,9 @@ extension DocDBClient {
     ///
     /// Creates a new instance.
     ///
-    /// - Parameter CreateDBInstanceInput : Represents the input to [CreateDBInstance].
+    /// - Parameter input: Represents the input to [CreateDBInstance]. (Type: `CreateDBInstanceInput`)
     ///
-    /// - Returns: `CreateDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,9 +1022,9 @@ extension DocDBClient {
     ///
     /// Creates a new subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
     ///
-    /// - Parameter CreateDBSubnetGroupInput : Represents the input to [CreateDBSubnetGroup].
+    /// - Parameter input: Represents the input to [CreateDBSubnetGroup]. (Type: `CreateDBSubnetGroupInput`)
     ///
-    /// - Returns: `CreateDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,9 +1093,9 @@ extension DocDBClient {
     ///
     /// Creates an Amazon DocumentDB event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console. You can specify the type of source (SourceType) that you want to be notified of. You can also provide a list of Amazon DocumentDB sources (SourceIds) that trigger the events, and you can provide a list of event categories (EventCategories) for events that you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds (such as SourceType = db-instance and SourceIdentifier = myDBInstance1), you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the SourceType or the SourceIdentifier, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
     ///
-    /// - Parameter CreateEventSubscriptionInput : Represents the input to [CreateEventSubscription].
+    /// - Parameter input: Represents the input to [CreateEventSubscription]. (Type: `CreateEventSubscriptionInput`)
     ///
-    /// - Returns: `CreateEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1166,9 +1166,9 @@ extension DocDBClient {
     ///
     /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to give read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance. You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter CreateGlobalClusterInput : Represents the input to [CreateGlobalCluster].
+    /// - Parameter input: Represents the input to [CreateGlobalCluster]. (Type: `CreateGlobalClusterInput`)
     ///
-    /// - Returns: `CreateGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1236,9 +1236,9 @@ extension DocDBClient {
     ///
     /// Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
     ///
-    /// - Parameter DeleteDBClusterInput : Represents the input to [DeleteDBCluster].
+    /// - Parameter input: Represents the input to [DeleteDBCluster]. (Type: `DeleteDBClusterInput`)
     ///
-    /// - Returns: `DeleteDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1307,9 +1307,9 @@ extension DocDBClient {
     ///
     /// Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters.
     ///
-    /// - Parameter DeleteDBClusterParameterGroupInput : Represents the input to [DeleteDBClusterParameterGroup].
+    /// - Parameter input: Represents the input to [DeleteDBClusterParameterGroup]. (Type: `DeleteDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `DeleteDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1375,9 +1375,9 @@ extension DocDBClient {
     ///
     /// Deletes a cluster snapshot. If the snapshot is being copied, the copy operation is terminated. The cluster snapshot must be in the available state to be deleted.
     ///
-    /// - Parameter DeleteDBClusterSnapshotInput : Represents the input to [DeleteDBClusterSnapshot].
+    /// - Parameter input: Represents the input to [DeleteDBClusterSnapshot]. (Type: `DeleteDBClusterSnapshotInput`)
     ///
-    /// - Returns: `DeleteDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1443,9 +1443,9 @@ extension DocDBClient {
     ///
     /// Deletes a previously provisioned instance.
     ///
-    /// - Parameter DeleteDBInstanceInput : Represents the input to [DeleteDBInstance].
+    /// - Parameter input: Represents the input to [DeleteDBInstance]. (Type: `DeleteDBInstanceInput`)
     ///
-    /// - Returns: `DeleteDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1514,9 +1514,9 @@ extension DocDBClient {
     ///
     /// Deletes a subnet group. The specified database subnet group must not be associated with any DB instances.
     ///
-    /// - Parameter DeleteDBSubnetGroupInput : Represents the input to [DeleteDBSubnetGroup].
+    /// - Parameter input: Represents the input to [DeleteDBSubnetGroup]. (Type: `DeleteDBSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1583,9 +1583,9 @@ extension DocDBClient {
     ///
     /// Deletes an Amazon DocumentDB event notification subscription.
     ///
-    /// - Parameter DeleteEventSubscriptionInput : Represents the input to [DeleteEventSubscription].
+    /// - Parameter input: Represents the input to [DeleteEventSubscription]. (Type: `DeleteEventSubscriptionInput`)
     ///
-    /// - Returns: `DeleteEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1651,9 +1651,9 @@ extension DocDBClient {
     ///
     /// Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter DeleteGlobalClusterInput : Represents the input to [DeleteGlobalCluster].
+    /// - Parameter input: Represents the input to [DeleteGlobalCluster]. (Type: `DeleteGlobalClusterInput`)
     ///
-    /// - Returns: `DeleteGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1719,9 +1719,9 @@ extension DocDBClient {
     ///
     /// Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
     ///
-    /// - Parameter DescribeCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificatesInput`)
     ///
-    /// - Returns: `DescribeCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1786,9 +1786,9 @@ extension DocDBClient {
     ///
     /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list contains only the description of the specified cluster parameter group.
     ///
-    /// - Parameter DescribeDBClusterParameterGroupsInput : Represents the input to [DescribeDBClusterParameterGroups].
+    /// - Parameter input: Represents the input to [DescribeDBClusterParameterGroups]. (Type: `DescribeDBClusterParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeDBClusterParameterGroupsOutput` : Represents the output of [DBClusterParameterGroups].
+    /// - Returns: Represents the output of [DBClusterParameterGroups]. (Type: `DescribeDBClusterParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1853,9 +1853,9 @@ extension DocDBClient {
     ///
     /// Returns the detailed parameter list for a particular cluster parameter group.
     ///
-    /// - Parameter DescribeDBClusterParametersInput : Represents the input to [DescribeDBClusterParameters].
+    /// - Parameter input: Represents the input to [DescribeDBClusterParameters]. (Type: `DescribeDBClusterParametersInput`)
     ///
-    /// - Returns: `DescribeDBClusterParametersOutput` : Represents the output of [DBClusterParameterGroup].
+    /// - Returns: Represents the output of [DBClusterParameterGroup]. (Type: `DescribeDBClusterParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1920,9 +1920,9 @@ extension DocDBClient {
     ///
     /// Returns a list of cluster snapshot attribute names and values for a manual DB cluster snapshot. When you share snapshots with other Amazon Web Services accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If all is included in the list of values for the restore attribute, then the manual cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.
     ///
-    /// - Parameter DescribeDBClusterSnapshotAttributesInput : Represents the input to [DescribeDBClusterSnapshotAttributes].
+    /// - Parameter input: Represents the input to [DescribeDBClusterSnapshotAttributes]. (Type: `DescribeDBClusterSnapshotAttributesInput`)
     ///
-    /// - Returns: `DescribeDBClusterSnapshotAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterSnapshotAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1987,9 +1987,9 @@ extension DocDBClient {
     ///
     /// Returns information about cluster snapshots. This API operation supports pagination.
     ///
-    /// - Parameter DescribeDBClusterSnapshotsInput : Represents the input to [DescribeDBClusterSnapshots].
+    /// - Parameter input: Represents the input to [DescribeDBClusterSnapshots]. (Type: `DescribeDBClusterSnapshotsInput`)
     ///
-    /// - Returns: `DescribeDBClusterSnapshotsOutput` : Represents the output of [DescribeDBClusterSnapshots].
+    /// - Returns: Represents the output of [DescribeDBClusterSnapshots]. (Type: `DescribeDBClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2054,9 +2054,9 @@ extension DocDBClient {
     ///
     /// Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
     ///
-    /// - Parameter DescribeDBClustersInput : Represents the input to [DescribeDBClusters].
+    /// - Parameter input: Represents the input to [DescribeDBClusters]. (Type: `DescribeDBClustersInput`)
     ///
-    /// - Returns: `DescribeDBClustersOutput` : Represents the output of [DescribeDBClusters].
+    /// - Returns: Represents the output of [DescribeDBClusters]. (Type: `DescribeDBClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2121,9 +2121,9 @@ extension DocDBClient {
     ///
     /// Returns a list of the available engines.
     ///
-    /// - Parameter DescribeDBEngineVersionsInput : Represents the input to [DescribeDBEngineVersions].
+    /// - Parameter input: Represents the input to [DescribeDBEngineVersions]. (Type: `DescribeDBEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeDBEngineVersionsOutput` : Represents the output of [DescribeDBEngineVersions].
+    /// - Returns: Represents the output of [DescribeDBEngineVersions]. (Type: `DescribeDBEngineVersionsOutput`)
     public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2183,9 +2183,9 @@ extension DocDBClient {
     ///
     /// Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
     ///
-    /// - Parameter DescribeDBInstancesInput : Represents the input to [DescribeDBInstances].
+    /// - Parameter input: Represents the input to [DescribeDBInstances]. (Type: `DescribeDBInstancesInput`)
     ///
-    /// - Returns: `DescribeDBInstancesOutput` : Represents the output of [DescribeDBInstances].
+    /// - Returns: Represents the output of [DescribeDBInstances]. (Type: `DescribeDBInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2250,9 +2250,9 @@ extension DocDBClient {
     ///
     /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
     ///
-    /// - Parameter DescribeDBSubnetGroupsInput : Represents the input to [DescribeDBSubnetGroups].
+    /// - Parameter input: Represents the input to [DescribeDBSubnetGroups]. (Type: `DescribeDBSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeDBSubnetGroupsOutput` : Represents the output of [DescribeDBSubnetGroups].
+    /// - Returns: Represents the output of [DescribeDBSubnetGroups]. (Type: `DescribeDBSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2317,9 +2317,9 @@ extension DocDBClient {
     ///
     /// Returns the default engine and system parameter information for the cluster database engine.
     ///
-    /// - Parameter DescribeEngineDefaultClusterParametersInput : Represents the input to [DescribeEngineDefaultClusterParameters].
+    /// - Parameter input: Represents the input to [DescribeEngineDefaultClusterParameters]. (Type: `DescribeEngineDefaultClusterParametersInput`)
     ///
-    /// - Returns: `DescribeEngineDefaultClusterParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineDefaultClusterParametersOutput`)
     public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2379,9 +2379,9 @@ extension DocDBClient {
     ///
     /// Displays a list of categories for all event source types, or, if specified, for a specified source type.
     ///
-    /// - Parameter DescribeEventCategoriesInput : Represents the input to [DescribeEventCategories].
+    /// - Parameter input: Represents the input to [DescribeEventCategories]. (Type: `DescribeEventCategoriesInput`)
     ///
-    /// - Returns: `DescribeEventCategoriesOutput` : Represents the output of [DescribeEventCategories].
+    /// - Returns: Represents the output of [DescribeEventCategories]. (Type: `DescribeEventCategoriesOutput`)
     public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2441,9 +2441,9 @@ extension DocDBClient {
     ///
     /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     ///
-    /// - Parameter DescribeEventSubscriptionsInput : Represents the input to [DescribeEventSubscriptions].
+    /// - Parameter input: Represents the input to [DescribeEventSubscriptions]. (Type: `DescribeEventSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeEventSubscriptionsOutput` : Represents the output of [DescribeEventSubscriptions].
+    /// - Returns: Represents the output of [DescribeEventSubscriptions]. (Type: `DescribeEventSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2508,9 +2508,9 @@ extension DocDBClient {
     ///
     /// Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
     ///
-    /// - Parameter DescribeEventsInput : Represents the input to [DescribeEvents].
+    /// - Parameter input: Represents the input to [DescribeEvents]. (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : Represents the output of [DescribeEvents].
+    /// - Returns: Represents the output of [DescribeEvents]. (Type: `DescribeEventsOutput`)
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2570,9 +2570,9 @@ extension DocDBClient {
     ///
     /// Returns information about Amazon DocumentDB global clusters. This API supports pagination. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter DescribeGlobalClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalClustersInput`)
     ///
-    /// - Returns: `DescribeGlobalClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2637,9 +2637,9 @@ extension DocDBClient {
     ///
     /// Returns a list of orderable instance options for the specified engine.
     ///
-    /// - Parameter DescribeOrderableDBInstanceOptionsInput : Represents the input to [DescribeOrderableDBInstanceOptions].
+    /// - Parameter input: Represents the input to [DescribeOrderableDBInstanceOptions]. (Type: `DescribeOrderableDBInstanceOptionsInput`)
     ///
-    /// - Returns: `DescribeOrderableDBInstanceOptionsOutput` : Represents the output of [DescribeOrderableDBInstanceOptions].
+    /// - Returns: Represents the output of [DescribeOrderableDBInstanceOptions]. (Type: `DescribeOrderableDBInstanceOptionsOutput`)
     public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2699,9 +2699,9 @@ extension DocDBClient {
     ///
     /// Returns a list of resources (for example, instances) that have at least one pending maintenance action.
     ///
-    /// - Parameter DescribePendingMaintenanceActionsInput : Represents the input to [DescribePendingMaintenanceActions].
+    /// - Parameter input: Represents the input to [DescribePendingMaintenanceActions]. (Type: `DescribePendingMaintenanceActionsInput`)
     ///
-    /// - Returns: `DescribePendingMaintenanceActionsOutput` : Represents the output of [DescribePendingMaintenanceActions].
+    /// - Returns: Represents the output of [DescribePendingMaintenanceActions]. (Type: `DescribePendingMaintenanceActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2766,9 +2766,9 @@ extension DocDBClient {
     ///
     /// Forces a failover for a cluster. A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer). If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
     ///
-    /// - Parameter FailoverDBClusterInput : Represents the input to [FailoverDBCluster].
+    /// - Parameter input: Represents the input to [FailoverDBCluster]. (Type: `FailoverDBClusterInput`)
     ///
-    /// - Returns: `FailoverDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2835,9 +2835,9 @@ extension DocDBClient {
     ///
     /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs. Use this operation to respond to an unplanned event, such as a regional disaster in the primary region. Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred. However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
     ///
-    /// - Parameter FailoverGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverGlobalClusterInput`)
     ///
-    /// - Returns: `FailoverGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2905,9 +2905,9 @@ extension DocDBClient {
     ///
     /// Lists all tags on an Amazon DocumentDB resource.
     ///
-    /// - Parameter ListTagsForResourceInput : Represents the input to [ListTagsForResource].
+    /// - Parameter input: Represents the input to [ListTagsForResource]. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : Represents the output of [ListTagsForResource].
+    /// - Returns: Represents the output of [ListTagsForResource]. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2974,9 +2974,9 @@ extension DocDBClient {
     ///
     /// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     ///
-    /// - Parameter ModifyDBClusterInput : Represents the input to [ModifyDBCluster].
+    /// - Parameter input: Represents the input to [ModifyDBCluster]. (Type: `ModifyDBClusterInput`)
     ///
-    /// - Returns: `ModifyDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3051,9 +3051,9 @@ extension DocDBClient {
     ///
     /// Modifies the parameters of a cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot or maintenance window before the change can take effect. After you create a cluster parameter group, you should wait at least 5 minutes before creating your first cluster that uses that cluster parameter group as the default parameter group. This allows Amazon DocumentDB to fully complete the create action before the parameter group is used as the default for a new cluster. This step is especially important for parameters that are critical when creating the default database for a cluster, such as the character set for the default database defined by the character_set_database parameter.
     ///
-    /// - Parameter ModifyDBClusterParameterGroupInput : Represents the input to [ModifyDBClusterParameterGroup].
+    /// - Parameter input: Represents the input to [ModifyDBClusterParameterGroup]. (Type: `ModifyDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `ModifyDBClusterParameterGroupOutput` : Contains the name of a cluster parameter group.
+    /// - Returns: Contains the name of a cluster parameter group. (Type: `ModifyDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3119,9 +3119,9 @@ extension DocDBClient {
     ///
     /// Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot. To share a manual cluster snapshot with other Amazon Web Services accounts, specify restore as the AttributeName, and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Do not add the all value for any manual cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case.
     ///
-    /// - Parameter ModifyDBClusterSnapshotAttributeInput : Represents the input to [ModifyDBClusterSnapshotAttribute].
+    /// - Parameter input: Represents the input to [ModifyDBClusterSnapshotAttribute]. (Type: `ModifyDBClusterSnapshotAttributeInput`)
     ///
-    /// - Returns: `ModifyDBClusterSnapshotAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterSnapshotAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3188,9 +3188,9 @@ extension DocDBClient {
     ///
     /// Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     ///
-    /// - Parameter ModifyDBInstanceInput : Represents the input to [ModifyDBInstance].
+    /// - Parameter input: Represents the input to [ModifyDBInstance]. (Type: `ModifyDBInstanceInput`)
     ///
-    /// - Returns: `ModifyDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3267,9 +3267,9 @@ extension DocDBClient {
     ///
     /// Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
     ///
-    /// - Parameter ModifyDBSubnetGroupInput : Represents the input to [ModifyDBSubnetGroup].
+    /// - Parameter input: Represents the input to [ModifyDBSubnetGroup]. (Type: `ModifyDBSubnetGroupInput`)
     ///
-    /// - Returns: `ModifyDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3338,9 +3338,9 @@ extension DocDBClient {
     ///
     /// Modifies an existing Amazon DocumentDB event notification subscription.
     ///
-    /// - Parameter ModifyEventSubscriptionInput : Represents the input to [ModifyEventSubscription].
+    /// - Parameter input: Represents the input to [ModifyEventSubscription]. (Type: `ModifyEventSubscriptionInput`)
     ///
-    /// - Returns: `ModifyEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3410,9 +3410,9 @@ extension DocDBClient {
     ///
     /// Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter ModifyGlobalClusterInput : Represents the input to [ModifyGlobalCluster].
+    /// - Parameter input: Represents the input to [ModifyGlobalCluster]. (Type: `ModifyGlobalClusterInput`)
     ///
-    /// - Returns: `ModifyGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3478,9 +3478,9 @@ extension DocDBClient {
     ///
     /// You might need to reboot your instance, usually for maintenance reasons. For example, if you make certain changes, or if you change the cluster parameter group that is associated with the instance, you must reboot the instance for the changes to take effect. Rebooting an instance restarts the database engine service. Rebooting an instance results in a momentary outage, during which the instance status is set to rebooting.
     ///
-    /// - Parameter RebootDBInstanceInput : Represents the input to [RebootDBInstance].
+    /// - Parameter input: Represents the input to [RebootDBInstance]. (Type: `RebootDBInstanceInput`)
     ///
-    /// - Returns: `RebootDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3546,9 +3546,9 @@ extension DocDBClient {
     ///
     /// Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter RemoveFromGlobalClusterInput : Represents the input to [RemoveFromGlobalCluster].
+    /// - Parameter input: Represents the input to [RemoveFromGlobalCluster]. (Type: `RemoveFromGlobalClusterInput`)
     ///
-    /// - Returns: `RemoveFromGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFromGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3615,9 +3615,9 @@ extension DocDBClient {
     ///
     /// Removes a source identifier from an existing Amazon DocumentDB event notification subscription.
     ///
-    /// - Parameter RemoveSourceIdentifierFromSubscriptionInput : Represents the input to [RemoveSourceIdentifierFromSubscription].
+    /// - Parameter input: Represents the input to [RemoveSourceIdentifierFromSubscription]. (Type: `RemoveSourceIdentifierFromSubscriptionInput`)
     ///
-    /// - Returns: `RemoveSourceIdentifierFromSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveSourceIdentifierFromSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3683,9 +3683,9 @@ extension DocDBClient {
     ///
     /// Removes metadata tags from an Amazon DocumentDB resource.
     ///
-    /// - Parameter RemoveTagsFromResourceInput : Represents the input to [RemoveTagsFromResource].
+    /// - Parameter input: Represents the input to [RemoveTagsFromResource]. (Type: `RemoveTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3752,9 +3752,9 @@ extension DocDBClient {
     ///
     /// Modifies the parameters of a cluster parameter group to the default value. To reset specific parameters, submit a list of the following: ParameterName and ApplyMethod. To reset the entire cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When you reset the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance reboot.
     ///
-    /// - Parameter ResetDBClusterParameterGroupInput : Represents the input to [ResetDBClusterParameterGroup].
+    /// - Parameter input: Represents the input to [ResetDBClusterParameterGroup]. (Type: `ResetDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `ResetDBClusterParameterGroupOutput` : Contains the name of a cluster parameter group.
+    /// - Returns: Contains the name of a cluster parameter group. (Type: `ResetDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3820,9 +3820,9 @@ extension DocDBClient {
     ///
     /// Creates a new cluster from a snapshot or cluster snapshot. If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group. If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
     ///
-    /// - Parameter RestoreDBClusterFromSnapshotInput : Represents the input to [RestoreDBClusterFromSnapshot].
+    /// - Parameter input: Represents the input to [RestoreDBClusterFromSnapshot]. (Type: `RestoreDBClusterFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreDBClusterFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3900,9 +3900,9 @@ extension DocDBClient {
     ///
     /// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group.
     ///
-    /// - Parameter RestoreDBClusterToPointInTimeInput : Represents the input to [RestoreDBClusterToPointInTime].
+    /// - Parameter input: Represents the input to [RestoreDBClusterToPointInTime]. (Type: `RestoreDBClusterToPointInTimeInput`)
     ///
-    /// - Returns: `RestoreDBClusterToPointInTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterToPointInTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3981,9 +3981,9 @@ extension DocDBClient {
     ///
     /// Restarts the stopped cluster that is specified by DBClusterIdentifier. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
     ///
-    /// - Parameter StartDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDBClusterInput`)
     ///
-    /// - Returns: `StartDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4050,9 +4050,9 @@ extension DocDBClient {
     ///
     /// Stops the running cluster that is specified by DBClusterIdentifier. The cluster must be in the available state. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
     ///
-    /// - Parameter StopDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDBClusterInput`)
     ///
-    /// - Returns: `StopDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4119,9 +4119,9 @@ extension DocDBClient {
     ///
     /// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
     ///
-    /// - Parameter SwitchoverGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SwitchoverGlobalClusterInput`)
     ///
-    /// - Returns: `SwitchoverGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SwitchoverGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

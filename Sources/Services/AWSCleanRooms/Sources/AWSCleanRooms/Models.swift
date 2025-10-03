@@ -441,6 +441,128 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum SupportedS3Region: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case afSouth1
+        case apEast1
+        case apEast2
+        case apNortheast1
+        case apNortheast2
+        case apNortheast3
+        case apSoutheast1
+        case apSoutheast2
+        case apSoutheast3
+        case apSoutheast4
+        case apSoutheast5
+        case apSoutheast7
+        case apSouth1
+        case apSouth2
+        case caCentral1
+        case caWest1
+        case euCentral1
+        case euCentral2
+        case euNorth1
+        case euSouth1
+        case euSouth2
+        case euWest1
+        case euWest2
+        case euWest3
+        case ilCentral1
+        case meCentral1
+        case meSouth1
+        case mxCentral1
+        case saEast1
+        case usEast1
+        case usEast2
+        case usWest1
+        case usWest2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportedS3Region] {
+            return [
+                .afSouth1,
+                .apEast1,
+                .apEast2,
+                .apNortheast1,
+                .apNortheast2,
+                .apNortheast3,
+                .apSoutheast1,
+                .apSoutheast2,
+                .apSoutheast3,
+                .apSoutheast4,
+                .apSoutheast5,
+                .apSoutheast7,
+                .apSouth1,
+                .apSouth2,
+                .caCentral1,
+                .caWest1,
+                .euCentral1,
+                .euCentral2,
+                .euNorth1,
+                .euSouth1,
+                .euSouth2,
+                .euWest1,
+                .euWest2,
+                .euWest3,
+                .ilCentral1,
+                .meCentral1,
+                .meSouth1,
+                .mxCentral1,
+                .saEast1,
+                .usEast1,
+                .usEast2,
+                .usWest1,
+                .usWest2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .afSouth1: return "af-south-1"
+            case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
+            case .apNortheast1: return "ap-northeast-1"
+            case .apNortheast2: return "ap-northeast-2"
+            case .apNortheast3: return "ap-northeast-3"
+            case .apSoutheast1: return "ap-southeast-1"
+            case .apSoutheast2: return "ap-southeast-2"
+            case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast4: return "ap-southeast-4"
+            case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
+            case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
+            case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
+            case .euCentral1: return "eu-central-1"
+            case .euCentral2: return "eu-central-2"
+            case .euNorth1: return "eu-north-1"
+            case .euSouth1: return "eu-south-1"
+            case .euSouth2: return "eu-south-2"
+            case .euWest1: return "eu-west-1"
+            case .euWest2: return "eu-west-2"
+            case .euWest3: return "eu-west-3"
+            case .ilCentral1: return "il-central-1"
+            case .meCentral1: return "me-central-1"
+            case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
+            case .saEast1: return "sa-east-1"
+            case .usEast1: return "us-east-1"
+            case .usEast2: return "us-east-2"
+            case .usWest1: return "us-west-1"
+            case .usWest2: return "us-west-2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum AnalysisFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pyspark10
         case sql
@@ -2305,6 +2427,128 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum CommercialRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case afSouth1
+        case apEast1
+        case apEast2
+        case apNortheast1
+        case apNortheast2
+        case apNortheast3
+        case apSoutheast1
+        case apSoutheast2
+        case apSoutheast3
+        case apSoutheast4
+        case apSoutheast5
+        case apSoutheast7
+        case apSouth1
+        case apSouth2
+        case caCentral1
+        case caWest1
+        case euCentral1
+        case euCentral2
+        case euNorth1
+        case euSouth1
+        case euSouth2
+        case euWest1
+        case euWest2
+        case euWest3
+        case ilCentral1
+        case meCentral1
+        case meSouth1
+        case mxCentral1
+        case saEast1
+        case usEast1
+        case usEast2
+        case usWest1
+        case usWest2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommercialRegion] {
+            return [
+                .afSouth1,
+                .apEast1,
+                .apEast2,
+                .apNortheast1,
+                .apNortheast2,
+                .apNortheast3,
+                .apSoutheast1,
+                .apSoutheast2,
+                .apSoutheast3,
+                .apSoutheast4,
+                .apSoutheast5,
+                .apSoutheast7,
+                .apSouth1,
+                .apSouth2,
+                .caCentral1,
+                .caWest1,
+                .euCentral1,
+                .euCentral2,
+                .euNorth1,
+                .euSouth1,
+                .euSouth2,
+                .euWest1,
+                .euWest2,
+                .euWest3,
+                .ilCentral1,
+                .meCentral1,
+                .meSouth1,
+                .mxCentral1,
+                .saEast1,
+                .usEast1,
+                .usEast2,
+                .usWest1,
+                .usWest2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .afSouth1: return "af-south-1"
+            case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
+            case .apNortheast1: return "ap-northeast-1"
+            case .apNortheast2: return "ap-northeast-2"
+            case .apNortheast3: return "ap-northeast-3"
+            case .apSoutheast1: return "ap-southeast-1"
+            case .apSoutheast2: return "ap-southeast-2"
+            case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast4: return "ap-southeast-4"
+            case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
+            case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
+            case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
+            case .euCentral1: return "eu-central-1"
+            case .euCentral2: return "eu-central-2"
+            case .euNorth1: return "eu-north-1"
+            case .euSouth1: return "eu-south-1"
+            case .euSouth2: return "eu-south-2"
+            case .euWest1: return "eu-west-1"
+            case .euWest2: return "eu-west-2"
+            case .euWest3: return "eu-west-3"
+            case .ilCentral1: return "il-central-1"
+            case .meCentral1: return "me-central-1"
+            case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
+            case .saEast1: return "sa-east-1"
+            case .usEast1: return "us-east-1"
+            case .usEast2: return "us-east-2"
+            case .usWest1: return "us-west-1"
+            case .usWest2: return "us-west-2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// A reference to a table within Athena.
     public struct AthenaTableReference: Swift.Sendable {
         /// The database name.
@@ -2312,6 +2556,8 @@ extension CleanRoomsClientTypes {
         public var databaseName: Swift.String?
         /// The output location for the Athena table.
         public var outputLocation: Swift.String?
+        /// The Amazon Web Services Region where the Athena table is located. This parameter is required to uniquely identify and access tables across different Regions.
+        public var region: CleanRoomsClientTypes.CommercialRegion?
         /// The table reference.
         /// This member is required.
         public var tableName: Swift.String?
@@ -2322,11 +2568,13 @@ extension CleanRoomsClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             outputLocation: Swift.String? = nil,
+            region: CleanRoomsClientTypes.CommercialRegion? = nil,
             tableName: Swift.String? = nil,
             workGroup: Swift.String? = nil
         ) {
             self.databaseName = databaseName
             self.outputLocation = outputLocation
+            self.region = region
             self.tableName = tableName
             self.workGroup = workGroup
         }
@@ -3370,6 +3618,8 @@ extension CleanRoomsClientTypes {
 }
 
 public struct CreateCollaborationInput: Swift.Sendable {
+    /// The Amazon Web Services Regions where collaboration query results can be stored. When specified, results can only be written to these Regions. This parameter enables you to meet your compliance and data governance requirements, and implement regional data governance policies.
+    public var allowedResultRegions: [CleanRoomsClientTypes.SupportedS3Region]?
     /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
     public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The types of change requests that are automatically approved for this collaboration.
@@ -3404,6 +3654,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        allowedResultRegions: [CleanRoomsClientTypes.SupportedS3Region]? = nil,
         analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
         autoApprovedChangeRequestTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]? = nil,
         creatorDisplayName: Swift.String? = nil,
@@ -3418,6 +3669,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.allowedResultRegions = allowedResultRegions
         self.analyticsEngine = analyticsEngine
         self.autoApprovedChangeRequestTypes = autoApprovedChangeRequestTypes
         self.creatorDisplayName = creatorDisplayName
@@ -3473,6 +3725,8 @@ extension CleanRoomsClientTypes {
 
     /// The multi-party data share environment. The collaboration contains metadata about its purpose and participants.
     public struct Collaboration: Swift.Sendable {
+        /// The Amazon Web Services Regions where collaboration query results can be stored. Returns the list of Region identifiers that were specified when the collaboration was created. This list is used to enforce regional storage policies and compliance requirements.
+        public var allowedResultRegions: [CleanRoomsClientTypes.SupportedS3Region]?
         /// The analytics engine for the collaboration. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
         /// The unique ARN for the collaboration.
@@ -3516,6 +3770,7 @@ extension CleanRoomsClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            allowedResultRegions: [CleanRoomsClientTypes.SupportedS3Region]? = nil,
             analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
             arn: Swift.String? = nil,
             autoApprovedChangeTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]? = nil,
@@ -3533,6 +3788,7 @@ extension CleanRoomsClientTypes {
             queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil,
             updateTime: Foundation.Date? = nil
         ) {
+            self.allowedResultRegions = allowedResultRegions
             self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.autoApprovedChangeTypes = autoApprovedChangeTypes
@@ -6282,15 +6538,19 @@ extension CleanRoomsClientTypes {
         /// The name of the database the Glue table belongs to.
         /// This member is required.
         public var databaseName: Swift.String?
+        /// The Amazon Web Services Region where the Glue table is located. This parameter is required to uniquely identify and access tables across different Regions.
+        public var region: CleanRoomsClientTypes.CommercialRegion?
         /// The name of the Glue table.
         /// This member is required.
         public var tableName: Swift.String?
 
         public init(
             databaseName: Swift.String? = nil,
+            region: CleanRoomsClientTypes.CommercialRegion? = nil,
             tableName: Swift.String? = nil
         ) {
             self.databaseName = databaseName
+            self.region = region
             self.tableName = tableName
         }
     }
@@ -11794,6 +12054,7 @@ extension CreateCollaborationInput {
 
     static func write(value: CreateCollaborationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowedResultRegions"].writeList(value.allowedResultRegions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.SupportedS3Region>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["analyticsEngine"].write(value.analyticsEngine)
         try writer["autoApprovedChangeRequestTypes"].writeList(value.autoApprovedChangeRequestTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["creatorDisplayName"].write(value.creatorDisplayName)
@@ -15583,6 +15844,7 @@ extension CleanRoomsClientTypes.Collaboration {
         value.jobLogStatus = try reader["jobLogStatus"].readIfPresent()
         value.analyticsEngine = try reader["analyticsEngine"].readIfPresent()
         value.autoApprovedChangeTypes = try reader["autoApprovedChangeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedResultRegions = try reader["allowedResultRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SupportedS3Region>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15758,6 +16020,7 @@ extension CleanRoomsClientTypes.AthenaTableReference {
         guard let value else { return }
         try writer["databaseName"].write(value.databaseName)
         try writer["outputLocation"].write(value.outputLocation)
+        try writer["region"].write(value.region)
         try writer["tableName"].write(value.tableName)
         try writer["workGroup"].write(value.workGroup)
     }
@@ -15765,6 +16028,7 @@ extension CleanRoomsClientTypes.AthenaTableReference {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AthenaTableReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AthenaTableReference()
+        value.region = try reader["region"].readIfPresent()
         value.workGroup = try reader["workGroup"].readIfPresent() ?? ""
         value.outputLocation = try reader["outputLocation"].readIfPresent()
         value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
@@ -15844,12 +16108,14 @@ extension CleanRoomsClientTypes.GlueTableReference {
     static func write(value: CleanRoomsClientTypes.GlueTableReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["databaseName"].write(value.databaseName)
+        try writer["region"].write(value.region)
         try writer["tableName"].write(value.tableName)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.GlueTableReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.GlueTableReference()
+        value.region = try reader["region"].readIfPresent()
         value.tableName = try reader["tableName"].readIfPresent() ?? ""
         value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
         return value

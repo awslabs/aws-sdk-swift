@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ApplicationDiscoveryClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationDiscoveryClient.ApplicationDiscoveryClientConfiguration
     let serviceName = "Application Discovery"
@@ -374,9 +374,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Associates one or more configuration items with an application.
     ///
-    /// - Parameter AssociateConfigurationItemsToApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateConfigurationItemsToApplicationInput`)
     ///
-    /// - Returns: `AssociateConfigurationItemsToApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateConfigurationItemsToApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not delete the previously discovered data. To delete the data collected, use StartBatchDeleteConfigurationTask.
     ///
-    /// - Parameter BatchDeleteAgentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteAgentsInput`)
     ///
-    /// - Returns: `BatchDeleteAgentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteAgentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
     ///
-    /// - Parameter BatchDeleteImportDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteImportDataInput`)
     ///
-    /// - Returns: `BatchDeleteImportDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteImportDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Creates an application with the given name and description.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items. Do not store sensitive information (like personal data) in tags.
     ///
-    /// - Parameter CreateTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTagsInput`)
     ///
-    /// - Returns: `CreateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -734,9 +734,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Deletes a list of applications and their associations with configuration items.
     ///
-    /// - Parameter DeleteApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationsInput`)
     ///
-    /// - Returns: `DeleteApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,9 +806,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items.
     ///
-    /// - Parameter DeleteTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -879,9 +879,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters.
     ///
-    /// - Parameter DescribeAgentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAgentsInput`)
     ///
-    /// - Returns: `DescribeAgentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAgentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -951,9 +951,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
     ///
-    /// - Parameter DescribeBatchDeleteConfigurationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBatchDeleteConfigurationTaskInput`)
     ///
-    /// - Returns: `DescribeBatchDeleteConfigurationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBatchDeleteConfigurationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1033,9 +1033,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see [Using the DescribeConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#DescribeConfigurations) in the Amazon Web Services Application Discovery Service User Guide.
     ///
-    /// - Parameter DescribeConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationsInput`)
     ///
-    /// - Returns: `DescribeConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1105,9 +1105,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters.
     ///
-    /// - Parameter DescribeContinuousExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContinuousExportsInput`)
     ///
-    /// - Returns: `DescribeContinuousExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContinuousExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1180,9 +1180,9 @@ extension ApplicationDiscoveryClient {
     /// DescribeExportConfigurations is deprecated. Use [DescribeExportTasks](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html), instead.
     @available(*, deprecated)
     ///
-    /// - Parameter DescribeExportConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportConfigurationsInput`)
     ///
-    /// - Returns: `DescribeExportConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1253,9 +1253,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
     ///
-    /// - Parameter DescribeExportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportTasksInput`)
     ///
-    /// - Returns: `DescribeExportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1325,9 +1325,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
     ///
-    /// - Parameter DescribeImportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImportTasksInput`)
     ///
-    /// - Returns: `DescribeImportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,9 +1406,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any parameters.
     ///
-    /// - Parameter DescribeTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTagsInput`)
     ///
-    /// - Returns: `DescribeTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1479,9 +1479,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Disassociates one or more configuration items from an application.
     ///
-    /// - Parameter DisassociateConfigurationItemsFromApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateConfigurationItemsFromApplicationInput`)
     ///
-    /// - Returns: `DisassociateConfigurationItemsFromApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateConfigurationItemsFromApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1552,9 +1552,9 @@ extension ApplicationDiscoveryClient {
     /// Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
     @available(*, deprecated)
     ///
-    /// - Parameter ExportConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportConfigurationsInput`)
     ///
-    /// - Returns: `ExportConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,9 +1625,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
     ///
-    /// - Parameter GetDiscoverySummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDiscoverySummaryInput`)
     ///
-    /// - Returns: `GetDiscoverySummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDiscoverySummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1697,9 +1697,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
     ///
-    /// - Parameter ListConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
     ///
-    /// - Returns: `ListConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1770,9 +1770,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Retrieves a list of servers that are one network hop away from a specified server.
     ///
-    /// - Parameter ListServerNeighborsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServerNeighborsInput`)
     ///
-    /// - Returns: `ListServerNeighborsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServerNeighborsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1842,9 +1842,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier.
     ///
-    /// - Parameter StartBatchDeleteConfigurationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBatchDeleteConfigurationTaskInput`)
     ///
-    /// - Returns: `StartBatchDeleteConfigurationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBatchDeleteConfigurationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1916,9 +1916,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     ///
-    /// - Parameter StartContinuousExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContinuousExportInput`)
     ///
-    /// - Returns: `StartContinuousExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContinuousExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1991,9 +1991,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Instructs the specified agents to start collecting data.
     ///
-    /// - Parameter StartDataCollectionByAgentIdsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataCollectionByAgentIdsInput`)
     ///
-    /// - Returns: `StartDataCollectionByAgentIdsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataCollectionByAgentIdsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2063,9 +2063,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services. Exports might provide an estimate of fees and savings based on certain information that you provide. Fee estimates do not include any taxes that might apply. Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services services, which might vary from the estimates provided in this report. If you do not specify preferences or agentIds in the filter, a summary of all servers, applications, tags, and performance is generated. This data is an aggregation of all server data collected through on-premises tooling, file import, application grouping and applying tags. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports. Export of detailed agent data is limited to two exports per day. If you enable ec2RecommendationsPreferences in preferences , an Amazon EC2 instance matching the characteristics of each server in Application Discovery Service is generated. Changing the attributes of the ec2RecommendationsPreferences changes the criteria of the recommendation.
     ///
-    /// - Parameter StartExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExportTaskInput`)
     ///
-    /// - Returns: `StartExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2147,9 +2147,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// For more information, including step-by-step procedures, see [Migration Hub Import](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-import.html) in the Amazon Web Services Application Discovery Service User Guide. There are limits to the number of import tasks you can create (and delete) in an Amazon Web Services account. For more information, see [Amazon Web Services Application Discovery Service Limits](https://docs.aws.amazon.com/application-discovery/latest/userguide/ads_service_limits.html) in the Amazon Web Services Application Discovery Service User Guide.
     ///
-    /// - Parameter StartImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportTaskInput`)
     ///
-    /// - Returns: `StartImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2221,9 +2221,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Stop the continuous flow of agent's discovered data into Amazon Athena.
     ///
-    /// - Parameter StopContinuousExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopContinuousExportInput`)
     ///
-    /// - Returns: `StopContinuousExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopContinuousExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2296,9 +2296,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Instructs the specified agents to stop collecting data.
     ///
-    /// - Parameter StopDataCollectionByAgentIdsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDataCollectionByAgentIdsInput`)
     ///
-    /// - Returns: `StopDataCollectionByAgentIdsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDataCollectionByAgentIdsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2368,9 +2368,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Updates metadata about an application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

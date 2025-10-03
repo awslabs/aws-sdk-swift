@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FisClient: ClientRuntime.Client {
     public static let clientName = "FisClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: FisClient.FisClientConfiguration
     let serviceName = "fis"
@@ -382,9 +382,9 @@ extension FisClient {
     ///
     /// For more information, see [experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Service User Guide.
     ///
-    /// - Parameter CreateExperimentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExperimentTemplateInput`)
     ///
-    /// - Returns: `CreateExperimentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExperimentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,9 +453,9 @@ extension FisClient {
     ///
     /// Creates a target account configuration for the experiment template. A target account configuration is required when accountTargeting of experimentOptions is set to multi-account. For more information, see [experiment options](https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html) in the Fault Injection Service User Guide.
     ///
-    /// - Parameter CreateTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `CreateTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -524,9 +524,9 @@ extension FisClient {
     ///
     /// Deletes the specified experiment template.
     ///
-    /// - Parameter DeleteExperimentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExperimentTemplateInput`)
     ///
-    /// - Returns: `DeleteExperimentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExperimentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension FisClient {
     ///
     /// Deletes the specified target account configuration of the experiment template.
     ///
-    /// - Parameter DeleteTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `DeleteTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,9 +654,9 @@ extension FisClient {
     ///
     /// Gets information about the specified FIS action.
     ///
-    /// - Parameter GetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetActionInput`)
     ///
-    /// - Returns: `GetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -719,9 +719,9 @@ extension FisClient {
     ///
     /// Gets information about the specified experiment.
     ///
-    /// - Parameter GetExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExperimentInput`)
     ///
-    /// - Returns: `GetExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,9 +784,9 @@ extension FisClient {
     ///
     /// Gets information about the specified target account configuration of the experiment.
     ///
-    /// - Parameter GetExperimentTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExperimentTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `GetExperimentTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExperimentTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -849,9 +849,9 @@ extension FisClient {
     ///
     /// Gets information about the specified experiment template.
     ///
-    /// - Parameter GetExperimentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExperimentTemplateInput`)
     ///
-    /// - Returns: `GetExperimentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExperimentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,9 +914,9 @@ extension FisClient {
     ///
     /// Gets information about the specified safety lever.
     ///
-    /// - Parameter GetSafetyLeverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSafetyLeverInput`)
     ///
-    /// - Returns: `GetSafetyLeverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSafetyLeverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,9 +978,9 @@ extension FisClient {
     ///
     /// Gets information about the specified target account configuration of the experiment template.
     ///
-    /// - Parameter GetTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `GetTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,9 +1043,9 @@ extension FisClient {
     ///
     /// Gets information about the specified resource type.
     ///
-    /// - Parameter GetTargetResourceTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTargetResourceTypeInput`)
     ///
-    /// - Returns: `GetTargetResourceTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTargetResourceTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1108,9 +1108,9 @@ extension FisClient {
     ///
     /// Lists the available FIS actions.
     ///
-    /// - Parameter ListActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActionsInput`)
     ///
-    /// - Returns: `ListActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1173,9 +1173,9 @@ extension FisClient {
     ///
     /// Lists the resolved targets information of the specified experiment.
     ///
-    /// - Parameter ListExperimentResolvedTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentResolvedTargetsInput`)
     ///
-    /// - Returns: `ListExperimentResolvedTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentResolvedTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,9 +1239,9 @@ extension FisClient {
     ///
     /// Lists the target account configurations of the specified experiment.
     ///
-    /// - Parameter ListExperimentTargetAccountConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentTargetAccountConfigurationsInput`)
     ///
-    /// - Returns: `ListExperimentTargetAccountConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentTargetAccountConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,9 +1305,9 @@ extension FisClient {
     ///
     /// Lists your experiment templates.
     ///
-    /// - Parameter ListExperimentTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentTemplatesInput`)
     ///
-    /// - Returns: `ListExperimentTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1370,9 +1370,9 @@ extension FisClient {
     ///
     /// Lists your experiments.
     ///
-    /// - Parameter ListExperimentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentsInput`)
     ///
-    /// - Returns: `ListExperimentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1435,9 +1435,9 @@ extension FisClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1494,9 +1494,9 @@ extension FisClient {
     ///
     /// Lists the target account configurations of the specified experiment template.
     ///
-    /// - Parameter ListTargetAccountConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetAccountConfigurationsInput`)
     ///
-    /// - Returns: `ListTargetAccountConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetAccountConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1560,9 +1560,9 @@ extension FisClient {
     ///
     /// Lists the target resource types.
     ///
-    /// - Parameter ListTargetResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetResourceTypesInput`)
     ///
-    /// - Returns: `ListTargetResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,9 +1625,9 @@ extension FisClient {
     ///
     /// Starts running an experiment from the specified experiment template.
     ///
-    /// - Parameter StartExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExperimentInput`)
     ///
-    /// - Returns: `StartExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1696,9 +1696,9 @@ extension FisClient {
     ///
     /// Stops the specified experiment.
     ///
-    /// - Parameter StopExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopExperimentInput`)
     ///
-    /// - Returns: `StopExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,9 +1761,9 @@ extension FisClient {
     ///
     /// Applies the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1823,9 +1823,9 @@ extension FisClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1883,9 +1883,9 @@ extension FisClient {
     ///
     /// Updates the specified experiment template.
     ///
-    /// - Parameter UpdateExperimentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExperimentTemplateInput`)
     ///
-    /// - Returns: `UpdateExperimentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExperimentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,9 +1952,9 @@ extension FisClient {
     ///
     /// Updates the specified safety lever state.
     ///
-    /// - Parameter UpdateSafetyLeverStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSafetyLeverStateInput`)
     ///
-    /// - Returns: `UpdateSafetyLeverStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSafetyLeverStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,9 +2021,9 @@ extension FisClient {
     ///
     /// Updates the target account configuration for the specified experiment template.
     ///
-    /// - Parameter UpdateTargetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTargetAccountConfigurationInput`)
     ///
-    /// - Returns: `UpdateTargetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTargetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -73,7 +73,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OmicsClient: ClientRuntime.Client {
     public static let clientName = "OmicsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: OmicsClient.OmicsClientConfiguration
     let serviceName = "Omics"
@@ -379,9 +379,9 @@ extension OmicsClient {
     ///
     /// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartReadSetUploads API operation to view all active multipart read set uploads.
     ///
-    /// - Parameter AbortMultipartReadSetUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AbortMultipartReadSetUploadInput`)
     ///
-    /// - Returns: `AbortMultipartReadSetUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortMultipartReadSetUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -450,9 +450,9 @@ extension OmicsClient {
     ///
     /// Accept a resource share request.
     ///
-    /// - Parameter AcceptShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptShareInput`)
     ///
-    /// - Returns: `AcceptShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension OmicsClient {
     ///
     /// Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call.
     ///
-    /// - Parameter BatchDeleteReadSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteReadSetInput`)
     ///
-    /// - Returns: `BatchDeleteReadSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteReadSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension OmicsClient {
     ///
     /// Cancels an annotation import job.
     ///
-    /// - Parameter CancelAnnotationImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelAnnotationImportJobInput`)
     ///
-    /// - Returns: `CancelAnnotationImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelAnnotationImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,9 +660,9 @@ extension OmicsClient {
     ///
     /// Cancels a run using its ID and returns a response with no body if the operation is successful. To confirm that the run has been cancelled, use the ListRuns API operation to check that it is no longer listed.
     ///
-    /// - Parameter CancelRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelRunInput`)
     ///
-    /// - Returns: `CancelRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension OmicsClient {
     ///
     /// Cancels a variant import job.
     ///
-    /// - Parameter CancelVariantImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelVariantImportJobInput`)
     ///
-    /// - Returns: `CancelVariantImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelVariantImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension OmicsClient {
     ///
     /// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart. You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CompleteMultipartReadSetUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteMultipartReadSetUploadInput`)
     ///
-    /// - Returns: `CompleteMultipartReadSetUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteMultipartReadSetUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,9 +873,9 @@ extension OmicsClient {
     ///
     /// Creates an annotation store.
     ///
-    /// - Parameter CreateAnnotationStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnnotationStoreInput`)
     ///
-    /// - Returns: `CreateAnnotationStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnnotationStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -946,9 +946,9 @@ extension OmicsClient {
     ///
     /// Creates a new version of an annotation store.
     ///
-    /// - Parameter CreateAnnotationStoreVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnnotationStoreVersionInput`)
     ///
-    /// - Returns: `CreateAnnotationStoreVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnnotationStoreVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1026,9 +1026,9 @@ extension OmicsClient {
     ///
     /// When you have finished uploading parts, use the CompleteMultipartReadSetUpload API to complete the multipart read set upload and to retrieve the final read set IDs in the response. To learn more about creating parts and the split operation, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateMultipartReadSetUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMultipartReadSetUploadInput`)
     ///
-    /// - Returns: `CreateMultipartReadSetUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMultipartReadSetUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1100,9 +1100,9 @@ extension OmicsClient {
     ///
     /// Creates a reference store and returns metadata in JSON format. Reference stores are used to store reference genomes in FASTA format. A reference store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see [Creating a HealthOmics reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateReferenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReferenceStoreInput`)
     ///
-    /// - Returns: `CreateReferenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReferenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1172,9 +1172,9 @@ extension OmicsClient {
     ///
     /// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately accessible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the workflow definition file. For more information, see [Call caching](https://docs.aws.amazon.com/omics/latest/dev/workflows-call-caching.html) and [Creating a run cache](https://docs.aws.amazon.com/omics/latest/dev/workflow-cache-create.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateRunCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRunCacheInput`)
     ///
-    /// - Returns: `CreateRunCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRunCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1247,9 +1247,9 @@ extension OmicsClient {
     ///
     /// Creates a run group to limit the compute resources for the runs that are added to the group. Returns an ARN, ID, and tags for the run group.
     ///
-    /// - Parameter CreateRunGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRunGroupInput`)
     ///
-    /// - Returns: `CreateRunGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRunGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1335,9 +1335,9 @@ extension OmicsClient {
     ///
     /// For more information, see [Creating a HealthOmics sequence store](https://docs.aws.amazon.com/omics/latest/dev/create-sequence-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateSequenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSequenceStoreInput`)
     ///
-    /// - Returns: `CreateSequenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSequenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1414,9 +1414,9 @@ extension OmicsClient {
     ///
     /// * Private workflows
     ///
-    /// - Parameter CreateShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateShareInput`)
     ///
-    /// - Returns: `CreateShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1487,9 +1487,9 @@ extension OmicsClient {
     ///
     /// Creates a variant store.
     ///
-    /// - Parameter CreateVariantStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVariantStoreInput`)
     ///
-    /// - Returns: `CreateVariantStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVariantStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1571,9 +1571,9 @@ extension OmicsClient {
     ///
     /// For more information, see [Creating or updating a private workflow in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/creating-private-workflows.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
-    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,9 +1646,9 @@ extension OmicsClient {
     ///
     /// Creates a new workflow version for the workflow that you specify with the workflowId parameter. When you create a new version of a workflow, you need to specify the configuration for the new version. It doesn't inherit any configuration values from the workflow. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. Don't include any personally identifiable information (PII) in the version name. Version names appear in the workflow version ARN. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateWorkflowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowVersionInput`)
     ///
-    /// - Returns: `CreateWorkflowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,9 +1721,9 @@ extension OmicsClient {
     ///
     /// Deletes an annotation store.
     ///
-    /// - Parameter DeleteAnnotationStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnnotationStoreInput`)
     ///
-    /// - Returns: `DeleteAnnotationStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnnotationStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1791,9 +1791,9 @@ extension OmicsClient {
     ///
     /// Deletes one or multiple versions of an annotation store.
     ///
-    /// - Parameter DeleteAnnotationStoreVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnnotationStoreVersionsInput`)
     ///
-    /// - Returns: `DeleteAnnotationStoreVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnnotationStoreVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1864,9 +1864,9 @@ extension OmicsClient {
     ///
     /// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. After the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReferenceInput`)
     ///
-    /// - Returns: `DeleteReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1934,9 +1934,9 @@ extension OmicsClient {
     ///
     /// Deletes a reference store and returns a response with no body if the operation is successful. You can only delete a reference store when it does not contain any reference genomes. To empty a reference store, use DeleteReference. For more information about your workflow status, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteReferenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReferenceStoreInput`)
     ///
-    /// - Returns: `DeleteReferenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReferenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2008,9 +2008,9 @@ extension OmicsClient {
     ///
     /// * Use GetRun to verify the workflow cannot be found.
     ///
-    /// - Parameter DeleteRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRunInput`)
     ///
-    /// - Returns: `DeleteRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2079,9 +2079,9 @@ extension OmicsClient {
     ///
     /// Deletes a run cache and returns a response with no body if the operation is successful. This action removes the cache metadata stored in the service account, but does not delete the data in Amazon S3. You can access the cache data in Amazon S3, for inspection or to troubleshoot issues. You can remove old cache data using standard S3 Delete operations. For more information, see [Deleting a run cache](https://docs.aws.amazon.com/omics/latest/dev/workflow-cache-delete.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteRunCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRunCacheInput`)
     ///
-    /// - Returns: `DeleteRunCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRunCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2154,9 +2154,9 @@ extension OmicsClient {
     ///
     /// * Use GetRunGroup to verify the workflow cannot be found.
     ///
-    /// - Parameter DeleteRunGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRunGroupInput`)
     ///
-    /// - Returns: `DeleteRunGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRunGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2225,9 +2225,9 @@ extension OmicsClient {
     ///
     /// Deletes an access policy for the specified store.
     ///
-    /// - Parameter DeleteS3AccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteS3AccessPolicyInput`)
     ///
-    /// - Returns: `DeleteS3AccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteS3AccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2295,9 +2295,9 @@ extension OmicsClient {
     ///
     /// Deletes a sequence store and returns a response with no body if the operation is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteSequenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSequenceStoreInput`)
     ///
-    /// - Returns: `DeleteSequenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSequenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2365,9 +2365,9 @@ extension OmicsClient {
     ///
     /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
     ///
-    /// - Parameter DeleteShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteShareInput`)
     ///
-    /// - Returns: `DeleteShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2435,9 +2435,9 @@ extension OmicsClient {
     ///
     /// Deletes a variant store.
     ///
-    /// - Parameter DeleteVariantStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVariantStoreInput`)
     ///
-    /// - Returns: `DeleteVariantStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVariantStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2509,9 +2509,9 @@ extension OmicsClient {
     ///
     /// * Use GetWorkflow to verify the workflow cannot be found.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2580,9 +2580,9 @@ extension OmicsClient {
     ///
     /// Deletes a workflow version. Deleting a workflow version doesn't affect any ongoing runs that are using the workflow version. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteWorkflowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowVersionInput`)
     ///
-    /// - Returns: `DeleteWorkflowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2651,9 +2651,9 @@ extension OmicsClient {
     ///
     /// Gets information about an annotation import job.
     ///
-    /// - Parameter GetAnnotationImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnnotationImportJobInput`)
     ///
-    /// - Returns: `GetAnnotationImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnnotationImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2719,9 +2719,9 @@ extension OmicsClient {
     ///
     /// Gets information about an annotation store.
     ///
-    /// - Parameter GetAnnotationStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnnotationStoreInput`)
     ///
-    /// - Returns: `GetAnnotationStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnnotationStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2787,9 +2787,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata for an annotation store version.
     ///
-    /// - Parameter GetAnnotationStoreVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnnotationStoreVersionInput`)
     ///
-    /// - Returns: `GetAnnotationStoreVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnnotationStoreVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2855,9 +2855,9 @@ extension OmicsClient {
     ///
     /// Retrieves detailed information from parts of a read set and returns the read set in the same format that it was uploaded. You must have read sets uploaded to your sequence store in order to run this operation.
     ///
-    /// - Parameter GetReadSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetInput`)
     ///
-    /// - Returns: `GetReadSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2927,9 +2927,9 @@ extension OmicsClient {
     ///
     /// Returns detailed information about the status of a read set activation job in JSON format.
     ///
-    /// - Parameter GetReadSetActivationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetActivationJobInput`)
     ///
-    /// - Returns: `GetReadSetActivationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetActivationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2996,9 +2996,9 @@ extension OmicsClient {
     ///
     /// Retrieves status information about a read set export job and returns the data in JSON format. Use this operation to actively monitor the progress of an export job.
     ///
-    /// - Parameter GetReadSetExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetExportJobInput`)
     ///
-    /// - Returns: `GetReadSetExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3065,9 +3065,9 @@ extension OmicsClient {
     ///
     /// Gets detailed and status information about a read set import job and returns the data in JSON format.
     ///
-    /// - Parameter GetReadSetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetImportJobInput`)
     ///
-    /// - Returns: `GetReadSetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3134,9 +3134,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata for a read set from a sequence store in JSON format. This operation does not return tags. To retrieve the list of tags for a read set, use the ListTagsForResource API operation.
     ///
-    /// - Parameter GetReadSetMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetMetadataInput`)
     ///
-    /// - Returns: `GetReadSetMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3203,9 +3203,9 @@ extension OmicsClient {
     ///
     /// Downloads parts of data from a reference genome and returns the reference file in the same format that it was uploaded. For more information, see [Creating a HealthOmics reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReferenceInput`)
     ///
-    /// - Returns: `GetReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3275,9 +3275,9 @@ extension OmicsClient {
     ///
     /// Monitors the status of a reference import job. This operation can be called after calling the StartReferenceImportJob operation.
     ///
-    /// - Parameter GetReferenceImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReferenceImportJobInput`)
     ///
-    /// - Returns: `GetReferenceImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReferenceImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3344,9 +3344,9 @@ extension OmicsClient {
     ///
     /// Retrieves metadata for a reference genome. This operation returns the number of parts, part size, and MD5 of an entire file. This operation does not return tags. To retrieve the list of tags for a read set, use the ListTagsForResource API operation.
     ///
-    /// - Parameter GetReferenceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReferenceMetadataInput`)
     ///
-    /// - Returns: `GetReferenceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReferenceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3413,9 +3413,9 @@ extension OmicsClient {
     ///
     /// Gets information about a reference store.
     ///
-    /// - Parameter GetReferenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReferenceStoreInput`)
     ///
-    /// - Returns: `GetReferenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReferenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3482,9 +3482,9 @@ extension OmicsClient {
     ///
     /// Gets detailed information about a specific run using its ID. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If GetRun does not return the requested run, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see [CloudWatch logs](https://docs.aws.amazon.com/omics/latest/dev/monitoring-cloudwatch-logs.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRunInput`)
     ///
-    /// - Returns: `GetRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3554,9 +3554,9 @@ extension OmicsClient {
     ///
     /// Retrieves detailed information about the specified run cache using its ID. For more information, see [Call caching for Amazon Web Services HealthOmics runs](https://docs.aws.amazon.com/omics/latest/dev/workflows-call-caching.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetRunCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRunCacheInput`)
     ///
-    /// - Returns: `GetRunCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRunCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3625,9 +3625,9 @@ extension OmicsClient {
     ///
     /// Gets information about a run group and returns its metadata.
     ///
-    /// - Parameter GetRunGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRunGroupInput`)
     ///
-    /// - Returns: `GetRunGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRunGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3696,9 +3696,9 @@ extension OmicsClient {
     ///
     /// Gets detailed information about a run task using its ID.
     ///
-    /// - Parameter GetRunTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRunTaskInput`)
     ///
-    /// - Returns: `GetRunTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRunTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3767,9 +3767,9 @@ extension OmicsClient {
     ///
     /// Retrieves details about an access policy on a given store.
     ///
-    /// - Parameter GetS3AccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetS3AccessPolicyInput`)
     ///
-    /// - Returns: `GetS3AccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetS3AccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3838,9 +3838,9 @@ extension OmicsClient {
     ///
     /// Retrieves metadata for a sequence store using its ID and returns it in JSON format.
     ///
-    /// - Parameter GetSequenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSequenceStoreInput`)
     ///
-    /// - Returns: `GetSequenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSequenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3907,9 +3907,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata for the specified resource share.
     ///
-    /// - Parameter GetShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetShareInput`)
     ///
-    /// - Returns: `GetShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3977,9 +3977,9 @@ extension OmicsClient {
     ///
     /// Gets information about a variant import job.
     ///
-    /// - Parameter GetVariantImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVariantImportJobInput`)
     ///
-    /// - Returns: `GetVariantImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVariantImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4045,9 +4045,9 @@ extension OmicsClient {
     ///
     /// Gets information about a variant store.
     ///
-    /// - Parameter GetVariantStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVariantStoreInput`)
     ///
-    /// - Returns: `GetVariantStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVariantStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4113,9 +4113,9 @@ extension OmicsClient {
     ///
     /// Gets all information about a workflow using its ID. If a workflow is shared with you, you cannot export the workflow. For more information about your workflow status, see [Verify the workflow status](https://docs.aws.amazon.com/omics/latest/dev/using-get-workflow.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4185,9 +4185,9 @@ extension OmicsClient {
     ///
     /// Gets information about a workflow version. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetWorkflowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowVersionInput`)
     ///
-    /// - Returns: `GetWorkflowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4257,9 +4257,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of annotation import jobs.
     ///
-    /// - Parameter ListAnnotationImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnnotationImportJobsInput`)
     ///
-    /// - Returns: `ListAnnotationImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnnotationImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4329,9 +4329,9 @@ extension OmicsClient {
     ///
     /// Lists the versions of an annotation store.
     ///
-    /// - Parameter ListAnnotationStoreVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnnotationStoreVersionsInput`)
     ///
-    /// - Returns: `ListAnnotationStoreVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnnotationStoreVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4401,9 +4401,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of annotation stores.
     ///
-    /// - Parameter ListAnnotationStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnnotationStoresInput`)
     ///
-    /// - Returns: `ListAnnotationStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnnotationStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4473,9 +4473,9 @@ extension OmicsClient {
     ///
     /// Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the CreateMultipartReadSetUploads API operation. This operation returns a response with no body when the upload is complete.
     ///
-    /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMultipartReadSetUploadsInput`)
     ///
-    /// - Returns: `ListMultipartReadSetUploadsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMultipartReadSetUploadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4545,9 +4545,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the GetReadSetActivationJob API operation.
     ///
-    /// - Parameter ListReadSetActivationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetActivationJobsInput`)
     ///
-    /// - Returns: `ListReadSetActivationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetActivationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4618,9 +4618,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of read set export jobs in a JSON formatted response. This API operation is used to check the status of a read set export job initiated by the StartReadSetExportJob API operation.
     ///
-    /// - Parameter ListReadSetExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetExportJobsInput`)
     ///
-    /// - Returns: `ListReadSetExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4691,9 +4691,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of read set import jobs and returns the data in JSON format.
     ///
-    /// - Parameter ListReadSetImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetImportJobsInput`)
     ///
-    /// - Returns: `ListReadSetImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4764,9 +4764,9 @@ extension OmicsClient {
     ///
     /// Lists all parts in a multipart read set upload for a sequence store and returns the metadata in a JSON formatted output.
     ///
-    /// - Parameter ListReadSetUploadPartsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetUploadPartsInput`)
     ///
-    /// - Returns: `ListReadSetUploadPartsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetUploadPartsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4839,9 +4839,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format.
     ///
-    /// - Parameter ListReadSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetsInput`)
     ///
-    /// - Returns: `ListReadSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4912,9 +4912,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata of one or more reference import jobs for a reference store.
     ///
-    /// - Parameter ListReferenceImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReferenceImportJobsInput`)
     ///
-    /// - Returns: `ListReferenceImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReferenceImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4985,9 +4985,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of reference stores linked to your account and returns their metadata in JSON format. For more information, see [Creating a reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListReferenceStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReferenceStoresInput`)
     ///
-    /// - Returns: `ListReferenceStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReferenceStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5057,9 +5057,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata of one or more reference genomes in a reference store. For more information, see [Creating a reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListReferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReferencesInput`)
     ///
-    /// - Returns: `ListReferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5130,9 +5130,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of your run caches and the metadata for each cache.
     ///
-    /// - Parameter ListRunCachesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRunCachesInput`)
     ///
-    /// - Returns: `ListRunCachesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRunCachesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5202,9 +5202,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of all run groups and returns the metadata for each run group.
     ///
-    /// - Parameter ListRunGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRunGroupsInput`)
     ///
-    /// - Returns: `ListRunGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRunGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5274,9 +5274,9 @@ extension OmicsClient {
     ///
     /// Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed.
     ///
-    /// - Parameter ListRunTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRunTasksInput`)
     ///
-    /// - Returns: `ListRunTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRunTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5346,9 +5346,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of runs and returns each run's metadata and status. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see [CloudWatch logs](https://docs.aws.amazon.com/omics/latest/dev/monitoring-cloudwatch-logs.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRunsInput`)
     ///
-    /// - Returns: `ListRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5418,9 +5418,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of sequence stores and returns each sequence store's metadata. For more information, see [Creating a HealthOmics sequence store](https://docs.aws.amazon.com/omics/latest/dev/create-sequence-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListSequenceStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSequenceStoresInput`)
     ///
-    /// - Returns: `ListSequenceStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSequenceStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5490,9 +5490,9 @@ extension OmicsClient {
     ///
     /// Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares.
     ///
-    /// - Parameter ListSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSharesInput`)
     ///
-    /// - Returns: `ListSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5564,9 +5564,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5635,9 +5635,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of variant import jobs.
     ///
-    /// - Parameter ListVariantImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVariantImportJobsInput`)
     ///
-    /// - Returns: `ListVariantImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVariantImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5707,9 +5707,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of variant stores.
     ///
-    /// - Parameter ListVariantStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVariantStoresInput`)
     ///
-    /// - Returns: `ListVariantStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVariantStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5779,9 +5779,9 @@ extension OmicsClient {
     ///
     /// Lists the workflow versions for the specified workflow. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListWorkflowVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowVersionsInput`)
     ///
-    /// - Returns: `ListWorkflowVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5851,9 +5851,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify PRIVATE to retrieve a list of private workflows or specify READY2RUN for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5923,9 +5923,9 @@ extension OmicsClient {
     ///
     /// Adds an access policy to the specified store.
     ///
-    /// - Parameter PutS3AccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutS3AccessPolicyInput`)
     ///
-    /// - Returns: `PutS3AccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutS3AccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5996,9 +5996,9 @@ extension OmicsClient {
     ///
     /// Starts an annotation import job.
     ///
-    /// - Parameter StartAnnotationImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAnnotationImportJobInput`)
     ///
-    /// - Returns: `StartAnnotationImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAnnotationImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6068,9 +6068,9 @@ extension OmicsClient {
     ///
     /// Activates an archived read set and returns its metadata in a JSON formatted output. AWS HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see [Activating read sets](https://docs.aws.amazon.com/omics/latest/dev/activating-read-sets.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter StartReadSetActivationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReadSetActivationJobInput`)
     ///
-    /// - Returns: `StartReadSetActivationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReadSetActivationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6141,9 +6141,9 @@ extension OmicsClient {
     ///
     /// Starts a read set export job. When the export job is finished, the read set is exported to an Amazon S3 bucket which can be retrieved using the GetReadSetExportJob API operation. To monitor the status of the export job, use the ListReadSetExportJobs API operation.
     ///
-    /// - Parameter StartReadSetExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReadSetExportJobInput`)
     ///
-    /// - Returns: `StartReadSetExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReadSetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6214,9 +6214,9 @@ extension OmicsClient {
     ///
     /// Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation.
     ///
-    /// - Parameter StartReadSetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReadSetImportJobInput`)
     ///
-    /// - Returns: `StartReadSetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReadSetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6287,9 +6287,9 @@ extension OmicsClient {
     ///
     /// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the GetReferenceImportJob API operation.
     ///
-    /// - Parameter StartReferenceImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReferenceImportJobInput`)
     ///
-    /// - Returns: `StartReferenceImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReferenceImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6389,9 +6389,9 @@ extension OmicsClient {
     ///
     /// To learn more about the retention modes, see [Run retention mode](https://docs.aws.amazon.com/omics/latest/dev/run-retention.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter StartRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRunInput`)
     ///
-    /// - Returns: `StartRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6464,9 +6464,9 @@ extension OmicsClient {
     ///
     /// Starts a variant import job.
     ///
-    /// - Parameter StartVariantImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVariantImportJobInput`)
     ///
-    /// - Returns: `StartVariantImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVariantImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6536,9 +6536,9 @@ extension OmicsClient {
     ///
     /// Tags a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6610,9 +6610,9 @@ extension OmicsClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6682,9 +6682,9 @@ extension OmicsClient {
     ///
     /// Updates an annotation store.
     ///
-    /// - Parameter UpdateAnnotationStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnnotationStoreInput`)
     ///
-    /// - Returns: `UpdateAnnotationStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnnotationStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6753,9 +6753,9 @@ extension OmicsClient {
     ///
     /// Updates the description of an annotation store version.
     ///
-    /// - Parameter UpdateAnnotationStoreVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnnotationStoreVersionInput`)
     ///
-    /// - Returns: `UpdateAnnotationStoreVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnnotationStoreVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6824,9 +6824,9 @@ extension OmicsClient {
     ///
     /// Updates a run cache using its ID and returns a response with no body if the operation is successful. You can update the run cache description, name, or the default run cache behavior with CACHE_ON_FAILURE or CACHE_ALWAYS. To confirm that your run cache settings have been properly updated, use the GetRunCache API operation. For more information, see [How call caching works](https://docs.aws.amazon.com/omics/latest/dev/how-run-cache.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter UpdateRunCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRunCacheInput`)
     ///
-    /// - Returns: `UpdateRunCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRunCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6911,9 +6911,9 @@ extension OmicsClient {
     ///
     /// To confirm that the settings have been successfully updated, use the ListRunGroups or GetRunGroup API operations to verify that the desired changes have been made.
     ///
-    /// - Parameter UpdateRunGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRunGroupInput`)
     ///
-    /// - Returns: `UpdateRunGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRunGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6985,9 +6985,9 @@ extension OmicsClient {
     ///
     /// Update one or more parameters for the sequence store.
     ///
-    /// - Parameter UpdateSequenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSequenceStoreInput`)
     ///
-    /// - Returns: `UpdateSequenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSequenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7059,9 +7059,9 @@ extension OmicsClient {
     ///
     /// Updates a variant store.
     ///
-    /// - Parameter UpdateVariantStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVariantStoreInput`)
     ///
-    /// - Returns: `UpdateVariantStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVariantStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7141,9 +7141,9 @@ extension OmicsClient {
     ///
     /// This operation returns a response with no body if the operation is successful. You can check the workflow updates by calling the GetWorkflow API operation. For more information, see [Update a private workflow](https://docs.aws.amazon.com/omics/latest/dev/update-private-workflow.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowInput`)
     ///
-    /// - Returns: `UpdateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7215,9 +7215,9 @@ extension OmicsClient {
     ///
     /// Updates information about the workflow version. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter UpdateWorkflowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowVersionInput`)
     ///
-    /// - Returns: `UpdateWorkflowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7289,9 +7289,9 @@ extension OmicsClient {
     ///
     /// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter UploadReadSetPartInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadReadSetPartInput`)
     ///
-    /// - Returns: `UploadReadSetPartOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadReadSetPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

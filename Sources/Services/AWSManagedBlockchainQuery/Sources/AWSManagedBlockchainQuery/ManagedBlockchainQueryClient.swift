@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ManagedBlockchainQueryClient: ClientRuntime.Client {
     public static let clientName = "ManagedBlockchainQueryClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfiguration
     let serviceName = "ManagedBlockchain Query"
@@ -371,9 +371,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for every token in the request. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
-    /// - Parameter BatchGetTokenBalanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetTokenBalanceInput`)
     ///
-    /// - Returns: `BatchGetTokenBalanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetTokenBalanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// * Metadata is currently only available for some ERC-20 contracts. Metadata will be available for additional contracts in the future.
     ///
-    /// - Parameter GetAssetContractInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssetContractInput`)
     ///
-    /// - Returns: `GetAssetContractOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssetContractOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     ///
-    /// - Parameter GetTokenBalanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTokenBalanceInput`)
     ///
-    /// - Returns: `GetTokenBalanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTokenBalanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// Gets the details of a transaction. This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
     ///
-    /// - Parameter GetTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransactionInput`)
     ///
-    /// - Returns: `GetTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,9 +663,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// Lists all the contracts for a given contract type deployed by an address (either a contract address or a wallet address). The Bitcoin blockchain networks do not support this operation.
     ///
-    /// - Parameter ListAssetContractsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetContractsInput`)
     ///
-    /// - Returns: `ListAssetContractsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetContractsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -734,9 +734,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// Lists all the transaction events for an address on the blockchain. This operation is only supported on the Bitcoin networks.
     ///
-    /// - Parameter ListFilteredTransactionEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFilteredTransactionEventsInput`)
     ///
-    /// - Returns: `ListFilteredTransactionEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFilteredTransactionEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -814,9 +814,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// You must always specify the network property of the tokenFilter when using this operation.
     ///
-    /// - Parameter ListTokenBalancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTokenBalancesInput`)
     ///
-    /// - Returns: `ListTokenBalancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTokenBalancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -885,9 +885,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// Lists all the transaction events for a transaction This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
     ///
-    /// - Parameter ListTransactionEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTransactionEventsInput`)
     ///
-    /// - Returns: `ListTransactionEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTransactionEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,9 +956,9 @@ extension ManagedBlockchainQueryClient {
     ///
     /// Lists all the transaction events for a transaction.
     ///
-    /// - Parameter ListTransactionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTransactionsInput`)
     ///
-    /// - Returns: `ListTransactionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTransactionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

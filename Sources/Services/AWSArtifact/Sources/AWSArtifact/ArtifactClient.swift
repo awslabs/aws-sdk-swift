@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ArtifactClient: ClientRuntime.Client {
     public static let clientName = "ArtifactClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ArtifactClient.ArtifactClientConfiguration
     let serviceName = "Artifact"
@@ -372,9 +372,9 @@ extension ArtifactClient {
     ///
     /// Get the account settings for Artifact.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension ArtifactClient {
     ///
     /// Get the content for a single report.
     ///
-    /// - Parameter GetReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReportInput`)
     ///
-    /// - Returns: `GetReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension ArtifactClient {
     ///
     /// Get the metadata for a single report.
     ///
-    /// - Parameter GetReportMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReportMetadataInput`)
     ///
-    /// - Returns: `GetReportMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReportMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension ArtifactClient {
     ///
     /// Get the Term content associated with a single report.
     ///
-    /// - Parameter GetTermForReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTermForReportInput`)
     ///
-    /// - Returns: `GetTermForReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTermForReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,9 +654,9 @@ extension ArtifactClient {
     ///
     /// List active customer-agreements applicable to calling identity.
     ///
-    /// - Parameter ListCustomerAgreementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomerAgreementsInput`)
     ///
-    /// - Returns: `ListCustomerAgreementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomerAgreementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -722,9 +722,9 @@ extension ArtifactClient {
     ///
     /// List available reports.
     ///
-    /// - Parameter ListReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportsInput`)
     ///
-    /// - Returns: `ListReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,9 +792,9 @@ extension ArtifactClient {
     ///
     /// Put the account settings for Artifact.
     ///
-    /// - Parameter PutAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountSettingsInput`)
     ///
-    /// - Returns: `PutAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

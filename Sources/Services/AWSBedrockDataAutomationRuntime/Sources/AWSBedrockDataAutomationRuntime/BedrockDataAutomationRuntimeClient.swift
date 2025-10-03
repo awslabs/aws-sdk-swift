@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockDataAutomationRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockDataAutomationRuntimeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockDataAutomationRuntimeClient.BedrockDataAutomationRuntimeClientConfiguration
     let serviceName = "Bedrock Data Automation Runtime"
@@ -373,9 +373,9 @@ extension BedrockDataAutomationRuntimeClient {
     ///
     /// API used to get data automation status.
     ///
-    /// - Parameter GetDataAutomationStatusInput : Structure for request of GetDataAutomationStatus API.
+    /// - Parameter input: Structure for request of GetDataAutomationStatus API. (Type: `GetDataAutomationStatusInput`)
     ///
-    /// - Returns: `GetDataAutomationStatusOutput` : Response of GetDataAutomationStatus API.
+    /// - Returns: Response of GetDataAutomationStatus API. (Type: `GetDataAutomationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension BedrockDataAutomationRuntimeClient {
     ///
     /// Async API: Invoke data automation.
     ///
-    /// - Parameter InvokeDataAutomationAsyncInput : Invoke Data Automation Async Request
+    /// - Parameter input: Invoke Data Automation Async Request (Type: `InvokeDataAutomationAsyncInput`)
     ///
-    /// - Returns: `InvokeDataAutomationAsyncOutput` : Invoke Data Automation Async Response
+    /// - Returns: Invoke Data Automation Async Response (Type: `InvokeDataAutomationAsyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension BedrockDataAutomationRuntimeClient {
     ///
     /// List tags for an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension BedrockDataAutomationRuntimeClient {
     ///
     /// Tag an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,9 +663,9 @@ extension BedrockDataAutomationRuntimeClient {
     ///
     /// Untag an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

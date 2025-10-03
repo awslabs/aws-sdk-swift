@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FinspacedataClient: ClientRuntime.Client {
     public static let clientName = "FinspacedataClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: FinspacedataClient.FinspacedataClientConfiguration
     let serviceName = "finspace data"
@@ -374,9 +374,9 @@ extension FinspacedataClient {
     /// Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter AssociateUserToPermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateUserToPermissionGroupInput`)
     ///
-    /// - Returns: `AssociateUserToPermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateUserToPermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension FinspacedataClient {
     /// Creates a new Changeset in a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateChangesetInput : The request for a CreateChangeset operation.
+    /// - Parameter input: The request for a CreateChangeset operation. (Type: `CreateChangesetInput`)
     ///
-    /// - Returns: `CreateChangesetOutput` : The response from a CreateChangeset operation.
+    /// - Returns: The response from a CreateChangeset operation. (Type: `CreateChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,9 +523,9 @@ extension FinspacedataClient {
     /// Creates a Dataview for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateDataViewInput : Request for creating a data view.
+    /// - Parameter input: Request for creating a data view. (Type: `CreateDataViewInput`)
     ///
-    /// - Returns: `CreateDataViewOutput` : Response for creating a data view.
+    /// - Returns: Response for creating a data view. (Type: `CreateDataViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension FinspacedataClient {
     /// Creates a new FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateDatasetInput : The request for a CreateDataset operation
+    /// - Parameter input: The request for a CreateDataset operation (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : The response from a CreateDataset operation
+    /// - Returns: The response from a CreateDataset operation (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -672,9 +672,9 @@ extension FinspacedataClient {
     /// Creates a group of permissions for various actions that a user can perform in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreatePermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionGroupInput`)
     ///
-    /// - Returns: `CreatePermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -746,9 +746,9 @@ extension FinspacedataClient {
     /// Creates a new user in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,9 +820,9 @@ extension FinspacedataClient {
     /// Deletes a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DeleteDatasetInput : The request for a DeleteDataset operation.
+    /// - Parameter input: The request for a DeleteDataset operation. (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : The response from an DeleteDataset operation
+    /// - Returns: The response from an DeleteDataset operation (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,9 +893,9 @@ extension FinspacedataClient {
     /// Deletes a permission group. This action is irreversible.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DeletePermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionGroupInput`)
     ///
-    /// - Returns: `DeletePermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -966,9 +966,9 @@ extension FinspacedataClient {
     /// Denies access to the FinSpace web application and API for the specified user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DisableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableUserInput`)
     ///
-    /// - Returns: `DisableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1040,9 +1040,9 @@ extension FinspacedataClient {
     /// Removes a user from a permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DisassociateUserFromPermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateUserFromPermissionGroupInput`)
     ///
-    /// - Returns: `DisassociateUserFromPermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateUserFromPermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,9 +1112,9 @@ extension FinspacedataClient {
     /// Allows the specified user to access the FinSpace web application and API.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter EnableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableUserInput`)
     ///
-    /// - Returns: `EnableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1187,9 +1187,9 @@ extension FinspacedataClient {
     /// Get information about a Changeset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetChangesetInput : Request to describe a changeset.
+    /// - Parameter input: Request to describe a changeset. (Type: `GetChangesetInput`)
     ///
-    /// - Returns: `GetChangesetOutput` : The response from a describe changeset operation
+    /// - Returns: The response from a describe changeset operation (Type: `GetChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1257,9 +1257,9 @@ extension FinspacedataClient {
     /// Gets information about a Dataview.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetDataViewInput : Request for retrieving a data view detail. Grouped / accessible within a dataset by its dataset id.
+    /// - Parameter input: Request for retrieving a data view detail. Grouped / accessible within a dataset by its dataset id. (Type: `GetDataViewInput`)
     ///
-    /// - Returns: `GetDataViewOutput` : Response from retrieving a dataview, which includes details on the target database and table name
+    /// - Returns: Response from retrieving a dataview, which includes details on the target database and table name (Type: `GetDataViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1326,9 +1326,9 @@ extension FinspacedataClient {
     /// Returns information about a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetDatasetInput : Request for the GetDataset operation.
+    /// - Parameter input: Request for the GetDataset operation. (Type: `GetDatasetInput`)
     ///
-    /// - Returns: `GetDatasetOutput` : Response for the GetDataset operation
+    /// - Returns: Response for the GetDataset operation (Type: `GetDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1400,9 +1400,9 @@ extension FinspacedataClient {
     /// * You must be a member of a FinSpace user group, where the dataset that you want to access has Read Dataset Data permissions.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetExternalDataViewAccessDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExternalDataViewAccessDetailsInput`)
     ///
-    /// - Returns: `GetExternalDataViewAccessDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExternalDataViewAccessDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1469,9 +1469,9 @@ extension FinspacedataClient {
     /// Retrieves the details of a specific permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetPermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPermissionGroupInput`)
     ///
-    /// - Returns: `GetPermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,9 +1538,9 @@ extension FinspacedataClient {
     /// Request programmatic credentials to use with FinSpace SDK. For more information, see [Step 2. Access credentials programmatically using IAM access key id and secret access key](https://docs.aws.amazon.com/finspace/latest/data-api/fs-using-the-finspace-api.html#accessing-credentials).
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetProgrammaticAccessCredentialsInput : Request for GetProgrammaticAccessCredentials operation
+    /// - Parameter input: Request for GetProgrammaticAccessCredentials operation (Type: `GetProgrammaticAccessCredentialsInput`)
     ///
-    /// - Returns: `GetProgrammaticAccessCredentialsOutput` : Response for GetProgrammaticAccessCredentials operation
+    /// - Returns: Response for GetProgrammaticAccessCredentials operation (Type: `GetProgrammaticAccessCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1607,9 +1607,9 @@ extension FinspacedataClient {
     /// Retrieves details for a specific user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserInput`)
     ///
-    /// - Returns: `GetUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1676,9 +1676,9 @@ extension FinspacedataClient {
     /// A temporary Amazon S3 location, where you can copy your files from a source location to stage or use as a scratch space in FinSpace notebook.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetWorkingLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkingLocationInput`)
     ///
-    /// - Returns: `GetWorkingLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkingLocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1747,9 +1747,9 @@ extension FinspacedataClient {
     /// Lists the FinSpace Changesets for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListChangesetsInput : Request to ListChangesetsRequest. It exposes minimal query filters.
+    /// - Parameter input: Request to ListChangesetsRequest. It exposes minimal query filters. (Type: `ListChangesetsInput`)
     ///
-    /// - Returns: `ListChangesetsOutput` : Response to ListChangesetsResponse. This returns a list of dataset changesets that match the query criteria.
+    /// - Returns: Response to ListChangesetsResponse. This returns a list of dataset changesets that match the query criteria. (Type: `ListChangesetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1818,9 +1818,9 @@ extension FinspacedataClient {
     /// Lists all available Dataviews for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListDataViewsInput : Request for a list data views.
+    /// - Parameter input: Request for a list data views. (Type: `ListDataViewsInput`)
     ///
-    /// - Returns: `ListDataViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1888,9 +1888,9 @@ extension FinspacedataClient {
     /// Lists all of the active Datasets that a user has access to.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListDatasetsInput : Request for the ListDatasets operation.
+    /// - Parameter input: Request for the ListDatasets operation. (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : Response for the ListDatasets operation
+    /// - Returns: Response for the ListDatasets operation (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1958,9 +1958,9 @@ extension FinspacedataClient {
     /// Lists all available permission groups in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListPermissionGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionGroupsInput`)
     ///
-    /// - Returns: `ListPermissionGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2027,9 +2027,9 @@ extension FinspacedataClient {
     /// Lists all the permission groups that are associated with a specific user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListPermissionGroupsByUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionGroupsByUserInput`)
     ///
-    /// - Returns: `ListPermissionGroupsByUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionGroupsByUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2097,9 +2097,9 @@ extension FinspacedataClient {
     /// Lists all available users in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2166,9 +2166,9 @@ extension FinspacedataClient {
     /// Lists details of all the users in a specific permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListUsersByPermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersByPermissionGroupInput`)
     ///
-    /// - Returns: `ListUsersByPermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersByPermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2236,9 +2236,9 @@ extension FinspacedataClient {
     /// Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ResetUserPasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetUserPasswordInput`)
     ///
-    /// - Returns: `ResetUserPasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetUserPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2310,9 +2310,9 @@ extension FinspacedataClient {
     /// Updates a FinSpace Changeset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdateChangesetInput : Request to update an existing changeset.
+    /// - Parameter input: Request to update an existing changeset. (Type: `UpdateChangesetInput`)
     ///
-    /// - Returns: `UpdateChangesetOutput` : The response from a update changeset operation.
+    /// - Returns: The response from a update changeset operation. (Type: `UpdateChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2384,9 +2384,9 @@ extension FinspacedataClient {
     /// Updates a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdateDatasetInput : The request for an UpdateDataset operation
+    /// - Parameter input: The request for an UpdateDataset operation (Type: `UpdateDatasetInput`)
     ///
-    /// - Returns: `UpdateDatasetOutput` : The response from an UpdateDataset operation
+    /// - Returns: The response from an UpdateDataset operation (Type: `UpdateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2458,9 +2458,9 @@ extension FinspacedataClient {
     /// Modifies the details of a permission group. You cannot modify a permissionGroupID.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdatePermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePermissionGroupInput`)
     ///
-    /// - Returns: `UpdatePermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2532,9 +2532,9 @@ extension FinspacedataClient {
     /// Modifies the details of the specified user. You cannot update the userId for a user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

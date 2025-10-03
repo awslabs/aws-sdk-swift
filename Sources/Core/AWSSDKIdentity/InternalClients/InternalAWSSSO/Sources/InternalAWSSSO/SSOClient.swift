@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 package class SSOClient: ClientRuntime.Client {
     public static let clientName = "SSOClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOClient.SSOClientConfiguration
     let serviceName = "SSO"
@@ -368,9 +368,9 @@ extension SSOClient {
     ///
     /// Returns the STS short-term credentials for a given role name that is assigned to the user.
     ///
-    /// - Parameter GetRoleCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoleCredentialsInput`)
     ///
-    /// - Returns: `GetRoleCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoleCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppSyncClient: ClientRuntime.Client {
     public static let clientName = "AppSyncClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppSyncClient.AppSyncClientConfiguration
     let serviceName = "AppSync"
@@ -373,9 +373,9 @@ extension AppSyncClient {
     ///
     /// Maps an endpoint to your custom domain.
     ///
-    /// - Parameter AssociateApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApiInput`)
     ///
-    /// - Returns: `AssociateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension AppSyncClient {
     ///
     /// Creates an association between a Merged API and source API using the source API's identifier.
     ///
-    /// - Parameter AssociateMergedGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMergedGraphqlApiInput`)
     ///
-    /// - Returns: `AssociateMergedGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMergedGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension AppSyncClient {
     ///
     /// Creates an association between a Merged API and source API using the Merged API's identifier.
     ///
-    /// - Parameter AssociateSourceGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceGraphqlApiInput`)
     ///
-    /// - Returns: `AssociateSourceGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSourceGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension AppSyncClient {
     ///
     /// Creates an Api object. Use this operation to create an AppSync API with your preferred configuration, such as an Event API that provides real-time message publishing and message subscriptions over WebSockets.
     ///
-    /// - Parameter CreateApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApiInput`)
     ///
-    /// - Returns: `CreateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,9 +658,9 @@ extension AppSyncClient {
     ///
     /// Creates a cache for the GraphQL API.
     ///
-    /// - Parameter CreateApiCacheInput : Represents the input of a CreateApiCache operation.
+    /// - Parameter input: Represents the input of a CreateApiCache operation. (Type: `CreateApiCacheInput`)
     ///
-    /// - Returns: `CreateApiCacheOutput` : Represents the output of a CreateApiCache operation.
+    /// - Returns: Represents the output of a CreateApiCache operation. (Type: `CreateApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension AppSyncClient {
     ///
     /// Creates a unique key that you can distribute to clients who invoke your API.
     ///
-    /// - Parameter CreateApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApiKeyInput`)
     ///
-    /// - Returns: `CreateApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension AppSyncClient {
     ///
     /// Creates a ChannelNamespace for an Api.
     ///
-    /// - Parameter CreateChannelNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelNamespaceInput`)
     ///
-    /// - Returns: `CreateChannelNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -875,9 +875,9 @@ extension AppSyncClient {
     ///
     /// Creates a DataSource object.
     ///
-    /// - Parameter CreateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSourceInput`)
     ///
-    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -946,9 +946,9 @@ extension AppSyncClient {
     ///
     /// Creates a custom DomainName object.
     ///
-    /// - Parameter CreateDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainNameInput`)
     ///
-    /// - Returns: `CreateDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,9 +1015,9 @@ extension AppSyncClient {
     ///
     /// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic.
     ///
-    /// - Parameter CreateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFunctionInput`)
     ///
-    /// - Returns: `CreateFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,9 +1086,9 @@ extension AppSyncClient {
     ///
     /// Creates a GraphqlApi object.
     ///
-    /// - Parameter CreateGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphqlApiInput`)
     ///
-    /// - Returns: `CreateGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1158,9 +1158,9 @@ extension AppSyncClient {
     ///
     /// Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand, and converts the data source's responses into GraphQL.
     ///
-    /// - Parameter CreateResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResolverInput`)
     ///
-    /// - Returns: `CreateResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1229,9 +1229,9 @@ extension AppSyncClient {
     ///
     /// Creates a Type object.
     ///
-    /// - Parameter CreateTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTypeInput`)
     ///
-    /// - Returns: `CreateTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1300,9 +1300,9 @@ extension AppSyncClient {
     ///
     /// Deletes an Api object
     ///
-    /// - Parameter DeleteApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiInput`)
     ///
-    /// - Returns: `DeleteApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,9 +1369,9 @@ extension AppSyncClient {
     ///
     /// Deletes an ApiCache object.
     ///
-    /// - Parameter DeleteApiCacheInput : Represents the input of a DeleteApiCache operation.
+    /// - Parameter input: Represents the input of a DeleteApiCache operation. (Type: `DeleteApiCacheInput`)
     ///
-    /// - Returns: `DeleteApiCacheOutput` : Represents the output of a DeleteApiCache operation.
+    /// - Returns: Represents the output of a DeleteApiCache operation. (Type: `DeleteApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1437,9 +1437,9 @@ extension AppSyncClient {
     ///
     /// Deletes an API key.
     ///
-    /// - Parameter DeleteApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiKeyInput`)
     ///
-    /// - Returns: `DeleteApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,9 +1504,9 @@ extension AppSyncClient {
     ///
     /// Deletes a ChannelNamespace.
     ///
-    /// - Parameter DeleteChannelNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelNamespaceInput`)
     ///
-    /// - Returns: `DeleteChannelNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1573,9 +1573,9 @@ extension AppSyncClient {
     ///
     /// Deletes a DataSource object.
     ///
-    /// - Parameter DeleteDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSourceInput`)
     ///
-    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1641,9 +1641,9 @@ extension AppSyncClient {
     ///
     /// Deletes a custom DomainName object.
     ///
-    /// - Parameter DeleteDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainNameInput`)
     ///
-    /// - Returns: `DeleteDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1709,9 +1709,9 @@ extension AppSyncClient {
     ///
     /// Deletes a Function.
     ///
-    /// - Parameter DeleteFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionInput`)
     ///
-    /// - Returns: `DeleteFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1777,9 +1777,9 @@ extension AppSyncClient {
     ///
     /// Deletes a GraphqlApi object.
     ///
-    /// - Parameter DeleteGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGraphqlApiInput`)
     ///
-    /// - Returns: `DeleteGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1846,9 +1846,9 @@ extension AppSyncClient {
     ///
     /// Deletes a Resolver object.
     ///
-    /// - Parameter DeleteResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResolverInput`)
     ///
-    /// - Returns: `DeleteResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1914,9 +1914,9 @@ extension AppSyncClient {
     ///
     /// Deletes a Type object.
     ///
-    /// - Parameter DeleteTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTypeInput`)
     ///
-    /// - Returns: `DeleteTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1982,9 +1982,9 @@ extension AppSyncClient {
     ///
     /// Removes an ApiAssociation object from a custom domain.
     ///
-    /// - Parameter DisassociateApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApiInput`)
     ///
-    /// - Returns: `DisassociateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2050,9 +2050,9 @@ extension AppSyncClient {
     ///
     /// Deletes an association between a Merged API and source API using the source API's identifier and the association ID.
     ///
-    /// - Parameter DisassociateMergedGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMergedGraphqlApiInput`)
     ///
-    /// - Returns: `DisassociateMergedGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMergedGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2118,9 +2118,9 @@ extension AppSyncClient {
     ///
     /// Deletes an association between a Merged API and source API using the Merged API's identifier and the association ID.
     ///
-    /// - Parameter DisassociateSourceGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceGraphqlApiInput`)
     ///
-    /// - Returns: `DisassociateSourceGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2186,9 +2186,9 @@ extension AppSyncClient {
     ///
     /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type.
     ///
-    /// - Parameter EvaluateCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EvaluateCodeInput`)
     ///
-    /// - Returns: `EvaluateCodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EvaluateCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2255,9 +2255,9 @@ extension AppSyncClient {
     ///
     /// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL).
     ///
-    /// - Parameter EvaluateMappingTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EvaluateMappingTemplateInput`)
     ///
-    /// - Returns: `EvaluateMappingTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EvaluateMappingTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2324,9 +2324,9 @@ extension AppSyncClient {
     ///
     /// Flushes an ApiCache object.
     ///
-    /// - Parameter FlushApiCacheInput : Represents the input of a FlushApiCache operation.
+    /// - Parameter input: Represents the input of a FlushApiCache operation. (Type: `FlushApiCacheInput`)
     ///
-    /// - Returns: `FlushApiCacheOutput` : Represents the output of a FlushApiCache operation.
+    /// - Returns: Represents the output of a FlushApiCache operation. (Type: `FlushApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2392,9 +2392,9 @@ extension AppSyncClient {
     ///
     /// Retrieves an Api object.
     ///
-    /// - Parameter GetApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiInput`)
     ///
-    /// - Returns: `GetApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2460,9 +2460,9 @@ extension AppSyncClient {
     ///
     /// Retrieves an ApiAssociation object.
     ///
-    /// - Parameter GetApiAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiAssociationInput`)
     ///
-    /// - Returns: `GetApiAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2527,9 +2527,9 @@ extension AppSyncClient {
     ///
     /// Retrieves an ApiCache object.
     ///
-    /// - Parameter GetApiCacheInput : Represents the input of a GetApiCache operation.
+    /// - Parameter input: Represents the input of a GetApiCache operation. (Type: `GetApiCacheInput`)
     ///
-    /// - Returns: `GetApiCacheOutput` : Represents the output of a GetApiCache operation.
+    /// - Returns: Represents the output of a GetApiCache operation. (Type: `GetApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2595,9 +2595,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the channel namespace for a specified Api.
     ///
-    /// - Parameter GetChannelNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelNamespaceInput`)
     ///
-    /// - Returns: `GetChannelNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2663,9 +2663,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a DataSource object.
     ///
-    /// - Parameter GetDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSourceInput`)
     ///
-    /// - Returns: `GetDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2731,9 +2731,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the record of an existing introspection. If the retrieval is successful, the result of the instrospection will also be returned. If the retrieval fails the operation, an error message will be returned instead.
     ///
-    /// - Parameter GetDataSourceIntrospectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSourceIntrospectionInput`)
     ///
-    /// - Returns: `GetDataSourceIntrospectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSourceIntrospectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2798,9 +2798,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a custom DomainName object.
     ///
-    /// - Parameter GetDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainNameInput`)
     ///
-    /// - Returns: `GetDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2865,9 +2865,9 @@ extension AppSyncClient {
     ///
     /// Get a Function.
     ///
-    /// - Parameter GetFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionInput`)
     ///
-    /// - Returns: `GetFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2931,9 +2931,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a GraphqlApi object.
     ///
-    /// - Parameter GetGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphqlApiInput`)
     ///
-    /// - Returns: `GetGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2999,9 +2999,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the list of environmental variable key-value pairs associated with an API by its ID value.
     ///
-    /// - Parameter GetGraphqlApiEnvironmentVariablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphqlApiEnvironmentVariablesInput`)
     ///
-    /// - Returns: `GetGraphqlApiEnvironmentVariablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphqlApiEnvironmentVariablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3067,9 +3067,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the introspection schema for a GraphQL API.
     ///
-    /// - Parameter GetIntrospectionSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntrospectionSchemaInput`)
     ///
-    /// - Returns: `GetIntrospectionSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntrospectionSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3135,9 +3135,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a Resolver object.
     ///
-    /// - Parameter GetResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverInput`)
     ///
-    /// - Returns: `GetResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3201,9 +3201,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the current status of a schema creation operation.
     ///
-    /// - Parameter GetSchemaCreationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaCreationStatusInput`)
     ///
-    /// - Returns: `GetSchemaCreationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaCreationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3268,9 +3268,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a SourceApiAssociation object.
     ///
-    /// - Parameter GetSourceApiAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSourceApiAssociationInput`)
     ///
-    /// - Returns: `GetSourceApiAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSourceApiAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3335,9 +3335,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a Type object.
     ///
-    /// - Parameter GetTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTypeInput`)
     ///
-    /// - Returns: `GetTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3404,9 +3404,9 @@ extension AppSyncClient {
     ///
     /// Lists the API keys for a given API. API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
     ///
-    /// - Parameter ListApiKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApiKeysInput`)
     ///
-    /// - Returns: `ListApiKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApiKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3472,9 +3472,9 @@ extension AppSyncClient {
     ///
     /// Lists the APIs in your AppSync account. ListApis returns only the high level API details. For more detailed information about an API, use GetApi.
     ///
-    /// - Parameter ListApisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApisInput`)
     ///
-    /// - Returns: `ListApisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3539,9 +3539,9 @@ extension AppSyncClient {
     ///
     /// Lists the channel namespaces for a specified Api. ListChannelNamespaces returns only high level details for the channel namespace. To retrieve code handlers, use GetChannelNamespace.
     ///
-    /// - Parameter ListChannelNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelNamespacesInput`)
     ///
-    /// - Returns: `ListChannelNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3607,9 +3607,9 @@ extension AppSyncClient {
     ///
     /// Lists the data sources for a given API.
     ///
-    /// - Parameter ListDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourcesInput`)
     ///
-    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,9 +3675,9 @@ extension AppSyncClient {
     ///
     /// Lists multiple custom domain names.
     ///
-    /// - Parameter ListDomainNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainNamesInput`)
     ///
-    /// - Returns: `ListDomainNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3742,9 +3742,9 @@ extension AppSyncClient {
     ///
     /// List multiple functions.
     ///
-    /// - Parameter ListFunctionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionsInput`)
     ///
-    /// - Returns: `ListFunctionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3810,9 +3810,9 @@ extension AppSyncClient {
     ///
     /// Lists your GraphQL APIs.
     ///
-    /// - Parameter ListGraphqlApisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGraphqlApisInput`)
     ///
-    /// - Returns: `ListGraphqlApisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGraphqlApisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3877,9 +3877,9 @@ extension AppSyncClient {
     ///
     /// Lists the resolvers for a given API and type.
     ///
-    /// - Parameter ListResolversInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolversInput`)
     ///
-    /// - Returns: `ListResolversOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolversOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3945,9 +3945,9 @@ extension AppSyncClient {
     ///
     /// List the resolvers that are associated with a specific function.
     ///
-    /// - Parameter ListResolversByFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolversByFunctionInput`)
     ///
-    /// - Returns: `ListResolversByFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolversByFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4013,9 +4013,9 @@ extension AppSyncClient {
     ///
     /// Lists the SourceApiAssociationSummary data.
     ///
-    /// - Parameter ListSourceApiAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceApiAssociationsInput`)
     ///
-    /// - Returns: `ListSourceApiAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceApiAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4081,9 +4081,9 @@ extension AppSyncClient {
     ///
     /// Lists the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4150,9 +4150,9 @@ extension AppSyncClient {
     ///
     /// Lists the types for a given API.
     ///
-    /// - Parameter ListTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypesInput`)
     ///
-    /// - Returns: `ListTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4219,9 +4219,9 @@ extension AppSyncClient {
     ///
     /// Lists Type objects by the source API association ID.
     ///
-    /// - Parameter ListTypesByAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypesByAssociationInput`)
     ///
-    /// - Returns: `ListTypesByAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypesByAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4314,9 +4314,9 @@ extension AppSyncClient {
     ///
     /// You can create a list of environmental variables by adding it to the environmentVariables payload as a list in the format {"key1":"value1","key2":"value2", …}. Note that each call of the PutGraphqlApiEnvironmentVariables action will result in the overwriting of the existing environmental variable list of that API. This means the existing environmental variables will be lost. To avoid this, you must include all existing and new environmental variables in the list each time you call this action.
     ///
-    /// - Parameter PutGraphqlApiEnvironmentVariablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutGraphqlApiEnvironmentVariablesInput`)
     ///
-    /// - Returns: `PutGraphqlApiEnvironmentVariablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutGraphqlApiEnvironmentVariablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4386,9 +4386,9 @@ extension AppSyncClient {
     ///
     /// Creates a new introspection. Returns the introspectionId of the new introspection after its creation.
     ///
-    /// - Parameter StartDataSourceIntrospectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataSourceIntrospectionInput`)
     ///
-    /// - Returns: `StartDataSourceIntrospectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataSourceIntrospectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4456,9 +4456,9 @@ extension AppSyncClient {
     ///
     /// Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
     ///
-    /// - Parameter StartSchemaCreationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSchemaCreationInput`)
     ///
-    /// - Returns: `StartSchemaCreationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSchemaCreationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4527,9 +4527,9 @@ extension AppSyncClient {
     ///
     /// Initiates a merge operation. Returns a status that shows the result of the merge operation.
     ///
-    /// - Parameter StartSchemaMergeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSchemaMergeInput`)
     ///
-    /// - Returns: `StartSchemaMergeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSchemaMergeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4595,9 +4595,9 @@ extension AppSyncClient {
     ///
     /// Tags a resource with user-supplied tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4667,9 +4667,9 @@ extension AppSyncClient {
     ///
     /// Untags a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4737,9 +4737,9 @@ extension AppSyncClient {
     ///
     /// Updates an Api.
     ///
-    /// - Parameter UpdateApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApiInput`)
     ///
-    /// - Returns: `UpdateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4809,9 +4809,9 @@ extension AppSyncClient {
     ///
     /// Updates the cache for the GraphQL API.
     ///
-    /// - Parameter UpdateApiCacheInput : Represents the input of a UpdateApiCache operation.
+    /// - Parameter input: Represents the input of a UpdateApiCache operation. (Type: `UpdateApiCacheInput`)
     ///
-    /// - Returns: `UpdateApiCacheOutput` : Represents the output of a UpdateApiCache operation.
+    /// - Returns: Represents the output of a UpdateApiCache operation. (Type: `UpdateApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4880,9 +4880,9 @@ extension AppSyncClient {
     ///
     /// Updates an API key. You can update the key as long as it's not deleted.
     ///
-    /// - Parameter UpdateApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApiKeyInput`)
     ///
-    /// - Returns: `UpdateApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4952,9 +4952,9 @@ extension AppSyncClient {
     ///
     /// Updates a ChannelNamespace associated with an Api.
     ///
-    /// - Parameter UpdateChannelNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelNamespaceInput`)
     ///
-    /// - Returns: `UpdateChannelNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5024,9 +5024,9 @@ extension AppSyncClient {
     ///
     /// Updates a DataSource object.
     ///
-    /// - Parameter UpdateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourceInput`)
     ///
-    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5095,9 +5095,9 @@ extension AppSyncClient {
     ///
     /// Updates a custom DomainName object.
     ///
-    /// - Parameter UpdateDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainNameInput`)
     ///
-    /// - Returns: `UpdateDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5166,9 +5166,9 @@ extension AppSyncClient {
     ///
     /// Updates a Function object.
     ///
-    /// - Parameter UpdateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionInput`)
     ///
-    /// - Returns: `UpdateFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5237,9 +5237,9 @@ extension AppSyncClient {
     ///
     /// Updates a GraphqlApi object.
     ///
-    /// - Parameter UpdateGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGraphqlApiInput`)
     ///
-    /// - Returns: `UpdateGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5309,9 +5309,9 @@ extension AppSyncClient {
     ///
     /// Updates a Resolver object.
     ///
-    /// - Parameter UpdateResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResolverInput`)
     ///
-    /// - Returns: `UpdateResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5380,9 +5380,9 @@ extension AppSyncClient {
     ///
     /// Updates some of the configuration choices of a particular source API association.
     ///
-    /// - Parameter UpdateSourceApiAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSourceApiAssociationInput`)
     ///
-    /// - Returns: `UpdateSourceApiAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSourceApiAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5451,9 +5451,9 @@ extension AppSyncClient {
     ///
     /// Updates a Type object.
     ///
-    /// - Parameter UpdateTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTypeInput`)
     ///
-    /// - Returns: `UpdateTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

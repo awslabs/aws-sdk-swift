@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComprehendMedicalClient: ClientRuntime.Client {
     public static let clientName = "ComprehendMedicalClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ComprehendMedicalClient.ComprehendMedicalClientConfiguration
     let serviceName = "ComprehendMedical"
@@ -373,9 +373,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribeEntitiesDetectionV2JobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntitiesDetectionV2JobInput`)
     ///
-    /// - Returns: `DescribeEntitiesDetectionV2JobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntitiesDetectionV2JobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with an InferICD10CM job. Use this operation to get the status of an inference job.
     ///
-    /// - Parameter DescribeICD10CMInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeICD10CMInferenceJobInput`)
     ///
-    /// - Returns: `DescribeICD10CMInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeICD10CMInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribePHIDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePHIDetectionJobInput`)
     ///
-    /// - Returns: `DescribePHIDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePHIDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job.
     ///
-    /// - Parameter DescribeRxNormInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRxNormInferenceJobInput`)
     ///
-    /// - Returns: `DescribeRxNormInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRxNormInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,9 +657,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
     ///
-    /// - Parameter DescribeSNOMEDCTInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSNOMEDCTInferenceJobInput`)
     ///
-    /// - Returns: `DescribeSNOMEDCTInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSNOMEDCTInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension ComprehendMedicalClient {
     /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information.
     @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
     ///
-    /// - Parameter DetectEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectEntitiesInput`)
     ///
-    /// - Returns: `DetectEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension ComprehendMedicalClient {
     ///
     /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the [DetectEntities] operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types.
     ///
-    /// - Parameter DetectEntitiesV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectEntitiesV2Input`)
     ///
-    /// - Returns: `DetectEntitiesV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectEntitiesV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -875,9 +875,9 @@ extension ComprehendMedicalClient {
     ///
     /// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts.
     ///
-    /// - Parameter DetectPHIInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectPHIInput`)
     ///
-    /// - Returns: `DetectPHIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectPHIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension ComprehendMedicalClient {
     ///
     /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts.
     ///
-    /// - Parameter InferICD10CMInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InferICD10CMInput`)
     ///
-    /// - Returns: `InferICD10CMOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InferICD10CMOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,9 +1021,9 @@ extension ComprehendMedicalClient {
     ///
     /// InferRxNorm detects medications as entities listed in a patient record and links to the normalized concept identifiers in the RxNorm database from the National Library of Medicine. Amazon Comprehend Medical only detects medical entities in English language texts.
     ///
-    /// - Parameter InferRxNormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InferRxNormInput`)
     ///
-    /// - Returns: `InferRxNormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InferRxNormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1094,9 +1094,9 @@ extension ComprehendMedicalClient {
     ///
     /// InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
     ///
-    /// - Parameter InferSNOMEDCTInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InferSNOMEDCTInput`)
     ///
-    /// - Returns: `InferSNOMEDCTOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InferSNOMEDCTOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,9 +1167,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of medical entity detection jobs that you have submitted.
     ///
-    /// - Parameter ListEntitiesDetectionV2JobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitiesDetectionV2JobsInput`)
     ///
-    /// - Returns: `ListEntitiesDetectionV2JobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitiesDetectionV2JobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1238,9 +1238,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of InferICD10CM jobs that you have submitted.
     ///
-    /// - Parameter ListICD10CMInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListICD10CMInferenceJobsInput`)
     ///
-    /// - Returns: `ListICD10CMInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListICD10CMInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1309,9 +1309,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of protected health information (PHI) detection jobs you have submitted.
     ///
-    /// - Parameter ListPHIDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPHIDetectionJobsInput`)
     ///
-    /// - Returns: `ListPHIDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPHIDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1380,9 +1380,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of InferRxNorm jobs that you have submitted.
     ///
-    /// - Parameter ListRxNormInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRxNormInferenceJobsInput`)
     ///
-    /// - Returns: `ListRxNormInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRxNormInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,9 +1451,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of InferSNOMEDCT jobs a user has submitted.
     ///
-    /// - Parameter ListSNOMEDCTInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSNOMEDCTInferenceJobsInput`)
     ///
-    /// - Returns: `ListSNOMEDCTInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSNOMEDCTInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1522,9 +1522,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job.
     ///
-    /// - Parameter StartEntitiesDetectionV2JobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEntitiesDetectionV2JobInput`)
     ///
-    /// - Returns: `StartEntitiesDetectionV2JobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEntitiesDetectionV2JobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,9 +1594,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job.
     ///
-    /// - Parameter StartICD10CMInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartICD10CMInferenceJobInput`)
     ///
-    /// - Returns: `StartICD10CMInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartICD10CMInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1666,9 +1666,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous job to detect protected health information (PHI). Use the DescribePHIDetectionJob operation to track the status of a job.
     ///
-    /// - Parameter StartPHIDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPHIDetectionJobInput`)
     ///
-    /// - Returns: `StartPHIDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPHIDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1738,9 +1738,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous job to detect medication entities and link them to the RxNorm ontology. Use the DescribeRxNormInferenceJob operation to track the status of a job.
     ///
-    /// - Parameter StartRxNormInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRxNormInferenceJobInput`)
     ///
-    /// - Returns: `StartRxNormInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRxNormInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1810,9 +1810,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
     ///
-    /// - Parameter StartSNOMEDCTInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSNOMEDCTInferenceJobInput`)
     ///
-    /// - Returns: `StartSNOMEDCTInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSNOMEDCTInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1882,9 +1882,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops a medical entities detection job in progress.
     ///
-    /// - Parameter StopEntitiesDetectionV2JobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEntitiesDetectionV2JobInput`)
     ///
-    /// - Returns: `StopEntitiesDetectionV2JobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEntitiesDetectionV2JobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,9 +1952,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops an InferICD10CM inference job in progress.
     ///
-    /// - Parameter StopICD10CMInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopICD10CMInferenceJobInput`)
     ///
-    /// - Returns: `StopICD10CMInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopICD10CMInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2022,9 +2022,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops a protected health information (PHI) detection job in progress.
     ///
-    /// - Parameter StopPHIDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopPHIDetectionJobInput`)
     ///
-    /// - Returns: `StopPHIDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopPHIDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,9 +2092,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops an InferRxNorm inference job in progress.
     ///
-    /// - Parameter StopRxNormInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopRxNormInferenceJobInput`)
     ///
-    /// - Returns: `StopRxNormInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopRxNormInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2162,9 +2162,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops an InferSNOMEDCT inference job in progress.
     ///
-    /// - Parameter StopSNOMEDCTInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSNOMEDCTInferenceJobInput`)
     ///
-    /// - Returns: `StopSNOMEDCTInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSNOMEDCTInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTWirelessClient: ClientRuntime.Client {
     public static let clientName = "IoTWirelessClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTWirelessClient.IoTWirelessClientConfiguration
     let serviceName = "IoT Wireless"
@@ -376,9 +376,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a partner account with your AWS account.
     ///
-    /// - Parameter AssociateAwsAccountWithPartnerAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAwsAccountWithPartnerAccountInput`)
     ///
-    /// - Returns: `AssociateAwsAccountWithPartnerAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAwsAccountWithPartnerAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension IoTWirelessClient {
     ///
     /// Associate a multicast group with a FUOTA task.
     ///
-    /// - Parameter AssociateMulticastGroupWithFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMulticastGroupWithFuotaTaskInput`)
     ///
-    /// - Returns: `AssociateMulticastGroupWithFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMulticastGroupWithFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension IoTWirelessClient {
     ///
     /// Associate a wireless device with a FUOTA task.
     ///
-    /// - Parameter AssociateWirelessDeviceWithFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessDeviceWithFuotaTaskInput`)
     ///
-    /// - Returns: `AssociateWirelessDeviceWithFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessDeviceWithFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a wireless device with a multicast group.
     ///
-    /// - Parameter AssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessDeviceWithMulticastGroupInput`)
     ///
-    /// - Returns: `AssociateWirelessDeviceWithMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessDeviceWithMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a wireless device with a thing.
     ///
-    /// - Parameter AssociateWirelessDeviceWithThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessDeviceWithThingInput`)
     ///
-    /// - Returns: `AssociateWirelessDeviceWithThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessDeviceWithThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a wireless gateway with a certificate.
     ///
-    /// - Parameter AssociateWirelessGatewayWithCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessGatewayWithCertificateInput`)
     ///
-    /// - Returns: `AssociateWirelessGatewayWithCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessGatewayWithCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,9 +809,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a wireless gateway with a thing.
     ///
-    /// - Parameter AssociateWirelessGatewayWithThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessGatewayWithThingInput`)
     ///
-    /// - Returns: `AssociateWirelessGatewayWithThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessGatewayWithThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,9 +881,9 @@ extension IoTWirelessClient {
     ///
     /// Cancels an existing multicast group session.
     ///
-    /// - Parameter CancelMulticastGroupSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMulticastGroupSessionInput`)
     ///
-    /// - Returns: `CancelMulticastGroupSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMulticastGroupSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -950,9 +950,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a new destination that maps a device message to an AWS IoT rule.
     ///
-    /// - Parameter CreateDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDestinationInput`)
     ///
-    /// - Returns: `CreateDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1023,9 +1023,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a new device profile.
     ///
-    /// - Parameter CreateDeviceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeviceProfileInput`)
     ///
-    /// - Returns: `CreateDeviceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeviceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1095,9 +1095,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a FUOTA task.
     ///
-    /// - Parameter CreateFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFuotaTaskInput`)
     ///
-    /// - Returns: `CreateFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1168,9 +1168,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a multicast group.
     ///
-    /// - Parameter CreateMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMulticastGroupInput`)
     ///
-    /// - Returns: `CreateMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1241,9 +1241,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a new network analyzer configuration.
     ///
-    /// - Parameter CreateNetworkAnalyzerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkAnalyzerConfigurationInput`)
     ///
-    /// - Returns: `CreateNetworkAnalyzerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkAnalyzerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1314,9 +1314,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a new service profile.
     ///
-    /// - Parameter CreateServiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceProfileInput`)
     ///
-    /// - Returns: `CreateServiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1386,9 +1386,9 @@ extension IoTWirelessClient {
     ///
     /// Provisions a wireless device.
     ///
-    /// - Parameter CreateWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWirelessDeviceInput`)
     ///
-    /// - Returns: `CreateWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1466,9 +1466,9 @@ extension IoTWirelessClient {
     ///
     /// To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     ///
-    /// - Parameter CreateWirelessGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWirelessGatewayInput`)
     ///
-    /// - Returns: `CreateWirelessGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWirelessGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,9 +1538,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a task for a wireless gateway.
     ///
-    /// - Parameter CreateWirelessGatewayTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWirelessGatewayTaskInput`)
     ///
-    /// - Returns: `CreateWirelessGatewayTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWirelessGatewayTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,9 +1610,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a gateway task definition.
     ///
-    /// - Parameter CreateWirelessGatewayTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWirelessGatewayTaskDefinitionInput`)
     ///
-    /// - Returns: `CreateWirelessGatewayTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWirelessGatewayTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,9 +1683,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a destination.
     ///
-    /// - Parameter DeleteDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDestinationInput`)
     ///
-    /// - Returns: `DeleteDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,9 +1752,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a device profile.
     ///
-    /// - Parameter DeleteDeviceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceProfileInput`)
     ///
-    /// - Returns: `DeleteDeviceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1821,9 +1821,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a FUOTA task.
     ///
-    /// - Parameter DeleteFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFuotaTaskInput`)
     ///
-    /// - Returns: `DeleteFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1889,9 +1889,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a multicast group if it is not in use by a FUOTA task.
     ///
-    /// - Parameter DeleteMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMulticastGroupInput`)
     ///
-    /// - Returns: `DeleteMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1958,9 +1958,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a network analyzer configuration.
     ///
-    /// - Parameter DeleteNetworkAnalyzerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkAnalyzerConfigurationInput`)
     ///
-    /// - Returns: `DeleteNetworkAnalyzerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkAnalyzerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2027,9 +2027,9 @@ extension IoTWirelessClient {
     ///
     /// Remove queued messages from the downlink queue.
     ///
-    /// - Parameter DeleteQueuedMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueuedMessagesInput`)
     ///
-    /// - Returns: `DeleteQueuedMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueuedMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2096,9 +2096,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a service profile.
     ///
-    /// - Parameter DeleteServiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceProfileInput`)
     ///
-    /// - Returns: `DeleteServiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2165,9 +2165,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a wireless device.
     ///
-    /// - Parameter DeleteWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessDeviceInput`)
     ///
-    /// - Returns: `DeleteWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2233,9 +2233,9 @@ extension IoTWirelessClient {
     ///
     /// Delete an import task.
     ///
-    /// - Parameter DeleteWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `DeleteWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2309,9 +2309,9 @@ extension IoTWirelessClient {
     ///
     /// To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     ///
-    /// - Parameter DeleteWirelessGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessGatewayInput`)
     ///
-    /// - Returns: `DeleteWirelessGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2377,9 +2377,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a wireless gateway task.
     ///
-    /// - Parameter DeleteWirelessGatewayTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessGatewayTaskInput`)
     ///
-    /// - Returns: `DeleteWirelessGatewayTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessGatewayTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2445,9 +2445,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
     ///
-    /// - Parameter DeleteWirelessGatewayTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessGatewayTaskDefinitionInput`)
     ///
-    /// - Returns: `DeleteWirelessGatewayTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessGatewayTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2513,9 +2513,9 @@ extension IoTWirelessClient {
     ///
     /// Deregister a wireless device from AWS IoT Wireless.
     ///
-    /// - Parameter DeregisterWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterWirelessDeviceInput`)
     ///
-    /// - Returns: `DeregisterWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2581,9 +2581,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
     ///
-    /// - Parameter DisassociateAwsAccountFromPartnerAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAwsAccountFromPartnerAccountInput`)
     ///
-    /// - Returns: `DisassociateAwsAccountFromPartnerAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAwsAccountFromPartnerAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2649,9 +2649,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a multicast group from a FUOTA task.
     ///
-    /// - Parameter DisassociateMulticastGroupFromFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMulticastGroupFromFuotaTaskInput`)
     ///
-    /// - Returns: `DisassociateMulticastGroupFromFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMulticastGroupFromFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2717,9 +2717,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless device from a FUOTA task.
     ///
-    /// - Parameter DisassociateWirelessDeviceFromFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessDeviceFromFuotaTaskInput`)
     ///
-    /// - Returns: `DisassociateWirelessDeviceFromFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessDeviceFromFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2786,9 +2786,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless device from a multicast group.
     ///
-    /// - Parameter DisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessDeviceFromMulticastGroupInput`)
     ///
-    /// - Returns: `DisassociateWirelessDeviceFromMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessDeviceFromMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2854,9 +2854,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless device from its currently associated thing.
     ///
-    /// - Parameter DisassociateWirelessDeviceFromThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessDeviceFromThingInput`)
     ///
-    /// - Returns: `DisassociateWirelessDeviceFromThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessDeviceFromThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2923,9 +2923,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless gateway from its currently associated certificate.
     ///
-    /// - Parameter DisassociateWirelessGatewayFromCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessGatewayFromCertificateInput`)
     ///
-    /// - Returns: `DisassociateWirelessGatewayFromCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessGatewayFromCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2991,9 +2991,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless gateway from its currently associated thing.
     ///
-    /// - Parameter DisassociateWirelessGatewayFromThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessGatewayFromThingInput`)
     ///
-    /// - Returns: `DisassociateWirelessGatewayFromThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessGatewayFromThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3060,9 +3060,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a destination.
     ///
-    /// - Parameter GetDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDestinationInput`)
     ///
-    /// - Returns: `GetDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3128,9 +3128,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a device profile.
     ///
-    /// - Parameter GetDeviceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceProfileInput`)
     ///
-    /// - Returns: `GetDeviceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3196,9 +3196,9 @@ extension IoTWirelessClient {
     ///
     /// Get the event configuration based on resource types.
     ///
-    /// - Parameter GetEventConfigurationByResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventConfigurationByResourceTypesInput`)
     ///
-    /// - Returns: `GetEventConfigurationByResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventConfigurationByResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3262,9 +3262,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a FUOTA task.
     ///
-    /// - Parameter GetFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFuotaTaskInput`)
     ///
-    /// - Returns: `GetFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3330,9 +3330,9 @@ extension IoTWirelessClient {
     ///
     /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options.
     ///
-    /// - Parameter GetLogLevelsByResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLogLevelsByResourceTypesInput`)
     ///
-    /// - Returns: `GetLogLevelsByResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLogLevelsByResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3398,9 +3398,9 @@ extension IoTWirelessClient {
     ///
     /// Get the metric configuration status for this AWS account.
     ///
-    /// - Parameter GetMetricConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricConfigurationInput`)
     ///
-    /// - Returns: `GetMetricConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3467,9 +3467,9 @@ extension IoTWirelessClient {
     ///
     /// Get the summary metrics for this AWS account.
     ///
-    /// - Parameter GetMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricsInput`)
     ///
-    /// - Returns: `GetMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3539,9 +3539,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a multicast group.
     ///
-    /// - Parameter GetMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMulticastGroupInput`)
     ///
-    /// - Returns: `GetMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3607,9 +3607,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a multicast group session.
     ///
-    /// - Parameter GetMulticastGroupSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMulticastGroupSessionInput`)
     ///
-    /// - Returns: `GetMulticastGroupSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMulticastGroupSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,9 +3675,9 @@ extension IoTWirelessClient {
     ///
     /// Get network analyzer configuration.
     ///
-    /// - Parameter GetNetworkAnalyzerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkAnalyzerConfigurationInput`)
     ///
-    /// - Returns: `GetNetworkAnalyzerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkAnalyzerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3743,9 +3743,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     ///
-    /// - Parameter GetPartnerAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPartnerAccountInput`)
     ///
-    /// - Returns: `GetPartnerAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPartnerAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3812,9 +3812,9 @@ extension IoTWirelessClient {
     /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter GetPositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPositionInput`)
     ///
-    /// - Returns: `GetPositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3882,9 +3882,9 @@ extension IoTWirelessClient {
     /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter GetPositionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPositionConfigurationInput`)
     ///
-    /// - Returns: `GetPositionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPositionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3951,9 +3951,9 @@ extension IoTWirelessClient {
     ///
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     ///
-    /// - Parameter GetPositionEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPositionEstimateInput`)
     ///
-    /// - Returns: `GetPositionEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPositionEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4022,9 +4022,9 @@ extension IoTWirelessClient {
     ///
     /// Get the event configuration for a particular resource identifier.
     ///
-    /// - Parameter GetResourceEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceEventConfigurationInput`)
     ///
-    /// - Returns: `GetResourceEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4091,9 +4091,9 @@ extension IoTWirelessClient {
     ///
     /// Fetches the log-level override, if any, for a given resource ID and resource type..
     ///
-    /// - Parameter GetResourceLogLevelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceLogLevelInput`)
     ///
-    /// - Returns: `GetResourceLogLevelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceLogLevelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4160,9 +4160,9 @@ extension IoTWirelessClient {
     ///
     /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
-    /// - Parameter GetResourcePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePositionInput`)
     ///
-    /// - Returns: `GetResourcePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4229,9 +4229,9 @@ extension IoTWirelessClient {
     ///
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     ///
-    /// - Parameter GetServiceEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceEndpointInput`)
     ///
-    /// - Returns: `GetServiceEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4297,9 +4297,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a service profile.
     ///
-    /// - Parameter GetServiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceProfileInput`)
     ///
-    /// - Returns: `GetServiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4365,9 +4365,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a wireless device.
     ///
-    /// - Parameter GetWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessDeviceInput`)
     ///
-    /// - Returns: `GetWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4434,9 +4434,9 @@ extension IoTWirelessClient {
     ///
     /// Get information about an import task and count of device onboarding summary information for the import task.
     ///
-    /// - Parameter GetWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `GetWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4503,9 +4503,9 @@ extension IoTWirelessClient {
     ///
     /// Gets operating information about a wireless device.
     ///
-    /// - Parameter GetWirelessDeviceStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessDeviceStatisticsInput`)
     ///
-    /// - Returns: `GetWirelessDeviceStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessDeviceStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4571,9 +4571,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a wireless gateway.
     ///
-    /// - Parameter GetWirelessGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayInput`)
     ///
-    /// - Returns: `GetWirelessGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4640,9 +4640,9 @@ extension IoTWirelessClient {
     ///
     /// Gets the ID of the certificate that is currently associated with a wireless gateway.
     ///
-    /// - Parameter GetWirelessGatewayCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayCertificateInput`)
     ///
-    /// - Returns: `GetWirelessGatewayCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4708,9 +4708,9 @@ extension IoTWirelessClient {
     ///
     /// Gets the firmware version and other information about a wireless gateway.
     ///
-    /// - Parameter GetWirelessGatewayFirmwareInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayFirmwareInformationInput`)
     ///
-    /// - Returns: `GetWirelessGatewayFirmwareInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayFirmwareInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4776,9 +4776,9 @@ extension IoTWirelessClient {
     ///
     /// Gets operating information about a wireless gateway.
     ///
-    /// - Parameter GetWirelessGatewayStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayStatisticsInput`)
     ///
-    /// - Returns: `GetWirelessGatewayStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4844,9 +4844,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a wireless gateway task.
     ///
-    /// - Parameter GetWirelessGatewayTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayTaskInput`)
     ///
-    /// - Returns: `GetWirelessGatewayTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4912,9 +4912,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a wireless gateway task definition.
     ///
-    /// - Parameter GetWirelessGatewayTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayTaskDefinitionInput`)
     ///
-    /// - Returns: `GetWirelessGatewayTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4980,9 +4980,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the destinations registered to your AWS account.
     ///
-    /// - Parameter ListDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDestinationsInput`)
     ///
-    /// - Returns: `ListDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5048,9 +5048,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the device profiles registered to your AWS account.
     ///
-    /// - Parameter ListDeviceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceProfilesInput`)
     ///
-    /// - Returns: `ListDeviceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5116,9 +5116,9 @@ extension IoTWirelessClient {
     ///
     /// List the Sidewalk devices in an import task and their onboarding status.
     ///
-    /// - Parameter ListDevicesForWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesForWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `ListDevicesForWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesForWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5186,9 +5186,9 @@ extension IoTWirelessClient {
     ///
     /// List event configurations where at least one event topic has been enabled.
     ///
-    /// - Parameter ListEventConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventConfigurationsInput`)
     ///
-    /// - Returns: `ListEventConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5254,9 +5254,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the FUOTA tasks registered to your AWS account.
     ///
-    /// - Parameter ListFuotaTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFuotaTasksInput`)
     ///
-    /// - Returns: `ListFuotaTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFuotaTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5322,9 +5322,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the multicast groups registered to your AWS account.
     ///
-    /// - Parameter ListMulticastGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMulticastGroupsInput`)
     ///
-    /// - Returns: `ListMulticastGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMulticastGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5390,9 +5390,9 @@ extension IoTWirelessClient {
     ///
     /// List all multicast groups associated with a FUOTA task.
     ///
-    /// - Parameter ListMulticastGroupsByFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMulticastGroupsByFuotaTaskInput`)
     ///
-    /// - Returns: `ListMulticastGroupsByFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMulticastGroupsByFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5459,9 +5459,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the network analyzer configurations.
     ///
-    /// - Parameter ListNetworkAnalyzerConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNetworkAnalyzerConfigurationsInput`)
     ///
-    /// - Returns: `ListNetworkAnalyzerConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNetworkAnalyzerConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5527,9 +5527,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the partner accounts associated with your AWS account.
     ///
-    /// - Parameter ListPartnerAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPartnerAccountsInput`)
     ///
-    /// - Returns: `ListPartnerAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPartnerAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5596,9 +5596,9 @@ extension IoTWirelessClient {
     /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter ListPositionConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPositionConfigurationsInput`)
     ///
-    /// - Returns: `ListPositionConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPositionConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5664,9 +5664,9 @@ extension IoTWirelessClient {
     ///
     /// List queued messages in the downlink queue.
     ///
-    /// - Parameter ListQueuedMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuedMessagesInput`)
     ///
-    /// - Returns: `ListQueuedMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuedMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5733,9 +5733,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the service profiles registered to your AWS account.
     ///
-    /// - Parameter ListServiceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceProfilesInput`)
     ///
-    /// - Returns: `ListServiceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5801,9 +5801,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5870,9 +5870,9 @@ extension IoTWirelessClient {
     ///
     /// List wireless devices that have been added to an import task.
     ///
-    /// - Parameter ListWirelessDeviceImportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWirelessDeviceImportTasksInput`)
     ///
-    /// - Returns: `ListWirelessDeviceImportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWirelessDeviceImportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5940,9 +5940,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the wireless devices registered to your AWS account.
     ///
-    /// - Parameter ListWirelessDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWirelessDevicesInput`)
     ///
-    /// - Returns: `ListWirelessDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWirelessDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6008,9 +6008,9 @@ extension IoTWirelessClient {
     ///
     /// List the wireless gateway tasks definitions registered to your AWS account.
     ///
-    /// - Parameter ListWirelessGatewayTaskDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWirelessGatewayTaskDefinitionsInput`)
     ///
-    /// - Returns: `ListWirelessGatewayTaskDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWirelessGatewayTaskDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6076,9 +6076,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the wireless gateways registered to your AWS account.
     ///
-    /// - Parameter ListWirelessGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWirelessGatewaysInput`)
     ///
-    /// - Returns: `ListWirelessGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWirelessGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6145,9 +6145,9 @@ extension IoTWirelessClient {
     /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter PutPositionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPositionConfigurationInput`)
     ///
-    /// - Returns: `PutPositionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPositionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6217,9 +6217,9 @@ extension IoTWirelessClient {
     ///
     /// Sets the log-level override for a resource ID and resource type. A limit of 200 log level override can be set per account.
     ///
-    /// - Parameter PutResourceLogLevelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourceLogLevelInput`)
     ///
-    /// - Returns: `PutResourceLogLevelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourceLogLevelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6289,9 +6289,9 @@ extension IoTWirelessClient {
     ///
     /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and FUOTA tasks.
     ///
-    /// - Parameter ResetAllResourceLogLevelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetAllResourceLogLevelsInput`)
     ///
-    /// - Returns: `ResetAllResourceLogLevelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetAllResourceLogLevelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6357,9 +6357,9 @@ extension IoTWirelessClient {
     ///
     /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gateway, or a FUOTA task.
     ///
-    /// - Parameter ResetResourceLogLevelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetResourceLogLevelInput`)
     ///
-    /// - Returns: `ResetResourceLogLevelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetResourceLogLevelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6426,9 +6426,9 @@ extension IoTWirelessClient {
     ///
     /// Sends the specified data to a multicast group.
     ///
-    /// - Parameter SendDataToMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendDataToMulticastGroupInput`)
     ///
-    /// - Returns: `SendDataToMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendDataToMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6498,9 +6498,9 @@ extension IoTWirelessClient {
     ///
     /// Sends a decrypted application data frame to a device.
     ///
-    /// - Parameter SendDataToWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendDataToWirelessDeviceInput`)
     ///
-    /// - Returns: `SendDataToWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendDataToWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6568,9 +6568,9 @@ extension IoTWirelessClient {
     ///
     /// Starts a bulk association of all qualifying wireless devices with a multicast group.
     ///
-    /// - Parameter StartBulkAssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBulkAssociateWirelessDeviceWithMulticastGroupInput`)
     ///
-    /// - Returns: `StartBulkAssociateWirelessDeviceWithMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBulkAssociateWirelessDeviceWithMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6639,9 +6639,9 @@ extension IoTWirelessClient {
     ///
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
     ///
-    /// - Parameter StartBulkDisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBulkDisassociateWirelessDeviceFromMulticastGroupInput`)
     ///
-    /// - Returns: `StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6710,9 +6710,9 @@ extension IoTWirelessClient {
     ///
     /// Starts a FUOTA task.
     ///
-    /// - Parameter StartFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFuotaTaskInput`)
     ///
-    /// - Returns: `StartFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6782,9 +6782,9 @@ extension IoTWirelessClient {
     ///
     /// Starts a multicast group session.
     ///
-    /// - Parameter StartMulticastGroupSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMulticastGroupSessionInput`)
     ///
-    /// - Returns: `StartMulticastGroupSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMulticastGroupSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6854,9 +6854,9 @@ extension IoTWirelessClient {
     ///
     /// Start import task for a single wireless device.
     ///
-    /// - Parameter StartSingleWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSingleWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `StartSingleWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSingleWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6927,9 +6927,9 @@ extension IoTWirelessClient {
     ///
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
     ///
-    /// - Parameter StartWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `StartWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7000,9 +7000,9 @@ extension IoTWirelessClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7073,9 +7073,9 @@ extension IoTWirelessClient {
     ///
     /// Simulates a provisioned device by sending an uplink data payload of Hello.
     ///
-    /// - Parameter TestWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestWirelessDeviceInput`)
     ///
-    /// - Returns: `TestWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7140,9 +7140,9 @@ extension IoTWirelessClient {
     ///
     /// Removes one or more tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7209,9 +7209,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a destination.
     ///
-    /// - Parameter UpdateDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDestinationInput`)
     ///
-    /// - Returns: `UpdateDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7280,9 +7280,9 @@ extension IoTWirelessClient {
     ///
     /// Update the event configuration based on resource types.
     ///
-    /// - Parameter UpdateEventConfigurationByResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventConfigurationByResourceTypesInput`)
     ///
-    /// - Returns: `UpdateEventConfigurationByResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventConfigurationByResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7350,9 +7350,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a FUOTA task.
     ///
-    /// - Parameter UpdateFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFuotaTaskInput`)
     ///
-    /// - Returns: `UpdateFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7422,9 +7422,9 @@ extension IoTWirelessClient {
     ///
     /// Set default log level, or log levels by resource types. This can be for wireless device, wireless gateway, or FUOTA task log options, and is used to control the log messages that'll be displayed in CloudWatch.
     ///
-    /// - Parameter UpdateLogLevelsByResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLogLevelsByResourceTypesInput`)
     ///
-    /// - Returns: `UpdateLogLevelsByResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLogLevelsByResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7494,9 +7494,9 @@ extension IoTWirelessClient {
     ///
     /// Update the summary metric configuration.
     ///
-    /// - Parameter UpdateMetricConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMetricConfigurationInput`)
     ///
-    /// - Returns: `UpdateMetricConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMetricConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7566,9 +7566,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a multicast group session.
     ///
-    /// - Parameter UpdateMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMulticastGroupInput`)
     ///
-    /// - Returns: `UpdateMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7638,9 +7638,9 @@ extension IoTWirelessClient {
     ///
     /// Update network analyzer configuration.
     ///
-    /// - Parameter UpdateNetworkAnalyzerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNetworkAnalyzerConfigurationInput`)
     ///
-    /// - Returns: `UpdateNetworkAnalyzerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNetworkAnalyzerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7709,9 +7709,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a partner account.
     ///
-    /// - Parameter UpdatePartnerAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePartnerAccountInput`)
     ///
-    /// - Returns: `UpdatePartnerAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePartnerAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7781,9 +7781,9 @@ extension IoTWirelessClient {
     /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter UpdatePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePositionInput`)
     ///
-    /// - Returns: `UpdatePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7853,9 +7853,9 @@ extension IoTWirelessClient {
     ///
     /// Update the event configuration for a particular resource identifier.
     ///
-    /// - Parameter UpdateResourceEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceEventConfigurationInput`)
     ///
-    /// - Returns: `UpdateResourceEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7926,9 +7926,9 @@ extension IoTWirelessClient {
     ///
     /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
-    /// - Parameter UpdateResourcePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourcePositionInput`)
     ///
-    /// - Returns: `UpdateResourcePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourcePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7998,9 +7998,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a wireless device.
     ///
-    /// - Parameter UpdateWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWirelessDeviceInput`)
     ///
-    /// - Returns: `UpdateWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8069,9 +8069,9 @@ extension IoTWirelessClient {
     ///
     /// Update an import task to add more devices to the task.
     ///
-    /// - Parameter UpdateWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `UpdateWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8141,9 +8141,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a wireless gateway.
     ///
-    /// - Parameter UpdateWirelessGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWirelessGatewayInput`)
     ///
-    /// - Returns: `UpdateWirelessGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWirelessGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

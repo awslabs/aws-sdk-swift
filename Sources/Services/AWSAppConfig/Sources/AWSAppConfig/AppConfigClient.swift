@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppConfigClient: ClientRuntime.Client {
     public static let clientName = "AppConfigClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppConfigClient.AppConfigClientConfiguration
     let serviceName = "AppConfig"
@@ -376,9 +376,9 @@ extension AppConfigClient {
     ///
     /// Creates an application. In AppConfig, an application is simply an organizational construct like a folder. This organizational construct has a relationship with some unit of executable code. For example, you could create an application called MyMobileApp to organize and manage configuration data for a mobile application installed by your users.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -469,9 +469,9 @@ extension AppConfigClient {
     ///
     /// For more information, see [Create a Configuration and a Configuration Profile](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile.html) in the AppConfig User Guide.
     ///
-    /// - Parameter CreateConfigurationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationProfileInput`)
     ///
-    /// - Returns: `CreateConfigurationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -539,9 +539,9 @@ extension AppConfigClient {
     ///
     /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     ///
-    /// - Parameter CreateDeploymentStrategyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentStrategyInput`)
     ///
-    /// - Returns: `CreateDeploymentStrategyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentStrategyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -608,9 +608,9 @@ extension AppConfigClient {
     ///
     /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web, Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system rolls back the configuration.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,9 +687,9 @@ extension AppConfigClient {
     ///
     /// For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter CreateExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExtensionInput`)
     ///
-    /// - Returns: `CreateExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -758,9 +758,9 @@ extension AppConfigClient {
     ///
     /// When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS Amazon Web Services authored extension and receive notifications on an Amazon SNS topic anytime a configuration deployment is started for a specific application. Defining which extension to associate with an AppConfig resource is called an extension association. An extension association is a specified relationship between an extension and an AppConfig resource, such as an application or a configuration profile. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter CreateExtensionAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExtensionAssociationInput`)
     ///
-    /// - Returns: `CreateExtensionAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExtensionAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -828,9 +828,9 @@ extension AppConfigClient {
     ///
     /// Creates a new configuration in the AppConfig hosted configuration store. If you're creating a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag data. For more information, see [Type reference for AWS.AppConfig.FeatureFlags](https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-and-profile-feature-flags.html#appconfig-type-reference-feature-flags) in the AppConfig User Guide.
     ///
-    /// - Parameter CreateHostedConfigurationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHostedConfigurationVersionInput`)
     ///
-    /// - Returns: `CreateHostedConfigurationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHostedConfigurationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -901,9 +901,9 @@ extension AppConfigClient {
     ///
     /// Deletes an application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,9 +967,9 @@ extension AppConfigClient {
     ///
     /// Deletes a configuration profile. To prevent users from unintentionally deleting actively-used configuration profiles, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
     ///
-    /// - Parameter DeleteConfigurationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationProfileInput`)
     ///
-    /// - Returns: `DeleteConfigurationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,9 +1035,9 @@ extension AppConfigClient {
     ///
     /// Deletes a deployment strategy.
     ///
-    /// - Parameter DeleteDeploymentStrategyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentStrategyInput`)
     ///
-    /// - Returns: `DeleteDeploymentStrategyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentStrategyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1101,9 +1101,9 @@ extension AppConfigClient {
     ///
     /// Deletes an environment. To prevent users from unintentionally deleting actively-used environments, enable [deletion protection](https://docs.aws.amazon.com/appconfig/latest/userguide/deletion-protection.html).
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1169,9 +1169,9 @@ extension AppConfigClient {
     ///
     /// Deletes an AppConfig extension. You must delete all associations to an extension before you delete the extension.
     ///
-    /// - Parameter DeleteExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExtensionInput`)
     ///
-    /// - Returns: `DeleteExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1236,9 +1236,9 @@ extension AppConfigClient {
     ///
     /// Deletes an extension association. This action doesn't delete extensions defined in the association.
     ///
-    /// - Parameter DeleteExtensionAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExtensionAssociationInput`)
     ///
-    /// - Returns: `DeleteExtensionAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExtensionAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1302,9 +1302,9 @@ extension AppConfigClient {
     ///
     /// Deletes a version of a configuration from the AppConfig hosted configuration store.
     ///
-    /// - Parameter DeleteHostedConfigurationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHostedConfigurationVersionInput`)
     ///
-    /// - Returns: `DeleteHostedConfigurationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHostedConfigurationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1368,9 +1368,9 @@ extension AppConfigClient {
     ///
     /// Returns information about the status of the DeletionProtection parameter.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,9 +1433,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about an application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,9 +1504,9 @@ extension AppConfigClient {
     /// * [GetConfiguration] is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
     @available(*, deprecated, message: "This API has been deprecated in favor of the GetLatestConfiguration API used in conjunction with StartConfigurationSession.")
     ///
-    /// - Parameter GetConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationInput`)
     ///
-    /// - Returns: `GetConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1571,9 +1571,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about a configuration profile.
     ///
-    /// - Parameter GetConfigurationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationProfileInput`)
     ///
-    /// - Returns: `GetConfigurationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1637,9 +1637,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about a configuration deployment.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1703,9 +1703,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     ///
-    /// - Parameter GetDeploymentStrategyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentStrategyInput`)
     ///
-    /// - Returns: `GetDeploymentStrategyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentStrategyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1769,9 +1769,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about an environment. An environment is a deployment group of AppConfig applications, such as applications in a Production environment or in an EU_Region environment. Each configuration deployment targets an environment. You can enable one or more Amazon CloudWatch alarms for an environment. If an alarm is triggered during a deployment, AppConfig roles back the configuration.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1835,9 +1835,9 @@ extension AppConfigClient {
     ///
     /// Returns information about an AppConfig extension.
     ///
-    /// - Parameter GetExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExtensionInput`)
     ///
-    /// - Returns: `GetExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1902,9 +1902,9 @@ extension AppConfigClient {
     ///
     /// Returns information about an AppConfig extension association. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter GetExtensionAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExtensionAssociationInput`)
     ///
-    /// - Returns: `GetExtensionAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExtensionAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1968,9 +1968,9 @@ extension AppConfigClient {
     ///
     /// Retrieves information about a specific configuration version.
     ///
-    /// - Parameter GetHostedConfigurationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHostedConfigurationVersionInput`)
     ///
-    /// - Returns: `GetHostedConfigurationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHostedConfigurationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2034,9 +2034,9 @@ extension AppConfigClient {
     ///
     /// Lists all applications in your Amazon Web Services account.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2100,9 +2100,9 @@ extension AppConfigClient {
     ///
     /// Lists the configuration profiles for an application.
     ///
-    /// - Parameter ListConfigurationProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationProfilesInput`)
     ///
-    /// - Returns: `ListConfigurationProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2167,9 +2167,9 @@ extension AppConfigClient {
     ///
     /// Lists deployment strategies.
     ///
-    /// - Parameter ListDeploymentStrategiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentStrategiesInput`)
     ///
-    /// - Returns: `ListDeploymentStrategiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentStrategiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2233,9 +2233,9 @@ extension AppConfigClient {
     ///
     /// Lists the deployments for an environment in descending deployment number order.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2300,9 +2300,9 @@ extension AppConfigClient {
     ///
     /// Lists the environments for an application.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2367,9 +2367,9 @@ extension AppConfigClient {
     ///
     /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter ListExtensionAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExtensionAssociationsInput`)
     ///
-    /// - Returns: `ListExtensionAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExtensionAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2433,9 +2433,9 @@ extension AppConfigClient {
     ///
     /// Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter ListExtensionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExtensionsInput`)
     ///
-    /// - Returns: `ListExtensionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExtensionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2499,9 +2499,9 @@ extension AppConfigClient {
     ///
     /// Lists configurations stored in the AppConfig hosted configuration store by version.
     ///
-    /// - Parameter ListHostedConfigurationVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHostedConfigurationVersionsInput`)
     ///
-    /// - Returns: `ListHostedConfigurationVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHostedConfigurationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2566,9 +2566,9 @@ extension AppConfigClient {
     ///
     /// Retrieves the list of key-value tags assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2632,9 +2632,9 @@ extension AppConfigClient {
     ///
     /// Starts a deployment.
     ///
-    /// - Parameter StartDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDeploymentInput`)
     ///
-    /// - Returns: `StartDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2702,9 +2702,9 @@ extension AppConfigClient {
     ///
     /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING, unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress deployment will be ROLLED_BACK. The status of a completed deployment will be REVERTED. AppConfig only allows a revert within 72 hours of deployment completion.
     ///
-    /// - Parameter StopDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDeploymentInput`)
     ///
-    /// - Returns: `StopDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2769,9 +2769,9 @@ extension AppConfigClient {
     ///
     /// Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2838,9 +2838,9 @@ extension AppConfigClient {
     ///
     /// Deletes a tag key and value from an AppConfig resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2905,9 +2905,9 @@ extension AppConfigClient {
     ///
     /// Updates the value of the DeletionProtection parameter.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2973,9 +2973,9 @@ extension AppConfigClient {
     ///
     /// Updates an application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3042,9 +3042,9 @@ extension AppConfigClient {
     ///
     /// Updates a configuration profile.
     ///
-    /// - Parameter UpdateConfigurationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationProfileInput`)
     ///
-    /// - Returns: `UpdateConfigurationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3111,9 +3111,9 @@ extension AppConfigClient {
     ///
     /// Updates a deployment strategy.
     ///
-    /// - Parameter UpdateDeploymentStrategyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeploymentStrategyInput`)
     ///
-    /// - Returns: `UpdateDeploymentStrategyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeploymentStrategyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3180,9 +3180,9 @@ extension AppConfigClient {
     ///
     /// Updates an environment.
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3249,9 +3249,9 @@ extension AppConfigClient {
     ///
     /// Updates an AppConfig extension. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter UpdateExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExtensionInput`)
     ///
-    /// - Returns: `UpdateExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3319,9 +3319,9 @@ extension AppConfigClient {
     ///
     /// Updates an association. For more information about extensions and associations, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
-    /// - Parameter UpdateExtensionAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExtensionAssociationInput`)
     ///
-    /// - Returns: `UpdateExtensionAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExtensionAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3388,9 +3388,9 @@ extension AppConfigClient {
     ///
     /// Uses the validators in a configuration profile to validate a configuration.
     ///
-    /// - Parameter ValidateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateConfigurationInput`)
     ///
-    /// - Returns: `ValidateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

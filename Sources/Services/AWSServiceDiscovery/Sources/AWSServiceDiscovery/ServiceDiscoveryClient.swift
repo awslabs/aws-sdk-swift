@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ServiceDiscoveryClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceDiscoveryClient.ServiceDiscoveryClientConfiguration
     let serviceName = "ServiceDiscovery"
@@ -373,9 +373,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Creates an HTTP namespace. Service instances registered using an HTTP namespace can be discovered using a DiscoverInstances request but can't be discovered using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide.
     ///
-    /// - Parameter CreateHttpNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHttpNamespaceInput`)
     ///
-    /// - Returns: `CreateHttpNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHttpNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Creates a private namespace based on DNS, which is visible only inside a specified Amazon VPC. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. Service instances that are registered using a private DNS namespace can be discovered using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide.
     ///
-    /// - Parameter CreatePrivateDnsNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePrivateDnsNamespaceInput`)
     ///
-    /// - Returns: `CreatePrivateDnsNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePrivateDnsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Creates a public namespace based on DNS, which is visible on the internet. The namespace defines your service naming scheme. For example, if you name your namespace example.com and name your service backend, the resulting DNS name for the service is backend.example.com. You can discover instances that were registered with a public DNS namespace by using either a DiscoverInstances request or using DNS. For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide. The CreatePublicDnsNamespace API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
     ///
-    /// - Parameter CreatePublicDnsNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePublicDnsNamespaceInput`)
     ///
-    /// - Returns: `CreatePublicDnsNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePublicDnsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -612,9 +612,9 @@ extension ServiceDiscoveryClient {
     ///
     /// After you create the service, you can submit a [RegisterInstance](https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html) request, and Cloud Map uses the values in the configuration to create the specified entities. For the current quota on the number of instances that you can register using the same namespace and using the same service, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide.
     ///
-    /// - Parameter CreateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
     ///
-    /// - Returns: `CreateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,9 +685,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Deletes a namespace from the current account. If the namespace still contains one or more services, the request fails.
     ///
-    /// - Parameter DeleteNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNamespaceInput`)
     ///
-    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,9 +756,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Deletes a specified service and all associated service attributes. If the service still contains one or more registered instances, the request fails.
     ///
-    /// - Parameter DeleteServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: `DeleteServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -826,9 +826,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Deletes specific attributes associated with a service.
     ///
-    /// - Parameter DeleteServiceAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceAttributesInput`)
     ///
-    /// - Returns: `DeleteServiceAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -895,9 +895,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the specified instance.
     ///
-    /// - Parameter DeregisterInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterInstanceInput`)
     ///
-    /// - Returns: `DeregisterInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,9 +967,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances.
     ///
-    /// - Parameter DiscoverInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DiscoverInstancesInput`)
     ///
-    /// - Returns: `DiscoverInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DiscoverInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1038,9 +1038,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Discovers the increasing revision associated with an instance.
     ///
-    /// - Parameter DiscoverInstancesRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DiscoverInstancesRevisionInput`)
     ///
-    /// - Returns: `DiscoverInstancesRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DiscoverInstancesRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,9 +1109,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Gets information about a specified instance.
     ///
-    /// - Parameter GetInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceInput`)
     ///
-    /// - Returns: `GetInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1179,9 +1179,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances that are associated with a specified service. There's a brief delay between when you register an instance and when the health status for the instance is available.
     ///
-    /// - Parameter GetInstancesHealthStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstancesHealthStatusInput`)
     ///
-    /// - Returns: `GetInstancesHealthStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstancesHealthStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1249,9 +1249,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Gets information about a namespace.
     ///
-    /// - Parameter GetNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNamespaceInput`)
     ///
-    /// - Returns: `GetNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1318,9 +1318,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request. To get a list of operations that match specified criteria, see [ListOperations](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html).
     ///
-    /// - Parameter GetOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOperationInput`)
     ///
-    /// - Returns: `GetOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1387,9 +1387,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Gets the settings for a specified service.
     ///
-    /// - Parameter GetServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInput`)
     ///
-    /// - Returns: `GetServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1456,9 +1456,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Returns the attributes associated with a specified service.
     ///
-    /// - Parameter GetServiceAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceAttributesInput`)
     ///
-    /// - Returns: `GetServiceAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1525,9 +1525,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Lists summary information about the instances that you registered by using a specified service.
     ///
-    /// - Parameter ListInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstancesInput`)
     ///
-    /// - Returns: `ListInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,9 +1594,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account.
     ///
-    /// - Parameter ListNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNamespacesInput`)
     ///
-    /// - Returns: `ListNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1662,9 +1662,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Lists operations that match the criteria that you specify.
     ///
-    /// - Parameter ListOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOperationsInput`)
     ///
-    /// - Returns: `ListOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,9 +1730,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Lists summary information for all the services that are associated with one or more namespaces.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1798,9 +1798,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Lists tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1885,9 +1885,9 @@ extension ServiceDiscoveryClient {
     ///
     /// For the current quota on the number of instances that you can register using the same namespace and using the same service, see [Cloud Map quotas](https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html) in the Cloud Map Developer Guide.
     ///
-    /// - Parameter RegisterInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterInstanceInput`)
     ///
-    /// - Returns: `RegisterInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1958,9 +1958,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Adds one or more tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2028,9 +2028,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2097,9 +2097,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Updates an HTTP namespace.
     ///
-    /// - Parameter UpdateHttpNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHttpNamespaceInput`)
     ///
-    /// - Returns: `UpdateHttpNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHttpNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2169,9 +2169,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig. For more information, see [HealthCheckCustomConfig](https://docs.aws.amazon.com/cloud-map/latest/api/API_HealthCheckCustomConfig.html).
     ///
-    /// - Parameter UpdateInstanceCustomHealthStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceCustomHealthStatusInput`)
     ///
-    /// - Returns: `UpdateInstanceCustomHealthStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceCustomHealthStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2240,9 +2240,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Updates a private DNS namespace.
     ///
-    /// - Parameter UpdatePrivateDnsNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePrivateDnsNamespaceInput`)
     ///
-    /// - Returns: `UpdatePrivateDnsNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePrivateDnsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2312,9 +2312,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Updates a public DNS namespace.
     ///
-    /// - Parameter UpdatePublicDnsNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePublicDnsNamespaceInput`)
     ///
-    /// - Returns: `UpdatePublicDnsNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePublicDnsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2405,9 +2405,9 @@ extension ServiceDiscoveryClient {
     ///
     /// When you update settings for a service, Cloud Map also updates the corresponding settings in all the records and health checks that were created by using the specified service.
     ///
-    /// - Parameter UpdateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: `UpdateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2475,9 +2475,9 @@ extension ServiceDiscoveryClient {
     ///
     /// Submits a request to update a specified service to add service-level attributes.
     ///
-    /// - Parameter UpdateServiceAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceAttributesInput`)
     ///
-    /// - Returns: `UpdateServiceAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

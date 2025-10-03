@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityIRClient: ClientRuntime.Client {
     public static let clientName = "SecurityIRClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityIRClient.SecurityIRClientConfiguration
     let serviceName = "Security IR"
@@ -374,9 +374,9 @@ extension SecurityIRClient {
     ///
     /// Provides information on whether the supplied account IDs are associated with a membership. AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     ///
-    /// - Parameter BatchGetMemberAccountDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetMemberAccountDetailsInput`)
     ///
-    /// - Returns: `BatchGetMemberAccountDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetMemberAccountDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension SecurityIRClient {
     ///
     /// Cancels an existing membership.
     ///
-    /// - Parameter CancelMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMembershipInput`)
     ///
-    /// - Returns: `CancelMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension SecurityIRClient {
     ///
     /// Closes an existing case.
     ///
-    /// - Parameter CloseCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CloseCaseInput`)
     ///
-    /// - Returns: `CloseCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CloseCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension SecurityIRClient {
     ///
     /// Creates a new case.
     ///
-    /// - Parameter CreateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseInput`)
     ///
-    /// - Returns: `CreateCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -669,9 +669,9 @@ extension SecurityIRClient {
     ///
     /// Adds a comment to an existing case.
     ///
-    /// - Parameter CreateCaseCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseCommentInput`)
     ///
-    /// - Returns: `CreateCaseCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCaseCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension SecurityIRClient {
     ///
     /// Creates a new membership.
     ///
-    /// - Parameter CreateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembershipInput`)
     ///
-    /// - Returns: `CreateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,9 +821,9 @@ extension SecurityIRClient {
     ///
     /// Returns the attributes of a case.
     ///
-    /// - Parameter GetCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseInput`)
     ///
-    /// - Returns: `GetCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,9 +893,9 @@ extension SecurityIRClient {
     ///
     /// Returns a Pre-Signed URL for uploading attachments into a case.
     ///
-    /// - Parameter GetCaseAttachmentDownloadUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseAttachmentDownloadUrlInput`)
     ///
-    /// - Returns: `GetCaseAttachmentDownloadUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseAttachmentDownloadUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -965,9 +965,9 @@ extension SecurityIRClient {
     ///
     /// Uploads an attachment to a case.
     ///
-    /// - Parameter GetCaseAttachmentUploadUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseAttachmentUploadUrlInput`)
     ///
-    /// - Returns: `GetCaseAttachmentUploadUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseAttachmentUploadUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,9 +1041,9 @@ extension SecurityIRClient {
     ///
     /// Returns the attributes of a membership.
     ///
-    /// - Parameter GetMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembershipInput`)
     ///
-    /// - Returns: `GetMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,9 +1113,9 @@ extension SecurityIRClient {
     ///
     /// Views the case history for edits made to a designated case.
     ///
-    /// - Parameter ListCaseEditsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCaseEditsInput`)
     ///
-    /// - Returns: `ListCaseEditsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCaseEditsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,9 +1188,9 @@ extension SecurityIRClient {
     ///
     /// Lists all cases the requester has access to.
     ///
-    /// - Parameter ListCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCasesInput`)
     ///
-    /// - Returns: `ListCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1263,9 +1263,9 @@ extension SecurityIRClient {
     ///
     /// Returns comments for a designated case.
     ///
-    /// - Parameter ListCommentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommentsInput`)
     ///
-    /// - Returns: `ListCommentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,9 +1338,9 @@ extension SecurityIRClient {
     ///
     /// Returns the memberships that the calling principal can access.
     ///
-    /// - Parameter ListMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembershipsInput`)
     ///
-    /// - Returns: `ListMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,9 +1413,9 @@ extension SecurityIRClient {
     ///
     /// Returns currently configured tags on a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1485,9 +1485,9 @@ extension SecurityIRClient {
     ///
     /// Adds a tag(s) to a designated resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1560,9 +1560,9 @@ extension SecurityIRClient {
     ///
     /// Removes a tag(s) from a designate resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1633,9 +1633,9 @@ extension SecurityIRClient {
     ///
     /// Updates an existing case.
     ///
-    /// - Parameter UpdateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseInput`)
     ///
-    /// - Returns: `UpdateCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1708,9 +1708,9 @@ extension SecurityIRClient {
     ///
     /// Updates an existing case comment.
     ///
-    /// - Parameter UpdateCaseCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseCommentInput`)
     ///
-    /// - Returns: `UpdateCaseCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1802,9 +1802,9 @@ extension SecurityIRClient {
     ///
     /// AWS supported: You must use the CloseCase API to close.
     ///
-    /// - Parameter UpdateCaseStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseStatusInput`)
     ///
-    /// - Returns: `UpdateCaseStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1877,9 +1877,9 @@ extension SecurityIRClient {
     ///
     /// Updates membership configuration.
     ///
-    /// - Parameter UpdateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMembershipInput`)
     ///
-    /// - Returns: `UpdateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,9 +1952,9 @@ extension SecurityIRClient {
     ///
     /// Updates the resolver type for a case. This is a one-way action and cannot be reversed.
     ///
-    /// - Parameter UpdateResolverTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResolverTypeInput`)
     ///
-    /// - Returns: `UpdateResolverTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResolverTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

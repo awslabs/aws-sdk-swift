@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SupportAppClient: ClientRuntime.Client {
     public static let clientName = "SupportAppClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SupportAppClient.SupportAppClientConfiguration
     let serviceName = "Support App"
@@ -378,9 +378,9 @@ extension SupportAppClient {
     ///
     /// A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Amazon Web Services Support App. We recommend that you only add the accounts that you need to manage support cases for your organization. This can reduce the notifications about case updates that you receive in the Slack channel. We recommend that you choose a private Slack channel so that only members in that channel have read and write access to your support cases. Anyone in your Slack channel can create, update, or resolve support cases for your account. Users require an invitation to join private channels.
     ///
-    /// - Parameter CreateSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `CreateSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -461,9 +461,9 @@ extension SupportAppClient {
     ///
     /// Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
-    /// - Parameter DeleteAccountAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountAliasInput`)
     ///
-    /// - Returns: `DeleteAccountAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -527,9 +527,9 @@ extension SupportAppClient {
     ///
     /// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel.
     ///
-    /// - Parameter DeleteSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `DeleteSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -610,9 +610,9 @@ extension SupportAppClient {
     ///
     /// Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't delete your Slack workspace.
     ///
-    /// - Parameter DeleteSlackWorkspaceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackWorkspaceConfigurationInput`)
     ///
-    /// - Returns: `DeleteSlackWorkspaceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackWorkspaceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,9 +693,9 @@ extension SupportAppClient {
     ///
     /// Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
-    /// - Parameter GetAccountAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountAliasInput`)
     ///
-    /// - Returns: `GetAccountAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -757,9 +757,9 @@ extension SupportAppClient {
     ///
     /// Lists the Slack channel configurations for an Amazon Web Services account.
     ///
-    /// - Parameter ListSlackChannelConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSlackChannelConfigurationsInput`)
     ///
-    /// - Returns: `ListSlackChannelConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSlackChannelConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,9 +825,9 @@ extension SupportAppClient {
     ///
     /// Lists the Slack workspace configurations for an Amazon Web Services account.
     ///
-    /// - Parameter ListSlackWorkspaceConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSlackWorkspaceConfigurationsInput`)
     ///
-    /// - Returns: `ListSlackWorkspaceConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSlackWorkspaceConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,9 +893,9 @@ extension SupportAppClient {
     ///
     /// Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
-    /// - Parameter PutAccountAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountAliasInput`)
     ///
-    /// - Returns: `PutAccountAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,9 +973,9 @@ extension SupportAppClient {
     ///
     /// * Configure a Slack channel to use the Amazon Web Services Support App for support cases for that account. For more information, see [Configuring a Slack channel](https://docs.aws.amazon.com/awssupport/latest/user/add-your-slack-channel.html).
     ///
-    /// - Parameter RegisterSlackWorkspaceForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterSlackWorkspaceForOrganizationInput`)
     ///
-    /// - Returns: `RegisterSlackWorkspaceForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterSlackWorkspaceForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1056,9 +1056,9 @@ extension SupportAppClient {
     ///
     /// Updates the configuration for a Slack channel, such as case update notifications.
     ///
-    /// - Parameter UpdateSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `UpdateSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

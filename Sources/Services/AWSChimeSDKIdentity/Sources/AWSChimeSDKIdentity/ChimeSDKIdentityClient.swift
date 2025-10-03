@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKIdentityClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKIdentityClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKIdentityClient.ChimeSDKIdentityClientConfiguration
     let serviceName = "Chime SDK Identity"
@@ -374,9 +374,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard. identity
     ///
-    /// - Parameter CreateAppInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInstanceInput`)
     ///
-    /// - Returns: `CreateAppInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -456,9 +456,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Only an AppInstanceUser and AppInstanceBot can be promoted to an AppInstanceAdmin role.
     ///
-    /// - Parameter CreateAppInstanceAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInstanceAdminInput`)
     ///
-    /// - Returns: `CreateAppInstanceAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppInstanceAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -530,9 +530,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Creates a bot under an Amazon Chime AppInstance. The request consists of a unique Configuration and Name for that bot.
     ///
-    /// - Parameter CreateAppInstanceBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInstanceBotInput`)
     ///
-    /// - Returns: `CreateAppInstanceBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppInstanceBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -605,9 +605,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
     ///
-    /// - Parameter CreateAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInstanceUserInput`)
     ///
-    /// - Returns: `CreateAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -680,9 +680,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Deletes an AppInstance and all associated data asynchronously.
     ///
-    /// - Parameter DeleteAppInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInstanceInput`)
     ///
-    /// - Returns: `DeleteAppInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -750,9 +750,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Demotes an AppInstanceAdmin to an AppInstanceUser or AppInstanceBot. This action does not delete the user.
     ///
-    /// - Parameter DeleteAppInstanceAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInstanceAdminInput`)
     ///
-    /// - Returns: `DeleteAppInstanceAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInstanceAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,9 +821,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Deletes an AppInstanceBot.
     ///
-    /// - Parameter DeleteAppInstanceBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInstanceBotInput`)
     ///
-    /// - Returns: `DeleteAppInstanceBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInstanceBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -892,9 +892,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Deletes an AppInstanceUser.
     ///
-    /// - Parameter DeleteAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInstanceUserInput`)
     ///
-    /// - Returns: `DeleteAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,9 +963,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Deregisters an AppInstanceUserEndpoint.
     ///
-    /// - Parameter DeregisterAppInstanceUserEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterAppInstanceUserEndpointInput`)
     ///
-    /// - Returns: `DeregisterAppInstanceUserEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterAppInstanceUserEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1032,9 +1032,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns the full details of an AppInstance.
     ///
-    /// - Parameter DescribeAppInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceInput`)
     ///
-    /// - Returns: `DescribeAppInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1101,9 +1101,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns the full details of an AppInstanceAdmin.
     ///
-    /// - Parameter DescribeAppInstanceAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceAdminInput`)
     ///
-    /// - Returns: `DescribeAppInstanceAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,9 +1170,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// The AppInstanceBot's information.
     ///
-    /// - Parameter DescribeAppInstanceBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceBotInput`)
     ///
-    /// - Returns: `DescribeAppInstanceBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1240,9 +1240,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns the full details of an AppInstanceUser.
     ///
-    /// - Parameter DescribeAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceUserInput`)
     ///
-    /// - Returns: `DescribeAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1309,9 +1309,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns the full details of an AppInstanceUserEndpoint.
     ///
-    /// - Parameter DescribeAppInstanceUserEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInstanceUserEndpointInput`)
     ///
-    /// - Returns: `DescribeAppInstanceUserEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppInstanceUserEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1378,9 +1378,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Gets the retention settings for an AppInstance.
     ///
-    /// - Parameter GetAppInstanceRetentionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppInstanceRetentionSettingsInput`)
     ///
-    /// - Returns: `GetAppInstanceRetentionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppInstanceRetentionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1447,9 +1447,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Returns a list of the administrators in the AppInstance.
     ///
-    /// - Parameter ListAppInstanceAdminsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstanceAdminsInput`)
     ///
-    /// - Returns: `ListAppInstanceAdminsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstanceAdminsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1518,9 +1518,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Lists all AppInstanceBots created under a single AppInstance.
     ///
-    /// - Parameter ListAppInstanceBotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstanceBotsInput`)
     ///
-    /// - Returns: `ListAppInstanceBotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstanceBotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1589,9 +1589,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Lists all the AppInstanceUserEndpoints created under a single AppInstanceUser.
     ///
-    /// - Parameter ListAppInstanceUserEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstanceUserEndpointsInput`)
     ///
-    /// - Returns: `ListAppInstanceUserEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstanceUserEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1659,9 +1659,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// List all AppInstanceUsers created under a single AppInstance.
     ///
-    /// - Parameter ListAppInstanceUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstanceUsersInput`)
     ///
-    /// - Returns: `ListAppInstanceUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstanceUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1729,9 +1729,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Lists all Amazon Chime AppInstances created under a single AWS account.
     ///
-    /// - Parameter ListAppInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInstancesInput`)
     ///
-    /// - Returns: `ListAppInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,9 +1799,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Lists the tags applied to an Amazon Chime SDK identity resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1869,9 +1869,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Sets the amount of time in days that a given AppInstance retains data.
     ///
-    /// - Parameter PutAppInstanceRetentionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAppInstanceRetentionSettingsInput`)
     ///
-    /// - Returns: `PutAppInstanceRetentionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAppInstanceRetentionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1941,9 +1941,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Sets the number of days before the AppInstanceUser is automatically deleted. A background process deletes expired AppInstanceUsers within 6 hours of expiration. Actual deletion times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active, and you can update their expiration settings. The system honors the new settings.
     ///
-    /// - Parameter PutAppInstanceUserExpirationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAppInstanceUserExpirationSettingsInput`)
     ///
-    /// - Returns: `PutAppInstanceUserExpirationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAppInstanceUserExpirationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2014,9 +2014,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Registers an endpoint under an Amazon Chime AppInstanceUser. The endpoint receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
     ///
-    /// - Parameter RegisterAppInstanceUserEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAppInstanceUserEndpointInput`)
     ///
-    /// - Returns: `RegisterAppInstanceUserEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAppInstanceUserEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2089,9 +2089,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Applies the specified tags to the specified Amazon Chime SDK identity resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2163,9 +2163,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Removes the specified tags from the specified Amazon Chime SDK identity resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2236,9 +2236,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Updates AppInstance metadata.
     ///
-    /// - Parameter UpdateAppInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInstanceInput`)
     ///
-    /// - Returns: `UpdateAppInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2309,9 +2309,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Updates the name and metadata of an AppInstanceBot.
     ///
-    /// - Parameter UpdateAppInstanceBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInstanceBotInput`)
     ///
-    /// - Returns: `UpdateAppInstanceBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppInstanceBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2383,9 +2383,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Updates the details of an AppInstanceUser. You can update names and metadata.
     ///
-    /// - Parameter UpdateAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInstanceUserInput`)
     ///
-    /// - Returns: `UpdateAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2457,9 +2457,9 @@ extension ChimeSDKIdentityClient {
     ///
     /// Updates the details of an AppInstanceUserEndpoint. You can update the name and AllowMessage values.
     ///
-    /// - Parameter UpdateAppInstanceUserEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInstanceUserEndpointInput`)
     ///
-    /// - Returns: `UpdateAppInstanceUserEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppInstanceUserEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

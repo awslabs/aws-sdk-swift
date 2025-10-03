@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ControlTowerClient: ClientRuntime.Client {
     public static let clientName = "ControlTowerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ControlTowerClient.ControlTowerClientConfiguration
     let serviceName = "ControlTower"
@@ -373,9 +373,9 @@ extension ControlTowerClient {
     ///
     /// Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file.
     ///
-    /// - Parameter CreateLandingZoneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLandingZoneInput`)
     ///
-    /// - Returns: `CreateLandingZoneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLandingZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension ControlTowerClient {
     ///
     /// Decommissions a landing zone. This API call starts an asynchronous operation that deletes Amazon Web Services Control Tower resources deployed in accounts managed by Amazon Web Services Control Tower.
     ///
-    /// - Parameter DeleteLandingZoneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLandingZoneInput`)
     ///
-    /// - Returns: `DeleteLandingZoneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLandingZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension ControlTowerClient {
     ///
     /// Disable an EnabledBaseline resource on the specified Target. This API starts an asynchronous operation to remove all resources deployed as part of the baseline enablement. The resource will vary depending on the enabled baseline. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
-    /// - Parameter DisableBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableBaselineInput`)
     ///
-    /// - Returns: `DisableBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension ControlTowerClient {
     ///
     /// This API call turns off a control. It starts an asynchronous operation that deletes Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter DisableControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableControlInput`)
     ///
-    /// - Returns: `DisableControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension ControlTowerClient {
     ///
     /// Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy resources specified by the Baseline to the specified Target. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
-    /// - Parameter EnableBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableBaselineInput`)
     ///
-    /// - Returns: `EnableBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,9 +735,9 @@ extension ControlTowerClient {
     ///
     /// This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter EnableControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableControlInput`)
     ///
-    /// - Returns: `EnableControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -808,9 +808,9 @@ extension ControlTowerClient {
     ///
     /// Retrieve details about an existing Baseline resource by specifying its identifier. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
-    /// - Parameter GetBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBaselineInput`)
     ///
-    /// - Returns: `GetBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -879,9 +879,9 @@ extension ControlTowerClient {
     ///
     /// Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: EnableBaseline, DisableBaseline, UpdateEnabledBaseline, ResetEnabledBaseline. A status message is displayed in case of operation failure. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
-    /// - Parameter GetBaselineOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBaselineOperationInput`)
     ///
-    /// - Returns: `GetBaselineOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBaselineOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -950,9 +950,9 @@ extension ControlTowerClient {
     ///
     /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter GetControlOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetControlOperationInput`)
     ///
-    /// - Returns: `GetControlOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetControlOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,9 +1021,9 @@ extension ControlTowerClient {
     ///
     /// Retrieve details of an EnabledBaseline resource by specifying its identifier.
     ///
-    /// - Parameter GetEnabledBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnabledBaselineInput`)
     ///
-    /// - Returns: `GetEnabledBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnabledBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1092,9 +1092,9 @@ extension ControlTowerClient {
     ///
     /// Retrieves details about an enabled control. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter GetEnabledControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnabledControlInput`)
     ///
-    /// - Returns: `GetEnabledControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnabledControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1163,9 +1163,9 @@ extension ControlTowerClient {
     ///
     /// Returns details about the landing zone. Displays a message in case of error.
     ///
-    /// - Parameter GetLandingZoneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLandingZoneInput`)
     ///
-    /// - Returns: `GetLandingZoneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLandingZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1234,9 +1234,9 @@ extension ControlTowerClient {
     ///
     /// Returns the status of the specified landing zone operation. Details for an operation are available for 90 days.
     ///
-    /// - Parameter GetLandingZoneOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLandingZoneOperationInput`)
     ///
-    /// - Returns: `GetLandingZoneOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLandingZoneOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,9 +1305,9 @@ extension ControlTowerClient {
     ///
     /// Returns a summary list of all available baselines. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
-    /// - Parameter ListBaselinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBaselinesInput`)
     ///
-    /// - Returns: `ListBaselinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBaselinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1375,9 +1375,9 @@ extension ControlTowerClient {
     ///
     /// Provides a list of operations in progress or queued. For usage examples, see [ListControlOperation examples](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html#list-control-operations-api-examples).
     ///
-    /// - Parameter ListControlOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListControlOperationsInput`)
     ///
-    /// - Returns: `ListControlOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListControlOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1445,9 +1445,9 @@ extension ControlTowerClient {
     ///
     /// Returns a list of summaries describing EnabledBaseline resources. You can filter the list by the corresponding Baseline or Target of the EnabledBaseline resources. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
-    /// - Parameter ListEnabledBaselinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnabledBaselinesInput`)
     ///
-    /// - Returns: `ListEnabledBaselinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnabledBaselinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1515,9 +1515,9 @@ extension ControlTowerClient {
     ///
     /// Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter ListEnabledControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnabledControlsInput`)
     ///
-    /// - Returns: `ListEnabledControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnabledControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,9 +1586,9 @@ extension ControlTowerClient {
     ///
     /// Lists all landing zone operations from the past 90 days. Results are sorted by time, with the most recent operation first.
     ///
-    /// - Parameter ListLandingZoneOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLandingZoneOperationsInput`)
     ///
-    /// - Returns: `ListLandingZoneOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLandingZoneOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1656,9 +1656,9 @@ extension ControlTowerClient {
     ///
     /// Returns the landing zone ARN for the landing zone deployed in your managed account. This API also creates an ARN for existing accounts that do not yet have a landing zone ARN. Returns one landing zone ARN.
     ///
-    /// - Parameter ListLandingZonesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLandingZonesInput`)
     ///
-    /// - Returns: `ListLandingZonesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLandingZonesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1726,9 +1726,9 @@ extension ControlTowerClient {
     ///
     /// Returns a list of tags associated with the resource. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1792,9 +1792,9 @@ extension ControlTowerClient {
     ///
     /// Re-enables an EnabledBaseline resource. For example, this API can re-apply the existing Baseline after a new member account is moved to the target OU. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
-    /// - Parameter ResetEnabledBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetEnabledBaselineInput`)
     ///
-    /// - Returns: `ResetEnabledBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetEnabledBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1865,9 +1865,9 @@ extension ControlTowerClient {
     ///
     /// Resets an enabled control.
     ///
-    /// - Parameter ResetEnabledControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetEnabledControlInput`)
     ///
-    /// - Returns: `ResetEnabledControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetEnabledControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1938,9 +1938,9 @@ extension ControlTowerClient {
     ///
     /// This API call resets a landing zone. It starts an asynchronous operation that resets the landing zone to the parameters specified in the original configuration, which you specified in the manifest file. Nothing in the manifest file's original landing zone configuration is changed during the reset process, by default. This API is not the same as a rollback of a landing zone version, which is not a supported operation.
     ///
-    /// - Parameter ResetLandingZoneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetLandingZoneInput`)
     ///
-    /// - Returns: `ResetLandingZoneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetLandingZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2010,9 +2010,9 @@ extension ControlTowerClient {
     ///
     /// Applies tags to a resource. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2079,9 +2079,9 @@ extension ControlTowerClient {
     ///
     /// Removes tags from a resource. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2146,9 +2146,9 @@ extension ControlTowerClient {
     ///
     /// Updates an EnabledBaseline resource's applied parameters or version. For usage examples, see [ the Amazon Web Services Control Tower User Guide ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
     ///
-    /// - Parameter UpdateEnabledBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnabledBaselineInput`)
     ///
-    /// - Returns: `UpdateEnabledBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnabledBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2219,9 +2219,9 @@ extension ControlTowerClient {
     ///
     /// Updates the configuration of an already enabled control. If the enabled control shows an EnablementStatus of SUCCEEDED, supply parameters that are different from the currently configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services Control Tower updates the control to match any valid parameters that you supply. If the DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead, you can update the control by calling the ResetEnabledControl API. Alternatively, you can call DisableControl and then call EnableControl again. Also, you can run an extending governance operation to repair drift. For usage examples, see the [ Controls Reference Guide ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
     ///
-    /// - Parameter UpdateEnabledControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnabledControlInput`)
     ///
-    /// - Returns: `UpdateEnabledControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnabledControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2292,9 +2292,9 @@ extension ControlTowerClient {
     ///
     /// This API call updates the landing zone. It starts an asynchronous operation that updates the landing zone based on the new landing zone version, or on the changed parameters specified in the updated manifest file.
     ///
-    /// - Parameter UpdateLandingZoneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLandingZoneInput`)
     ///
-    /// - Returns: `UpdateLandingZoneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLandingZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

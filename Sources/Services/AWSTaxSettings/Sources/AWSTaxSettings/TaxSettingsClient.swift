@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TaxSettingsClient: ClientRuntime.Client {
     public static let clientName = "TaxSettingsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: TaxSettingsClient.TaxSettingsClientConfiguration
     let serviceName = "TaxSettings"
@@ -371,9 +371,9 @@ extension TaxSettingsClient {
     ///
     /// Deletes tax registration for multiple accounts in batch. This can be used to delete tax registrations for up to five accounts in one batch. This API operation can't be used to delete your tax registration in Brazil. Use the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods) page in the Billing and Cost Management console instead.
     ///
-    /// - Parameter BatchDeleteTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteTaxRegistrationInput`)
     ///
-    /// - Returns: `BatchDeleteTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,9 +440,9 @@ extension TaxSettingsClient {
     ///
     /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions.
     ///
-    /// - Parameter BatchGetTaxExemptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetTaxExemptionsInput`)
     ///
-    /// - Returns: `BatchGetTaxExemptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetTaxExemptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -615,9 +615,9 @@ extension TaxSettingsClient {
     ///
     /// * The sector valid values are Business and Individual.
     ///
-    /// - Parameter BatchPutTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutTaxRegistrationInput`)
     ///
-    /// - Returns: `BatchPutTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -684,9 +684,9 @@ extension TaxSettingsClient {
     ///
     /// Deletes a supplemental tax registration for a single account.
     ///
-    /// - Parameter DeleteSupplementalTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSupplementalTaxRegistrationInput`)
     ///
-    /// - Returns: `DeleteSupplementalTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSupplementalTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -754,9 +754,9 @@ extension TaxSettingsClient {
     ///
     /// Deletes tax registration for a single account. This API operation can't be used to delete your tax registration in Brazil. Use the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods) page in the Billing and Cost Management console instead.
     ///
-    /// - Parameter DeleteTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTaxRegistrationInput`)
     ///
-    /// - Returns: `DeleteTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -824,9 +824,9 @@ extension TaxSettingsClient {
     ///
     /// Get supported tax exemption types. The IAM action is tax:GetExemptions.
     ///
-    /// - Parameter GetTaxExemptionTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaxExemptionTypesInput`)
     ///
-    /// - Returns: `GetTaxExemptionTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaxExemptionTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,9 +890,9 @@ extension TaxSettingsClient {
     ///
     /// The get account tax inheritance status.
     ///
-    /// - Parameter GetTaxInheritanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaxInheritanceInput`)
     ///
-    /// - Returns: `GetTaxInheritanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaxInheritanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,9 +956,9 @@ extension TaxSettingsClient {
     ///
     /// Retrieves tax registration for a single account.
     ///
-    /// - Parameter GetTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaxRegistrationInput`)
     ///
-    /// - Returns: `GetTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1025,9 +1025,9 @@ extension TaxSettingsClient {
     ///
     /// Downloads your tax documents to the Amazon S3 bucket that you specify in your request.
     ///
-    /// - Parameter GetTaxRegistrationDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaxRegistrationDocumentInput`)
     ///
-    /// - Returns: `GetTaxRegistrationDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaxRegistrationDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,9 +1093,9 @@ extension TaxSettingsClient {
     ///
     /// Retrieves supplemental tax registrations for a single account.
     ///
-    /// - Parameter ListSupplementalTaxRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupplementalTaxRegistrationsInput`)
     ///
-    /// - Returns: `ListSupplementalTaxRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupplementalTaxRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1162,9 +1162,9 @@ extension TaxSettingsClient {
     ///
     /// Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is tax:GetExemptions.
     ///
-    /// - Parameter ListTaxExemptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTaxExemptionsInput`)
     ///
-    /// - Returns: `ListTaxExemptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTaxExemptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1231,9 +1231,9 @@ extension TaxSettingsClient {
     ///
     /// Retrieves the tax registration of accounts listed in a consolidated billing family. This can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
     ///
-    /// - Parameter ListTaxRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTaxRegistrationsInput`)
     ///
-    /// - Returns: `ListTaxRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTaxRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1300,9 +1300,9 @@ extension TaxSettingsClient {
     ///
     /// Stores supplemental tax registration for a single account.
     ///
-    /// - Parameter PutSupplementalTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSupplementalTaxRegistrationInput`)
     ///
-    /// - Returns: `PutSupplementalTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSupplementalTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,9 +1369,9 @@ extension TaxSettingsClient {
     ///
     /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is tax:UpdateExemptions.
     ///
-    /// - Parameter PutTaxExemptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTaxExemptionInput`)
     ///
-    /// - Returns: `PutTaxExemptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTaxExemptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1441,9 +1441,9 @@ extension TaxSettingsClient {
     ///
     /// The updated tax inheritance status.
     ///
-    /// - Parameter PutTaxInheritanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTaxInheritanceInput`)
     ///
-    /// - Returns: `PutTaxInheritanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTaxInheritanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,9 +1617,9 @@ extension TaxSettingsClient {
     ///
     /// * The sector valid values are Business and Individual.
     ///
-    /// - Parameter PutTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTaxRegistrationInput`)
     ///
-    /// - Returns: `PutTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

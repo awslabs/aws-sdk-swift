@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QConnectClient: ClientRuntime.Client {
     public static let clientName = "QConnectClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"
@@ -374,9 +374,9 @@ extension QConnectClient {
     ///
     /// Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the $ACTIVE_VERSION qualifier later to reference the version that is in active status.
     ///
-    /// - Parameter ActivateMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateMessageTemplateInput`)
     ///
-    /// - Returns: `ActivateMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect AI Agent.
     ///
-    /// - Parameter CreateAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIAgentInput`)
     ///
-    /// - Returns: `CreateAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension QConnectClient {
     ///
     /// Creates and Amazon Q in Connect AI Agent version.
     ///
-    /// - Parameter CreateAIAgentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIAgentVersionInput`)
     ///
-    /// - Returns: `CreateAIAgentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIAgentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect AI Guardrail.
     ///
-    /// - Parameter CreateAIGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIGuardrailInput`)
     ///
-    /// - Returns: `CreateAIGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect AI Guardrail version.
     ///
-    /// - Parameter CreateAIGuardrailVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIGuardrailVersionInput`)
     ///
-    /// - Returns: `CreateAIGuardrailVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIGuardrailVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,11 +739,11 @@ extension QConnectClient {
 
     /// Performs the `CreateAIPrompt` operation on the `QConnect` service.
     ///
-    /// Creates an Amazon Q in Connect AI Prompt. For more information on supported models, see [Supported models for system and custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
+    /// Creates an Amazon Q in Connect AI Prompt.
     ///
-    /// - Parameter CreateAIPromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIPromptInput`)
     ///
-    /// - Returns: `CreateAIPromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIPromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -815,9 +815,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect AI Prompt version.
     ///
-    /// - Parameter CreateAIPromptVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIPromptVersionInput`)
     ///
-    /// - Returns: `CreateAIPromptVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIPromptVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -889,9 +889,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect assistant.
     ///
-    /// - Parameter CreateAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssistantInput`)
     ///
-    /// - Returns: `CreateAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -961,9 +961,9 @@ extension QConnectClient {
     ///
     /// Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
     ///
-    /// - Parameter CreateAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssistantAssociationInput`)
     ///
-    /// - Returns: `CreateAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1033,9 +1033,9 @@ extension QConnectClient {
     ///
     /// Creates Amazon Q in Connect content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_StartContentUpload.html) to upload an asset.
     ///
-    /// - Parameter CreateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContentInput`)
     ///
-    /// - Returns: `CreateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,9 +1113,9 @@ extension QConnectClient {
     ///
     /// For more information, see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter CreateContentAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContentAssociationInput`)
     ///
-    /// - Returns: `CreateContentAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContentAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1195,9 +1195,9 @@ extension QConnectClient {
     ///
     /// * Call CreateKnowledgeBase.
     ///
-    /// - Parameter CreateKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKnowledgeBaseInput`)
     ///
-    /// - Returns: `CreateKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1267,9 +1267,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the $LATEST qualifier to reference the created message template.
     ///
-    /// - Parameter CreateMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMessageTemplateInput`)
     ///
-    /// - Returns: `CreateMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1340,9 +1340,9 @@ extension QConnectClient {
     ///
     /// Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the $LATEST qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
     ///
-    /// - Parameter CreateMessageTemplateAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMessageTemplateAttachmentInput`)
     ///
-    /// - Returns: `CreateMessageTemplateAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMessageTemplateAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,9 +1413,9 @@ extension QConnectClient {
     ///
     /// Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in <message-template-id>:<versionNumber> as the message template identifier. An error is displayed if the supplied messageTemplateContentSha256 is different from the messageTemplateContentSha256 of the message template with $LATEST qualifier. If multiple CreateMessageTemplateVersion requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
     ///
-    /// - Parameter CreateMessageTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMessageTemplateVersionInput`)
     ///
-    /// - Returns: `CreateMessageTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMessageTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1485,9 +1485,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect quick response.
     ///
-    /// - Parameter CreateQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuickResponseInput`)
     ///
-    /// - Returns: `CreateQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1558,15 +1558,16 @@ extension QConnectClient {
     ///
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
-    /// - Parameter CreateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
-    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `DependencyFailedException` : An error occurred while calling a dependency. For example, calling connect:DecribeContact as part of CreateSession with a contactArn.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
@@ -1630,9 +1631,9 @@ extension QConnectClient {
     ///
     /// Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the $ACTIVE_VERSION qualifier to reference the version in active status.
     ///
-    /// - Parameter DeactivateMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateMessageTemplateInput`)
     ///
-    /// - Returns: `DeactivateMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1701,9 +1702,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect AI Agent.
     ///
-    /// - Parameter DeleteAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIAgentInput`)
     ///
-    /// - Returns: `DeleteAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1769,9 +1770,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect AI Agent Version.
     ///
-    /// - Parameter DeleteAIAgentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIAgentVersionInput`)
     ///
-    /// - Returns: `DeleteAIAgentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIAgentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,9 +1839,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect AI Guardrail.
     ///
-    /// - Parameter DeleteAIGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIGuardrailInput`)
     ///
-    /// - Returns: `DeleteAIGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1907,9 +1908,9 @@ extension QConnectClient {
     ///
     /// Delete and Amazon Q in Connect AI Guardrail version.
     ///
-    /// - Parameter DeleteAIGuardrailVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIGuardrailVersionInput`)
     ///
-    /// - Returns: `DeleteAIGuardrailVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIGuardrailVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1976,9 +1977,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect AI Prompt.
     ///
-    /// - Parameter DeleteAIPromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIPromptInput`)
     ///
-    /// - Returns: `DeleteAIPromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIPromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2044,9 +2045,9 @@ extension QConnectClient {
     ///
     /// Delete and Amazon Q in Connect AI Prompt version.
     ///
-    /// - Parameter DeleteAIPromptVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIPromptVersionInput`)
     ///
-    /// - Returns: `DeleteAIPromptVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIPromptVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2113,9 +2114,9 @@ extension QConnectClient {
     ///
     /// Deletes an assistant.
     ///
-    /// - Parameter DeleteAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssistantInput`)
     ///
-    /// - Returns: `DeleteAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2180,9 +2181,9 @@ extension QConnectClient {
     ///
     /// Deletes an assistant association.
     ///
-    /// - Parameter DeleteAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssistantAssociationInput`)
     ///
-    /// - Returns: `DeleteAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2247,9 +2248,9 @@ extension QConnectClient {
     ///
     /// Deletes the content.
     ///
-    /// - Parameter DeleteContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContentInput`)
     ///
-    /// - Returns: `DeleteContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2315,9 +2316,9 @@ extension QConnectClient {
     ///
     /// Deletes the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter DeleteContentAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContentAssociationInput`)
     ///
-    /// - Returns: `DeleteContentAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContentAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2382,9 +2383,9 @@ extension QConnectClient {
     ///
     /// Deletes the quick response import job.
     ///
-    /// - Parameter DeleteImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImportJobInput`)
     ///
-    /// - Returns: `DeleteImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2450,9 +2451,9 @@ extension QConnectClient {
     ///
     /// Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
     ///
-    /// - Parameter DeleteKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKnowledgeBaseInput`)
     ///
-    /// - Returns: `DeleteKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2518,9 +2519,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as <message-template-id>:<versionNumber> to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
     ///
-    /// - Parameter DeleteMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMessageTemplateInput`)
     ///
-    /// - Returns: `DeleteMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2586,9 +2587,9 @@ extension QConnectClient {
     ///
     /// Deletes the attachment file from the Amazon Q in Connect message template that is referenced by $LATEST qualifier. Attachments on available message template versions will remain unchanged.
     ///
-    /// - Parameter DeleteMessageTemplateAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMessageTemplateAttachmentInput`)
     ///
-    /// - Returns: `DeleteMessageTemplateAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMessageTemplateAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2654,9 +2655,9 @@ extension QConnectClient {
     ///
     /// Deletes a quick response.
     ///
-    /// - Parameter DeleteQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQuickResponseInput`)
     ///
-    /// - Returns: `DeleteQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2721,9 +2722,9 @@ extension QConnectClient {
     ///
     /// Gets an Amazon Q in Connect AI Agent.
     ///
-    /// - Parameter GetAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAIAgentInput`)
     ///
-    /// - Returns: `GetAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2789,9 +2790,9 @@ extension QConnectClient {
     ///
     /// Gets the Amazon Q in Connect AI Guardrail.
     ///
-    /// - Parameter GetAIGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAIGuardrailInput`)
     ///
-    /// - Returns: `GetAIGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAIGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2857,9 +2858,9 @@ extension QConnectClient {
     ///
     /// Gets and Amazon Q in Connect AI Prompt.
     ///
-    /// - Parameter GetAIPromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAIPromptInput`)
     ///
-    /// - Returns: `GetAIPromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAIPromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2925,9 +2926,9 @@ extension QConnectClient {
     ///
     /// Retrieves information about an assistant.
     ///
-    /// - Parameter GetAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssistantInput`)
     ///
-    /// - Returns: `GetAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2992,9 +2993,9 @@ extension QConnectClient {
     ///
     /// Retrieves information about an assistant association.
     ///
-    /// - Parameter GetAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssistantAssociationInput`)
     ///
-    /// - Returns: `GetAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3059,9 +3060,9 @@ extension QConnectClient {
     ///
     /// Retrieves content, including a pre-signed URL to download the content.
     ///
-    /// - Parameter GetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentInput`)
     ///
-    /// - Returns: `GetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3126,9 +3127,9 @@ extension QConnectClient {
     ///
     /// Returns the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter GetContentAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentAssociationInput`)
     ///
-    /// - Returns: `GetContentAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3193,9 +3194,9 @@ extension QConnectClient {
     ///
     /// Retrieves summary information about the content.
     ///
-    /// - Parameter GetContentSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentSummaryInput`)
     ///
-    /// - Returns: `GetContentSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3260,9 +3261,9 @@ extension QConnectClient {
     ///
     /// Retrieves the started import job.
     ///
-    /// - Parameter GetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportJobInput`)
     ///
-    /// - Returns: `GetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3326,9 +3327,9 @@ extension QConnectClient {
     ///
     /// Retrieves information about the knowledge base.
     ///
-    /// - Parameter GetKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKnowledgeBaseInput`)
     ///
-    /// - Returns: `GetKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3393,9 +3394,9 @@ extension QConnectClient {
     ///
     /// Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, <message-template-id>:<qualifier>, which is either an actual version number or an Amazon Q Connect managed qualifier $ACTIVE_VERSION | $LATEST. If it is not supplied, then $LATEST is assumed implicitly.
     ///
-    /// - Parameter GetMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMessageTemplateInput`)
     ///
-    /// - Returns: `GetMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3461,9 +3462,9 @@ extension QConnectClient {
     ///
     /// Retrieves next message on an Amazon Q in Connect session.
     ///
-    /// - Parameter GetNextMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNextMessageInput`)
     ///
-    /// - Returns: `GetNextMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNextMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3528,9 +3529,9 @@ extension QConnectClient {
     ///
     /// Retrieves the quick response.
     ///
-    /// - Parameter GetQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQuickResponseInput`)
     ///
-    /// - Returns: `GetQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3596,9 +3597,9 @@ extension QConnectClient {
     /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
-    /// - Parameter GetRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationsInput`)
     ///
-    /// - Returns: `GetRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3663,9 +3664,9 @@ extension QConnectClient {
     ///
     /// Retrieves information for a specified session.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3730,9 +3731,9 @@ extension QConnectClient {
     ///
     /// List AI Agent versions.
     ///
-    /// - Parameter ListAIAgentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIAgentVersionsInput`)
     ///
-    /// - Returns: `ListAIAgentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIAgentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3799,9 +3800,9 @@ extension QConnectClient {
     ///
     /// Lists AI Agents.
     ///
-    /// - Parameter ListAIAgentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIAgentsInput`)
     ///
-    /// - Returns: `ListAIAgentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIAgentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3868,9 +3869,9 @@ extension QConnectClient {
     ///
     /// Lists AI Guardrail versions.
     ///
-    /// - Parameter ListAIGuardrailVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIGuardrailVersionsInput`)
     ///
-    /// - Returns: `ListAIGuardrailVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIGuardrailVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3937,9 +3938,9 @@ extension QConnectClient {
     ///
     /// Lists the AI Guardrails available on the Amazon Q in Connect assistant.
     ///
-    /// - Parameter ListAIGuardrailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIGuardrailsInput`)
     ///
-    /// - Returns: `ListAIGuardrailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIGuardrailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4006,9 +4007,9 @@ extension QConnectClient {
     ///
     /// Lists AI Prompt versions.
     ///
-    /// - Parameter ListAIPromptVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIPromptVersionsInput`)
     ///
-    /// - Returns: `ListAIPromptVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIPromptVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4075,9 +4076,9 @@ extension QConnectClient {
     ///
     /// Lists the AI Prompts available on the Amazon Q in Connect assistant.
     ///
-    /// - Parameter ListAIPromptsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIPromptsInput`)
     ///
-    /// - Returns: `ListAIPromptsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIPromptsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4144,9 +4145,9 @@ extension QConnectClient {
     ///
     /// Lists information about assistant associations.
     ///
-    /// - Parameter ListAssistantAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssistantAssociationsInput`)
     ///
-    /// - Returns: `ListAssistantAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssistantAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4211,9 +4212,9 @@ extension QConnectClient {
     ///
     /// Lists information about assistants.
     ///
-    /// - Parameter ListAssistantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssistantsInput`)
     ///
-    /// - Returns: `ListAssistantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssistantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4278,9 +4279,9 @@ extension QConnectClient {
     ///
     /// Lists the content associations. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ListContentAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContentAssociationsInput`)
     ///
-    /// - Returns: `ListContentAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContentAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4346,9 +4347,9 @@ extension QConnectClient {
     ///
     /// Lists the content.
     ///
-    /// - Parameter ListContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContentsInput`)
     ///
-    /// - Returns: `ListContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4413,9 +4414,9 @@ extension QConnectClient {
     ///
     /// Lists information about import jobs.
     ///
-    /// - Parameter ListImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportJobsInput`)
     ///
-    /// - Returns: `ListImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4479,9 +4480,9 @@ extension QConnectClient {
     ///
     /// Lists the knowledge bases.
     ///
-    /// - Parameter ListKnowledgeBasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKnowledgeBasesInput`)
     ///
-    /// - Returns: `ListKnowledgeBasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKnowledgeBasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4545,9 +4546,9 @@ extension QConnectClient {
     ///
     /// Lists all the available versions for the specified Amazon Q in Connect message template.
     ///
-    /// - Parameter ListMessageTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMessageTemplateVersionsInput`)
     ///
-    /// - Returns: `ListMessageTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMessageTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4613,9 +4614,9 @@ extension QConnectClient {
     ///
     /// Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
     ///
-    /// - Parameter ListMessageTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMessageTemplatesInput`)
     ///
-    /// - Returns: `ListMessageTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMessageTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4681,9 +4682,9 @@ extension QConnectClient {
     ///
     /// Lists messages on an Amazon Q in Connect session.
     ///
-    /// - Parameter ListMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMessagesInput`)
     ///
-    /// - Returns: `ListMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4748,9 +4749,9 @@ extension QConnectClient {
     ///
     /// Lists information about quick response.
     ///
-    /// - Parameter ListQuickResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQuickResponsesInput`)
     ///
-    /// - Returns: `ListQuickResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQuickResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4815,9 +4816,9 @@ extension QConnectClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4879,9 +4880,9 @@ extension QConnectClient {
     ///
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
     ///
-    /// - Parameter NotifyRecommendationsReceivedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyRecommendationsReceivedInput`)
     ///
-    /// - Returns: `NotifyRecommendationsReceivedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyRecommendationsReceivedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4948,9 +4949,9 @@ extension QConnectClient {
     ///
     /// Provides feedback against the specified assistant for the specified target. This API only supports generative targets.
     ///
-    /// - Parameter PutFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFeedbackInput`)
     ///
-    /// - Returns: `PutFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5018,9 +5019,9 @@ extension QConnectClient {
     /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
-    /// - Parameter QueryAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryAssistantInput`)
     ///
-    /// - Returns: `QueryAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5088,9 +5089,9 @@ extension QConnectClient {
     ///
     /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     ///
-    /// - Parameter RemoveAssistantAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveAssistantAIAgentInput`)
     ///
-    /// - Returns: `RemoveAssistantAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAssistantAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5156,9 +5157,9 @@ extension QConnectClient {
     ///
     /// Removes a URI template from a knowledge base.
     ///
-    /// - Parameter RemoveKnowledgeBaseTemplateUriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveKnowledgeBaseTemplateUriInput`)
     ///
-    /// - Returns: `RemoveKnowledgeBaseTemplateUriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveKnowledgeBaseTemplateUriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5222,9 +5223,9 @@ extension QConnectClient {
     ///
     /// Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
     ///
-    /// - Parameter RenderMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RenderMessageTemplateInput`)
     ///
-    /// - Returns: `RenderMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RenderMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5292,9 +5293,9 @@ extension QConnectClient {
     ///
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     ///
-    /// - Parameter SearchContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchContentInput`)
     ///
-    /// - Returns: `SearchContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5363,9 +5364,9 @@ extension QConnectClient {
     ///
     /// Searches for Amazon Q in Connect message templates in the specified knowledge base.
     ///
-    /// - Parameter SearchMessageTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchMessageTemplatesInput`)
     ///
-    /// - Returns: `SearchMessageTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchMessageTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5435,9 +5436,9 @@ extension QConnectClient {
     ///
     /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
     ///
-    /// - Parameter SearchQuickResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQuickResponsesInput`)
     ///
-    /// - Returns: `SearchQuickResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQuickResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5507,9 +5508,9 @@ extension QConnectClient {
     ///
     /// Searches for sessions.
     ///
-    /// - Parameter SearchSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSessionsInput`)
     ///
-    /// - Returns: `SearchSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5578,9 +5579,9 @@ extension QConnectClient {
     ///
     /// Submits a message to the Amazon Q in Connect session.
     ///
-    /// - Parameter SendMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendMessageInput`)
     ///
-    /// - Returns: `SendMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5651,9 +5652,9 @@ extension QConnectClient {
     ///
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
     ///
-    /// - Parameter StartContentUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContentUploadInput`)
     ///
-    /// - Returns: `StartContentUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContentUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5723,9 +5724,9 @@ extension QConnectClient {
     ///
     /// * For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
     ///
-    /// - Parameter StartImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportJobInput`)
     ///
-    /// - Returns: `StartImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5796,9 +5797,9 @@ extension QConnectClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5864,9 +5865,9 @@ extension QConnectClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5929,9 +5930,9 @@ extension QConnectClient {
     ///
     /// Updates an AI Agent.
     ///
-    /// - Parameter UpdateAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAIAgentInput`)
     ///
-    /// - Returns: `UpdateAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6002,9 +6003,9 @@ extension QConnectClient {
     ///
     /// Updates an AI Guardrail.
     ///
-    /// - Parameter UpdateAIGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAIGuardrailInput`)
     ///
-    /// - Returns: `UpdateAIGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAIGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6075,9 +6076,9 @@ extension QConnectClient {
     ///
     /// Updates an AI Prompt.
     ///
-    /// - Parameter UpdateAIPromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAIPromptInput`)
     ///
-    /// - Returns: `UpdateAIPromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAIPromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6148,9 +6149,9 @@ extension QConnectClient {
     ///
     /// Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     ///
-    /// - Parameter UpdateAssistantAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssistantAIAgentInput`)
     ///
-    /// - Returns: `UpdateAssistantAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssistantAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6218,9 +6219,9 @@ extension QConnectClient {
     ///
     /// Updates information about the content.
     ///
-    /// - Parameter UpdateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContentInput`)
     ///
-    /// - Returns: `UpdateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6289,9 +6290,9 @@ extension QConnectClient {
     ///
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     ///
-    /// - Parameter UpdateKnowledgeBaseTemplateUriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKnowledgeBaseTemplateUriInput`)
     ///
-    /// - Returns: `UpdateKnowledgeBaseTemplateUriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKnowledgeBaseTemplateUriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6358,9 +6359,9 @@ extension QConnectClient {
     ///
     /// Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the $LATEST qualifier. Any modification will only apply to the message template that is referenced by the $LATEST qualifier. The fields for all available versions will remain unchanged.
     ///
-    /// - Parameter UpdateMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMessageTemplateInput`)
     ///
-    /// - Returns: `UpdateMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6429,9 +6430,9 @@ extension QConnectClient {
     ///
     /// Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template’s name, description and grouping configuration will applied to the message template pointed by the $LATEST qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
     ///
-    /// - Parameter UpdateMessageTemplateMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMessageTemplateMetadataInput`)
     ///
-    /// - Returns: `UpdateMessageTemplateMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMessageTemplateMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6500,9 +6501,9 @@ extension QConnectClient {
     ///
     /// Updates an existing Amazon Q in Connect quick response.
     ///
-    /// - Parameter UpdateQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuickResponseInput`)
     ///
-    /// - Returns: `UpdateQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6572,9 +6573,9 @@ extension QConnectClient {
     ///
     /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
-    /// - Parameter UpdateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSessionInput`)
     ///
-    /// - Returns: `UpdateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6642,9 +6643,9 @@ extension QConnectClient {
     ///
     /// Updates the data stored on an Amazon Q in Connect Session.
     ///
-    /// - Parameter UpdateSessionDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSessionDataInput`)
     ///
-    /// - Returns: `UpdateSessionDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSessionDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

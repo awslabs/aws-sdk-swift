@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmplifyBackendClient: ClientRuntime.Client {
     public static let clientName = "AmplifyBackendClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AmplifyBackendClient.AmplifyBackendClientConfiguration
     let serviceName = "AmplifyBackend"
@@ -371,9 +371,9 @@ extension AmplifyBackendClient {
     ///
     /// This operation clones an existing backend.
     ///
-    /// - Parameter CloneBackendInput : The request body for CloneBackend.
+    /// - Parameter input: The request body for CloneBackend. (Type: `CloneBackendInput`)
     ///
-    /// - Returns: `CloneBackendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CloneBackendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,9 +441,9 @@ extension AmplifyBackendClient {
     ///
     /// This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
     ///
-    /// - Parameter CreateBackendInput : The request body for CreateBackend.
+    /// - Parameter input: The request body for CreateBackend. (Type: `CreateBackendInput`)
     ///
-    /// - Returns: `CreateBackendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,9 +511,9 @@ extension AmplifyBackendClient {
     ///
     /// Creates a new backend API resource.
     ///
-    /// - Parameter CreateBackendAPIInput : The request body for CreateBackendAPI.
+    /// - Parameter input: The request body for CreateBackendAPI. (Type: `CreateBackendAPIInput`)
     ///
-    /// - Returns: `CreateBackendAPIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendAPIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,9 +581,9 @@ extension AmplifyBackendClient {
     ///
     /// Creates a new backend authentication resource.
     ///
-    /// - Parameter CreateBackendAuthInput : The request body for CreateBackendAuth.
+    /// - Parameter input: The request body for CreateBackendAuth. (Type: `CreateBackendAuthInput`)
     ///
-    /// - Returns: `CreateBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -651,9 +651,9 @@ extension AmplifyBackendClient {
     ///
     /// Creates a config object for a backend.
     ///
-    /// - Parameter CreateBackendConfigInput : The request body for CreateBackendConfig.
+    /// - Parameter input: The request body for CreateBackendConfig. (Type: `CreateBackendConfigInput`)
     ///
-    /// - Returns: `CreateBackendConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -721,9 +721,9 @@ extension AmplifyBackendClient {
     ///
     /// Creates a backend storage resource.
     ///
-    /// - Parameter CreateBackendStorageInput : The request body for CreateBackendStorage.
+    /// - Parameter input: The request body for CreateBackendStorage. (Type: `CreateBackendStorageInput`)
     ///
-    /// - Returns: `CreateBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,9 +791,9 @@ extension AmplifyBackendClient {
     ///
     /// Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
     ///
-    /// - Parameter CreateTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTokenInput`)
     ///
-    /// - Returns: `CreateTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -858,9 +858,9 @@ extension AmplifyBackendClient {
     ///
     /// Removes an existing environment from your Amplify project.
     ///
-    /// - Parameter DeleteBackendInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackendInput`)
     ///
-    /// - Returns: `DeleteBackendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -925,9 +925,9 @@ extension AmplifyBackendClient {
     ///
     /// Deletes an existing backend API resource.
     ///
-    /// - Parameter DeleteBackendAPIInput : The request body for DeleteBackendAPI.
+    /// - Parameter input: The request body for DeleteBackendAPI. (Type: `DeleteBackendAPIInput`)
     ///
-    /// - Returns: `DeleteBackendAPIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackendAPIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -995,9 +995,9 @@ extension AmplifyBackendClient {
     ///
     /// Deletes an existing backend authentication resource.
     ///
-    /// - Parameter DeleteBackendAuthInput : The request body for DeleteBackendAuth.
+    /// - Parameter input: The request body for DeleteBackendAuth. (Type: `DeleteBackendAuthInput`)
     ///
-    /// - Returns: `DeleteBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,9 +1065,9 @@ extension AmplifyBackendClient {
     ///
     /// Removes the specified backend storage resource.
     ///
-    /// - Parameter DeleteBackendStorageInput : The request body for DeleteBackendStorage.
+    /// - Parameter input: The request body for DeleteBackendStorage. (Type: `DeleteBackendStorageInput`)
     ///
-    /// - Returns: `DeleteBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1135,9 +1135,9 @@ extension AmplifyBackendClient {
     ///
     /// Deletes the challenge token based on the given appId and sessionId.
     ///
-    /// - Parameter DeleteTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTokenInput`)
     ///
-    /// - Returns: `DeleteTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1202,9 +1202,9 @@ extension AmplifyBackendClient {
     ///
     /// Generates a model schema for an existing backend API resource.
     ///
-    /// - Parameter GenerateBackendAPIModelsInput : The request body for GenerateBackendAPIModels.
+    /// - Parameter input: The request body for GenerateBackendAPIModels. (Type: `GenerateBackendAPIModelsInput`)
     ///
-    /// - Returns: `GenerateBackendAPIModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateBackendAPIModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1272,9 +1272,9 @@ extension AmplifyBackendClient {
     ///
     /// Provides project-level details for your Amplify UI project.
     ///
-    /// - Parameter GetBackendInput : The request body for GetBackend.
+    /// - Parameter input: The request body for GetBackend. (Type: `GetBackendInput`)
     ///
-    /// - Returns: `GetBackendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1342,9 +1342,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets the details for a backend API.
     ///
-    /// - Parameter GetBackendAPIInput : The request body for GetBackendAPI.
+    /// - Parameter input: The request body for GetBackendAPI. (Type: `GetBackendAPIInput`)
     ///
-    /// - Returns: `GetBackendAPIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendAPIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1412,9 +1412,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets a model introspection schema for an existing backend API resource.
     ///
-    /// - Parameter GetBackendAPIModelsInput : The request body for GetBackendAPIModels.
+    /// - Parameter input: The request body for GetBackendAPIModels. (Type: `GetBackendAPIModelsInput`)
     ///
-    /// - Returns: `GetBackendAPIModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendAPIModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,9 +1482,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets a backend auth details.
     ///
-    /// - Parameter GetBackendAuthInput : The request body for GetBackendAuth.
+    /// - Parameter input: The request body for GetBackendAuth. (Type: `GetBackendAuthInput`)
     ///
-    /// - Returns: `GetBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1552,9 +1552,9 @@ extension AmplifyBackendClient {
     ///
     /// Returns information about a specific job.
     ///
-    /// - Parameter GetBackendJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBackendJobInput`)
     ///
-    /// - Returns: `GetBackendJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1619,9 +1619,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets details for a backend storage resource.
     ///
-    /// - Parameter GetBackendStorageInput : The request body for GetBackendStorage.
+    /// - Parameter input: The request body for GetBackendStorage. (Type: `GetBackendStorageInput`)
     ///
-    /// - Returns: `GetBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1689,9 +1689,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets the challenge token based on the given appId and sessionId.
     ///
-    /// - Parameter GetTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTokenInput`)
     ///
-    /// - Returns: `GetTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1756,9 +1756,9 @@ extension AmplifyBackendClient {
     ///
     /// Imports an existing backend authentication resource.
     ///
-    /// - Parameter ImportBackendAuthInput : The request body for ImportBackendAuth.
+    /// - Parameter input: The request body for ImportBackendAuth. (Type: `ImportBackendAuthInput`)
     ///
-    /// - Returns: `ImportBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1826,9 +1826,9 @@ extension AmplifyBackendClient {
     ///
     /// Imports an existing backend storage resource.
     ///
-    /// - Parameter ImportBackendStorageInput : The request body for ImportBackendStorage.
+    /// - Parameter input: The request body for ImportBackendStorage. (Type: `ImportBackendStorageInput`)
     ///
-    /// - Returns: `ImportBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1896,9 +1896,9 @@ extension AmplifyBackendClient {
     ///
     /// Lists the jobs for the backend of an Amplify app.
     ///
-    /// - Parameter ListBackendJobsInput : The request body for ListBackendJobs.
+    /// - Parameter input: The request body for ListBackendJobs. (Type: `ListBackendJobsInput`)
     ///
-    /// - Returns: `ListBackendJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackendJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1966,9 +1966,9 @@ extension AmplifyBackendClient {
     ///
     /// The list of S3 buckets in your account.
     ///
-    /// - Parameter ListS3BucketsInput : The request body for S3Buckets.
+    /// - Parameter input: The request body for S3Buckets. (Type: `ListS3BucketsInput`)
     ///
-    /// - Returns: `ListS3BucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListS3BucketsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2036,9 +2036,9 @@ extension AmplifyBackendClient {
     ///
     /// Removes all backend environments from your Amplify project.
     ///
-    /// - Parameter RemoveAllBackendsInput : The request body for RemoveAllBackends.
+    /// - Parameter input: The request body for RemoveAllBackends. (Type: `RemoveAllBackendsInput`)
     ///
-    /// - Returns: `RemoveAllBackendsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAllBackendsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2106,9 +2106,9 @@ extension AmplifyBackendClient {
     ///
     /// Removes the AWS resources required to access the Amplify Admin UI.
     ///
-    /// - Parameter RemoveBackendConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveBackendConfigInput`)
     ///
-    /// - Returns: `RemoveBackendConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveBackendConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2173,9 +2173,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates an existing backend API resource.
     ///
-    /// - Parameter UpdateBackendAPIInput : The request body for UpdateBackendAPI.
+    /// - Parameter input: The request body for UpdateBackendAPI. (Type: `UpdateBackendAPIInput`)
     ///
-    /// - Returns: `UpdateBackendAPIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendAPIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2243,9 +2243,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates an existing backend authentication resource.
     ///
-    /// - Parameter UpdateBackendAuthInput : The request body for UpdateBackendAuth.
+    /// - Parameter input: The request body for UpdateBackendAuth. (Type: `UpdateBackendAuthInput`)
     ///
-    /// - Returns: `UpdateBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2313,9 +2313,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates the AWS resources required to access the Amplify Admin UI.
     ///
-    /// - Parameter UpdateBackendConfigInput : The request body for UpdateBackendConfig.
+    /// - Parameter input: The request body for UpdateBackendConfig. (Type: `UpdateBackendConfigInput`)
     ///
-    /// - Returns: `UpdateBackendConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2383,9 +2383,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates a specific job.
     ///
-    /// - Parameter UpdateBackendJobInput : The request body for GetBackendJob.
+    /// - Parameter input: The request body for GetBackendJob. (Type: `UpdateBackendJobInput`)
     ///
-    /// - Returns: `UpdateBackendJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2453,9 +2453,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates an existing backend storage resource.
     ///
-    /// - Parameter UpdateBackendStorageInput : The request body for UpdateBackendStorage.
+    /// - Parameter input: The request body for UpdateBackendStorage. (Type: `UpdateBackendStorageInput`)
     ///
-    /// - Returns: `UpdateBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

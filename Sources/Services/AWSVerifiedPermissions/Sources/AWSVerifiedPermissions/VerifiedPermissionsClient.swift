@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VerifiedPermissionsClient: ClientRuntime.Client {
     public static let clientName = "VerifiedPermissionsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: VerifiedPermissionsClient.VerifiedPermissionsClientConfiguration
     let serviceName = "VerifiedPermissions"
@@ -374,9 +374,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Retrieves information about a group (batch) of policies. The BatchGetPolicy operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:GetPolicy in their IAM policies.
     ///
-    /// - Parameter BatchGetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetPolicyInput`)
     ///
-    /// - Returns: `BatchGetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -465,9 +465,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an IsAuthorized request: principal, action, resource, and context. Either the principal or the resource parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where bob views photo1 and alice views photo2. Authorization of bob to view photo1 and photo2, or bob and alice to view photo1, are valid batches. The request is evaluated against all policies in the specified policy store that match the entities that you declare. The result of the decisions is a series of Allow or Deny responses, along with the IDs of the policies that produced each decision. The entities of a BatchIsAuthorized API request can contain up to 100 principals and up to 100 resources. The requests of a BatchIsAuthorized API request can contain up to 30 requests. The BatchIsAuthorized operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:IsAuthorized in their IAM policies.
     ///
-    /// - Parameter BatchIsAuthorizedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchIsAuthorizedInput`)
     ///
-    /// - Returns: `BatchIsAuthorizedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchIsAuthorizedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,9 +557,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Makes a series of decisions about multiple authorization requests for one token. The principal in this request comes from an external identity source in the form of an identity or access token, formatted as a [JSON web token (JWT)](https://wikipedia.org/wiki/JSON_Web_Token). The information in the parameters can also define additional context that Verified Permissions can include in the evaluations. The request is evaluated against all policies in the specified policy store that match the entities that you provide in the entities declaration and in the token. The result of the decisions is a series of Allow or Deny responses, along with the IDs of the policies that produced each decision. The entities of a BatchIsAuthorizedWithToken API request can contain up to 100 resources and up to 99 user groups. The requests of a BatchIsAuthorizedWithToken API request can contain up to 30 requests. The BatchIsAuthorizedWithToken operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission verifiedpermissions:IsAuthorizedWithToken in their IAM policies.
     ///
-    /// - Parameter BatchIsAuthorizedWithTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchIsAuthorizedWithTokenInput`)
     ///
-    /// - Returns: `BatchIsAuthorizedWithTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchIsAuthorizedWithTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter CreateIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdentitySourceInput`)
     ///
-    /// - Returns: `CreateIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -758,9 +758,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Creating a policy causes it to be validated against the schema in the policy store. If the policy doesn't pass validation, the operation fails and the policy isn't stored. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter CreatePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePolicyInput`)
     ///
-    /// - Returns: `CreatePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,9 +853,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Creates a policy store. A policy store is a container for policy resources. Although [Cedar supports multiple namespaces](https://docs.cedarpolicy.com/schema/schema.html#namespace), Verified Permissions currently supports only one namespace per policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter CreatePolicyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePolicyStoreInput`)
     ///
-    /// - Returns: `CreatePolicyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePolicyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -947,9 +947,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are immediately updated as well. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter CreatePolicyTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePolicyTemplateInput`)
     ///
-    /// - Returns: `CreatePolicyTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePolicyTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,9 +1042,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html). operations.
     ///
-    /// - Parameter DeleteIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentitySourceInput`)
     ///
-    /// - Returns: `DeleteIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1135,9 +1135,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Deletes the specified policy from the policy store. This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful HTTP 200 status code.
     ///
-    /// - Parameter DeletePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyInput`)
     ///
-    /// - Returns: `DeletePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,9 +1228,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Deletes the specified policy store. This operation is idempotent. If you specify a policy store that does not exist, the request response will still return a successful HTTP 200 status code.
     ///
-    /// - Parameter DeletePolicyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyStoreInput`)
     ///
-    /// - Returns: `DeletePolicyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1320,9 +1320,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Deletes the specified policy template from the policy store. This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store.
     ///
-    /// - Parameter DeletePolicyTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyTemplateInput`)
     ///
-    /// - Returns: `DeletePolicyTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,9 +1413,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Retrieves the details about the specified identity source.
     ///
-    /// - Parameter GetIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdentitySourceInput`)
     ///
-    /// - Returns: `GetIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1505,9 +1505,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Retrieves information about the specified policy.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1597,9 +1597,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Retrieves details about a policy store.
     ///
-    /// - Parameter GetPolicyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyStoreInput`)
     ///
-    /// - Returns: `GetPolicyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1689,9 +1689,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Retrieve the details for the specified policy template in the specified policy store.
     ///
-    /// - Parameter GetPolicyTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyTemplateInput`)
     ///
-    /// - Returns: `GetPolicyTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1781,9 +1781,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Retrieve the details for the specified schema in the specified policy store.
     ///
-    /// - Parameter GetSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaInput`)
     ///
-    /// - Returns: `GetSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1873,9 +1873,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny, along with a list of the policies that resulted in the decision.
     ///
-    /// - Parameter IsAuthorizedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IsAuthorizedInput`)
     ///
-    /// - Returns: `IsAuthorizedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IsAuthorizedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,9 +1965,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Makes an authorization decision about a service request described in the parameters. The principal in this request comes from an external identity source in the form of an identity token formatted as a [JSON web token (JWT)](https://wikipedia.org/wiki/JSON_Web_Token). The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either Allow or Deny, along with a list of the policies that resulted in the decision. Verified Permissions validates each token that is specified in a request by checking its expiration date and its signature. Tokens from an identity source user continue to be usable until they expire. Token revocation and resource deletion have no effect on the validity of a token in your policy store
     ///
-    /// - Parameter IsAuthorizedWithTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IsAuthorizedWithTokenInput`)
     ///
-    /// - Returns: `IsAuthorizedWithTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IsAuthorizedWithTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2057,9 +2057,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Returns a paginated list of all of the identity sources defined in the specified policy store.
     ///
-    /// - Parameter ListIdentitySourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentitySourcesInput`)
     ///
-    /// - Returns: `ListIdentitySourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentitySourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2149,9 +2149,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Returns a paginated list of all policies stored in the specified policy store.
     ///
-    /// - Parameter ListPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPoliciesInput`)
     ///
-    /// - Returns: `ListPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2241,9 +2241,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Returns a paginated list of all policy stores in the calling Amazon Web Services account.
     ///
-    /// - Parameter ListPolicyStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyStoresInput`)
     ///
-    /// - Returns: `ListPolicyStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2332,9 +2332,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Returns a paginated list of all policy templates in the specified policy store.
     ///
-    /// - Parameter ListPolicyTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyTemplatesInput`)
     ///
-    /// - Returns: `ListPolicyTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2424,9 +2424,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2516,9 +2516,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter PutSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSchemaInput`)
     ///
-    /// - Returns: `PutSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2610,9 +2610,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Verified Permissions, policy stores can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2703,9 +2703,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2795,9 +2795,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Updates the specified identity source to use a new identity provider (IdP), or to change the mapping of identities from the IdP to a different principal entity type. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter UpdateIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdentitySourceInput`)
     ///
-    /// - Returns: `UpdateIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2915,9 +2915,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter UpdatePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePolicyInput`)
     ///
-    /// - Returns: `UpdatePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3009,9 +3009,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Modifies the validation setting for a policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter UpdatePolicyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePolicyStoreInput`)
     ///
-    /// - Returns: `UpdatePolicyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePolicyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3102,9 +3102,9 @@ extension VerifiedPermissionsClient {
     ///
     /// Updates the specified policy template. You can update only the description and the some elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody). Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in authorization decisions that involve all template-linked policies instantiated from this template. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
-    /// - Parameter UpdatePolicyTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePolicyTemplateInput`)
     ///
-    /// - Returns: `UpdatePolicyTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePolicyTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

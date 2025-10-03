@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppFabricClient: ClientRuntime.Client {
     public static let clientName = "AppFabricClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppFabricClient.AppFabricClientConfiguration
     let serviceName = "AppFabric"
@@ -373,9 +373,9 @@ extension AppFabricClient {
     ///
     /// Gets user access details in a batch request. This action polls data from the tasks that are kicked off by the StartUserAccessTasks action.
     ///
-    /// - Parameter BatchGetUserAccessTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetUserAccessTasksInput`)
     ///
-    /// - Returns: `BatchGetUserAccessTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetUserAccessTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension AppFabricClient {
     ///
     /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application.
     ///
-    /// - Parameter ConnectAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConnectAppAuthorizationInput`)
     ///
-    /// - Returns: `ConnectAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConnectAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension AppFabricClient {
     ///
     /// Creates an app authorization within an app bundle, which allows AppFabric to connect to an application.
     ///
-    /// - Parameter CreateAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppAuthorizationInput`)
     ///
-    /// - Returns: `CreateAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension AppFabricClient {
     ///
     /// Creates an app bundle to collect data from an application using AppFabric.
     ///
-    /// - Parameter CreateAppBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppBundleInput`)
     ///
-    /// - Returns: `CreateAppBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension AppFabricClient {
     ///
     /// Creates a data ingestion for an application.
     ///
-    /// - Parameter CreateIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngestionInput`)
     ///
-    /// - Returns: `CreateIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,9 +735,9 @@ extension AppFabricClient {
     ///
     /// Creates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
     ///
-    /// - Parameter CreateIngestionDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngestionDestinationInput`)
     ///
-    /// - Returns: `CreateIngestionDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngestionDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -808,9 +808,9 @@ extension AppFabricClient {
     ///
     /// Deletes an app authorization. You must delete the associated ingestion before you can delete an app authorization.
     ///
-    /// - Parameter DeleteAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppAuthorizationInput`)
     ///
-    /// - Returns: `DeleteAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -876,9 +876,9 @@ extension AppFabricClient {
     ///
     /// Deletes an app bundle. You must delete all associated app authorizations before you can delete an app bundle.
     ///
-    /// - Parameter DeleteAppBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppBundleInput`)
     ///
-    /// - Returns: `DeleteAppBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,9 +944,9 @@ extension AppFabricClient {
     ///
     /// Deletes an ingestion. You must stop (disable) the ingestion and you must delete all associated ingestion destinations before you can delete an app ingestion.
     ///
-    /// - Parameter DeleteIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIngestionInput`)
     ///
-    /// - Returns: `DeleteIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1012,9 +1012,9 @@ extension AppFabricClient {
     ///
     /// Deletes an ingestion destination. This deletes the association between an ingestion and it's destination. It doesn't delete previously ingested data or the storage destination, such as the Amazon S3 bucket where the data is delivered. If the ingestion destination is deleted while the associated ingestion is enabled, the ingestion will fail and is eventually disabled.
     ///
-    /// - Parameter DeleteIngestionDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIngestionDestinationInput`)
     ///
-    /// - Returns: `DeleteIngestionDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIngestionDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1080,9 +1080,9 @@ extension AppFabricClient {
     ///
     /// Returns information about an app authorization.
     ///
-    /// - Parameter GetAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppAuthorizationInput`)
     ///
-    /// - Returns: `GetAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,9 +1148,9 @@ extension AppFabricClient {
     ///
     /// Returns information about an app bundle.
     ///
-    /// - Parameter GetAppBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppBundleInput`)
     ///
-    /// - Returns: `GetAppBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,9 +1216,9 @@ extension AppFabricClient {
     ///
     /// Returns information about an ingestion.
     ///
-    /// - Parameter GetIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIngestionInput`)
     ///
-    /// - Returns: `GetIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,9 +1284,9 @@ extension AppFabricClient {
     ///
     /// Returns information about an ingestion destination.
     ///
-    /// - Parameter GetIngestionDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIngestionDestinationInput`)
     ///
-    /// - Returns: `GetIngestionDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIngestionDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1352,9 +1352,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of all app authorizations configured for an app bundle.
     ///
-    /// - Parameter ListAppAuthorizationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppAuthorizationsInput`)
     ///
-    /// - Returns: `ListAppAuthorizationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppAuthorizationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1421,9 +1421,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of app bundles.
     ///
-    /// - Parameter ListAppBundlesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppBundlesInput`)
     ///
-    /// - Returns: `ListAppBundlesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppBundlesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1489,9 +1489,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of all ingestion destinations configured for an ingestion.
     ///
-    /// - Parameter ListIngestionDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngestionDestinationsInput`)
     ///
-    /// - Returns: `ListIngestionDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngestionDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1558,9 +1558,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of all ingestions configured for an app bundle.
     ///
-    /// - Parameter ListIngestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngestionsInput`)
     ///
-    /// - Returns: `ListIngestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngestionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1627,9 +1627,9 @@ extension AppFabricClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1695,9 +1695,9 @@ extension AppFabricClient {
     ///
     /// Starts (enables) an ingestion, which collects data from an application.
     ///
-    /// - Parameter StartIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartIngestionInput`)
     ///
-    /// - Returns: `StartIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1764,9 +1764,9 @@ extension AppFabricClient {
     ///
     /// Starts the tasks to search user access status for a specific email address. The tasks are stopped when the user access status data is found. The tasks are terminated when the API calls to the application time out.
     ///
-    /// - Parameter StartUserAccessTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartUserAccessTasksInput`)
     ///
-    /// - Returns: `StartUserAccessTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartUserAccessTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1835,9 +1835,9 @@ extension AppFabricClient {
     ///
     /// Stops (disables) an ingestion.
     ///
-    /// - Parameter StopIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopIngestionInput`)
     ///
-    /// - Returns: `StopIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1904,9 +1904,9 @@ extension AppFabricClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1975,9 +1975,9 @@ extension AppFabricClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2044,9 +2044,9 @@ extension AppFabricClient {
     ///
     /// Updates an app authorization within an app bundle, which allows AppFabric to connect to an application. If the app authorization was in a connected state, updating the app authorization will set it back to a PendingConnect state.
     ///
-    /// - Parameter UpdateAppAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppAuthorizationInput`)
     ///
-    /// - Returns: `UpdateAppAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2115,9 +2115,9 @@ extension AppFabricClient {
     ///
     /// Updates an ingestion destination, which specifies how an application's ingested data is processed by Amazon Web Services AppFabric and where it's delivered.
     ///
-    /// - Parameter UpdateIngestionDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIngestionDestinationInput`)
     ///
-    /// - Returns: `UpdateIngestionDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIngestionDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

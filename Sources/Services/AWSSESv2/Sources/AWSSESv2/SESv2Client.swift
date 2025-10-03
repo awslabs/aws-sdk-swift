@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SESv2Client: ClientRuntime.Client {
     public static let clientName = "SESv2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SESv2Client.SESv2ClientConfiguration
     let serviceName = "SESv2"
@@ -375,9 +375,9 @@ extension SESv2Client {
     ///
     /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).
     ///
-    /// - Parameter BatchGetMetricDataInput : Represents a request to retrieve a batch of metric data.
+    /// - Parameter input: Represents a request to retrieve a batch of metric data. (Type: `BatchGetMetricDataInput`)
     ///
-    /// - Returns: `BatchGetMetricDataOutput` : Represents the result of processing your metric data batch request
+    /// - Returns: Represents the result of processing your metric data batch request (Type: `BatchGetMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension SESv2Client {
     ///
     /// Cancels an export job.
     ///
-    /// - Parameter CancelExportJobInput : Represents a request to cancel an export job using the export job ID.
+    /// - Parameter input: Represents a request to cancel an export job using the export job ID. (Type: `CancelExportJobInput`)
     ///
-    /// - Returns: `CancelExportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CancelExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension SESv2Client {
     ///
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
-    /// - Parameter CreateConfigurationSetInput : A request to create a configuration set.
+    /// - Parameter input: A request to create a configuration set. (Type: `CreateConfigurationSetInput`)
     ///
-    /// - Returns: `CreateConfigurationSetOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension SESv2Client {
     ///
     /// Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. A single configuration set can include more than one event destination.
     ///
-    /// - Parameter CreateConfigurationSetEventDestinationInput : A request to add an event destination to a configuration set.
+    /// - Parameter input: A request to add an event destination to a configuration set. (Type: `CreateConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `CreateConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,9 +658,9 @@ extension SESv2Client {
     ///
     /// Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list.
     ///
-    /// - Parameter CreateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactInput`)
     ///
-    /// - Returns: `CreateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension SESv2Client {
     ///
     /// Creates a contact list.
     ///
-    /// - Parameter CreateContactListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactListInput`)
     ///
-    /// - Returns: `CreateContactListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,9 +800,9 @@ extension SESv2Client {
     ///
     /// Creates a new custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateCustomVerificationEmailTemplateInput : Represents a request to create a custom verification email template.
+    /// - Parameter input: Represents a request to create a custom verification email template. (Type: `CreateCustomVerificationEmailTemplateInput`)
     ///
-    /// - Returns: `CreateCustomVerificationEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `CreateCustomVerificationEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -872,9 +872,9 @@ extension SESv2Client {
     ///
     /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Web Services account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
     ///
-    /// - Parameter CreateDedicatedIpPoolInput : A request to create a new dedicated IP pool.
+    /// - Parameter input: A request to create a new dedicated IP pool. (Type: `CreateDedicatedIpPoolInput`)
     ///
-    /// - Returns: `CreateDedicatedIpPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateDedicatedIpPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,9 +944,9 @@ extension SESv2Client {
     ///
     /// Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
     ///
-    /// - Parameter CreateDeliverabilityTestReportInput : A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. We send that message to special email addresses spread across several major email providers around the world. The test takes about 24 hours to complete. When the test is complete, you can use the GetDeliverabilityTestReport operation to view the results of the test.
+    /// - Parameter input: A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. We send that message to special email addresses spread across several major email providers around the world. The test takes about 24 hours to complete. When the test is complete, you can use the GetDeliverabilityTestReport operation to view the results of the test. (Type: `CreateDeliverabilityTestReportInput`)
     ///
-    /// - Returns: `CreateDeliverabilityTestReportOutput` : Information about the predictive inbox placement test that you created.
+    /// - Returns: Information about the predictive inbox placement test that you created. (Type: `CreateDeliverabilityTestReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1020,9 +1020,9 @@ extension SESv2Client {
     ///
     /// Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email. When you verify a domain without specifying the DkimSigningAttributes object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html). Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include the DkimSigningAttributes object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key to use for DKIM authentication) and a private key. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process. Additionally, you can associate an existing configuration set with the email identity that you're verifying.
     ///
-    /// - Parameter CreateEmailIdentityInput : A request to begin the verification process for an email identity (an email address or domain).
+    /// - Parameter input: A request to begin the verification process for an email identity (an email address or domain). (Type: `CreateEmailIdentityInput`)
     ///
-    /// - Returns: `CreateEmailIdentityOutput` : If the email identity is a domain, this object contains information about the DKIM verification status for the domain. If the email identity is an email address, this object is empty.
+    /// - Returns: If the email identity is a domain, this object contains information about the DKIM verification status for the domain. If the email identity is an email address, this object is empty. (Type: `CreateEmailIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,9 +1093,9 @@ extension SESv2Client {
     ///
     /// Creates the specified sending authorization policy for the given identity (an email address or a domain). This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateEmailIdentityPolicyInput : Represents a request to create a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
+    /// - Parameter input: Represents a request to create a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html). (Type: `CreateEmailIdentityPolicyInput`)
     ///
-    /// - Returns: `CreateEmailIdentityPolicyOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateEmailIdentityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1165,9 +1165,9 @@ extension SESv2Client {
     ///
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateEmailTemplateInput : Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). (Type: `CreateEmailTemplateInput`)
     ///
-    /// - Returns: `CreateEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `CreateEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1236,9 +1236,9 @@ extension SESv2Client {
     ///
     /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateExportJobInput : Represents a request to create an export job from a data source to a data destination.
+    /// - Parameter input: Represents a request to create an export job from a data source to a data destination. (Type: `CreateExportJobInput`)
     ///
-    /// - Returns: `CreateExportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1307,9 +1307,9 @@ extension SESv2Client {
     ///
     /// Creates an import job for a data destination.
     ///
-    /// - Parameter CreateImportJobInput : Represents a request to create an import job from a data source for a data destination.
+    /// - Parameter input: Represents a request to create an import job from a data source for a data destination. (Type: `CreateImportJobInput`)
     ///
-    /// - Returns: `CreateImportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1377,9 +1377,9 @@ extension SESv2Client {
     ///
     /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic will be split equally between the two. The primary region is the region where the resource has been created and where it can be managed.
     ///
-    /// - Parameter CreateMultiRegionEndpointInput : Represents a request to create a multi-region endpoint (global-endpoint).
+    /// - Parameter input: Represents a request to create a multi-region endpoint (global-endpoint). (Type: `CreateMultiRegionEndpointInput`)
     ///
-    /// - Returns: `CreateMultiRegionEndpointOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `CreateMultiRegionEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,9 +1448,9 @@ extension SESv2Client {
     ///
     /// Create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
     ///
-    /// - Parameter CreateTenantInput : Represents a request to create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
+    /// - Parameter input: Represents a request to create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account. (Type: `CreateTenantInput`)
     ///
-    /// - Returns: `CreateTenantOutput` : Information about a newly created tenant.
+    /// - Returns: Information about a newly created tenant. (Type: `CreateTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,9 +1519,9 @@ extension SESv2Client {
     ///
     /// Associate a resource with a tenant. Resources can be email identities, configuration sets, or email templates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant. A single resource can be associated with multiple tenants, allowing for resource sharing across different tenants while maintaining isolation in email sending operations.
     ///
-    /// - Parameter CreateTenantResourceAssociationInput : Represents a request to associate a resource with a tenant. Resources can be email identities, configuration sets, or email templates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant.
+    /// - Parameter input: Represents a request to associate a resource with a tenant. Resources can be email identities, configuration sets, or email templates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant. (Type: `CreateTenantResourceAssociationInput`)
     ///
-    /// - Returns: `CreateTenantResourceAssociationOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `CreateTenantResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1590,9 +1590,9 @@ extension SESv2Client {
     ///
     /// Delete an existing configuration set. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
-    /// - Parameter DeleteConfigurationSetInput : A request to delete a configuration set.
+    /// - Parameter input: A request to delete a configuration set. (Type: `DeleteConfigurationSetInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1658,9 +1658,9 @@ extension SESv2Client {
     ///
     /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
-    /// - Parameter DeleteConfigurationSetEventDestinationInput : A request to delete an event destination from a configuration set.
+    /// - Parameter input: A request to delete an event destination from a configuration set. (Type: `DeleteConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1725,9 +1725,9 @@ extension SESv2Client {
     ///
     /// Removes a contact from a contact list.
     ///
-    /// - Parameter DeleteContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactInput`)
     ///
-    /// - Returns: `DeleteContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1792,9 +1792,9 @@ extension SESv2Client {
     ///
     /// Deletes a contact list and all of the contacts on that list.
     ///
-    /// - Parameter DeleteContactListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactListInput`)
     ///
-    /// - Returns: `DeleteContactListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,9 +1860,9 @@ extension SESv2Client {
     ///
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteCustomVerificationEmailTemplateInput : Represents a request to delete an existing custom verification email template.
+    /// - Parameter input: Represents a request to delete an existing custom verification email template. (Type: `DeleteCustomVerificationEmailTemplateInput`)
     ///
-    /// - Returns: `DeleteCustomVerificationEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `DeleteCustomVerificationEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1927,9 +1927,9 @@ extension SESv2Client {
     ///
     /// Delete a dedicated IP pool.
     ///
-    /// - Parameter DeleteDedicatedIpPoolInput : A request to delete a dedicated IP pool.
+    /// - Parameter input: A request to delete a dedicated IP pool. (Type: `DeleteDedicatedIpPoolInput`)
     ///
-    /// - Returns: `DeleteDedicatedIpPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteDedicatedIpPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1995,9 +1995,9 @@ extension SESv2Client {
     ///
     /// Deletes an email identity. An identity can be either an email address or a domain name.
     ///
-    /// - Parameter DeleteEmailIdentityInput : A request to delete an existing email identity. When you delete an identity, you lose the ability to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again.
+    /// - Parameter input: A request to delete an existing email identity. When you delete an identity, you lose the ability to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again. (Type: `DeleteEmailIdentityInput`)
     ///
-    /// - Returns: `DeleteEmailIdentityOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteEmailIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2063,9 +2063,9 @@ extension SESv2Client {
     ///
     /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteEmailIdentityPolicyInput : Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
+    /// - Parameter input: Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html). (Type: `DeleteEmailIdentityPolicyInput`)
     ///
-    /// - Returns: `DeleteEmailIdentityPolicyOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteEmailIdentityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2130,9 +2130,9 @@ extension SESv2Client {
     ///
     /// Deletes an email template. You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteEmailTemplateInput : Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). (Type: `DeleteEmailTemplateInput`)
     ///
-    /// - Returns: `DeleteEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `DeleteEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2197,9 +2197,9 @@ extension SESv2Client {
     ///
     /// Deletes a multi-region endpoint (global-endpoint). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be deleted.
     ///
-    /// - Parameter DeleteMultiRegionEndpointInput : Represents a request to delete a multi-region endpoint (global-endpoint).
+    /// - Parameter input: Represents a request to delete a multi-region endpoint (global-endpoint). (Type: `DeleteMultiRegionEndpointInput`)
     ///
-    /// - Returns: `DeleteMultiRegionEndpointOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteMultiRegionEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2265,9 +2265,9 @@ extension SESv2Client {
     ///
     /// Removes an email address from the suppression list for your account.
     ///
-    /// - Parameter DeleteSuppressedDestinationInput : A request to remove an email address from the suppression list for your account.
+    /// - Parameter input: A request to remove an email address from the suppression list for your account. (Type: `DeleteSuppressedDestinationInput`)
     ///
-    /// - Returns: `DeleteSuppressedDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `DeleteSuppressedDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2332,9 +2332,9 @@ extension SESv2Client {
     ///
     /// Delete an existing tenant. When you delete a tenant, its associations with resources are removed, but the resources themselves are not deleted.
     ///
-    /// - Parameter DeleteTenantInput : Represents a request to delete a tenant.
+    /// - Parameter input: Represents a request to delete a tenant. (Type: `DeleteTenantInput`)
     ///
-    /// - Returns: `DeleteTenantOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `DeleteTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,9 +2402,9 @@ extension SESv2Client {
     ///
     /// Delete an association between a tenant and a resource. When you delete a tenant-resource association, the resource itself is not deleted, only its association with the specific tenant is removed. After removal, the resource will no longer be available for use with that tenant's email sending operations.
     ///
-    /// - Parameter DeleteTenantResourceAssociationInput : Represents a request to delete an association between a tenant and a resource.
+    /// - Parameter input: Represents a request to delete an association between a tenant and a resource. (Type: `DeleteTenantResourceAssociationInput`)
     ///
-    /// - Returns: `DeleteTenantResourceAssociationOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `DeleteTenantResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2472,9 +2472,9 @@ extension SESv2Client {
     ///
     /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.
     ///
-    /// - Parameter GetAccountInput : A request to obtain information about the email-sending capabilities of your Amazon SES account.
+    /// - Parameter input: A request to obtain information about the email-sending capabilities of your Amazon SES account. (Type: `GetAccountInput`)
     ///
-    /// - Returns: `GetAccountOutput` : A list of details about the email-sending capabilities of your Amazon SES account in the current Amazon Web Services Region.
+    /// - Returns: A list of details about the email-sending capabilities of your Amazon SES account in the current Amazon Web Services Region. (Type: `GetAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2538,9 +2538,9 @@ extension SESv2Client {
     ///
     /// Retrieve a list of the blacklists that your dedicated IP addresses appear on.
     ///
-    /// - Parameter GetBlacklistReportsInput : A request to retrieve a list of the blacklists that your dedicated IP addresses appear on.
+    /// - Parameter input: A request to retrieve a list of the blacklists that your dedicated IP addresses appear on. (Type: `GetBlacklistReportsInput`)
     ///
-    /// - Returns: `GetBlacklistReportsOutput` : An object that contains information about blacklist events.
+    /// - Returns: An object that contains information about blacklist events. (Type: `GetBlacklistReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2606,9 +2606,9 @@ extension SESv2Client {
     ///
     /// Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
-    /// - Parameter GetConfigurationSetInput : A request to obtain information about a configuration set.
+    /// - Parameter input: A request to obtain information about a configuration set. (Type: `GetConfigurationSetInput`)
     ///
-    /// - Returns: `GetConfigurationSetOutput` : Information about a configuration set.
+    /// - Returns: Information about a configuration set. (Type: `GetConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2673,9 +2673,9 @@ extension SESv2Client {
     ///
     /// Retrieve a list of event destinations that are associated with a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
-    /// - Parameter GetConfigurationSetEventDestinationsInput : A request to obtain information about the event destinations for a configuration set.
+    /// - Parameter input: A request to obtain information about the event destinations for a configuration set. (Type: `GetConfigurationSetEventDestinationsInput`)
     ///
-    /// - Returns: `GetConfigurationSetEventDestinationsOutput` : Information about an event destination for a configuration set.
+    /// - Returns: Information about an event destination for a configuration set. (Type: `GetConfigurationSetEventDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2740,9 +2740,9 @@ extension SESv2Client {
     ///
     /// Returns a contact from a contact list.
     ///
-    /// - Parameter GetContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactInput`)
     ///
-    /// - Returns: `GetContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2807,9 +2807,9 @@ extension SESv2Client {
     ///
     /// Returns contact list metadata. It does not return any information about the contacts present in the list.
     ///
-    /// - Parameter GetContactListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactListInput`)
     ///
-    /// - Returns: `GetContactListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2874,9 +2874,9 @@ extension SESv2Client {
     ///
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetCustomVerificationEmailTemplateInput : Represents a request to retrieve an existing custom verification email template.
+    /// - Parameter input: Represents a request to retrieve an existing custom verification email template. (Type: `GetCustomVerificationEmailTemplateInput`)
     ///
-    /// - Returns: `GetCustomVerificationEmailTemplateOutput` : The following elements are returned by the service.
+    /// - Returns: The following elements are returned by the service. (Type: `GetCustomVerificationEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2941,9 +2941,9 @@ extension SESv2Client {
     ///
     /// Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
     ///
-    /// - Parameter GetDedicatedIpInput : A request to obtain more information about a dedicated IP address.
+    /// - Parameter input: A request to obtain more information about a dedicated IP address. (Type: `GetDedicatedIpInput`)
     ///
-    /// - Returns: `GetDedicatedIpOutput` : Information about a dedicated IP address.
+    /// - Returns: Information about a dedicated IP address. (Type: `GetDedicatedIpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3008,9 +3008,9 @@ extension SESv2Client {
     ///
     /// Retrieve information about the dedicated pool.
     ///
-    /// - Parameter GetDedicatedIpPoolInput : A request to obtain more information about a dedicated IP pool.
+    /// - Parameter input: A request to obtain more information about a dedicated IP pool. (Type: `GetDedicatedIpPoolInput`)
     ///
-    /// - Returns: `GetDedicatedIpPoolOutput` : The following element is returned by the service.
+    /// - Returns: The following element is returned by the service. (Type: `GetDedicatedIpPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3075,9 +3075,9 @@ extension SESv2Client {
     ///
     /// List the dedicated IP addresses that are associated with your Amazon Web Services account.
     ///
-    /// - Parameter GetDedicatedIpsInput : A request to obtain more information about dedicated IP pools.
+    /// - Parameter input: A request to obtain more information about dedicated IP pools. (Type: `GetDedicatedIpsInput`)
     ///
-    /// - Returns: `GetDedicatedIpsOutput` : Information about the dedicated IP addresses that are associated with your Amazon Web Services account.
+    /// - Returns: Information about the dedicated IP addresses that are associated with your Amazon Web Services account. (Type: `GetDedicatedIpsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3143,9 +3143,9 @@ extension SESv2Client {
     ///
     /// Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
     ///
-    /// - Parameter GetDeliverabilityDashboardOptionsInput : Retrieve information about the status of the Deliverability dashboard for your Amazon Web Services account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for your domains. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
+    /// - Parameter input: Retrieve information about the status of the Deliverability dashboard for your Amazon Web Services account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for your domains. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/). (Type: `GetDeliverabilityDashboardOptionsInput`)
     ///
-    /// - Returns: `GetDeliverabilityDashboardOptionsOutput` : An object that shows the status of the Deliverability dashboard.
+    /// - Returns: An object that shows the status of the Deliverability dashboard. (Type: `GetDeliverabilityDashboardOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3210,9 +3210,9 @@ extension SESv2Client {
     ///
     /// Retrieve the results of a predictive inbox placement test.
     ///
-    /// - Parameter GetDeliverabilityTestReportInput : A request to retrieve the results of a predictive inbox placement test.
+    /// - Parameter input: A request to retrieve the results of a predictive inbox placement test. (Type: `GetDeliverabilityTestReportInput`)
     ///
-    /// - Returns: `GetDeliverabilityTestReportOutput` : The results of the predictive inbox placement test.
+    /// - Returns: The results of the predictive inbox placement test. (Type: `GetDeliverabilityTestReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3277,9 +3277,9 @@ extension SESv2Client {
     ///
     /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
     ///
-    /// - Parameter GetDomainDeliverabilityCampaignInput : Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
+    /// - Parameter input: Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation). (Type: `GetDomainDeliverabilityCampaignInput`)
     ///
-    /// - Returns: `GetDomainDeliverabilityCampaignOutput` : An object that contains all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
+    /// - Returns: An object that contains all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for. (Type: `GetDomainDeliverabilityCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3344,9 +3344,9 @@ extension SESv2Client {
     ///
     /// Retrieve inbox placement and engagement rates for the domains that you use to send email.
     ///
-    /// - Parameter GetDomainStatisticsReportInput : A request to obtain deliverability metrics for a domain.
+    /// - Parameter input: A request to obtain deliverability metrics for a domain. (Type: `GetDomainStatisticsReportInput`)
     ///
-    /// - Returns: `GetDomainStatisticsReportOutput` : An object that includes statistics that are related to the domain that you specified.
+    /// - Returns: An object that includes statistics that are related to the domain that you specified. (Type: `GetDomainStatisticsReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3412,9 +3412,9 @@ extension SESv2Client {
     ///
     /// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings.
     ///
-    /// - Parameter GetEmailIdentityInput : A request to return details about an email identity.
+    /// - Parameter input: A request to return details about an email identity. (Type: `GetEmailIdentityInput`)
     ///
-    /// - Returns: `GetEmailIdentityOutput` : Details about an email identity.
+    /// - Returns: Details about an email identity. (Type: `GetEmailIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3479,9 +3479,9 @@ extension SESv2Client {
     ///
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetEmailIdentityPoliciesInput : A request to return the policies of an email identity.
+    /// - Parameter input: A request to return the policies of an email identity. (Type: `GetEmailIdentityPoliciesInput`)
     ///
-    /// - Returns: `GetEmailIdentityPoliciesOutput` : Identity policies associated with email identity.
+    /// - Returns: Identity policies associated with email identity. (Type: `GetEmailIdentityPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3546,9 +3546,9 @@ extension SESv2Client {
     ///
     /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetEmailTemplateInput : Represents a request to display the template object (which includes the subject line, HTML part and text part) for the template you specify.
+    /// - Parameter input: Represents a request to display the template object (which includes the subject line, HTML part and text part) for the template you specify. (Type: `GetEmailTemplateInput`)
     ///
-    /// - Returns: `GetEmailTemplateOutput` : The following element is returned by the service.
+    /// - Returns: The following element is returned by the service. (Type: `GetEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3613,9 +3613,9 @@ extension SESv2Client {
     ///
     /// Provides information about an export job.
     ///
-    /// - Parameter GetExportJobInput : Represents a request to retrieve information about an export job using the export job ID.
+    /// - Parameter input: Represents a request to retrieve information about an export job using the export job ID. (Type: `GetExportJobInput`)
     ///
-    /// - Returns: `GetExportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `GetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3680,9 +3680,9 @@ extension SESv2Client {
     ///
     /// Provides information about an import job.
     ///
-    /// - Parameter GetImportJobInput : Represents a request for information about an import job using the import job ID.
+    /// - Parameter input: Represents a request for information about an import job using the import job ID. (Type: `GetImportJobInput`)
     ///
-    /// - Returns: `GetImportJobOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `GetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3747,9 +3747,9 @@ extension SESv2Client {
     ///
     /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetMessageInsightsInput : A request to return information about a message.
+    /// - Parameter input: A request to return information about a message. (Type: `GetMessageInsightsInput`)
     ///
-    /// - Returns: `GetMessageInsightsOutput` : Information about a message.
+    /// - Returns: Information about a message. (Type: `GetMessageInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3814,9 +3814,9 @@ extension SESv2Client {
     ///
     /// Displays the multi-region endpoint (global-endpoint) configuration. Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed can be displayed.
     ///
-    /// - Parameter GetMultiRegionEndpointInput : Represents a request to display the multi-region endpoint (global-endpoint).
+    /// - Parameter input: Represents a request to display the multi-region endpoint (global-endpoint). (Type: `GetMultiRegionEndpointInput`)
     ///
-    /// - Returns: `GetMultiRegionEndpointOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `GetMultiRegionEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3881,9 +3881,9 @@ extension SESv2Client {
     ///
     /// Retrieve information about a specific reputation entity, including its reputation management policy, customer-managed status, Amazon Web Services Amazon SES-managed status, and aggregate sending status. Reputation entities represent resources in your Amazon SES account that have reputation tracking and management capabilities. The reputation impact reflects the highest impact reputation finding for the entity. Reputation findings can be retrieved using the ListRecommendations operation.
     ///
-    /// - Parameter GetReputationEntityInput : Represents a request to retrieve information about a specific reputation entity.
+    /// - Parameter input: Represents a request to retrieve information about a specific reputation entity. (Type: `GetReputationEntityInput`)
     ///
-    /// - Returns: `GetReputationEntityOutput` : Information about the requested reputation entity.
+    /// - Returns: Information about the requested reputation entity. (Type: `GetReputationEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3948,9 +3948,9 @@ extension SESv2Client {
     ///
     /// Retrieves information about a specific email address that's on the suppression list for your account.
     ///
-    /// - Parameter GetSuppressedDestinationInput : A request to retrieve information about an email address that's on the suppression list for your account.
+    /// - Parameter input: A request to retrieve information about an email address that's on the suppression list for your account. (Type: `GetSuppressedDestinationInput`)
     ///
-    /// - Returns: `GetSuppressedDestinationOutput` : Information about the suppressed email address.
+    /// - Returns: Information about the suppressed email address. (Type: `GetSuppressedDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4015,9 +4015,9 @@ extension SESv2Client {
     ///
     /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, and sending status.
     ///
-    /// - Parameter GetTenantInput : Represents a request to get information about a specific tenant.
+    /// - Parameter input: Represents a request to get information about a specific tenant. (Type: `GetTenantInput`)
     ///
-    /// - Returns: `GetTenantOutput` : Information about a specific tenant.
+    /// - Returns: Information about a specific tenant. (Type: `GetTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4085,9 +4085,9 @@ extension SESv2Client {
     ///
     /// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
-    /// - Parameter ListConfigurationSetsInput : A request to obtain a list of configuration sets for your Amazon SES account in the current Amazon Web Services Region.
+    /// - Parameter input: A request to obtain a list of configuration sets for your Amazon SES account in the current Amazon Web Services Region. (Type: `ListConfigurationSetsInput`)
     ///
-    /// - Returns: `ListConfigurationSetsOutput` : A list of configuration sets in your Amazon SES account in the current Amazon Web Services Region.
+    /// - Returns: A list of configuration sets in your Amazon SES account in the current Amazon Web Services Region. (Type: `ListConfigurationSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4152,9 +4152,9 @@ extension SESv2Client {
     ///
     /// Lists all of the contact lists available. If your output includes a "NextToken" field with a string value, this indicates there may be additional contacts on the filtered list - regardless of the number of contacts returned.
     ///
-    /// - Parameter ListContactListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactListsInput`)
     ///
-    /// - Returns: `ListContactListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4219,9 +4219,9 @@ extension SESv2Client {
     ///
     /// Lists the contacts present in a specific contact list.
     ///
-    /// - Parameter ListContactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactsInput`)
     ///
-    /// - Returns: `ListContactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4289,9 +4289,9 @@ extension SESv2Client {
     ///
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter ListCustomVerificationEmailTemplatesInput : Represents a request to list the existing custom verification email templates for your account.
+    /// - Parameter input: Represents a request to list the existing custom verification email templates for your account. (Type: `ListCustomVerificationEmailTemplatesInput`)
     ///
-    /// - Returns: `ListCustomVerificationEmailTemplatesOutput` : The following elements are returned by the service.
+    /// - Returns: The following elements are returned by the service. (Type: `ListCustomVerificationEmailTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4356,9 +4356,9 @@ extension SESv2Client {
     ///
     /// List all of the dedicated IP pools that exist in your Amazon Web Services account in the current Region.
     ///
-    /// - Parameter ListDedicatedIpPoolsInput : A request to obtain a list of dedicated IP pools.
+    /// - Parameter input: A request to obtain a list of dedicated IP pools. (Type: `ListDedicatedIpPoolsInput`)
     ///
-    /// - Returns: `ListDedicatedIpPoolsOutput` : A list of dedicated IP pools.
+    /// - Returns: A list of dedicated IP pools. (Type: `ListDedicatedIpPoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4423,9 +4423,9 @@ extension SESv2Client {
     ///
     /// Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
     ///
-    /// - Parameter ListDeliverabilityTestReportsInput : A request to list all of the predictive inbox placement tests that you've performed.
+    /// - Parameter input: A request to list all of the predictive inbox placement tests that you've performed. (Type: `ListDeliverabilityTestReportsInput`)
     ///
-    /// - Returns: `ListDeliverabilityTestReportsOutput` : A list of the predictive inbox placement test reports that are available for your account, regardless of whether or not those tests are complete.
+    /// - Returns: A list of the predictive inbox placement test reports that are available for your account, regardless of whether or not those tests are complete. (Type: `ListDeliverabilityTestReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4491,9 +4491,9 @@ extension SESv2Client {
     ///
     /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
     ///
-    /// - Parameter ListDomainDeliverabilityCampaignsInput : Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard.
+    /// - Parameter input: Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard. (Type: `ListDomainDeliverabilityCampaignsInput`)
     ///
-    /// - Returns: `ListDomainDeliverabilityCampaignsOutput` : An array of objects that provide deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
+    /// - Returns: An array of objects that provide deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain. (Type: `ListDomainDeliverabilityCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4559,9 +4559,9 @@ extension SESv2Client {
     ///
     /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
     ///
-    /// - Parameter ListEmailIdentitiesInput : A request to list all of the email identities associated with your Amazon Web Services account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.
+    /// - Parameter input: A request to list all of the email identities associated with your Amazon Web Services account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified. (Type: `ListEmailIdentitiesInput`)
     ///
-    /// - Returns: `ListEmailIdentitiesOutput` : A list of all of the identities that you've attempted to verify, regardless of whether or not those identities were successfully verified.
+    /// - Returns: A list of all of the identities that you've attempted to verify, regardless of whether or not those identities were successfully verified. (Type: `ListEmailIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4626,9 +4626,9 @@ extension SESv2Client {
     ///
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
-    /// - Parameter ListEmailTemplatesInput : Represents a request to list the email templates present in your Amazon SES account in the current Amazon Web Services Region. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to list the email templates present in your Amazon SES account in the current Amazon Web Services Region. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). (Type: `ListEmailTemplatesInput`)
     ///
-    /// - Returns: `ListEmailTemplatesOutput` : The following elements are returned by the service.
+    /// - Returns: The following elements are returned by the service. (Type: `ListEmailTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4693,9 +4693,9 @@ extension SESv2Client {
     ///
     /// Lists all of the export jobs.
     ///
-    /// - Parameter ListExportJobsInput : Represents a request to list all export jobs with filters.
+    /// - Parameter input: Represents a request to list all export jobs with filters. (Type: `ListExportJobsInput`)
     ///
-    /// - Returns: `ListExportJobsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `ListExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4762,9 +4762,9 @@ extension SESv2Client {
     ///
     /// Lists all of the import jobs.
     ///
-    /// - Parameter ListImportJobsInput : Represents a request to list all of the import jobs for a data destination within the specified maximum number of import jobs.
+    /// - Parameter input: Represents a request to list all of the import jobs for a data destination within the specified maximum number of import jobs. (Type: `ListImportJobsInput`)
     ///
-    /// - Returns: `ListImportJobsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `ListImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4831,9 +4831,9 @@ extension SESv2Client {
     ///
     /// List the multi-region endpoints (global-endpoints). Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed will be listed.
     ///
-    /// - Parameter ListMultiRegionEndpointsInput : Represents a request to list all the multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed.
+    /// - Parameter input: Represents a request to list all the multi-region endpoints (global-endpoints) whose primary region is the AWS-Region where operation is executed. (Type: `ListMultiRegionEndpointsInput`)
     ///
-    /// - Returns: `ListMultiRegionEndpointsOutput` : The following elements are returned by the service.
+    /// - Returns: The following elements are returned by the service. (Type: `ListMultiRegionEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4898,9 +4898,9 @@ extension SESv2Client {
     ///
     /// Lists the recommendations present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
-    /// - Parameter ListRecommendationsInput : Represents a request to list the existing recommendations for your account.
+    /// - Parameter input: Represents a request to list the existing recommendations for your account. (Type: `ListRecommendationsInput`)
     ///
-    /// - Returns: `ListRecommendationsOutput` : Contains the response to your request to retrieve the list of recommendations for your account.
+    /// - Returns: Contains the response to your request to retrieve the list of recommendations for your account. (Type: `ListRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4968,9 +4968,9 @@ extension SESv2Client {
     ///
     /// List reputation entities in your Amazon SES account in the current Amazon Web Services Region. You can filter the results by entity type, reputation impact, sending status, or entity reference prefix. Reputation entities represent resources in your account that have reputation tracking and management capabilities. Use this operation to get an overview of all entities and their current reputation status.
     ///
-    /// - Parameter ListReputationEntitiesInput : Represents a request to list reputation entities with optional filtering.
+    /// - Parameter input: Represents a request to list reputation entities with optional filtering. (Type: `ListReputationEntitiesInput`)
     ///
-    /// - Returns: `ListReputationEntitiesOutput` : A list of reputation entities in your account.
+    /// - Returns: A list of reputation entities in your account. (Type: `ListReputationEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5037,9 +5037,9 @@ extension SESv2Client {
     ///
     /// List all tenants associated with a specific resource. This operation returns a list of tenants that are associated with the specified resource. This is useful for understanding which tenants are currently using a particular resource such as an email identity, configuration set, or email template.
     ///
-    /// - Parameter ListResourceTenantsInput : Represents a request to list tenants associated with a specific resource.
+    /// - Parameter input: Represents a request to list tenants associated with a specific resource. (Type: `ListResourceTenantsInput`)
     ///
-    /// - Returns: `ListResourceTenantsOutput` : Information about tenants associated with a specific resource.
+    /// - Returns: Information about tenants associated with a specific resource. (Type: `ListResourceTenantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5107,9 +5107,9 @@ extension SESv2Client {
     ///
     /// Retrieves a list of email addresses that are on the suppression list for your account.
     ///
-    /// - Parameter ListSuppressedDestinationsInput : A request to obtain a list of email destinations that are on the suppression list for your account.
+    /// - Parameter input: A request to obtain a list of email destinations that are on the suppression list for your account. (Type: `ListSuppressedDestinationsInput`)
     ///
-    /// - Returns: `ListSuppressedDestinationsOutput` : A list of suppressed email addresses.
+    /// - Returns: A list of suppressed email addresses. (Type: `ListSuppressedDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5175,9 +5175,9 @@ extension SESv2Client {
     ///
     /// Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5243,9 +5243,9 @@ extension SESv2Client {
     ///
     /// List all resources associated with a specific tenant. This operation returns a list of resources (email identities, configuration sets, or email templates) that are associated with the specified tenant. You can optionally filter the results by resource type.
     ///
-    /// - Parameter ListTenantResourcesInput : Represents a request to list resources associated with a specific tenant.
+    /// - Parameter input: Represents a request to list resources associated with a specific tenant. (Type: `ListTenantResourcesInput`)
     ///
-    /// - Returns: `ListTenantResourcesOutput` : Information about resources associated with a specific tenant.
+    /// - Returns: Information about resources associated with a specific tenant. (Type: `ListTenantResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5313,9 +5313,9 @@ extension SESv2Client {
     ///
     /// List all tenants associated with your account in the current Amazon Web Services Region. This operation returns basic information about each tenant, such as tenant name, ID, ARN, and creation timestamp.
     ///
-    /// - Parameter ListTenantsInput : Represents a request to list all tenants associated with your account in the current Amazon Web Services Region.
+    /// - Parameter input: Represents a request to list all tenants associated with your account in the current Amazon Web Services Region. (Type: `ListTenantsInput`)
     ///
-    /// - Returns: `ListTenantsOutput` : Information about tenants associated with your account.
+    /// - Returns: Information about tenants associated with your account. (Type: `ListTenantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5382,9 +5382,9 @@ extension SESv2Client {
     ///
     /// Enable or disable the automatic warm-up feature for dedicated IP addresses.
     ///
-    /// - Parameter PutAccountDedicatedIpWarmupAttributesInput : A request to enable or disable the automatic IP address warm-up feature.
+    /// - Parameter input: A request to enable or disable the automatic IP address warm-up feature. (Type: `PutAccountDedicatedIpWarmupAttributesInput`)
     ///
-    /// - Returns: `PutAccountDedicatedIpWarmupAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutAccountDedicatedIpWarmupAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5451,9 +5451,9 @@ extension SESv2Client {
     ///
     /// Update your Amazon SES account details.
     ///
-    /// - Parameter PutAccountDetailsInput : A request to submit new account details.
+    /// - Parameter input: A request to submit new account details. (Type: `PutAccountDetailsInput`)
     ///
-    /// - Returns: `PutAccountDetailsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutAccountDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5521,9 +5521,9 @@ extension SESv2Client {
     ///
     /// Enable or disable the ability of your account to send email.
     ///
-    /// - Parameter PutAccountSendingAttributesInput : A request to change the ability of your account to send email.
+    /// - Parameter input: A request to change the ability of your account to send email. (Type: `PutAccountSendingAttributesInput`)
     ///
-    /// - Returns: `PutAccountSendingAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutAccountSendingAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5590,9 +5590,9 @@ extension SESv2Client {
     ///
     /// Change the settings for the account-level suppression list.
     ///
-    /// - Parameter PutAccountSuppressionAttributesInput : A request to change your account's suppression preferences.
+    /// - Parameter input: A request to change your account's suppression preferences. (Type: `PutAccountSuppressionAttributesInput`)
     ///
-    /// - Returns: `PutAccountSuppressionAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutAccountSuppressionAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5659,9 +5659,9 @@ extension SESv2Client {
     ///
     /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second.
     ///
-    /// - Parameter PutAccountVdmAttributesInput : A request to submit new account VDM attributes.
+    /// - Parameter input: A request to submit new account VDM attributes. (Type: `PutAccountVdmAttributesInput`)
     ///
-    /// - Returns: `PutAccountVdmAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountVdmAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5728,9 +5728,9 @@ extension SESv2Client {
     ///
     /// Associate the configuration set with a MailManager archive. When you send email using the SendEmail or SendBulkEmail operations the message as it will be given to the receiving SMTP server will be archived, along with the recipient information.
     ///
-    /// - Parameter PutConfigurationSetArchivingOptionsInput : A request to associate a configuration set with a MailManager archive.
+    /// - Parameter input: A request to associate a configuration set with a MailManager archive. (Type: `PutConfigurationSetArchivingOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetArchivingOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetArchivingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5798,9 +5798,9 @@ extension SESv2Client {
     ///
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
     ///
-    /// - Parameter PutConfigurationSetDeliveryOptionsInput : A request to associate a configuration set with a dedicated IP pool.
+    /// - Parameter input: A request to associate a configuration set with a dedicated IP pool. (Type: `PutConfigurationSetDeliveryOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetDeliveryOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetDeliveryOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5868,9 +5868,9 @@ extension SESv2Client {
     ///
     /// Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific Amazon Web Services Region.
     ///
-    /// - Parameter PutConfigurationSetReputationOptionsInput : A request to enable or disable tracking of reputation metrics for a configuration set.
+    /// - Parameter input: A request to enable or disable tracking of reputation metrics for a configuration set. (Type: `PutConfigurationSetReputationOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetReputationOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetReputationOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5938,9 +5938,9 @@ extension SESv2Client {
     ///
     /// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region.
     ///
-    /// - Parameter PutConfigurationSetSendingOptionsInput : A request to enable or disable the ability of Amazon SES to send emails that use a specific configuration set.
+    /// - Parameter input: A request to enable or disable the ability of Amazon SES to send emails that use a specific configuration set. (Type: `PutConfigurationSetSendingOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetSendingOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetSendingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6008,9 +6008,9 @@ extension SESv2Client {
     ///
     /// Specify the account suppression list preferences for a configuration set.
     ///
-    /// - Parameter PutConfigurationSetSuppressionOptionsInput : A request to change the account suppression list preferences for a specific configuration set.
+    /// - Parameter input: A request to change the account suppression list preferences for a specific configuration set. (Type: `PutConfigurationSetSuppressionOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetSuppressionOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetSuppressionOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6078,9 +6078,9 @@ extension SESv2Client {
     ///
     /// Specify a custom domain to use for open and click tracking elements in email that you send.
     ///
-    /// - Parameter PutConfigurationSetTrackingOptionsInput : A request to add a custom domain for tracking open and click events to a configuration set.
+    /// - Parameter input: A request to add a custom domain for tracking open and click events to a configuration set. (Type: `PutConfigurationSetTrackingOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetTrackingOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetTrackingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6148,9 +6148,9 @@ extension SESv2Client {
     ///
     /// Specify VDM preferences for email that you send using the configuration set. You can execute this operation no more than once per second.
     ///
-    /// - Parameter PutConfigurationSetVdmOptionsInput : A request to add specific VDM settings to a configuration set.
+    /// - Parameter input: A request to add specific VDM settings to a configuration set. (Type: `PutConfigurationSetVdmOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetVdmOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetVdmOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6218,9 +6218,9 @@ extension SESv2Client {
     ///
     /// Move a dedicated IP address to an existing dedicated IP pool. The dedicated IP address that you specify must already exist, and must be associated with your Amazon Web Services account. The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation.
     ///
-    /// - Parameter PutDedicatedIpInPoolInput : A request to move a dedicated IP address to a dedicated IP pool.
+    /// - Parameter input: A request to move a dedicated IP address to a dedicated IP pool. (Type: `PutDedicatedIpInPoolInput`)
     ///
-    /// - Returns: `PutDedicatedIpInPoolOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutDedicatedIpInPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6288,9 +6288,9 @@ extension SESv2Client {
     ///
     /// Used to convert a dedicated IP pool to a different scaling mode. MANAGED pools cannot be converted to STANDARD scaling mode.
     ///
-    /// - Parameter PutDedicatedIpPoolScalingAttributesInput : A request to convert a dedicated IP pool to a different scaling mode.
+    /// - Parameter input: A request to convert a dedicated IP pool to a different scaling mode. (Type: `PutDedicatedIpPoolScalingAttributesInput`)
     ///
-    /// - Returns: `PutDedicatedIpPoolScalingAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutDedicatedIpPoolScalingAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6359,9 +6359,9 @@ extension SESv2Client {
     ///
     ///
     ///
-    /// - Parameter PutDedicatedIpWarmupAttributesInput : A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address.
+    /// - Parameter input: A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address. (Type: `PutDedicatedIpWarmupAttributesInput`)
     ///
-    /// - Returns: `PutDedicatedIpWarmupAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutDedicatedIpWarmupAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6429,9 +6429,9 @@ extension SESv2Client {
     ///
     /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon SES Pricing](http://aws.amazon.com/ses/pricing/).
     ///
-    /// - Parameter PutDeliverabilityDashboardOptionInput : Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon SES API v2. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
+    /// - Parameter input: Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon SES API v2. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/). (Type: `PutDeliverabilityDashboardOptionInput`)
     ///
-    /// - Returns: `PutDeliverabilityDashboardOptionOutput` : A response that indicates whether the Deliverability dashboard is enabled.
+    /// - Returns: A response that indicates whether the Deliverability dashboard is enabled. (Type: `PutDeliverabilityDashboardOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6501,9 +6501,9 @@ extension SESv2Client {
     ///
     /// Used to associate a configuration set with an email identity.
     ///
-    /// - Parameter PutEmailIdentityConfigurationSetAttributesInput : A request to associate a configuration set with an email identity.
+    /// - Parameter input: A request to associate a configuration set with an email identity. (Type: `PutEmailIdentityConfigurationSetAttributesInput`)
     ///
-    /// - Returns: `PutEmailIdentityConfigurationSetAttributesOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `PutEmailIdentityConfigurationSetAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6571,9 +6571,9 @@ extension SESv2Client {
     ///
     /// Used to enable or disable DKIM authentication for an email identity.
     ///
-    /// - Parameter PutEmailIdentityDkimAttributesInput : A request to enable or disable DKIM signing of email that you send from an email identity.
+    /// - Parameter input: A request to enable or disable DKIM signing of email that you send from an email identity. (Type: `PutEmailIdentityDkimAttributesInput`)
     ///
-    /// - Returns: `PutEmailIdentityDkimAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutEmailIdentityDkimAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6653,9 +6653,9 @@ extension SESv2Client {
     ///
     /// * Change from using BYODKIM to using Easy DKIM.
     ///
-    /// - Parameter PutEmailIdentityDkimSigningAttributesInput : A request to change the DKIM attributes for an email identity.
+    /// - Parameter input: A request to change the DKIM attributes for an email identity. (Type: `PutEmailIdentityDkimSigningAttributesInput`)
     ///
-    /// - Returns: `PutEmailIdentityDkimSigningAttributesOutput` : If the action is successful, the service sends back an HTTP 200 response. The following data is returned in JSON format by the service.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response. The following data is returned in JSON format by the service. (Type: `PutEmailIdentityDkimSigningAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6723,9 +6723,9 @@ extension SESv2Client {
     ///
     /// Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
     ///
-    /// - Parameter PutEmailIdentityFeedbackAttributesInput : A request to set the attributes that control how bounce and complaint events are processed.
+    /// - Parameter input: A request to set the attributes that control how bounce and complaint events are processed. (Type: `PutEmailIdentityFeedbackAttributesInput`)
     ///
-    /// - Returns: `PutEmailIdentityFeedbackAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutEmailIdentityFeedbackAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6793,9 +6793,9 @@ extension SESv2Client {
     ///
     /// Used to enable or disable the custom Mail-From domain configuration for an email identity.
     ///
-    /// - Parameter PutEmailIdentityMailFromAttributesInput : A request to configure the custom MAIL FROM domain for a verified identity.
+    /// - Parameter input: A request to configure the custom MAIL FROM domain for a verified identity. (Type: `PutEmailIdentityMailFromAttributesInput`)
     ///
-    /// - Returns: `PutEmailIdentityMailFromAttributesOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutEmailIdentityMailFromAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6863,9 +6863,9 @@ extension SESv2Client {
     ///
     /// Adds an email address to the suppression list for your account.
     ///
-    /// - Parameter PutSuppressedDestinationInput : A request to add an email destination to the suppression list for your account.
+    /// - Parameter input: A request to add an email destination to the suppression list for your account. (Type: `PutSuppressedDestinationInput`)
     ///
-    /// - Returns: `PutSuppressedDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutSuppressedDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6932,9 +6932,9 @@ extension SESv2Client {
     ///
     /// Composes an email message to multiple destinations.
     ///
-    /// - Parameter SendBulkEmailInput : Represents a request to send email messages to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to send email messages to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). (Type: `SendBulkEmailInput`)
     ///
-    /// - Returns: `SendBulkEmailOutput` : The following data is returned in JSON format by the service.
+    /// - Returns: The following data is returned in JSON format by the service. (Type: `SendBulkEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7007,9 +7007,9 @@ extension SESv2Client {
     ///
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter SendCustomVerificationEmailInput : Represents a request to send a custom verification email to a specified recipient.
+    /// - Parameter input: Represents a request to send a custom verification email to a specified recipient. (Type: `SendCustomVerificationEmailInput`)
     ///
-    /// - Returns: `SendCustomVerificationEmailOutput` : The following element is returned by the service.
+    /// - Returns: The following element is returned by the service. (Type: `SendCustomVerificationEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7087,9 +7087,9 @@ extension SESv2Client {
     ///
     /// * Templated – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.
     ///
-    /// - Parameter SendEmailInput : Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-formatted.html).
+    /// - Parameter input: Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-formatted.html). (Type: `SendEmailInput`)
     ///
-    /// - Returns: `SendEmailOutput` : A unique message ID that you receive when an email is accepted for sending.
+    /// - Returns: A unique message ID that you receive when an email is accepted for sending. (Type: `SendEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7162,9 +7162,9 @@ extension SESv2Client {
     ///
     /// Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7233,9 +7233,9 @@ extension SESv2Client {
     ///
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
     ///
-    /// - Parameter TestRenderEmailTemplateInput : >Represents a request to create a preview of the MIME content of an email when provided with a template and a set of replacement data.
+    /// - Parameter input: >Represents a request to create a preview of the MIME content of an email when provided with a template and a set of replacement data. (Type: `TestRenderEmailTemplateInput`)
     ///
-    /// - Returns: `TestRenderEmailTemplateOutput` : The following element is returned by the service.
+    /// - Returns: The following element is returned by the service. (Type: `TestRenderEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7303,9 +7303,9 @@ extension SESv2Client {
     ///
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7372,9 +7372,9 @@ extension SESv2Client {
     ///
     /// Update the configuration of an event destination for a configuration set. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
     ///
-    /// - Parameter UpdateConfigurationSetEventDestinationInput : A request to change the settings for an event destination for a configuration set.
+    /// - Parameter input: A request to change the settings for an event destination for a configuration set. (Type: `UpdateConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `UpdateConfigurationSetEventDestinationOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `UpdateConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7442,9 +7442,9 @@ extension SESv2Client {
     ///
     /// Updates a contact's preferences for a list. You must specify all existing topic preferences in the TopicPreferences object, not just the ones that need updating; otherwise, all your existing preferences will be removed.
     ///
-    /// - Parameter UpdateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactInput`)
     ///
-    /// - Returns: `UpdateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7513,9 +7513,9 @@ extension SESv2Client {
     ///
     /// Updates contact list metadata. This operation does a complete replacement.
     ///
-    /// - Parameter UpdateContactListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactListInput`)
     ///
-    /// - Returns: `UpdateContactListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7584,9 +7584,9 @@ extension SESv2Client {
     ///
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see [Using custom verification email templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateCustomVerificationEmailTemplateInput : Represents a request to update an existing custom verification email template.
+    /// - Parameter input: Represents a request to update an existing custom verification email template. (Type: `UpdateCustomVerificationEmailTemplateInput`)
     ///
-    /// - Returns: `UpdateCustomVerificationEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `UpdateCustomVerificationEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7654,9 +7654,9 @@ extension SESv2Client {
     ///
     /// Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist. This API is for the identity owner only. If you have not verified the identity, this API will return an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateEmailIdentityPolicyInput : Represents a request to update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
+    /// - Parameter input: Represents a request to update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html). (Type: `UpdateEmailIdentityPolicyInput`)
     ///
-    /// - Returns: `UpdateEmailIdentityPolicyOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `UpdateEmailIdentityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7724,9 +7724,9 @@ extension SESv2Client {
     ///
     /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateEmailTemplateInput : Represents a request to update an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to update an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html). (Type: `UpdateEmailTemplateInput`)
     ///
-    /// - Returns: `UpdateEmailTemplateOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `UpdateEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7794,9 +7794,9 @@ extension SESv2Client {
     ///
     /// Update the customer-managed sending status for a reputation entity. This allows you to enable, disable, or reinstate sending for the entity. The customer-managed status works in conjunction with the Amazon Web Services Amazon SES-managed status to determine the overall sending capability. When you update the customer-managed status, the Amazon Web Services Amazon SES-managed status remains unchanged. If Amazon Web Services Amazon SES has disabled the entity, it will not be allowed to send regardless of the customer-managed status setting. When you reinstate an entity through the customer-managed status, it can continue sending only if the Amazon Web Services Amazon SES-managed status also permits sending, even if there are active reputation findings, until the findings are resolved or new violations occur.
     ///
-    /// - Parameter UpdateReputationEntityCustomerManagedStatusInput : Represents a request to update the customer-managed sending status for a reputation entity.
+    /// - Parameter input: Represents a request to update the customer-managed sending status for a reputation entity. (Type: `UpdateReputationEntityCustomerManagedStatusInput`)
     ///
-    /// - Returns: `UpdateReputationEntityCustomerManagedStatusOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `UpdateReputationEntityCustomerManagedStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7864,9 +7864,9 @@ extension SESv2Client {
     ///
     /// Update the reputation management policy for a reputation entity. The policy determines how the entity responds to reputation findings, such as automatically pausing sending when certain thresholds are exceeded. Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies). You can select from none, standard, and strict policies.
     ///
-    /// - Parameter UpdateReputationEntityPolicyInput : Represents a request to update the reputation management policy for a reputation entity.
+    /// - Parameter input: Represents a request to update the reputation management policy for a reputation entity. (Type: `UpdateReputationEntityPolicyInput`)
     ///
-    /// - Returns: `UpdateReputationEntityPolicyOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `UpdateReputationEntityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

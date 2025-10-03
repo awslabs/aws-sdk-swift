@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SyntheticsClient: ClientRuntime.Client {
     public static let clientName = "SyntheticsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SyntheticsClient.SyntheticsClientConfiguration
     let serviceName = "synthetics"
@@ -372,9 +372,9 @@ extension SyntheticsClient {
     ///
     /// Associates a canary with a group. Using groups can help you with managing and automating your canaries, and you can also view aggregated run results and statistics for all canaries in a group. You must run this operation in the Region where the canary exists.
     ///
-    /// - Parameter AssociateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceInput`)
     ///
-    /// - Returns: `AssociateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension SyntheticsClient {
     ///
     /// Creates a canary. Canaries are scripts that monitor your endpoints and APIs from the outside-in. Canaries help you check the availability and latency of your web services and troubleshoot anomalies by investigating load time data, screenshots of the UI, logs, and metrics. You can set up a canary to run continuously or just once. Do not use CreateCanary to modify an existing canary. Use [UpdateCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_UpdateCanary.html) instead. To create canaries, you must have the CloudWatchSyntheticsFullAccess policy. If you are creating a new IAM role for the canary, you also need the iam:CreateRole, iam:CreatePolicy and iam:AttachRolePolicy permissions. For more information, see [Necessary Roles and Permissions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Roles). Do not include secrets or proprietary information in your canary names. The canary name makes up part of the Amazon Resource Name (ARN) for the canary, and the ARN is included in outbound calls over the internet. For more information, see [Security Considerations for Synthetics Canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html).
     ///
-    /// - Parameter CreateCanaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCanaryInput`)
     ///
-    /// - Returns: `CreateCanaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCanaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension SyntheticsClient {
     ///
     /// Creates a group which you can use to associate canaries with each other, including cross-Region canaries. Using groups can help you with managing and automating your canaries, and you can also view aggregated run results and statistics for all canaries in a group. Groups are global resources. When you create a group, it is replicated across Amazon Web Services Regions, and you can view it and add canaries to it from any Region. Although the group ARN format reflects the Region name where it was created, a group is not constrained to any Region. This means that you can put canaries from multiple Regions into the same group, and then use that group to view and manage all of those canaries in a single view. Groups are supported in all Regions except the Regions that are disabled by default. For more information about these Regions, see [Enabling a Region](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable). Each group can contain as many as 10 canaries. You can have as many as 20 groups in your account. Any single canary can be a member of up to 10 groups.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension SyntheticsClient {
     ///
     /// Before you delete a canary, you might want to use GetCanary to display the information about this canary. Make note of the information returned by this operation so that you can delete these resources after you delete the canary.
     ///
-    /// - Parameter DeleteCanaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCanaryInput`)
     ///
-    /// - Returns: `DeleteCanaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCanaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension SyntheticsClient {
     ///
     /// Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in the group, they are not deleted when you delete the group. Groups are a global resource that appear in all Regions, but the request to delete a group must be made from its home Region. You can find the home Region of a group within its ARN.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -728,9 +728,9 @@ extension SyntheticsClient {
     ///
     /// This operation returns a list of the canaries in your account, along with full details about each canary. This operation supports resource-level authorization using an IAM policy and the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see [ Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
     ///
-    /// - Parameter DescribeCanariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCanariesInput`)
     ///
-    /// - Returns: `DescribeCanariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCanariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -796,9 +796,9 @@ extension SyntheticsClient {
     ///
     /// Use this operation to see information from the most recent run of each canary that you have created. This operation supports resource-level authorization using an IAM policy and the Names parameter. If you specify the Names parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see [ Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
     ///
-    /// - Parameter DescribeCanariesLastRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCanariesLastRunInput`)
     ///
-    /// - Returns: `DescribeCanariesLastRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCanariesLastRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -864,9 +864,9 @@ extension SyntheticsClient {
     ///
     /// Returns a list of Synthetics canary runtime versions. For more information, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
     ///
-    /// - Parameter DescribeRuntimeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRuntimeVersionsInput`)
     ///
-    /// - Returns: `DescribeRuntimeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRuntimeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,9 +932,9 @@ extension SyntheticsClient {
     ///
     /// Removes a canary from a group. You must run this operation in the Region where the canary exists.
     ///
-    /// - Parameter DisassociateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceInput`)
     ///
-    /// - Returns: `DisassociateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,9 +1002,9 @@ extension SyntheticsClient {
     ///
     /// Retrieves complete information about one canary. You must specify the name of the canary that you want. To get a list of canaries and their names, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
     ///
-    /// - Parameter GetCanaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCanaryInput`)
     ///
-    /// - Returns: `GetCanaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCanaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,9 +1068,9 @@ extension SyntheticsClient {
     ///
     /// Retrieves a list of runs for a specified canary.
     ///
-    /// - Parameter GetCanaryRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCanaryRunsInput`)
     ///
-    /// - Returns: `GetCanaryRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCanaryRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1137,9 +1137,9 @@ extension SyntheticsClient {
     ///
     /// Returns information about one group. Groups are a global resource, so you can use this operation from any Region.
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,9 +1204,9 @@ extension SyntheticsClient {
     ///
     /// Returns a list of the groups that the specified canary is associated with. The canary that you specify must be in the current Region.
     ///
-    /// - Parameter ListAssociatedGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedGroupsInput`)
     ///
-    /// - Returns: `ListAssociatedGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,9 +1273,9 @@ extension SyntheticsClient {
     ///
     /// This operation returns a list of the ARNs of the canaries that are associated with the specified group.
     ///
-    /// - Parameter ListGroupResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupResourcesInput`)
     ///
-    /// - Returns: `ListGroupResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,9 +1343,9 @@ extension SyntheticsClient {
     ///
     /// Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups from all Regions are returned.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,9 +1411,9 @@ extension SyntheticsClient {
     ///
     /// Displays the tags associated with a canary or group.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1479,9 +1479,9 @@ extension SyntheticsClient {
     ///
     /// Use this operation to run a canary that has already been created. The frequency of the canary runs is determined by the value of the canary's Schedule. To see a canary's schedule, use [GetCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanary.html).
     ///
-    /// - Parameter StartCanaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCanaryInput`)
     ///
-    /// - Returns: `StartCanaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCanaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1546,9 +1546,9 @@ extension SyntheticsClient {
     ///
     /// Use this operation to start a dry run for a canary that has already been created
     ///
-    /// - Parameter StartCanaryDryRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCanaryDryRunInput`)
     ///
-    /// - Returns: `StartCanaryDryRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCanaryDryRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,9 +1617,9 @@ extension SyntheticsClient {
     ///
     /// Stops the canary to prevent all future runs. If the canary is currently running,the run that is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not recorded in Synthetics as a completed run. You can use StartCanary to start it running again with the canary’s current schedule at any point in the future.
     ///
-    /// - Parameter StopCanaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCanaryInput`)
     ///
-    /// - Returns: `StopCanaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCanaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1684,9 +1684,9 @@ extension SyntheticsClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified canary or group. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a canary or group.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1755,9 +1755,9 @@ extension SyntheticsClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1831,9 +1831,9 @@ extension SyntheticsClient {
     ///
     /// You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html). When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///
-    /// - Parameter UpdateCanaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCanaryInput`)
     ///
-    /// - Returns: `UpdateCanaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCanaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

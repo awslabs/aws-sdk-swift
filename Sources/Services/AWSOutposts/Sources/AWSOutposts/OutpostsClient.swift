@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OutpostsClient: ClientRuntime.Client {
     public static let clientName = "OutpostsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: OutpostsClient.OutpostsClientConfiguration
     let serviceName = "Outposts"
@@ -373,9 +373,9 @@ extension OutpostsClient {
     ///
     /// Cancels the capacity task.
     ///
-    /// - Parameter CancelCapacityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelCapacityTaskInput`)
     ///
-    /// - Returns: `CancelCapacityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelCapacityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,9 +441,9 @@ extension OutpostsClient {
     ///
     /// Cancels the specified order for an Outpost.
     ///
-    /// - Parameter CancelOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelOrderInput`)
     ///
-    /// - Returns: `CancelOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,9 +509,9 @@ extension OutpostsClient {
     ///
     /// Creates an order for an Outpost.
     ///
-    /// - Parameter CreateOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOrderInput`)
     ///
-    /// - Returns: `CreateOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,9 +581,9 @@ extension OutpostsClient {
     ///
     /// Creates an Outpost. You can specify either an Availability one or an AZ ID.
     ///
-    /// - Parameter CreateOutpostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOutpostInput`)
     ///
-    /// - Returns: `CreateOutpostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOutpostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,9 +653,9 @@ extension OutpostsClient {
     ///
     /// Creates a site for an Outpost.
     ///
-    /// - Parameter CreateSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSiteInput`)
     ///
-    /// - Returns: `CreateSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension OutpostsClient {
     ///
     /// Deletes the specified Outpost.
     ///
-    /// - Parameter DeleteOutpostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOutpostInput`)
     ///
-    /// - Returns: `DeleteOutpostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOutpostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,9 +792,9 @@ extension OutpostsClient {
     ///
     /// Deletes the specified site.
     ///
-    /// - Parameter DeleteSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSiteInput`)
     ///
-    /// - Returns: `DeleteSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -860,9 +860,9 @@ extension OutpostsClient {
     ///
     /// Gets details of the specified capacity task.
     ///
-    /// - Parameter GetCapacityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityTaskInput`)
     ///
-    /// - Returns: `GetCapacityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCapacityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,9 +927,9 @@ extension OutpostsClient {
     ///
     /// Gets information about the specified catalog item.
     ///
-    /// - Parameter GetCatalogItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCatalogItemInput`)
     ///
-    /// - Returns: `GetCatalogItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCatalogItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -994,9 +994,9 @@ extension OutpostsClient {
     ///
     /// Amazon Web Services uses this action to install Outpost servers. Gets information about the specified connection. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see [ Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html) and [ Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html) in the Amazon Web Services Outposts User Guide.
     ///
-    /// - Parameter GetConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionInput`)
     ///
-    /// - Returns: `GetConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1061,9 +1061,9 @@ extension OutpostsClient {
     ///
     /// Gets information about the specified order.
     ///
-    /// - Parameter GetOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrderInput`)
     ///
-    /// - Returns: `GetOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,9 +1127,9 @@ extension OutpostsClient {
     ///
     /// Gets information about the specified Outpost.
     ///
-    /// - Parameter GetOutpostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostInput`)
     ///
-    /// - Returns: `GetOutpostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1194,9 +1194,9 @@ extension OutpostsClient {
     ///
     /// Gets current and historical billing information about the specified Outpost.
     ///
-    /// - Parameter GetOutpostBillingInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostBillingInformationInput`)
     ///
-    /// - Returns: `GetOutpostBillingInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostBillingInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1261,9 +1261,9 @@ extension OutpostsClient {
     ///
     /// Gets the instance types for the specified Outpost.
     ///
-    /// - Parameter GetOutpostInstanceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostInstanceTypesInput`)
     ///
-    /// - Returns: `GetOutpostInstanceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,9 +1329,9 @@ extension OutpostsClient {
     ///
     /// Gets the instance types that an Outpost can support in InstanceTypeCapacity. This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration.
     ///
-    /// - Parameter GetOutpostSupportedInstanceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostSupportedInstanceTypesInput`)
     ///
-    /// - Returns: `GetOutpostSupportedInstanceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostSupportedInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1397,9 +1397,9 @@ extension OutpostsClient {
     ///
     /// Gets information about the specified Outpost site.
     ///
-    /// - Parameter GetSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSiteInput`)
     ///
-    /// - Returns: `GetSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1464,9 +1464,9 @@ extension OutpostsClient {
     ///
     /// Gets the site address of the specified site.
     ///
-    /// - Parameter GetSiteAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSiteAddressInput`)
     ///
-    /// - Returns: `GetSiteAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSiteAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1532,9 +1532,9 @@ extension OutpostsClient {
     ///
     /// A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost. Does not include Amazon EBS or Amazon S3 instances.
     ///
-    /// - Parameter ListAssetInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetInstancesInput`)
     ///
-    /// - Returns: `ListAssetInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1600,9 +1600,9 @@ extension OutpostsClient {
     ///
     /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetsInput`)
     ///
-    /// - Returns: `ListAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1668,9 +1668,9 @@ extension OutpostsClient {
     ///
     /// A list of Amazon EC2 instances running on the Outpost and belonging to the account that initiated the capacity task. Use this list to specify the instances you cannot stop to free up capacity to run the capacity task.
     ///
-    /// - Parameter ListBlockingInstancesForCapacityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBlockingInstancesForCapacityTaskInput`)
     ///
-    /// - Returns: `ListBlockingInstancesForCapacityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBlockingInstancesForCapacityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1736,9 +1736,9 @@ extension OutpostsClient {
     ///
     /// Lists the capacity tasks for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListCapacityTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCapacityTasksInput`)
     ///
-    /// - Returns: `ListCapacityTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCapacityTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,9 +1804,9 @@ extension OutpostsClient {
     ///
     /// Lists the items in the catalog. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListCatalogItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCatalogItemsInput`)
     ///
-    /// - Returns: `ListCatalogItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCatalogItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,9 +1872,9 @@ extension OutpostsClient {
     ///
     /// Lists the Outpost orders for your Amazon Web Services account.
     ///
-    /// - Parameter ListOrdersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrdersInput`)
     ///
-    /// - Returns: `ListOrdersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrdersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1940,9 +1940,9 @@ extension OutpostsClient {
     ///
     /// Lists the Outposts for your Amazon Web Services account. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListOutpostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOutpostsInput`)
     ///
-    /// - Returns: `ListOutpostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOutpostsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2007,9 +2007,9 @@ extension OutpostsClient {
     ///
     /// Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match all of the specified filters. For a filter where you can specify multiple values, the results include items that match any of the values that you specify for the filter.
     ///
-    /// - Parameter ListSitesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSitesInput`)
     ///
-    /// - Returns: `ListSitesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2074,9 +2074,9 @@ extension OutpostsClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2140,9 +2140,9 @@ extension OutpostsClient {
     ///
     /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost.
     ///
-    /// - Parameter StartCapacityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCapacityTaskInput`)
     ///
-    /// - Returns: `StartCapacityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCapacityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2211,9 +2211,9 @@ extension OutpostsClient {
     ///
     /// Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see [ Amazon Web Services managed policies for Amazon Web Services Outposts](https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html) and [ Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail](https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html) in the Amazon Web Services Outposts User Guide.
     ///
-    /// - Parameter StartConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConnectionInput`)
     ///
-    /// - Returns: `StartConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2281,9 +2281,9 @@ extension OutpostsClient {
     ///
     /// Adds tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2350,9 +2350,9 @@ extension OutpostsClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2417,9 +2417,9 @@ extension OutpostsClient {
     ///
     /// Updates an Outpost.
     ///
-    /// - Parameter UpdateOutpostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOutpostInput`)
     ///
-    /// - Returns: `UpdateOutpostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOutpostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2488,9 +2488,9 @@ extension OutpostsClient {
     ///
     /// Updates the specified site.
     ///
-    /// - Parameter UpdateSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSiteInput`)
     ///
-    /// - Returns: `UpdateSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2559,9 +2559,9 @@ extension OutpostsClient {
     ///
     /// Updates the address of the specified site. You can't update a site address if there is an order in progress. You must wait for the order to complete or cancel the order. You can update the operating address before you place an order at the site, or after all Outposts that belong to the site have been deactivated.
     ///
-    /// - Parameter UpdateSiteAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSiteAddressInput`)
     ///
-    /// - Returns: `UpdateSiteAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSiteAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2630,9 +2630,9 @@ extension OutpostsClient {
     ///
     /// Update the physical and logistical details for a rack at a site. For more information about hardware requirements for racks, see [Network readiness checklist](https://docs.aws.amazon.com/outposts/latest/userguide/outposts-requirements.html#checklist) in the Amazon Web Services Outposts User Guide. To update a rack at a site with an order of IN_PROGRESS, you must wait for the order to complete or cancel the order.
     ///
-    /// - Parameter UpdateSiteRackPhysicalPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSiteRackPhysicalPropertiesInput`)
     ///
-    /// - Returns: `UpdateSiteRackPhysicalPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSiteRackPhysicalPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

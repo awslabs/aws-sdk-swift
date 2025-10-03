@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointSMSVoiceV2Client: ClientRuntime.Client {
     public static let clientName = "PinpointSMSVoiceV2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointSMSVoiceV2Client.PinpointSMSVoiceV2ClientConfiguration
     let serviceName = "Pinpoint SMS Voice V2"
@@ -374,9 +374,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Associates the specified origination identity with a pool. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools. If the origination identity configuration doesn't match the pool's configuration, an error is returned.
     ///
-    /// - Parameter AssociateOriginationIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateOriginationIdentityInput`)
     ///
-    /// - Returns: `AssociateOriginationIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateOriginationIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Associate a protect configuration with a configuration set. This replaces the configuration sets current protect configuration. A configuration set can only be associated with one protect configuration at a time. A protect configuration can be associated with multiple configuration sets.
     ///
-    /// - Parameter AssociateProtectConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateProtectConfigurationInput`)
     ///
-    /// - Returns: `AssociateProtectConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateProtectConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it. A configuration set is a set of rules that you apply to the SMS and voice messages that you send. When you send a message, you can optionally specify a single configuration set.
     ///
-    /// - Parameter CreateConfigurationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationSetInput`)
     ///
-    /// - Returns: `CreateConfigurationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -596,9 +596,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates a new event destination in a configuration set. An event destination is a location where you send message events. The event options are Amazon CloudWatch, Amazon Data Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can send information about that event to an event destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic. You can only create one event destination at a time. You must provide a value for a single event destination using either CloudWatchLogsDestination, KinesisFirehoseDestination or SnsDestination. If an event destination isn't provided then an exception is returned. Each configuration set can contain between 0 and 5 event destinations. Each event destination can contain a reference to a single destination, such as a CloudWatch or Firehose destination.
     ///
-    /// - Parameter CreateEventDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventDestinationInput`)
     ///
-    /// - Returns: `CreateEventDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see [ SMS opt out ](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-manage.html#channels-sms-manage-optout) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter CreateOptOutListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOptOutListInput`)
     ///
-    /// - Returns: `CreateOptOutListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOptOutListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates a new pool and associates the specified origination identity to the pool. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. The new pool inherits its configuration from the specified origination identity. This includes keywords, message type, opt-out list, two-way configuration, and self-managed opt-out configuration. Deletion protection isn't inherited from the origination identity and defaults to false. If the origination identity is a phone number and is already associated with another pool, an error is returned. A sender ID can be associated with multiple pools.
     ///
-    /// - Parameter CreatePoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePoolInput`)
     ///
-    /// - Returns: `CreatePoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,9 +820,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Create a new protect configuration. By default all country rule sets for each capability are set to ALLOW. Update the country rule sets using UpdateProtectConfigurationCountryRuleSet. A protect configurations name is stored as a Tag with the key set to Name and value as the name of the protect configuration.
     ///
-    /// - Parameter CreateProtectConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProtectConfigurationInput`)
     ///
-    /// - Returns: `CreateProtectConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProtectConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -894,9 +894,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates a new registration based on the RegistrationType field.
     ///
-    /// - Parameter CreateRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegistrationInput`)
     ///
-    /// - Returns: `CreateRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,9 +968,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Associate the registration with an origination identity such as a phone number or sender ID.
     ///
-    /// - Parameter CreateRegistrationAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegistrationAssociationInput`)
     ///
-    /// - Returns: `CreateRegistrationAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegistrationAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,9 +1042,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     ///
-    /// - Parameter CreateRegistrationAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegistrationAttachmentInput`)
     ///
-    /// - Returns: `CreateRegistrationAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegistrationAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,9 +1116,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Create a new version of the registration and increase the VersionNumber. The previous version of the registration becomes read-only.
     ///
-    /// - Parameter CreateRegistrationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegistrationVersionInput`)
     ///
-    /// - Returns: `CreateRegistrationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegistrationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1190,9 +1190,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// You can only send messages to verified destination numbers when your account is in the sandbox. You can add up to 10 verified destination numbers.
     ///
-    /// - Parameter CreateVerifiedDestinationNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVerifiedDestinationNumberInput`)
     ///
-    /// - Returns: `CreateVerifiedDestinationNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVerifiedDestinationNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1264,9 +1264,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Removes the current account default protect configuration.
     ///
-    /// - Parameter DeleteAccountDefaultProtectConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountDefaultProtectConfigurationInput`)
     ///
-    /// - Returns: `DeleteAccountDefaultProtectConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountDefaultProtectConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1336,9 +1336,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an existing configuration set. A configuration set is a set of rules that you apply to voice and SMS messages that you send. In a configuration set, you can specify a destination for specific types of events related to voice and SMS messages.
     ///
-    /// - Parameter DeleteConfigurationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationSetInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1408,9 +1408,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an existing default message type on a configuration set. A message type is a type of messages that you plan to send. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.
     ///
-    /// - Parameter DeleteDefaultMessageTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDefaultMessageTypeInput`)
     ///
-    /// - Returns: `DeleteDefaultMessageTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDefaultMessageTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,9 +1480,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an existing default sender ID on a configuration set. A default sender ID is the identity that appears on recipients' devices when they receive SMS messages. Support for sender ID capabilities varies by country or region.
     ///
-    /// - Parameter DeleteDefaultSenderIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDefaultSenderIdInput`)
     ///
-    /// - Returns: `DeleteDefaultSenderIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDefaultSenderIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1552,9 +1552,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an existing event destination. An event destination is a location where you send response information about the messages that you send. For example, when a message is delivered successfully, you can send information about that event to an Amazon CloudWatch destination, or send notifications to endpoints that are subscribed to an Amazon SNS topic.
     ///
-    /// - Parameter DeleteEventDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventDestinationInput`)
     ///
-    /// - Returns: `DeleteEventDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1624,9 +1624,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
     ///
-    /// - Parameter DeleteKeywordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeywordInput`)
     ///
-    /// - Returns: `DeleteKeywordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeywordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1697,9 +1697,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an account-level monthly spending limit override for sending multimedia messages (MMS). Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see [Quotas for Server Migration Service](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the Server Migration Service User Guide.
     ///
-    /// - Parameter DeleteMediaMessageSpendLimitOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMediaMessageSpendLimitOverrideInput`)
     ///
-    /// - Returns: `DeleteMediaMessageSpendLimitOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMediaMessageSpendLimitOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1768,9 +1768,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted. If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
     ///
-    /// - Parameter DeleteOptOutListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOptOutListInput`)
     ///
-    /// - Returns: `DeleteOptOutListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOptOutListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1841,9 +1841,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an existing opted out destination phone number from the specified opt-out list. Each destination phone number can only be deleted once every 30 days. If the specified destination phone number doesn't exist or if the opt-out list doesn't exist, an error is returned.
     ///
-    /// - Parameter DeleteOptedOutNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOptedOutNumberInput`)
     ///
-    /// - Returns: `DeleteOptedOutNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOptedOutNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1914,9 +1914,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool. If the pool status isn't active or if deletion protection is enabled, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
     ///
-    /// - Parameter DeletePoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePoolInput`)
     ///
-    /// - Returns: `DeletePoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1987,9 +1987,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Permanently delete the protect configuration. The protect configuration must have deletion protection disabled and must not be associated as the account default protect configuration or associated with a configuration set.
     ///
-    /// - Parameter DeleteProtectConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProtectConfigurationInput`)
     ///
-    /// - Returns: `DeleteProtectConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProtectConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2060,9 +2060,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Permanently delete the protect configuration rule set number override.
     ///
-    /// - Parameter DeleteProtectConfigurationRuleSetNumberOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProtectConfigurationRuleSetNumberOverrideInput`)
     ///
-    /// - Returns: `DeleteProtectConfigurationRuleSetNumberOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProtectConfigurationRuleSetNumberOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2132,9 +2132,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Permanently delete an existing registration from your account.
     ///
-    /// - Parameter DeleteRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegistrationInput`)
     ///
-    /// - Returns: `DeleteRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2205,9 +2205,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Permanently delete the specified registration attachment.
     ///
-    /// - Parameter DeleteRegistrationAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegistrationAttachmentInput`)
     ///
-    /// - Returns: `DeleteRegistrationAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegistrationAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2278,9 +2278,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Delete the value in a registration form field.
     ///
-    /// - Parameter DeleteRegistrationFieldValueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegistrationFieldValueInput`)
     ///
-    /// - Returns: `DeleteRegistrationFieldValueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegistrationFieldValueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2351,9 +2351,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes the resource-based policy document attached to the AWS End User Messaging SMS and Voice resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2423,9 +2423,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter DeleteTextMessageSpendLimitOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTextMessageSpendLimitOverrideInput`)
     ///
-    /// - Returns: `DeleteTextMessageSpendLimitOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTextMessageSpendLimitOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2494,9 +2494,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Delete a verified destination phone number.
     ///
-    /// - Parameter DeleteVerifiedDestinationNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVerifiedDestinationNumberInput`)
     ///
-    /// - Returns: `DeleteVerifiedDestinationNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVerifiedDestinationNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2567,9 +2567,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter DeleteVoiceMessageSpendLimitOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceMessageSpendLimitOverrideInput`)
     ///
-    /// - Returns: `DeleteVoiceMessageSpendLimitOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceMessageSpendLimitOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2638,9 +2638,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes attributes of your Amazon Web Services account. The supported account attributes include account tier, which indicates whether your account is in the sandbox or production environment. When you're ready to move your account out of the sandbox, create an Amazon Web Services Support case for a service limit increase request. New accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients and SMS or voice recipients from fraud and abuse.
     ///
-    /// - Parameter DescribeAccountAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAttributesInput`)
     ///
-    /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2709,9 +2709,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes the current AWS End User Messaging SMS and Voice SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see [Quotas ](https://docs.aws.amazon.com/sms-voice/latest/userguide/quotas.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter DescribeAccountLimitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountLimitsInput`)
     ///
-    /// - Returns: `DescribeAccountLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2780,9 +2780,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes the specified configuration sets or all in your account. If you specify configuration set names, the output includes information for only the specified configuration sets. If you specify filters, the output includes information for only those configuration sets that meet the filter criteria. If you don't specify configuration set names or filters, the output includes information for all configuration sets. If you specify a configuration set name that isn't valid, an error is returned.
     ///
-    /// - Parameter DescribeConfigurationSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationSetsInput`)
     ///
-    /// - Returns: `DescribeConfigurationSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2852,9 +2852,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     ///
-    /// - Parameter DescribeKeywordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeywordsInput`)
     ///
-    /// - Returns: `DescribeKeywordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeywordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2924,9 +2924,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes the specified opt-out list or all opt-out lists in your account. If you specify opt-out list names, the output includes information for only the specified opt-out lists. Opt-out lists include only those that meet the filter criteria. If you don't specify opt-out list names or filters, the output includes information for all opt-out lists. If you specify an opt-out list name that isn't valid, an error is returned.
     ///
-    /// - Parameter DescribeOptOutListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOptOutListsInput`)
     ///
-    /// - Returns: `DescribeOptOutListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOptOutListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2996,9 +2996,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes the specified opted out destination numbers or all opted out destination numbers in an opt-out list. If you specify opted out numbers, the output includes information for only the specified opted out numbers. If you specify filters, the output includes information for only those opted out numbers that meet the filter criteria. If you don't specify opted out numbers or filters, the output includes information for all opted out destination numbers in your opt-out list. If you specify an opted out number that isn't valid, an exception is returned.
     ///
-    /// - Parameter DescribeOptedOutNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOptedOutNumbersInput`)
     ///
-    /// - Returns: `DescribeOptedOutNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOptedOutNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3068,9 +3068,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes the specified origination phone number, or all the phone numbers in your account. If you specify phone number IDs, the output includes information for only the specified phone numbers. If you specify filters, the output includes information for only those phone numbers that meet the filter criteria. If you don't specify phone number IDs or filters, the output includes information for all phone numbers. If you specify a phone number ID that isn't valid, an error is returned.
     ///
-    /// - Parameter DescribePhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePhoneNumbersInput`)
     ///
-    /// - Returns: `DescribePhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3140,9 +3140,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified pools or all pools associated with your Amazon Web Services account. If you specify pool IDs, the output includes information for only the specified pools. If you specify filters, the output includes information for only those pools that meet the filter criteria. If you don't specify pool IDs or filters, the output includes information for all pools. If you specify a pool ID that isn't valid, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
     ///
-    /// - Parameter DescribePoolsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePoolsInput`)
     ///
-    /// - Returns: `DescribePoolsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3212,9 +3212,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the protect configurations that match any of filters. If a filter isn’t provided then all protect configurations are returned.
     ///
-    /// - Parameter DescribeProtectConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProtectConfigurationsInput`)
     ///
-    /// - Returns: `DescribeProtectConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProtectConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3284,9 +3284,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified registration attachments or all registration attachments associated with your Amazon Web Services account.
     ///
-    /// - Parameter DescribeRegistrationAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistrationAttachmentsInput`)
     ///
-    /// - Returns: `DescribeRegistrationAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistrationAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3356,9 +3356,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified registration type field definitions. You can use DescribeRegistrationFieldDefinitions to view the requirements for creating, filling out, and submitting each registration type.
     ///
-    /// - Parameter DescribeRegistrationFieldDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistrationFieldDefinitionsInput`)
     ///
-    /// - Returns: `DescribeRegistrationFieldDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistrationFieldDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3427,9 +3427,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified registration field values.
     ///
-    /// - Parameter DescribeRegistrationFieldValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistrationFieldValuesInput`)
     ///
-    /// - Returns: `DescribeRegistrationFieldValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistrationFieldValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3499,9 +3499,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified registration section definitions. You can use DescribeRegistrationSectionDefinitions to view the requirements for creating, filling out, and submitting each registration type.
     ///
-    /// - Parameter DescribeRegistrationSectionDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistrationSectionDefinitionsInput`)
     ///
-    /// - Returns: `DescribeRegistrationSectionDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistrationSectionDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3570,9 +3570,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified registration type definitions. You can use DescribeRegistrationTypeDefinitions to view the requirements for creating, filling out, and submitting each registration type.
     ///
-    /// - Parameter DescribeRegistrationTypeDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistrationTypeDefinitionsInput`)
     ///
-    /// - Returns: `DescribeRegistrationTypeDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistrationTypeDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3641,9 +3641,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified registration version.
     ///
-    /// - Parameter DescribeRegistrationVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistrationVersionsInput`)
     ///
-    /// - Returns: `DescribeRegistrationVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistrationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3713,9 +3713,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified registrations.
     ///
-    /// - Parameter DescribeRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistrationsInput`)
     ///
-    /// - Returns: `DescribeRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3785,9 +3785,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes the specified SenderIds or all SenderIds associated with your Amazon Web Services account. If you specify SenderIds, the output includes information for only the specified SenderIds. If you specify filters, the output includes information for only those SenderIds that meet the filter criteria. If you don't specify SenderIds or filters, the output includes information for all SenderIds. f you specify a sender ID that isn't valid, an error is returned.
     ///
-    /// - Parameter DescribeSenderIdsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSenderIdsInput`)
     ///
-    /// - Returns: `DescribeSenderIdsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSenderIdsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3857,9 +3857,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see [ Requesting increases to your monthly SMS, MMS, or Voice spending quota ](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter DescribeSpendLimitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSpendLimitsInput`)
     ///
-    /// - Returns: `DescribeSpendLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSpendLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3928,9 +3928,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the specified verified destination numbers.
     ///
-    /// - Parameter DescribeVerifiedDestinationNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVerifiedDestinationNumbersInput`)
     ///
-    /// - Returns: `DescribeVerifiedDestinationNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVerifiedDestinationNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4000,9 +4000,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Removes the specified origination identity from an existing pool. If the origination identity isn't associated with the specified pool, an error is returned.
     ///
-    /// - Parameter DisassociateOriginationIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateOriginationIdentityInput`)
     ///
-    /// - Returns: `DisassociateOriginationIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateOriginationIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4074,9 +4074,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Disassociate a protect configuration from a configuration set.
     ///
-    /// - Parameter DisassociateProtectConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateProtectConfigurationInput`)
     ///
-    /// - Returns: `DisassociateProtectConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateProtectConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4147,9 +4147,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Discard the current version of the registration.
     ///
-    /// - Parameter DiscardRegistrationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DiscardRegistrationVersionInput`)
     ///
-    /// - Returns: `DiscardRegistrationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DiscardRegistrationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4220,9 +4220,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieve the CountryRuleSet for the specified NumberCapability from a protect configuration.
     ///
-    /// - Parameter GetProtectConfigurationCountryRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProtectConfigurationCountryRuleSetInput`)
     ///
-    /// - Returns: `GetProtectConfigurationCountryRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProtectConfigurationCountryRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4292,9 +4292,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieves the JSON text of the resource-based policy document attached to the AWS End User Messaging SMS and Voice resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4364,9 +4364,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Lists all associated origination identities in your pool. If you specify filters, the output includes information for only those origination identities that meet the filter criteria.
     ///
-    /// - Parameter ListPoolOriginationIdentitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPoolOriginationIdentitiesInput`)
     ///
-    /// - Returns: `ListPoolOriginationIdentitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPoolOriginationIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4436,9 +4436,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieve all of the protect configuration rule set number overrides that match the filters.
     ///
-    /// - Parameter ListProtectConfigurationRuleSetNumberOverridesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProtectConfigurationRuleSetNumberOverridesInput`)
     ///
-    /// - Returns: `ListProtectConfigurationRuleSetNumberOverridesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProtectConfigurationRuleSetNumberOverridesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4508,9 +4508,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Retrieve all of the origination identities that are associated with a registration.
     ///
-    /// - Parameter ListRegistrationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegistrationAssociationsInput`)
     ///
-    /// - Returns: `ListRegistrationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegistrationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4580,9 +4580,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// List all tags associated with a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4652,9 +4652,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     ///
-    /// - Parameter PutKeywordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutKeywordInput`)
     ///
-    /// - Returns: `PutKeywordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutKeywordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4726,9 +4726,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Set the MessageFeedbackStatus as RECEIVED or FAILED for the passed in MessageId. If you use message feedback then you must update message feedback record. When you receive a signal that a user has received the message you must use PutMessageFeedback to set the message feedback record as RECEIVED; Otherwise, an hour after the message feedback record is set to FAILED.
     ///
-    /// - Parameter PutMessageFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMessageFeedbackInput`)
     ///
-    /// - Returns: `PutMessageFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMessageFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4798,9 +4798,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates an opted out destination phone number in the opt-out list. If the destination phone number isn't valid or if the specified opt-out list doesn't exist, an error is returned.
     ///
-    /// - Parameter PutOptedOutNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutOptedOutNumberInput`)
     ///
-    /// - Returns: `PutOptedOutNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutOptedOutNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4870,9 +4870,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Create or update a phone number rule override and associate it with a protect configuration.
     ///
-    /// - Parameter PutProtectConfigurationRuleSetNumberOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProtectConfigurationRuleSetNumberOverrideInput`)
     ///
-    /// - Returns: `PutProtectConfigurationRuleSetNumberOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProtectConfigurationRuleSetNumberOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4944,9 +4944,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates or updates a field value for a registration.
     ///
-    /// - Parameter PutRegistrationFieldValueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRegistrationFieldValueInput`)
     ///
-    /// - Returns: `PutRegistrationFieldValueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRegistrationFieldValueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5017,9 +5017,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Attaches a resource-based policy to a AWS End User Messaging SMS and Voice resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see [Working with shared resources](https://docs.aws.amazon.com/sms-voice/latest/userguide/shared-resources.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5089,9 +5089,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Releases an existing origination phone number in your account. Once released, a phone number is no longer available for sending messages. If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned.
     ///
-    /// - Parameter ReleasePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReleasePhoneNumberInput`)
     ///
-    /// - Returns: `ReleasePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReleasePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5162,9 +5162,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Releases an existing sender ID in your account.
     ///
-    /// - Parameter ReleaseSenderIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReleaseSenderIdInput`)
     ///
-    /// - Returns: `ReleaseSenderIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReleaseSenderIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5235,9 +5235,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Request an origination phone number for use in your account. For more information on phone number request see [Request a phone number](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-request.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter RequestPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RequestPhoneNumberInput`)
     ///
-    /// - Returns: `RequestPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RequestPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5310,9 +5310,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Request a new sender ID that doesn't require registration.
     ///
-    /// - Parameter RequestSenderIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RequestSenderIdInput`)
     ///
-    /// - Returns: `RequestSenderIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RequestSenderIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5384,9 +5384,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Before you can send test messages to a verified destination phone number you need to opt-in the verified destination phone number. Creates a new text message with a verification code and send it to a verified destination phone number. Once you have the verification code use [VerifyDestinationNumber] to opt-in the verified destination phone number to receive messages.
     ///
-    /// - Parameter SendDestinationNumberVerificationCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendDestinationNumberVerificationCodeInput`)
     ///
-    /// - Returns: `SendDestinationNumberVerificationCodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendDestinationNumberVerificationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5458,9 +5458,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates a new multimedia message (MMS) and sends it to a recipient's phone number.
     ///
-    /// - Parameter SendMediaMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendMediaMessageInput`)
     ///
-    /// - Returns: `SendMediaMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendMediaMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5532,9 +5532,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter SendTextMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendTextMessageInput`)
     ///
-    /// - Returns: `SendTextMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendTextMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5606,9 +5606,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Allows you to send a request that sends a voice message. This operation uses [Amazon Polly](http://aws.amazon.com/polly/) to convert a text script into a voice message.
     ///
-    /// - Parameter SendVoiceMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendVoiceMessageInput`)
     ///
-    /// - Returns: `SendVoiceMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendVoiceMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5680,9 +5680,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Set a protect configuration as your account default. You can only have one account default protect configuration at a time. The current account default protect configuration is replaced with the provided protect configuration.
     ///
-    /// - Parameter SetAccountDefaultProtectConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetAccountDefaultProtectConfigurationInput`)
     ///
-    /// - Returns: `SetAccountDefaultProtectConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetAccountDefaultProtectConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5752,9 +5752,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Sets a configuration set's default for message feedback.
     ///
-    /// - Parameter SetDefaultMessageFeedbackEnabledInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetDefaultMessageFeedbackEnabledInput`)
     ///
-    /// - Returns: `SetDefaultMessageFeedbackEnabledOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDefaultMessageFeedbackEnabledOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5824,9 +5824,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Sets the default message type on a configuration set. Choose the category of SMS messages that you plan to send from this account. If you send account-related messages or time-sensitive messages such as one-time passcodes, choose Transactional. If you plan to send messages that contain marketing material or other promotional content, choose Promotional. This setting applies to your entire Amazon Web Services account.
     ///
-    /// - Parameter SetDefaultMessageTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetDefaultMessageTypeInput`)
     ///
-    /// - Returns: `SetDefaultMessageTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDefaultMessageTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5896,9 +5896,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Sets default sender ID on a configuration set. When sending a text message to a destination country that supports sender IDs, the default sender ID on the configuration set specified will be used if no dedicated origination phone numbers or registered sender IDs are available in your account.
     ///
-    /// - Parameter SetDefaultSenderIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetDefaultSenderIdInput`)
     ///
-    /// - Returns: `SetDefaultSenderIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDefaultSenderIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5968,9 +5968,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Sets an account level monthly spend limit override for sending MMS messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
     ///
-    /// - Parameter SetMediaMessageSpendLimitOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetMediaMessageSpendLimitOverrideInput`)
     ///
-    /// - Returns: `SetMediaMessageSpendLimitOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetMediaMessageSpendLimitOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6039,9 +6039,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Sets an account level monthly spend limit override for sending text messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
     ///
-    /// - Parameter SetTextMessageSpendLimitOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetTextMessageSpendLimitOverrideInput`)
     ///
-    /// - Returns: `SetTextMessageSpendLimitOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetTextMessageSpendLimitOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6110,9 +6110,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Sets an account level monthly spend limit override for sending voice messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
     ///
-    /// - Parameter SetVoiceMessageSpendLimitOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetVoiceMessageSpendLimitOverrideInput`)
     ///
-    /// - Returns: `SetVoiceMessageSpendLimitOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetVoiceMessageSpendLimitOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6181,9 +6181,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Submit the specified registration for review and approval.
     ///
-    /// - Parameter SubmitRegistrationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitRegistrationVersionInput`)
     ///
-    /// - Returns: `SubmitRegistrationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitRegistrationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6254,9 +6254,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6327,9 +6327,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Removes the association of the specified tags from a resource. For more information on tags see [Tags ](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-tags.html) in the AWS End User Messaging SMS User Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6399,9 +6399,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS.
     ///
-    /// - Parameter UpdateEventDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventDestinationInput`)
     ///
-    /// - Returns: `UpdateEventDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6472,9 +6472,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Updates the configuration of an existing origination phone number. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed opt-outs, and enable or disable deletion protection. If the origination phone number is associated with a pool, an error is returned.
     ///
-    /// - Parameter UpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6545,9 +6545,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Updates the configuration of an existing pool. You can update the opt-out list, enable or disable two-way messaging, change the TwoWayChannelArn, enable or disable self-managed opt-outs, enable or disable deletion protection, and enable or disable shared routes.
     ///
-    /// - Parameter UpdatePoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePoolInput`)
     ///
-    /// - Returns: `UpdatePoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6618,9 +6618,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Update the setting for an existing protect configuration.
     ///
-    /// - Parameter UpdateProtectConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProtectConfigurationInput`)
     ///
-    /// - Returns: `UpdateProtectConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProtectConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6690,9 +6690,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Update a country rule set to ALLOW, BLOCK, MONITOR, or FILTER messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
     ///
-    /// - Parameter UpdateProtectConfigurationCountryRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProtectConfigurationCountryRuleSetInput`)
     ///
-    /// - Returns: `UpdateProtectConfigurationCountryRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProtectConfigurationCountryRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6762,9 +6762,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Updates the configuration of an existing sender ID.
     ///
-    /// - Parameter UpdateSenderIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSenderIdInput`)
     ///
-    /// - Returns: `UpdateSenderIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSenderIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6834,9 +6834,9 @@ extension PinpointSMSVoiceV2Client {
     ///
     /// Use the verification code that was received by the verified destination phone number to opt-in the verified destination phone number to receive more messages.
     ///
-    /// - Parameter VerifyDestinationNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyDestinationNumberInput`)
     ///
-    /// - Returns: `VerifyDestinationNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyDestinationNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

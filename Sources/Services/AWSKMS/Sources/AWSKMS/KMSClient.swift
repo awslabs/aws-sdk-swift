@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KMSClient: ClientRuntime.Client {
     public static let clientName = "KMSClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: KMSClient.KMSClientConfiguration
     let serviceName = "KMS"
@@ -373,9 +373,9 @@ extension KMSClient {
     ///
     /// Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS key is Disabled. To enable the KMS key, use [EnableKey]. For more information about scheduling and canceling deletion of a KMS key, see [Deleting KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:CancelKeyDeletion](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [ScheduleKeyDeletion] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CancelKeyDeletionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelKeyDeletionInput`)
     ///
-    /// - Returns: `CancelKeyDeletionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelKeyDeletionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -462,9 +462,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ConnectCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConnectCustomKeyStoreInput`)
     ///
-    /// - Returns: `ConnectCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConnectCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,9 +569,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CreateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAliasInput`)
     ///
-    /// - Returns: `CreateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CreateCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomKeyStoreInput`)
     ///
-    /// - Returns: `CreateCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -778,9 +778,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CreateGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGrantInput`)
     ///
-    /// - Returns: `CreateGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -867,9 +867,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CreateKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyInput`)
     ///
-    /// - Returns: `CreateKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,9 +990,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DecryptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DecryptInput`)
     ///
-    /// - Returns: `DecryptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DecryptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1095,9 +1095,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DeleteAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAliasInput`)
     ///
-    /// - Returns: `DeleteAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1183,9 +1183,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DeleteCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomKeyStoreInput`)
     ///
-    /// - Returns: `DeleteCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,9 +1273,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DeleteImportedKeyMaterialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImportedKeyMaterialInput`)
     ///
-    /// - Returns: `DeleteImportedKeyMaterialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImportedKeyMaterialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,9 +1372,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DeriveSharedSecretInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeriveSharedSecretInput`)
     ///
-    /// - Returns: `DeriveSharedSecretOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeriveSharedSecretOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,9 +1472,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DescribeCustomKeyStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomKeyStoresInput`)
     ///
-    /// - Returns: `DescribeCustomKeyStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomKeyStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1570,9 +1570,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DescribeKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyInput`)
     ///
-    /// - Returns: `DescribeKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1641,9 +1641,9 @@ extension KMSClient {
     ///
     /// Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS key for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations). The KMS key that you use for this operation must be in a compatible key state. For more information about how key state affects the use of a KMS key, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide . Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:DisableKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [EnableKey] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DisableKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableKeyInput`)
     ///
-    /// - Returns: `DisableKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1728,9 +1728,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DisableKeyRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableKeyRotationInput`)
     ///
-    /// - Returns: `DisableKeyRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableKeyRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1819,9 +1819,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DisconnectCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisconnectCustomKeyStoreInput`)
     ///
-    /// - Returns: `DisconnectCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisconnectCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1899,9 +1899,9 @@ extension KMSClient {
     ///
     /// Sets the key state of a KMS key to enabled. This allows you to use the KMS key for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:EnableKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [DisableKey] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter EnableKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableKeyInput`)
     ///
-    /// - Returns: `EnableKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1987,9 +1987,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter EnableKeyRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableKeyRotationInput`)
     ///
-    /// - Returns: `EnableKeyRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableKeyRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2113,9 +2113,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter EncryptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EncryptInput`)
     ///
-    /// - Returns: `EncryptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EncryptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2229,9 +2229,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateDataKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateDataKeyInput`)
     ///
-    /// - Returns: `GenerateDataKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateDataKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2329,9 +2329,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateDataKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateDataKeyPairInput`)
     ///
-    /// - Returns: `GenerateDataKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateDataKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2430,9 +2430,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateDataKeyPairWithoutPlaintextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateDataKeyPairWithoutPlaintextInput`)
     ///
-    /// - Returns: `GenerateDataKeyPairWithoutPlaintextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateDataKeyPairWithoutPlaintextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2531,9 +2531,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateDataKeyWithoutPlaintextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateDataKeyWithoutPlaintextInput`)
     ///
-    /// - Returns: `GenerateDataKeyWithoutPlaintextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateDataKeyWithoutPlaintextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2618,9 +2618,9 @@ extension KMSClient {
     ///
     /// Generates a hash-based message authentication code (HMAC) for a message using an HMAC KMS key and a MAC algorithm that the key supports. HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104). You can use value that GenerateMac returns in the [VerifyMac] operation to demonstrate that the original message has not changed. Also, because a secret key is used to create the hash, you can verify that the party that generated the hash has the required secret key. You can also use the raw result to implement HMAC-based algorithms such as key derivation functions. This operation is part of KMS support for HMAC KMS keys. For details, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html) in the Key Management Service Developer Guide . Best practices recommend that you limit the time during which any signing mechanism, including an HMAC, is effective. This deters an attack where the actor uses a signed message to establish validity repeatedly or long after the message is superseded. HMAC tags do not include a timestamp, but you can include a timestamp in the token or message to help you detect when its time to refresh the HMAC. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateMac](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [VerifyMac] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateMacInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateMacInput`)
     ///
-    /// - Returns: `GenerateMacOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateMacOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2704,9 +2704,9 @@ extension KMSClient {
     ///
     /// Returns a random byte string that is cryptographically secure. You must use the NumberOfBytes parameter to specify the length of the random byte string. There is no default value for string length. By default, the random byte string is generated in KMS. To generate the byte string in the CloudHSM cluster associated with an CloudHSM key store, use the CustomKeyStoreId parameter. GenerateRandom also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateRandom for a Nitro enclave or NitroTPM, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the attested environment. Instead of plaintext bytes, the response includes the plaintext bytes encrypted under the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide. For more information about entropy and random number generation, see [Entropy and random number generation](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#entropy-and-random-numbers) in the Key Management Service Developer Guide. Cross-account use: Not applicable. GenerateRandom does not use any account-specific resources, such as KMS keys. Required permissions: [kms:GenerateRandom](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (IAM policy) Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateRandomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateRandomInput`)
     ///
-    /// - Returns: `GenerateRandomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateRandomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2786,9 +2786,9 @@ extension KMSClient {
     ///
     /// Gets a key policy attached to the specified KMS key. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:GetKeyPolicy](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GetKeyPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyPolicyInput`)
     ///
-    /// - Returns: `GetKeyPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2880,9 +2880,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GetKeyRotationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyRotationStatusInput`)
     ///
-    /// - Returns: `GetKeyRotationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyRotationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2980,9 +2980,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GetParametersForImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParametersForImportInput`)
     ///
-    /// - Returns: `GetParametersForImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParametersForImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3066,9 +3066,9 @@ extension KMSClient {
     ///
     /// Although KMS cannot enforce these restrictions on external operations, it is crucial that you use this information to prevent the public key from being used improperly. For example, you can prevent a public signing key from being used encrypt data, or prevent a public key from being used with an encryption algorithm that is not supported by KMS. You can also avoid errors, such as using the wrong signing algorithm in a verification operation. To verify a signature outside of KMS with an SM2 public key (China Regions only), you must specify the distinguishing ID. By default, KMS uses 1234567812345678 as the distinguishing ID. For more information, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GetPublicKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [CreateKey] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GetPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyInput`)
     ///
-    /// - Returns: `GetPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3185,9 +3185,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ImportKeyMaterialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportKeyMaterialInput`)
     ///
-    /// - Returns: `ImportKeyMaterialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportKeyMaterialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3275,9 +3275,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAliasesInput`)
     ///
-    /// - Returns: `ListAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3358,9 +3358,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGrantsInput`)
     ///
-    /// - Returns: `ListGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3443,9 +3443,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListKeyPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyPoliciesInput`)
     ///
-    /// - Returns: `ListKeyPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3534,9 +3534,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListKeyRotationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyRotationsInput`)
     ///
-    /// - Returns: `ListKeyRotationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyRotationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3622,9 +3622,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeysInput`)
     ///
-    /// - Returns: `ListKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3703,9 +3703,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListResourceTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTagsInput`)
     ///
-    /// - Returns: `ListResourceTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3785,9 +3785,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListRetirableGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRetirableGrantsInput`)
     ///
-    /// - Returns: `ListRetirableGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRetirableGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3857,9 +3857,9 @@ extension KMSClient {
     ///
     /// Attaches a key policy to the specified KMS key. For more information about key policies, see [Key Policies](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) in the Key Management Service Developer Guide. For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide . For examples of adding a key policy in multiple programming languages, see [Use PutKeyPolicy with an Amazon Web Services SDK or CLI](https://docs.aws.amazon.com/kms/latest/developerguide/example_kms_PutKeyPolicy_section.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [GetKeyPolicy] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter PutKeyPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutKeyPolicyInput`)
     ///
-    /// - Returns: `PutKeyPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutKeyPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3963,9 +3963,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ReEncryptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReEncryptInput`)
     ///
-    /// - Returns: `ReEncryptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReEncryptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4068,9 +4068,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ReplicateKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplicateKeyInput`)
     ///
-    /// - Returns: `ReplicateKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplicateKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4160,9 +4160,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter RetireGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetireGrantInput`)
     ///
-    /// - Returns: `RetireGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetireGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4250,9 +4250,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter RevokeGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeGrantInput`)
     ///
-    /// - Returns: `RevokeGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4341,9 +4341,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter RotateKeyOnDemandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RotateKeyOnDemandInput`)
     ///
-    /// - Returns: `RotateKeyOnDemandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RotateKeyOnDemandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4428,9 +4428,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ScheduleKeyDeletionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ScheduleKeyDeletionInput`)
     ///
-    /// - Returns: `ScheduleKeyDeletionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ScheduleKeyDeletionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4513,9 +4513,9 @@ extension KMSClient {
     ///
     /// When signing a message, be sure to record the KMS key and the signing algorithm. This information is required to verify the signature. Best practices recommend that you limit the time during which any signature is effective. This deters an attack where the actor uses a signed message to establish validity repeatedly or long after the message is superseded. Signatures do not include a timestamp, but you can include a timestamp in the signed message to help you detect when its time to refresh the signature. To verify the signature that this operation generates, use the [Verify] operation. Or use the [GetPublicKey] operation to download the public key and then use the public key to verify the signature outside of KMS. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:Sign](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [Verify] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter SignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SignInput`)
     ///
-    /// - Returns: `SignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4611,9 +4611,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4699,9 +4699,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4793,9 +4793,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UpdateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAliasInput`)
     ///
-    /// - Returns: `UpdateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4882,9 +4882,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UpdateCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomKeyStoreInput`)
     ///
-    /// - Returns: `UpdateCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4992,9 +4992,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UpdateKeyDescriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyDescriptionInput`)
     ///
-    /// - Returns: `UpdateKeyDescriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyDescriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5082,9 +5082,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UpdatePrimaryRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePrimaryRegionInput`)
     ///
-    /// - Returns: `UpdatePrimaryRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePrimaryRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5159,9 +5159,9 @@ extension KMSClient {
     ///
     /// Verifies a digital signature that was generated by the [Sign] operation. Verification confirms that an authorized user signed the message with the specified KMS key and signing algorithm, and the message hasn't changed since it was signed. If the signature is verified, the value of the SignatureValid field in the response is True. If the signature verification fails, the Verify operation fails with an KMSInvalidSignatureException exception. A digital signature is generated by using the private key in an asymmetric KMS key. The signature is verified by using the public key in the same asymmetric KMS key. For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide. To use the Verify operation, specify the same asymmetric KMS key, message, and signing algorithm that were used to produce the signature. The message type does not need to be the same as the one used for signing, but it must indicate whether the value of the Message parameter should be hashed as part of the verification process. You can also verify the digital signature by using the public key of the KMS key outside of KMS. Use the [GetPublicKey] operation to download the public key in the asymmetric KMS key and then use the public key to verify the signature outside of KMS. The advantage of using the Verify operation is that it is performed within KMS. As a result, it's easy to call, the operation is performed within the FIPS boundary, it is logged in CloudTrail, and you can use key policy and IAM policy to determine who is authorized to use the KMS key to verify signatures. To verify a signature outside of KMS with an SM2 public key (China Regions only), you must specify the distinguishing ID. By default, KMS uses 1234567812345678 as the distinguishing ID. For more information, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:Verify](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [Sign] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter VerifyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyInput`)
     ///
-    /// - Returns: `VerifyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5247,9 +5247,9 @@ extension KMSClient {
     ///
     /// Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC KMS key, and MAC algorithm. To verify the HMAC, VerifyMac computes an HMAC using the message, HMAC KMS key, and MAC algorithm that you specify, and compares the computed HMAC to the HMAC that you specify. If the HMACs are identical, the verification succeeds; otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was calculated, and the specified key was used to generate and verify the HMAC. HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104). This operation is part of KMS support for HMAC KMS keys. For details, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:VerifyMac](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [GenerateMac] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter VerifyMacInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyMacInput`)
     ///
-    /// - Returns: `VerifyMacOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyMacOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

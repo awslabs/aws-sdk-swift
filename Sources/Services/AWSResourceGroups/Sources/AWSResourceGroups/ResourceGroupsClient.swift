@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResourceGroupsClient: ClientRuntime.Client {
     public static let clientName = "ResourceGroupsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceGroupsClient.ResourceGroupsClientConfiguration
     let serviceName = "Resource Groups"
@@ -377,9 +377,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:DeleteGroup
     ///
-    /// - Parameter CancelTagSyncTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTagSyncTaskInput`)
     ///
-    /// - Returns: `CancelTagSyncTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTagSyncTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -451,9 +451,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:CreateGroup
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -524,9 +524,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:DeleteGroup
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -596,9 +596,9 @@ extension ResourceGroupsClient {
     ///
     /// Retrieves the current status of optional features in Resource Groups.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,9 +666,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetGroup
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -740,9 +740,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetGroupConfiguration
     ///
-    /// - Parameter GetGroupConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupConfigurationInput`)
     ///
-    /// - Returns: `GetGroupConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -814,9 +814,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetGroupQuery
     ///
-    /// - Parameter GetGroupQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupQueryInput`)
     ///
-    /// - Returns: `GetGroupQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -888,9 +888,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetTagSyncTask on the application group
     ///
-    /// - Parameter GetTagSyncTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagSyncTaskInput`)
     ///
-    /// - Returns: `GetTagSyncTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagSyncTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,9 +963,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetTags
     ///
-    /// - Parameter GetTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagsInput`)
     ///
-    /// - Returns: `GetTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,9 +1043,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GroupResources
     ///
-    /// - Parameter GroupResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GroupResourcesInput`)
     ///
-    /// - Returns: `GroupResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GroupResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1123,9 +1123,9 @@ extension ResourceGroupsClient {
     ///
     /// * tag:GetResources
     ///
-    /// - Parameter ListGroupResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupResourcesInput`)
     ///
-    /// - Returns: `ListGroupResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1196,9 +1196,9 @@ extension ResourceGroupsClient {
     ///
     /// Returns the status of the last grouping or ungrouping action for each resource in the specified application group.
     ///
-    /// - Parameter ListGroupingStatusesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupingStatusesInput`)
     ///
-    /// - Returns: `ListGroupingStatusesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupingStatusesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,9 +1269,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:ListGroups
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,9 +1343,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:ListTagSyncTasks with the group passed in the filters as the resource or * if using no filters
     ///
-    /// - Parameter ListTagSyncTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagSyncTasksInput`)
     ///
-    /// - Returns: `ListTagSyncTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagSyncTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1417,9 +1417,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:PutGroupConfiguration
     ///
-    /// - Parameter PutGroupConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutGroupConfigurationInput`)
     ///
-    /// - Returns: `PutGroupConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutGroupConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1497,9 +1497,9 @@ extension ResourceGroupsClient {
     ///
     /// * tag:GetResources
     ///
-    /// - Parameter SearchResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchResourcesInput`)
     ///
-    /// - Returns: `SearchResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1575,9 +1575,9 @@ extension ResourceGroupsClient {
     ///
     /// * iam:PassRole on the role provided in the request
     ///
-    /// - Parameter StartTagSyncTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTagSyncTaskInput`)
     ///
-    /// - Returns: `StartTagSyncTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTagSyncTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1650,9 +1650,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:Tag
     ///
-    /// - Parameter TagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagInput`)
     ///
-    /// - Returns: `TagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1724,9 +1724,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:UngroupResources
     ///
-    /// - Parameter UngroupResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UngroupResourcesInput`)
     ///
-    /// - Returns: `UngroupResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UngroupResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1798,9 +1798,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:Untag
     ///
-    /// - Parameter UntagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagInput`)
     ///
-    /// - Returns: `UntagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1870,9 +1870,9 @@ extension ResourceGroupsClient {
     ///
     /// Turns on or turns off optional features in Resource Groups. The preceding example shows that the request to turn on group lifecycle events is IN_PROGRESS. You can call the [GetAccountSettings] operation to check for completion by looking for GroupLifecycleEventsStatus to change to ACTIVE.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1943,9 +1943,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:UpdateGroup
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2017,9 +2017,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:UpdateGroupQuery
     ///
-    /// - Parameter UpdateGroupQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupQueryInput`)
     ///
-    /// - Returns: `UpdateGroupQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

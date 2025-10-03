@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkspacesInstancesClient: ClientRuntime.Client {
     public static let clientName = "WorkspacesInstancesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkspacesInstancesClient.WorkspacesInstancesClientConfiguration
     let serviceName = "Workspaces Instances"
@@ -373,9 +373,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Attaches a volume to a WorkSpace Instance.
     ///
-    /// - Parameter AssociateVolumeInput : Specifies volume attachment parameters.
+    /// - Parameter input: Specifies volume attachment parameters. (Type: `AssociateVolumeInput`)
     ///
-    /// - Returns: `AssociateVolumeOutput` : Confirms volume attachment.
+    /// - Returns: Confirms volume attachment. (Type: `AssociateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Creates a new volume for WorkSpace Instances.
     ///
-    /// - Parameter CreateVolumeInput : Specifies volume creation parameters.
+    /// - Parameter input: Specifies volume creation parameters. (Type: `CreateVolumeInput`)
     ///
-    /// - Returns: `CreateVolumeOutput` : Returns the created volume identifier.
+    /// - Returns: Returns the created volume identifier. (Type: `CreateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Launches a new WorkSpace Instance with specified configuration parameters, enabling programmatic workspace deployment.
     ///
-    /// - Parameter CreateWorkspaceInstanceInput : Defines the configuration parameters for creating a new WorkSpaces Instance.
+    /// - Parameter input: Defines the configuration parameters for creating a new WorkSpaces Instance. (Type: `CreateWorkspaceInstanceInput`)
     ///
-    /// - Returns: `CreateWorkspaceInstanceOutput` : Returns the unique identifier for the newly created WorkSpaces Instance.
+    /// - Returns: Returns the unique identifier for the newly created WorkSpaces Instance. (Type: `CreateWorkspaceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,9 +594,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Deletes a specified volume.
     ///
-    /// - Parameter DeleteVolumeInput : Specifies the volume to delete.
+    /// - Parameter input: Specifies the volume to delete. (Type: `DeleteVolumeInput`)
     ///
-    /// - Returns: `DeleteVolumeOutput` : Confirms volume deletion.
+    /// - Returns: Confirms volume deletion. (Type: `DeleteVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Deletes the specified WorkSpace
     ///
-    /// - Parameter DeleteWorkspaceInstanceInput : The WorkSpace to delete
+    /// - Parameter input: The WorkSpace to delete (Type: `DeleteWorkspaceInstanceInput`)
     ///
-    /// - Returns: `DeleteWorkspaceInstanceOutput` : Confirms the successful deletion of the specified WorkSpace Instance.
+    /// - Returns: Confirms the successful deletion of the specified WorkSpace Instance. (Type: `DeleteWorkspaceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -740,9 +740,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Detaches a volume from a WorkSpace Instance.
     ///
-    /// - Parameter DisassociateVolumeInput : Specifies volume detachment parameters.
+    /// - Parameter input: Specifies volume detachment parameters. (Type: `DisassociateVolumeInput`)
     ///
-    /// - Returns: `DisassociateVolumeOutput` : Confirms volume detachment.
+    /// - Returns: Confirms volume detachment. (Type: `DisassociateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -813,9 +813,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves detailed information about a specific WorkSpace Instance.
     ///
-    /// - Parameter GetWorkspaceInstanceInput : Identifies the WorkSpaces Instance to retrieve detailed information for.
+    /// - Parameter input: Identifies the WorkSpaces Instance to retrieve detailed information for. (Type: `GetWorkspaceInstanceInput`)
     ///
-    /// - Returns: `GetWorkspaceInstanceOutput` : Provides comprehensive details about the requested WorkSpaces Instance.
+    /// - Returns: Provides comprehensive details about the requested WorkSpaces Instance. (Type: `GetWorkspaceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -885,9 +885,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves a list of instance types supported by Amazon WorkSpaces Instances, enabling precise workspace infrastructure configuration.
     ///
-    /// - Parameter ListInstanceTypesInput : Defines input parameters for retrieving supported WorkSpaces Instances instance types.
+    /// - Parameter input: Defines input parameters for retrieving supported WorkSpaces Instances instance types. (Type: `ListInstanceTypesInput`)
     ///
-    /// - Returns: `ListInstanceTypesOutput` : Contains the list of instance types supported by WorkSpaces Instances.
+    /// - Returns: Contains the list of instance types supported by WorkSpaces Instances. (Type: `ListInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,9 +956,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves a list of AWS regions supported by Amazon WorkSpaces Instances, enabling region discovery for workspace deployments.
     ///
-    /// - Parameter ListRegionsInput : Defines input parameters for retrieving supported WorkSpaces Instances regions.
+    /// - Parameter input: Defines input parameters for retrieving supported WorkSpaces Instances regions. (Type: `ListRegionsInput`)
     ///
-    /// - Returns: `ListRegionsOutput` : Contains the list of supported AWS regions for WorkSpaces Instances.
+    /// - Returns: Contains the list of supported AWS regions for WorkSpaces Instances. (Type: `ListRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1027,9 +1027,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves tags for a WorkSpace Instance.
     ///
-    /// - Parameter ListTagsForResourceInput : Specifies the WorkSpace Instance to retrieve tags for.
+    /// - Parameter input: Specifies the WorkSpace Instance to retrieve tags for. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : Returns the list of tags for the specified WorkSpace Instance.
+    /// - Returns: Returns the list of tags for the specified WorkSpace Instance. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1099,9 +1099,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves a collection of WorkSpaces Instances based on specified filters.
     ///
-    /// - Parameter ListWorkspaceInstancesInput : Defines filters and pagination parameters for retrieving WorkSpaces Instances.
+    /// - Parameter input: Defines filters and pagination parameters for retrieving WorkSpaces Instances. (Type: `ListWorkspaceInstancesInput`)
     ///
-    /// - Returns: `ListWorkspaceInstancesOutput` : Contains the list of WorkSpaces Instances matching the specified criteria.
+    /// - Returns: Contains the list of WorkSpaces Instances matching the specified criteria. (Type: `ListWorkspaceInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,9 +1170,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Adds tags to a WorkSpace Instance.
     ///
-    /// - Parameter TagResourceInput : Specifies tags to add to a WorkSpace Instance.
+    /// - Parameter input: Specifies tags to add to a WorkSpace Instance. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : Confirms successful tag addition.
+    /// - Returns: Confirms successful tag addition. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1242,9 +1242,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Removes tags from a WorkSpace Instance.
     ///
-    /// - Parameter UntagResourceInput : Specifies tags to remove from a WorkSpace Instance.
+    /// - Parameter input: Specifies tags to remove from a WorkSpace Instance. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : Confirms successful tag removal.
+    /// - Returns: Confirms successful tag removal. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerGeospatialClient: ClientRuntime.Client {
     public static let clientName = "SageMakerGeospatialClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerGeospatialClient.SageMakerGeospatialClientConfiguration
     let serviceName = "SageMaker Geospatial"
@@ -375,9 +375,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to delete an Earth Observation job.
     ///
-    /// - Parameter DeleteEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEarthObservationJobInput`)
     ///
-    /// - Returns: `DeleteEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to delete a Vector Enrichment job.
     ///
-    /// - Parameter DeleteVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `DeleteVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
     ///
-    /// - Parameter ExportEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportEarthObservationJobInput`)
     ///
-    /// - Returns: `ExportEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
     ///
-    /// - Parameter ExportVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `ExportVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Get the details for a previously initiated Earth Observation job.
     ///
-    /// - Parameter GetEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEarthObservationJobInput`)
     ///
-    /// - Returns: `GetEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to get details of a specific raster data collection.
     ///
-    /// - Parameter GetRasterDataCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRasterDataCollectionInput`)
     ///
-    /// - Returns: `GetRasterDataCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRasterDataCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -797,9 +797,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Gets a web mercator tile for the given Earth Observation job.
     ///
-    /// - Parameter GetTileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTileInput`)
     ///
-    /// - Returns: `GetTileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -866,9 +866,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
     ///
-    /// - Parameter GetVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `GetVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,9 +934,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
     ///
-    /// - Parameter ListEarthObservationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEarthObservationJobsInput`)
     ///
-    /// - Returns: `ListEarthObservationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEarthObservationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1005,9 +1005,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to get raster data collections.
     ///
-    /// - Parameter ListRasterDataCollectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRasterDataCollectionsInput`)
     ///
-    /// - Returns: `ListRasterDataCollectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRasterDataCollectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,9 +1074,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Lists the tags attached to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,9 +1142,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Retrieves a list of vector enrichment jobs.
     ///
-    /// - Parameter ListVectorEnrichmentJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVectorEnrichmentJobsInput`)
     ///
-    /// - Returns: `ListVectorEnrichmentJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVectorEnrichmentJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1213,9 +1213,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
     ///
-    /// - Parameter SearchRasterDataCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchRasterDataCollectionInput`)
     ///
-    /// - Returns: `SearchRasterDataCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchRasterDataCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,9 +1284,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to create an Earth observation job.
     ///
-    /// - Parameter StartEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEarthObservationJobInput`)
     ///
-    /// - Returns: `StartEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1358,9 +1358,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
     ///
-    /// - Parameter StartVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `StartVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1432,9 +1432,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to stop an existing earth observation job.
     ///
-    /// - Parameter StopEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEarthObservationJobInput`)
     ///
-    /// - Returns: `StopEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,9 +1504,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Stops the Vector Enrichment job for a given job ARN.
     ///
-    /// - Parameter StopVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `StopVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1576,9 +1576,9 @@ extension SageMakerGeospatialClient {
     ///
     /// The resource you want to tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1647,9 +1647,9 @@ extension SageMakerGeospatialClient {
     ///
     /// The resource you want to untag.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

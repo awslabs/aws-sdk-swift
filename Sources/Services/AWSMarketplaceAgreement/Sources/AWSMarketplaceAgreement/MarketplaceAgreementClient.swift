@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceAgreementClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceAgreementClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceAgreementClient.MarketplaceAgreementClientConfiguration
     let serviceName = "Marketplace Agreement"
@@ -373,9 +373,9 @@ extension MarketplaceAgreementClient {
     ///
     /// Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
     ///
-    /// - Parameter DescribeAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAgreementInput`)
     ///
-    /// - Returns: `DescribeAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -456,9 +456,9 @@ extension MarketplaceAgreementClient {
     ///
     /// * Configuration – The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the EnableAutoRenew flag.
     ///
-    /// - Parameter GetAgreementTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementTermsInput`)
     ///
-    /// - Returns: `GetAgreementTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgreementTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,9 +556,9 @@ extension MarketplaceAgreementClient {
     ///
     /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceType
     ///
-    /// - Parameter SearchAgreementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAgreementsInput`)
     ///
-    /// - Returns: `SearchAgreementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAgreementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VoiceIDClient: ClientRuntime.Client {
     public static let clientName = "VoiceIDClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: VoiceIDClient.VoiceIDClientConfiguration
     let serviceName = "Voice ID"
@@ -373,9 +373,9 @@ extension VoiceIDClient {
     ///
     /// Associates the fraudsters with the watchlist specified in the same domain.
     ///
-    /// - Parameter AssociateFraudsterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateFraudsterInput`)
     ///
-    /// - Returns: `AssociateFraudsterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateFraudsterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension VoiceIDClient {
     ///
     /// Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension VoiceIDClient {
     ///
     /// Creates a watchlist that fraudsters can be a part of.
     ///
-    /// - Parameter CreateWatchlistInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWatchlistInput`)
     ///
-    /// - Returns: `CreateWatchlistOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWatchlistOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension VoiceIDClient {
     ///
     /// Deletes the specified domain from Voice ID.
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -670,9 +670,9 @@ extension VoiceIDClient {
     ///
     /// Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
     ///
-    /// - Parameter DeleteFraudsterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFraudsterInput`)
     ///
-    /// - Returns: `DeleteFraudsterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFraudsterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,9 +743,9 @@ extension VoiceIDClient {
     ///
     /// Deletes the specified speaker from Voice ID.
     ///
-    /// - Parameter DeleteSpeakerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSpeakerInput`)
     ///
-    /// - Returns: `DeleteSpeakerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSpeakerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -816,9 +816,9 @@ extension VoiceIDClient {
     ///
     /// Deletes the specified watchlist from Voice ID. This API throws an exception when there are fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
     ///
-    /// - Parameter DeleteWatchlistInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWatchlistInput`)
     ///
-    /// - Returns: `DeleteWatchlistOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWatchlistOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -889,9 +889,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified domain.
     ///
-    /// - Parameter DescribeDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainInput`)
     ///
-    /// - Returns: `DescribeDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -961,9 +961,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified fraudster.
     ///
-    /// - Parameter DescribeFraudsterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFraudsterInput`)
     ///
-    /// - Returns: `DescribeFraudsterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFraudsterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1033,9 +1033,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified fraudster registration job.
     ///
-    /// - Parameter DescribeFraudsterRegistrationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFraudsterRegistrationJobInput`)
     ///
-    /// - Returns: `DescribeFraudsterRegistrationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFraudsterRegistrationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1105,9 +1105,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified speaker.
     ///
-    /// - Parameter DescribeSpeakerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSpeakerInput`)
     ///
-    /// - Returns: `DescribeSpeakerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSpeakerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1177,9 +1177,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified speaker enrollment job.
     ///
-    /// - Parameter DescribeSpeakerEnrollmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSpeakerEnrollmentJobInput`)
     ///
-    /// - Returns: `DescribeSpeakerEnrollmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSpeakerEnrollmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1249,9 +1249,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified watchlist.
     ///
-    /// - Parameter DescribeWatchlistInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWatchlistInput`)
     ///
-    /// - Returns: `DescribeWatchlistOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWatchlistOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1321,9 +1321,9 @@ extension VoiceIDClient {
     ///
     /// Disassociates the fraudsters from the watchlist specified. Voice ID always expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a ValidationException is thrown.
     ///
-    /// - Parameter DisassociateFraudsterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFraudsterInput`)
     ///
-    /// - Returns: `DisassociateFraudsterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFraudsterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,9 +1394,9 @@ extension VoiceIDClient {
     ///
     /// Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice ID call.
     ///
-    /// - Parameter EvaluateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EvaluateSessionInput`)
     ///
-    /// - Returns: `EvaluateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EvaluateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1467,9 +1467,9 @@ extension VoiceIDClient {
     ///
     /// Lists all the domains in the Amazon Web Services account.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,9 +1538,9 @@ extension VoiceIDClient {
     ///
     /// Lists all the fraudster registration jobs in the domain with the given JobStatus. If JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
     ///
-    /// - Parameter ListFraudsterRegistrationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFraudsterRegistrationJobsInput`)
     ///
-    /// - Returns: `ListFraudsterRegistrationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFraudsterRegistrationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,9 +1610,9 @@ extension VoiceIDClient {
     ///
     /// Lists all fraudsters in a specified watchlist or domain.
     ///
-    /// - Parameter ListFraudstersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFraudstersInput`)
     ///
-    /// - Returns: `ListFraudstersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFraudstersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1682,9 +1682,9 @@ extension VoiceIDClient {
     ///
     /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses.
     ///
-    /// - Parameter ListSpeakerEnrollmentJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpeakerEnrollmentJobsInput`)
     ///
-    /// - Returns: `ListSpeakerEnrollmentJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpeakerEnrollmentJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1754,9 +1754,9 @@ extension VoiceIDClient {
     ///
     /// Lists all speakers in a specified domain.
     ///
-    /// - Parameter ListSpeakersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpeakersInput`)
     ///
-    /// - Returns: `ListSpeakersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpeakersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1826,9 +1826,9 @@ extension VoiceIDClient {
     ///
     /// Lists all tags associated with a specified Voice ID resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1898,9 +1898,9 @@ extension VoiceIDClient {
     ///
     /// Lists all watchlists in a specified domain.
     ///
-    /// - Parameter ListWatchlistsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWatchlistsInput`)
     ///
-    /// - Returns: `ListWatchlistsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWatchlistsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1970,9 +1970,9 @@ extension VoiceIDClient {
     ///
     /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID.
     ///
-    /// - Parameter OptOutSpeakerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `OptOutSpeakerInput`)
     ///
-    /// - Returns: `OptOutSpeakerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `OptOutSpeakerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2044,9 +2044,9 @@ extension VoiceIDClient {
     ///
     /// Starts a new batch fraudster registration job using provided details.
     ///
-    /// - Parameter StartFraudsterRegistrationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFraudsterRegistrationJobInput`)
     ///
-    /// - Returns: `StartFraudsterRegistrationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFraudsterRegistrationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2119,9 +2119,9 @@ extension VoiceIDClient {
     ///
     /// Starts a new batch speaker enrollment job using specified details.
     ///
-    /// - Parameter StartSpeakerEnrollmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSpeakerEnrollmentJobInput`)
     ///
-    /// - Returns: `StartSpeakerEnrollmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSpeakerEnrollmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2194,9 +2194,9 @@ extension VoiceIDClient {
     ///
     /// Tags a Voice ID resource with the provided list of tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2267,9 +2267,9 @@ extension VoiceIDClient {
     ///
     /// Removes specified tags from a specified Amazon Connect Voice ID resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2340,9 +2340,9 @@ extension VoiceIDClient {
     ///
     /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain.
     ///
-    /// - Parameter UpdateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainInput`)
     ///
-    /// - Returns: `UpdateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2413,9 +2413,9 @@ extension VoiceIDClient {
     ///
     /// Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
     ///
-    /// - Parameter UpdateWatchlistInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWatchlistInput`)
     ///
-    /// - Returns: `UpdateWatchlistOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWatchlistOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

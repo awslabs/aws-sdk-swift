@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudDirectoryClient: ClientRuntime.Client {
     public static let clientName = "CloudDirectoryClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudDirectoryClient.CloudDirectoryClientConfiguration
     let serviceName = "CloudDirectory"
@@ -372,9 +372,9 @@ extension CloudDirectoryClient {
     ///
     /// Adds a new [Facet] to an object. An object can have more than one facet applied on it.
     ///
-    /// - Parameter AddFacetToObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFacetToObjectInput`)
     ///
-    /// - Returns: `AddFacetToObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFacetToObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension CloudDirectoryClient {
     ///
     /// Copies the input published schema, at the specified version, into the [Directory] with the same name and version as that of the published schema.
     ///
-    /// - Parameter ApplySchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApplySchemaInput`)
     ///
-    /// - Returns: `ApplySchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplySchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -528,9 +528,9 @@ extension CloudDirectoryClient {
     ///
     /// * Using ObjectIdentifier
     ///
-    /// - Parameter AttachObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachObjectInput`)
     ///
-    /// - Returns: `AttachObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -606,9 +606,9 @@ extension CloudDirectoryClient {
     ///
     /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
     ///
-    /// - Parameter AttachPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachPolicyInput`)
     ///
-    /// - Returns: `AttachPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,9 +682,9 @@ extension CloudDirectoryClient {
     ///
     /// Attaches the specified object to the specified index.
     ///
-    /// - Parameter AttachToIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachToIndexInput`)
     ///
-    /// - Returns: `AttachToIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachToIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,9 +761,9 @@ extension CloudDirectoryClient {
     ///
     /// Attaches a typed link to a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter AttachTypedLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachTypedLinkInput`)
     ///
-    /// - Returns: `AttachTypedLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachTypedLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,9 +838,9 @@ extension CloudDirectoryClient {
     ///
     /// Performs all the read operations in a batch.
     ///
-    /// - Parameter BatchReadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchReadInput`)
     ///
-    /// - Returns: `BatchReadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchReadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -912,9 +912,9 @@ extension CloudDirectoryClient {
     ///
     /// Performs all the write operations in a batch. Either all the operations succeed or none.
     ///
-    /// - Parameter BatchWriteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchWriteInput`)
     ///
-    /// - Returns: `BatchWriteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchWriteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -987,9 +987,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates a [Directory] by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema. For more information, see [Managed Schema](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html) in the Amazon Cloud Directory Developer Guide.
     ///
-    /// - Parameter CreateDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectoryInput`)
     ///
-    /// - Returns: `CreateDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,9 +1062,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates a new [Facet] in a schema. Facet creation is allowed only in development or applied schemas.
     ///
-    /// - Parameter CreateFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFacetInput`)
     ///
-    /// - Returns: `CreateFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1139,9 +1139,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates an index object. See [Indexing and search](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.html) for more information.
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1217,9 +1217,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates an object in a [Directory]. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of [Facet] attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet.
     ///
-    /// - Parameter CreateObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateObjectInput`)
     ///
-    /// - Returns: `CreateObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,9 +1301,9 @@ extension CloudDirectoryClient {
     ///
     /// * Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.
     ///
-    /// - Parameter CreateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSchemaInput`)
     ///
-    /// - Returns: `CreateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1374,9 +1374,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter CreateTypedLinkFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTypedLinkFacetInput`)
     ///
-    /// - Returns: `CreateTypedLinkFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTypedLinkFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,9 +1451,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme caution when deleting directories.
     ///
-    /// - Parameter DeleteDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectoryInput`)
     ///
-    /// - Returns: `DeleteDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1524,9 +1524,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes a given [Facet]. All attributes and [Rule]s that are associated with the facet will be deleted. Only development schema facets are allowed deletion.
     ///
-    /// - Parameter DeleteFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFacetInput`)
     ///
-    /// - Returns: `DeleteFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1600,9 +1600,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see [Amazon Cloud Directory Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html).
     ///
-    /// - Parameter DeleteObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectInput`)
     ///
-    /// - Returns: `DeleteObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1676,9 +1676,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes a given schema. Schemas in a development and published state can only be deleted.
     ///
-    /// - Parameter DeleteSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaInput`)
     ///
-    /// - Returns: `DeleteSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1748,9 +1748,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter DeleteTypedLinkFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTypedLinkFacetInput`)
     ///
-    /// - Returns: `DeleteTypedLinkFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTypedLinkFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1823,9 +1823,9 @@ extension CloudDirectoryClient {
     ///
     /// Detaches the specified object from the specified index.
     ///
-    /// - Parameter DetachFromIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachFromIndexInput`)
     ///
-    /// - Returns: `DetachFromIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachFromIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1900,9 +1900,9 @@ extension CloudDirectoryClient {
     ///
     /// Detaches a given object from the parent object. The object that is to be detached from the parent is specified by the link name.
     ///
-    /// - Parameter DetachObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachObjectInput`)
     ///
-    /// - Returns: `DetachObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1976,9 +1976,9 @@ extension CloudDirectoryClient {
     ///
     /// Detaches a policy from an object.
     ///
-    /// - Parameter DetachPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachPolicyInput`)
     ///
-    /// - Returns: `DetachPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,9 +2052,9 @@ extension CloudDirectoryClient {
     ///
     /// Detaches a typed link from a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter DetachTypedLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachTypedLinkInput`)
     ///
-    /// - Returns: `DetachTypedLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachTypedLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2128,9 +2128,9 @@ extension CloudDirectoryClient {
     ///
     /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.
     ///
-    /// - Parameter DisableDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableDirectoryInput`)
     ///
-    /// - Returns: `DisableDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2200,9 +2200,9 @@ extension CloudDirectoryClient {
     ///
     /// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to.
     ///
-    /// - Parameter EnableDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableDirectoryInput`)
     ///
-    /// - Returns: `EnableDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2272,9 +2272,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns current applied schema version ARN, including the minor version in use.
     ///
-    /// - Parameter GetAppliedSchemaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppliedSchemaVersionInput`)
     ///
-    /// - Returns: `GetAppliedSchemaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppliedSchemaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2345,9 +2345,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves metadata about a directory.
     ///
-    /// - Parameter GetDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDirectoryInput`)
     ///
-    /// - Returns: `GetDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2415,9 +2415,9 @@ extension CloudDirectoryClient {
     ///
     /// Gets details of the [Facet], such as facet name, attributes, [Rule]s, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
     ///
-    /// - Parameter GetFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFacetInput`)
     ///
-    /// - Returns: `GetFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,9 +2490,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves attributes that are associated with a typed link.
     ///
-    /// - Parameter GetLinkAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinkAttributesInput`)
     ///
-    /// - Returns: `GetLinkAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinkAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2566,9 +2566,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves attributes within a facet that are associated with an object.
     ///
-    /// - Parameter GetObjectAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectAttributesInput`)
     ///
-    /// - Returns: `GetObjectAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,9 +2642,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves metadata about an object.
     ///
-    /// - Parameter GetObjectInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectInformationInput`)
     ///
-    /// - Returns: `GetObjectInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2717,9 +2717,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves a JSON representation of the schema. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
     ///
-    /// - Parameter GetSchemaAsJsonInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaAsJsonInput`)
     ///
-    /// - Returns: `GetSchemaAsJsonOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaAsJsonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2788,9 +2788,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns the identity attribute order for a specific [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter GetTypedLinkFacetInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTypedLinkFacetInformationInput`)
     ///
-    /// - Returns: `GetTypedLinkFacetInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTypedLinkFacetInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2864,9 +2864,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
     ///
-    /// - Parameter ListAppliedSchemaArnsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppliedSchemaArnsInput`)
     ///
-    /// - Returns: `ListAppliedSchemaArnsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppliedSchemaArnsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2938,9 +2938,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists indices attached to the specified object.
     ///
-    /// - Parameter ListAttachedIndicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachedIndicesInput`)
     ///
-    /// - Returns: `ListAttachedIndicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttachedIndicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3013,9 +3013,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
     ///
-    /// - Parameter ListDevelopmentSchemaArnsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevelopmentSchemaArnsInput`)
     ///
-    /// - Returns: `ListDevelopmentSchemaArnsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevelopmentSchemaArnsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3087,9 +3087,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists directories created within an account.
     ///
-    /// - Parameter ListDirectoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDirectoriesInput`)
     ///
-    /// - Returns: `ListDirectoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDirectoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3160,9 +3160,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves attributes attached to the facet.
     ///
-    /// - Parameter ListFacetAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFacetAttributesInput`)
     ///
-    /// - Returns: `ListFacetAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFacetAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3236,9 +3236,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves the names of facets that exist in a schema.
     ///
-    /// - Parameter ListFacetNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFacetNamesInput`)
     ///
-    /// - Returns: `ListFacetNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFacetNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3311,9 +3311,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of all the incoming [TypedLinkSpecifier] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter ListIncomingTypedLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIncomingTypedLinksInput`)
     ///
-    /// - Returns: `ListIncomingTypedLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIncomingTypedLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3388,9 +3388,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists objects attached to the specified index.
     ///
-    /// - Parameter ListIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexInput`)
     ///
-    /// - Returns: `ListIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3466,9 +3466,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
     ///
-    /// - Parameter ListManagedSchemaArnsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedSchemaArnsInput`)
     ///
-    /// - Returns: `ListManagedSchemaArnsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedSchemaArnsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3538,9 +3538,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists all attributes that are associated with an object.
     ///
-    /// - Parameter ListObjectAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectAttributesInput`)
     ///
-    /// - Returns: `ListObjectAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3615,9 +3615,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of child objects that are associated with a given object.
     ///
-    /// - Parameter ListObjectChildrenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectChildrenInput`)
     ///
-    /// - Returns: `ListObjectChildrenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectChildrenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3692,9 +3692,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see [Directory Structure](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html). Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
     ///
-    /// - Parameter ListObjectParentPathsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectParentPathsInput`)
     ///
-    /// - Returns: `ListObjectParentPathsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectParentPathsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3768,9 +3768,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists parent objects that are associated with a given object in pagination fashion.
     ///
-    /// - Parameter ListObjectParentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectParentsInput`)
     ///
-    /// - Returns: `ListObjectParentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectParentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3845,9 +3845,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns policies attached to an object in pagination fashion.
     ///
-    /// - Parameter ListObjectPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectPoliciesInput`)
     ///
-    /// - Returns: `ListObjectPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3921,9 +3921,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of all the outgoing [TypedLinkSpecifier] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter ListOutgoingTypedLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOutgoingTypedLinksInput`)
     ///
-    /// - Returns: `ListOutgoingTypedLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOutgoingTypedLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3998,9 +3998,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns all of the ObjectIdentifiers to which a given policy is attached.
     ///
-    /// - Parameter ListPolicyAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyAttachmentsInput`)
     ///
-    /// - Returns: `ListPolicyAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4075,9 +4075,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
     ///
-    /// - Parameter ListPublishedSchemaArnsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPublishedSchemaArnsInput`)
     ///
-    /// - Returns: `ListPublishedSchemaArnsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPublishedSchemaArnsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4149,9 +4149,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4223,9 +4223,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of all attribute definitions for a particular [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter ListTypedLinkFacetAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypedLinkFacetAttributesInput`)
     ///
-    /// - Returns: `ListTypedLinkFacetAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypedLinkFacetAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4299,9 +4299,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter ListTypedLinkFacetNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypedLinkFacetNamesInput`)
     ///
-    /// - Returns: `ListTypedLinkFacetNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypedLinkFacetNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4374,9 +4374,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists all policies from the root of the [Directory] to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
     ///
-    /// - Parameter LookupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `LookupPolicyInput`)
     ///
-    /// - Returns: `LookupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `LookupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4450,9 +4450,9 @@ extension CloudDirectoryClient {
     ///
     /// Publishes a development schema with a major version and a recommended minor version.
     ///
-    /// - Parameter PublishSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishSchemaInput`)
     ///
-    /// - Returns: `PublishSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4525,9 +4525,9 @@ extension CloudDirectoryClient {
     ///
     /// Allows a schema to be updated using JSON upload. Only available for development schemas. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
     ///
-    /// - Parameter PutSchemaFromJsonInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSchemaFromJsonInput`)
     ///
-    /// - Returns: `PutSchemaFromJsonOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSchemaFromJsonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4600,9 +4600,9 @@ extension CloudDirectoryClient {
     ///
     /// Removes the specified facet from the specified object.
     ///
-    /// - Parameter RemoveFacetFromObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFacetFromObjectInput`)
     ///
-    /// - Returns: `RemoveFacetFromObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFacetFromObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4676,9 +4676,9 @@ extension CloudDirectoryClient {
     ///
     /// An API operation for adding tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4750,9 +4750,9 @@ extension CloudDirectoryClient {
     ///
     /// An API operation for removing tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4830,9 +4830,9 @@ extension CloudDirectoryClient {
     ///
     /// * Deletes existing Attributes, Rules, or ObjectTypes.
     ///
-    /// - Parameter UpdateFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFacetInput`)
     ///
-    /// - Returns: `UpdateFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4908,9 +4908,9 @@ extension CloudDirectoryClient {
     ///
     /// Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its IdentityAttributeOrder.
     ///
-    /// - Parameter UpdateLinkAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLinkAttributesInput`)
     ///
-    /// - Returns: `UpdateLinkAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLinkAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4984,9 +4984,9 @@ extension CloudDirectoryClient {
     ///
     /// Updates a given object's attributes.
     ///
-    /// - Parameter UpdateObjectAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateObjectAttributesInput`)
     ///
-    /// - Returns: `UpdateObjectAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateObjectAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5061,9 +5061,9 @@ extension CloudDirectoryClient {
     ///
     /// Updates the schema name with a new name. Only development schema names can be updated.
     ///
-    /// - Parameter UpdateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSchemaInput`)
     ///
-    /// - Returns: `UpdateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5135,9 +5135,9 @@ extension CloudDirectoryClient {
     ///
     /// Updates a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter UpdateTypedLinkFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTypedLinkFacetInput`)
     ///
-    /// - Returns: `UpdateTypedLinkFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTypedLinkFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5213,9 +5213,9 @@ extension CloudDirectoryClient {
     ///
     /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
     ///
-    /// - Parameter UpgradeAppliedSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradeAppliedSchemaInput`)
     ///
-    /// - Returns: `UpgradeAppliedSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradeAppliedSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5288,9 +5288,9 @@ extension CloudDirectoryClient {
     ///
     /// Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn.
     ///
-    /// - Parameter UpgradePublishedSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradePublishedSchemaInput`)
     ///
-    /// - Returns: `UpgradePublishedSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradePublishedSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

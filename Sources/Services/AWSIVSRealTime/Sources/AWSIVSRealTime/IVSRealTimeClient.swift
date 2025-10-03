@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IVSRealTimeClient: ClientRuntime.Client {
     public static let clientName = "IVSRealTimeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IVSRealTimeClient.IVSRealTimeClientConfiguration
     let serviceName = "IVS RealTime"
@@ -373,9 +373,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates an EncoderConfiguration object.
     ///
-    /// - Parameter CreateEncoderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEncoderConfigurationInput`)
     ///
-    /// - Returns: `CreateEncoderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEncoderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
     ///
-    /// - Parameter CreateIngestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngestConfigurationInput`)
     ///
-    /// - Returns: `CreateIngestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
     ///
-    /// - Parameter CreateParticipantTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateParticipantTokenInput`)
     ///
-    /// - Returns: `CreateParticipantTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateParticipantTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates a new stage (and optionally participant tokens).
     ///
-    /// - Parameter CreateStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStageInput`)
     ///
-    /// - Returns: `CreateStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,9 +657,9 @@ extension IVSRealTimeClient {
     ///
     /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket.
     ///
-    /// - Parameter CreateStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStorageConfigurationInput`)
     ///
-    /// - Returns: `CreateStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension IVSRealTimeClient {
     ///
     /// Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this template; otherwise, returns an error.
     ///
-    /// - Parameter DeleteEncoderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEncoderConfigurationInput`)
     ///
-    /// - Returns: `DeleteEncoderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEncoderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension IVSRealTimeClient {
     ///
     /// Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage, unless force is set to true.
     ///
-    /// - Parameter DeleteIngestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIngestConfigurationInput`)
     ///
-    /// - Returns: `DeleteIngestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIngestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,9 +873,9 @@ extension IVSRealTimeClient {
     ///
     /// Deletes the specified public key used to sign stage participant tokens. This invalidates future participant tokens generated using the key pair’s private key.
     ///
-    /// - Parameter DeletePublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicKeyInput`)
     ///
-    /// - Returns: `DeletePublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,9 +944,9 @@ extension IVSRealTimeClient {
     ///
     /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated [IngestConfiguration], if there are participants using the IngestConfiguration to publish to the stage.
     ///
-    /// - Parameter DeleteStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStageInput`)
     ///
-    /// - Returns: `DeleteStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,9 +1015,9 @@ extension IVSRealTimeClient {
     ///
     /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use [StopComposition] and wait for it to complete, then use DeleteStorageConfiguration.
     ///
-    /// - Parameter DeleteStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageConfigurationInput`)
     ///
-    /// - Returns: `DeleteStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1087,9 +1087,9 @@ extension IVSRealTimeClient {
     ///
     /// Disconnects a specified participant from a specified stage. If the participant is publishing using an [IngestConfiguration], DisconnectParticipant also updates the stageArn in the IngestConfiguration to be an empty string.
     ///
-    /// - Parameter DisconnectParticipantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisconnectParticipantInput`)
     ///
-    /// - Returns: `DisconnectParticipantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisconnectParticipantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1157,9 +1157,9 @@ extension IVSRealTimeClient {
     ///
     /// Get information about the specified Composition resource.
     ///
-    /// - Parameter GetCompositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCompositionInput`)
     ///
-    /// - Returns: `GetCompositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCompositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1229,9 +1229,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information about the specified EncoderConfiguration resource.
     ///
-    /// - Parameter GetEncoderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEncoderConfigurationInput`)
     ///
-    /// - Returns: `GetEncoderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEncoderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,9 +1301,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information about the specified IngestConfiguration.
     ///
-    /// - Parameter GetIngestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIngestConfigurationInput`)
     ///
-    /// - Returns: `GetIngestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIngestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1370,9 +1370,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information about the specified participant token.
     ///
-    /// - Parameter GetParticipantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParticipantInput`)
     ///
-    /// - Returns: `GetParticipantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParticipantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,9 +1439,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information for the specified public key.
     ///
-    /// - Parameter GetPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyInput`)
     ///
-    /// - Returns: `GetPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1508,9 +1508,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information for the specified stage.
     ///
-    /// - Parameter GetStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStageInput`)
     ///
-    /// - Returns: `GetStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,9 +1577,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information for the specified stage session.
     ///
-    /// - Parameter GetStageSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStageSessionInput`)
     ///
-    /// - Returns: `GetStageSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStageSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,9 +1646,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets the storage configuration for the specified ARN.
     ///
-    /// - Parameter GetStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageConfigurationInput`)
     ///
-    /// - Returns: `GetStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1718,9 +1718,9 @@ extension IVSRealTimeClient {
     ///
     /// Import a public key to be used for signing stage participant tokens.
     ///
-    /// - Parameter ImportPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportPublicKeyInput`)
     ///
-    /// - Returns: `ImportPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1789,9 +1789,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all Compositions in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListCompositionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCompositionsInput`)
     ///
-    /// - Returns: `ListCompositionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCompositionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,9 +1860,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all EncoderConfigurations in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListEncoderConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEncoderConfigurationsInput`)
     ///
-    /// - Returns: `ListEncoderConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEncoderConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1931,9 +1931,9 @@ extension IVSRealTimeClient {
     ///
     /// Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListIngestConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngestConfigurationsInput`)
     ///
-    /// - Returns: `ListIngestConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngestConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1999,9 +1999,9 @@ extension IVSRealTimeClient {
     ///
     /// Lists events for a specified participant that occurred during a specified stage session.
     ///
-    /// - Parameter ListParticipantEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListParticipantEventsInput`)
     ///
-    /// - Returns: `ListParticipantEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListParticipantEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2067,9 +2067,9 @@ extension IVSRealTimeClient {
     ///
     /// Lists all the replicas for a participant from a source stage.
     ///
-    /// - Parameter ListParticipantReplicasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListParticipantReplicasInput`)
     ///
-    /// - Returns: `ListParticipantReplicasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListParticipantReplicasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,9 +2135,9 @@ extension IVSRealTimeClient {
     ///
     /// Lists all participants in a specified stage session.
     ///
-    /// - Parameter ListParticipantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListParticipantsInput`)
     ///
-    /// - Returns: `ListParticipantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListParticipantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2203,9 +2203,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListPublicKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPublicKeysInput`)
     ///
-    /// - Returns: `ListPublicKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPublicKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2271,9 +2271,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets all sessions for a specified stage.
     ///
-    /// - Parameter ListStageSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStageSessionsInput`)
     ///
-    /// - Returns: `ListStageSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStageSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2339,9 +2339,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListStagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStagesInput`)
     ///
-    /// - Returns: `ListStagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2408,9 +2408,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListStorageConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStorageConfigurationsInput`)
     ///
-    /// - Returns: `ListStorageConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStorageConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2479,9 +2479,9 @@ extension IVSRealTimeClient {
     ///
     /// Gets information about AWS tags for the specified ARN.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2555,9 +2555,9 @@ extension IVSRealTimeClient {
     ///
     /// * When broadcasting is disconnected and all attempts to reconnect are exhausted.
     ///
-    /// - Parameter StartCompositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCompositionInput`)
     ///
-    /// - Returns: `StartCompositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCompositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2629,9 +2629,9 @@ extension IVSRealTimeClient {
     ///
     /// Starts replicating a publishing participant from a source stage to a destination stage.
     ///
-    /// - Parameter StartParticipantReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartParticipantReplicationInput`)
     ///
-    /// - Returns: `StartParticipantReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartParticipantReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2702,9 +2702,9 @@ extension IVSRealTimeClient {
     ///
     /// Stops and deletes a Composition resource. Any broadcast from the Composition resource is stopped.
     ///
-    /// - Parameter StopCompositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCompositionInput`)
     ///
-    /// - Returns: `StopCompositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCompositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2774,9 +2774,9 @@ extension IVSRealTimeClient {
     ///
     /// Stops a replicated participant session.
     ///
-    /// - Parameter StopParticipantReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopParticipantReplicationInput`)
     ///
-    /// - Returns: `StopParticipantReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopParticipantReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2844,9 +2844,9 @@ extension IVSRealTimeClient {
     ///
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2913,9 +2913,9 @@ extension IVSRealTimeClient {
     ///
     /// Removes tags from the resource with the specified ARN.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2980,9 +2980,9 @@ extension IVSRealTimeClient {
     ///
     /// Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
     ///
-    /// - Parameter UpdateIngestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIngestConfigurationInput`)
     ///
-    /// - Returns: `UpdateIngestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIngestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3051,9 +3051,9 @@ extension IVSRealTimeClient {
     ///
     /// Updates a stage’s configuration.
     ///
-    /// - Parameter UpdateStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStageInput`)
     ///
-    /// - Returns: `UpdateStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

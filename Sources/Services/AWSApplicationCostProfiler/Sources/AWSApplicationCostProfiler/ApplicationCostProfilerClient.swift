@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationCostProfilerClient: ClientRuntime.Client {
     public static let clientName = "ApplicationCostProfilerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationCostProfilerClient.ApplicationCostProfilerClientConfiguration
     let serviceName = "ApplicationCostProfiler"
@@ -373,9 +373,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated.
     ///
-    /// - Parameter DeleteReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReportDefinitionInput`)
     ///
-    /// - Returns: `DeleteReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,9 +440,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Retrieves the definition of a report already configured in AWS Application Cost Profiler.
     ///
-    /// - Parameter GetReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReportDefinitionInput`)
     ///
-    /// - Returns: `GetReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -507,9 +507,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously.
     ///
-    /// - Parameter ImportApplicationUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportApplicationUsageInput`)
     ///
-    /// - Returns: `ImportApplicationUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportApplicationUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,9 +577,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
     ///
-    /// - Parameter ListReportDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportDefinitionsInput`)
     ///
-    /// - Returns: `ListReportDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -645,9 +645,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Creates the report definition for a report in Application Cost Profiler.
     ///
-    /// - Parameter PutReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutReportDefinitionInput`)
     ///
-    /// - Returns: `PutReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,9 +716,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Updates existing report in AWS Application Cost Profiler.
     ///
-    /// - Parameter UpdateReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReportDefinitionInput`)
     ///
-    /// - Returns: `UpdateReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TransferClient: ClientRuntime.Client {
     public static let clientName = "TransferClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: TransferClient.TransferClientConfiguration
     let serviceName = "Transfer"
@@ -373,9 +373,9 @@ extension TransferClient {
     ///
     /// Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use CreateAccess to limit the access to the correct set of users who need this ability.
     ///
-    /// - Parameter CreateAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessInput`)
     ///
-    /// - Returns: `CreateAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension TransferClient {
     ///
     /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId. Specify either BaseDirectory or CustomDirectories, but not both. Specifying both causes the command to fail.
     ///
-    /// - Parameter CreateAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAgreementInput`)
     ///
-    /// - Returns: `CreateAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension TransferClient {
     ///
     /// Creates the connector, which captures the parameters for a connection for the AS2 or SFTP protocol. For AS2, the connector is required for sending files to an externally hosted AS2 server. For SFTP, the connector is required when sending files to an SFTP server or receiving files from an SFTP server. For more details about connectors, see [Configure AS2 connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-as2-connector.html) and [Create SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/configure-sftp-connector.html). You must specify exactly one configuration object: either for AS2 (As2Config) or SFTP (SftpConfig).
     ///
-    /// - Parameter CreateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
-    /// - Returns: `CreateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension TransferClient {
     ///
     /// Creates the local or partner profile to use for AS2 transfers.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,9 +663,9 @@ extension TransferClient {
     ///
     /// Instantiates an auto-scaling virtual server based on the selected file transfer protocol in Amazon Web Services. When you make updates to your file transfer protocol-enabled server or when you work with users, use the service-generated ServerId property that is assigned to the newly created server.
     ///
-    /// - Parameter CreateServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServerInput`)
     ///
-    /// - Returns: `CreateServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension TransferClient {
     ///
     /// Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the IdentityProviderType set to SERVICE_MANAGED. Using parameters for CreateUser, you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search for users.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,9 +809,9 @@ extension TransferClient {
     ///
     /// Creates a web app based on specified parameters, and returns the ID for the new web app.
     ///
-    /// - Parameter CreateWebAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWebAppInput`)
     ///
-    /// - Returns: `CreateWebAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWebAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,9 +881,9 @@ extension TransferClient {
     ///
     /// Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the workflow-details field in CreateServer and UpdateServer operations.
     ///
-    /// - Parameter CreateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
-    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,9 +954,9 @@ extension TransferClient {
     ///
     /// Allows you to delete the access specified in the ServerID and ExternalID parameters.
     ///
-    /// - Parameter DeleteAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessInput`)
     ///
-    /// - Returns: `DeleteAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1025,9 +1025,9 @@ extension TransferClient {
     ///
     /// Delete the agreement that's specified in the provided AgreementId.
     ///
-    /// - Parameter DeleteAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgreementInput`)
     ///
-    /// - Returns: `DeleteAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1096,9 +1096,9 @@ extension TransferClient {
     ///
     /// Deletes the certificate that's specified in the CertificateId parameter.
     ///
-    /// - Parameter DeleteCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCertificateInput`)
     ///
-    /// - Returns: `DeleteCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,9 +1167,9 @@ extension TransferClient {
     ///
     /// Deletes the connector that's specified in the provided ConnectorId.
     ///
-    /// - Parameter DeleteConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
-    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1238,9 +1238,9 @@ extension TransferClient {
     ///
     /// Deletes the host key that's specified in the HostKeyId parameter.
     ///
-    /// - Parameter DeleteHostKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHostKeyInput`)
     ///
-    /// - Returns: `DeleteHostKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHostKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,9 +1310,9 @@ extension TransferClient {
     ///
     /// Deletes the profile that's specified in the ProfileId parameter.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1381,9 +1381,9 @@ extension TransferClient {
     ///
     /// Deletes the file transfer protocol-enabled server that you specify. No response returns from this operation.
     ///
-    /// - Parameter DeleteServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServerInput`)
     ///
-    /// - Returns: `DeleteServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1453,9 +1453,9 @@ extension TransferClient {
     ///
     /// Deletes a user's Secure Shell (SSH) public key.
     ///
-    /// - Parameter DeleteSshPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSshPublicKeyInput`)
     ///
-    /// - Returns: `DeleteSshPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSshPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1525,9 +1525,9 @@ extension TransferClient {
     ///
     /// Deletes the user belonging to a file transfer protocol-enabled server you specify. No response returns from this operation. When you delete a user from a server, the user's information is lost.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1596,9 +1596,9 @@ extension TransferClient {
     ///
     /// Deletes the specified web app.
     ///
-    /// - Parameter DeleteWebAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebAppInput`)
     ///
-    /// - Returns: `DeleteWebAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1668,9 +1668,9 @@ extension TransferClient {
     ///
     /// Deletes the WebAppCustomization object that corresponds to the web app ID specified.
     ///
-    /// - Parameter DeleteWebAppCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebAppCustomizationInput`)
     ///
-    /// - Returns: `DeleteWebAppCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebAppCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1741,9 +1741,9 @@ extension TransferClient {
     ///
     /// Deletes the specified workflow.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1813,9 +1813,9 @@ extension TransferClient {
     ///
     /// Describes the access that is assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property and its ExternalId. The response from this call returns the properties of the access that is associated with the ServerId value that was specified.
     ///
-    /// - Parameter DescribeAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccessInput`)
     ///
-    /// - Returns: `DescribeAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1884,9 +1884,9 @@ extension TransferClient {
     ///
     /// Describes the agreement that's identified by the AgreementId.
     ///
-    /// - Parameter DescribeAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAgreementInput`)
     ///
-    /// - Returns: `DescribeAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1955,9 +1955,9 @@ extension TransferClient {
     ///
     /// Describes the certificate that's identified by the CertificateId. Transfer Family automatically publishes a Amazon CloudWatch metric called DaysUntilExpiry for imported certificates. This metric tracks the number of days until the certificate expires based on the InactiveDate. The metric is available in the AWS/Transfer namespace and includes the CertificateId as a dimension.
     ///
-    /// - Parameter DescribeCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificateInput`)
     ///
-    /// - Returns: `DescribeCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2026,9 +2026,9 @@ extension TransferClient {
     ///
     /// Describes the connector that's identified by the ConnectorId.
     ///
-    /// - Parameter DescribeConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectorInput`)
     ///
-    /// - Returns: `DescribeConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2097,9 +2097,9 @@ extension TransferClient {
     ///
     /// You can use DescribeExecution to check the details of the execution of the specified workflow. This API call only returns details for in-progress workflows. If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a ResourceNotFound exception.
     ///
-    /// - Parameter DescribeExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExecutionInput`)
     ///
-    /// - Returns: `DescribeExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2168,9 +2168,9 @@ extension TransferClient {
     ///
     /// Returns the details of the host key that's specified by the HostKeyId and ServerId.
     ///
-    /// - Parameter DescribeHostKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHostKeyInput`)
     ///
-    /// - Returns: `DescribeHostKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHostKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2239,9 +2239,9 @@ extension TransferClient {
     ///
     /// Returns the details of the profile that's specified by the ProfileId.
     ///
-    /// - Parameter DescribeProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProfileInput`)
     ///
-    /// - Returns: `DescribeProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2310,9 +2310,9 @@ extension TransferClient {
     ///
     /// Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     ///
-    /// - Parameter DescribeSecurityPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityPolicyInput`)
     ///
-    /// - Returns: `DescribeSecurityPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2381,9 +2381,9 @@ extension TransferClient {
     ///
     /// Describes a file transfer protocol-enabled server that you specify by passing the ServerId parameter. The response contains a description of a server's properties. When you set EndpointType to VPC, the response will contain the EndpointDetails.
     ///
-    /// - Parameter DescribeServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServerInput`)
     ///
-    /// - Returns: `DescribeServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,9 +2452,9 @@ extension TransferClient {
     ///
     /// Describes the user assigned to the specific file transfer protocol-enabled server, as identified by its ServerId property. The response from this call returns the properties of the user associated with the ServerId value that was specified.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2523,9 +2523,9 @@ extension TransferClient {
     ///
     /// Describes the web app that's identified by WebAppId.
     ///
-    /// - Parameter DescribeWebAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWebAppInput`)
     ///
-    /// - Returns: `DescribeWebAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWebAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2595,9 +2595,9 @@ extension TransferClient {
     ///
     /// Describes the web app customization object that's identified by WebAppId.
     ///
-    /// - Parameter DescribeWebAppCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWebAppCustomizationInput`)
     ///
-    /// - Returns: `DescribeWebAppCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWebAppCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2667,9 +2667,9 @@ extension TransferClient {
     ///
     /// Describes the specified workflow.
     ///
-    /// - Parameter DescribeWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkflowInput`)
     ///
-    /// - Returns: `DescribeWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2746,9 +2746,9 @@ extension TransferClient {
     ///
     /// * Frequency: Published daily
     ///
-    /// - Parameter ImportCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportCertificateInput`)
     ///
-    /// - Returns: `ImportCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2817,9 +2817,9 @@ extension TransferClient {
     ///
     /// Adds a host key to the server that's specified by the ServerId parameter.
     ///
-    /// - Parameter ImportHostKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportHostKeyInput`)
     ///
-    /// - Returns: `ImportHostKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportHostKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2890,9 +2890,9 @@ extension TransferClient {
     ///
     /// Adds a Secure Shell (SSH) public key to a Transfer Family user identified by a UserName value assigned to the specific file transfer protocol-enabled server, identified by ServerId. The response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId.
     ///
-    /// - Parameter ImportSshPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportSshPublicKeyInput`)
     ///
-    /// - Returns: `ImportSshPublicKeyOutput` : Identifies the user, the server they belong to, and the identifier of the SSH public key associated with that user. A user can have more than one key on each server that they are associated with.
+    /// - Returns: Identifies the user, the server they belong to, and the identifier of the SSH public key associated with that user. A user can have more than one key on each server that they are associated with. (Type: `ImportSshPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2963,9 +2963,9 @@ extension TransferClient {
     ///
     /// Lists the details for all the accesses you have on your server.
     ///
-    /// - Parameter ListAccessesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessesInput`)
     ///
-    /// - Returns: `ListAccessesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3035,9 +3035,9 @@ extension TransferClient {
     ///
     /// Returns a list of the agreements for the server that's identified by the ServerId that you supply. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing agreements from where you left off.
     ///
-    /// - Parameter ListAgreementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgreementsInput`)
     ///
-    /// - Returns: `ListAgreementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgreementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3107,9 +3107,9 @@ extension TransferClient {
     ///
     /// Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for the NextToken parameter, you can supply that value to continue listing certificates from where you left off.
     ///
-    /// - Parameter ListCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCertificatesInput`)
     ///
-    /// - Returns: `ListCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3179,9 +3179,9 @@ extension TransferClient {
     ///
     /// Lists the connectors for the specified Region.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3251,9 +3251,9 @@ extension TransferClient {
     ///
     /// Lists all in-progress executions for the specified workflow. If the specified workflow ID cannot be found, ListExecutions returns a ResourceNotFound exception.
     ///
-    /// - Parameter ListExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExecutionsInput`)
     ///
-    /// - Returns: `ListExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3323,9 +3323,9 @@ extension TransferClient {
     ///
     /// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation. You specify the file transfer by providing its ConnectorId and its TransferId. File transfer results are available up to 7 days after an operation has been requested.
     ///
-    /// - Parameter ListFileTransferResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFileTransferResultsInput`)
     ///
-    /// - Returns: `ListFileTransferResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFileTransferResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3394,9 +3394,9 @@ extension TransferClient {
     ///
     /// Returns a list of host keys for the server that's specified by the ServerId parameter.
     ///
-    /// - Parameter ListHostKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHostKeysInput`)
     ///
-    /// - Returns: `ListHostKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHostKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3466,9 +3466,9 @@ extension TransferClient {
     ///
     /// Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the MaxResults parameter. If you ran the command previously and received a value for NextToken, you can supply that value to continue listing profiles from where you left off.
     ///
-    /// - Parameter ListProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfilesInput`)
     ///
-    /// - Returns: `ListProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3538,9 +3538,9 @@ extension TransferClient {
     ///
     /// Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     ///
-    /// - Parameter ListSecurityPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityPoliciesInput`)
     ///
-    /// - Returns: `ListSecurityPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3609,9 +3609,9 @@ extension TransferClient {
     ///
     /// Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
     ///
-    /// - Parameter ListServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServersInput`)
     ///
-    /// - Returns: `ListServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3680,9 +3680,9 @@ extension TransferClient {
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3751,9 +3751,9 @@ extension TransferClient {
     ///
     /// Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3823,9 +3823,9 @@ extension TransferClient {
     ///
     /// Lists all web apps associated with your Amazon Web Services account for your current region.
     ///
-    /// - Parameter ListWebAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWebAppsInput`)
     ///
-    /// - Returns: `ListWebAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWebAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3894,9 +3894,9 @@ extension TransferClient {
     ///
     /// Lists all workflows associated with your Amazon Web Services account for your current region.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3965,9 +3965,9 @@ extension TransferClient {
     ///
     /// Sends a callback for asynchronous custom steps. The ExecutionId, WorkflowId, and Token are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
     ///
-    /// - Parameter SendWorkflowStepStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendWorkflowStepStateInput`)
     ///
-    /// - Returns: `SendWorkflowStepStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendWorkflowStepStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4048,9 +4048,9 @@ extension TransferClient {
     ///
     /// * truncated: a flag indicating whether the list output contains all of the items contained in the remote directory or not. If your Truncated output value is true, you can increase the value provided in the optional max-items input attribute to be able to list more items (up to the maximum allowed list size of 10,000 items).
     ///
-    /// - Parameter StartDirectoryListingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDirectoryListingInput`)
     ///
-    /// - Returns: `StartDirectoryListingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDirectoryListingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4128,9 +4128,9 @@ extension TransferClient {
     ///
     /// * If you are transferring file to a partner's SFTP server from Amazon Web Services storage, you specify one or more SendFilePaths to identify the files you want to transfer, and a RemoteDirectoryPath to specify the destination folder.
     ///
-    /// - Parameter StartFileTransferInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFileTransferInput`)
     ///
-    /// - Returns: `StartFileTransferOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFileTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4200,9 +4200,9 @@ extension TransferClient {
     ///
     /// Deletes a file or directory on the remote SFTP server.
     ///
-    /// - Parameter StartRemoteDeleteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRemoteDeleteInput`)
     ///
-    /// - Returns: `StartRemoteDeleteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRemoteDeleteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4272,9 +4272,9 @@ extension TransferClient {
     ///
     /// Moves or renames a file or directory on the remote SFTP server.
     ///
-    /// - Parameter StartRemoteMoveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRemoteMoveInput`)
     ///
-    /// - Returns: `StartRemoteMoveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRemoteMoveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4344,9 +4344,9 @@ extension TransferClient {
     ///
     /// Changes the state of a file transfer protocol-enabled server from OFFLINE to ONLINE. It has no impact on a server that is already ONLINE. An ONLINE server can accept and process file transfer jobs. The state of STARTING indicates that the server is in an intermediate state, either not fully able to respond, or not fully online. The values of START_FAILED can indicate an error condition. No response is returned from this call.
     ///
-    /// - Parameter StartServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartServerInput`)
     ///
-    /// - Returns: `StartServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4416,9 +4416,9 @@ extension TransferClient {
     ///
     /// Changes the state of a file transfer protocol-enabled server from ONLINE to OFFLINE. An OFFLINE server cannot accept and process file transfer jobs. Information tied to your server, such as server and user properties, are not affected by stopping your server. Stopping the server does not reduce or impact your file transfer protocol endpoint billing; you must delete the server to stop being billed. The state of STOPPING indicates that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of STOP_FAILED can indicate an error condition. No response is returned from this call.
     ///
-    /// - Parameter StopServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopServerInput`)
     ///
-    /// - Returns: `StopServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4488,9 +4488,9 @@ extension TransferClient {
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. There is no response returned from this call.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4559,9 +4559,9 @@ extension TransferClient {
     ///
     /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
     ///
-    /// - Parameter TestConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestConnectionInput`)
     ///
-    /// - Returns: `TestConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4642,9 +4642,9 @@ extension TransferClient {
     ///
     /// * If you enter a Server ID for the --server-id parameter that does not identify an actual Transfer server, you receive the following error: An error occurred (ResourceNotFoundException) when calling the TestIdentityProvider operation: Unknown server. It is possible your sever is in a different region. You can specify a region by adding the following: --region region-code, such as --region us-east-2 to specify a server in US East (Ohio).
     ///
-    /// - Parameter TestIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestIdentityProviderInput`)
     ///
-    /// - Returns: `TestIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4713,9 +4713,9 @@ extension TransferClient {
     ///
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. No response is returned from this call.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4784,9 +4784,9 @@ extension TransferClient {
     ///
     /// Allows you to update parameters for the access specified in the ServerID and ExternalID parameters.
     ///
-    /// - Parameter UpdateAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessInput`)
     ///
-    /// - Returns: `UpdateAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4857,9 +4857,9 @@ extension TransferClient {
     ///
     /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update. Specify either BaseDirectory or CustomDirectories, but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.
     ///
-    /// - Parameter UpdateAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgreementInput`)
     ///
-    /// - Returns: `UpdateAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4930,9 +4930,9 @@ extension TransferClient {
     ///
     /// Updates the active and inactive dates for a certificate.
     ///
-    /// - Parameter UpdateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCertificateInput`)
     ///
-    /// - Returns: `UpdateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5002,9 +5002,9 @@ extension TransferClient {
     ///
     /// Updates some of the parameters for an existing connector. Provide the ConnectorId for the connector that you want to update, along with the new values for the parameters to update.
     ///
-    /// - Parameter UpdateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorInput`)
     ///
-    /// - Returns: `UpdateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5075,9 +5075,9 @@ extension TransferClient {
     ///
     /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters.
     ///
-    /// - Parameter UpdateHostKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHostKeyInput`)
     ///
-    /// - Returns: `UpdateHostKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHostKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5147,9 +5147,9 @@ extension TransferClient {
     ///
     /// Updates some of the parameters for an existing profile. Provide the ProfileId for the profile that you want to update, along with the new values for the parameters to update.
     ///
-    /// - Parameter UpdateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileInput`)
     ///
-    /// - Returns: `UpdateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5219,9 +5219,9 @@ extension TransferClient {
     ///
     /// Updates the file transfer protocol-enabled server's properties after that server has been created. The UpdateServer call returns the ServerId of the server you updated.
     ///
-    /// - Parameter UpdateServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServerInput`)
     ///
-    /// - Returns: `UpdateServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5294,9 +5294,9 @@ extension TransferClient {
     ///
     /// Assigns new properties to a user. Parameters you pass modify any or all of the following: the home directory, role, and policy for the UserName and ServerId you specify. The response returns the ServerId and the UserName for the updated user. In the console, you can select Restricted when you create or update a user. This ensures that the user can't access anything outside of their home directory. The programmatic way to configure this behavior is to update the user. Set their HomeDirectoryType to LOGICAL, and specify HomeDirectoryMappings with Entry as root (/) and Target as their home directory. For example, if the user's home directory is /test/admin-user, the following command updates the user so that their configuration in the console shows the Restricted flag as selected.  aws transfer update-user --server-id <server-id> --user-name admin-user --home-directory-type LOGICAL --home-directory-mappings "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : UpdateUserResponse returns the user name and identifier for the request to update a user's properties.
+    /// - Returns: UpdateUserResponse returns the user name and identifier for the request to update a user's properties. (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5366,9 +5366,9 @@ extension TransferClient {
     ///
     /// Assigns new properties to a web app. You can modify the access point, identity provider details, and the web app units.
     ///
-    /// - Parameter UpdateWebAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebAppInput`)
     ///
-    /// - Returns: `UpdateWebAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5439,9 +5439,9 @@ extension TransferClient {
     ///
     /// Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
     ///
-    /// - Parameter UpdateWebAppCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebAppCustomizationInput`)
     ///
-    /// - Returns: `UpdateWebAppCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebAppCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

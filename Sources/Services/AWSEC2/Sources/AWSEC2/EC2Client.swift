@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -373,9 +373,9 @@ extension EC2Client {
     ///
     /// Accepts an Elastic IP address transfer. For more information, see [Accept a transferred Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#using-instance-addressing-eips-transfer-accept) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AcceptAddressTransferInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptAddressTransferInput`)
     ///
-    /// - Returns: `AcceptAddressTransferOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptAddressTransferOutput`)
     public func acceptAddressTransfer(input: AcceptAddressTransferInput) async throws -> AcceptAddressTransferOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -435,9 +435,9 @@ extension EC2Client {
     ///
     /// Accepts a request to assign billing of the available capacity of a shared Capacity Reservation to your account. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
     ///
-    /// - Parameter AcceptCapacityReservationBillingOwnershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptCapacityReservationBillingOwnershipInput`)
     ///
-    /// - Returns: `AcceptCapacityReservationBillingOwnershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptCapacityReservationBillingOwnershipOutput`)
     public func acceptCapacityReservationBillingOwnership(input: AcceptCapacityReservationBillingOwnershipInput) async throws -> AcceptCapacityReservationBillingOwnershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -497,9 +497,9 @@ extension EC2Client {
     ///
     /// Accepts the Convertible Reserved Instance exchange quote described in the [GetReservedInstancesExchangeQuote] call.
     ///
-    /// - Parameter AcceptReservedInstancesExchangeQuoteInput : Contains the parameters for accepting the quote.
+    /// - Parameter input: Contains the parameters for accepting the quote. (Type: `AcceptReservedInstancesExchangeQuoteInput`)
     ///
-    /// - Returns: `AcceptReservedInstancesExchangeQuoteOutput` : The result of the exchange and whether it was successful.
+    /// - Returns: The result of the exchange and whether it was successful. (Type: `AcceptReservedInstancesExchangeQuoteOutput`)
     public func acceptReservedInstancesExchangeQuote(input: AcceptReservedInstancesExchangeQuoteInput) async throws -> AcceptReservedInstancesExchangeQuoteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -559,9 +559,9 @@ extension EC2Client {
     ///
     /// Accepts a request to associate subnets with a transit gateway multicast domain.
     ///
-    /// - Parameter AcceptTransitGatewayMulticastDomainAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptTransitGatewayMulticastDomainAssociationsInput`)
     ///
-    /// - Returns: `AcceptTransitGatewayMulticastDomainAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptTransitGatewayMulticastDomainAssociationsOutput`)
     public func acceptTransitGatewayMulticastDomainAssociations(input: AcceptTransitGatewayMulticastDomainAssociationsInput) async throws -> AcceptTransitGatewayMulticastDomainAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -621,9 +621,9 @@ extension EC2Client {
     ///
     /// Accepts a transit gateway peering attachment request. The peering attachment must be in the pendingAcceptance state.
     ///
-    /// - Parameter AcceptTransitGatewayPeeringAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptTransitGatewayPeeringAttachmentInput`)
     ///
-    /// - Returns: `AcceptTransitGatewayPeeringAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptTransitGatewayPeeringAttachmentOutput`)
     public func acceptTransitGatewayPeeringAttachment(input: AcceptTransitGatewayPeeringAttachmentInput) async throws -> AcceptTransitGatewayPeeringAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -683,9 +683,9 @@ extension EC2Client {
     ///
     /// Accepts a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use [DescribeTransitGatewayVpcAttachments] to view your pending VPC attachment requests. Use [RejectTransitGatewayVpcAttachment] to reject a VPC attachment request.
     ///
-    /// - Parameter AcceptTransitGatewayVpcAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptTransitGatewayVpcAttachmentInput`)
     ///
-    /// - Returns: `AcceptTransitGatewayVpcAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptTransitGatewayVpcAttachmentOutput`)
     public func acceptTransitGatewayVpcAttachment(input: AcceptTransitGatewayVpcAttachmentInput) async throws -> AcceptTransitGatewayVpcAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -745,9 +745,9 @@ extension EC2Client {
     ///
     /// Accepts connection requests to your VPC endpoint service.
     ///
-    /// - Parameter AcceptVpcEndpointConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptVpcEndpointConnectionsInput`)
     ///
-    /// - Returns: `AcceptVpcEndpointConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptVpcEndpointConnectionsOutput`)
     public func acceptVpcEndpointConnections(input: AcceptVpcEndpointConnectionsInput) async throws -> AcceptVpcEndpointConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -807,9 +807,9 @@ extension EC2Client {
     ///
     /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use [DescribeVpcPeeringConnections] to view your outstanding VPC peering connection requests. For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC.
     ///
-    /// - Parameter AcceptVpcPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptVpcPeeringConnectionInput`)
     ///
-    /// - Returns: `AcceptVpcPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptVpcPeeringConnectionOutput`)
     public func acceptVpcPeeringConnection(input: AcceptVpcPeeringConnectionInput) async throws -> AcceptVpcPeeringConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -869,9 +869,9 @@ extension EC2Client {
     ///
     /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current location and start advertising it through Amazon Web Services. It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of BGP propagation delays.
     ///
-    /// - Parameter AdvertiseByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdvertiseByoipCidrInput`)
     ///
-    /// - Returns: `AdvertiseByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdvertiseByoipCidrOutput`)
     public func advertiseByoipCidr(input: AdvertiseByoipCidrInput) async throws -> AdvertiseByoipCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -931,9 +931,9 @@ extension EC2Client {
     ///
     /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or from an address pool created from a public IPv4 address range that you have brought to Amazon Web Services for use with your Amazon Web Services resources using bring your own IP addresses (BYOIP). For more information, see [Bring Your Own IP Addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. If you release an Elastic IP address, you might be able to recover it. You cannot recover an Elastic IP address that you released after it is allocated to another Amazon Web Services account. To attempt to recover an Elastic IP address that you released, specify it in this operation. For more information, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) in the Amazon EC2 User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
     ///
-    /// - Parameter AllocateAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocateAddressInput`)
     ///
-    /// - Returns: `AllocateAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AllocateAddressOutput`)
     public func allocateAddress(input: AllocateAddressInput) async throws -> AllocateAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -993,9 +993,9 @@ extension EC2Client {
     ///
     /// Allocates a Dedicated Host to your account. At a minimum, specify the supported instance type or instance family, the Availability Zone in which to allocate the host, and the number of hosts to allocate.
     ///
-    /// - Parameter AllocateHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocateHostsInput`)
     ///
-    /// - Returns: `AllocateHostsOutput` : Contains the output of AllocateHosts.
+    /// - Returns: Contains the output of AllocateHosts. (Type: `AllocateHostsOutput`)
     public func allocateHosts(input: AllocateHostsInput) async throws -> AllocateHostsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1055,9 +1055,9 @@ extension EC2Client {
     ///
     /// Allocate a CIDR from an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. In IPAM, an allocation is a CIDR assignment from an IPAM pool to another IPAM pool or to a resource. For more information, see [Allocate CIDRs](https://docs.aws.amazon.com/vpc/latest/ipam/allocate-cidrs-ipam.html) in the Amazon VPC IPAM User Guide. This action creates an allocation with strong consistency. The returned CIDR will not overlap with any other allocations from the same pool.
     ///
-    /// - Parameter AllocateIpamPoolCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocateIpamPoolCidrInput`)
     ///
-    /// - Returns: `AllocateIpamPoolCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AllocateIpamPoolCidrOutput`)
     public func allocateIpamPoolCidr(input: AllocateIpamPoolCidrInput) async throws -> AllocateIpamPoolCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1118,9 +1118,9 @@ extension EC2Client {
     ///
     /// Applies a security group to the association between the target network and the Client VPN endpoint. This action replaces the existing security groups with the specified security groups.
     ///
-    /// - Parameter ApplySecurityGroupsToClientVpnTargetNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApplySecurityGroupsToClientVpnTargetNetworkInput`)
     ///
-    /// - Returns: `ApplySecurityGroupsToClientVpnTargetNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplySecurityGroupsToClientVpnTargetNetworkOutput`)
     public func applySecurityGroupsToClientVpnTargetNetwork(input: ApplySecurityGroupsToClientVpnTargetNetworkInput) async throws -> ApplySecurityGroupsToClientVpnTargetNetworkOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1180,9 +1180,9 @@ extension EC2Client {
     ///
     /// Assigns the specified IPv6 addresses to the specified network interface. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see [ Assigning prefixes to network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter AssignIpv6AddressesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssignIpv6AddressesInput`)
     ///
-    /// - Returns: `AssignIpv6AddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssignIpv6AddressesOutput`)
     public func assignIpv6Addresses(input: AssignIpv6AddressesInput) async throws -> AssignIpv6AddressesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1242,9 +1242,9 @@ extension EC2Client {
     ///
     /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number of secondary IP addresses to be automatically assigned from the subnet's CIDR block range. The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see [ Assigning prefixes to network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-prefix-eni.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter AssignPrivateIpAddressesInput : Contains the parameters for AssignPrivateIpAddresses.
+    /// - Parameter input: Contains the parameters for AssignPrivateIpAddresses. (Type: `AssignPrivateIpAddressesInput`)
     ///
-    /// - Returns: `AssignPrivateIpAddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssignPrivateIpAddressesOutput`)
     public func assignPrivateIpAddresses(input: AssignPrivateIpAddressesInput) async throws -> AssignPrivateIpAddressesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1304,9 +1304,9 @@ extension EC2Client {
     ///
     /// Assigns private IPv4 addresses to a private NAT gateway. For more information, see [Work with NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AssignPrivateNatGatewayAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssignPrivateNatGatewayAddressInput`)
     ///
-    /// - Returns: `AssignPrivateNatGatewayAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssignPrivateNatGatewayAddressOutput`)
     public func assignPrivateNatGatewayAddress(input: AssignPrivateNatGatewayAddressInput) async throws -> AssignPrivateNatGatewayAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1366,9 +1366,9 @@ extension EC2Client {
     ///
     /// Associates an Elastic IP address, or carrier IP address (for instances that are in subnets in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic IP address, you must allocate it to your account. If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account. [Subnets in Wavelength Zones] You can associate an IP address from the telecommunication carrier to the instance or network interface. You cannot associate an Elastic IP address with an interface in a different network border group. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error, and you may be charged for each time the Elastic IP address is remapped to the same instance. For more information, see the Elastic IP Addresses section of [Amazon EC2 Pricing](http://aws.amazon.com/ec2/pricing/).
     ///
-    /// - Parameter AssociateAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAddressInput`)
     ///
-    /// - Returns: `AssociateAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAddressOutput`)
     public func associateAddress(input: AssociateAddressInput) async throws -> AssociateAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1428,9 +1428,9 @@ extension EC2Client {
     ///
     /// Initiates a request to assign billing of the unused capacity of a shared Capacity Reservation to a consumer account that is consolidated under the same Amazon Web Services organizations payer account. For more information, see [Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
     ///
-    /// - Parameter AssociateCapacityReservationBillingOwnerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateCapacityReservationBillingOwnerInput`)
     ///
-    /// - Returns: `AssociateCapacityReservationBillingOwnerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateCapacityReservationBillingOwnerOutput`)
     public func associateCapacityReservationBillingOwner(input: AssociateCapacityReservationBillingOwnerInput) async throws -> AssociateCapacityReservationBillingOwnerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1490,9 +1490,9 @@ extension EC2Client {
     ///
     /// Associates a target network with a Client VPN endpoint. A target network is a subnet in a VPC. You can associate multiple subnets from the same VPC with a Client VPN endpoint. You can associate only one subnet in each Availability Zone. We recommend that you associate at least two subnets to provide Availability Zone redundancy. If you specified a VPC when you created the Client VPN endpoint or if you have previous subnet associations, the specified subnet must be in the same VPC. To specify a subnet that's in a different VPC, you must first modify the Client VPN endpoint ([ModifyClientVpnEndpoint]) and change the VPC that's associated with it.
     ///
-    /// - Parameter AssociateClientVpnTargetNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateClientVpnTargetNetworkInput`)
     ///
-    /// - Returns: `AssociateClientVpnTargetNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateClientVpnTargetNetworkOutput`)
     public func associateClientVpnTargetNetwork(input: AssociateClientVpnTargetNetworkInput) async throws -> AssociateClientVpnTargetNetworkOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1553,9 +1553,9 @@ extension EC2Client {
     ///
     /// Associates a set of DHCP options (that you've previously created) with the specified VPC, or associates no DHCP options with the VPC. After you associate the options with the VPC, any existing instances and all new instances that you launch in that VPC use the options. You don't need to restart or relaunch the instances. They automatically pick up the changes within a few hours, depending on how frequently the instance renews its DHCP lease. You can explicitly renew the lease using the operating system on the instance. For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AssociateDhcpOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDhcpOptionsInput`)
     ///
-    /// - Returns: `AssociateDhcpOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDhcpOptionsOutput`)
     public func associateDhcpOptions(input: AssociateDhcpOptionsInput) async throws -> AssociateDhcpOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1615,9 +1615,9 @@ extension EC2Client {
     ///
     /// Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves application inside an enclave. For more information, see [Certificate Manager for Nitro Enclaves](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html) in the Amazon Web Services Nitro Enclaves User Guide. When the IAM role is associated with the ACM certificate, the certificate, certificate chain, and encrypted private key are placed in an Amazon S3 location that only the associated IAM role can access. The private key of the certificate is encrypted with an Amazon Web Services managed key that has an attached attestation-based key policy. To enable the IAM role to access the Amazon S3 object, you must grant it permission to call s3:GetObject on the Amazon S3 bucket returned by the command. To enable the IAM role to access the KMS key, you must grant it permission to call kms:Decrypt on the KMS key returned by the command. For more information, see [ Grant the role permission to access the certificate and encryption key](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html#add-policy) in the Amazon Web Services Nitro Enclaves User Guide.
     ///
-    /// - Parameter AssociateEnclaveCertificateIamRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateEnclaveCertificateIamRoleInput`)
     ///
-    /// - Returns: `AssociateEnclaveCertificateIamRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEnclaveCertificateIamRoleOutput`)
     public func associateEnclaveCertificateIamRole(input: AssociateEnclaveCertificateIamRoleInput) async throws -> AssociateEnclaveCertificateIamRoleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1677,9 +1677,9 @@ extension EC2Client {
     ///
     /// Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance.
     ///
-    /// - Parameter AssociateIamInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateIamInstanceProfileInput`)
     ///
-    /// - Returns: `AssociateIamInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateIamInstanceProfileOutput`)
     public func associateIamInstanceProfile(input: AssociateIamInstanceProfileInput) async throws -> AssociateIamInstanceProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1739,9 +1739,9 @@ extension EC2Client {
     ///
     /// Associates one or more targets with an event window. Only one type of target (instance IDs, Dedicated Host IDs, or tags) can be specified with an event window. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter AssociateInstanceEventWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateInstanceEventWindowInput`)
     ///
-    /// - Returns: `AssociateInstanceEventWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateInstanceEventWindowOutput`)
     public func associateInstanceEventWindow(input: AssociateInstanceEventWindowInput) async throws -> AssociateInstanceEventWindowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1801,9 +1801,9 @@ extension EC2Client {
     ///
     /// Associates your Autonomous System Number (ASN) with a BYOIP CIDR that you own in the same Amazon Web Services Region. For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide. After the association succeeds, the ASN is eligible for advertisement. You can view the association with [DescribeByoipCidrs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeByoipCidrs.html). You can advertise the CIDR with [AdvertiseByoipCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AdvertiseByoipCidr.html).
     ///
-    /// - Parameter AssociateIpamByoasnInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateIpamByoasnInput`)
     ///
-    /// - Returns: `AssociateIpamByoasnOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateIpamByoasnOutput`)
     public func associateIpamByoasn(input: AssociateIpamByoasnInput) async throws -> AssociateIpamByoasnOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1863,9 +1863,9 @@ extension EC2Client {
     ///
     /// Associates an IPAM resource discovery with an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
-    /// - Parameter AssociateIpamResourceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateIpamResourceDiscoveryInput`)
     ///
-    /// - Returns: `AssociateIpamResourceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateIpamResourceDiscoveryOutput`)
     public func associateIpamResourceDiscovery(input: AssociateIpamResourceDiscoveryInput) async throws -> AssociateIpamResourceDiscoveryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1926,9 +1926,9 @@ extension EC2Client {
     ///
     /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see [Work with NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html) in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see [Elastic IP address quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-eips) in the Amazon VPC User Guide. When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see [Allocate an Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithEIPs.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AssociateNatGatewayAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateNatGatewayAddressInput`)
     ///
-    /// - Returns: `AssociateNatGatewayAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateNatGatewayAddressOutput`)
     public func associateNatGatewayAddress(input: AssociateNatGatewayAddressInput) async throws -> AssociateNatGatewayAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1988,9 +1988,9 @@ extension EC2Client {
     ///
     /// Associates a route server with a VPC to enable dynamic route updates. A route server association is the connection established between a route server and a VPC. For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AssociateRouteServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateRouteServerInput`)
     ///
-    /// - Returns: `AssociateRouteServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateRouteServerOutput`)
     public func associateRouteServer(input: AssociateRouteServerInput) async throws -> AssociateRouteServerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2050,9 +2050,9 @@ extension EC2Client {
     ///
     /// Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AssociateRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateRouteTableInput`)
     ///
-    /// - Returns: `AssociateRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateRouteTableOutput`)
     public func associateRouteTable(input: AssociateRouteTableInput) async throws -> AssociateRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2122,9 +2122,9 @@ extension EC2Client {
     ///
     /// * You cannot use this feature with the default VPC.
     ///
-    /// - Parameter AssociateSecurityGroupVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSecurityGroupVpcInput`)
     ///
-    /// - Returns: `AssociateSecurityGroupVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSecurityGroupVpcOutput`)
     public func associateSecurityGroupVpc(input: AssociateSecurityGroupVpcInput) async throws -> AssociateSecurityGroupVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2184,9 +2184,9 @@ extension EC2Client {
     ///
     /// Associates a CIDR block with your subnet. You can only associate a single IPv6 CIDR block with your subnet.
     ///
-    /// - Parameter AssociateSubnetCidrBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSubnetCidrBlockInput`)
     ///
-    /// - Returns: `AssociateSubnetCidrBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSubnetCidrBlockOutput`)
     public func associateSubnetCidrBlock(input: AssociateSubnetCidrBlockInput) async throws -> AssociateSubnetCidrBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2246,9 +2246,9 @@ extension EC2Client {
     ///
     /// Associates the specified subnets and transit gateway attachments with the specified transit gateway multicast domain. The transit gateway attachment must be in the available state before you can add a resource. Use [DescribeTransitGatewayAttachments](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGatewayAttachments.html) to see the state of the attachment.
     ///
-    /// - Parameter AssociateTransitGatewayMulticastDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTransitGatewayMulticastDomainInput`)
     ///
-    /// - Returns: `AssociateTransitGatewayMulticastDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTransitGatewayMulticastDomainOutput`)
     public func associateTransitGatewayMulticastDomain(input: AssociateTransitGatewayMulticastDomainInput) async throws -> AssociateTransitGatewayMulticastDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2308,9 +2308,9 @@ extension EC2Client {
     ///
     /// Associates the specified transit gateway attachment with a transit gateway policy table.
     ///
-    /// - Parameter AssociateTransitGatewayPolicyTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTransitGatewayPolicyTableInput`)
     ///
-    /// - Returns: `AssociateTransitGatewayPolicyTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTransitGatewayPolicyTableOutput`)
     public func associateTransitGatewayPolicyTable(input: AssociateTransitGatewayPolicyTableInput) async throws -> AssociateTransitGatewayPolicyTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2370,9 +2370,9 @@ extension EC2Client {
     ///
     /// Associates the specified attachment with the specified transit gateway route table. You can associate only one route table with an attachment.
     ///
-    /// - Parameter AssociateTransitGatewayRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTransitGatewayRouteTableInput`)
     ///
-    /// - Returns: `AssociateTransitGatewayRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTransitGatewayRouteTableOutput`)
     public func associateTransitGatewayRouteTable(input: AssociateTransitGatewayRouteTableInput) async throws -> AssociateTransitGatewayRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2432,9 +2432,9 @@ extension EC2Client {
     ///
     /// Associates a branch network interface with a trunk network interface. Before you create the association, use [CreateNetworkInterface](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html) command and set the interface type to trunk. You must also create a network interface for each branch network interface that you want to associate with the trunk network interface.
     ///
-    /// - Parameter AssociateTrunkInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTrunkInterfaceInput`)
     ///
-    /// - Returns: `AssociateTrunkInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTrunkInterfaceOutput`)
     public func associateTrunkInterface(input: AssociateTrunkInterfaceInput) async throws -> AssociateTrunkInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2495,9 +2495,9 @@ extension EC2Client {
     ///
     /// Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR block, an Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses ([BYOIP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)). You must specify one of the following in the request: an IPv4 CIDR block, an IPv6 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR blocks with your VPC and applicable restrictions, see [IP addressing for your VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AssociateVpcCidrBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateVpcCidrBlockInput`)
     ///
-    /// - Returns: `AssociateVpcCidrBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateVpcCidrBlockOutput`)
     public func associateVpcCidrBlock(input: AssociateVpcCidrBlockInput) async throws -> AssociateVpcCidrBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2557,9 +2557,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more of the VPC security groups. You cannot link an EC2-Classic instance to more than one VPC at a time. You can only link an instance that's in the running state. An instance is automatically unlinked from a VPC when it's stopped - you can link it to the VPC again when you restart it. After you've linked an instance, you cannot change the VPC security groups that are associated with it. To change the security groups, you must first unlink the instance, and then link it again. Linking your instance to a VPC is sometimes referred to as attaching your instance.
     ///
-    /// - Parameter AttachClassicLinkVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachClassicLinkVpcInput`)
     ///
-    /// - Returns: `AttachClassicLinkVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachClassicLinkVpcOutput`)
     public func attachClassicLinkVpc(input: AttachClassicLinkVpcInput) async throws -> AttachClassicLinkVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2619,9 +2619,9 @@ extension EC2Client {
     ///
     /// Attaches an internet gateway or a virtual private gateway to a VPC, enabling connectivity between the internet and the VPC. For more information, see [Internet gateways](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AttachInternetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachInternetGatewayInput`)
     ///
-    /// - Returns: `AttachInternetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachInternetGatewayOutput`)
     public func attachInternetGateway(input: AttachInternetGatewayInput) async throws -> AttachInternetGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2681,9 +2681,9 @@ extension EC2Client {
     ///
     /// Attaches a network interface to an instance.
     ///
-    /// - Parameter AttachNetworkInterfaceInput : Contains the parameters for AttachNetworkInterface.
+    /// - Parameter input: Contains the parameters for AttachNetworkInterface. (Type: `AttachNetworkInterfaceInput`)
     ///
-    /// - Returns: `AttachNetworkInterfaceOutput` : Contains the output of AttachNetworkInterface.
+    /// - Returns: Contains the output of AttachNetworkInterface. (Type: `AttachNetworkInterfaceOutput`)
     public func attachNetworkInterface(input: AttachNetworkInterfaceInput) async throws -> AttachNetworkInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2743,9 +2743,9 @@ extension EC2Client {
     ///
     /// Attaches the specified Amazon Web Services Verified Access trust provider to the specified Amazon Web Services Verified Access instance.
     ///
-    /// - Parameter AttachVerifiedAccessTrustProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachVerifiedAccessTrustProviderInput`)
     ///
-    /// - Returns: `AttachVerifiedAccessTrustProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachVerifiedAccessTrustProviderOutput`)
     public func attachVerifiedAccessTrustProvider(input: AttachVerifiedAccessTrustProviderInput) async throws -> AttachVerifiedAccessTrustProviderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2817,9 +2817,9 @@ extension EC2Client {
     ///
     /// For more information, see [Attach an Amazon EBS volume to an instance](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-attaching-volume.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter AttachVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachVolumeInput`)
     ///
-    /// - Returns: `AttachVolumeOutput` : Describes volume attachment details.
+    /// - Returns: Describes volume attachment details. (Type: `AttachVolumeOutput`)
     public func attachVolume(input: AttachVolumeInput) async throws -> AttachVolumeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2879,9 +2879,9 @@ extension EC2Client {
     ///
     /// Attaches an available virtual private gateway to a VPC. You can attach one virtual private gateway to one VPC at a time. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter AttachVpnGatewayInput : Contains the parameters for AttachVpnGateway.
+    /// - Parameter input: Contains the parameters for AttachVpnGateway. (Type: `AttachVpnGatewayInput`)
     ///
-    /// - Returns: `AttachVpnGatewayOutput` : Contains the output of AttachVpnGateway.
+    /// - Returns: Contains the output of AttachVpnGateway. (Type: `AttachVpnGatewayOutput`)
     public func attachVpnGateway(input: AttachVpnGatewayInput) async throws -> AttachVpnGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2941,9 +2941,9 @@ extension EC2Client {
     ///
     /// Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorization rules act as firewall rules that grant access to networks. You must configure ingress authorization rules to enable clients to access resources in Amazon Web Services or on-premises networks.
     ///
-    /// - Parameter AuthorizeClientVpnIngressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AuthorizeClientVpnIngressInput`)
     ///
-    /// - Returns: `AuthorizeClientVpnIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeClientVpnIngressOutput`)
     public func authorizeClientVpnIngress(input: AuthorizeClientVpnIngressInput) async throws -> AuthorizeClientVpnIngressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3004,9 +3004,9 @@ extension EC2Client {
     ///
     /// Adds the specified outbound (egress) rules to a security group. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 address ranges, the IP address ranges specified by a prefix list, or the instances that are associated with a source security group. For more information, see [Security group rules](https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html). You must specify exactly one of the following destinations: an IPv4 or IPv6 address range, a prefix list, or a security group. You must specify a protocol for each rule (for example, TCP). If the protocol is TCP or UDP, you must also specify a port or port range. If the protocol is ICMP or ICMPv6, you must also specify the ICMP type and code. Rule changes are propagated to instances associated with the security group as quickly as possible. However, a small delay might occur. For examples of rules that you can add to security groups for specific access scenarios, see [Security group rules for different use cases](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html) in the Amazon EC2 User Guide. For information about security group quotas, see [Amazon VPC quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AuthorizeSecurityGroupEgressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AuthorizeSecurityGroupEgressInput`)
     ///
-    /// - Returns: `AuthorizeSecurityGroupEgressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeSecurityGroupEgressOutput`)
     public func authorizeSecurityGroupEgress(input: AuthorizeSecurityGroupEgressInput) async throws -> AuthorizeSecurityGroupEgressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3066,9 +3066,9 @@ extension EC2Client {
     ///
     /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6 address range, the IP address ranges that are specified by a prefix list, or the instances that are associated with a destination security group. For more information, see [Security group rules](https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html). You must specify exactly one of the following sources: an IPv4 or IPv6 address range, a prefix list, or a security group. You must specify a protocol for each rule (for example, TCP). If the protocol is TCP or UDP, you must also specify a port or port range. If the protocol is ICMP or ICMPv6, you must also specify the ICMP/ICMPv6 type and code. Rule changes are propagated to instances associated with the security group as quickly as possible. However, a small delay might occur. For examples of rules that you can add to security groups for specific access scenarios, see [Security group rules for different use cases](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-rules-reference.html) in the Amazon EC2 User Guide. For more information about security group quotas, see [Amazon VPC quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter AuthorizeSecurityGroupIngressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AuthorizeSecurityGroupIngressInput`)
     ///
-    /// - Returns: `AuthorizeSecurityGroupIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeSecurityGroupIngressOutput`)
     public func authorizeSecurityGroupIngress(input: AuthorizeSecurityGroupIngressInput) async throws -> AuthorizeSecurityGroupIngressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3128,9 +3128,9 @@ extension EC2Client {
     ///
     /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved. This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS.
     ///
-    /// - Parameter BundleInstanceInput : Contains the parameters for BundleInstance.
+    /// - Parameter input: Contains the parameters for BundleInstance. (Type: `BundleInstanceInput`)
     ///
-    /// - Returns: `BundleInstanceOutput` : Contains the output of BundleInstance.
+    /// - Returns: Contains the output of BundleInstance. (Type: `BundleInstanceOutput`)
     public func bundleInstance(input: BundleInstanceInput) async throws -> BundleInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3190,9 +3190,9 @@ extension EC2Client {
     ///
     /// Cancels a bundling operation for an instance store-backed Windows instance.
     ///
-    /// - Parameter CancelBundleTaskInput : Contains the parameters for CancelBundleTask.
+    /// - Parameter input: Contains the parameters for CancelBundleTask. (Type: `CancelBundleTaskInput`)
     ///
-    /// - Returns: `CancelBundleTaskOutput` : Contains the output of CancelBundleTask.
+    /// - Returns: Contains the output of CancelBundleTask. (Type: `CancelBundleTaskOutput`)
     public func cancelBundleTask(input: CancelBundleTaskInput) async throws -> CancelBundleTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3259,9 +3259,9 @@ extension EC2Client {
     ///
     /// You can't modify or cancel a Capacity Block. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html). If a future-dated Capacity Reservation enters the delayed state, the commitment duration is waived, and you can cancel it as soon as it enters the active state. Instances running in the reserved capacity continue running until you stop them. Stopped instances that target the Capacity Reservation can no longer launch. Modify these instances to either target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation that has matching attributes and sufficient capacity.
     ///
-    /// - Parameter CancelCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelCapacityReservationInput`)
     ///
-    /// - Returns: `CancelCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelCapacityReservationOutput`)
     public func cancelCapacityReservation(input: CancelCapacityReservationInput) async throws -> CancelCapacityReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3327,9 +3327,9 @@ extension EC2Client {
     ///
     /// * The Fleet stops creating new Capacity Reservations.
     ///
-    /// - Parameter CancelCapacityReservationFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelCapacityReservationFleetsInput`)
     ///
-    /// - Returns: `CancelCapacityReservationFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelCapacityReservationFleetsOutput`)
     public func cancelCapacityReservationFleets(input: CancelCapacityReservationFleetsInput) async throws -> CancelCapacityReservationFleetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3389,9 +3389,9 @@ extension EC2Client {
     ///
     /// Cancels an active conversion task. The task can be the import of an instance or volume. The action removes all artifacts of the conversion, including a partially uploaded volume or instance. If the conversion is complete or is in the process of transferring the final disk image, the command fails and returns an exception.
     ///
-    /// - Parameter CancelConversionTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelConversionTaskInput`)
     ///
-    /// - Returns: `CancelConversionTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelConversionTaskOutput`)
     public func cancelConversionTask(input: CancelConversionTaskInput) async throws -> CancelConversionTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3451,9 +3451,9 @@ extension EC2Client {
     ///
     /// Cancels the generation of an account status report. You can only cancel a report while it has the running status. Reports with other statuses (complete, cancelled, or error) can't be canceled. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
     ///
-    /// - Parameter CancelDeclarativePoliciesReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelDeclarativePoliciesReportInput`)
     ///
-    /// - Returns: `CancelDeclarativePoliciesReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelDeclarativePoliciesReportOutput`)
     public func cancelDeclarativePoliciesReport(input: CancelDeclarativePoliciesReportInput) async throws -> CancelDeclarativePoliciesReportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3513,9 +3513,9 @@ extension EC2Client {
     ///
     /// Cancels an active export task. The request removes all artifacts of the export, including any partially-created Amazon S3 objects. If the export task is complete or is in the process of transferring the final disk image, the command fails and returns an error.
     ///
-    /// - Parameter CancelExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelExportTaskInput`)
     ///
-    /// - Returns: `CancelExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelExportTaskOutput`)
     public func cancelExportTask(input: CancelExportTaskInput) async throws -> CancelExportTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3575,9 +3575,9 @@ extension EC2Client {
     ///
     /// Removes your Amazon Web Services account from the launch permissions for the specified AMI. For more information, see [Cancel having an AMI shared with your Amazon Web Services account](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cancel-sharing-an-AMI.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CancelImageLaunchPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelImageLaunchPermissionInput`)
     ///
-    /// - Returns: `CancelImageLaunchPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelImageLaunchPermissionOutput`)
     public func cancelImageLaunchPermission(input: CancelImageLaunchPermissionInput) async throws -> CancelImageLaunchPermissionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3637,9 +3637,9 @@ extension EC2Client {
     ///
     /// Cancels an in-process import virtual machine or import snapshot task.
     ///
-    /// - Parameter CancelImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelImportTaskInput`)
     ///
-    /// - Returns: `CancelImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelImportTaskOutput`)
     public func cancelImportTask(input: CancelImportTaskInput) async throws -> CancelImportTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3699,9 +3699,9 @@ extension EC2Client {
     ///
     /// Cancels the specified Reserved Instance listing in the Reserved Instance Marketplace. For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CancelReservedInstancesListingInput : Contains the parameters for CancelReservedInstancesListing.
+    /// - Parameter input: Contains the parameters for CancelReservedInstancesListing. (Type: `CancelReservedInstancesListingInput`)
     ///
-    /// - Returns: `CancelReservedInstancesListingOutput` : Contains the output of CancelReservedInstancesListing.
+    /// - Returns: Contains the output of CancelReservedInstancesListing. (Type: `CancelReservedInstancesListingOutput`)
     public func cancelReservedInstancesListing(input: CancelReservedInstancesListingInput) async throws -> CancelReservedInstancesListingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3763,9 +3763,9 @@ extension EC2Client {
     ///
     /// * You can delete up to 100 fleets in a single request. If you exceed the specified number, no fleets are deleted.
     ///
-    /// - Parameter CancelSpotFleetRequestsInput : Contains the parameters for CancelSpotFleetRequests.
+    /// - Parameter input: Contains the parameters for CancelSpotFleetRequests. (Type: `CancelSpotFleetRequestsInput`)
     ///
-    /// - Returns: `CancelSpotFleetRequestsOutput` : Contains the output of CancelSpotFleetRequests.
+    /// - Returns: Contains the output of CancelSpotFleetRequests. (Type: `CancelSpotFleetRequestsOutput`)
     public func cancelSpotFleetRequests(input: CancelSpotFleetRequestsInput) async throws -> CancelSpotFleetRequestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3825,9 +3825,9 @@ extension EC2Client {
     ///
     /// Cancels one or more Spot Instance requests. Canceling a Spot Instance request does not terminate running Spot Instances associated with the request.
     ///
-    /// - Parameter CancelSpotInstanceRequestsInput : Contains the parameters for CancelSpotInstanceRequests.
+    /// - Parameter input: Contains the parameters for CancelSpotInstanceRequests. (Type: `CancelSpotInstanceRequestsInput`)
     ///
-    /// - Returns: `CancelSpotInstanceRequestsOutput` : Contains the output of CancelSpotInstanceRequests.
+    /// - Returns: Contains the output of CancelSpotInstanceRequests. (Type: `CancelSpotInstanceRequestsOutput`)
     public func cancelSpotInstanceRequests(input: CancelSpotInstanceRequestsInput) async throws -> CancelSpotInstanceRequestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3887,9 +3887,9 @@ extension EC2Client {
     ///
     /// Determines whether a product code is associated with an instance. This action can only be used by the owner of the product code. It is useful when a product code owner must verify whether another user's instance is eligible for support.
     ///
-    /// - Parameter ConfirmProductInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfirmProductInstanceInput`)
     ///
-    /// - Returns: `ConfirmProductInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfirmProductInstanceOutput`)
     public func confirmProductInstance(input: ConfirmProductInstanceInput) async throws -> ConfirmProductInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3949,9 +3949,9 @@ extension EC2Client {
     ///
     /// Copies the specified Amazon FPGA Image (AFI) to the current Region.
     ///
-    /// - Parameter CopyFpgaImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyFpgaImageInput`)
     ///
-    /// - Returns: `CopyFpgaImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyFpgaImageOutput`)
     public func copyFpgaImage(input: CopyFpgaImageInput) async throws -> CopyFpgaImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4059,9 +4059,9 @@ extension EC2Client {
     ///
     /// For more information, including the required permissions for copying an AMI, see [Copy an Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CopyImageInput : Contains the parameters for CopyImage.
+    /// - Parameter input: Contains the parameters for CopyImage. (Type: `CopyImageInput`)
     ///
-    /// - Returns: `CopyImageOutput` : Contains the output of CopyImage.
+    /// - Returns: Contains the output of CopyImage. (Type: `CopyImageOutput`)
     public func copyImage(input: CopyImageInput) async throws -> CopyImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4131,9 +4131,9 @@ extension EC2Client {
     ///
     /// When copying snapshots to a Region, the encryption outcome for the snapshot copy depends on the Amazon EBS encryption by default setting for the destination Region, the encryption status of the source snapshot, and the encryption parameters you specify in the request. For more information, see [ Encryption and snapshot copying](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html#creating-encrypted-snapshots). Snapshots copied to an Outpost must be encrypted. Unencrypted snapshots are not supported on Outposts. For more information, [ Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#considerations). Snapshots copies have an arbitrary source volume ID. Do not use this volume ID for any purpose. For more information, see [Copy an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter CopySnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopySnapshotInput`)
     ///
-    /// - Returns: `CopySnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopySnapshotOutput`)
     public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4197,9 +4197,9 @@ extension EC2Client {
     ///
     /// * The requested quantity exceeds your On-Demand Instance quota. In this case, increase your On-Demand Instance quota for the requested instance type and try again. For more information, see [ Amazon EC2 Service Quotas](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCapacityReservationInput`)
     ///
-    /// - Returns: `CreateCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCapacityReservationOutput`)
     public func createCapacityReservation(input: CreateCapacityReservationInput) async throws -> CreateCapacityReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4259,9 +4259,9 @@ extension EC2Client {
     ///
     /// Create a new Capacity Reservation by splitting the capacity of the source Capacity Reservation. The new Capacity Reservation will have the same attributes as the source Capacity Reservation except for tags. The source Capacity Reservation must be active and owned by your Amazon Web Services account.
     ///
-    /// - Parameter CreateCapacityReservationBySplittingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCapacityReservationBySplittingInput`)
     ///
-    /// - Returns: `CreateCapacityReservationBySplittingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCapacityReservationBySplittingOutput`)
     public func createCapacityReservationBySplitting(input: CreateCapacityReservationBySplittingInput) async throws -> CreateCapacityReservationBySplittingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4322,9 +4322,9 @@ extension EC2Client {
     ///
     /// Creates a Capacity Reservation Fleet. For more information, see [Create a Capacity Reservation Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-cr-fleets.html#create-crfleet) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateCapacityReservationFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCapacityReservationFleetInput`)
     ///
-    /// - Returns: `CreateCapacityReservationFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCapacityReservationFleetOutput`)
     public func createCapacityReservationFleet(input: CreateCapacityReservationFleetInput) async throws -> CreateCapacityReservationFleetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4385,9 +4385,9 @@ extension EC2Client {
     ///
     /// Creates a carrier gateway. For more information about carrier gateways, see [Carrier gateways](https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#wavelength-carrier-gateway) in the Amazon Web Services Wavelength Developer Guide.
     ///
-    /// - Parameter CreateCarrierGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCarrierGatewayInput`)
     ///
-    /// - Returns: `CreateCarrierGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCarrierGatewayOutput`)
     public func createCarrierGateway(input: CreateCarrierGatewayInput) async throws -> CreateCarrierGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4448,9 +4448,9 @@ extension EC2Client {
     ///
     /// Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create and configure to enable and manage client VPN sessions. It is the destination endpoint at which all client VPN sessions are terminated.
     ///
-    /// - Parameter CreateClientVpnEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClientVpnEndpointInput`)
     ///
-    /// - Returns: `CreateClientVpnEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClientVpnEndpointOutput`)
     public func createClientVpnEndpoint(input: CreateClientVpnEndpointInput) async throws -> CreateClientVpnEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4511,9 +4511,9 @@ extension EC2Client {
     ///
     /// Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has a route table that describes the available destination network routes. Each route in the route table specifies the path for traﬃc to speciﬁc resources or networks.
     ///
-    /// - Parameter CreateClientVpnRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClientVpnRouteInput`)
     ///
-    /// - Returns: `CreateClientVpnRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClientVpnRouteOutput`)
     public func createClientVpnRoute(input: CreateClientVpnRouteInput) async throws -> CreateClientVpnRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4574,9 +4574,9 @@ extension EC2Client {
     ///
     /// Creates a range of customer-owned IP addresses.
     ///
-    /// - Parameter CreateCoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCoipCidrInput`)
     ///
-    /// - Returns: `CreateCoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCoipCidrOutput`)
     public func createCoipCidr(input: CreateCoipCidrInput) async throws -> CreateCoipCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4636,9 +4636,9 @@ extension EC2Client {
     ///
     /// Creates a pool of customer-owned IP (CoIP) addresses.
     ///
-    /// - Parameter CreateCoipPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCoipPoolInput`)
     ///
-    /// - Returns: `CreateCoipPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCoipPoolOutput`)
     public func createCoipPool(input: CreateCoipPoolInput) async throws -> CreateCoipPoolOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4698,9 +4698,9 @@ extension EC2Client {
     ///
     /// Provides information to Amazon Web Services about your customer gateway device. The customer gateway device is the appliance at your end of the VPN connection. You must provide the IP address of the customer gateway device’s external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your network. If you don't have an ASN already, you can use a private ASN. For more information, see [Customer gateway options for your Site-to-Site VPN connection](https://docs.aws.amazon.com/vpn/latest/s2svpn/cgw-options.html) in the Amazon Web Services Site-to-Site VPN User Guide. To create more than one customer gateway with the same VPN type, IP address, and BGP ASN, specify a unique device name for each customer gateway. An identical request returns information about the existing customer gateway; it doesn't create a new customer gateway.
     ///
-    /// - Parameter CreateCustomerGatewayInput : Contains the parameters for CreateCustomerGateway.
+    /// - Parameter input: Contains the parameters for CreateCustomerGateway. (Type: `CreateCustomerGatewayInput`)
     ///
-    /// - Returns: `CreateCustomerGatewayOutput` : Contains the output of CreateCustomerGateway.
+    /// - Returns: Contains the output of CreateCustomerGateway. (Type: `CreateCustomerGatewayOutput`)
     public func createCustomerGateway(input: CreateCustomerGatewayInput) async throws -> CreateCustomerGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4760,9 +4760,9 @@ extension EC2Client {
     ///
     /// Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availability Zone in your default VPC. You can have only one default subnet per Availability Zone. For more information, see [Create a default subnet](https://docs.aws.amazon.com/vpc/latest/userguide/work-with-default-vpc.html#create-default-subnet) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateDefaultSubnetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDefaultSubnetInput`)
     ///
-    /// - Returns: `CreateDefaultSubnetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDefaultSubnetOutput`)
     public func createDefaultSubnet(input: CreateDefaultSubnetInput) async throws -> CreateDefaultSubnetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4822,9 +4822,9 @@ extension EC2Client {
     ///
     /// Creates a default VPC with a size /16 IPv4 CIDR block and a default subnet in each Availability Zone. For more information about the components of a default VPC, see [Default VPCs](https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html) in the Amazon VPC User Guide. You cannot specify the components of the default VPC yourself. If you deleted your previous default VPC, you can create a default VPC. You cannot have more than one default VPC per Region.
     ///
-    /// - Parameter CreateDefaultVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDefaultVpcInput`)
     ///
-    /// - Returns: `CreateDefaultVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDefaultVpcOutput`)
     public func createDefaultVpc(input: CreateDefaultVpcInput) async throws -> CreateDefaultVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4884,9 +4884,9 @@ extension EC2Client {
     ///
     /// Delegates ownership of the Amazon EBS root volume for an Apple silicon Mac instance to an administrative user.
     ///
-    /// - Parameter CreateDelegateMacVolumeOwnershipTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDelegateMacVolumeOwnershipTaskInput`)
     ///
-    /// - Returns: `CreateDelegateMacVolumeOwnershipTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDelegateMacVolumeOwnershipTaskOutput`)
     public func createDelegateMacVolumeOwnershipTask(input: CreateDelegateMacVolumeOwnershipTaskInput) async throws -> CreateDelegateMacVolumeOwnershipTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4959,9 +4959,9 @@ extension EC2Client {
     ///
     /// * ipv6-address-preferred-lease-time - A value (in seconds, minutes, hours, or years) for how frequently a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal. Acceptable values are between 140 and 2147483647 seconds (approximately 68 years). If no value is entered, the default lease time is 140 seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
     ///
-    /// - Parameter CreateDhcpOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDhcpOptionsInput`)
     ///
-    /// - Returns: `CreateDhcpOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDhcpOptionsOutput`)
     public func createDhcpOptions(input: CreateDhcpOptionsInput) async throws -> CreateDhcpOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5021,9 +5021,9 @@ extension EC2Client {
     ///
     /// [IPv6 only] Creates an egress-only internet gateway for your VPC. An egress-only internet gateway is used to enable outbound communication over IPv6 from instances in your VPC to the internet, and prevents hosts outside of your VPC from initiating an IPv6 connection with your instance.
     ///
-    /// - Parameter CreateEgressOnlyInternetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEgressOnlyInternetGatewayInput`)
     ///
-    /// - Returns: `CreateEgressOnlyInternetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEgressOnlyInternetGatewayOutput`)
     public func createEgressOnlyInternetGateway(input: CreateEgressOnlyInternetGatewayInput) async throws -> CreateEgressOnlyInternetGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5083,9 +5083,9 @@ extension EC2Client {
     ///
     /// Creates an EC2 Fleet that contains the configuration information for On-Demand Instances and Spot Instances. Instances are launched immediately if there is available capacity. A single EC2 Fleet can include multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see [EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5146,9 +5146,9 @@ extension EC2Client {
     ///
     /// Creates one or more flow logs to capture information about IP traffic for a specific network interface, subnet, or VPC. Flow log data for a monitored network interface is recorded as flow log records, which are log events consisting of fields that describe the traffic flow. For more information, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide. When publishing to CloudWatch Logs, flow log records are published to a log group, and each network interface has a unique log stream in the log group. When publishing to Amazon S3, flow log records for all of the monitored network interfaces are published to a single log file object that is stored in the specified bucket. For more information, see [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateFlowLogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlowLogsInput`)
     ///
-    /// - Returns: `CreateFlowLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlowLogsOutput`)
     public func createFlowLogs(input: CreateFlowLogsInput) async throws -> CreateFlowLogsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5208,9 +5208,9 @@ extension EC2Client {
     ///
     /// Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP). The create operation is asynchronous. To verify that the AFI was successfully created and is ready for use, check the output logs. An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely deploy an AFI on multiple FPGA-accelerated instances. For more information, see the [Amazon Web Services FPGA Hardware Development Kit](https://github.com/aws/aws-fpga/).
     ///
-    /// - Parameter CreateFpgaImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFpgaImageInput`)
     ///
-    /// - Returns: `CreateFpgaImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFpgaImageOutput`)
     public func createFpgaImage(input: CreateFpgaImageInput) async throws -> CreateFpgaImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5277,9 +5277,9 @@ extension EC2Client {
     ///
     /// For more information, see [Create an Amazon EBS-backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter CreateImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageInput`)
     ///
-    /// - Returns: `CreateImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageOutput`)
     public func createImage(input: CreateImageInput) async throws -> CreateImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5339,9 +5339,9 @@ extension EC2Client {
     ///
     /// Creates a report that shows how your image is used across other Amazon Web Services accounts. The report provides visibility into which accounts are using the specified image, and how many resources (EC2 instances or launch templates) are referencing it. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateImageUsageReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageUsageReportInput`)
     ///
-    /// - Returns: `CreateImageUsageReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageUsageReportOutput`)
     public func createImageUsageReport(input: CreateImageUsageReportInput) async throws -> CreateImageUsageReportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5402,9 +5402,9 @@ extension EC2Client {
     ///
     /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 or public IPv6 address. For more information, see [Connect to your instances using EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect-Endpoint.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateInstanceConnectEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceConnectEndpointInput`)
     ///
-    /// - Returns: `CreateInstanceConnectEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceConnectEndpointOutput`)
     public func createInstanceConnectEndpoint(input: CreateInstanceConnectEndpointInput) async throws -> CreateInstanceConnectEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5472,9 +5472,9 @@ extension EC2Client {
     ///
     /// For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateInstanceEventWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceEventWindowInput`)
     ///
-    /// - Returns: `CreateInstanceEventWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceEventWindowOutput`)
     public func createInstanceEventWindow(input: CreateInstanceEventWindowInput) async throws -> CreateInstanceEventWindowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5534,9 +5534,9 @@ extension EC2Client {
     ///
     /// Exports a running or stopped instance to an Amazon S3 bucket. For information about the prerequisites for your Amazon S3 bucket, supported operating systems, image formats, and known limitations for the types of instances you can export, see [Exporting an instance as a VM Using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport.html) in the VM Import/Export User Guide.
     ///
-    /// - Parameter CreateInstanceExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceExportTaskInput`)
     ///
-    /// - Returns: `CreateInstanceExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceExportTaskOutput`)
     public func createInstanceExportTask(input: CreateInstanceExportTaskInput) async throws -> CreateInstanceExportTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5596,9 +5596,9 @@ extension EC2Client {
     ///
     /// Creates an internet gateway for use with a VPC. After creating the internet gateway, you attach it to a VPC using [AttachInternetGateway]. For more information, see [Internet gateways](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateInternetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInternetGatewayInput`)
     ///
-    /// - Returns: `CreateInternetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInternetGatewayOutput`)
     public func createInternetGateway(input: CreateInternetGatewayInput) async throws -> CreateInternetGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5658,9 +5658,9 @@ extension EC2Client {
     ///
     /// Create an IPAM. Amazon VPC IP Address Manager (IPAM) is a VPC feature that you can use to automate your IP address management workflows including assigning, tracking, troubleshooting, and auditing IP addresses across Amazon Web Services Regions and accounts throughout your Amazon Web Services Organization. For more information, see [Create an IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/create-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter CreateIpamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIpamInput`)
     ///
-    /// - Returns: `CreateIpamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIpamOutput`)
     public func createIpam(input: CreateIpamInput) async throws -> CreateIpamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5721,9 +5721,9 @@ extension EC2Client {
     ///
     /// Create a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
     ///
-    /// - Parameter CreateIpamExternalResourceVerificationTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIpamExternalResourceVerificationTokenInput`)
     ///
-    /// - Returns: `CreateIpamExternalResourceVerificationTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIpamExternalResourceVerificationTokenOutput`)
     public func createIpamExternalResourceVerificationToken(input: CreateIpamExternalResourceVerificationTokenInput) async throws -> CreateIpamExternalResourceVerificationTokenOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5784,9 +5784,9 @@ extension EC2Client {
     ///
     /// Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses according to your routing and security needs. For example, if you have separate routing and security needs for development and production applications, you can create a pool for each. For more information, see [Create a top-level pool](https://docs.aws.amazon.com/vpc/latest/ipam/create-top-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter CreateIpamPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIpamPoolInput`)
     ///
-    /// - Returns: `CreateIpamPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIpamPoolOutput`)
     public func createIpamPool(input: CreateIpamPoolInput) async throws -> CreateIpamPoolOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5847,9 +5847,9 @@ extension EC2Client {
     ///
     /// Creates an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
-    /// - Parameter CreateIpamResourceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIpamResourceDiscoveryInput`)
     ///
-    /// - Returns: `CreateIpamResourceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIpamResourceDiscoveryOutput`)
     public func createIpamResourceDiscovery(input: CreateIpamResourceDiscoveryInput) async throws -> CreateIpamResourceDiscoveryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5910,9 +5910,9 @@ extension EC2Client {
     ///
     /// Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all public IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict. For more information, see [Add a scope](https://docs.aws.amazon.com/vpc/latest/ipam/add-scope-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter CreateIpamScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIpamScopeInput`)
     ///
-    /// - Returns: `CreateIpamScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIpamScopeOutput`)
     public func createIpamScope(input: CreateIpamScopeInput) async throws -> CreateIpamScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5973,9 +5973,9 @@ extension EC2Client {
     ///
     /// Creates an ED25519 or 2048-bit RSA key pair with the specified name and in the specified format. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key or an unencrypted PPK formatted private key for use with PuTTY. If a key with the specified name already exists, Amazon EC2 returns an error. The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using [ImportKeyPair]. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyPairInput`)
     ///
-    /// - Returns: `CreateKeyPairOutput` : Describes a key pair.
+    /// - Returns: Describes a key pair. (Type: `CreateKeyPairOutput`)
     public func createKeyPair(input: CreateKeyPairInput) async throws -> CreateKeyPairOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6035,9 +6035,9 @@ extension EC2Client {
     ///
     /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using [RunInstances], you can specify a launch template instead of providing the launch parameters in the request. For more information, see [Store instance launch parameters in Amazon EC2 launch templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more information, see [Create a launch template from an existing launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-launch-template.html#create-launch-template-from-existing-launch-template) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateLaunchTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLaunchTemplateInput`)
     ///
-    /// - Returns: `CreateLaunchTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLaunchTemplateOutput`)
     public func createLaunchTemplate(input: CreateLaunchTemplateInput) async throws -> CreateLaunchTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6098,9 +6098,9 @@ extension EC2Client {
     ///
     /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see [Modify a launch template (manage launch template versions)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-launch-template-versions.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateLaunchTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLaunchTemplateVersionInput`)
     ///
-    /// - Returns: `CreateLaunchTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLaunchTemplateVersionOutput`)
     public func createLaunchTemplateVersion(input: CreateLaunchTemplateVersionInput) async throws -> CreateLaunchTemplateVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6165,9 +6165,9 @@ extension EC2Client {
     ///
     /// * NetworkInterfaceId
     ///
-    /// - Parameter CreateLocalGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocalGatewayRouteInput`)
     ///
-    /// - Returns: `CreateLocalGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocalGatewayRouteOutput`)
     public func createLocalGatewayRoute(input: CreateLocalGatewayRouteInput) async throws -> CreateLocalGatewayRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6227,9 +6227,9 @@ extension EC2Client {
     ///
     /// Creates a local gateway route table.
     ///
-    /// - Parameter CreateLocalGatewayRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocalGatewayRouteTableInput`)
     ///
-    /// - Returns: `CreateLocalGatewayRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocalGatewayRouteTableOutput`)
     public func createLocalGatewayRouteTable(input: CreateLocalGatewayRouteTableInput) async throws -> CreateLocalGatewayRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6289,9 +6289,9 @@ extension EC2Client {
     ///
     /// Creates a local gateway route table virtual interface group association.
     ///
-    /// - Parameter CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput`)
     ///
-    /// - Returns: `CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput`)
     public func createLocalGatewayRouteTableVirtualInterfaceGroupAssociation(input: CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput) async throws -> CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6351,9 +6351,9 @@ extension EC2Client {
     ///
     /// Associates the specified VPC with the specified local gateway route table.
     ///
-    /// - Parameter CreateLocalGatewayRouteTableVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocalGatewayRouteTableVpcAssociationInput`)
     ///
-    /// - Returns: `CreateLocalGatewayRouteTableVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocalGatewayRouteTableVpcAssociationOutput`)
     public func createLocalGatewayRouteTableVpcAssociation(input: CreateLocalGatewayRouteTableVpcAssociationInput) async throws -> CreateLocalGatewayRouteTableVpcAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6413,9 +6413,9 @@ extension EC2Client {
     ///
     /// Create a virtual interface for a local gateway.
     ///
-    /// - Parameter CreateLocalGatewayVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocalGatewayVirtualInterfaceInput`)
     ///
-    /// - Returns: `CreateLocalGatewayVirtualInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocalGatewayVirtualInterfaceOutput`)
     public func createLocalGatewayVirtualInterface(input: CreateLocalGatewayVirtualInterfaceInput) async throws -> CreateLocalGatewayVirtualInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6475,9 +6475,9 @@ extension EC2Client {
     ///
     /// Create a local gateway virtual interface group.
     ///
-    /// - Parameter CreateLocalGatewayVirtualInterfaceGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocalGatewayVirtualInterfaceGroupInput`)
     ///
-    /// - Returns: `CreateLocalGatewayVirtualInterfaceGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocalGatewayVirtualInterfaceGroupOutput`)
     public func createLocalGatewayVirtualInterfaceGroup(input: CreateLocalGatewayVirtualInterfaceGroupInput) async throws -> CreateLocalGatewayVirtualInterfaceGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6546,9 +6546,9 @@ extension EC2Client {
     ///
     /// * MacSystemIntegrityProtectionConfigurationRequest "NvramProtections=disabled"
     ///
-    /// - Parameter CreateMacSystemIntegrityProtectionModificationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMacSystemIntegrityProtectionModificationTaskInput`)
     ///
-    /// - Returns: `CreateMacSystemIntegrityProtectionModificationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMacSystemIntegrityProtectionModificationTaskOutput`)
     public func createMacSystemIntegrityProtectionModificationTask(input: CreateMacSystemIntegrityProtectionModificationTaskInput) async throws -> CreateMacSystemIntegrityProtectionModificationTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6609,9 +6609,9 @@ extension EC2Client {
     ///
     /// Creates a managed prefix list. You can specify entries for the prefix list. Each entry consists of a CIDR block and an optional description.
     ///
-    /// - Parameter CreateManagedPrefixListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateManagedPrefixListInput`)
     ///
-    /// - Returns: `CreateManagedPrefixListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateManagedPrefixListOutput`)
     public func createManagedPrefixList(input: CreateManagedPrefixListInput) async throws -> CreateManagedPrefixListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6672,9 +6672,9 @@ extension EC2Client {
     ///
     /// Creates a NAT gateway in the specified subnet. This action creates a network interface in the specified subnet with a private IP address from the IP address range of the subnet. You can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway, internet-bound traffic from a private subnet can be routed to the NAT gateway, so that instances in a private subnet can connect to the internet. With a private NAT gateway, private communication is routed across VPCs and on-premises networks through a transit gateway or virtual private gateway. Common use cases include running large workloads behind a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and communicating between overlapping networks. For more information, see [NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) in the Amazon VPC User Guide. When you create a public NAT gateway and assign it an EIP or secondary EIPs, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the NAT gateway will fail to launch. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see [Allocate an Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithEIPs.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateNatGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNatGatewayInput`)
     ///
-    /// - Returns: `CreateNatGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNatGatewayOutput`)
     public func createNatGateway(input: CreateNatGatewayInput) async throws -> CreateNatGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6735,9 +6735,9 @@ extension EC2Client {
     ///
     /// Creates a network ACL in a VPC. Network ACLs provide an optional layer of security (in addition to security groups) for the instances in your VPC. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateNetworkAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkAclInput`)
     ///
-    /// - Returns: `CreateNetworkAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkAclOutput`)
     public func createNetworkAcl(input: CreateNetworkAclInput) async throws -> CreateNetworkAclOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6798,9 +6798,9 @@ extension EC2Client {
     ///
     /// Creates an entry (a rule) in a network ACL with the specified rule number. Each network ACL has a set of numbered ingress rules and a separate set of numbered egress rules. When determining whether a packet should be allowed in or out of a subnet associated with the ACL, we process the entries in the ACL according to the rule numbers, in ascending order. Each network ACL has a set of ingress rules and a separate set of egress rules. We recommend that you leave room between the rule numbers (for example, 100, 110, 120, ...), and not number them one right after the other (for example, 101, 102, 103, ...). This makes it easier to add a rule between existing ones without having to renumber the rules. After you add an entry, you can't modify it; you must either replace it, or create an entry and delete the old one. For more information about network ACLs, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateNetworkAclEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkAclEntryInput`)
     ///
-    /// - Returns: `CreateNetworkAclEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkAclEntryOutput`)
     public func createNetworkAclEntry(input: CreateNetworkAclEntryInput) async throws -> CreateNetworkAclEntryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6860,9 +6860,9 @@ extension EC2Client {
     ///
     /// Creates a Network Access Scope. Amazon Web Services Network Access Analyzer enables cloud networking and cloud operations teams to verify that their networks on Amazon Web Services conform to their network security and governance objectives. For more information, see the [Amazon Web Services Network Access Analyzer Guide](https://docs.aws.amazon.com/vpc/latest/network-access-analyzer/).
     ///
-    /// - Parameter CreateNetworkInsightsAccessScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkInsightsAccessScopeInput`)
     ///
-    /// - Returns: `CreateNetworkInsightsAccessScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkInsightsAccessScopeOutput`)
     public func createNetworkInsightsAccessScope(input: CreateNetworkInsightsAccessScopeInput) async throws -> CreateNetworkInsightsAccessScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6923,9 +6923,9 @@ extension EC2Client {
     ///
     /// Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reachability between two resources in your virtual private cloud (VPC). For more information, see the [Reachability Analyzer Guide](https://docs.aws.amazon.com/vpc/latest/reachability/).
     ///
-    /// - Parameter CreateNetworkInsightsPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkInsightsPathInput`)
     ///
-    /// - Returns: `CreateNetworkInsightsPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkInsightsPathOutput`)
     public func createNetworkInsightsPath(input: CreateNetworkInsightsPathInput) async throws -> CreateNetworkInsightsPathOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6986,9 +6986,9 @@ extension EC2Client {
     ///
     /// Creates a network interface in the specified subnet. The number of IP addresses you can assign to a network interface varies by instance type. For more information about network interfaces, see [Elastic network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateNetworkInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkInterfaceInput`)
     ///
-    /// - Returns: `CreateNetworkInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkInterfaceOutput`)
     public func createNetworkInterface(input: CreateNetworkInterfaceInput) async throws -> CreateNetworkInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7049,9 +7049,9 @@ extension EC2Client {
     ///
     /// Grants an Amazon Web Services-authorized account permission to attach the specified network interface to an instance in their account. You can grant permission to a single Amazon Web Services account only, and only one account at a time.
     ///
-    /// - Parameter CreateNetworkInterfacePermissionInput : Contains the parameters for CreateNetworkInterfacePermission.
+    /// - Parameter input: Contains the parameters for CreateNetworkInterfacePermission. (Type: `CreateNetworkInterfacePermissionInput`)
     ///
-    /// - Returns: `CreateNetworkInterfacePermissionOutput` : Contains the output of CreateNetworkInterfacePermission.
+    /// - Returns: Contains the output of CreateNetworkInterfacePermission. (Type: `CreateNetworkInterfacePermissionOutput`)
     public func createNetworkInterfacePermission(input: CreateNetworkInterfacePermissionInput) async throws -> CreateNetworkInterfacePermissionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7111,9 +7111,9 @@ extension EC2Client {
     ///
     /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group. A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreatePlacementGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePlacementGroupInput`)
     ///
-    /// - Returns: `CreatePlacementGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePlacementGroupOutput`)
     public func createPlacementGroup(input: CreatePlacementGroupInput) async throws -> CreatePlacementGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7173,9 +7173,9 @@ extension EC2Client {
     ///
     /// Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the status of pool creation, use [DescribePublicIpv4Pools](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribePublicIpv4Pools.html).
     ///
-    /// - Parameter CreatePublicIpv4PoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePublicIpv4PoolInput`)
     ///
-    /// - Returns: `CreatePublicIpv4PoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePublicIpv4PoolOutput`)
     public func createPublicIpv4Pool(input: CreatePublicIpv4PoolInput) async throws -> CreatePublicIpv4PoolOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7235,9 +7235,9 @@ extension EC2Client {
     ///
     /// Replaces the EBS-backed root volume for a running instance with a new volume that is restored to the original root volume's launch state, that is restored to a specific snapshot taken from the original root volume, or that is restored from an AMI that has the same key characteristics as that of the instance. For more information, see [Replace a root volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/replace-root.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateReplaceRootVolumeTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReplaceRootVolumeTaskInput`)
     ///
-    /// - Returns: `CreateReplaceRootVolumeTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReplaceRootVolumeTaskOutput`)
     public func createReplaceRootVolumeTask(input: CreateReplaceRootVolumeTaskInput) async throws -> CreateReplaceRootVolumeTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7298,9 +7298,9 @@ extension EC2Client {
     ///
     /// Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the Reserved Instance Marketplace. You can submit one Standard Reserved Instance listing at a time. To get a list of your Standard Reserved Instances, you can use the [DescribeReservedInstances] operation. Only Standard Reserved Instances can be sold in the Reserved Instance Marketplace. Convertible Reserved Instances cannot be sold. The Reserved Instance Marketplace matches sellers who want to resell Standard Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. To sell your Standard Reserved Instances, you must first register as a seller in the Reserved Instance Marketplace. After completing the registration process, you can create a Reserved Instance Marketplace listing of some or all of your Standard Reserved Instances, and specify the upfront price to receive for them. Your Standard Reserved Instance listings then become available for purchase. To view the details of your Standard Reserved Instance listing, you can use the [DescribeReservedInstancesListings] operation. For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateReservedInstancesListingInput : Contains the parameters for CreateReservedInstancesListing.
+    /// - Parameter input: Contains the parameters for CreateReservedInstancesListing. (Type: `CreateReservedInstancesListingInput`)
     ///
-    /// - Returns: `CreateReservedInstancesListingOutput` : Contains the output of CreateReservedInstancesListing.
+    /// - Returns: Contains the output of CreateReservedInstancesListing. (Type: `CreateReservedInstancesListingOutput`)
     public func createReservedInstancesListing(input: CreateReservedInstancesListingInput) async throws -> CreateReservedInstancesListingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7360,9 +7360,9 @@ extension EC2Client {
     ///
     /// Starts a task that restores an AMI from an Amazon S3 object that was previously created by using [CreateStoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html). To use this API, you must have the required permissions. For more information, see [Permissions for storing and restoring AMIs using S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-ami-store-restore.html#ami-s3-permissions) in the Amazon EC2 User Guide. For more information, see [Store and restore an AMI using S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateRestoreImageTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRestoreImageTaskInput`)
     ///
-    /// - Returns: `CreateRestoreImageTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRestoreImageTaskOutput`)
     public func createRestoreImageTask(input: CreateRestoreImageTaskInput) async throws -> CreateRestoreImageTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7429,9 +7429,9 @@ extension EC2Client {
     ///
     /// Both routes apply to the traffic destined for 192.0.2.3. However, the second route in the list covers a smaller number of IP addresses and is therefore more specific, so we use that route to determine where to target the traffic. For more information about route tables, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRouteInput`)
     ///
-    /// - Returns: `CreateRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteOutput`)
     public func createRoute(input: CreateRouteInput) async throws -> CreateRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7500,9 +7500,9 @@ extension EC2Client {
     ///
     /// Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use [Transit Gateway Connect](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html). For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateRouteServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRouteServerInput`)
     ///
-    /// - Returns: `CreateRouteServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteServerOutput`)
     public func createRouteServer(input: CreateRouteServerInput) async throws -> CreateRouteServerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7563,9 +7563,9 @@ extension EC2Client {
     ///
     /// Creates a new endpoint for a route server in a specified subnet. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates [BGP (Border Gateway Protocol)](https://en.wikipedia.org/wiki/Border_Gateway_Protocol) connections between your route server and your BGP peers. For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateRouteServerEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRouteServerEndpointInput`)
     ///
-    /// - Returns: `CreateRouteServerEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteServerEndpointOutput`)
     public func createRouteServerEndpoint(input: CreateRouteServerEndpointInput) async throws -> CreateRouteServerEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7635,9 +7635,9 @@ extension EC2Client {
     ///
     /// For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateRouteServerPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRouteServerPeerInput`)
     ///
-    /// - Returns: `CreateRouteServerPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteServerPeerOutput`)
     public func createRouteServerPeer(input: CreateRouteServerPeerInput) async throws -> CreateRouteServerPeerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7697,9 +7697,9 @@ extension EC2Client {
     ///
     /// Creates a route table for the specified VPC. After you create a route table, you can add routes and associate the table with a subnet. For more information, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRouteTableInput`)
     ///
-    /// - Returns: `CreateRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteTableOutput`)
     public func createRouteTable(input: CreateRouteTableInput) async throws -> CreateRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7760,9 +7760,9 @@ extension EC2Client {
     ///
     /// Creates a security group. A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. For more information, see [Amazon EC2 security groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html) in the Amazon EC2 User Guide and [Security groups for your VPC](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html) in the Amazon VPC User Guide. When you create a security group, you specify a friendly name of your choice. You can't have two security groups for the same VPC with the same name. You have a default security group for use in your VPC. If you don't specify a security group when you launch an instance, the instance is launched into the appropriate default security group. A default security group includes a default rule that grants instances unrestricted network access to each other. You can add or remove rules from your security groups using [AuthorizeSecurityGroupIngress], [AuthorizeSecurityGroupEgress], [RevokeSecurityGroupIngress], and [RevokeSecurityGroupEgress]. For more information about VPC security group limits, see [Amazon VPC Limits](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html).
     ///
-    /// - Parameter CreateSecurityGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityGroupInput`)
     ///
-    /// - Returns: `CreateSecurityGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSecurityGroupOutput`)
     public func createSecurityGroup(input: CreateSecurityGroupInput) async throws -> CreateSecurityGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7831,9 +7831,9 @@ extension EC2Client {
     ///
     /// When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter CreateSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotInput`)
     ///
-    /// - Returns: `CreateSnapshotOutput` : Describes a snapshot.
+    /// - Returns: Describes a snapshot. (Type: `CreateSnapshotOutput`)
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7899,9 +7899,9 @@ extension EC2Client {
     ///
     /// * If the source instance is on an Outpost, you can create the snapshots on the same Outpost or in its parent Amazon Web Services Region.
     ///
-    /// - Parameter CreateSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotsInput`)
     ///
-    /// - Returns: `CreateSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotsOutput`)
     public func createSnapshots(input: CreateSnapshotsInput) async throws -> CreateSnapshotsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7961,9 +7961,9 @@ extension EC2Client {
     ///
     /// Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You can create one data feed per Amazon Web Services account. For more information, see [Spot Instance data feed](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateSpotDatafeedSubscriptionInput : Contains the parameters for CreateSpotDatafeedSubscription.
+    /// - Parameter input: Contains the parameters for CreateSpotDatafeedSubscription. (Type: `CreateSpotDatafeedSubscriptionInput`)
     ///
-    /// - Returns: `CreateSpotDatafeedSubscriptionOutput` : Contains the output of CreateSpotDatafeedSubscription.
+    /// - Returns: Contains the output of CreateSpotDatafeedSubscription. (Type: `CreateSpotDatafeedSubscriptionOutput`)
     public func createSpotDatafeedSubscription(input: CreateSpotDatafeedSubscriptionInput) async throws -> CreateSpotDatafeedSubscriptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8023,9 +8023,9 @@ extension EC2Client {
     ///
     /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more information, see [Permissions for storing and restoring AMIs using S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-ami-store-restore.html#ami-s3-permissions) in the Amazon EC2 User Guide. For more information, see [Store and restore an AMI using S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateStoreImageTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStoreImageTaskInput`)
     ///
-    /// - Returns: `CreateStoreImageTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStoreImageTaskOutput`)
     public func createStoreImageTask(input: CreateStoreImageTaskInput) async throws -> CreateStoreImageTaskOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8085,9 +8085,9 @@ extension EC2Client {
     ///
     /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing subnet in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an IPv4 subnet is between a /28 netmask (16 IP addresses) and a /16 netmask (65,536 IP addresses). Amazon Web Services reserves both the first four and the last IPv4 address in each subnet's CIDR block. They're not available for your use. If you've associated an IPv6 CIDR block with your VPC, you can associate an IPv6 CIDR block with a subnet when you create it. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information, see [Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateSubnetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubnetInput`)
     ///
-    /// - Returns: `CreateSubnetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubnetOutput`)
     public func createSubnet(input: CreateSubnetInput) async throws -> CreateSubnetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8147,9 +8147,9 @@ extension EC2Client {
     ///
     /// Creates a subnet CIDR reservation. For more information, see [Subnet CIDR reservations](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-cidr-reservation.html) in the Amazon VPC User Guide and [Manage prefixes for your network interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-prefixes.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateSubnetCidrReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubnetCidrReservationInput`)
     ///
-    /// - Returns: `CreateSubnetCidrReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubnetCidrReservationOutput`)
     public func createSubnetCidrReservation(input: CreateSubnetCidrReservationInput) async throws -> CreateSubnetCidrReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8209,9 +8209,9 @@ extension EC2Client {
     ///
     /// Adds or overwrites only the specified tags for the specified Amazon EC2 resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique per resource. For more information about tags, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide. For more information about creating IAM policies that control users' access to resources based on tags, see [Supported resource-level permissions for Amazon EC2 API actions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-iam-actions-resources.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter CreateTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTagsInput`)
     ///
-    /// - Returns: `CreateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagsOutput`)
     public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8271,9 +8271,9 @@ extension EC2Client {
     ///
     /// Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that defines the traffic to mirror. By default, no traffic is mirrored. To mirror traffic, use [CreateTrafficMirrorFilterRule](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorFilterRule.htm) to add Traffic Mirror rules to the filter. The rules you add define what traffic gets mirrored. You can also use [ModifyTrafficMirrorFilterNetworkServices](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyTrafficMirrorFilterNetworkServices.html) to mirror supported network services.
     ///
-    /// - Parameter CreateTrafficMirrorFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrafficMirrorFilterInput`)
     ///
-    /// - Returns: `CreateTrafficMirrorFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrafficMirrorFilterOutput`)
     public func createTrafficMirrorFilter(input: CreateTrafficMirrorFilterInput) async throws -> CreateTrafficMirrorFilterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8334,9 +8334,9 @@ extension EC2Client {
     ///
     /// Creates a Traffic Mirror filter rule. A Traffic Mirror rule defines the Traffic Mirror source traffic to mirror. You need the Traffic Mirror filter ID when you create the rule.
     ///
-    /// - Parameter CreateTrafficMirrorFilterRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrafficMirrorFilterRuleInput`)
     ///
-    /// - Returns: `CreateTrafficMirrorFilterRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrafficMirrorFilterRuleOutput`)
     public func createTrafficMirrorFilterRule(input: CreateTrafficMirrorFilterRuleInput) async throws -> CreateTrafficMirrorFilterRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8397,9 +8397,9 @@ extension EC2Client {
     ///
     /// Creates a Traffic Mirror session. A Traffic Mirror session actively copies packets from a Traffic Mirror source to a Traffic Mirror target. Create a filter, and then assign it to the session to define a subset of the traffic to mirror, for example all TCP traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in a different VPC connected via VPC peering or a transit gateway. By default, no traffic is mirrored. Use [CreateTrafficMirrorFilter](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorFilter.html) to create filter rules that specify the traffic to mirror.
     ///
-    /// - Parameter CreateTrafficMirrorSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrafficMirrorSessionInput`)
     ///
-    /// - Returns: `CreateTrafficMirrorSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrafficMirrorSessionOutput`)
     public func createTrafficMirrorSession(input: CreateTrafficMirrorSessionInput) async throws -> CreateTrafficMirrorSessionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8460,9 +8460,9 @@ extension EC2Client {
     ///
     /// Creates a target for your Traffic Mirror session. A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in different VPCs connected via VPC peering or a transit gateway. A Traffic Mirror target can be a network interface, a Network Load Balancer, or a Gateway Load Balancer endpoint. To use the target in a Traffic Mirror session, use [CreateTrafficMirrorSession](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTrafficMirrorSession.htm).
     ///
-    /// - Parameter CreateTrafficMirrorTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrafficMirrorTargetInput`)
     ///
-    /// - Returns: `CreateTrafficMirrorTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrafficMirrorTargetOutput`)
     public func createTrafficMirrorTarget(input: CreateTrafficMirrorTargetInput) async throws -> CreateTrafficMirrorTargetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8523,9 +8523,9 @@ extension EC2Client {
     ///
     /// Creates a transit gateway. You can use a transit gateway to interconnect your virtual private clouds (VPC) and on-premises networks. After the transit gateway enters the available state, you can attach your VPCs and VPN connections to the transit gateway. To attach your VPCs, use [CreateTransitGatewayVpcAttachment]. To attach a VPN connection, use [CreateCustomerGateway] to create a customer gateway and specify the ID of the customer gateway and the ID of the transit gateway in a call to [CreateVpnConnection]. When you create a transit gateway, we create a default transit gateway route table and use it as the default association route table and the default propagation route table. You can use [CreateTransitGatewayRouteTable] to create additional transit gateway route tables. If you disable automatic route propagation, we do not create a default transit gateway route table. You can use [EnableTransitGatewayRouteTablePropagation] to propagate routes from a resource attachment to a transit gateway route table. If you disable automatic associations, you can use [AssociateTransitGatewayRouteTable] to associate a resource attachment with a transit gateway route table.
     ///
-    /// - Parameter CreateTransitGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayInput`)
     ///
-    /// - Returns: `CreateTransitGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayOutput`)
     public func createTransitGateway(input: CreateTransitGatewayInput) async throws -> CreateTransitGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8585,9 +8585,9 @@ extension EC2Client {
     ///
     /// Creates a Connect attachment from a specified transit gateway attachment. A Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a transit gateway and an appliance. A Connect attachment uses an existing VPC or Amazon Web Services Direct Connect attachment as the underlying transport mechanism.
     ///
-    /// - Parameter CreateTransitGatewayConnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayConnectInput`)
     ///
-    /// - Returns: `CreateTransitGatewayConnectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayConnectOutput`)
     public func createTransitGatewayConnect(input: CreateTransitGatewayConnectInput) async throws -> CreateTransitGatewayConnectOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8647,9 +8647,9 @@ extension EC2Client {
     ///
     /// Creates a Connect peer for a specified transit gateway Connect attachment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). For more information, see [Connect peers](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html#tgw-connect-peer) in the Amazon Web Services Transit Gateways Guide.
     ///
-    /// - Parameter CreateTransitGatewayConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayConnectPeerInput`)
     ///
-    /// - Returns: `CreateTransitGatewayConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayConnectPeerOutput`)
     public func createTransitGatewayConnectPeer(input: CreateTransitGatewayConnectPeerInput) async throws -> CreateTransitGatewayConnectPeerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8709,9 +8709,9 @@ extension EC2Client {
     ///
     /// Creates a multicast domain using the specified transit gateway. The transit gateway must be in the available state before you create a domain. Use [DescribeTransitGateways](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGateways.html) to see the state of transit gateway.
     ///
-    /// - Parameter CreateTransitGatewayMulticastDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayMulticastDomainInput`)
     ///
-    /// - Returns: `CreateTransitGatewayMulticastDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayMulticastDomainOutput`)
     public func createTransitGatewayMulticastDomain(input: CreateTransitGatewayMulticastDomainInput) async throws -> CreateTransitGatewayMulticastDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8771,9 +8771,9 @@ extension EC2Client {
     ///
     /// Requests a transit gateway peering attachment between the specified transit gateway (requester) and a peer transit gateway (accepter). The peer transit gateway can be in your account or a different Amazon Web Services account. After you create the peering attachment, the owner of the accepter transit gateway must accept the attachment request.
     ///
-    /// - Parameter CreateTransitGatewayPeeringAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayPeeringAttachmentInput`)
     ///
-    /// - Returns: `CreateTransitGatewayPeeringAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayPeeringAttachmentOutput`)
     public func createTransitGatewayPeeringAttachment(input: CreateTransitGatewayPeeringAttachmentInput) async throws -> CreateTransitGatewayPeeringAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8833,9 +8833,9 @@ extension EC2Client {
     ///
     /// Creates a transit gateway policy table.
     ///
-    /// - Parameter CreateTransitGatewayPolicyTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayPolicyTableInput`)
     ///
-    /// - Returns: `CreateTransitGatewayPolicyTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayPolicyTableOutput`)
     public func createTransitGatewayPolicyTable(input: CreateTransitGatewayPolicyTableInput) async throws -> CreateTransitGatewayPolicyTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8895,9 +8895,9 @@ extension EC2Client {
     ///
     /// Creates a reference (route) to a prefix list in a specified transit gateway route table.
     ///
-    /// - Parameter CreateTransitGatewayPrefixListReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayPrefixListReferenceInput`)
     ///
-    /// - Returns: `CreateTransitGatewayPrefixListReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayPrefixListReferenceOutput`)
     public func createTransitGatewayPrefixListReference(input: CreateTransitGatewayPrefixListReferenceInput) async throws -> CreateTransitGatewayPrefixListReferenceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8957,9 +8957,9 @@ extension EC2Client {
     ///
     /// Creates a static route for the specified transit gateway route table.
     ///
-    /// - Parameter CreateTransitGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayRouteInput`)
     ///
-    /// - Returns: `CreateTransitGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayRouteOutput`)
     public func createTransitGatewayRoute(input: CreateTransitGatewayRouteInput) async throws -> CreateTransitGatewayRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9019,9 +9019,9 @@ extension EC2Client {
     ///
     /// Creates a route table for the specified transit gateway.
     ///
-    /// - Parameter CreateTransitGatewayRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayRouteTableInput`)
     ///
-    /// - Returns: `CreateTransitGatewayRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayRouteTableOutput`)
     public func createTransitGatewayRouteTable(input: CreateTransitGatewayRouteTableInput) async throws -> CreateTransitGatewayRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9081,9 +9081,9 @@ extension EC2Client {
     ///
     /// Advertises a new transit gateway route table.
     ///
-    /// - Parameter CreateTransitGatewayRouteTableAnnouncementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayRouteTableAnnouncementInput`)
     ///
-    /// - Returns: `CreateTransitGatewayRouteTableAnnouncementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayRouteTableAnnouncementOutput`)
     public func createTransitGatewayRouteTableAnnouncement(input: CreateTransitGatewayRouteTableAnnouncementInput) async throws -> CreateTransitGatewayRouteTableAnnouncementOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9143,9 +9143,9 @@ extension EC2Client {
     ///
     /// Attaches the specified VPC to the specified transit gateway. If you attach a VPC with a CIDR range that overlaps the CIDR range of a VPC that is already attached, the new VPC CIDR range is not propagated to the default propagation route table. To send VPC traffic to an attached transit gateway, add a route to the VPC route table using [CreateRoute].
     ///
-    /// - Parameter CreateTransitGatewayVpcAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayVpcAttachmentInput`)
     ///
-    /// - Returns: `CreateTransitGatewayVpcAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayVpcAttachmentOutput`)
     public func createTransitGatewayVpcAttachment(input: CreateTransitGatewayVpcAttachmentInput) async throws -> CreateTransitGatewayVpcAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9205,9 +9205,9 @@ extension EC2Client {
     ///
     /// An Amazon Web Services Verified Access endpoint is where you define your application along with an optional endpoint-level access policy.
     ///
-    /// - Parameter CreateVerifiedAccessEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVerifiedAccessEndpointInput`)
     ///
-    /// - Returns: `CreateVerifiedAccessEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVerifiedAccessEndpointOutput`)
     public func createVerifiedAccessEndpoint(input: CreateVerifiedAccessEndpointInput) async throws -> CreateVerifiedAccessEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9268,9 +9268,9 @@ extension EC2Client {
     ///
     /// An Amazon Web Services Verified Access group is a collection of Amazon Web Services Verified Access endpoints who's associated applications have similar security requirements. Each instance within a Verified Access group shares an Verified Access policy. For example, you can group all Verified Access instances associated with "sales" applications together and use one common Verified Access policy.
     ///
-    /// - Parameter CreateVerifiedAccessGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVerifiedAccessGroupInput`)
     ///
-    /// - Returns: `CreateVerifiedAccessGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVerifiedAccessGroupOutput`)
     public func createVerifiedAccessGroup(input: CreateVerifiedAccessGroupInput) async throws -> CreateVerifiedAccessGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9331,9 +9331,9 @@ extension EC2Client {
     ///
     /// An Amazon Web Services Verified Access instance is a regional entity that evaluates application requests and grants access only when your security requirements are met.
     ///
-    /// - Parameter CreateVerifiedAccessInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVerifiedAccessInstanceInput`)
     ///
-    /// - Returns: `CreateVerifiedAccessInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVerifiedAccessInstanceOutput`)
     public func createVerifiedAccessInstance(input: CreateVerifiedAccessInstanceInput) async throws -> CreateVerifiedAccessInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9394,9 +9394,9 @@ extension EC2Client {
     ///
     /// A trust provider is a third-party entity that creates, maintains, and manages identity information for users and devices. When an application request is made, the identity information sent by the trust provider is evaluated by Verified Access before allowing or denying the application request.
     ///
-    /// - Parameter CreateVerifiedAccessTrustProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVerifiedAccessTrustProviderInput`)
     ///
-    /// - Returns: `CreateVerifiedAccessTrustProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVerifiedAccessTrustProviderOutput`)
     public func createVerifiedAccessTrustProvider(input: CreateVerifiedAccessTrustProviderInput) async throws -> CreateVerifiedAccessTrustProviderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9457,9 +9457,9 @@ extension EC2Client {
     ///
     /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide. You can tag your volumes during creation. For more information, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide. For more information, see [Create an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-creating-volume.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter CreateVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVolumeInput`)
     ///
-    /// - Returns: `CreateVolumeOutput` : Describes a volume.
+    /// - Returns: Describes a volume. (Type: `CreateVolumeOutput`)
     public func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9520,9 +9520,9 @@ extension EC2Client {
     ///
     /// Creates a VPC with the specified CIDR blocks. For more information, see [IP addressing for your VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html) in the Amazon VPC User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided IPv6 CIDR block from Amazon's pool of IPv6 addresses or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses ([BYOIP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)). By default, each instance that you launch in the VPC has the default DHCP options, which include only a default DNS server that we provide (AmazonProvidedDNS). For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon VPC User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see [Dedicated Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter CreateVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcInput`)
     ///
-    /// - Returns: `CreateVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcOutput`)
     public func createVpc(input: CreateVpcInput) async throws -> CreateVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9582,9 +9582,9 @@ extension EC2Client {
     ///
     /// Create a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateVpcBlockPublicAccessExclusionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcBlockPublicAccessExclusionInput`)
     ///
-    /// - Returns: `CreateVpcBlockPublicAccessExclusionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcBlockPublicAccessExclusionOutput`)
     public func createVpcBlockPublicAccessExclusion(input: CreateVpcBlockPublicAccessExclusionInput) async throws -> CreateVpcBlockPublicAccessExclusionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9644,9 +9644,9 @@ extension EC2Client {
     ///
     /// Creates a VPC endpoint. A VPC endpoint provides a private connection between the specified VPC and the specified endpoint service. You can use an endpoint service provided by Amazon Web Services, an Amazon Web Services Marketplace Partner, or another Amazon Web Services account. For more information, see the [Amazon Web Services PrivateLink User Guide](https://docs.aws.amazon.com/vpc/latest/privatelink/).
     ///
-    /// - Parameter CreateVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcEndpointInput`)
     ///
-    /// - Returns: `CreateVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcEndpointOutput`)
     public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9706,9 +9706,9 @@ extension EC2Client {
     ///
     /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service. A connection notification notifies you of specific endpoint events. You must create an SNS topic to receive notifications. For more information, see [Creating an Amazon SNS topic](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html) in the Amazon SNS Developer Guide. You can create a connection notification for interface endpoints only.
     ///
-    /// - Parameter CreateVpcEndpointConnectionNotificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcEndpointConnectionNotificationInput`)
     ///
-    /// - Returns: `CreateVpcEndpointConnectionNotificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcEndpointConnectionNotificationOutput`)
     public func createVpcEndpointConnectionNotification(input: CreateVpcEndpointConnectionNotificationInput) async throws -> CreateVpcEndpointConnectionNotificationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9775,9 +9775,9 @@ extension EC2Client {
     ///
     /// If you set the private DNS name, you must prove that you own the private DNS domain name. For more information, see the [Amazon Web Services PrivateLink Guide](https://docs.aws.amazon.com/vpc/latest/privatelink/).
     ///
-    /// - Parameter CreateVpcEndpointServiceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcEndpointServiceConfigurationInput`)
     ///
-    /// - Returns: `CreateVpcEndpointServiceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcEndpointServiceConfigurationOutput`)
     public func createVpcEndpointServiceConfiguration(input: CreateVpcEndpointServiceConfigurationInput) async throws -> CreateVpcEndpointServiceConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9837,9 +9837,9 @@ extension EC2Client {
     ///
     /// Requests a VPC peering connection between two VPCs: a requester VPC that you own and an accepter VPC with which to create the connection. The accepter VPC can belong to another Amazon Web Services account and can be in a different Region to the requester VPC. The requester VPC and accepter VPC cannot have overlapping CIDR blocks. Limitations and rules apply to a VPC peering connection. For more information, see the [VPC peering limitations](https://docs.aws.amazon.com/vpc/latest/peering/vpc-peering-basics.html#vpc-peering-limitations) in the VPC Peering Guide. The owner of the accepter VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected. If you create a VPC peering connection request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status of failed.
     ///
-    /// - Parameter CreateVpcPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcPeeringConnectionInput`)
     ///
-    /// - Returns: `CreateVpcPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcPeeringConnectionOutput`)
     public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9899,9 +9899,9 @@ extension EC2Client {
     ///
     /// Creates a VPN connection between an existing virtual private gateway or transit gateway and a customer gateway. The supported connection type is ipsec.1. The response includes information that you need to give to your network administrator to configure your customer gateway. We strongly recommend that you use HTTPS when calling this operation because the response contains sensitive cryptographic information for configuring your customer gateway device. If you decide to shut down your VPN connection for any reason and later create a new VPN connection, you must reconfigure your customer gateway with the new information returned from this call. This is an idempotent operation. If you perform the operation more than once, Amazon EC2 doesn't return an error. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter CreateVpnConnectionInput : Contains the parameters for CreateVpnConnection.
+    /// - Parameter input: Contains the parameters for CreateVpnConnection. (Type: `CreateVpnConnectionInput`)
     ///
-    /// - Returns: `CreateVpnConnectionOutput` : Contains the output of CreateVpnConnection.
+    /// - Returns: Contains the output of CreateVpnConnection. (Type: `CreateVpnConnectionOutput`)
     public func createVpnConnection(input: CreateVpnConnectionInput) async throws -> CreateVpnConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9961,9 +9961,9 @@ extension EC2Client {
     ///
     /// Creates a static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter CreateVpnConnectionRouteInput : Contains the parameters for CreateVpnConnectionRoute.
+    /// - Parameter input: Contains the parameters for CreateVpnConnectionRoute. (Type: `CreateVpnConnectionRouteInput`)
     ///
-    /// - Returns: `CreateVpnConnectionRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpnConnectionRouteOutput`)
     public func createVpnConnectionRoute(input: CreateVpnConnectionRouteInput) async throws -> CreateVpnConnectionRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10023,9 +10023,9 @@ extension EC2Client {
     ///
     /// Creates a virtual private gateway. A virtual private gateway is the endpoint on the VPC side of your VPN connection. You can create a virtual private gateway before creating the VPC itself. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter CreateVpnGatewayInput : Contains the parameters for CreateVpnGateway.
+    /// - Parameter input: Contains the parameters for CreateVpnGateway. (Type: `CreateVpnGatewayInput`)
     ///
-    /// - Returns: `CreateVpnGatewayOutput` : Contains the output of CreateVpnGateway.
+    /// - Returns: Contains the output of CreateVpnGateway. (Type: `CreateVpnGatewayOutput`)
     public func createVpnGateway(input: CreateVpnGatewayInput) async throws -> CreateVpnGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10085,9 +10085,9 @@ extension EC2Client {
     ///
     /// Deletes a carrier gateway. If you do not delete the route that contains the carrier gateway as the Target, the route is a blackhole route. For information about how to delete a route, see [DeleteRoute](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteRoute.html).
     ///
-    /// - Parameter DeleteCarrierGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCarrierGatewayInput`)
     ///
-    /// - Returns: `DeleteCarrierGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCarrierGatewayOutput`)
     public func deleteCarrierGateway(input: DeleteCarrierGatewayInput) async throws -> DeleteCarrierGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10147,9 +10147,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Client VPN endpoint. You must disassociate all target networks before you can delete a Client VPN endpoint.
     ///
-    /// - Parameter DeleteClientVpnEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClientVpnEndpointInput`)
     ///
-    /// - Returns: `DeleteClientVpnEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClientVpnEndpointOutput`)
     public func deleteClientVpnEndpoint(input: DeleteClientVpnEndpointInput) async throws -> DeleteClientVpnEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10209,9 +10209,9 @@ extension EC2Client {
     ///
     /// Deletes a route from a Client VPN endpoint. You can only delete routes that you manually added using the CreateClientVpnRoute action. You cannot delete routes that were automatically added when associating a subnet. To remove routes that have been automatically added, disassociate the target subnet from the Client VPN endpoint.
     ///
-    /// - Parameter DeleteClientVpnRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClientVpnRouteInput`)
     ///
-    /// - Returns: `DeleteClientVpnRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClientVpnRouteOutput`)
     public func deleteClientVpnRoute(input: DeleteClientVpnRouteInput) async throws -> DeleteClientVpnRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10271,9 +10271,9 @@ extension EC2Client {
     ///
     /// Deletes a range of customer-owned IP addresses.
     ///
-    /// - Parameter DeleteCoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCoipCidrInput`)
     ///
-    /// - Returns: `DeleteCoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCoipCidrOutput`)
     public func deleteCoipCidr(input: DeleteCoipCidrInput) async throws -> DeleteCoipCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10333,9 +10333,9 @@ extension EC2Client {
     ///
     /// Deletes a pool of customer-owned IP (CoIP) addresses.
     ///
-    /// - Parameter DeleteCoipPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCoipPoolInput`)
     ///
-    /// - Returns: `DeleteCoipPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCoipPoolOutput`)
     public func deleteCoipPool(input: DeleteCoipPoolInput) async throws -> DeleteCoipPoolOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10395,9 +10395,9 @@ extension EC2Client {
     ///
     /// Deletes the specified customer gateway. You must delete the VPN connection before you can delete the customer gateway.
     ///
-    /// - Parameter DeleteCustomerGatewayInput : Contains the parameters for DeleteCustomerGateway.
+    /// - Parameter input: Contains the parameters for DeleteCustomerGateway. (Type: `DeleteCustomerGatewayInput`)
     ///
-    /// - Returns: `DeleteCustomerGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomerGatewayOutput`)
     public func deleteCustomerGateway(input: DeleteCustomerGatewayInput) async throws -> DeleteCustomerGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10457,9 +10457,9 @@ extension EC2Client {
     ///
     /// Deletes the specified set of DHCP options. You must disassociate the set of DHCP options before you can delete it. You can disassociate the set of DHCP options by associating either a new set of options or the default set of options with the VPC.
     ///
-    /// - Parameter DeleteDhcpOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDhcpOptionsInput`)
     ///
-    /// - Returns: `DeleteDhcpOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDhcpOptionsOutput`)
     public func deleteDhcpOptions(input: DeleteDhcpOptionsInput) async throws -> DeleteDhcpOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10519,9 +10519,9 @@ extension EC2Client {
     ///
     /// Deletes an egress-only internet gateway.
     ///
-    /// - Parameter DeleteEgressOnlyInternetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEgressOnlyInternetGatewayInput`)
     ///
-    /// - Returns: `DeleteEgressOnlyInternetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEgressOnlyInternetGatewayOutput`)
     public func deleteEgressOnlyInternetGateway(input: DeleteEgressOnlyInternetGatewayInput) async throws -> DeleteEgressOnlyInternetGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10592,9 +10592,9 @@ extension EC2Client {
     ///
     /// For more information, see [Delete an EC2 Fleet request and the instances in the fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/delete-fleet.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DeleteFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetsInput`)
     ///
-    /// - Returns: `DeleteFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetsOutput`)
     public func deleteFleets(input: DeleteFleetsInput) async throws -> DeleteFleetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10654,9 +10654,9 @@ extension EC2Client {
     ///
     /// Deletes one or more flow logs.
     ///
-    /// - Parameter DeleteFlowLogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlowLogsInput`)
     ///
-    /// - Returns: `DeleteFlowLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlowLogsOutput`)
     public func deleteFlowLogs(input: DeleteFlowLogsInput) async throws -> DeleteFlowLogsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10716,9 +10716,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Amazon FPGA Image (AFI).
     ///
-    /// - Parameter DeleteFpgaImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFpgaImageInput`)
     ///
-    /// - Returns: `DeleteFpgaImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFpgaImageOutput`)
     public func deleteFpgaImage(input: DeleteFpgaImageInput) async throws -> DeleteFpgaImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10778,9 +10778,9 @@ extension EC2Client {
     ///
     /// Deletes the specified image usage report. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DeleteImageUsageReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageUsageReportInput`)
     ///
-    /// - Returns: `DeleteImageUsageReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageUsageReportOutput`)
     public func deleteImageUsageReport(input: DeleteImageUsageReportInput) async throws -> DeleteImageUsageReportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10840,9 +10840,9 @@ extension EC2Client {
     ///
     /// Deletes the specified EC2 Instance Connect Endpoint.
     ///
-    /// - Parameter DeleteInstanceConnectEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceConnectEndpointInput`)
     ///
-    /// - Returns: `DeleteInstanceConnectEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceConnectEndpointOutput`)
     public func deleteInstanceConnectEndpoint(input: DeleteInstanceConnectEndpointInput) async throws -> DeleteInstanceConnectEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10902,9 +10902,9 @@ extension EC2Client {
     ///
     /// Deletes the specified event window. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DeleteInstanceEventWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceEventWindowInput`)
     ///
-    /// - Returns: `DeleteInstanceEventWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceEventWindowOutput`)
     public func deleteInstanceEventWindow(input: DeleteInstanceEventWindowInput) async throws -> DeleteInstanceEventWindowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10964,9 +10964,9 @@ extension EC2Client {
     ///
     /// Deletes the specified internet gateway. You must detach the internet gateway from the VPC before you can delete it.
     ///
-    /// - Parameter DeleteInternetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInternetGatewayInput`)
     ///
-    /// - Returns: `DeleteInternetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInternetGatewayOutput`)
     public func deleteInternetGateway(input: DeleteInternetGatewayInput) async throws -> DeleteInternetGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11026,9 +11026,9 @@ extension EC2Client {
     ///
     /// Delete an IPAM. Deleting an IPAM removes all monitored data associated with the IPAM including the historical data for CIDRs. For more information, see [Delete an IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/delete-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter DeleteIpamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpamInput`)
     ///
-    /// - Returns: `DeleteIpamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIpamOutput`)
     public func deleteIpam(input: DeleteIpamInput) async throws -> DeleteIpamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11088,9 +11088,9 @@ extension EC2Client {
     ///
     /// Delete a verification token. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
     ///
-    /// - Parameter DeleteIpamExternalResourceVerificationTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpamExternalResourceVerificationTokenInput`)
     ///
-    /// - Returns: `DeleteIpamExternalResourceVerificationTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIpamExternalResourceVerificationTokenOutput`)
     public func deleteIpamExternalResourceVerificationToken(input: DeleteIpamExternalResourceVerificationTokenInput) async throws -> DeleteIpamExternalResourceVerificationTokenOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11150,9 +11150,9 @@ extension EC2Client {
     ///
     /// Delete an IPAM pool. You cannot delete an IPAM pool if there are allocations in it or CIDRs provisioned to it. To release allocations, see [ReleaseIpamPoolAllocation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ReleaseIpamPoolAllocation.html). To deprovision pool CIDRs, see [DeprovisionIpamPoolCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeprovisionIpamPoolCidr.html). For more information, see [Delete a pool](https://docs.aws.amazon.com/vpc/latest/ipam/delete-pool-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter DeleteIpamPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpamPoolInput`)
     ///
-    /// - Returns: `DeleteIpamPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIpamPoolOutput`)
     public func deleteIpamPool(input: DeleteIpamPoolInput) async throws -> DeleteIpamPoolOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11212,9 +11212,9 @@ extension EC2Client {
     ///
     /// Deletes an IPAM resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
-    /// - Parameter DeleteIpamResourceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpamResourceDiscoveryInput`)
     ///
-    /// - Returns: `DeleteIpamResourceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIpamResourceDiscoveryOutput`)
     public func deleteIpamResourceDiscovery(input: DeleteIpamResourceDiscoveryInput) async throws -> DeleteIpamResourceDiscoveryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11274,9 +11274,9 @@ extension EC2Client {
     ///
     /// Delete the scope for an IPAM. You cannot delete the default scopes. For more information, see [Delete a scope](https://docs.aws.amazon.com/vpc/latest/ipam/delete-scope-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter DeleteIpamScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpamScopeInput`)
     ///
-    /// - Returns: `DeleteIpamScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIpamScopeOutput`)
     public func deleteIpamScope(input: DeleteIpamScopeInput) async throws -> DeleteIpamScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11336,9 +11336,9 @@ extension EC2Client {
     ///
     /// Deletes the specified key pair, by removing the public key from Amazon EC2.
     ///
-    /// - Parameter DeleteKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyPairInput`)
     ///
-    /// - Returns: `DeleteKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyPairOutput`)
     public func deleteKeyPair(input: DeleteKeyPairInput) async throws -> DeleteKeyPairOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11398,9 +11398,9 @@ extension EC2Client {
     ///
     /// Deletes a launch template. Deleting a launch template deletes all of its versions.
     ///
-    /// - Parameter DeleteLaunchTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLaunchTemplateInput`)
     ///
-    /// - Returns: `DeleteLaunchTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLaunchTemplateOutput`)
     public func deleteLaunchTemplate(input: DeleteLaunchTemplateInput) async throws -> DeleteLaunchTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11460,9 +11460,9 @@ extension EC2Client {
     ///
     /// Deletes one or more versions of a launch template. You can't delete the default version of a launch template; you must first assign a different version as the default. If the default version is the only version for the launch template, you must delete the entire launch template using [DeleteLaunchTemplate]. You can delete up to 200 launch template versions in a single request. To delete more than 200 versions in a single request, use [DeleteLaunchTemplate], which deletes the launch template and all of its versions. For more information, see [Delete a launch template version](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/delete-launch-template.html#delete-launch-template-version) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DeleteLaunchTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLaunchTemplateVersionsInput`)
     ///
-    /// - Returns: `DeleteLaunchTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLaunchTemplateVersionsOutput`)
     public func deleteLaunchTemplateVersions(input: DeleteLaunchTemplateVersionsInput) async throws -> DeleteLaunchTemplateVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11522,9 +11522,9 @@ extension EC2Client {
     ///
     /// Deletes the specified route from the specified local gateway route table.
     ///
-    /// - Parameter DeleteLocalGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLocalGatewayRouteInput`)
     ///
-    /// - Returns: `DeleteLocalGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLocalGatewayRouteOutput`)
     public func deleteLocalGatewayRoute(input: DeleteLocalGatewayRouteInput) async throws -> DeleteLocalGatewayRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11584,9 +11584,9 @@ extension EC2Client {
     ///
     /// Deletes a local gateway route table.
     ///
-    /// - Parameter DeleteLocalGatewayRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLocalGatewayRouteTableInput`)
     ///
-    /// - Returns: `DeleteLocalGatewayRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLocalGatewayRouteTableOutput`)
     public func deleteLocalGatewayRouteTable(input: DeleteLocalGatewayRouteTableInput) async throws -> DeleteLocalGatewayRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11646,9 +11646,9 @@ extension EC2Client {
     ///
     /// Deletes a local gateway route table virtual interface group association.
     ///
-    /// - Parameter DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput`)
     ///
-    /// - Returns: `DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput`)
     public func deleteLocalGatewayRouteTableVirtualInterfaceGroupAssociation(input: DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationInput) async throws -> DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11708,9 +11708,9 @@ extension EC2Client {
     ///
     /// Deletes the specified association between a VPC and local gateway route table.
     ///
-    /// - Parameter DeleteLocalGatewayRouteTableVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLocalGatewayRouteTableVpcAssociationInput`)
     ///
-    /// - Returns: `DeleteLocalGatewayRouteTableVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLocalGatewayRouteTableVpcAssociationOutput`)
     public func deleteLocalGatewayRouteTableVpcAssociation(input: DeleteLocalGatewayRouteTableVpcAssociationInput) async throws -> DeleteLocalGatewayRouteTableVpcAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11770,9 +11770,9 @@ extension EC2Client {
     ///
     /// Deletes the specified local gateway virtual interface.
     ///
-    /// - Parameter DeleteLocalGatewayVirtualInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLocalGatewayVirtualInterfaceInput`)
     ///
-    /// - Returns: `DeleteLocalGatewayVirtualInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLocalGatewayVirtualInterfaceOutput`)
     public func deleteLocalGatewayVirtualInterface(input: DeleteLocalGatewayVirtualInterfaceInput) async throws -> DeleteLocalGatewayVirtualInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11832,9 +11832,9 @@ extension EC2Client {
     ///
     /// Delete the specified local gateway interface group.
     ///
-    /// - Parameter DeleteLocalGatewayVirtualInterfaceGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLocalGatewayVirtualInterfaceGroupInput`)
     ///
-    /// - Returns: `DeleteLocalGatewayVirtualInterfaceGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLocalGatewayVirtualInterfaceGroupOutput`)
     public func deleteLocalGatewayVirtualInterfaceGroup(input: DeleteLocalGatewayVirtualInterfaceGroupInput) async throws -> DeleteLocalGatewayVirtualInterfaceGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11894,9 +11894,9 @@ extension EC2Client {
     ///
     /// Deletes the specified managed prefix list. You must first remove all references to the prefix list in your resources.
     ///
-    /// - Parameter DeleteManagedPrefixListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteManagedPrefixListInput`)
     ///
-    /// - Returns: `DeleteManagedPrefixListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteManagedPrefixListOutput`)
     public func deleteManagedPrefixList(input: DeleteManagedPrefixListInput) async throws -> DeleteManagedPrefixListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11956,9 +11956,9 @@ extension EC2Client {
     ///
     /// Deletes the specified NAT gateway. Deleting a public NAT gateway disassociates its Elastic IP address, but does not release the address from your account. Deleting a NAT gateway does not delete any NAT gateway routes in your route tables.
     ///
-    /// - Parameter DeleteNatGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNatGatewayInput`)
     ///
-    /// - Returns: `DeleteNatGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNatGatewayOutput`)
     public func deleteNatGateway(input: DeleteNatGatewayInput) async throws -> DeleteNatGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12018,9 +12018,9 @@ extension EC2Client {
     ///
     /// Deletes the specified network ACL. You can't delete the ACL if it's associated with any subnets. You can't delete the default network ACL.
     ///
-    /// - Parameter DeleteNetworkAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkAclInput`)
     ///
-    /// - Returns: `DeleteNetworkAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkAclOutput`)
     public func deleteNetworkAcl(input: DeleteNetworkAclInput) async throws -> DeleteNetworkAclOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12080,9 +12080,9 @@ extension EC2Client {
     ///
     /// Deletes the specified ingress or egress entry (rule) from the specified network ACL.
     ///
-    /// - Parameter DeleteNetworkAclEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkAclEntryInput`)
     ///
-    /// - Returns: `DeleteNetworkAclEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkAclEntryOutput`)
     public func deleteNetworkAclEntry(input: DeleteNetworkAclEntryInput) async throws -> DeleteNetworkAclEntryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12142,9 +12142,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Network Access Scope.
     ///
-    /// - Parameter DeleteNetworkInsightsAccessScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkInsightsAccessScopeInput`)
     ///
-    /// - Returns: `DeleteNetworkInsightsAccessScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkInsightsAccessScopeOutput`)
     public func deleteNetworkInsightsAccessScope(input: DeleteNetworkInsightsAccessScopeInput) async throws -> DeleteNetworkInsightsAccessScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12204,9 +12204,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Network Access Scope analysis.
     ///
-    /// - Parameter DeleteNetworkInsightsAccessScopeAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkInsightsAccessScopeAnalysisInput`)
     ///
-    /// - Returns: `DeleteNetworkInsightsAccessScopeAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkInsightsAccessScopeAnalysisOutput`)
     public func deleteNetworkInsightsAccessScopeAnalysis(input: DeleteNetworkInsightsAccessScopeAnalysisInput) async throws -> DeleteNetworkInsightsAccessScopeAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12266,9 +12266,9 @@ extension EC2Client {
     ///
     /// Deletes the specified network insights analysis.
     ///
-    /// - Parameter DeleteNetworkInsightsAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkInsightsAnalysisInput`)
     ///
-    /// - Returns: `DeleteNetworkInsightsAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkInsightsAnalysisOutput`)
     public func deleteNetworkInsightsAnalysis(input: DeleteNetworkInsightsAnalysisInput) async throws -> DeleteNetworkInsightsAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12328,9 +12328,9 @@ extension EC2Client {
     ///
     /// Deletes the specified path.
     ///
-    /// - Parameter DeleteNetworkInsightsPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkInsightsPathInput`)
     ///
-    /// - Returns: `DeleteNetworkInsightsPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkInsightsPathOutput`)
     public func deleteNetworkInsightsPath(input: DeleteNetworkInsightsPathInput) async throws -> DeleteNetworkInsightsPathOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12390,9 +12390,9 @@ extension EC2Client {
     ///
     /// Deletes the specified network interface. You must detach the network interface before you can delete it.
     ///
-    /// - Parameter DeleteNetworkInterfaceInput : Contains the parameters for DeleteNetworkInterface.
+    /// - Parameter input: Contains the parameters for DeleteNetworkInterface. (Type: `DeleteNetworkInterfaceInput`)
     ///
-    /// - Returns: `DeleteNetworkInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkInterfaceOutput`)
     public func deleteNetworkInterface(input: DeleteNetworkInterfaceInput) async throws -> DeleteNetworkInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12452,9 +12452,9 @@ extension EC2Client {
     ///
     /// Deletes a permission for a network interface. By default, you cannot delete the permission if the account for which you're removing the permission has attached the network interface to an instance. However, you can force delete the permission, regardless of any attachment.
     ///
-    /// - Parameter DeleteNetworkInterfacePermissionInput : Contains the parameters for DeleteNetworkInterfacePermission.
+    /// - Parameter input: Contains the parameters for DeleteNetworkInterfacePermission. (Type: `DeleteNetworkInterfacePermissionInput`)
     ///
-    /// - Returns: `DeleteNetworkInterfacePermissionOutput` : Contains the output for DeleteNetworkInterfacePermission.
+    /// - Returns: Contains the output for DeleteNetworkInterfacePermission. (Type: `DeleteNetworkInterfacePermissionOutput`)
     public func deleteNetworkInterfacePermission(input: DeleteNetworkInterfacePermissionInput) async throws -> DeleteNetworkInterfacePermissionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12514,9 +12514,9 @@ extension EC2Client {
     ///
     /// Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DeletePlacementGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlacementGroupInput`)
     ///
-    /// - Returns: `DeletePlacementGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlacementGroupOutput`)
     public func deletePlacementGroup(input: DeletePlacementGroupInput) async throws -> DeletePlacementGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12576,9 +12576,9 @@ extension EC2Client {
     ///
     /// Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only.
     ///
-    /// - Parameter DeletePublicIpv4PoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicIpv4PoolInput`)
     ///
-    /// - Returns: `DeletePublicIpv4PoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicIpv4PoolOutput`)
     public func deletePublicIpv4Pool(input: DeletePublicIpv4PoolInput) async throws -> DeletePublicIpv4PoolOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12638,9 +12638,9 @@ extension EC2Client {
     ///
     /// Deletes the queued purchases for the specified Reserved Instances.
     ///
-    /// - Parameter DeleteQueuedReservedInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueuedReservedInstancesInput`)
     ///
-    /// - Returns: `DeleteQueuedReservedInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueuedReservedInstancesOutput`)
     public func deleteQueuedReservedInstances(input: DeleteQueuedReservedInstancesInput) async throws -> DeleteQueuedReservedInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12700,9 +12700,9 @@ extension EC2Client {
     ///
     /// Deletes the specified route from the specified route table.
     ///
-    /// - Parameter DeleteRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteInput`)
     ///
-    /// - Returns: `DeleteRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteOutput`)
     public func deleteRoute(input: DeleteRouteInput) async throws -> DeleteRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12771,9 +12771,9 @@ extension EC2Client {
     ///
     /// Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use [Transit Gateway Connect](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html). For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DeleteRouteServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteServerInput`)
     ///
-    /// - Returns: `DeleteRouteServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteServerOutput`)
     public func deleteRouteServer(input: DeleteRouteServerInput) async throws -> DeleteRouteServerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12833,9 +12833,9 @@ extension EC2Client {
     ///
     /// Deletes the specified route server endpoint. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates [BGP (Border Gateway Protocol)](https://en.wikipedia.org/wiki/Border_Gateway_Protocol) connections between your route server and your BGP peers.
     ///
-    /// - Parameter DeleteRouteServerEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteServerEndpointInput`)
     ///
-    /// - Returns: `DeleteRouteServerEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteServerEndpointOutput`)
     public func deleteRouteServerEndpoint(input: DeleteRouteServerEndpointInput) async throws -> DeleteRouteServerEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12901,9 +12901,9 @@ extension EC2Client {
     ///
     /// * Can initiate BGP sessions
     ///
-    /// - Parameter DeleteRouteServerPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteServerPeerInput`)
     ///
-    /// - Returns: `DeleteRouteServerPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteServerPeerOutput`)
     public func deleteRouteServerPeer(input: DeleteRouteServerPeerInput) async throws -> DeleteRouteServerPeerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12963,9 +12963,9 @@ extension EC2Client {
     ///
     /// Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table.
     ///
-    /// - Parameter DeleteRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteTableInput`)
     ///
-    /// - Returns: `DeleteRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteTableOutput`)
     public func deleteRouteTable(input: DeleteRouteTableInput) async throws -> DeleteRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13025,9 +13025,9 @@ extension EC2Client {
     ///
     /// Deletes a security group. If you attempt to delete a security group that is associated with an instance or network interface, is referenced by another security group in the same VPC, or has a VPC association, the operation fails with DependencyViolation.
     ///
-    /// - Parameter DeleteSecurityGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSecurityGroupInput`)
     ///
-    /// - Returns: `DeleteSecurityGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSecurityGroupOutput`)
     public func deleteSecurityGroup(input: DeleteSecurityGroupInput) async throws -> DeleteSecurityGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13087,9 +13087,9 @@ extension EC2Client {
     ///
     /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first deregister the AMI before you can delete the snapshot. For more information, see [Delete an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-deleting-snapshot.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter DeleteSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotInput`)
     ///
-    /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotOutput`)
     public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13149,9 +13149,9 @@ extension EC2Client {
     ///
     /// Deletes the data feed for Spot Instances.
     ///
-    /// - Parameter DeleteSpotDatafeedSubscriptionInput : Contains the parameters for DeleteSpotDatafeedSubscription.
+    /// - Parameter input: Contains the parameters for DeleteSpotDatafeedSubscription. (Type: `DeleteSpotDatafeedSubscriptionInput`)
     ///
-    /// - Returns: `DeleteSpotDatafeedSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSpotDatafeedSubscriptionOutput`)
     public func deleteSpotDatafeedSubscription(input: DeleteSpotDatafeedSubscriptionInput) async throws -> DeleteSpotDatafeedSubscriptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13211,9 +13211,9 @@ extension EC2Client {
     ///
     /// Deletes the specified subnet. You must terminate all running instances in the subnet before you can delete the subnet.
     ///
-    /// - Parameter DeleteSubnetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubnetInput`)
     ///
-    /// - Returns: `DeleteSubnetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubnetOutput`)
     public func deleteSubnet(input: DeleteSubnetInput) async throws -> DeleteSubnetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13273,9 +13273,9 @@ extension EC2Client {
     ///
     /// Deletes a subnet CIDR reservation.
     ///
-    /// - Parameter DeleteSubnetCidrReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubnetCidrReservationInput`)
     ///
-    /// - Returns: `DeleteSubnetCidrReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubnetCidrReservationOutput`)
     public func deleteSubnetCidrReservation(input: DeleteSubnetCidrReservationInput) async throws -> DeleteSubnetCidrReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13335,9 +13335,9 @@ extension EC2Client {
     ///
     /// Deletes the specified set of tags from the specified set of resources. To list the current tags, use [DescribeTags]. For more information about tags, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter DeleteTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13397,9 +13397,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Traffic Mirror filter. You cannot delete a Traffic Mirror filter that is in use by a Traffic Mirror session.
     ///
-    /// - Parameter DeleteTrafficMirrorFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrafficMirrorFilterInput`)
     ///
-    /// - Returns: `DeleteTrafficMirrorFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrafficMirrorFilterOutput`)
     public func deleteTrafficMirrorFilter(input: DeleteTrafficMirrorFilterInput) async throws -> DeleteTrafficMirrorFilterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13459,9 +13459,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Traffic Mirror rule.
     ///
-    /// - Parameter DeleteTrafficMirrorFilterRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrafficMirrorFilterRuleInput`)
     ///
-    /// - Returns: `DeleteTrafficMirrorFilterRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrafficMirrorFilterRuleOutput`)
     public func deleteTrafficMirrorFilterRule(input: DeleteTrafficMirrorFilterRuleInput) async throws -> DeleteTrafficMirrorFilterRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13521,9 +13521,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Traffic Mirror session.
     ///
-    /// - Parameter DeleteTrafficMirrorSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrafficMirrorSessionInput`)
     ///
-    /// - Returns: `DeleteTrafficMirrorSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrafficMirrorSessionOutput`)
     public func deleteTrafficMirrorSession(input: DeleteTrafficMirrorSessionInput) async throws -> DeleteTrafficMirrorSessionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13583,9 +13583,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Traffic Mirror target. You cannot delete a Traffic Mirror target that is in use by a Traffic Mirror session.
     ///
-    /// - Parameter DeleteTrafficMirrorTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrafficMirrorTargetInput`)
     ///
-    /// - Returns: `DeleteTrafficMirrorTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrafficMirrorTargetOutput`)
     public func deleteTrafficMirrorTarget(input: DeleteTrafficMirrorTargetInput) async throws -> DeleteTrafficMirrorTargetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13645,9 +13645,9 @@ extension EC2Client {
     ///
     /// Deletes the specified transit gateway.
     ///
-    /// - Parameter DeleteTransitGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayOutput`)
     public func deleteTransitGateway(input: DeleteTransitGatewayInput) async throws -> DeleteTransitGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13707,9 +13707,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Connect attachment. You must first delete any Connect peers for the attachment.
     ///
-    /// - Parameter DeleteTransitGatewayConnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayConnectInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayConnectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayConnectOutput`)
     public func deleteTransitGatewayConnect(input: DeleteTransitGatewayConnectInput) async throws -> DeleteTransitGatewayConnectOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13769,9 +13769,9 @@ extension EC2Client {
     ///
     /// Deletes the specified Connect peer.
     ///
-    /// - Parameter DeleteTransitGatewayConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayConnectPeerInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayConnectPeerOutput`)
     public func deleteTransitGatewayConnectPeer(input: DeleteTransitGatewayConnectPeerInput) async throws -> DeleteTransitGatewayConnectPeerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13831,9 +13831,9 @@ extension EC2Client {
     ///
     /// Deletes the specified transit gateway multicast domain.
     ///
-    /// - Parameter DeleteTransitGatewayMulticastDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayMulticastDomainInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayMulticastDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayMulticastDomainOutput`)
     public func deleteTransitGatewayMulticastDomain(input: DeleteTransitGatewayMulticastDomainInput) async throws -> DeleteTransitGatewayMulticastDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13893,9 +13893,9 @@ extension EC2Client {
     ///
     /// Deletes a transit gateway peering attachment.
     ///
-    /// - Parameter DeleteTransitGatewayPeeringAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayPeeringAttachmentInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayPeeringAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayPeeringAttachmentOutput`)
     public func deleteTransitGatewayPeeringAttachment(input: DeleteTransitGatewayPeeringAttachmentInput) async throws -> DeleteTransitGatewayPeeringAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13955,9 +13955,9 @@ extension EC2Client {
     ///
     /// Deletes the specified transit gateway policy table.
     ///
-    /// - Parameter DeleteTransitGatewayPolicyTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayPolicyTableInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayPolicyTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayPolicyTableOutput`)
     public func deleteTransitGatewayPolicyTable(input: DeleteTransitGatewayPolicyTableInput) async throws -> DeleteTransitGatewayPolicyTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14017,9 +14017,9 @@ extension EC2Client {
     ///
     /// Deletes a reference (route) to a prefix list in a specified transit gateway route table.
     ///
-    /// - Parameter DeleteTransitGatewayPrefixListReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayPrefixListReferenceInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayPrefixListReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayPrefixListReferenceOutput`)
     public func deleteTransitGatewayPrefixListReference(input: DeleteTransitGatewayPrefixListReferenceInput) async throws -> DeleteTransitGatewayPrefixListReferenceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14079,9 +14079,9 @@ extension EC2Client {
     ///
     /// Deletes the specified route from the specified transit gateway route table.
     ///
-    /// - Parameter DeleteTransitGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayRouteInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayRouteOutput`)
     public func deleteTransitGatewayRoute(input: DeleteTransitGatewayRouteInput) async throws -> DeleteTransitGatewayRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14141,9 +14141,9 @@ extension EC2Client {
     ///
     /// Deletes the specified transit gateway route table. If there are any route tables associated with the transit gateway route table, you must first run [DisassociateRouteTable] before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
     ///
-    /// - Parameter DeleteTransitGatewayRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayRouteTableInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayRouteTableOutput`)
     public func deleteTransitGatewayRouteTable(input: DeleteTransitGatewayRouteTableInput) async throws -> DeleteTransitGatewayRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14203,9 +14203,9 @@ extension EC2Client {
     ///
     /// Advertises to the transit gateway that a transit gateway route table is deleted.
     ///
-    /// - Parameter DeleteTransitGatewayRouteTableAnnouncementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayRouteTableAnnouncementInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayRouteTableAnnouncementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayRouteTableAnnouncementOutput`)
     public func deleteTransitGatewayRouteTableAnnouncement(input: DeleteTransitGatewayRouteTableAnnouncementInput) async throws -> DeleteTransitGatewayRouteTableAnnouncementOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14265,9 +14265,9 @@ extension EC2Client {
     ///
     /// Deletes the specified VPC attachment.
     ///
-    /// - Parameter DeleteTransitGatewayVpcAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayVpcAttachmentInput`)
     ///
-    /// - Returns: `DeleteTransitGatewayVpcAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayVpcAttachmentOutput`)
     public func deleteTransitGatewayVpcAttachment(input: DeleteTransitGatewayVpcAttachmentInput) async throws -> DeleteTransitGatewayVpcAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14327,9 +14327,9 @@ extension EC2Client {
     ///
     /// Delete an Amazon Web Services Verified Access endpoint.
     ///
-    /// - Parameter DeleteVerifiedAccessEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVerifiedAccessEndpointInput`)
     ///
-    /// - Returns: `DeleteVerifiedAccessEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVerifiedAccessEndpointOutput`)
     public func deleteVerifiedAccessEndpoint(input: DeleteVerifiedAccessEndpointInput) async throws -> DeleteVerifiedAccessEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14390,9 +14390,9 @@ extension EC2Client {
     ///
     /// Delete an Amazon Web Services Verified Access group.
     ///
-    /// - Parameter DeleteVerifiedAccessGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVerifiedAccessGroupInput`)
     ///
-    /// - Returns: `DeleteVerifiedAccessGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVerifiedAccessGroupOutput`)
     public func deleteVerifiedAccessGroup(input: DeleteVerifiedAccessGroupInput) async throws -> DeleteVerifiedAccessGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14453,9 +14453,9 @@ extension EC2Client {
     ///
     /// Delete an Amazon Web Services Verified Access instance.
     ///
-    /// - Parameter DeleteVerifiedAccessInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVerifiedAccessInstanceInput`)
     ///
-    /// - Returns: `DeleteVerifiedAccessInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVerifiedAccessInstanceOutput`)
     public func deleteVerifiedAccessInstance(input: DeleteVerifiedAccessInstanceInput) async throws -> DeleteVerifiedAccessInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14516,9 +14516,9 @@ extension EC2Client {
     ///
     /// Delete an Amazon Web Services Verified Access trust provider.
     ///
-    /// - Parameter DeleteVerifiedAccessTrustProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVerifiedAccessTrustProviderInput`)
     ///
-    /// - Returns: `DeleteVerifiedAccessTrustProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVerifiedAccessTrustProviderOutput`)
     public func deleteVerifiedAccessTrustProvider(input: DeleteVerifiedAccessTrustProviderInput) async throws -> DeleteVerifiedAccessTrustProviderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14579,9 +14579,9 @@ extension EC2Client {
     ///
     /// Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see [Delete an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-deleting-volume.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter DeleteVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVolumeInput`)
     ///
-    /// - Returns: `DeleteVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVolumeOutput`)
     public func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14641,9 +14641,9 @@ extension EC2Client {
     ///
     /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on. When you delete the VPC, it deletes the default security group, network ACL, and route table for the VPC. If you created a flow log for the VPC that you are deleting, note that flow logs for deleted VPCs are eventually automatically removed.
     ///
-    /// - Parameter DeleteVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcInput`)
     ///
-    /// - Returns: `DeleteVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcOutput`)
     public func deleteVpc(input: DeleteVpcInput) async throws -> DeleteVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14703,9 +14703,9 @@ extension EC2Client {
     ///
     /// Delete a VPC Block Public Access (BPA) exclusion. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DeleteVpcBlockPublicAccessExclusionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcBlockPublicAccessExclusionInput`)
     ///
-    /// - Returns: `DeleteVpcBlockPublicAccessExclusionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcBlockPublicAccessExclusionOutput`)
     public func deleteVpcBlockPublicAccessExclusion(input: DeleteVpcBlockPublicAccessExclusionInput) async throws -> DeleteVpcBlockPublicAccessExclusionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14765,9 +14765,9 @@ extension EC2Client {
     ///
     /// Deletes the specified VPC endpoint connection notifications.
     ///
-    /// - Parameter DeleteVpcEndpointConnectionNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcEndpointConnectionNotificationsInput`)
     ///
-    /// - Returns: `DeleteVpcEndpointConnectionNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcEndpointConnectionNotificationsOutput`)
     public func deleteVpcEndpointConnectionNotifications(input: DeleteVpcEndpointConnectionNotificationsInput) async throws -> DeleteVpcEndpointConnectionNotificationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14827,9 +14827,9 @@ extension EC2Client {
     ///
     /// Deletes the specified VPC endpoint service configurations. Before you can delete an endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service.
     ///
-    /// - Parameter DeleteVpcEndpointServiceConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcEndpointServiceConfigurationsInput`)
     ///
-    /// - Returns: `DeleteVpcEndpointServiceConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcEndpointServiceConfigurationsOutput`)
     public func deleteVpcEndpointServiceConfigurations(input: DeleteVpcEndpointServiceConfigurationsInput) async throws -> DeleteVpcEndpointServiceConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14889,9 +14889,9 @@ extension EC2Client {
     ///
     /// Deletes the specified VPC endpoints. When you delete a gateway endpoint, we delete the endpoint routes in the route tables for the endpoint. When you delete a Gateway Load Balancer endpoint, we delete its endpoint network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted. When you delete an interface endpoint, we delete its endpoint network interfaces.
     ///
-    /// - Parameter DeleteVpcEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcEndpointsInput`)
     ///
-    /// - Returns: `DeleteVpcEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcEndpointsOutput`)
     public func deleteVpcEndpoints(input: DeleteVpcEndpointsInput) async throws -> DeleteVpcEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14951,9 +14951,9 @@ extension EC2Client {
     ///
     /// Deletes a VPC peering connection. Either the owner of the requester VPC or the owner of the accepter VPC can delete the VPC peering connection if it's in the active state. The owner of the requester VPC can delete a VPC peering connection in the pending-acceptance state. You cannot delete a VPC peering connection that's in the failed or rejected state.
     ///
-    /// - Parameter DeleteVpcPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcPeeringConnectionInput`)
     ///
-    /// - Returns: `DeleteVpcPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcPeeringConnectionOutput`)
     public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15013,9 +15013,9 @@ extension EC2Client {
     ///
     /// Deletes the specified VPN connection. If you're deleting the VPC and its associated components, we recommend that you detach the virtual private gateway from the VPC and delete the VPC before deleting the VPN connection. If you believe that the tunnel credentials for your VPN connection have been compromised, you can delete the VPN connection and create a new one that has new keys, without needing to delete the VPC or virtual private gateway. If you create a new VPN connection, you must reconfigure the customer gateway device using the new configuration information returned with the new VPN connection ID. For certificate-based authentication, delete all Certificate Manager (ACM) private certificates used for the Amazon Web Services-side tunnel endpoints for the VPN connection before deleting the VPN connection.
     ///
-    /// - Parameter DeleteVpnConnectionInput : Contains the parameters for DeleteVpnConnection.
+    /// - Parameter input: Contains the parameters for DeleteVpnConnection. (Type: `DeleteVpnConnectionInput`)
     ///
-    /// - Returns: `DeleteVpnConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpnConnectionOutput`)
     public func deleteVpnConnection(input: DeleteVpnConnectionInput) async throws -> DeleteVpnConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15075,9 +15075,9 @@ extension EC2Client {
     ///
     /// Deletes the specified static route associated with a VPN connection between an existing virtual private gateway and a VPN customer gateway. The static route allows traffic to be routed from the virtual private gateway to the VPN customer gateway.
     ///
-    /// - Parameter DeleteVpnConnectionRouteInput : Contains the parameters for DeleteVpnConnectionRoute.
+    /// - Parameter input: Contains the parameters for DeleteVpnConnectionRoute. (Type: `DeleteVpnConnectionRouteInput`)
     ///
-    /// - Returns: `DeleteVpnConnectionRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpnConnectionRouteOutput`)
     public func deleteVpnConnectionRoute(input: DeleteVpnConnectionRouteInput) async throws -> DeleteVpnConnectionRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15137,9 +15137,9 @@ extension EC2Client {
     ///
     /// Deletes the specified virtual private gateway. You must first detach the virtual private gateway from the VPC. Note that you don't need to delete the virtual private gateway if you plan to delete and recreate the VPN connection between your VPC and your network.
     ///
-    /// - Parameter DeleteVpnGatewayInput : Contains the parameters for DeleteVpnGateway.
+    /// - Parameter input: Contains the parameters for DeleteVpnGateway. (Type: `DeleteVpnGatewayInput`)
     ///
-    /// - Returns: `DeleteVpnGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpnGatewayOutput`)
     public func deleteVpnGateway(input: DeleteVpnGatewayInput) async throws -> DeleteVpnGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15199,9 +15199,9 @@ extension EC2Client {
     ///
     /// Releases the specified address range that you provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it and you must not have any IP addresses allocated from its address range.
     ///
-    /// - Parameter DeprovisionByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprovisionByoipCidrInput`)
     ///
-    /// - Returns: `DeprovisionByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprovisionByoipCidrOutput`)
     public func deprovisionByoipCidr(input: DeprovisionByoipCidrInput) async throws -> DeprovisionByoipCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15261,9 +15261,9 @@ extension EC2Client {
     ///
     /// Deprovisions your Autonomous System Number (ASN) from your Amazon Web Services account. This action can only be called after any BYOIP CIDR associations are removed from your Amazon Web Services account with [DisassociateIpamByoasn](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIpamByoasn.html). For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide.
     ///
-    /// - Parameter DeprovisionIpamByoasnInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprovisionIpamByoasnInput`)
     ///
-    /// - Returns: `DeprovisionIpamByoasnOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprovisionIpamByoasnOutput`)
     public func deprovisionIpamByoasn(input: DeprovisionIpamByoasnInput) async throws -> DeprovisionIpamByoasnOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15323,9 +15323,9 @@ extension EC2Client {
     ///
     /// Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool that has a source pool, the CIDR is recycled back into the source pool. For more information, see [Deprovision pool CIDRs](https://docs.aws.amazon.com/vpc/latest/ipam/depro-pool-cidr-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter DeprovisionIpamPoolCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprovisionIpamPoolCidrInput`)
     ///
-    /// - Returns: `DeprovisionIpamPoolCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprovisionIpamPoolCidrOutput`)
     public func deprovisionIpamPoolCidr(input: DeprovisionIpamPoolCidrInput) async throws -> DeprovisionIpamPoolCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15385,9 +15385,9 @@ extension EC2Client {
     ///
     /// Deprovision a CIDR from a public IPv4 pool.
     ///
-    /// - Parameter DeprovisionPublicIpv4PoolCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprovisionPublicIpv4PoolCidrInput`)
     ///
-    /// - Returns: `DeprovisionPublicIpv4PoolCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprovisionPublicIpv4PoolCidrOutput`)
     public func deprovisionPublicIpv4PoolCidr(input: DeprovisionPublicIpv4PoolCidrInput) async throws -> DeprovisionPublicIpv4PoolCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15456,9 +15456,9 @@ extension EC2Client {
     ///
     /// For more information, see [Deregister an Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/deregister-ami.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DeregisterImageInput : Contains the parameters for DeregisterImage.
+    /// - Parameter input: Contains the parameters for DeregisterImage. (Type: `DeregisterImageInput`)
     ///
-    /// - Returns: `DeregisterImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterImageOutput`)
     public func deregisterImage(input: DeregisterImageInput) async throws -> DeregisterImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15518,9 +15518,9 @@ extension EC2Client {
     ///
     /// Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region.
     ///
-    /// - Parameter DeregisterInstanceEventNotificationAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterInstanceEventNotificationAttributesInput`)
     ///
-    /// - Returns: `DeregisterInstanceEventNotificationAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterInstanceEventNotificationAttributesOutput`)
     public func deregisterInstanceEventNotificationAttributes(input: DeregisterInstanceEventNotificationAttributesInput) async throws -> DeregisterInstanceEventNotificationAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15580,9 +15580,9 @@ extension EC2Client {
     ///
     /// Deregisters the specified members (network interfaces) from the transit gateway multicast group.
     ///
-    /// - Parameter DeregisterTransitGatewayMulticastGroupMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTransitGatewayMulticastGroupMembersInput`)
     ///
-    /// - Returns: `DeregisterTransitGatewayMulticastGroupMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTransitGatewayMulticastGroupMembersOutput`)
     public func deregisterTransitGatewayMulticastGroupMembers(input: DeregisterTransitGatewayMulticastGroupMembersInput) async throws -> DeregisterTransitGatewayMulticastGroupMembersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15642,9 +15642,9 @@ extension EC2Client {
     ///
     /// Deregisters the specified sources (network interfaces) from the transit gateway multicast group.
     ///
-    /// - Parameter DeregisterTransitGatewayMulticastGroupSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTransitGatewayMulticastGroupSourcesInput`)
     ///
-    /// - Returns: `DeregisterTransitGatewayMulticastGroupSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTransitGatewayMulticastGroupSourcesOutput`)
     public func deregisterTransitGatewayMulticastGroupSources(input: DeregisterTransitGatewayMulticastGroupSourcesInput) async throws -> DeregisterTransitGatewayMulticastGroupSourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15719,9 +15719,9 @@ extension EC2Client {
     ///
     /// The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeAccountAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAttributesInput`)
     ///
-    /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAttributesOutput`)
     public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15781,9 +15781,9 @@ extension EC2Client {
     ///
     /// Describes an Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide. When you transfer an Elastic IP address, there is a two-step handshake between the source and transfer Amazon Web Services accounts. When the source account starts the transfer, the transfer account has seven days to accept the Elastic IP address transfer. During those seven days, the source account can view the pending transfer by using this action. After seven days, the transfer expires and ownership of the Elastic IP address returns to the source account. Accepted transfers are visible to the source account for 14 days after the transfers have been accepted.
     ///
-    /// - Parameter DescribeAddressTransfersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAddressTransfersInput`)
     ///
-    /// - Returns: `DescribeAddressTransfersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAddressTransfersOutput`)
     public func describeAddressTransfers(input: DescribeAddressTransfersInput) async throws -> DescribeAddressTransfersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15843,9 +15843,9 @@ extension EC2Client {
     ///
     /// Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
     ///
-    /// - Parameter DescribeAddressesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAddressesInput`)
     ///
-    /// - Returns: `DescribeAddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAddressesOutput`)
     public func describeAddresses(input: DescribeAddressesInput) async throws -> DescribeAddressesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15905,9 +15905,9 @@ extension EC2Client {
     ///
     /// Describes the attributes of the specified Elastic IP addresses. For requirements, see [Using reverse DNS for email applications](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
     ///
-    /// - Parameter DescribeAddressesAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAddressesAttributeInput`)
     ///
-    /// - Returns: `DescribeAddressesAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAddressesAttributeOutput`)
     public func describeAddressesAttribute(input: DescribeAddressesAttributeInput) async throws -> DescribeAddressesAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15967,9 +15967,9 @@ extension EC2Client {
     ///
     /// Describes the longer ID format settings for all resource types in a specific Region. This request is useful for performing a quick audit to determine whether a specific Region is fully opted in for longer IDs (17-character IDs). This request only returns information about resource types that support longer IDs. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
     ///
-    /// - Parameter DescribeAggregateIdFormatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAggregateIdFormatInput`)
     ///
-    /// - Returns: `DescribeAggregateIdFormatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAggregateIdFormatOutput`)
     public func describeAggregateIdFormat(input: DescribeAggregateIdFormatInput) async throws -> DescribeAggregateIdFormatOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16029,9 +16029,9 @@ extension EC2Client {
     ///
     /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. For more information about Availability Zones, Local Zones, and Wavelength Zones, see [Regions and zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeAvailabilityZonesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAvailabilityZonesInput`)
     ///
-    /// - Returns: `DescribeAvailabilityZonesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAvailabilityZonesOutput`)
     public func describeAvailabilityZones(input: DescribeAvailabilityZonesInput) async throws -> DescribeAvailabilityZonesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16091,9 +16091,9 @@ extension EC2Client {
     ///
     /// Describes the current Infrastructure Performance metric subscriptions.
     ///
-    /// - Parameter DescribeAwsNetworkPerformanceMetricSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAwsNetworkPerformanceMetricSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeAwsNetworkPerformanceMetricSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAwsNetworkPerformanceMetricSubscriptionsOutput`)
     public func describeAwsNetworkPerformanceMetricSubscriptions(input: DescribeAwsNetworkPerformanceMetricSubscriptionsInput) async throws -> DescribeAwsNetworkPerformanceMetricSubscriptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16153,9 +16153,9 @@ extension EC2Client {
     ///
     /// Describes the specified bundle tasks or all of your bundle tasks. Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeBundleTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBundleTasksInput`)
     ///
-    /// - Returns: `DescribeBundleTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBundleTasksOutput`)
     public func describeBundleTasks(input: DescribeBundleTasksInput) async throws -> DescribeBundleTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16215,9 +16215,9 @@ extension EC2Client {
     ///
     /// Describes the IP address ranges that were provisioned for use with Amazon Web Services resources through through bring your own IP addresses (BYOIP).
     ///
-    /// - Parameter DescribeByoipCidrsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeByoipCidrsInput`)
     ///
-    /// - Returns: `DescribeByoipCidrsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeByoipCidrsOutput`)
     public func describeByoipCidrs(input: DescribeByoipCidrsInput) async throws -> DescribeByoipCidrsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16277,9 +16277,9 @@ extension EC2Client {
     ///
     /// Describes the events for the specified Capacity Block extension during the specified time.
     ///
-    /// - Parameter DescribeCapacityBlockExtensionHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityBlockExtensionHistoryInput`)
     ///
-    /// - Returns: `DescribeCapacityBlockExtensionHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityBlockExtensionHistoryOutput`)
     public func describeCapacityBlockExtensionHistory(input: DescribeCapacityBlockExtensionHistoryInput) async throws -> DescribeCapacityBlockExtensionHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16339,9 +16339,9 @@ extension EC2Client {
     ///
     /// Describes Capacity Block extension offerings available for purchase in the Amazon Web Services Region that you're currently using.
     ///
-    /// - Parameter DescribeCapacityBlockExtensionOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityBlockExtensionOfferingsInput`)
     ///
-    /// - Returns: `DescribeCapacityBlockExtensionOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityBlockExtensionOfferingsOutput`)
     public func describeCapacityBlockExtensionOfferings(input: DescribeCapacityBlockExtensionOfferingsInput) async throws -> DescribeCapacityBlockExtensionOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16401,9 +16401,9 @@ extension EC2Client {
     ///
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can purchase a specific GPU instance type or EC2 UltraServer for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
     ///
-    /// - Parameter DescribeCapacityBlockOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityBlockOfferingsInput`)
     ///
-    /// - Returns: `DescribeCapacityBlockOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityBlockOfferingsOutput`)
     public func describeCapacityBlockOfferings(input: DescribeCapacityBlockOfferingsInput) async throws -> DescribeCapacityBlockOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16463,9 +16463,9 @@ extension EC2Client {
     ///
     /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
     ///
-    /// - Parameter DescribeCapacityBlockStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityBlockStatusInput`)
     ///
-    /// - Returns: `DescribeCapacityBlockStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityBlockStatusOutput`)
     public func describeCapacityBlockStatus(input: DescribeCapacityBlockStatusInput) async throws -> DescribeCapacityBlockStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16525,9 +16525,9 @@ extension EC2Client {
     ///
     /// Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
     ///
-    /// - Parameter DescribeCapacityBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityBlocksInput`)
     ///
-    /// - Returns: `DescribeCapacityBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityBlocksOutput`)
     public func describeCapacityBlocks(input: DescribeCapacityBlocksInput) async throws -> DescribeCapacityBlocksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16587,9 +16587,9 @@ extension EC2Client {
     ///
     /// Describes a request to assign the billing of the unused capacity of a Capacity Reservation. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/transfer-billing.html).
     ///
-    /// - Parameter DescribeCapacityReservationBillingRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityReservationBillingRequestsInput`)
     ///
-    /// - Returns: `DescribeCapacityReservationBillingRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityReservationBillingRequestsOutput`)
     public func describeCapacityReservationBillingRequests(input: DescribeCapacityReservationBillingRequestsInput) async throws -> DescribeCapacityReservationBillingRequestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16649,9 +16649,9 @@ extension EC2Client {
     ///
     /// Describes one or more Capacity Reservation Fleets.
     ///
-    /// - Parameter DescribeCapacityReservationFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityReservationFleetsInput`)
     ///
-    /// - Returns: `DescribeCapacityReservationFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityReservationFleetsOutput`)
     public func describeCapacityReservationFleets(input: DescribeCapacityReservationFleetsInput) async throws -> DescribeCapacityReservationFleetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16711,9 +16711,9 @@ extension EC2Client {
     ///
     /// Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the Amazon Web Services Region that you're currently using.
     ///
-    /// - Parameter DescribeCapacityReservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityReservationsInput`)
     ///
-    /// - Returns: `DescribeCapacityReservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityReservationsOutput`)
     public func describeCapacityReservations(input: DescribeCapacityReservationsInput) async throws -> DescribeCapacityReservationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16773,9 +16773,9 @@ extension EC2Client {
     ///
     /// Describes one or more of your carrier gateways.
     ///
-    /// - Parameter DescribeCarrierGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCarrierGatewaysInput`)
     ///
-    /// - Returns: `DescribeCarrierGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCarrierGatewaysOutput`)
     public func describeCarrierGateways(input: DescribeCarrierGatewaysInput) async throws -> DescribeCarrierGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16835,9 +16835,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Describes your linked EC2-Classic instances. This request only returns information about EC2-Classic instances linked to a VPC through ClassicLink. You cannot use this request to return information about other instances.
     ///
-    /// - Parameter DescribeClassicLinkInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClassicLinkInstancesInput`)
     ///
-    /// - Returns: `DescribeClassicLinkInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClassicLinkInstancesOutput`)
     public func describeClassicLinkInstances(input: DescribeClassicLinkInstancesInput) async throws -> DescribeClassicLinkInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16897,9 +16897,9 @@ extension EC2Client {
     ///
     /// Describes the authorization rules for a specified Client VPN endpoint.
     ///
-    /// - Parameter DescribeClientVpnAuthorizationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClientVpnAuthorizationRulesInput`)
     ///
-    /// - Returns: `DescribeClientVpnAuthorizationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClientVpnAuthorizationRulesOutput`)
     public func describeClientVpnAuthorizationRules(input: DescribeClientVpnAuthorizationRulesInput) async throws -> DescribeClientVpnAuthorizationRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16959,9 +16959,9 @@ extension EC2Client {
     ///
     /// Describes active client connections and connections that have been terminated within the last 60 minutes for the specified Client VPN endpoint.
     ///
-    /// - Parameter DescribeClientVpnConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClientVpnConnectionsInput`)
     ///
-    /// - Returns: `DescribeClientVpnConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClientVpnConnectionsOutput`)
     public func describeClientVpnConnections(input: DescribeClientVpnConnectionsInput) async throws -> DescribeClientVpnConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17021,9 +17021,9 @@ extension EC2Client {
     ///
     /// Describes one or more Client VPN endpoints in the account.
     ///
-    /// - Parameter DescribeClientVpnEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClientVpnEndpointsInput`)
     ///
-    /// - Returns: `DescribeClientVpnEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClientVpnEndpointsOutput`)
     public func describeClientVpnEndpoints(input: DescribeClientVpnEndpointsInput) async throws -> DescribeClientVpnEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17083,9 +17083,9 @@ extension EC2Client {
     ///
     /// Describes the routes for the specified Client VPN endpoint.
     ///
-    /// - Parameter DescribeClientVpnRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClientVpnRoutesInput`)
     ///
-    /// - Returns: `DescribeClientVpnRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClientVpnRoutesOutput`)
     public func describeClientVpnRoutes(input: DescribeClientVpnRoutesInput) async throws -> DescribeClientVpnRoutesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17145,9 +17145,9 @@ extension EC2Client {
     ///
     /// Describes the target networks associated with the specified Client VPN endpoint.
     ///
-    /// - Parameter DescribeClientVpnTargetNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClientVpnTargetNetworksInput`)
     ///
-    /// - Returns: `DescribeClientVpnTargetNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClientVpnTargetNetworksOutput`)
     public func describeClientVpnTargetNetworks(input: DescribeClientVpnTargetNetworksInput) async throws -> DescribeClientVpnTargetNetworksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17207,9 +17207,9 @@ extension EC2Client {
     ///
     /// Describes the specified customer-owned address pools or all of your customer-owned address pools.
     ///
-    /// - Parameter DescribeCoipPoolsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCoipPoolsInput`)
     ///
-    /// - Returns: `DescribeCoipPoolsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCoipPoolsOutput`)
     public func describeCoipPools(input: DescribeCoipPoolsInput) async throws -> DescribeCoipPoolsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17269,9 +17269,9 @@ extension EC2Client {
     ///
     /// Describes the specified conversion tasks or all your conversion tasks. For more information, see the [VM Import/Export User Guide](https://docs.aws.amazon.com/vm-import/latest/userguide/). For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html).
     ///
-    /// - Parameter DescribeConversionTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConversionTasksInput`)
     ///
-    /// - Returns: `DescribeConversionTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConversionTasksOutput`)
     public func describeConversionTasks(input: DescribeConversionTasksInput) async throws -> DescribeConversionTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17331,9 +17331,9 @@ extension EC2Client {
     ///
     /// Describes one or more of your VPN customer gateways. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter DescribeCustomerGatewaysInput : Contains the parameters for DescribeCustomerGateways.
+    /// - Parameter input: Contains the parameters for DescribeCustomerGateways. (Type: `DescribeCustomerGatewaysInput`)
     ///
-    /// - Returns: `DescribeCustomerGatewaysOutput` : Contains the output of DescribeCustomerGateways.
+    /// - Returns: Contains the output of DescribeCustomerGateways. (Type: `DescribeCustomerGatewaysOutput`)
     public func describeCustomerGateways(input: DescribeCustomerGatewaysInput) async throws -> DescribeCustomerGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17393,9 +17393,9 @@ extension EC2Client {
     ///
     /// Describes the metadata of an account status report, including the status of the report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete status. Reports with other statuses (running, cancelled, or error) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see [Downloading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/download-objects.html) in the Amazon Simple Storage Service User Guide. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
     ///
-    /// - Parameter DescribeDeclarativePoliciesReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeclarativePoliciesReportsInput`)
     ///
-    /// - Returns: `DescribeDeclarativePoliciesReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeclarativePoliciesReportsOutput`)
     public func describeDeclarativePoliciesReports(input: DescribeDeclarativePoliciesReportsInput) async throws -> DescribeDeclarativePoliciesReportsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17455,9 +17455,9 @@ extension EC2Client {
     ///
     /// Describes your DHCP option sets. The default is to describe all your DHCP option sets. Alternatively, you can specify specific DHCP option set IDs or filter the results to include only the DHCP option sets that match specific criteria. For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeDhcpOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDhcpOptionsInput`)
     ///
-    /// - Returns: `DescribeDhcpOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDhcpOptionsOutput`)
     public func describeDhcpOptions(input: DescribeDhcpOptionsInput) async throws -> DescribeDhcpOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17517,9 +17517,9 @@ extension EC2Client {
     ///
     /// Describes your egress-only internet gateways. The default is to describe all your egress-only internet gateways. Alternatively, you can specify specific egress-only internet gateway IDs or filter the results to include only the egress-only internet gateways that match specific criteria.
     ///
-    /// - Parameter DescribeEgressOnlyInternetGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEgressOnlyInternetGatewaysInput`)
     ///
-    /// - Returns: `DescribeEgressOnlyInternetGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEgressOnlyInternetGatewaysOutput`)
     public func describeEgressOnlyInternetGateways(input: DescribeEgressOnlyInternetGatewaysInput) async throws -> DescribeEgressOnlyInternetGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17579,9 +17579,9 @@ extension EC2Client {
     ///
     /// Amazon Elastic Graphics reached end of life on January 8, 2024. Describes the Elastic Graphics accelerator associated with your instances.
     ///
-    /// - Parameter DescribeElasticGpusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeElasticGpusInput`)
     ///
-    /// - Returns: `DescribeElasticGpusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeElasticGpusOutput`)
     public func describeElasticGpus(input: DescribeElasticGpusInput) async throws -> DescribeElasticGpusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17641,9 +17641,9 @@ extension EC2Client {
     ///
     /// Describes the specified export image tasks or all of your export image tasks.
     ///
-    /// - Parameter DescribeExportImageTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportImageTasksInput`)
     ///
-    /// - Returns: `DescribeExportImageTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportImageTasksOutput`)
     public func describeExportImageTasks(input: DescribeExportImageTasksInput) async throws -> DescribeExportImageTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17703,9 +17703,9 @@ extension EC2Client {
     ///
     /// Describes the specified export instance tasks or all of your export instance tasks.
     ///
-    /// - Parameter DescribeExportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportTasksInput`)
     ///
-    /// - Returns: `DescribeExportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportTasksOutput`)
     public func describeExportTasks(input: DescribeExportTasksInput) async throws -> DescribeExportTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17765,9 +17765,9 @@ extension EC2Client {
     ///
     /// Describe details for Windows AMIs that are configured for Windows fast launch.
     ///
-    /// - Parameter DescribeFastLaunchImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFastLaunchImagesInput`)
     ///
-    /// - Returns: `DescribeFastLaunchImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFastLaunchImagesOutput`)
     public func describeFastLaunchImages(input: DescribeFastLaunchImagesInput) async throws -> DescribeFastLaunchImagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17827,9 +17827,9 @@ extension EC2Client {
     ///
     /// Describes the state of fast snapshot restores for your snapshots.
     ///
-    /// - Parameter DescribeFastSnapshotRestoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFastSnapshotRestoresInput`)
     ///
-    /// - Returns: `DescribeFastSnapshotRestoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFastSnapshotRestoresOutput`)
     public func describeFastSnapshotRestores(input: DescribeFastSnapshotRestoresInput) async throws -> DescribeFastSnapshotRestoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17889,9 +17889,9 @@ extension EC2Client {
     ///
     /// Describes the events for the specified EC2 Fleet during the specified time. EC2 Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. EC2 Fleet events are available for 48 hours. For more information, see [Monitor fleet events using Amazon EventBridge](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/fleet-monitor.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeFleetHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetHistoryInput`)
     ///
-    /// - Returns: `DescribeFleetHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetHistoryOutput`)
     public func describeFleetHistory(input: DescribeFleetHistoryInput) async throws -> DescribeFleetHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17951,9 +17951,9 @@ extension EC2Client {
     ///
     /// Describes the running instances for the specified EC2 Fleet. Currently, DescribeFleetInstances does not support fleets of type instant. Instead, use DescribeFleets, specifying the instant fleet ID in the request. For more information, see [Describe your EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#monitor-ec2-fleet) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeFleetInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetInstancesInput`)
     ///
-    /// - Returns: `DescribeFleetInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetInstancesOutput`)
     public func describeFleetInstances(input: DescribeFleetInstancesInput) async throws -> DescribeFleetInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18013,9 +18013,9 @@ extension EC2Client {
     ///
     /// Describes the specified EC2 Fleet or all of your EC2 Fleets. If a fleet is of type instant, you must specify the fleet ID in the request, otherwise the fleet does not appear in the response. For more information, see [Describe your EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#monitor-ec2-fleet) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetsInput`)
     ///
-    /// - Returns: `DescribeFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetsOutput`)
     public func describeFleets(input: DescribeFleetsInput) async throws -> DescribeFleetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18075,9 +18075,9 @@ extension EC2Client {
     ///
     /// Describes one or more flow logs. To view the published flow log records, you must view the log destination. For example, the CloudWatch Logs log group, the Amazon S3 bucket, or the Kinesis Data Firehose delivery stream.
     ///
-    /// - Parameter DescribeFlowLogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowLogsInput`)
     ///
-    /// - Returns: `DescribeFlowLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowLogsOutput`)
     public func describeFlowLogs(input: DescribeFlowLogsInput) async throws -> DescribeFlowLogsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18137,9 +18137,9 @@ extension EC2Client {
     ///
     /// Describes the specified attribute of the specified Amazon FPGA Image (AFI).
     ///
-    /// - Parameter DescribeFpgaImageAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFpgaImageAttributeInput`)
     ///
-    /// - Returns: `DescribeFpgaImageAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFpgaImageAttributeOutput`)
     public func describeFpgaImageAttribute(input: DescribeFpgaImageAttributeInput) async throws -> DescribeFpgaImageAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18199,9 +18199,9 @@ extension EC2Client {
     ///
     /// Describes the Amazon FPGA Images (AFIs) available to you. These include public AFIs, private AFIs that you own, and AFIs owned by other Amazon Web Services accounts for which you have load permissions.
     ///
-    /// - Parameter DescribeFpgaImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFpgaImagesInput`)
     ///
-    /// - Returns: `DescribeFpgaImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFpgaImagesOutput`)
     public func describeFpgaImages(input: DescribeFpgaImagesInput) async throws -> DescribeFpgaImagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18261,9 +18261,9 @@ extension EC2Client {
     ///
     /// Describes the Dedicated Host reservations that are available to purchase. The results describe all of the Dedicated Host reservation offerings, including offerings that might not match the instance family and Region of your Dedicated Hosts. When purchasing an offering, ensure that the instance family and Region of the offering matches that of the Dedicated Hosts with which it is to be associated. For more information about supported instance types, see [Dedicated Hosts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeHostReservationOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHostReservationOfferingsInput`)
     ///
-    /// - Returns: `DescribeHostReservationOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHostReservationOfferingsOutput`)
     public func describeHostReservationOfferings(input: DescribeHostReservationOfferingsInput) async throws -> DescribeHostReservationOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18323,9 +18323,9 @@ extension EC2Client {
     ///
     /// Describes reservations that are associated with Dedicated Hosts in your account.
     ///
-    /// - Parameter DescribeHostReservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHostReservationsInput`)
     ///
-    /// - Returns: `DescribeHostReservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHostReservationsOutput`)
     public func describeHostReservations(input: DescribeHostReservationsInput) async throws -> DescribeHostReservationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18385,9 +18385,9 @@ extension EC2Client {
     ///
     /// Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results describe only the Dedicated Hosts in the Region you're currently using. All listed instances consume capacity on your Dedicated Host. Dedicated Hosts that have recently been released are listed with the state released.
     ///
-    /// - Parameter DescribeHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHostsInput`)
     ///
-    /// - Returns: `DescribeHostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHostsOutput`)
     public func describeHosts(input: DescribeHostsInput) async throws -> DescribeHostsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18447,9 +18447,9 @@ extension EC2Client {
     ///
     /// Describes your IAM instance profile associations.
     ///
-    /// - Parameter DescribeIamInstanceProfileAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIamInstanceProfileAssociationsInput`)
     ///
-    /// - Returns: `DescribeIamInstanceProfileAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIamInstanceProfileAssociationsOutput`)
     public func describeIamInstanceProfileAssociations(input: DescribeIamInstanceProfileAssociationsInput) async throws -> DescribeIamInstanceProfileAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18509,9 +18509,9 @@ extension EC2Client {
     ///
     /// Describes the ID format settings for your resources on a per-Region basis, for example, to view which resource types are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. These settings apply to the IAM user who makes the request; they do not apply to the entire Amazon Web Services account. By default, an IAM user defaults to the same settings as the root user, unless they explicitly override the settings by running the [ModifyIdFormat] command. Resources created with longer IDs are visible to all IAM users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     ///
-    /// - Parameter DescribeIdFormatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIdFormatInput`)
     ///
-    /// - Returns: `DescribeIdFormatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIdFormatOutput`)
     public func describeIdFormat(input: DescribeIdFormatInput) async throws -> DescribeIdFormatOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18571,9 +18571,9 @@ extension EC2Client {
     ///
     /// Describes the ID format settings for resources for the specified IAM user, IAM role, or root user. For example, you can view the resource types that are enabled for longer IDs. This request only returns information about resource types whose ID formats can be modified; it does not return information about other resource types. For more information, see [Resource IDs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html) in the Amazon Elastic Compute Cloud User Guide. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. These settings apply to the principal specified in the request. They do not apply to the principal that makes the request.
     ///
-    /// - Parameter DescribeIdentityIdFormatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIdentityIdFormatInput`)
     ///
-    /// - Returns: `DescribeIdentityIdFormatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIdentityIdFormatOutput`)
     public func describeIdentityIdFormat(input: DescribeIdentityIdFormatInput) async throws -> DescribeIdentityIdFormatOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18633,9 +18633,9 @@ extension EC2Client {
     ///
     /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeImageAttributeInput : Contains the parameters for DescribeImageAttribute.
+    /// - Parameter input: Contains the parameters for DescribeImageAttribute. (Type: `DescribeImageAttributeInput`)
     ///
-    /// - Returns: `DescribeImageAttributeOutput` : Describes an image attribute.
+    /// - Returns: Describes an image attribute. (Type: `DescribeImageAttributeOutput`)
     public func describeImageAttribute(input: DescribeImageAttributeInput) async throws -> DescribeImageAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18695,9 +18695,9 @@ extension EC2Client {
     ///
     /// Describes your Amazon Web Services resources that are referencing the specified images. For more information, see [Identify your resources referencing specified AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ami-references.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeImageReferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageReferencesInput`)
     ///
-    /// - Returns: `DescribeImageReferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageReferencesOutput`)
     public func describeImageReferences(input: DescribeImageReferencesInput) async throws -> DescribeImageReferencesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18757,9 +18757,9 @@ extension EC2Client {
     ///
     /// Describes the entries in image usage reports, showing how your images are used across other Amazon Web Services accounts. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeImageUsageReportEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageUsageReportEntriesInput`)
     ///
-    /// - Returns: `DescribeImageUsageReportEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageUsageReportEntriesOutput`)
     public func describeImageUsageReportEntries(input: DescribeImageUsageReportEntriesInput) async throws -> DescribeImageUsageReportEntriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18819,9 +18819,9 @@ extension EC2Client {
     ///
     /// Describes the configuration and status of image usage reports, filtered by report IDs or image IDs. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeImageUsageReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageUsageReportsInput`)
     ///
-    /// - Returns: `DescribeImageUsageReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageUsageReportsOutput`)
     public func describeImageUsageReports(input: DescribeImageUsageReportsInput) async throws -> DescribeImageUsageReportsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18881,9 +18881,9 @@ extension EC2Client {
     ///
     /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see [Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html). The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImagesInput`)
     ///
-    /// - Returns: `DescribeImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImagesOutput`)
     public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18943,9 +18943,9 @@ extension EC2Client {
     ///
     /// Displays details about an import virtual machine or import snapshot tasks that are already created.
     ///
-    /// - Parameter DescribeImportImageTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImportImageTasksInput`)
     ///
-    /// - Returns: `DescribeImportImageTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImportImageTasksOutput`)
     public func describeImportImageTasks(input: DescribeImportImageTasksInput) async throws -> DescribeImportImageTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19005,9 +19005,9 @@ extension EC2Client {
     ///
     /// Describes your import snapshot tasks.
     ///
-    /// - Parameter DescribeImportSnapshotTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImportSnapshotTasksInput`)
     ///
-    /// - Returns: `DescribeImportSnapshotTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImportSnapshotTasksOutput`)
     public func describeImportSnapshotTasks(input: DescribeImportSnapshotTasksInput) async throws -> DescribeImportSnapshotTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19067,9 +19067,9 @@ extension EC2Client {
     ///
     /// Describes the specified attribute of the specified instance. You can specify only one attribute at a time.
     ///
-    /// - Parameter DescribeInstanceAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceAttributeInput`)
     ///
-    /// - Returns: `DescribeInstanceAttributeOutput` : Describes an instance attribute.
+    /// - Returns: Describes an instance attribute. (Type: `DescribeInstanceAttributeOutput`)
     public func describeInstanceAttribute(input: DescribeInstanceAttributeInput) async throws -> DescribeInstanceAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19129,9 +19129,9 @@ extension EC2Client {
     ///
     /// Describes the specified EC2 Instance Connect Endpoints or all EC2 Instance Connect Endpoints.
     ///
-    /// - Parameter DescribeInstanceConnectEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceConnectEndpointsInput`)
     ///
-    /// - Returns: `DescribeInstanceConnectEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceConnectEndpointsOutput`)
     public func describeInstanceConnectEndpoints(input: DescribeInstanceConnectEndpointsInput) async throws -> DescribeInstanceConnectEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19191,9 +19191,9 @@ extension EC2Client {
     ///
     /// Describes the credit option for CPU usage of the specified burstable performance instances. The credit options are standard and unlimited. If you do not specify an instance ID, Amazon EC2 returns burstable performance instances with the unlimited credit option, as well as instances that were previously configured as T2, T3, and T3a with the unlimited credit option. For example, if you resize a T2 instance, while it is configured as unlimited, to an M4 instance, Amazon EC2 returns the M4 instance. If you specify one or more instance IDs, Amazon EC2 returns the credit option (standard or unlimited) of those instances. If you specify an instance ID that is not valid, such as an instance that is not a burstable performance instance, an error is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If an Availability Zone is experiencing a service disruption and you specify instance IDs in the affected zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs in an unaffected zone, the call works normally. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeInstanceCreditSpecificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceCreditSpecificationsInput`)
     ///
-    /// - Returns: `DescribeInstanceCreditSpecificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceCreditSpecificationsOutput`)
     public func describeInstanceCreditSpecifications(input: DescribeInstanceCreditSpecificationsInput) async throws -> DescribeInstanceCreditSpecificationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19253,9 +19253,9 @@ extension EC2Client {
     ///
     /// Describes the tag keys that are registered to appear in scheduled event notifications for resources in the current Region.
     ///
-    /// - Parameter DescribeInstanceEventNotificationAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceEventNotificationAttributesInput`)
     ///
-    /// - Returns: `DescribeInstanceEventNotificationAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceEventNotificationAttributesOutput`)
     public func describeInstanceEventNotificationAttributes(input: DescribeInstanceEventNotificationAttributesInput) async throws -> DescribeInstanceEventNotificationAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19315,9 +19315,9 @@ extension EC2Client {
     ///
     /// Describes the specified event windows or all event windows. If you specify event window IDs, the output includes information for only the specified event windows. If you specify filters, the output includes information for only those event windows that meet the filter criteria. If you do not specify event windows IDs or filters, the output includes information for all event windows, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeInstanceEventWindowsInput : Describe instance event windows by InstanceEventWindow.
+    /// - Parameter input: Describe instance event windows by InstanceEventWindow. (Type: `DescribeInstanceEventWindowsInput`)
     ///
-    /// - Returns: `DescribeInstanceEventWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceEventWindowsOutput`)
     public func describeInstanceEventWindows(input: DescribeInstanceEventWindowsInput) async throws -> DescribeInstanceEventWindowsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19377,9 +19377,9 @@ extension EC2Client {
     ///
     /// Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. If you specify an instance ID that is not valid, an instance that doesn't exist, or an instance that you do not own, an error (InvalidInstanceID.NotFound) is returned. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. In the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected Availability Zone, or do not specify any instance IDs at all, the call fails. If you specify only instance IDs that are in an unaffected Availability Zone, the call works normally. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeInstanceImageMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceImageMetadataInput`)
     ///
-    /// - Returns: `DescribeInstanceImageMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceImageMetadataOutput`)
     public func describeInstanceImageMetadata(input: DescribeInstanceImageMetadataInput) async throws -> DescribeInstanceImageMetadataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19448,9 +19448,9 @@ extension EC2Client {
     ///
     /// The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeInstanceStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceStatusInput`)
     ///
-    /// - Returns: `DescribeInstanceStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceStatusOutput`)
     public func describeInstanceStatus(input: DescribeInstanceStatusInput) async throws -> DescribeInstanceStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19510,9 +19510,9 @@ extension EC2Client {
     ///
     /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information, see [ Prerequisites for Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology-prerequisites.html) in the Amazon EC2 User Guide. The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeInstanceTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. For more information, see [Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeInstanceTopologyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceTopologyInput`)
     ///
-    /// - Returns: `DescribeInstanceTopologyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceTopologyOutput`)
     public func describeInstanceTopology(input: DescribeInstanceTopologyInput) async throws -> DescribeInstanceTopologyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19572,9 +19572,9 @@ extension EC2Client {
     ///
     /// Lists the instance types that are offered for the specified location. If no location is specified, the default is to list the instance types that are offered in the current Region.
     ///
-    /// - Parameter DescribeInstanceTypeOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceTypeOfferingsInput`)
     ///
-    /// - Returns: `DescribeInstanceTypeOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceTypeOfferingsOutput`)
     public func describeInstanceTypeOfferings(input: DescribeInstanceTypeOfferingsInput) async throws -> DescribeInstanceTypeOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19634,9 +19634,9 @@ extension EC2Client {
     ///
     /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results.
     ///
-    /// - Parameter DescribeInstanceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceTypesInput`)
     ///
-    /// - Returns: `DescribeInstanceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceTypesOutput`)
     public func describeInstanceTypes(input: DescribeInstanceTypesInput) async throws -> DescribeInstanceTypesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19696,9 +19696,9 @@ extension EC2Client {
     ///
     /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally. The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstancesInput`)
     ///
-    /// - Returns: `DescribeInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstancesOutput`)
     public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19758,9 +19758,9 @@ extension EC2Client {
     ///
     /// Describes your internet gateways. The default is to describe all your internet gateways. Alternatively, you can specify specific internet gateway IDs or filter the results to include only the internet gateways that match specific criteria.
     ///
-    /// - Parameter DescribeInternetGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInternetGatewaysInput`)
     ///
-    /// - Returns: `DescribeInternetGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInternetGatewaysOutput`)
     public func describeInternetGateways(input: DescribeInternetGatewaysInput) async throws -> DescribeInternetGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19820,9 +19820,9 @@ extension EC2Client {
     ///
     /// Describes your Autonomous System Numbers (ASNs), their provisioning statuses, and the BYOIP CIDRs with which they are associated. For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide.
     ///
-    /// - Parameter DescribeIpamByoasnInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpamByoasnInput`)
     ///
-    /// - Returns: `DescribeIpamByoasnOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpamByoasnOutput`)
     public func describeIpamByoasn(input: DescribeIpamByoasnInput) async throws -> DescribeIpamByoasnOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19882,9 +19882,9 @@ extension EC2Client {
     ///
     /// Describe verification tokens. A verification token is an Amazon Web Services-generated random value that you can use to prove ownership of an external resource. For example, you can use a verification token to validate that you control a public IP address range when you bring an IP address range to Amazon Web Services (BYOIP).
     ///
-    /// - Parameter DescribeIpamExternalResourceVerificationTokensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpamExternalResourceVerificationTokensInput`)
     ///
-    /// - Returns: `DescribeIpamExternalResourceVerificationTokensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpamExternalResourceVerificationTokensOutput`)
     public func describeIpamExternalResourceVerificationTokens(input: DescribeIpamExternalResourceVerificationTokensInput) async throws -> DescribeIpamExternalResourceVerificationTokensOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19944,9 +19944,9 @@ extension EC2Client {
     ///
     /// Get information about your IPAM pools.
     ///
-    /// - Parameter DescribeIpamPoolsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpamPoolsInput`)
     ///
-    /// - Returns: `DescribeIpamPoolsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpamPoolsOutput`)
     public func describeIpamPools(input: DescribeIpamPoolsInput) async throws -> DescribeIpamPoolsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20006,9 +20006,9 @@ extension EC2Client {
     ///
     /// Describes IPAM resource discoveries. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
-    /// - Parameter DescribeIpamResourceDiscoveriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpamResourceDiscoveriesInput`)
     ///
-    /// - Returns: `DescribeIpamResourceDiscoveriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpamResourceDiscoveriesOutput`)
     public func describeIpamResourceDiscoveries(input: DescribeIpamResourceDiscoveriesInput) async throws -> DescribeIpamResourceDiscoveriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20068,9 +20068,9 @@ extension EC2Client {
     ///
     /// Describes resource discovery association with an Amazon VPC IPAM. An associated resource discovery is a resource discovery that has been associated with an IPAM..
     ///
-    /// - Parameter DescribeIpamResourceDiscoveryAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpamResourceDiscoveryAssociationsInput`)
     ///
-    /// - Returns: `DescribeIpamResourceDiscoveryAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpamResourceDiscoveryAssociationsOutput`)
     public func describeIpamResourceDiscoveryAssociations(input: DescribeIpamResourceDiscoveryAssociationsInput) async throws -> DescribeIpamResourceDiscoveryAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20130,9 +20130,9 @@ extension EC2Client {
     ///
     /// Get information about your IPAM scopes.
     ///
-    /// - Parameter DescribeIpamScopesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpamScopesInput`)
     ///
-    /// - Returns: `DescribeIpamScopesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpamScopesOutput`)
     public func describeIpamScopes(input: DescribeIpamScopesInput) async throws -> DescribeIpamScopesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20192,9 +20192,9 @@ extension EC2Client {
     ///
     /// Get information about your IPAM pools. For more information, see [What is IPAM?](https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter DescribeIpamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpamsInput`)
     ///
-    /// - Returns: `DescribeIpamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpamsOutput`)
     public func describeIpams(input: DescribeIpamsInput) async throws -> DescribeIpamsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20254,9 +20254,9 @@ extension EC2Client {
     ///
     /// Describes your IPv6 address pools.
     ///
-    /// - Parameter DescribeIpv6PoolsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpv6PoolsInput`)
     ///
-    /// - Returns: `DescribeIpv6PoolsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpv6PoolsOutput`)
     public func describeIpv6Pools(input: DescribeIpv6PoolsInput) async throws -> DescribeIpv6PoolsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20316,9 +20316,9 @@ extension EC2Client {
     ///
     /// Describes the specified key pairs or all of your key pairs. For more information about key pairs, see [Amazon EC2 key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeKeyPairsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyPairsInput`)
     ///
-    /// - Returns: `DescribeKeyPairsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyPairsOutput`)
     public func describeKeyPairs(input: DescribeKeyPairsInput) async throws -> DescribeKeyPairsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20378,9 +20378,9 @@ extension EC2Client {
     ///
     /// Describes one or more versions of a specified launch template. You can describe all versions, individual versions, or a range of versions. You can also describe all the latest versions or all the default versions of all the launch templates in your account.
     ///
-    /// - Parameter DescribeLaunchTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLaunchTemplateVersionsInput`)
     ///
-    /// - Returns: `DescribeLaunchTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLaunchTemplateVersionsOutput`)
     public func describeLaunchTemplateVersions(input: DescribeLaunchTemplateVersionsInput) async throws -> DescribeLaunchTemplateVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20440,9 +20440,9 @@ extension EC2Client {
     ///
     /// Describes one or more launch templates.
     ///
-    /// - Parameter DescribeLaunchTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLaunchTemplatesInput`)
     ///
-    /// - Returns: `DescribeLaunchTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLaunchTemplatesOutput`)
     public func describeLaunchTemplates(input: DescribeLaunchTemplatesInput) async throws -> DescribeLaunchTemplatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20502,9 +20502,9 @@ extension EC2Client {
     ///
     /// Describes the associations between virtual interface groups and local gateway route tables.
     ///
-    /// - Parameter DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput`)
     ///
-    /// - Returns: `DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput`)
     public func describeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(input: DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsInput) async throws -> DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20564,9 +20564,9 @@ extension EC2Client {
     ///
     /// Describes the specified associations between VPCs and local gateway route tables.
     ///
-    /// - Parameter DescribeLocalGatewayRouteTableVpcAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocalGatewayRouteTableVpcAssociationsInput`)
     ///
-    /// - Returns: `DescribeLocalGatewayRouteTableVpcAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocalGatewayRouteTableVpcAssociationsOutput`)
     public func describeLocalGatewayRouteTableVpcAssociations(input: DescribeLocalGatewayRouteTableVpcAssociationsInput) async throws -> DescribeLocalGatewayRouteTableVpcAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20626,9 +20626,9 @@ extension EC2Client {
     ///
     /// Describes one or more local gateway route tables. By default, all local gateway route tables are described. Alternatively, you can filter the results.
     ///
-    /// - Parameter DescribeLocalGatewayRouteTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocalGatewayRouteTablesInput`)
     ///
-    /// - Returns: `DescribeLocalGatewayRouteTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocalGatewayRouteTablesOutput`)
     public func describeLocalGatewayRouteTables(input: DescribeLocalGatewayRouteTablesInput) async throws -> DescribeLocalGatewayRouteTablesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20688,9 +20688,9 @@ extension EC2Client {
     ///
     /// Describes the specified local gateway virtual interface groups.
     ///
-    /// - Parameter DescribeLocalGatewayVirtualInterfaceGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocalGatewayVirtualInterfaceGroupsInput`)
     ///
-    /// - Returns: `DescribeLocalGatewayVirtualInterfaceGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocalGatewayVirtualInterfaceGroupsOutput`)
     public func describeLocalGatewayVirtualInterfaceGroups(input: DescribeLocalGatewayVirtualInterfaceGroupsInput) async throws -> DescribeLocalGatewayVirtualInterfaceGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20750,9 +20750,9 @@ extension EC2Client {
     ///
     /// Describes the specified local gateway virtual interfaces.
     ///
-    /// - Parameter DescribeLocalGatewayVirtualInterfacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocalGatewayVirtualInterfacesInput`)
     ///
-    /// - Returns: `DescribeLocalGatewayVirtualInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocalGatewayVirtualInterfacesOutput`)
     public func describeLocalGatewayVirtualInterfaces(input: DescribeLocalGatewayVirtualInterfacesInput) async throws -> DescribeLocalGatewayVirtualInterfacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20812,9 +20812,9 @@ extension EC2Client {
     ///
     /// Describes one or more local gateways. By default, all local gateways are described. Alternatively, you can filter the results.
     ///
-    /// - Parameter DescribeLocalGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocalGatewaysInput`)
     ///
-    /// - Returns: `DescribeLocalGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocalGatewaysOutput`)
     public func describeLocalGateways(input: DescribeLocalGatewaysInput) async throws -> DescribeLocalGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20874,9 +20874,9 @@ extension EC2Client {
     ///
     /// Describes the lock status for a snapshot.
     ///
-    /// - Parameter DescribeLockedSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLockedSnapshotsInput`)
     ///
-    /// - Returns: `DescribeLockedSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLockedSnapshotsOutput`)
     public func describeLockedSnapshots(input: DescribeLockedSnapshotsInput) async throws -> DescribeLockedSnapshotsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20936,9 +20936,9 @@ extension EC2Client {
     ///
     /// Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts.
     ///
-    /// - Parameter DescribeMacHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMacHostsInput`)
     ///
-    /// - Returns: `DescribeMacHostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMacHostsOutput`)
     public func describeMacHosts(input: DescribeMacHostsInput) async throws -> DescribeMacHostsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20998,9 +20998,9 @@ extension EC2Client {
     ///
     /// Describes a System Integrity Protection (SIP) modification task or volume ownership delegation task for an Amazon EC2 Mac instance. For more information, see [Configure SIP for Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/mac-sip-settings.html#mac-sip-configure) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeMacModificationTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMacModificationTasksInput`)
     ///
-    /// - Returns: `DescribeMacModificationTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMacModificationTasksOutput`)
     public func describeMacModificationTasks(input: DescribeMacModificationTasksInput) async throws -> DescribeMacModificationTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21060,9 +21060,9 @@ extension EC2Client {
     ///
     /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists.
     ///
-    /// - Parameter DescribeManagedPrefixListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeManagedPrefixListsInput`)
     ///
-    /// - Returns: `DescribeManagedPrefixListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeManagedPrefixListsOutput`)
     public func describeManagedPrefixLists(input: DescribeManagedPrefixListsInput) async throws -> DescribeManagedPrefixListsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21122,9 +21122,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Describes your Elastic IP addresses that are being moved from or being restored to the EC2-Classic platform. This request does not return information about any other Elastic IP addresses in your account.
     ///
-    /// - Parameter DescribeMovingAddressesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMovingAddressesInput`)
     ///
-    /// - Returns: `DescribeMovingAddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMovingAddressesOutput`)
     public func describeMovingAddresses(input: DescribeMovingAddressesInput) async throws -> DescribeMovingAddressesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21184,9 +21184,9 @@ extension EC2Client {
     ///
     /// Describes your NAT gateways. The default is to describe all your NAT gateways. Alternatively, you can specify specific NAT gateway IDs or filter the results to include only the NAT gateways that match specific criteria.
     ///
-    /// - Parameter DescribeNatGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNatGatewaysInput`)
     ///
-    /// - Returns: `DescribeNatGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNatGatewaysOutput`)
     public func describeNatGateways(input: DescribeNatGatewaysInput) async throws -> DescribeNatGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21246,9 +21246,9 @@ extension EC2Client {
     ///
     /// Describes your network ACLs. The default is to describe all your network ACLs. Alternatively, you can specify specific network ACL IDs or filter the results to include only the network ACLs that match specific criteria. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeNetworkAclsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNetworkAclsInput`)
     ///
-    /// - Returns: `DescribeNetworkAclsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNetworkAclsOutput`)
     public func describeNetworkAcls(input: DescribeNetworkAclsInput) async throws -> DescribeNetworkAclsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21308,9 +21308,9 @@ extension EC2Client {
     ///
     /// Describes the specified Network Access Scope analyses.
     ///
-    /// - Parameter DescribeNetworkInsightsAccessScopeAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNetworkInsightsAccessScopeAnalysesInput`)
     ///
-    /// - Returns: `DescribeNetworkInsightsAccessScopeAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNetworkInsightsAccessScopeAnalysesOutput`)
     public func describeNetworkInsightsAccessScopeAnalyses(input: DescribeNetworkInsightsAccessScopeAnalysesInput) async throws -> DescribeNetworkInsightsAccessScopeAnalysesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21370,9 +21370,9 @@ extension EC2Client {
     ///
     /// Describes the specified Network Access Scopes.
     ///
-    /// - Parameter DescribeNetworkInsightsAccessScopesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNetworkInsightsAccessScopesInput`)
     ///
-    /// - Returns: `DescribeNetworkInsightsAccessScopesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNetworkInsightsAccessScopesOutput`)
     public func describeNetworkInsightsAccessScopes(input: DescribeNetworkInsightsAccessScopesInput) async throws -> DescribeNetworkInsightsAccessScopesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21432,9 +21432,9 @@ extension EC2Client {
     ///
     /// Describes one or more of your network insights analyses.
     ///
-    /// - Parameter DescribeNetworkInsightsAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNetworkInsightsAnalysesInput`)
     ///
-    /// - Returns: `DescribeNetworkInsightsAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNetworkInsightsAnalysesOutput`)
     public func describeNetworkInsightsAnalyses(input: DescribeNetworkInsightsAnalysesInput) async throws -> DescribeNetworkInsightsAnalysesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21494,9 +21494,9 @@ extension EC2Client {
     ///
     /// Describes one or more of your paths.
     ///
-    /// - Parameter DescribeNetworkInsightsPathsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNetworkInsightsPathsInput`)
     ///
-    /// - Returns: `DescribeNetworkInsightsPathsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNetworkInsightsPathsOutput`)
     public func describeNetworkInsightsPaths(input: DescribeNetworkInsightsPathsInput) async throws -> DescribeNetworkInsightsPathsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21556,9 +21556,9 @@ extension EC2Client {
     ///
     /// Describes a network interface attribute. You can specify only one attribute at a time.
     ///
-    /// - Parameter DescribeNetworkInterfaceAttributeInput : Contains the parameters for DescribeNetworkInterfaceAttribute.
+    /// - Parameter input: Contains the parameters for DescribeNetworkInterfaceAttribute. (Type: `DescribeNetworkInterfaceAttributeInput`)
     ///
-    /// - Returns: `DescribeNetworkInterfaceAttributeOutput` : Contains the output of DescribeNetworkInterfaceAttribute.
+    /// - Returns: Contains the output of DescribeNetworkInterfaceAttribute. (Type: `DescribeNetworkInterfaceAttributeOutput`)
     public func describeNetworkInterfaceAttribute(input: DescribeNetworkInterfaceAttributeInput) async throws -> DescribeNetworkInterfaceAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21618,9 +21618,9 @@ extension EC2Client {
     ///
     /// Describes the permissions for your network interfaces.
     ///
-    /// - Parameter DescribeNetworkInterfacePermissionsInput : Contains the parameters for DescribeNetworkInterfacePermissions.
+    /// - Parameter input: Contains the parameters for DescribeNetworkInterfacePermissions. (Type: `DescribeNetworkInterfacePermissionsInput`)
     ///
-    /// - Returns: `DescribeNetworkInterfacePermissionsOutput` : Contains the output for DescribeNetworkInterfacePermissions.
+    /// - Returns: Contains the output for DescribeNetworkInterfacePermissions. (Type: `DescribeNetworkInterfacePermissionsOutput`)
     public func describeNetworkInterfacePermissions(input: DescribeNetworkInterfacePermissionsInput) async throws -> DescribeNetworkInterfacePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21680,9 +21680,9 @@ extension EC2Client {
     ///
     /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: group-id, mac-address, private-dns-name, private-ip-address, subnet-id, or vpc-id. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     ///
-    /// - Parameter DescribeNetworkInterfacesInput : Contains the parameters for DescribeNetworkInterfaces.
+    /// - Parameter input: Contains the parameters for DescribeNetworkInterfaces. (Type: `DescribeNetworkInterfacesInput`)
     ///
-    /// - Returns: `DescribeNetworkInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNetworkInterfacesOutput`)
     public func describeNetworkInterfaces(input: DescribeNetworkInterfacesInput) async throws -> DescribeNetworkInterfacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21742,9 +21742,9 @@ extension EC2Client {
     ///
     /// Describes the Outposts link aggregation groups (LAGs). LAGs are only available for second-generation Outposts racks at this time.
     ///
-    /// - Parameter DescribeOutpostLagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOutpostLagsInput`)
     ///
-    /// - Returns: `DescribeOutpostLagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOutpostLagsOutput`)
     public func describeOutpostLags(input: DescribeOutpostLagsInput) async throws -> DescribeOutpostLagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21804,9 +21804,9 @@ extension EC2Client {
     ///
     /// Describes the specified placement groups or all of your placement groups. To describe a specific placement group that is shared with your account, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribePlacementGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePlacementGroupsInput`)
     ///
-    /// - Returns: `DescribePlacementGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePlacementGroupsOutput`)
     public func describePlacementGroups(input: DescribePlacementGroupsInput) async throws -> DescribePlacementGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21866,9 +21866,9 @@ extension EC2Client {
     ///
     /// Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service.
     ///
-    /// - Parameter DescribePrefixListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePrefixListsInput`)
     ///
-    /// - Returns: `DescribePrefixListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePrefixListsOutput`)
     public func describePrefixLists(input: DescribePrefixListsInput) async throws -> DescribePrefixListsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21928,9 +21928,9 @@ extension EC2Client {
     ///
     /// Describes the ID format settings for the root user and all IAM roles and IAM users that have explicitly specified a longer ID (17-character ID) preference. By default, all IAM roles and IAM users default to the same ID settings as the root user, unless they explicitly override the settings. This request is useful for identifying those IAM users and IAM roles that have overridden the default ID settings. The following resource types support longer IDs: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway.
     ///
-    /// - Parameter DescribePrincipalIdFormatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePrincipalIdFormatInput`)
     ///
-    /// - Returns: `DescribePrincipalIdFormatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePrincipalIdFormatOutput`)
     public func describePrincipalIdFormat(input: DescribePrincipalIdFormatInput) async throws -> DescribePrincipalIdFormatOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21990,9 +21990,9 @@ extension EC2Client {
     ///
     /// Describes the specified IPv4 address pools.
     ///
-    /// - Parameter DescribePublicIpv4PoolsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePublicIpv4PoolsInput`)
     ///
-    /// - Returns: `DescribePublicIpv4PoolsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePublicIpv4PoolsOutput`)
     public func describePublicIpv4Pools(input: DescribePublicIpv4PoolsInput) async throws -> DescribePublicIpv4PoolsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22052,9 +22052,9 @@ extension EC2Client {
     ///
     /// Describes the Regions that are enabled for your account, or all Regions. For a list of the Regions supported by Amazon EC2, see [Amazon EC2 service endpoints](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-endpoints.html). For information about enabling and disabling Regions for your account, see [Specify which Amazon Web Services Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html) in the Amazon Web Services Account Management Reference Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeRegionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegionsInput`)
     ///
-    /// - Returns: `DescribeRegionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegionsOutput`)
     public func describeRegions(input: DescribeRegionsInput) async throws -> DescribeRegionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22114,9 +22114,9 @@ extension EC2Client {
     ///
     /// Describes a root volume replacement task. For more information, see [Replace a root volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/replace-root.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeReplaceRootVolumeTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReplaceRootVolumeTasksInput`)
     ///
-    /// - Returns: `DescribeReplaceRootVolumeTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReplaceRootVolumeTasksOutput`)
     public func describeReplaceRootVolumeTasks(input: DescribeReplaceRootVolumeTasksInput) async throws -> DescribeReplaceRootVolumeTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22176,9 +22176,9 @@ extension EC2Client {
     ///
     /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see [Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeReservedInstancesInput : Contains the parameters for DescribeReservedInstances.
+    /// - Parameter input: Contains the parameters for DescribeReservedInstances. (Type: `DescribeReservedInstancesInput`)
     ///
-    /// - Returns: `DescribeReservedInstancesOutput` : Contains the output for DescribeReservedInstances.
+    /// - Returns: Contains the output for DescribeReservedInstances. (Type: `DescribeReservedInstancesOutput`)
     public func describeReservedInstances(input: DescribeReservedInstancesInput) async throws -> DescribeReservedInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22238,9 +22238,9 @@ extension EC2Client {
     ///
     /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeReservedInstancesListingsInput : Contains the parameters for DescribeReservedInstancesListings.
+    /// - Parameter input: Contains the parameters for DescribeReservedInstancesListings. (Type: `DescribeReservedInstancesListingsInput`)
     ///
-    /// - Returns: `DescribeReservedInstancesListingsOutput` : Contains the output of DescribeReservedInstancesListings.
+    /// - Returns: Contains the output of DescribeReservedInstancesListings. (Type: `DescribeReservedInstancesListingsOutput`)
     public func describeReservedInstancesListings(input: DescribeReservedInstancesListingsInput) async throws -> DescribeReservedInstancesListingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22300,9 +22300,9 @@ extension EC2Client {
     ///
     /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see [Modify Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeReservedInstancesModificationsInput : Contains the parameters for DescribeReservedInstancesModifications.
+    /// - Parameter input: Contains the parameters for DescribeReservedInstancesModifications. (Type: `DescribeReservedInstancesModificationsInput`)
     ///
-    /// - Returns: `DescribeReservedInstancesModificationsOutput` : Contains the output of DescribeReservedInstancesModifications.
+    /// - Returns: Contains the output of DescribeReservedInstancesModifications. (Type: `DescribeReservedInstancesModificationsOutput`)
     public func describeReservedInstancesModifications(input: DescribeReservedInstancesModificationsInput) async throws -> DescribeReservedInstancesModificationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22362,9 +22362,9 @@ extension EC2Client {
     ///
     /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeReservedInstancesOfferingsInput : Contains the parameters for DescribeReservedInstancesOfferings.
+    /// - Parameter input: Contains the parameters for DescribeReservedInstancesOfferings. (Type: `DescribeReservedInstancesOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedInstancesOfferingsOutput` : Contains the output of DescribeReservedInstancesOfferings.
+    /// - Returns: Contains the output of DescribeReservedInstancesOfferings. (Type: `DescribeReservedInstancesOfferingsOutput`)
     public func describeReservedInstancesOfferings(input: DescribeReservedInstancesOfferingsInput) async throws -> DescribeReservedInstancesOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22424,9 +22424,9 @@ extension EC2Client {
     ///
     /// Describes one or more route server endpoints. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates [BGP (Border Gateway Protocol)](https://en.wikipedia.org/wiki/Border_Gateway_Protocol) connections between your route server and your BGP peers. For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeRouteServerEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRouteServerEndpointsInput`)
     ///
-    /// - Returns: `DescribeRouteServerEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRouteServerEndpointsOutput`)
     public func describeRouteServerEndpoints(input: DescribeRouteServerEndpointsInput) async throws -> DescribeRouteServerEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22495,9 +22495,9 @@ extension EC2Client {
     ///
     /// For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeRouteServerPeersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRouteServerPeersInput`)
     ///
-    /// - Returns: `DescribeRouteServerPeersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRouteServerPeersOutput`)
     public func describeRouteServerPeers(input: DescribeRouteServerPeersInput) async throws -> DescribeRouteServerPeersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22566,9 +22566,9 @@ extension EC2Client {
     ///
     /// Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use [Transit Gateway Connect](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html). For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeRouteServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRouteServersInput`)
     ///
-    /// - Returns: `DescribeRouteServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRouteServersOutput`)
     public func describeRouteServers(input: DescribeRouteServersInput) async throws -> DescribeRouteServersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22628,9 +22628,9 @@ extension EC2Client {
     ///
     /// Describes your route tables. The default is to describe all your route tables. Alternatively, you can specify specific route table IDs or filter the results to include only the route tables that match specific criteria. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeRouteTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRouteTablesInput`)
     ///
-    /// - Returns: `DescribeRouteTablesOutput` : Contains the output of DescribeRouteTables.
+    /// - Returns: Contains the output of DescribeRouteTables. (Type: `DescribeRouteTablesOutput`)
     public func describeRouteTables(input: DescribeRouteTablesInput) async throws -> DescribeRouteTablesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22690,9 +22690,9 @@ extension EC2Client {
     ///
     /// Finds available schedules that meet the specified criteria. You can search for an available schedule no more than 3 months in advance. You must meet the minimum required duration of 1,200 hours per year. For example, the minimum daily schedule is 4 hours, the minimum weekly schedule is 24 hours, and the minimum monthly schedule is 100 hours. After you find a schedule that meets your needs, call [PurchaseScheduledInstances] to purchase Scheduled Instances with that schedule.
     ///
-    /// - Parameter DescribeScheduledInstanceAvailabilityInput : Contains the parameters for DescribeScheduledInstanceAvailability.
+    /// - Parameter input: Contains the parameters for DescribeScheduledInstanceAvailability. (Type: `DescribeScheduledInstanceAvailabilityInput`)
     ///
-    /// - Returns: `DescribeScheduledInstanceAvailabilityOutput` : Contains the output of DescribeScheduledInstanceAvailability.
+    /// - Returns: Contains the output of DescribeScheduledInstanceAvailability. (Type: `DescribeScheduledInstanceAvailabilityOutput`)
     public func describeScheduledInstanceAvailability(input: DescribeScheduledInstanceAvailabilityInput) async throws -> DescribeScheduledInstanceAvailabilityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22752,9 +22752,9 @@ extension EC2Client {
     ///
     /// Describes the specified Scheduled Instances or all your Scheduled Instances.
     ///
-    /// - Parameter DescribeScheduledInstancesInput : Contains the parameters for DescribeScheduledInstances.
+    /// - Parameter input: Contains the parameters for DescribeScheduledInstances. (Type: `DescribeScheduledInstancesInput`)
     ///
-    /// - Returns: `DescribeScheduledInstancesOutput` : Contains the output of DescribeScheduledInstances.
+    /// - Returns: Contains the output of DescribeScheduledInstances. (Type: `DescribeScheduledInstancesOutput`)
     public func describeScheduledInstances(input: DescribeScheduledInstancesInput) async throws -> DescribeScheduledInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22814,9 +22814,9 @@ extension EC2Client {
     ///
     /// Describes the VPCs on the other side of a VPC peering or Transit Gateway connection that are referencing the security groups you've specified in this request.
     ///
-    /// - Parameter DescribeSecurityGroupReferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityGroupReferencesInput`)
     ///
-    /// - Returns: `DescribeSecurityGroupReferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityGroupReferencesOutput`)
     public func describeSecurityGroupReferences(input: DescribeSecurityGroupReferencesInput) async throws -> DescribeSecurityGroupReferencesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22876,9 +22876,9 @@ extension EC2Client {
     ///
     /// Describes one or more of your security group rules.
     ///
-    /// - Parameter DescribeSecurityGroupRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityGroupRulesInput`)
     ///
-    /// - Returns: `DescribeSecurityGroupRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityGroupRulesOutput`)
     public func describeSecurityGroupRules(input: DescribeSecurityGroupRulesInput) async throws -> DescribeSecurityGroupRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22938,9 +22938,9 @@ extension EC2Client {
     ///
     /// Describes security group VPC associations made with [AssociateSecurityGroupVpc](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateSecurityGroupVpc.html).
     ///
-    /// - Parameter DescribeSecurityGroupVpcAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityGroupVpcAssociationsInput`)
     ///
-    /// - Returns: `DescribeSecurityGroupVpcAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityGroupVpcAssociationsOutput`)
     public func describeSecurityGroupVpcAssociations(input: DescribeSecurityGroupVpcAssociationsInput) async throws -> DescribeSecurityGroupVpcAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23000,9 +23000,9 @@ extension EC2Client {
     ///
     /// Describes the specified security groups or all of your security groups.
     ///
-    /// - Parameter DescribeSecurityGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityGroupsInput`)
     ///
-    /// - Returns: `DescribeSecurityGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityGroupsOutput`)
     public func describeSecurityGroups(input: DescribeSecurityGroupsInput) async throws -> DescribeSecurityGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23062,9 +23062,9 @@ extension EC2Client {
     ///
     /// Describes the Outpost service link virtual interfaces.
     ///
-    /// - Parameter DescribeServiceLinkVirtualInterfacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceLinkVirtualInterfacesInput`)
     ///
-    /// - Returns: `DescribeServiceLinkVirtualInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceLinkVirtualInterfacesOutput`)
     public func describeServiceLinkVirtualInterfaces(input: DescribeServiceLinkVirtualInterfacesInput) async throws -> DescribeServiceLinkVirtualInterfacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23124,9 +23124,9 @@ extension EC2Client {
     ///
     /// Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see [Amazon EBS snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-snapshots.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter DescribeSnapshotAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotAttributeInput`)
     ///
-    /// - Returns: `DescribeSnapshotAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotAttributeOutput`)
     public func describeSnapshotAttribute(input: DescribeSnapshotAttributeInput) async throws -> DescribeSnapshotAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23186,9 +23186,9 @@ extension EC2Client {
     ///
     /// Describes the storage tier status of one or more Amazon EBS snapshots.
     ///
-    /// - Parameter DescribeSnapshotTierStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotTierStatusInput`)
     ///
-    /// - Returns: `DescribeSnapshotTierStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotTierStatusOutput`)
     public func describeSnapshotTierStatus(input: DescribeSnapshotTierStatusInput) async throws -> DescribeSnapshotTierStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23257,9 +23257,9 @@ extension EC2Client {
     ///
     /// The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination). For more information about EBS snapshots, see [Amazon EBS snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-snapshots.html) in the Amazon EBS User Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     ///
-    /// - Parameter DescribeSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotsInput`)
     ///
-    /// - Returns: `DescribeSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotsOutput`)
     public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23319,9 +23319,9 @@ extension EC2Client {
     ///
     /// Describes the data feed for Spot Instances. For more information, see [Spot Instance data feed](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeSpotDatafeedSubscriptionInput : Contains the parameters for DescribeSpotDatafeedSubscription.
+    /// - Parameter input: Contains the parameters for DescribeSpotDatafeedSubscription. (Type: `DescribeSpotDatafeedSubscriptionInput`)
     ///
-    /// - Returns: `DescribeSpotDatafeedSubscriptionOutput` : Contains the output of DescribeSpotDatafeedSubscription.
+    /// - Returns: Contains the output of DescribeSpotDatafeedSubscription. (Type: `DescribeSpotDatafeedSubscriptionOutput`)
     public func describeSpotDatafeedSubscription(input: DescribeSpotDatafeedSubscriptionInput) async throws -> DescribeSpotDatafeedSubscriptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23381,9 +23381,9 @@ extension EC2Client {
     ///
     /// Describes the running instances for the specified Spot Fleet.
     ///
-    /// - Parameter DescribeSpotFleetInstancesInput : Contains the parameters for DescribeSpotFleetInstances.
+    /// - Parameter input: Contains the parameters for DescribeSpotFleetInstances. (Type: `DescribeSpotFleetInstancesInput`)
     ///
-    /// - Returns: `DescribeSpotFleetInstancesOutput` : Contains the output of DescribeSpotFleetInstances.
+    /// - Returns: Contains the output of DescribeSpotFleetInstances. (Type: `DescribeSpotFleetInstancesOutput`)
     public func describeSpotFleetInstances(input: DescribeSpotFleetInstancesInput) async throws -> DescribeSpotFleetInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23443,9 +23443,9 @@ extension EC2Client {
     ///
     /// Describes the events for the specified Spot Fleet request during the specified time. Spot Fleet events are delayed by up to 30 seconds before they can be described. This ensures that you can query by the last evaluated time and not miss a recorded event. Spot Fleet events are available for 48 hours. For more information, see [Monitor fleet events using Amazon EventBridge](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/fleet-monitor.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeSpotFleetRequestHistoryInput : Contains the parameters for DescribeSpotFleetRequestHistory.
+    /// - Parameter input: Contains the parameters for DescribeSpotFleetRequestHistory. (Type: `DescribeSpotFleetRequestHistoryInput`)
     ///
-    /// - Returns: `DescribeSpotFleetRequestHistoryOutput` : Contains the output of DescribeSpotFleetRequestHistory.
+    /// - Returns: Contains the output of DescribeSpotFleetRequestHistory. (Type: `DescribeSpotFleetRequestHistoryOutput`)
     public func describeSpotFleetRequestHistory(input: DescribeSpotFleetRequestHistoryInput) async throws -> DescribeSpotFleetRequestHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23505,9 +23505,9 @@ extension EC2Client {
     ///
     /// Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours after they are canceled and their instances are terminated.
     ///
-    /// - Parameter DescribeSpotFleetRequestsInput : Contains the parameters for DescribeSpotFleetRequests.
+    /// - Parameter input: Contains the parameters for DescribeSpotFleetRequests. (Type: `DescribeSpotFleetRequestsInput`)
     ///
-    /// - Returns: `DescribeSpotFleetRequestsOutput` : Contains the output of DescribeSpotFleetRequests.
+    /// - Returns: Contains the output of DescribeSpotFleetRequests. (Type: `DescribeSpotFleetRequestsOutput`)
     public func describeSpotFleetRequests(input: DescribeSpotFleetRequestsInput) async throws -> DescribeSpotFleetRequestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23567,9 +23567,9 @@ extension EC2Client {
     ///
     /// Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances) with a filter to look for instances where the instance lifecycle is spot. We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of items returned. This paginates the output, which makes the list more manageable and returns the items faster. If the list of items exceeds your MaxResults value, then that number of items is returned along with a NextToken value that can be passed to a subsequent DescribeSpotInstanceRequests request to retrieve the remaining items. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
     ///
-    /// - Parameter DescribeSpotInstanceRequestsInput : Contains the parameters for DescribeSpotInstanceRequests.
+    /// - Parameter input: Contains the parameters for DescribeSpotInstanceRequests. (Type: `DescribeSpotInstanceRequestsInput`)
     ///
-    /// - Returns: `DescribeSpotInstanceRequestsOutput` : Contains the output of DescribeSpotInstanceRequests.
+    /// - Returns: Contains the output of DescribeSpotInstanceRequests. (Type: `DescribeSpotInstanceRequestsOutput`)
     public func describeSpotInstanceRequests(input: DescribeSpotInstanceRequestsInput) async throws -> DescribeSpotInstanceRequestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23629,9 +23629,9 @@ extension EC2Client {
     ///
     /// Describes the Spot price history. For more information, see [Spot Instance pricing history](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html) in the Amazon EC2 User Guide. When you specify a start and end time, the operation returns the prices of the instance types within that time range. It also returns the last price change before the start time, which is the effective price as of the start time.
     ///
-    /// - Parameter DescribeSpotPriceHistoryInput : Contains the parameters for DescribeSpotPriceHistory.
+    /// - Parameter input: Contains the parameters for DescribeSpotPriceHistory. (Type: `DescribeSpotPriceHistoryInput`)
     ///
-    /// - Returns: `DescribeSpotPriceHistoryOutput` : Contains the output of DescribeSpotPriceHistory.
+    /// - Returns: Contains the output of DescribeSpotPriceHistory. (Type: `DescribeSpotPriceHistoryOutput`)
     public func describeSpotPriceHistory(input: DescribeSpotPriceHistoryInput) async throws -> DescribeSpotPriceHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23691,9 +23691,9 @@ extension EC2Client {
     ///
     /// Describes the stale security group rules for security groups referenced across a VPC peering connection, transit gateway connection, or with a security group VPC association. Rules are stale when they reference a deleted security group. Rules can also be stale if they reference a security group in a peer VPC for which the VPC peering connection has been deleted, across a transit gateway where the transit gateway has been deleted (or [the transit gateway security group referencing feature](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-vpc-attachments.html#vpc-attachment-security) has been disabled), or if a security group VPC association has been disassociated.
     ///
-    /// - Parameter DescribeStaleSecurityGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStaleSecurityGroupsInput`)
     ///
-    /// - Returns: `DescribeStaleSecurityGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStaleSecurityGroupsOutput`)
     public func describeStaleSecurityGroups(input: DescribeStaleSecurityGroupsInput) async throws -> DescribeStaleSecurityGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23753,9 +23753,9 @@ extension EC2Client {
     ///
     /// Describes the progress of the AMI store tasks. You can describe the store tasks for specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from the last 31 days. For each AMI task, the response indicates if the task is InProgress, Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the past 31 days can be viewed. To use this API, you must have the required permissions. For more information, see [Permissions for storing and restoring AMIs using S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/work-with-ami-store-restore.html#ami-s3-permissions) in the Amazon EC2 User Guide. For more information, see [Store and restore an AMI using S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DescribeStoreImageTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStoreImageTasksInput`)
     ///
-    /// - Returns: `DescribeStoreImageTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStoreImageTasksOutput`)
     public func describeStoreImageTasks(input: DescribeStoreImageTasksInput) async throws -> DescribeStoreImageTasksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23815,9 +23815,9 @@ extension EC2Client {
     ///
     /// Describes your subnets. The default is to describe all your subnets. Alternatively, you can specify specific subnet IDs or filter the results to include only the subnets that match specific criteria. For more information, see [Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeSubnetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSubnetsInput`)
     ///
-    /// - Returns: `DescribeSubnetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSubnetsOutput`)
     public func describeSubnets(input: DescribeSubnetsInput) async throws -> DescribeSubnetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23877,9 +23877,9 @@ extension EC2Client {
     ///
     /// Describes the specified tags for your EC2 resources. For more information about tags, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTagsInput`)
     ///
-    /// - Returns: `DescribeTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTagsOutput`)
     public func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -23939,9 +23939,9 @@ extension EC2Client {
     ///
     /// Describe traffic mirror filters that determine the traffic that is mirrored.
     ///
-    /// - Parameter DescribeTrafficMirrorFilterRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrafficMirrorFilterRulesInput`)
     ///
-    /// - Returns: `DescribeTrafficMirrorFilterRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrafficMirrorFilterRulesOutput`)
     public func describeTrafficMirrorFilterRules(input: DescribeTrafficMirrorFilterRulesInput) async throws -> DescribeTrafficMirrorFilterRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24001,9 +24001,9 @@ extension EC2Client {
     ///
     /// Describes one or more Traffic Mirror filters.
     ///
-    /// - Parameter DescribeTrafficMirrorFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrafficMirrorFiltersInput`)
     ///
-    /// - Returns: `DescribeTrafficMirrorFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrafficMirrorFiltersOutput`)
     public func describeTrafficMirrorFilters(input: DescribeTrafficMirrorFiltersInput) async throws -> DescribeTrafficMirrorFiltersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24063,9 +24063,9 @@ extension EC2Client {
     ///
     /// Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror sessions are described. Alternatively, you can filter the results.
     ///
-    /// - Parameter DescribeTrafficMirrorSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrafficMirrorSessionsInput`)
     ///
-    /// - Returns: `DescribeTrafficMirrorSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrafficMirrorSessionsOutput`)
     public func describeTrafficMirrorSessions(input: DescribeTrafficMirrorSessionsInput) async throws -> DescribeTrafficMirrorSessionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24125,9 +24125,9 @@ extension EC2Client {
     ///
     /// Information about one or more Traffic Mirror targets.
     ///
-    /// - Parameter DescribeTrafficMirrorTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrafficMirrorTargetsInput`)
     ///
-    /// - Returns: `DescribeTrafficMirrorTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrafficMirrorTargetsOutput`)
     public func describeTrafficMirrorTargets(input: DescribeTrafficMirrorTargetsInput) async throws -> DescribeTrafficMirrorTargetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24187,9 +24187,9 @@ extension EC2Client {
     ///
     /// Describes one or more attachments between resources and transit gateways. By default, all attachments are described. Alternatively, you can filter the results by attachment ID, attachment state, resource ID, or resource owner.
     ///
-    /// - Parameter DescribeTransitGatewayAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayAttachmentsInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayAttachmentsOutput`)
     public func describeTransitGatewayAttachments(input: DescribeTransitGatewayAttachmentsInput) async throws -> DescribeTransitGatewayAttachmentsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24249,9 +24249,9 @@ extension EC2Client {
     ///
     /// Describes one or more Connect peers.
     ///
-    /// - Parameter DescribeTransitGatewayConnectPeersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayConnectPeersInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayConnectPeersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayConnectPeersOutput`)
     public func describeTransitGatewayConnectPeers(input: DescribeTransitGatewayConnectPeersInput) async throws -> DescribeTransitGatewayConnectPeersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24311,9 +24311,9 @@ extension EC2Client {
     ///
     /// Describes one or more Connect attachments.
     ///
-    /// - Parameter DescribeTransitGatewayConnectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayConnectsInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayConnectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayConnectsOutput`)
     public func describeTransitGatewayConnects(input: DescribeTransitGatewayConnectsInput) async throws -> DescribeTransitGatewayConnectsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24373,9 +24373,9 @@ extension EC2Client {
     ///
     /// Describes one or more transit gateway multicast domains.
     ///
-    /// - Parameter DescribeTransitGatewayMulticastDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayMulticastDomainsInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayMulticastDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayMulticastDomainsOutput`)
     public func describeTransitGatewayMulticastDomains(input: DescribeTransitGatewayMulticastDomainsInput) async throws -> DescribeTransitGatewayMulticastDomainsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24435,9 +24435,9 @@ extension EC2Client {
     ///
     /// Describes your transit gateway peering attachments.
     ///
-    /// - Parameter DescribeTransitGatewayPeeringAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayPeeringAttachmentsInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayPeeringAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayPeeringAttachmentsOutput`)
     public func describeTransitGatewayPeeringAttachments(input: DescribeTransitGatewayPeeringAttachmentsInput) async throws -> DescribeTransitGatewayPeeringAttachmentsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24497,9 +24497,9 @@ extension EC2Client {
     ///
     /// Describes one or more transit gateway route policy tables.
     ///
-    /// - Parameter DescribeTransitGatewayPolicyTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayPolicyTablesInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayPolicyTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayPolicyTablesOutput`)
     public func describeTransitGatewayPolicyTables(input: DescribeTransitGatewayPolicyTablesInput) async throws -> DescribeTransitGatewayPolicyTablesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24559,9 +24559,9 @@ extension EC2Client {
     ///
     /// Describes one or more transit gateway route table advertisements.
     ///
-    /// - Parameter DescribeTransitGatewayRouteTableAnnouncementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayRouteTableAnnouncementsInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayRouteTableAnnouncementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayRouteTableAnnouncementsOutput`)
     public func describeTransitGatewayRouteTableAnnouncements(input: DescribeTransitGatewayRouteTableAnnouncementsInput) async throws -> DescribeTransitGatewayRouteTableAnnouncementsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24621,9 +24621,9 @@ extension EC2Client {
     ///
     /// Describes one or more transit gateway route tables. By default, all transit gateway route tables are described. Alternatively, you can filter the results.
     ///
-    /// - Parameter DescribeTransitGatewayRouteTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayRouteTablesInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayRouteTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayRouteTablesOutput`)
     public func describeTransitGatewayRouteTables(input: DescribeTransitGatewayRouteTablesInput) async throws -> DescribeTransitGatewayRouteTablesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24683,9 +24683,9 @@ extension EC2Client {
     ///
     /// Describes one or more VPC attachments. By default, all VPC attachments are described. Alternatively, you can filter the results.
     ///
-    /// - Parameter DescribeTransitGatewayVpcAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayVpcAttachmentsInput`)
     ///
-    /// - Returns: `DescribeTransitGatewayVpcAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayVpcAttachmentsOutput`)
     public func describeTransitGatewayVpcAttachments(input: DescribeTransitGatewayVpcAttachmentsInput) async throws -> DescribeTransitGatewayVpcAttachmentsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24745,9 +24745,9 @@ extension EC2Client {
     ///
     /// Describes one or more transit gateways. By default, all transit gateways are described. Alternatively, you can filter the results.
     ///
-    /// - Parameter DescribeTransitGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewaysInput`)
     ///
-    /// - Returns: `DescribeTransitGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewaysOutput`)
     public func describeTransitGateways(input: DescribeTransitGatewaysInput) async throws -> DescribeTransitGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24807,9 +24807,9 @@ extension EC2Client {
     ///
     /// Describes one or more network interface trunk associations.
     ///
-    /// - Parameter DescribeTrunkInterfaceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrunkInterfaceAssociationsInput`)
     ///
-    /// - Returns: `DescribeTrunkInterfaceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrunkInterfaceAssociationsOutput`)
     public func describeTrunkInterfaceAssociations(input: DescribeTrunkInterfaceAssociationsInput) async throws -> DescribeTrunkInterfaceAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24869,9 +24869,9 @@ extension EC2Client {
     ///
     /// Describes the specified Amazon Web Services Verified Access endpoints.
     ///
-    /// - Parameter DescribeVerifiedAccessEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVerifiedAccessEndpointsInput`)
     ///
-    /// - Returns: `DescribeVerifiedAccessEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVerifiedAccessEndpointsOutput`)
     public func describeVerifiedAccessEndpoints(input: DescribeVerifiedAccessEndpointsInput) async throws -> DescribeVerifiedAccessEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24931,9 +24931,9 @@ extension EC2Client {
     ///
     /// Describes the specified Verified Access groups.
     ///
-    /// - Parameter DescribeVerifiedAccessGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVerifiedAccessGroupsInput`)
     ///
-    /// - Returns: `DescribeVerifiedAccessGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVerifiedAccessGroupsOutput`)
     public func describeVerifiedAccessGroups(input: DescribeVerifiedAccessGroupsInput) async throws -> DescribeVerifiedAccessGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -24993,9 +24993,9 @@ extension EC2Client {
     ///
     /// Describes the specified Amazon Web Services Verified Access instances.
     ///
-    /// - Parameter DescribeVerifiedAccessInstanceLoggingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVerifiedAccessInstanceLoggingConfigurationsInput`)
     ///
-    /// - Returns: `DescribeVerifiedAccessInstanceLoggingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVerifiedAccessInstanceLoggingConfigurationsOutput`)
     public func describeVerifiedAccessInstanceLoggingConfigurations(input: DescribeVerifiedAccessInstanceLoggingConfigurationsInput) async throws -> DescribeVerifiedAccessInstanceLoggingConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25055,9 +25055,9 @@ extension EC2Client {
     ///
     /// Describes the specified Amazon Web Services Verified Access instances.
     ///
-    /// - Parameter DescribeVerifiedAccessInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVerifiedAccessInstancesInput`)
     ///
-    /// - Returns: `DescribeVerifiedAccessInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVerifiedAccessInstancesOutput`)
     public func describeVerifiedAccessInstances(input: DescribeVerifiedAccessInstancesInput) async throws -> DescribeVerifiedAccessInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25117,9 +25117,9 @@ extension EC2Client {
     ///
     /// Describes the specified Amazon Web Services Verified Access trust providers.
     ///
-    /// - Parameter DescribeVerifiedAccessTrustProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVerifiedAccessTrustProvidersInput`)
     ///
-    /// - Returns: `DescribeVerifiedAccessTrustProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVerifiedAccessTrustProvidersOutput`)
     public func describeVerifiedAccessTrustProviders(input: DescribeVerifiedAccessTrustProvidersInput) async throws -> DescribeVerifiedAccessTrustProvidersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25179,9 +25179,9 @@ extension EC2Client {
     ///
     /// Describes the specified attribute of the specified volume. You can specify only one attribute at a time. For more information about EBS volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter DescribeVolumeAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVolumeAttributeInput`)
     ///
-    /// - Returns: `DescribeVolumeAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVolumeAttributeOutput`)
     public func describeVolumeAttribute(input: DescribeVolumeAttributeInput) async throws -> DescribeVolumeAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25241,9 +25241,9 @@ extension EC2Client {
     ///
     /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes: Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see [Monitor the status of your volumes](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-status.html) in the Amazon EBS User Guide. Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data. Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume and then check the volume for data consistency. For more information, see [Work with an impaired EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/work_volumes_impaired.html). Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.) The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeVolumeStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVolumeStatusInput`)
     ///
-    /// - Returns: `DescribeVolumeStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVolumeStatusOutput`)
     public func describeVolumeStatus(input: DescribeVolumeStatusInput) async throws -> DescribeVolumeStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25303,9 +25303,9 @@ extension EC2Client {
     ///
     /// Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination). For more information about EBS volumes, see [Amazon EBS volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html) in the Amazon EBS User Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
-    /// - Parameter DescribeVolumesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVolumesInput`)
     ///
-    /// - Returns: `DescribeVolumesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVolumesOutput`)
     public func describeVolumes(input: DescribeVolumesInput) async throws -> DescribeVolumesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25365,9 +25365,9 @@ extension EC2Client {
     ///
     /// Describes the most recent volume modification request for the specified EBS volumes. For more information, see [ Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter DescribeVolumesModificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVolumesModificationsInput`)
     ///
-    /// - Returns: `DescribeVolumesModificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVolumesModificationsOutput`)
     public func describeVolumesModifications(input: DescribeVolumesModificationsInput) async throws -> DescribeVolumesModificationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25427,9 +25427,9 @@ extension EC2Client {
     ///
     /// Describes the specified attribute of the specified VPC. You can specify only one attribute at a time.
     ///
-    /// - Parameter DescribeVpcAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcAttributeInput`)
     ///
-    /// - Returns: `DescribeVpcAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcAttributeOutput`)
     public func describeVpcAttribute(input: DescribeVpcAttributeInput) async throws -> DescribeVpcAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25489,9 +25489,9 @@ extension EC2Client {
     ///
     /// Describe VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeVpcBlockPublicAccessExclusionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcBlockPublicAccessExclusionsInput`)
     ///
-    /// - Returns: `DescribeVpcBlockPublicAccessExclusionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcBlockPublicAccessExclusionsOutput`)
     public func describeVpcBlockPublicAccessExclusions(input: DescribeVpcBlockPublicAccessExclusionsInput) async throws -> DescribeVpcBlockPublicAccessExclusionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25551,9 +25551,9 @@ extension EC2Client {
     ///
     /// Describe VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DescribeVpcBlockPublicAccessOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcBlockPublicAccessOptionsInput`)
     ///
-    /// - Returns: `DescribeVpcBlockPublicAccessOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcBlockPublicAccessOptionsOutput`)
     public func describeVpcBlockPublicAccessOptions(input: DescribeVpcBlockPublicAccessOptionsInput) async throws -> DescribeVpcBlockPublicAccessOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25613,9 +25613,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Describes the ClassicLink status of the specified VPCs.
     ///
-    /// - Parameter DescribeVpcClassicLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcClassicLinkInput`)
     ///
-    /// - Returns: `DescribeVpcClassicLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcClassicLinkOutput`)
     public func describeVpcClassicLink(input: DescribeVpcClassicLinkInput) async throws -> DescribeVpcClassicLinkOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25675,9 +25675,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance.
     ///
-    /// - Parameter DescribeVpcClassicLinkDnsSupportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcClassicLinkDnsSupportInput`)
     ///
-    /// - Returns: `DescribeVpcClassicLinkDnsSupportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcClassicLinkDnsSupportOutput`)
     public func describeVpcClassicLinkDnsSupport(input: DescribeVpcClassicLinkDnsSupportInput) async throws -> DescribeVpcClassicLinkDnsSupportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25737,9 +25737,9 @@ extension EC2Client {
     ///
     /// Describes the VPC resources, VPC endpoint services, Amazon Lattice services, or service networks associated with the VPC endpoint.
     ///
-    /// - Parameter DescribeVpcEndpointAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointAssociationsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointAssociationsOutput`)
     public func describeVpcEndpointAssociations(input: DescribeVpcEndpointAssociationsInput) async throws -> DescribeVpcEndpointAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25799,9 +25799,9 @@ extension EC2Client {
     ///
     /// Describes the connection notifications for VPC endpoints and VPC endpoint services.
     ///
-    /// - Parameter DescribeVpcEndpointConnectionNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointConnectionNotificationsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointConnectionNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointConnectionNotificationsOutput`)
     public func describeVpcEndpointConnectionNotifications(input: DescribeVpcEndpointConnectionNotificationsInput) async throws -> DescribeVpcEndpointConnectionNotificationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25861,9 +25861,9 @@ extension EC2Client {
     ///
     /// Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance.
     ///
-    /// - Parameter DescribeVpcEndpointConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointConnectionsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointConnectionsOutput`)
     public func describeVpcEndpointConnections(input: DescribeVpcEndpointConnectionsInput) async throws -> DescribeVpcEndpointConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25923,9 +25923,9 @@ extension EC2Client {
     ///
     /// Describes the VPC endpoint service configurations in your account (your services).
     ///
-    /// - Parameter DescribeVpcEndpointServiceConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointServiceConfigurationsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointServiceConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointServiceConfigurationsOutput`)
     public func describeVpcEndpointServiceConfigurations(input: DescribeVpcEndpointServiceConfigurationsInput) async throws -> DescribeVpcEndpointServiceConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -25985,9 +25985,9 @@ extension EC2Client {
     ///
     /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service. Principal ARNs with path components aren't supported.
     ///
-    /// - Parameter DescribeVpcEndpointServicePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointServicePermissionsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointServicePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointServicePermissionsOutput`)
     public func describeVpcEndpointServicePermissions(input: DescribeVpcEndpointServicePermissionsInput) async throws -> DescribeVpcEndpointServicePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26047,9 +26047,9 @@ extension EC2Client {
     ///
     /// Describes available services to which you can create a VPC endpoint. When the service provider and the consumer have different accounts in multiple Availability Zones, and the consumer views the VPC endpoint service information, the response only includes the common Availability Zones. For example, when the service provider account uses us-east-1a and us-east-1c and the consumer uses us-east-1a and us-east-1b, the response includes the VPC endpoint services in the common Availability Zone, us-east-1a.
     ///
-    /// - Parameter DescribeVpcEndpointServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointServicesInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointServicesOutput`)
     public func describeVpcEndpointServices(input: DescribeVpcEndpointServicesInput) async throws -> DescribeVpcEndpointServicesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26109,9 +26109,9 @@ extension EC2Client {
     ///
     /// Describes your VPC endpoints. The default is to describe all your VPC endpoints. Alternatively, you can specify specific VPC endpoint IDs or filter the results to include only the VPC endpoints that match specific criteria.
     ///
-    /// - Parameter DescribeVpcEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointsOutput`)
     public func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26171,9 +26171,9 @@ extension EC2Client {
     ///
     /// Describes your VPC peering connections. The default is to describe all your VPC peering connections. Alternatively, you can specify specific VPC peering connection IDs or filter the results to include only the VPC peering connections that match specific criteria.
     ///
-    /// - Parameter DescribeVpcPeeringConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcPeeringConnectionsInput`)
     ///
-    /// - Returns: `DescribeVpcPeeringConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcPeeringConnectionsOutput`)
     public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26233,9 +26233,9 @@ extension EC2Client {
     ///
     /// Describes your VPCs. The default is to describe all your VPCs. Alternatively, you can specify specific VPC IDs or filter the results to include only the VPCs that match specific criteria.
     ///
-    /// - Parameter DescribeVpcsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcsInput`)
     ///
-    /// - Returns: `DescribeVpcsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcsOutput`)
     public func describeVpcs(input: DescribeVpcsInput) async throws -> DescribeVpcsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26295,9 +26295,9 @@ extension EC2Client {
     ///
     /// Describes one or more of your VPN connections. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter DescribeVpnConnectionsInput : Contains the parameters for DescribeVpnConnections.
+    /// - Parameter input: Contains the parameters for DescribeVpnConnections. (Type: `DescribeVpnConnectionsInput`)
     ///
-    /// - Returns: `DescribeVpnConnectionsOutput` : Contains the output of DescribeVpnConnections.
+    /// - Returns: Contains the output of DescribeVpnConnections. (Type: `DescribeVpnConnectionsOutput`)
     public func describeVpnConnections(input: DescribeVpnConnectionsInput) async throws -> DescribeVpnConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26357,9 +26357,9 @@ extension EC2Client {
     ///
     /// Describes one or more of your virtual private gateways. For more information, see [Amazon Web Services Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter DescribeVpnGatewaysInput : Contains the parameters for DescribeVpnGateways.
+    /// - Parameter input: Contains the parameters for DescribeVpnGateways. (Type: `DescribeVpnGatewaysInput`)
     ///
-    /// - Returns: `DescribeVpnGatewaysOutput` : Contains the output of DescribeVpnGateways.
+    /// - Returns: Contains the output of DescribeVpnGateways. (Type: `DescribeVpnGatewaysOutput`)
     public func describeVpnGateways(input: DescribeVpnGatewaysInput) async throws -> DescribeVpnGatewaysOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26419,9 +26419,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance has been unlinked, the VPC security groups are no longer associated with it. An instance is automatically unlinked from a VPC when it's stopped.
     ///
-    /// - Parameter DetachClassicLinkVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachClassicLinkVpcInput`)
     ///
-    /// - Returns: `DetachClassicLinkVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachClassicLinkVpcOutput`)
     public func detachClassicLinkVpc(input: DetachClassicLinkVpcInput) async throws -> DetachClassicLinkVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26481,9 +26481,9 @@ extension EC2Client {
     ///
     /// Detaches an internet gateway from a VPC, disabling connectivity between the internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses or public IPv4 addresses.
     ///
-    /// - Parameter DetachInternetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachInternetGatewayInput`)
     ///
-    /// - Returns: `DetachInternetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachInternetGatewayOutput`)
     public func detachInternetGateway(input: DetachInternetGatewayInput) async throws -> DetachInternetGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26543,9 +26543,9 @@ extension EC2Client {
     ///
     /// Detaches a network interface from an instance.
     ///
-    /// - Parameter DetachNetworkInterfaceInput : Contains the parameters for DetachNetworkInterface.
+    /// - Parameter input: Contains the parameters for DetachNetworkInterface. (Type: `DetachNetworkInterfaceInput`)
     ///
-    /// - Returns: `DetachNetworkInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachNetworkInterfaceOutput`)
     public func detachNetworkInterface(input: DetachNetworkInterfaceInput) async throws -> DetachNetworkInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26605,9 +26605,9 @@ extension EC2Client {
     ///
     /// Detaches the specified Amazon Web Services Verified Access trust provider from the specified Amazon Web Services Verified Access instance.
     ///
-    /// - Parameter DetachVerifiedAccessTrustProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachVerifiedAccessTrustProviderInput`)
     ///
-    /// - Returns: `DetachVerifiedAccessTrustProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachVerifiedAccessTrustProviderOutput`)
     public func detachVerifiedAccessTrustProvider(input: DetachVerifiedAccessTrustProviderInput) async throws -> DetachVerifiedAccessTrustProviderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26668,9 +26668,9 @@ extension EC2Client {
     ///
     /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon Web Services-managed resources. Attempting to do this results in the UnsupportedOperationException exception. For more information, see [Detach an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-detaching-volume.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter DetachVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachVolumeInput`)
     ///
-    /// - Returns: `DetachVolumeOutput` : Describes volume attachment details.
+    /// - Returns: Describes volume attachment details. (Type: `DetachVolumeOutput`)
     public func detachVolume(input: DetachVolumeInput) async throws -> DetachVolumeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26730,9 +26730,9 @@ extension EC2Client {
     ///
     /// Detaches a virtual private gateway from a VPC. You do this if you're planning to turn off the VPC and not use it anymore. You can confirm a virtual private gateway has been completely detached from a VPC by describing the virtual private gateway (any attachments to the virtual private gateway are also described). You must wait for the attachment's state to switch to detached before you can delete the VPC or attach a different VPC to the virtual private gateway.
     ///
-    /// - Parameter DetachVpnGatewayInput : Contains the parameters for DetachVpnGateway.
+    /// - Parameter input: Contains the parameters for DetachVpnGateway. (Type: `DetachVpnGatewayInput`)
     ///
-    /// - Returns: `DetachVpnGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachVpnGatewayOutput`)
     public func detachVpnGateway(input: DetachVpnGatewayInput) async throws -> DetachVpnGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26792,9 +26792,9 @@ extension EC2Client {
     ///
     /// Disables Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DisableAddressTransferInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableAddressTransferInput`)
     ///
-    /// - Returns: `DisableAddressTransferOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableAddressTransferOutput`)
     public func disableAddressTransfer(input: DisableAddressTransferInput) async throws -> DisableAddressTransferOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26854,9 +26854,9 @@ extension EC2Client {
     ///
     /// Disables Allowed AMIs for your account in the specified Amazon Web Services Region. When set to disabled, the image criteria in your Allowed AMIs settings do not apply, and no restrictions are placed on AMI discoverability or usage. Users in your account can launch instances using any public AMI or AMI shared with your account. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
-    /// - Parameter DisableAllowedImagesSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableAllowedImagesSettingsInput`)
     ///
-    /// - Returns: `DisableAllowedImagesSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableAllowedImagesSettingsOutput`)
     public func disableAllowedImagesSettings(input: DisableAllowedImagesSettingsInput) async throws -> DisableAllowedImagesSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26916,9 +26916,9 @@ extension EC2Client {
     ///
     /// Disables Infrastructure Performance metric subscriptions.
     ///
-    /// - Parameter DisableAwsNetworkPerformanceMetricSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableAwsNetworkPerformanceMetricSubscriptionInput`)
     ///
-    /// - Returns: `DisableAwsNetworkPerformanceMetricSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableAwsNetworkPerformanceMetricSubscriptionOutput`)
     public func disableAwsNetworkPerformanceMetricSubscription(input: DisableAwsNetworkPerformanceMetricSubscriptionInput) async throws -> DisableAwsNetworkPerformanceMetricSubscriptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -26978,9 +26978,9 @@ extension EC2Client {
     ///
     /// Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter DisableEbsEncryptionByDefaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableEbsEncryptionByDefaultInput`)
     ///
-    /// - Returns: `DisableEbsEncryptionByDefaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableEbsEncryptionByDefaultOutput`)
     public func disableEbsEncryptionByDefault(input: DisableEbsEncryptionByDefaultInput) async throws -> DisableEbsEncryptionByDefaultOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27040,9 +27040,9 @@ extension EC2Client {
     ///
     /// Discontinue Windows fast launch for a Windows AMI, and clean up existing pre-provisioned snapshots. After you disable Windows fast launch, the AMI uses the standard launch process for each new instance. Amazon EC2 must remove all pre-provisioned snapshots before you can enable Windows fast launch again. You can only change these settings for Windows AMIs that you own or that have been shared with you.
     ///
-    /// - Parameter DisableFastLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableFastLaunchInput`)
     ///
-    /// - Returns: `DisableFastLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableFastLaunchOutput`)
     public func disableFastLaunch(input: DisableFastLaunchInput) async throws -> DisableFastLaunchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27102,9 +27102,9 @@ extension EC2Client {
     ///
     /// Disables fast snapshot restores for the specified snapshots in the specified Availability Zones.
     ///
-    /// - Parameter DisableFastSnapshotRestoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableFastSnapshotRestoresInput`)
     ///
-    /// - Returns: `DisableFastSnapshotRestoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableFastSnapshotRestoresOutput`)
     public func disableFastSnapshotRestores(input: DisableFastSnapshotRestoresInput) async throws -> DisableFastSnapshotRestoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27164,9 +27164,9 @@ extension EC2Client {
     ///
     /// Sets the AMI state to disabled and removes all launch permissions from the AMI. A disabled AMI can't be used for instance launches. A disabled AMI can't be shared. If an AMI was public or previously shared, it is made private. If an AMI was shared with an Amazon Web Services account, organization, or Organizational Unit, they lose access to the disabled AMI. A disabled AMI does not appear in [DescribeImages](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html) API calls by default. Only the AMI owner can disable an AMI. You can re-enable a disabled AMI using [EnableImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EnableImage.html). For more information, see [Disable an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disable-an-ami.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DisableImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableImageInput`)
     ///
-    /// - Returns: `DisableImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableImageOutput`)
     public func disableImage(input: DisableImageInput) async throws -> DisableImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27226,9 +27226,9 @@ extension EC2Client {
     ///
     /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-public-access-to-amis.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DisableImageBlockPublicAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableImageBlockPublicAccessInput`)
     ///
-    /// - Returns: `DisableImageBlockPublicAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableImageBlockPublicAccessOutput`)
     public func disableImageBlockPublicAccess(input: DisableImageBlockPublicAccessInput) async throws -> DisableImageBlockPublicAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27288,9 +27288,9 @@ extension EC2Client {
     ///
     /// Cancels the deprecation of the specified AMI. For more information, see [Deprecate an Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DisableImageDeprecationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableImageDeprecationInput`)
     ///
-    /// - Returns: `DisableImageDeprecationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableImageDeprecationOutput`)
     public func disableImageDeprecation(input: DisableImageDeprecationInput) async throws -> DisableImageDeprecationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27350,9 +27350,9 @@ extension EC2Client {
     ///
     /// Disables deregistration protection for an AMI. When deregistration protection is disabled, the AMI can be deregistered. If you chose to include a 24-hour cooldown period when you enabled deregistration protection for the AMI, then, when you disable deregistration protection, you won’t immediately be able to deregister the AMI. For more information, see [Protect an Amazon EC2 AMI from deregistration](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deregistration-protection.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DisableImageDeregistrationProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableImageDeregistrationProtectionInput`)
     ///
-    /// - Returns: `DisableImageDeregistrationProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableImageDeregistrationProtectionOutput`)
     public func disableImageDeregistrationProtection(input: DisableImageDeregistrationProtectionInput) async throws -> DisableImageDeregistrationProtectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27412,9 +27412,9 @@ extension EC2Client {
     ///
     /// Disable the IPAM account. For more information, see [Enable integration with Organizations](https://docs.aws.amazon.com/vpc/latest/ipam/enable-integ-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter DisableIpamOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableIpamOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DisableIpamOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableIpamOrganizationAdminAccountOutput`)
     public func disableIpamOrganizationAdminAccount(input: DisableIpamOrganizationAdminAccountInput) async throws -> DisableIpamOrganizationAdminAccountOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27483,9 +27483,9 @@ extension EC2Client {
     ///
     /// Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use [Transit Gateway Connect](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html). For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DisableRouteServerPropagationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableRouteServerPropagationInput`)
     ///
-    /// - Returns: `DisableRouteServerPropagationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableRouteServerPropagationOutput`)
     public func disableRouteServerPropagation(input: DisableRouteServerPropagationInput) async throws -> DisableRouteServerPropagationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27545,9 +27545,9 @@ extension EC2Client {
     ///
     /// Disables access to the EC2 serial console of all instances for your account. By default, access to the EC2 serial console is disabled for your account. For more information, see [Manage account access to the EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DisableSerialConsoleAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableSerialConsoleAccessInput`)
     ///
-    /// - Returns: `DisableSerialConsoleAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableSerialConsoleAccessOutput`)
     public func disableSerialConsoleAccess(input: DisableSerialConsoleAccessInput) async throws -> DisableSerialConsoleAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27607,9 +27607,9 @@ extension EC2Client {
     ///
     /// Disables the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you disable block public access for snapshots in a Region, users can publicly share snapshots in that Region. Enabling block public access for snapshots in block-all-sharing mode does not change the permissions for snapshots that are already publicly shared. Instead, it prevents these snapshots from be publicly visible and publicly accessible. Therefore, the attributes for these snapshots still indicate that they are publicly shared, even though they are not publicly available. If you disable block public access , these snapshots will become publicly available again. For more information, see [ Block public access for snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/block-public-access-snapshots.html) in the Amazon EBS User Guide .
     ///
-    /// - Parameter DisableSnapshotBlockPublicAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableSnapshotBlockPublicAccessInput`)
     ///
-    /// - Returns: `DisableSnapshotBlockPublicAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableSnapshotBlockPublicAccessOutput`)
     public func disableSnapshotBlockPublicAccess(input: DisableSnapshotBlockPublicAccessInput) async throws -> DisableSnapshotBlockPublicAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27669,9 +27669,9 @@ extension EC2Client {
     ///
     /// Disables the specified resource attachment from propagating routes to the specified propagation route table.
     ///
-    /// - Parameter DisableTransitGatewayRouteTablePropagationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableTransitGatewayRouteTablePropagationInput`)
     ///
-    /// - Returns: `DisableTransitGatewayRouteTablePropagationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableTransitGatewayRouteTablePropagationOutput`)
     public func disableTransitGatewayRouteTablePropagation(input: DisableTransitGatewayRouteTablePropagationInput) async throws -> DisableTransitGatewayRouteTablePropagationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27731,9 +27731,9 @@ extension EC2Client {
     ///
     /// Disables a virtual private gateway (VGW) from propagating routes to a specified route table of a VPC.
     ///
-    /// - Parameter DisableVgwRoutePropagationInput : Contains the parameters for DisableVgwRoutePropagation.
+    /// - Parameter input: Contains the parameters for DisableVgwRoutePropagation. (Type: `DisableVgwRoutePropagationInput`)
     ///
-    /// - Returns: `DisableVgwRoutePropagationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableVgwRoutePropagationOutput`)
     public func disableVgwRoutePropagation(input: DisableVgwRoutePropagationInput) async throws -> DisableVgwRoutePropagationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27793,9 +27793,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that has EC2-Classic instances linked to it.
     ///
-    /// - Parameter DisableVpcClassicLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableVpcClassicLinkInput`)
     ///
-    /// - Returns: `DisableVpcClassicLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableVpcClassicLinkOutput`)
     public func disableVpcClassicLink(input: DisableVpcClassicLinkInput) async throws -> DisableVpcClassicLinkOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27855,9 +27855,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to public IP addresses when addressed between a linked EC2-Classic instance and instances in the VPC to which it's linked. You must specify a VPC ID in the request.
     ///
-    /// - Parameter DisableVpcClassicLinkDnsSupportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableVpcClassicLinkDnsSupportInput`)
     ///
-    /// - Returns: `DisableVpcClassicLinkDnsSupportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableVpcClassicLinkDnsSupportOutput`)
     public func disableVpcClassicLinkDnsSupport(input: DisableVpcClassicLinkDnsSupportInput) async throws -> DisableVpcClassicLinkDnsSupportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27923,9 +27923,9 @@ extension EC2Client {
     ///
     /// * Network interface only has one remaining public IPv4 address
     ///
-    /// - Parameter DisassociateAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAddressInput`)
     ///
-    /// - Returns: `DisassociateAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAddressOutput`)
     public func disassociateAddress(input: DisassociateAddressInput) async throws -> DisassociateAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -27985,9 +27985,9 @@ extension EC2Client {
     ///
     /// Cancels a pending request to assign billing of the unused capacity of a Capacity Reservation to a consumer account, or revokes a request that has already been accepted. For more information, see [Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
     ///
-    /// - Parameter DisassociateCapacityReservationBillingOwnerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateCapacityReservationBillingOwnerInput`)
     ///
-    /// - Returns: `DisassociateCapacityReservationBillingOwnerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateCapacityReservationBillingOwnerOutput`)
     public func disassociateCapacityReservationBillingOwner(input: DisassociateCapacityReservationBillingOwnerInput) async throws -> DisassociateCapacityReservationBillingOwnerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28055,9 +28055,9 @@ extension EC2Client {
     ///
     /// * The Client VPN endpoint's status changes to pending-associate
     ///
-    /// - Parameter DisassociateClientVpnTargetNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateClientVpnTargetNetworkInput`)
     ///
-    /// - Returns: `DisassociateClientVpnTargetNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateClientVpnTargetNetworkOutput`)
     public func disassociateClientVpnTargetNetwork(input: DisassociateClientVpnTargetNetworkInput) async throws -> DisassociateClientVpnTargetNetworkOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28117,9 +28117,9 @@ extension EC2Client {
     ///
     /// Disassociates an IAM role from an Certificate Manager (ACM) certificate. Disassociating an IAM role from an ACM certificate removes the Amazon S3 object that contains the certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It also revokes the IAM role's permission to use the KMS key used to encrypt the private key. This effectively revokes the role's permission to use the certificate.
     ///
-    /// - Parameter DisassociateEnclaveCertificateIamRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateEnclaveCertificateIamRoleInput`)
     ///
-    /// - Returns: `DisassociateEnclaveCertificateIamRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateEnclaveCertificateIamRoleOutput`)
     public func disassociateEnclaveCertificateIamRole(input: DisassociateEnclaveCertificateIamRoleInput) async throws -> DisassociateEnclaveCertificateIamRoleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28179,9 +28179,9 @@ extension EC2Client {
     ///
     /// Disassociates an IAM instance profile from a running or stopped instance. Use [DescribeIamInstanceProfileAssociations] to get the association ID.
     ///
-    /// - Parameter DisassociateIamInstanceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateIamInstanceProfileInput`)
     ///
-    /// - Returns: `DisassociateIamInstanceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateIamInstanceProfileOutput`)
     public func disassociateIamInstanceProfile(input: DisassociateIamInstanceProfileInput) async throws -> DisassociateIamInstanceProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28241,9 +28241,9 @@ extension EC2Client {
     ///
     /// Disassociates one or more targets from an event window. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter DisassociateInstanceEventWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateInstanceEventWindowInput`)
     ///
-    /// - Returns: `DisassociateInstanceEventWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateInstanceEventWindowOutput`)
     public func disassociateInstanceEventWindow(input: DisassociateInstanceEventWindowInput) async throws -> DisassociateInstanceEventWindowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28303,9 +28303,9 @@ extension EC2Client {
     ///
     /// Remove the association between your Autonomous System Number (ASN) and your BYOIP CIDR. You may want to use this action to disassociate an ASN from a CIDR or if you want to swap ASNs. For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide.
     ///
-    /// - Parameter DisassociateIpamByoasnInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateIpamByoasnInput`)
     ///
-    /// - Returns: `DisassociateIpamByoasnOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateIpamByoasnOutput`)
     public func disassociateIpamByoasn(input: DisassociateIpamByoasnInput) async throws -> DisassociateIpamByoasnOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28365,9 +28365,9 @@ extension EC2Client {
     ///
     /// Disassociates a resource discovery from an Amazon VPC IPAM. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
-    /// - Parameter DisassociateIpamResourceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateIpamResourceDiscoveryInput`)
     ///
-    /// - Returns: `DisassociateIpamResourceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateIpamResourceDiscoveryOutput`)
     public func disassociateIpamResourceDiscovery(input: DisassociateIpamResourceDiscoveryInput) async throws -> DisassociateIpamResourceDiscoveryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28427,9 +28427,9 @@ extension EC2Client {
     ///
     /// Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway. You cannot disassociate your primary EIP. For more information, see [Edit secondary IP address associations](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html#nat-gateway-edit-secondary) in the Amazon VPC User Guide. While disassociating is in progress, you cannot associate/disassociate additional EIPs while the connections are being drained. You are, however, allowed to delete the NAT gateway. An EIP is released only at the end of MaxDrainDurationSeconds. It stays associated and supports the existing connections but does not support any new connections (new connections are distributed across the remaining associated EIPs). As the existing connections drain out, the EIPs (and the corresponding private IP addresses mapped to them) are released.
     ///
-    /// - Parameter DisassociateNatGatewayAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateNatGatewayAddressInput`)
     ///
-    /// - Returns: `DisassociateNatGatewayAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateNatGatewayAddressOutput`)
     public func disassociateNatGatewayAddress(input: DisassociateNatGatewayAddressInput) async throws -> DisassociateNatGatewayAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28489,9 +28489,9 @@ extension EC2Client {
     ///
     /// Disassociates a route server from a VPC. A route server association is the connection established between a route server and a VPC. For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DisassociateRouteServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateRouteServerInput`)
     ///
-    /// - Returns: `DisassociateRouteServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateRouteServerOutput`)
     public func disassociateRouteServer(input: DisassociateRouteServerInput) async throws -> DisassociateRouteServerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28551,9 +28551,9 @@ extension EC2Client {
     ///
     /// Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table. Instead, it uses the routes in the VPC's main route table. For more information about route tables, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter DisassociateRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateRouteTableInput`)
     ///
-    /// - Returns: `DisassociateRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateRouteTableOutput`)
     public func disassociateRouteTable(input: DisassociateRouteTableInput) async throws -> DisassociateRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28613,9 +28613,9 @@ extension EC2Client {
     ///
     /// Disassociates a security group from a VPC. You cannot disassociate the security group if any Elastic network interfaces in the associated VPC are still associated with the security group. Note that the disassociation is asynchronous and you can check the status of the request with [DescribeSecurityGroupVpcAssociations](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroupVpcAssociations.html).
     ///
-    /// - Parameter DisassociateSecurityGroupVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSecurityGroupVpcInput`)
     ///
-    /// - Returns: `DisassociateSecurityGroupVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSecurityGroupVpcOutput`)
     public func disassociateSecurityGroupVpc(input: DisassociateSecurityGroupVpcInput) async throws -> DisassociateSecurityGroupVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28675,9 +28675,9 @@ extension EC2Client {
     ///
     /// Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv6 CIDR block only. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it.
     ///
-    /// - Parameter DisassociateSubnetCidrBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSubnetCidrBlockInput`)
     ///
-    /// - Returns: `DisassociateSubnetCidrBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSubnetCidrBlockOutput`)
     public func disassociateSubnetCidrBlock(input: DisassociateSubnetCidrBlockInput) async throws -> DisassociateSubnetCidrBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28737,9 +28737,9 @@ extension EC2Client {
     ///
     /// Disassociates the specified subnets from the transit gateway multicast domain.
     ///
-    /// - Parameter DisassociateTransitGatewayMulticastDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTransitGatewayMulticastDomainInput`)
     ///
-    /// - Returns: `DisassociateTransitGatewayMulticastDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTransitGatewayMulticastDomainOutput`)
     public func disassociateTransitGatewayMulticastDomain(input: DisassociateTransitGatewayMulticastDomainInput) async throws -> DisassociateTransitGatewayMulticastDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28799,9 +28799,9 @@ extension EC2Client {
     ///
     /// Removes the association between an an attachment and a policy table.
     ///
-    /// - Parameter DisassociateTransitGatewayPolicyTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTransitGatewayPolicyTableInput`)
     ///
-    /// - Returns: `DisassociateTransitGatewayPolicyTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTransitGatewayPolicyTableOutput`)
     public func disassociateTransitGatewayPolicyTable(input: DisassociateTransitGatewayPolicyTableInput) async throws -> DisassociateTransitGatewayPolicyTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28861,9 +28861,9 @@ extension EC2Client {
     ///
     /// Disassociates a resource attachment from a transit gateway route table.
     ///
-    /// - Parameter DisassociateTransitGatewayRouteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTransitGatewayRouteTableInput`)
     ///
-    /// - Returns: `DisassociateTransitGatewayRouteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTransitGatewayRouteTableOutput`)
     public func disassociateTransitGatewayRouteTable(input: DisassociateTransitGatewayRouteTableInput) async throws -> DisassociateTransitGatewayRouteTableOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28923,9 +28923,9 @@ extension EC2Client {
     ///
     /// Removes an association between a branch network interface with a trunk network interface.
     ///
-    /// - Parameter DisassociateTrunkInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTrunkInterfaceInput`)
     ///
-    /// - Returns: `DisassociateTrunkInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTrunkInterfaceOutput`)
     public func disassociateTrunkInterface(input: DisassociateTrunkInterfaceInput) async throws -> DisassociateTrunkInterfaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -28986,9 +28986,9 @@ extension EC2Client {
     ///
     /// Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must specify its association ID. You can get the association ID by using [DescribeVpcs]. You must detach or delete all gateways and resources that are associated with the CIDR block before you can disassociate it. You cannot disassociate the CIDR block with which you originally created the VPC (the primary CIDR block).
     ///
-    /// - Parameter DisassociateVpcCidrBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateVpcCidrBlockInput`)
     ///
-    /// - Returns: `DisassociateVpcCidrBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateVpcCidrBlockOutput`)
     public func disassociateVpcCidrBlock(input: DisassociateVpcCidrBlockInput) async throws -> DisassociateVpcCidrBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29048,9 +29048,9 @@ extension EC2Client {
     ///
     /// Enables Elastic IP address transfer. For more information, see [Transfer Elastic IP addresses](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#transfer-EIPs-intro) in the Amazon VPC User Guide.
     ///
-    /// - Parameter EnableAddressTransferInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableAddressTransferInput`)
     ///
-    /// - Returns: `EnableAddressTransferOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableAddressTransferOutput`)
     public func enableAddressTransfer(input: EnableAddressTransferInput) async throws -> EnableAddressTransferOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29117,9 +29117,9 @@ extension EC2Client {
     ///
     /// The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
-    /// - Parameter EnableAllowedImagesSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableAllowedImagesSettingsInput`)
     ///
-    /// - Returns: `EnableAllowedImagesSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableAllowedImagesSettingsOutput`)
     public func enableAllowedImagesSettings(input: EnableAllowedImagesSettingsInput) async throws -> EnableAllowedImagesSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29179,9 +29179,9 @@ extension EC2Client {
     ///
     /// Enables Infrastructure Performance subscriptions.
     ///
-    /// - Parameter EnableAwsNetworkPerformanceMetricSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableAwsNetworkPerformanceMetricSubscriptionInput`)
     ///
-    /// - Returns: `EnableAwsNetworkPerformanceMetricSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableAwsNetworkPerformanceMetricSubscriptionOutput`)
     public func enableAwsNetworkPerformanceMetricSubscription(input: EnableAwsNetworkPerformanceMetricSubscriptionInput) async throws -> EnableAwsNetworkPerformanceMetricSubscriptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29241,9 +29241,9 @@ extension EC2Client {
     ///
     /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see [Supported instance types](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html#ebs-encryption_supported_instances).
     ///
-    /// - Parameter EnableEbsEncryptionByDefaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableEbsEncryptionByDefaultInput`)
     ///
-    /// - Returns: `EnableEbsEncryptionByDefaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableEbsEncryptionByDefaultOutput`)
     public func enableEbsEncryptionByDefault(input: EnableEbsEncryptionByDefaultInput) async throws -> EnableEbsEncryptionByDefaultOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29303,9 +29303,9 @@ extension EC2Client {
     ///
     /// When you enable Windows fast launch for a Windows AMI, images are pre-provisioned, using snapshots to launch instances up to 65% faster. To create the optimized Windows image, Amazon EC2 launches an instance and runs through Sysprep steps, rebooting as required. Then it creates a set of reserved snapshots that are used for subsequent launches. The reserved snapshots are automatically replenished as they are used, depending on your settings for launch frequency. You can only change these settings for Windows AMIs that you own or that have been shared with you.
     ///
-    /// - Parameter EnableFastLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableFastLaunchInput`)
     ///
-    /// - Returns: `EnableFastLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableFastLaunchOutput`)
     public func enableFastLaunch(input: EnableFastLaunchInput) async throws -> EnableFastLaunchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29365,9 +29365,9 @@ extension EC2Client {
     ///
     /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. For more information, see [Amazon EBS fast snapshot restore](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-fast-snapshot-restore.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter EnableFastSnapshotRestoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableFastSnapshotRestoresInput`)
     ///
-    /// - Returns: `EnableFastSnapshotRestoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableFastSnapshotRestoresOutput`)
     public func enableFastSnapshotRestores(input: EnableFastSnapshotRestoresInput) async throws -> EnableFastSnapshotRestoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29427,9 +29427,9 @@ extension EC2Client {
     ///
     /// Re-enables a disabled AMI. The re-enabled AMI is marked as available and can be used for instance launches, appears in describe operations, and can be shared. Amazon Web Services accounts, organizations, and Organizational Units that lost access to the AMI when it was disabled do not regain access automatically. Once the AMI is available, it can be shared with them again. Only the AMI owner can re-enable a disabled AMI. For more information, see [Disable an Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/disable-an-ami.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter EnableImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableImageInput`)
     ///
-    /// - Returns: `EnableImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableImageOutput`)
     public func enableImage(input: EnableImageInput) async throws -> EnableImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29489,9 +29489,9 @@ extension EC2Client {
     ///
     /// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be unblocked. When the API has completed the configuration, the response will be block-new-sharing. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-public-access-to-amis.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter EnableImageBlockPublicAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableImageBlockPublicAccessInput`)
     ///
-    /// - Returns: `EnableImageBlockPublicAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableImageBlockPublicAccessOutput`)
     public func enableImageBlockPublicAccess(input: EnableImageBlockPublicAccessInput) async throws -> EnableImageBlockPublicAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29551,9 +29551,9 @@ extension EC2Client {
     ///
     /// Enables deprecation of the specified AMI at the specified date and time. For more information, see [Deprecate an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter EnableImageDeprecationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableImageDeprecationInput`)
     ///
-    /// - Returns: `EnableImageDeprecationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableImageDeprecationOutput`)
     public func enableImageDeprecation(input: EnableImageDeprecationInput) async throws -> EnableImageDeprecationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29613,9 +29613,9 @@ extension EC2Client {
     ///
     /// Enables deregistration protection for an AMI. When deregistration protection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistration protection. For more information, see [Protect an Amazon EC2 AMI from deregistration](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deregistration-protection.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter EnableImageDeregistrationProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableImageDeregistrationProtectionInput`)
     ///
-    /// - Returns: `EnableImageDeregistrationProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableImageDeregistrationProtectionOutput`)
     public func enableImageDeregistrationProtection(input: EnableImageDeregistrationProtectionInput) async throws -> EnableImageDeregistrationProtectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29675,9 +29675,9 @@ extension EC2Client {
     ///
     /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see [Enable integration with Organizations](https://docs.aws.amazon.com/vpc/latest/ipam/enable-integ-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter EnableIpamOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableIpamOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `EnableIpamOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableIpamOrganizationAdminAccountOutput`)
     public func enableIpamOrganizationAdminAccount(input: EnableIpamOrganizationAdminAccountInput) async throws -> EnableIpamOrganizationAdminAccountOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29737,9 +29737,9 @@ extension EC2Client {
     ///
     /// Establishes a trust relationship between Reachability Analyzer and Organizations. This operation must be performed by the management account for the organization. After you establish a trust relationship, a user in the management account or a delegated administrator account can run a cross-account analysis using resources from the member accounts.
     ///
-    /// - Parameter EnableReachabilityAnalyzerOrganizationSharingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableReachabilityAnalyzerOrganizationSharingInput`)
     ///
-    /// - Returns: `EnableReachabilityAnalyzerOrganizationSharingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableReachabilityAnalyzerOrganizationSharingOutput`)
     public func enableReachabilityAnalyzerOrganizationSharing(input: EnableReachabilityAnalyzerOrganizationSharingInput) async throws -> EnableReachabilityAnalyzerOrganizationSharingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29799,9 +29799,9 @@ extension EC2Client {
     ///
     /// Defines which route tables the route server can update with routes. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter EnableRouteServerPropagationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableRouteServerPropagationInput`)
     ///
-    /// - Returns: `EnableRouteServerPropagationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableRouteServerPropagationOutput`)
     public func enableRouteServerPropagation(input: EnableRouteServerPropagationInput) async throws -> EnableRouteServerPropagationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29861,9 +29861,9 @@ extension EC2Client {
     ///
     /// Enables access to the EC2 serial console of all instances for your account. By default, access to the EC2 serial console is disabled for your account. For more information, see [Manage account access to the EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter EnableSerialConsoleAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSerialConsoleAccessInput`)
     ///
-    /// - Returns: `EnableSerialConsoleAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSerialConsoleAccessOutput`)
     public func enableSerialConsoleAccess(input: EnableSerialConsoleAccessInput) async throws -> EnableSerialConsoleAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29923,9 +29923,9 @@ extension EC2Client {
     ///
     /// Enables or modifies the block public access for snapshots setting at the account level for the specified Amazon Web Services Region. After you enable block public access for snapshots in a Region, users can no longer request public sharing for snapshots in that Region. Snapshots that are already publicly shared are either treated as private or they remain publicly shared, depending on the State that you specify. Enabling block public access for snapshots in block all sharing mode does not change the permissions for snapshots that are already publicly shared. Instead, it prevents these snapshots from be publicly visible and publicly accessible. Therefore, the attributes for these snapshots still indicate that they are publicly shared, even though they are not publicly available. If you later disable block public access or change the mode to block new sharing, these snapshots will become publicly available again. For more information, see [ Block public access for snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/block-public-access-snapshots.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter EnableSnapshotBlockPublicAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSnapshotBlockPublicAccessInput`)
     ///
-    /// - Returns: `EnableSnapshotBlockPublicAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSnapshotBlockPublicAccessOutput`)
     public func enableSnapshotBlockPublicAccess(input: EnableSnapshotBlockPublicAccessInput) async throws -> EnableSnapshotBlockPublicAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -29985,9 +29985,9 @@ extension EC2Client {
     ///
     /// Enables the specified attachment to propagate routes to the specified propagation route table.
     ///
-    /// - Parameter EnableTransitGatewayRouteTablePropagationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableTransitGatewayRouteTablePropagationInput`)
     ///
-    /// - Returns: `EnableTransitGatewayRouteTablePropagationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableTransitGatewayRouteTablePropagationOutput`)
     public func enableTransitGatewayRouteTablePropagation(input: EnableTransitGatewayRouteTablePropagationInput) async throws -> EnableTransitGatewayRouteTablePropagationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30047,9 +30047,9 @@ extension EC2Client {
     ///
     /// Enables a virtual private gateway (VGW) to propagate routes to the specified route table of a VPC.
     ///
-    /// - Parameter EnableVgwRoutePropagationInput : Contains the parameters for EnableVgwRoutePropagation.
+    /// - Parameter input: Contains the parameters for EnableVgwRoutePropagation. (Type: `EnableVgwRoutePropagationInput`)
     ///
-    /// - Returns: `EnableVgwRoutePropagationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableVgwRoutePropagationOutput`)
     public func enableVgwRoutePropagation(input: EnableVgwRoutePropagationInput) async throws -> EnableVgwRoutePropagationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30109,9 +30109,9 @@ extension EC2Client {
     ///
     /// Enables I/O operations for a volume that had I/O operations disabled because the data on the volume was potentially inconsistent.
     ///
-    /// - Parameter EnableVolumeIOInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableVolumeIOInput`)
     ///
-    /// - Returns: `EnableVolumeIOOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableVolumeIOOutput`)
     public func enableVolumeIO(input: EnableVolumeIOInput) async throws -> EnableVolumeIOOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30171,9 +30171,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot enable your VPC for ClassicLink if any of your VPC route tables have existing routes for address ranges within the 10.0.0.0/8 IP address range, excluding local routes for VPCs in the 10.0.0.0/16 and 10.1.0.0/16 IP address ranges.
     ///
-    /// - Parameter EnableVpcClassicLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableVpcClassicLinkInput`)
     ///
-    /// - Returns: `EnableVpcClassicLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableVpcClassicLinkOutput`)
     public func enableVpcClassicLink(input: EnableVpcClassicLinkInput) async throws -> EnableVpcClassicLinkOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30233,9 +30233,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. You must specify a VPC ID in the request.
     ///
-    /// - Parameter EnableVpcClassicLinkDnsSupportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableVpcClassicLinkDnsSupportInput`)
     ///
-    /// - Returns: `EnableVpcClassicLinkDnsSupportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableVpcClassicLinkDnsSupportOutput`)
     public func enableVpcClassicLinkDnsSupport(input: EnableVpcClassicLinkDnsSupportInput) async throws -> EnableVpcClassicLinkDnsSupportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30295,9 +30295,9 @@ extension EC2Client {
     ///
     /// Downloads the client certificate revocation list for the specified Client VPN endpoint.
     ///
-    /// - Parameter ExportClientVpnClientCertificateRevocationListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportClientVpnClientCertificateRevocationListInput`)
     ///
-    /// - Returns: `ExportClientVpnClientCertificateRevocationListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportClientVpnClientCertificateRevocationListOutput`)
     public func exportClientVpnClientCertificateRevocationList(input: ExportClientVpnClientCertificateRevocationListInput) async throws -> ExportClientVpnClientCertificateRevocationListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30357,9 +30357,9 @@ extension EC2Client {
     ///
     /// Downloads the contents of the Client VPN endpoint configuration file for the specified Client VPN endpoint. The Client VPN endpoint configuration file includes the Client VPN endpoint and certificate information clients need to establish a connection with the Client VPN endpoint.
     ///
-    /// - Parameter ExportClientVpnClientConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportClientVpnClientConfigurationInput`)
     ///
-    /// - Returns: `ExportClientVpnClientConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportClientVpnClientConfigurationOutput`)
     public func exportClientVpnClientConfiguration(input: ExportClientVpnClientConfigurationInput) async throws -> ExportClientVpnClientConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30419,9 +30419,9 @@ extension EC2Client {
     ///
     /// Exports an Amazon Machine Image (AMI) to a VM file. For more information, see [Exporting a VM directly from an Amazon Machine Image (AMI)](https://docs.aws.amazon.com/vm-import/latest/userguide/vmexport_image.html) in the VM Import/Export User Guide.
     ///
-    /// - Parameter ExportImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportImageInput`)
     ///
-    /// - Returns: `ExportImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportImageOutput`)
     public func exportImage(input: ExportImageInput) async throws -> ExportImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30482,9 +30482,9 @@ extension EC2Client {
     ///
     /// Exports routes from the specified transit gateway route table to the specified S3 bucket. By default, all routes are exported. Alternatively, you can filter by CIDR range. The routes are saved to the specified bucket in a JSON file. For more information, see [Export route tables to Amazon S3](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-route-tables.html#tgw-export-route-tables) in the Amazon Web Services Transit Gateways Guide.
     ///
-    /// - Parameter ExportTransitGatewayRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportTransitGatewayRoutesInput`)
     ///
-    /// - Returns: `ExportTransitGatewayRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportTransitGatewayRoutesOutput`)
     public func exportTransitGatewayRoutes(input: ExportTransitGatewayRoutesInput) async throws -> ExportTransitGatewayRoutesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30544,9 +30544,9 @@ extension EC2Client {
     ///
     /// Exports the client configuration for a Verified Access instance.
     ///
-    /// - Parameter ExportVerifiedAccessInstanceClientConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportVerifiedAccessInstanceClientConfigurationInput`)
     ///
-    /// - Returns: `ExportVerifiedAccessInstanceClientConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportVerifiedAccessInstanceClientConfigurationOutput`)
     public func exportVerifiedAccessInstanceClientConfiguration(input: ExportVerifiedAccessInstanceClientConfigurationInput) async throws -> ExportVerifiedAccessInstanceClientConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30606,9 +30606,9 @@ extension EC2Client {
     ///
     /// Returns the currently negotiated security parameters for an active VPN tunnel, including IKE version, DH groups, encryption algorithms, and integrity algorithms.
     ///
-    /// - Parameter GetActiveVpnTunnelStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetActiveVpnTunnelStatusInput`)
     ///
-    /// - Returns: `GetActiveVpnTunnelStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetActiveVpnTunnelStatusOutput`)
     public func getActiveVpnTunnelStatus(input: GetActiveVpnTunnelStatusInput) async throws -> GetActiveVpnTunnelStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30668,9 +30668,9 @@ extension EC2Client {
     ///
     /// Gets the current state of the Allowed AMIs setting and the list of Allowed AMIs criteria at the account level in the specified Region. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
-    /// - Parameter GetAllowedImagesSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAllowedImagesSettingsInput`)
     ///
-    /// - Returns: `GetAllowedImagesSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAllowedImagesSettingsOutput`)
     public func getAllowedImagesSettings(input: GetAllowedImagesSettingsInput) async throws -> GetAllowedImagesSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30730,9 +30730,9 @@ extension EC2Client {
     ///
     /// Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key where the certificate, certificate chain, and encrypted private key bundle are stored, and the ARN of the KMS key that's used to encrypt the private key.
     ///
-    /// - Parameter GetAssociatedEnclaveCertificateIamRolesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssociatedEnclaveCertificateIamRolesInput`)
     ///
-    /// - Returns: `GetAssociatedEnclaveCertificateIamRolesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssociatedEnclaveCertificateIamRolesOutput`)
     public func getAssociatedEnclaveCertificateIamRoles(input: GetAssociatedEnclaveCertificateIamRolesInput) async throws -> GetAssociatedEnclaveCertificateIamRolesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30792,9 +30792,9 @@ extension EC2Client {
     ///
     /// Gets information about the IPv6 CIDR block associations for a specified IPv6 address pool.
     ///
-    /// - Parameter GetAssociatedIpv6PoolCidrsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssociatedIpv6PoolCidrsInput`)
     ///
-    /// - Returns: `GetAssociatedIpv6PoolCidrsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssociatedIpv6PoolCidrsOutput`)
     public func getAssociatedIpv6PoolCidrs(input: GetAssociatedIpv6PoolCidrsInput) async throws -> GetAssociatedIpv6PoolCidrsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30854,9 +30854,9 @@ extension EC2Client {
     ///
     /// Gets network performance data.
     ///
-    /// - Parameter GetAwsNetworkPerformanceDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAwsNetworkPerformanceDataInput`)
     ///
-    /// - Returns: `GetAwsNetworkPerformanceDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAwsNetworkPerformanceDataOutput`)
     public func getAwsNetworkPerformanceData(input: GetAwsNetworkPerformanceDataInput) async throws -> GetAwsNetworkPerformanceDataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30916,9 +30916,9 @@ extension EC2Client {
     ///
     /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is currently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage.
     ///
-    /// - Parameter GetCapacityReservationUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityReservationUsageInput`)
     ///
-    /// - Returns: `GetCapacityReservationUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCapacityReservationUsageOutput`)
     public func getCapacityReservationUsage(input: GetCapacityReservationUsageInput) async throws -> GetCapacityReservationUsageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -30978,9 +30978,9 @@ extension EC2Client {
     ///
     /// Describes the allocations from the specified customer-owned address pool.
     ///
-    /// - Parameter GetCoipPoolUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoipPoolUsageInput`)
     ///
-    /// - Returns: `GetCoipPoolUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoipPoolUsageOutput`)
     public func getCoipPoolUsage(input: GetCoipPoolUsageInput) async throws -> GetCoipPoolUsageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31040,9 +31040,9 @@ extension EC2Client {
     ///
     /// Gets the console output for the specified instance. For Linux instances, the instance console output displays the exact console output that would normally be displayed on a physical monitor attached to a computer. For Windows instances, the instance console output includes the last three system event log errors. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html#instance-console-console-output) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter GetConsoleOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConsoleOutputInput`)
     ///
-    /// - Returns: `GetConsoleOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConsoleOutputOutput`)
     public func getConsoleOutput(input: GetConsoleOutputInput) async throws -> GetConsoleOutputOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31102,9 +31102,9 @@ extension EC2Client {
     ///
     /// Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/troubleshoot-unreachable-instance.html#instance-console-console-output) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter GetConsoleScreenshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConsoleScreenshotInput`)
     ///
-    /// - Returns: `GetConsoleScreenshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConsoleScreenshotOutput`)
     public func getConsoleScreenshot(input: GetConsoleScreenshotInput) async throws -> GetConsoleScreenshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31164,9 +31164,9 @@ extension EC2Client {
     ///
     /// Retrieves a summary of the account status report. To view the full report, download it from the Amazon S3 bucket where it was saved. Reports are accessible only when they have the complete status. Reports with other statuses (running, cancelled, or error) are not available in the S3 bucket. For more information about downloading objects from an S3 bucket, see [Downloading objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/download-objects.html) in the Amazon Simple Storage Service User Guide. For more information, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
     ///
-    /// - Parameter GetDeclarativePoliciesReportSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeclarativePoliciesReportSummaryInput`)
     ///
-    /// - Returns: `GetDeclarativePoliciesReportSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeclarativePoliciesReportSummaryOutput`)
     public func getDeclarativePoliciesReportSummary(input: GetDeclarativePoliciesReportSummaryInput) async throws -> GetDeclarativePoliciesReportSummaryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31226,9 +31226,9 @@ extension EC2Client {
     ///
     /// Describes the default credit option for CPU usage of a burstable performance instance family. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter GetDefaultCreditSpecificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDefaultCreditSpecificationInput`)
     ///
-    /// - Returns: `GetDefaultCreditSpecificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDefaultCreditSpecificationOutput`)
     public func getDefaultCreditSpecification(input: GetDefaultCreditSpecificationInput) async throws -> GetDefaultCreditSpecificationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31288,9 +31288,9 @@ extension EC2Client {
     ///
     /// Describes the default KMS key for EBS encryption by default for your account in this Region. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter GetEbsDefaultKmsKeyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEbsDefaultKmsKeyIdInput`)
     ///
-    /// - Returns: `GetEbsDefaultKmsKeyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEbsDefaultKmsKeyIdOutput`)
     public func getEbsDefaultKmsKeyId(input: GetEbsDefaultKmsKeyIdInput) async throws -> GetEbsDefaultKmsKeyIdOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31350,9 +31350,9 @@ extension EC2Client {
     ///
     /// Describes whether EBS encryption by default is enabled for your account in the current Region. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter GetEbsEncryptionByDefaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEbsEncryptionByDefaultInput`)
     ///
-    /// - Returns: `GetEbsEncryptionByDefaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEbsEncryptionByDefaultOutput`)
     public func getEbsEncryptionByDefault(input: GetEbsEncryptionByDefaultInput) async throws -> GetEbsEncryptionByDefaultOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31423,9 +31423,9 @@ extension EC2Client {
     ///
     /// GetFlowLogsIntegrationTemplate does not support integration between Amazon Web Services Transit Gateway Flow Logs and Amazon Athena.
     ///
-    /// - Parameter GetFlowLogsIntegrationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFlowLogsIntegrationTemplateInput`)
     ///
-    /// - Returns: `GetFlowLogsIntegrationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFlowLogsIntegrationTemplateOutput`)
     public func getFlowLogsIntegrationTemplate(input: GetFlowLogsIntegrationTemplateInput) async throws -> GetFlowLogsIntegrationTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31485,9 +31485,9 @@ extension EC2Client {
     ///
     /// Lists the resource groups to which a Capacity Reservation has been added.
     ///
-    /// - Parameter GetGroupsForCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupsForCapacityReservationInput`)
     ///
-    /// - Returns: `GetGroupsForCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupsForCapacityReservationOutput`)
     public func getGroupsForCapacityReservation(input: GetGroupsForCapacityReservationInput) async throws -> GetGroupsForCapacityReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31547,9 +31547,9 @@ extension EC2Client {
     ///
     /// Preview a reservation purchase with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This is a preview of the [PurchaseHostReservation] action and does not result in the offering being purchased.
     ///
-    /// - Parameter GetHostReservationPurchasePreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHostReservationPurchasePreviewInput`)
     ///
-    /// - Returns: `GetHostReservationPurchasePreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHostReservationPurchasePreviewOutput`)
     public func getHostReservationPurchasePreview(input: GetHostReservationPurchasePreviewInput) async throws -> GetHostReservationPurchasePreviewOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31609,9 +31609,9 @@ extension EC2Client {
     ///
     /// Gets the current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-public-access-to-amis.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter GetImageBlockPublicAccessStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageBlockPublicAccessStateInput`)
     ///
-    /// - Returns: `GetImageBlockPublicAccessStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageBlockPublicAccessStateOutput`)
     public func getImageBlockPublicAccessState(input: GetImageBlockPublicAccessStateInput) async throws -> GetImageBlockPublicAccessStateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31671,9 +31671,9 @@ extension EC2Client {
     ///
     /// Gets the default instance metadata service (IMDS) settings that are set at the account level in the specified Amazon Web Services  Region. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter GetInstanceMetadataDefaultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceMetadataDefaultsInput`)
     ///
-    /// - Returns: `GetInstanceMetadataDefaultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceMetadataDefaultsOutput`)
     public func getInstanceMetadataDefaults(input: GetInstanceMetadataDefaultsInput) async throws -> GetInstanceMetadataDefaultsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31733,9 +31733,9 @@ extension EC2Client {
     ///
     /// Gets the public endorsement key associated with the Nitro Trusted Platform Module (NitroTPM) for the specified instance.
     ///
-    /// - Parameter GetInstanceTpmEkPubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceTpmEkPubInput`)
     ///
-    /// - Returns: `GetInstanceTpmEkPubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceTpmEkPubOutput`)
     public func getInstanceTpmEkPub(input: GetInstanceTpmEkPubInput) async throws -> GetInstanceTpmEkPubOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31795,9 +31795,9 @@ extension EC2Client {
     ///
     /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see [Preview instance types with specified attributes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-get-instance-types-from-instance-requirements), [Specify attributes for instance type selection for EC2 Fleet or Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html), and [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide, and [Creating mixed instance groups using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
-    /// - Parameter GetInstanceTypesFromInstanceRequirementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceTypesFromInstanceRequirementsInput`)
     ///
-    /// - Returns: `GetInstanceTypesFromInstanceRequirementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceTypesFromInstanceRequirementsOutput`)
     public func getInstanceTypesFromInstanceRequirements(input: GetInstanceTypesFromInstanceRequirementsInput) async throws -> GetInstanceTypesFromInstanceRequirementsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31857,9 +31857,9 @@ extension EC2Client {
     ///
     /// A binary representation of the UEFI variable store. Only non-volatile variables are stored. This is a base64 encoded and zlib compressed binary value that must be properly encoded. When you use [register-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/register-image.html) to create an AMI, you can create an exact copy of your variable store by passing the UEFI data in the UefiData parameter. You can modify the UEFI data by using the [python-uefivars tool](https://github.com/awslabs/python-uefivars) on GitHub. You can use the tool to convert the UEFI data into a human-readable format (JSON), which you can inspect and modify, and then convert back into the binary format to use with register-image. For more information, see [UEFI Secure Boot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/uefi-secure-boot.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter GetInstanceUefiDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceUefiDataInput`)
     ///
-    /// - Returns: `GetInstanceUefiDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceUefiDataOutput`)
     public func getInstanceUefiData(input: GetInstanceUefiDataInput) async throws -> GetInstanceUefiDataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31919,9 +31919,9 @@ extension EC2Client {
     ///
     /// Retrieve historical information about a CIDR within an IPAM scope. For more information, see [View the history of IP addresses](https://docs.aws.amazon.com/vpc/latest/ipam/view-history-cidr-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter GetIpamAddressHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpamAddressHistoryInput`)
     ///
-    /// - Returns: `GetIpamAddressHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpamAddressHistoryOutput`)
     public func getIpamAddressHistory(input: GetIpamAddressHistoryInput) async throws -> GetIpamAddressHistoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -31981,9 +31981,9 @@ extension EC2Client {
     ///
     /// Gets IPAM discovered accounts. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts. Only the IPAM account can get all discovered accounts in the organization.
     ///
-    /// - Parameter GetIpamDiscoveredAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpamDiscoveredAccountsInput`)
     ///
-    /// - Returns: `GetIpamDiscoveredAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpamDiscoveredAccountsOutput`)
     public func getIpamDiscoveredAccounts(input: GetIpamDiscoveredAccountsInput) async throws -> GetIpamDiscoveredAccountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32043,9 +32043,9 @@ extension EC2Client {
     ///
     /// Gets the public IP addresses that have been discovered by IPAM.
     ///
-    /// - Parameter GetIpamDiscoveredPublicAddressesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpamDiscoveredPublicAddressesInput`)
     ///
-    /// - Returns: `GetIpamDiscoveredPublicAddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpamDiscoveredPublicAddressesOutput`)
     public func getIpamDiscoveredPublicAddresses(input: GetIpamDiscoveredPublicAddressesInput) async throws -> GetIpamDiscoveredPublicAddressesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32105,9 +32105,9 @@ extension EC2Client {
     ///
     /// Returns the resource CIDRs that are monitored as part of a resource discovery. A discovered resource is a resource CIDR monitored under a resource discovery. The following resources can be discovered: VPCs, Public IPv4 pools, VPC subnets, and Elastic IP addresses.
     ///
-    /// - Parameter GetIpamDiscoveredResourceCidrsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpamDiscoveredResourceCidrsInput`)
     ///
-    /// - Returns: `GetIpamDiscoveredResourceCidrsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpamDiscoveredResourceCidrsOutput`)
     public func getIpamDiscoveredResourceCidrs(input: GetIpamDiscoveredResourceCidrsInput) async throws -> GetIpamDiscoveredResourceCidrsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32167,9 +32167,9 @@ extension EC2Client {
     ///
     /// Get a list of all the CIDR allocations in an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. If you use this action after [AllocateIpamPoolCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AllocateIpamPoolCidr.html) or [ReleaseIpamPoolAllocation](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ReleaseIpamPoolAllocation.html), note that all EC2 API actions follow an [eventual consistency](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) model.
     ///
-    /// - Parameter GetIpamPoolAllocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpamPoolAllocationsInput`)
     ///
-    /// - Returns: `GetIpamPoolAllocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpamPoolAllocationsOutput`)
     public func getIpamPoolAllocations(input: GetIpamPoolAllocationsInput) async throws -> GetIpamPoolAllocationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32229,9 +32229,9 @@ extension EC2Client {
     ///
     /// Get the CIDRs provisioned to an IPAM pool.
     ///
-    /// - Parameter GetIpamPoolCidrsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpamPoolCidrsInput`)
     ///
-    /// - Returns: `GetIpamPoolCidrsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpamPoolCidrsOutput`)
     public func getIpamPoolCidrs(input: GetIpamPoolCidrsInput) async throws -> GetIpamPoolCidrsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32291,9 +32291,9 @@ extension EC2Client {
     ///
     /// Returns resource CIDRs managed by IPAM in a given scope. If an IPAM is associated with more than one resource discovery, the resource CIDRs across all of the resource discoveries is returned. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
-    /// - Parameter GetIpamResourceCidrsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpamResourceCidrsInput`)
     ///
-    /// - Returns: `GetIpamResourceCidrsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpamResourceCidrsOutput`)
     public func getIpamResourceCidrs(input: GetIpamResourceCidrsInput) async throws -> GetIpamResourceCidrsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32353,9 +32353,9 @@ extension EC2Client {
     ///
     /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template. This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications, DescribeVolumes, and DescribeInstanceAttribute. Or, you can allow describe* depending on your instance requirements.
     ///
-    /// - Parameter GetLaunchTemplateDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLaunchTemplateDataInput`)
     ///
-    /// - Returns: `GetLaunchTemplateDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLaunchTemplateDataOutput`)
     public func getLaunchTemplateData(input: GetLaunchTemplateDataInput) async throws -> GetLaunchTemplateDataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32415,9 +32415,9 @@ extension EC2Client {
     ///
     /// Gets information about the resources that are associated with the specified managed prefix list.
     ///
-    /// - Parameter GetManagedPrefixListAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedPrefixListAssociationsInput`)
     ///
-    /// - Returns: `GetManagedPrefixListAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedPrefixListAssociationsOutput`)
     public func getManagedPrefixListAssociations(input: GetManagedPrefixListAssociationsInput) async throws -> GetManagedPrefixListAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32477,9 +32477,9 @@ extension EC2Client {
     ///
     /// Gets information about the entries for a specified managed prefix list.
     ///
-    /// - Parameter GetManagedPrefixListEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedPrefixListEntriesInput`)
     ///
-    /// - Returns: `GetManagedPrefixListEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedPrefixListEntriesOutput`)
     public func getManagedPrefixListEntries(input: GetManagedPrefixListEntriesInput) async throws -> GetManagedPrefixListEntriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32539,9 +32539,9 @@ extension EC2Client {
     ///
     /// Gets the findings for the specified Network Access Scope analysis.
     ///
-    /// - Parameter GetNetworkInsightsAccessScopeAnalysisFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkInsightsAccessScopeAnalysisFindingsInput`)
     ///
-    /// - Returns: `GetNetworkInsightsAccessScopeAnalysisFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkInsightsAccessScopeAnalysisFindingsOutput`)
     public func getNetworkInsightsAccessScopeAnalysisFindings(input: GetNetworkInsightsAccessScopeAnalysisFindingsInput) async throws -> GetNetworkInsightsAccessScopeAnalysisFindingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32601,9 +32601,9 @@ extension EC2Client {
     ///
     /// Gets the content for the specified Network Access Scope.
     ///
-    /// - Parameter GetNetworkInsightsAccessScopeContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkInsightsAccessScopeContentInput`)
     ///
-    /// - Returns: `GetNetworkInsightsAccessScopeContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkInsightsAccessScopeContentOutput`)
     public func getNetworkInsightsAccessScopeContent(input: GetNetworkInsightsAccessScopeContentInput) async throws -> GetNetworkInsightsAccessScopeContentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32663,9 +32663,9 @@ extension EC2Client {
     ///
     /// Retrieves the encrypted administrator password for a running Windows instance. The Windows password is generated at boot by the EC2Config service or EC2Launch scripts (Windows Server 2016 and later). This usually only happens the first time an instance is launched. For more information, see [EC2Config](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UsingConfig_WinAMI.html) and [EC2Launch](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2launch.html) in the Amazon EC2 User Guide. For the EC2Config service, the password is not generated for rebundled AMIs unless Ec2SetPassword is enabled before bundling. The password is encrypted using the key pair that you specified when you launched the instance. You must provide the corresponding key pair file. When you launch an instance, password generation and encryption may take a few minutes. If you try to retrieve the password before it's available, the output returns an empty string. We recommend that you wait up to 15 minutes after launching an instance before trying to retrieve the generated password.
     ///
-    /// - Parameter GetPasswordDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPasswordDataInput`)
     ///
-    /// - Returns: `GetPasswordDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPasswordDataOutput`)
     public func getPasswordData(input: GetPasswordDataInput) async throws -> GetPasswordDataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32725,9 +32725,9 @@ extension EC2Client {
     ///
     /// Returns a quote and exchange information for exchanging one or more specified Convertible Reserved Instances for a new Convertible Reserved Instance. If the exchange cannot be performed, the reason is returned in the response. Use [AcceptReservedInstancesExchangeQuote] to perform the exchange.
     ///
-    /// - Parameter GetReservedInstancesExchangeQuoteInput : Contains the parameters for GetReservedInstanceExchangeQuote.
+    /// - Parameter input: Contains the parameters for GetReservedInstanceExchangeQuote. (Type: `GetReservedInstancesExchangeQuoteInput`)
     ///
-    /// - Returns: `GetReservedInstancesExchangeQuoteOutput` : Contains the output of GetReservedInstancesExchangeQuote.
+    /// - Returns: Contains the output of GetReservedInstancesExchangeQuote. (Type: `GetReservedInstancesExchangeQuoteOutput`)
     public func getReservedInstancesExchangeQuote(input: GetReservedInstancesExchangeQuoteInput) async throws -> GetReservedInstancesExchangeQuoteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32787,9 +32787,9 @@ extension EC2Client {
     ///
     /// Gets information about the associations for the specified route server. A route server association is the connection established between a route server and a VPC. For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter GetRouteServerAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteServerAssociationsInput`)
     ///
-    /// - Returns: `GetRouteServerAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteServerAssociationsOutput`)
     public func getRouteServerAssociations(input: GetRouteServerAssociationsInput) async throws -> GetRouteServerAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32858,9 +32858,9 @@ extension EC2Client {
     ///
     /// Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use [Transit Gateway Connect](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html).
     ///
-    /// - Parameter GetRouteServerPropagationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteServerPropagationsInput`)
     ///
-    /// - Returns: `GetRouteServerPropagationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteServerPropagationsOutput`)
     public func getRouteServerPropagations(input: GetRouteServerPropagationsInput) async throws -> GetRouteServerPropagationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32929,9 +32929,9 @@ extension EC2Client {
     ///
     /// Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use [Transit Gateway Connect](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html).
     ///
-    /// - Parameter GetRouteServerRoutingDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteServerRoutingDatabaseInput`)
     ///
-    /// - Returns: `GetRouteServerRoutingDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteServerRoutingDatabaseOutput`)
     public func getRouteServerRoutingDatabase(input: GetRouteServerRoutingDatabaseInput) async throws -> GetRouteServerRoutingDatabaseOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -32991,9 +32991,9 @@ extension EC2Client {
     ///
     /// Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC.
     ///
-    /// - Parameter GetSecurityGroupsForVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSecurityGroupsForVpcInput`)
     ///
-    /// - Returns: `GetSecurityGroupsForVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSecurityGroupsForVpcOutput`)
     public func getSecurityGroupsForVpc(input: GetSecurityGroupsForVpcInput) async throws -> GetSecurityGroupsForVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33053,9 +33053,9 @@ extension EC2Client {
     ///
     /// Retrieves the access status of your account to the EC2 serial console of all instances. By default, access to the EC2 serial console is disabled for your account. For more information, see [Manage account access to the EC2 serial console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configure-access-to-serial-console.html#serial-console-account-access) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter GetSerialConsoleAccessStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSerialConsoleAccessStatusInput`)
     ///
-    /// - Returns: `GetSerialConsoleAccessStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSerialConsoleAccessStatusOutput`)
     public func getSerialConsoleAccessStatus(input: GetSerialConsoleAccessStatusInput) async throws -> GetSerialConsoleAccessStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33115,9 +33115,9 @@ extension EC2Client {
     ///
     /// Gets the current state of block public access for snapshots setting for the account and Region. For more information, see [ Block public access for snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/block-public-access-snapshots.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter GetSnapshotBlockPublicAccessStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSnapshotBlockPublicAccessStateInput`)
     ///
-    /// - Returns: `GetSnapshotBlockPublicAccessStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSnapshotBlockPublicAccessStateOutput`)
     public func getSnapshotBlockPublicAccessState(input: GetSnapshotBlockPublicAccessStateInput) async throws -> GetSnapshotBlockPublicAccessStateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33177,9 +33177,9 @@ extension EC2Client {
     ///
     /// Calculates the Spot placement score for a Region or Availability Zone based on the specified target capacity and compute requirements. You can specify your compute requirements either by using InstanceRequirementsWithMetadata and letting Amazon EC2 choose the optimal instance types to fulfill your Spot request, or you can specify the instance types by using InstanceTypes. For more information, see [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter GetSpotPlacementScoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpotPlacementScoresInput`)
     ///
-    /// - Returns: `GetSpotPlacementScoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpotPlacementScoresOutput`)
     public func getSpotPlacementScores(input: GetSpotPlacementScoresInput) async throws -> GetSpotPlacementScoresOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33239,9 +33239,9 @@ extension EC2Client {
     ///
     /// Gets information about the subnet CIDR reservations.
     ///
-    /// - Parameter GetSubnetCidrReservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubnetCidrReservationsInput`)
     ///
-    /// - Returns: `GetSubnetCidrReservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubnetCidrReservationsOutput`)
     public func getSubnetCidrReservations(input: GetSubnetCidrReservationsInput) async throws -> GetSubnetCidrReservationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33301,9 +33301,9 @@ extension EC2Client {
     ///
     /// Lists the route tables to which the specified resource attachment propagates routes.
     ///
-    /// - Parameter GetTransitGatewayAttachmentPropagationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayAttachmentPropagationsInput`)
     ///
-    /// - Returns: `GetTransitGatewayAttachmentPropagationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayAttachmentPropagationsOutput`)
     public func getTransitGatewayAttachmentPropagations(input: GetTransitGatewayAttachmentPropagationsInput) async throws -> GetTransitGatewayAttachmentPropagationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33363,9 +33363,9 @@ extension EC2Client {
     ///
     /// Gets information about the associations for the transit gateway multicast domain.
     ///
-    /// - Parameter GetTransitGatewayMulticastDomainAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayMulticastDomainAssociationsInput`)
     ///
-    /// - Returns: `GetTransitGatewayMulticastDomainAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayMulticastDomainAssociationsOutput`)
     public func getTransitGatewayMulticastDomainAssociations(input: GetTransitGatewayMulticastDomainAssociationsInput) async throws -> GetTransitGatewayMulticastDomainAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33425,9 +33425,9 @@ extension EC2Client {
     ///
     /// Gets a list of the transit gateway policy table associations.
     ///
-    /// - Parameter GetTransitGatewayPolicyTableAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayPolicyTableAssociationsInput`)
     ///
-    /// - Returns: `GetTransitGatewayPolicyTableAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayPolicyTableAssociationsOutput`)
     public func getTransitGatewayPolicyTableAssociations(input: GetTransitGatewayPolicyTableAssociationsInput) async throws -> GetTransitGatewayPolicyTableAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33487,9 +33487,9 @@ extension EC2Client {
     ///
     /// Returns a list of transit gateway policy table entries.
     ///
-    /// - Parameter GetTransitGatewayPolicyTableEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayPolicyTableEntriesInput`)
     ///
-    /// - Returns: `GetTransitGatewayPolicyTableEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayPolicyTableEntriesOutput`)
     public func getTransitGatewayPolicyTableEntries(input: GetTransitGatewayPolicyTableEntriesInput) async throws -> GetTransitGatewayPolicyTableEntriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33549,9 +33549,9 @@ extension EC2Client {
     ///
     /// Gets information about the prefix list references in a specified transit gateway route table.
     ///
-    /// - Parameter GetTransitGatewayPrefixListReferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayPrefixListReferencesInput`)
     ///
-    /// - Returns: `GetTransitGatewayPrefixListReferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayPrefixListReferencesOutput`)
     public func getTransitGatewayPrefixListReferences(input: GetTransitGatewayPrefixListReferencesInput) async throws -> GetTransitGatewayPrefixListReferencesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33611,9 +33611,9 @@ extension EC2Client {
     ///
     /// Gets information about the associations for the specified transit gateway route table.
     ///
-    /// - Parameter GetTransitGatewayRouteTableAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayRouteTableAssociationsInput`)
     ///
-    /// - Returns: `GetTransitGatewayRouteTableAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayRouteTableAssociationsOutput`)
     public func getTransitGatewayRouteTableAssociations(input: GetTransitGatewayRouteTableAssociationsInput) async throws -> GetTransitGatewayRouteTableAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33673,9 +33673,9 @@ extension EC2Client {
     ///
     /// Gets information about the route table propagations for the specified transit gateway route table.
     ///
-    /// - Parameter GetTransitGatewayRouteTablePropagationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayRouteTablePropagationsInput`)
     ///
-    /// - Returns: `GetTransitGatewayRouteTablePropagationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayRouteTablePropagationsOutput`)
     public func getTransitGatewayRouteTablePropagations(input: GetTransitGatewayRouteTablePropagationsInput) async throws -> GetTransitGatewayRouteTablePropagationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33735,9 +33735,9 @@ extension EC2Client {
     ///
     /// Get the Verified Access policy associated with the endpoint.
     ///
-    /// - Parameter GetVerifiedAccessEndpointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVerifiedAccessEndpointPolicyInput`)
     ///
-    /// - Returns: `GetVerifiedAccessEndpointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVerifiedAccessEndpointPolicyOutput`)
     public func getVerifiedAccessEndpointPolicy(input: GetVerifiedAccessEndpointPolicyInput) async throws -> GetVerifiedAccessEndpointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33797,9 +33797,9 @@ extension EC2Client {
     ///
     /// Gets the targets for the specified network CIDR endpoint for Verified Access.
     ///
-    /// - Parameter GetVerifiedAccessEndpointTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVerifiedAccessEndpointTargetsInput`)
     ///
-    /// - Returns: `GetVerifiedAccessEndpointTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVerifiedAccessEndpointTargetsOutput`)
     public func getVerifiedAccessEndpointTargets(input: GetVerifiedAccessEndpointTargetsInput) async throws -> GetVerifiedAccessEndpointTargetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33859,9 +33859,9 @@ extension EC2Client {
     ///
     /// Shows the contents of the Verified Access policy associated with the group.
     ///
-    /// - Parameter GetVerifiedAccessGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVerifiedAccessGroupPolicyInput`)
     ///
-    /// - Returns: `GetVerifiedAccessGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVerifiedAccessGroupPolicyOutput`)
     public func getVerifiedAccessGroupPolicy(input: GetVerifiedAccessGroupPolicyInput) async throws -> GetVerifiedAccessGroupPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33921,9 +33921,9 @@ extension EC2Client {
     ///
     /// Download an Amazon Web Services-provided sample configuration file to be used with the customer gateway device specified for your Site-to-Site VPN connection.
     ///
-    /// - Parameter GetVpnConnectionDeviceSampleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpnConnectionDeviceSampleConfigurationInput`)
     ///
-    /// - Returns: `GetVpnConnectionDeviceSampleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpnConnectionDeviceSampleConfigurationOutput`)
     public func getVpnConnectionDeviceSampleConfiguration(input: GetVpnConnectionDeviceSampleConfigurationInput) async throws -> GetVpnConnectionDeviceSampleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -33983,9 +33983,9 @@ extension EC2Client {
     ///
     /// Obtain a list of customer gateway devices for which sample configuration files can be provided. The request has no additional parameters. You can also see the list of device types with sample configuration files available under [Your customer gateway device](https://docs.aws.amazon.com/vpn/latest/s2svpn/your-cgw.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter GetVpnConnectionDeviceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpnConnectionDeviceTypesInput`)
     ///
-    /// - Returns: `GetVpnConnectionDeviceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpnConnectionDeviceTypesOutput`)
     public func getVpnConnectionDeviceTypes(input: GetVpnConnectionDeviceTypesInput) async throws -> GetVpnConnectionDeviceTypesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34045,9 +34045,9 @@ extension EC2Client {
     ///
     /// Get details of available tunnel endpoint maintenance.
     ///
-    /// - Parameter GetVpnTunnelReplacementStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpnTunnelReplacementStatusInput`)
     ///
-    /// - Returns: `GetVpnTunnelReplacementStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpnTunnelReplacementStatusOutput`)
     public func getVpnTunnelReplacementStatus(input: GetVpnTunnelReplacementStatusInput) async throws -> GetVpnTunnelReplacementStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34107,9 +34107,9 @@ extension EC2Client {
     ///
     /// Uploads a client certificate revocation list to the specified Client VPN endpoint. Uploading a client certificate revocation list overwrites the existing client certificate revocation list. Uploading a client certificate revocation list resets existing client connections.
     ///
-    /// - Parameter ImportClientVpnClientCertificateRevocationListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportClientVpnClientCertificateRevocationListInput`)
     ///
-    /// - Returns: `ImportClientVpnClientCertificateRevocationListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportClientVpnClientCertificateRevocationListOutput`)
     public func importClientVpnClientCertificateRevocationList(input: ImportClientVpnClientCertificateRevocationListInput) async throws -> ImportClientVpnClientCertificateRevocationListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34169,9 +34169,9 @@ extension EC2Client {
     ///
     /// To import your virtual machines (VMs) with a console-based experience, you can use the Import virtual machine images to Amazon Web Services template in the [Migration Hub Orchestrator console](https://console.aws.amazon.com/migrationhub/orchestrator). For more information, see the [ Migration Hub Orchestrator User Guide ](https://docs.aws.amazon.com/migrationhub-orchestrator/latest/userguide/import-vm-images.html). Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image (AMI). Amazon Web Services VM Import/Export strongly recommends specifying a value for either the --license-type or --usage-operation parameter when you create a new VM Import task. This ensures your operating system is licensed appropriately and your billing is optimized. For more information, see [Importing a VM as an image using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html) in the VM Import/Export User Guide.
     ///
-    /// - Parameter ImportImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportImageInput`)
     ///
-    /// - Returns: `ImportImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportImageOutput`)
     public func importImage(input: ImportImageInput) async throws -> ImportImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34231,9 +34231,9 @@ extension EC2Client {
     ///
     /// We recommend that you use the [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) API instead. For more information, see [Importing a VM as an image using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-image-import.html) in the VM Import/Export User Guide. Creates an import instance task using metadata from the specified disk image. This API action supports only single-volume VMs. To import multi-volume VMs, use [ImportImage] instead. For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html). This API action is not supported by the Command Line Interface (CLI).
     ///
-    /// - Parameter ImportInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportInstanceInput`)
     ///
-    /// - Returns: `ImportInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportInstanceOutput`)
     public func importInstance(input: ImportInstanceInput) async throws -> ImportInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34293,9 +34293,9 @@ extension EC2Client {
     ///
     /// Imports the public key from an RSA or ED25519 key pair that you created using a third-party tool. You give Amazon Web Services only the public key. The private key is never transferred between you and Amazon Web Services. For more information about the requirements for importing a key pair, see [Create a key pair and import the public key to Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ImportKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportKeyPairInput`)
     ///
-    /// - Returns: `ImportKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportKeyPairOutput`)
     public func importKeyPair(input: ImportKeyPairInput) async throws -> ImportKeyPairOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34355,9 +34355,9 @@ extension EC2Client {
     ///
     /// Imports a disk into an EBS snapshot. For more information, see [Importing a disk as a snapshot using VM Import/Export](https://docs.aws.amazon.com/vm-import/latest/userguide/vmimport-import-snapshot.html) in the VM Import/Export User Guide.
     ///
-    /// - Parameter ImportSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportSnapshotInput`)
     ///
-    /// - Returns: `ImportSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportSnapshotOutput`)
     public func importSnapshot(input: ImportSnapshotInput) async throws -> ImportSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34417,9 +34417,9 @@ extension EC2Client {
     ///
     /// This API action supports only single-volume VMs. To import multi-volume VMs, use [ImportImage] instead. To import a disk to a snapshot, use [ImportSnapshot] instead. Creates an import volume task using metadata from the specified disk image. For information about the import manifest referenced by this API action, see [VM Import Manifest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/manifest.html). This API action is not supported by the Command Line Interface (CLI).
     ///
-    /// - Parameter ImportVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportVolumeInput`)
     ///
-    /// - Returns: `ImportVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportVolumeOutput`)
     public func importVolume(input: ImportVolumeInput) async throws -> ImportVolumeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34479,9 +34479,9 @@ extension EC2Client {
     ///
     /// Lists one or more AMIs that are currently in the Recycle Bin. For more information, see [Recycle Bin](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ListImagesInRecycleBinInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImagesInRecycleBinInput`)
     ///
-    /// - Returns: `ListImagesInRecycleBinOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImagesInRecycleBinOutput`)
     public func listImagesInRecycleBin(input: ListImagesInRecycleBinInput) async throws -> ListImagesInRecycleBinOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34541,9 +34541,9 @@ extension EC2Client {
     ///
     /// Lists one or more snapshots that are currently in the Recycle Bin.
     ///
-    /// - Parameter ListSnapshotsInRecycleBinInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSnapshotsInRecycleBinInput`)
     ///
-    /// - Returns: `ListSnapshotsInRecycleBinOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSnapshotsInRecycleBinOutput`)
     public func listSnapshotsInRecycleBin(input: ListSnapshotsInRecycleBinInput) async throws -> ListSnapshotsInRecycleBinOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34609,9 +34609,9 @@ extension EC2Client {
     ///
     /// * If the snapshot is locked in compliance mode and the cooling-off period has lapsed, you can only increase the lock duration or extend the lock expiration date.
     ///
-    /// - Parameter LockSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `LockSnapshotInput`)
     ///
-    /// - Returns: `LockSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `LockSnapshotOutput`)
     public func lockSnapshot(input: LockSnapshotInput) async throws -> LockSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34671,9 +34671,9 @@ extension EC2Client {
     ///
     /// Modifies an attribute of the specified Elastic IP address. For requirements, see [Using reverse DNS for email applications](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
     ///
-    /// - Parameter ModifyAddressAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyAddressAttributeInput`)
     ///
-    /// - Returns: `ModifyAddressAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyAddressAttributeOutput`)
     public func modifyAddressAttribute(input: ModifyAddressAttributeInput) async throws -> ModifyAddressAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34733,9 +34733,9 @@ extension EC2Client {
     ///
     /// Changes the opt-in status of the specified zone group for your account.
     ///
-    /// - Parameter ModifyAvailabilityZoneGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyAvailabilityZoneGroupInput`)
     ///
-    /// - Returns: `ModifyAvailabilityZoneGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyAvailabilityZoneGroupOutput`)
     public func modifyAvailabilityZoneGroup(input: ModifyAvailabilityZoneGroupInput) async throws -> ModifyAvailabilityZoneGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34805,9 +34805,9 @@ extension EC2Client {
     ///
     /// * expired, cancelled, unsupported, or failed state - You can't modify the Capacity Reservation in any way.
     ///
-    /// - Parameter ModifyCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyCapacityReservationInput`)
     ///
-    /// - Returns: `ModifyCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyCapacityReservationOutput`)
     public func modifyCapacityReservation(input: ModifyCapacityReservationInput) async throws -> ModifyCapacityReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34867,9 +34867,9 @@ extension EC2Client {
     ///
     /// Modifies a Capacity Reservation Fleet. When you modify the total target capacity of a Capacity Reservation Fleet, the Fleet automatically creates new Capacity Reservations, or modifies or cancels existing Capacity Reservations in the Fleet to meet the new total target capacity. When you modify the end date for the Fleet, the end dates for all of the individual Capacity Reservations in the Fleet are updated accordingly.
     ///
-    /// - Parameter ModifyCapacityReservationFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyCapacityReservationFleetInput`)
     ///
-    /// - Returns: `ModifyCapacityReservationFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyCapacityReservationFleetOutput`)
     public func modifyCapacityReservationFleet(input: ModifyCapacityReservationFleetInput) async throws -> ModifyCapacityReservationFleetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34929,9 +34929,9 @@ extension EC2Client {
     ///
     /// Modifies the specified Client VPN endpoint. Modifying the DNS server resets existing client connections.
     ///
-    /// - Parameter ModifyClientVpnEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyClientVpnEndpointInput`)
     ///
-    /// - Returns: `ModifyClientVpnEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClientVpnEndpointOutput`)
     public func modifyClientVpnEndpoint(input: ModifyClientVpnEndpointInput) async throws -> ModifyClientVpnEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -34991,9 +34991,9 @@ extension EC2Client {
     ///
     /// Modifies the default credit option for CPU usage of burstable performance instances. The default credit option is set at the account level per Amazon Web Services Region, and is specified per instance family. All new burstable performance instances in the account launch using the default credit option. ModifyDefaultCreditSpecification is an asynchronous operation, which works at an Amazon Web Services Region level and modifies the credit option for each Availability Zone. All zones in a Region are updated within five minutes. But if instances are launched during this operation, they might not get the new credit option until the zone is updated. To verify whether the update has occurred, you can call GetDefaultCreditSpecification and check DefaultCreditSpecification for updates. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyDefaultCreditSpecificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDefaultCreditSpecificationInput`)
     ///
-    /// - Returns: `ModifyDefaultCreditSpecificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDefaultCreditSpecificationOutput`)
     public func modifyDefaultCreditSpecification(input: ModifyDefaultCreditSpecificationInput) async throws -> ModifyDefaultCreditSpecificationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35053,9 +35053,9 @@ extension EC2Client {
     ///
     /// Changes the default KMS key for EBS encryption by default for your account in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption by default, your instances will fail to launch. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter ModifyEbsDefaultKmsKeyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyEbsDefaultKmsKeyIdInput`)
     ///
-    /// - Returns: `ModifyEbsDefaultKmsKeyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyEbsDefaultKmsKeyIdOutput`)
     public func modifyEbsDefaultKmsKeyId(input: ModifyEbsDefaultKmsKeyIdInput) async throws -> ModifyEbsDefaultKmsKeyIdOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35115,9 +35115,9 @@ extension EC2Client {
     ///
     /// Modifies the specified EC2 Fleet. You can only modify an EC2 Fleet request of type maintain. While the EC2 Fleet is being modified, it is in the modifying state. To scale up your EC2 Fleet, increase its target capacity. The EC2 Fleet launches the additional Spot Instances according to the allocation strategy for the EC2 Fleet request. If the allocation strategy is lowest-price, the EC2 Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is diversified, the EC2 Fleet distributes the instances across the Spot Instance pools. If the allocation strategy is capacity-optimized, EC2 Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To scale down your EC2 Fleet, decrease its target capacity. First, the EC2 Fleet cancels any open requests that exceed the new target capacity. You can request that the EC2 Fleet terminate Spot Instances until the size of the fleet no longer exceeds the new target capacity. If the allocation strategy is lowest-price, the EC2 Fleet terminates the instances with the highest price per unit. If the allocation strategy is capacity-optimized, the EC2 Fleet terminates the instances in the Spot Instance pools that have the least available Spot Instance capacity. If the allocation strategy is diversified, the EC2 Fleet terminates instances across the Spot Instance pools. Alternatively, you can request that the EC2 Fleet keep the fleet at its current size, but not replace any Spot Instances that are interrupted or that you terminate manually. If you are finished with your EC2 Fleet for now, but will use it again later, you can set the target capacity to 0.
     ///
-    /// - Parameter ModifyFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyFleetInput`)
     ///
-    /// - Returns: `ModifyFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyFleetOutput`)
     public func modifyFleet(input: ModifyFleetInput) async throws -> ModifyFleetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35177,9 +35177,9 @@ extension EC2Client {
     ///
     /// Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
     ///
-    /// - Parameter ModifyFpgaImageAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyFpgaImageAttributeInput`)
     ///
-    /// - Returns: `ModifyFpgaImageAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyFpgaImageAttributeOutput`)
     public func modifyFpgaImageAttribute(input: ModifyFpgaImageAttributeInput) async throws -> ModifyFpgaImageAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35239,9 +35239,9 @@ extension EC2Client {
     ///
     /// Modify the auto-placement setting of a Dedicated Host. When auto-placement is enabled, any instances that you launch with a tenancy of host but without a specific host ID are placed onto any available Dedicated Host in your account that has auto-placement enabled. When auto-placement is disabled, you need to provide a host ID to have the instance launch onto a specific host. If no host ID is provided, the instance is launched onto a suitable host with auto-placement enabled. You can also use this API action to modify a Dedicated Host to support either multiple instance types in an instance family, or to support a specific instance type only.
     ///
-    /// - Parameter ModifyHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyHostsInput`)
     ///
-    /// - Returns: `ModifyHostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyHostsOutput`)
     public func modifyHosts(input: ModifyHostsInput) async throws -> ModifyHostsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35301,9 +35301,9 @@ extension EC2Client {
     ///
     /// Modifies the ID format for the specified resource on a per-Region basis. You can specify that resources should receive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. This setting applies to the IAM user who makes the request; it does not apply to the entire Amazon Web Services account. By default, an IAM user defaults to the same settings as the root user. If you're using this action as the root user, then these settings apply to the entire account, unless an IAM user explicitly overrides these settings for themselves. For more information, see [Resource IDs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html) in the Amazon Elastic Compute Cloud User Guide. Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     ///
-    /// - Parameter ModifyIdFormatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIdFormatInput`)
     ///
-    /// - Returns: `ModifyIdFormatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIdFormatOutput`)
     public func modifyIdFormat(input: ModifyIdFormatInput) async throws -> ModifyIdFormatOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35363,9 +35363,9 @@ extension EC2Client {
     ///
     /// Modifies the ID format of a resource for a specified IAM user, IAM role, or the root user for an account; or all IAM users, IAM roles, and the root user for an account. You can specify that resources should receive longer IDs (17-character IDs) when they are created. This request can only be used to modify longer ID settings for resource types that are within the opt-in period. Resources currently in their opt-in period include: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | route-table | route-table-association | security-group | subnet | subnet-cidr-block-association | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway. For more information, see [Resource IDs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/resource-ids.html) in the Amazon Elastic Compute Cloud User Guide. This setting applies to the principal specified in the request; it does not apply to the principal that makes the request. Resources created with longer IDs are visible to all IAM roles and users, regardless of these settings and provided that they have permission to use the relevant Describe command for the resource type.
     ///
-    /// - Parameter ModifyIdentityIdFormatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIdentityIdFormatInput`)
     ///
-    /// - Returns: `ModifyIdentityIdFormatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIdentityIdFormatOutput`)
     public func modifyIdentityIdFormat(input: ModifyIdentityIdFormatInput) async throws -> ModifyIdentityIdFormatOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35425,9 +35425,9 @@ extension EC2Client {
     ///
     /// Modifies the specified attribute of the specified AMI. You can specify only one attribute at a time. To specify the attribute, you can use the Attribute parameter, or one of the following parameters: Description, ImdsSupport, or LaunchPermission. Images with an Amazon Web Services Marketplace product code cannot be made public. To enable the SriovNetSupport enhanced networking attribute of an image, enable SriovNetSupport on an instance and create an AMI from the instance.
     ///
-    /// - Parameter ModifyImageAttributeInput : Contains the parameters for ModifyImageAttribute.
+    /// - Parameter input: Contains the parameters for ModifyImageAttribute. (Type: `ModifyImageAttributeInput`)
     ///
-    /// - Returns: `ModifyImageAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyImageAttributeOutput`)
     public func modifyImageAttribute(input: ModifyImageAttributeInput) async throws -> ModifyImageAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35487,9 +35487,9 @@ extension EC2Client {
     ///
     /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time. Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the [ModifyNetworkInterfaceAttribute] action. To modify some attributes, the instance must be stopped. For more information, see [Modify a stopped instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyInstanceAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceAttributeInput`)
     ///
-    /// - Returns: `ModifyInstanceAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceAttributeOutput`)
     public func modifyInstanceAttribute(input: ModifyInstanceAttributeInput) async throws -> ModifyInstanceAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35549,9 +35549,9 @@ extension EC2Client {
     ///
     /// Modifies the Capacity Reservation settings for a stopped instance. Use this action to configure an instance to target a specific Capacity Reservation, run in any open Capacity Reservation with matching attributes, run in On-Demand Instance capacity, or only run in a Capacity Reservation.
     ///
-    /// - Parameter ModifyInstanceCapacityReservationAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceCapacityReservationAttributesInput`)
     ///
-    /// - Returns: `ModifyInstanceCapacityReservationAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceCapacityReservationAttributesOutput`)
     public func modifyInstanceCapacityReservationAttributes(input: ModifyInstanceCapacityReservationAttributesInput) async throws -> ModifyInstanceCapacityReservationAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35611,9 +35611,9 @@ extension EC2Client {
     ///
     /// Modifies the specified EC2 Instance Connect Endpoint. For more information, see [Modify an EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/modify-ec2-instance-connect-endpoint.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyInstanceConnectEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceConnectEndpointInput`)
     ///
-    /// - Returns: `ModifyInstanceConnectEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceConnectEndpointOutput`)
     public func modifyInstanceConnectEndpoint(input: ModifyInstanceConnectEndpointInput) async throws -> ModifyInstanceConnectEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35673,9 +35673,9 @@ extension EC2Client {
     ///
     /// By default, all vCPUs for the instance type are active when you launch an instance. When you configure the number of active vCPUs for the instance, it can help you save on licensing costs and optimize performance. The base cost of the instance remains unchanged. The number of active vCPUs equals the number of threads per CPU core multiplied by the number of cores. The instance must be in a Stopped state before you make changes. Some instance type options do not support this capability. For more information, see [Supported CPU options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyInstanceCpuOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceCpuOptionsInput`)
     ///
-    /// - Returns: `ModifyInstanceCpuOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceCpuOptionsOutput`)
     public func modifyInstanceCpuOptions(input: ModifyInstanceCpuOptionsInput) async throws -> ModifyInstanceCpuOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35735,9 +35735,9 @@ extension EC2Client {
     ///
     /// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and unlimited. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyInstanceCreditSpecificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceCreditSpecificationInput`)
     ///
-    /// - Returns: `ModifyInstanceCreditSpecificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceCreditSpecificationOutput`)
     public func modifyInstanceCreditSpecification(input: ModifyInstanceCreditSpecificationInput) async throws -> ModifyInstanceCreditSpecificationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35797,9 +35797,9 @@ extension EC2Client {
     ///
     /// Modifies the start time for a scheduled Amazon EC2 instance event.
     ///
-    /// - Parameter ModifyInstanceEventStartTimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceEventStartTimeInput`)
     ///
-    /// - Returns: `ModifyInstanceEventStartTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceEventStartTimeOutput`)
     public func modifyInstanceEventStartTime(input: ModifyInstanceEventStartTimeInput) async throws -> ModifyInstanceEventStartTimeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35859,9 +35859,9 @@ extension EC2Client {
     ///
     /// Modifies the specified event window. You can define either a set of time ranges or a cron expression when modifying the event window, but not both. To modify the targets associated with the event window, use the [AssociateInstanceEventWindow] and [DisassociateInstanceEventWindow] API. If Amazon Web Services has already scheduled an event, modifying an event window won't change the time of the scheduled event. For more information, see [Define event windows for scheduled events](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/event-windows.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyInstanceEventWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceEventWindowInput`)
     ///
-    /// - Returns: `ModifyInstanceEventWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceEventWindowOutput`)
     public func modifyInstanceEventWindow(input: ModifyInstanceEventWindowInput) async throws -> ModifyInstanceEventWindowOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35921,9 +35921,9 @@ extension EC2Client {
     ///
     /// Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default. The default configuration will not enable simplified automatic recovery for an unsupported instance type. For more information, see [Simplified automatic recovery](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-recover.html#instance-configuration-recovery). Modifies the reboot migration behavior during a user-initiated reboot of an instance that has a pending system-reboot event. For more information, see [Enable or disable reboot migration](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/schedevents_actions_reboot.html#reboot-migration).
     ///
-    /// - Parameter ModifyInstanceMaintenanceOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceMaintenanceOptionsInput`)
     ///
-    /// - Returns: `ModifyInstanceMaintenanceOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceMaintenanceOptionsOutput`)
     public func modifyInstanceMaintenanceOptions(input: ModifyInstanceMaintenanceOptionsInput) async throws -> ModifyInstanceMaintenanceOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -35983,9 +35983,9 @@ extension EC2Client {
     ///
     /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services  Region. To remove a parameter's account-level default setting, specify no-preference. If an account-level setting is cleared with no-preference, then the instance launch considers the other instance metadata settings. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyInstanceMetadataDefaultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceMetadataDefaultsInput`)
     ///
-    /// - Returns: `ModifyInstanceMetadataDefaultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceMetadataDefaultsOutput`)
     public func modifyInstanceMetadataDefaults(input: ModifyInstanceMetadataDefaultsInput) async throws -> ModifyInstanceMetadataDefaultsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36045,9 +36045,9 @@ extension EC2Client {
     ///
     /// Modify the instance metadata parameters on a running or stopped instance. When you modify the parameters on a stopped instance, they are applied when the instance is started. When you modify the parameters on a running instance, the API responds with a state of “pending”. After the parameter modifications are successfully applied to the instance, the state of the modifications changes from “pending” to “applied” in subsequent describe-instances API calls. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyInstanceMetadataOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceMetadataOptionsInput`)
     ///
-    /// - Returns: `ModifyInstanceMetadataOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceMetadataOptionsOutput`)
     public func modifyInstanceMetadataOptions(input: ModifyInstanceMetadataOptionsInput) async throws -> ModifyInstanceMetadataOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36107,9 +36107,9 @@ extension EC2Client {
     ///
     /// Change the configuration of the network performance options for an existing instance.
     ///
-    /// - Parameter ModifyInstanceNetworkPerformanceOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceNetworkPerformanceOptionsInput`)
     ///
-    /// - Returns: `ModifyInstanceNetworkPerformanceOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceNetworkPerformanceOptionsOutput`)
     public func modifyInstanceNetworkPerformanceOptions(input: ModifyInstanceNetworkPerformanceOptionsInput) async throws -> ModifyInstanceNetworkPerformanceOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36180,9 +36180,9 @@ extension EC2Client {
     ///
     /// At least one attribute for affinity, host ID, tenancy, or placement group name must be specified in the request. Affinity and tenancy can be modified in the same request. To modify the host ID, tenancy, placement group, or partition for an instance, the instance must be in the stopped state.
     ///
-    /// - Parameter ModifyInstancePlacementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstancePlacementInput`)
     ///
-    /// - Returns: `ModifyInstancePlacementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstancePlacementOutput`)
     public func modifyInstancePlacement(input: ModifyInstancePlacementInput) async throws -> ModifyInstancePlacementOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36242,9 +36242,9 @@ extension EC2Client {
     ///
     /// Modify the configurations of an IPAM.
     ///
-    /// - Parameter ModifyIpamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIpamInput`)
     ///
-    /// - Returns: `ModifyIpamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIpamOutput`)
     public func modifyIpam(input: ModifyIpamInput) async throws -> ModifyIpamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36304,9 +36304,9 @@ extension EC2Client {
     ///
     /// Modify the configurations of an IPAM pool. For more information, see [Modify a pool](https://docs.aws.amazon.com/vpc/latest/ipam/mod-pool-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter ModifyIpamPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIpamPoolInput`)
     ///
-    /// - Returns: `ModifyIpamPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIpamPoolOutput`)
     public func modifyIpamPool(input: ModifyIpamPoolInput) async throws -> ModifyIpamPoolOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36366,9 +36366,9 @@ extension EC2Client {
     ///
     /// Modify a resource CIDR. You can use this action to transfer resource CIDRs between scopes and ignore resource CIDRs that you do not want to manage. If set to false, the resource will not be tracked for overlap, it cannot be auto-imported into a pool, and it will be removed from any pool it has an allocation in. For more information, see [Move resource CIDRs between scopes](https://docs.aws.amazon.com/vpc/latest/ipam/move-resource-ipam.html) and [Change the monitoring state of resource CIDRs](https://docs.aws.amazon.com/vpc/latest/ipam/change-monitoring-state-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter ModifyIpamResourceCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIpamResourceCidrInput`)
     ///
-    /// - Returns: `ModifyIpamResourceCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIpamResourceCidrOutput`)
     public func modifyIpamResourceCidr(input: ModifyIpamResourceCidrInput) async throws -> ModifyIpamResourceCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36428,9 +36428,9 @@ extension EC2Client {
     ///
     /// Modifies a resource discovery. A resource discovery is an IPAM component that enables IPAM to manage and monitor resources that belong to the owning account.
     ///
-    /// - Parameter ModifyIpamResourceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIpamResourceDiscoveryInput`)
     ///
-    /// - Returns: `ModifyIpamResourceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIpamResourceDiscoveryOutput`)
     public func modifyIpamResourceDiscovery(input: ModifyIpamResourceDiscoveryInput) async throws -> ModifyIpamResourceDiscoveryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36490,9 +36490,9 @@ extension EC2Client {
     ///
     /// Modify an IPAM scope.
     ///
-    /// - Parameter ModifyIpamScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIpamScopeInput`)
     ///
-    /// - Returns: `ModifyIpamScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIpamScopeOutput`)
     public func modifyIpamScope(input: ModifyIpamScopeInput) async throws -> ModifyIpamScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36552,9 +36552,9 @@ extension EC2Client {
     ///
     /// Modifies a launch template. You can specify which version of the launch template to set as the default version. When launching an instance, the default version applies when a launch template version is not specified.
     ///
-    /// - Parameter ModifyLaunchTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyLaunchTemplateInput`)
     ///
-    /// - Returns: `ModifyLaunchTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyLaunchTemplateOutput`)
     public func modifyLaunchTemplate(input: ModifyLaunchTemplateInput) async throws -> ModifyLaunchTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36615,9 +36615,9 @@ extension EC2Client {
     ///
     /// Modifies the specified local gateway route.
     ///
-    /// - Parameter ModifyLocalGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyLocalGatewayRouteInput`)
     ///
-    /// - Returns: `ModifyLocalGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyLocalGatewayRouteOutput`)
     public func modifyLocalGatewayRoute(input: ModifyLocalGatewayRouteInput) async throws -> ModifyLocalGatewayRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36677,9 +36677,9 @@ extension EC2Client {
     ///
     /// Modifies the specified managed prefix list. Adding or removing entries in a prefix list creates a new version of the prefix list. Changing the name of the prefix list does not affect the version. If you specify a current version number that does not match the true current version number, the request fails.
     ///
-    /// - Parameter ModifyManagedPrefixListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyManagedPrefixListInput`)
     ///
-    /// - Returns: `ModifyManagedPrefixListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyManagedPrefixListOutput`)
     public func modifyManagedPrefixList(input: ModifyManagedPrefixListInput) async throws -> ModifyManagedPrefixListOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36739,9 +36739,9 @@ extension EC2Client {
     ///
     /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and detach security groups from an existing EC2 instance.
     ///
-    /// - Parameter ModifyNetworkInterfaceAttributeInput : Contains the parameters for ModifyNetworkInterfaceAttribute.
+    /// - Parameter input: Contains the parameters for ModifyNetworkInterfaceAttribute. (Type: `ModifyNetworkInterfaceAttributeInput`)
     ///
-    /// - Returns: `ModifyNetworkInterfaceAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyNetworkInterfaceAttributeOutput`)
     public func modifyNetworkInterfaceAttribute(input: ModifyNetworkInterfaceAttributeInput) async throws -> ModifyNetworkInterfaceAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36801,9 +36801,9 @@ extension EC2Client {
     ///
     /// Modifies the options for instance hostnames for the specified instance.
     ///
-    /// - Parameter ModifyPrivateDnsNameOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyPrivateDnsNameOptionsInput`)
     ///
-    /// - Returns: `ModifyPrivateDnsNameOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyPrivateDnsNameOptionsOutput`)
     public func modifyPrivateDnsNameOptions(input: ModifyPrivateDnsNameOptionsInput) async throws -> ModifyPrivateDnsNameOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36863,9 +36863,9 @@ extension EC2Client {
     ///
     /// Modify public hostname options for a network interface. For more information, see [EC2 instance hostnames, DNS names, and domains](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-naming.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyPublicIpDnsNameOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyPublicIpDnsNameOptionsInput`)
     ///
-    /// - Returns: `ModifyPublicIpDnsNameOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyPublicIpDnsNameOptionsOutput`)
     public func modifyPublicIpDnsNameOptions(input: ModifyPublicIpDnsNameOptionsInput) async throws -> ModifyPublicIpDnsNameOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36925,9 +36925,9 @@ extension EC2Client {
     ///
     /// Modifies the configuration of your Reserved Instances, such as the Availability Zone, instance count, or instance type. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type. For more information, see [Modify Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyReservedInstancesInput : Contains the parameters for ModifyReservedInstances.
+    /// - Parameter input: Contains the parameters for ModifyReservedInstances. (Type: `ModifyReservedInstancesInput`)
     ///
-    /// - Returns: `ModifyReservedInstancesOutput` : Contains the output of ModifyReservedInstances.
+    /// - Returns: Contains the output of ModifyReservedInstances. (Type: `ModifyReservedInstancesOutput`)
     public func modifyReservedInstances(input: ModifyReservedInstancesInput) async throws -> ModifyReservedInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -36996,9 +36996,9 @@ extension EC2Client {
     ///
     /// Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use [Transit Gateway Connect](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html). For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter ModifyRouteServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyRouteServerInput`)
     ///
-    /// - Returns: `ModifyRouteServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyRouteServerOutput`)
     public func modifyRouteServer(input: ModifyRouteServerInput) async throws -> ModifyRouteServerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37058,9 +37058,9 @@ extension EC2Client {
     ///
     /// Modifies the rules of a security group.
     ///
-    /// - Parameter ModifySecurityGroupRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifySecurityGroupRulesInput`)
     ///
-    /// - Returns: `ModifySecurityGroupRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifySecurityGroupRulesOutput`)
     public func modifySecurityGroupRules(input: ModifySecurityGroupRulesInput) async throws -> ModifySecurityGroupRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37120,9 +37120,9 @@ extension EC2Client {
     ///
     /// Adds or removes permission settings for the specified snapshot. You may add or remove specified Amazon Web Services account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with Amazon Web Services Marketplace product codes cannot be made public. Snapshots encrypted with your default KMS key cannot be shared with other accounts. For more information about modifying snapshot permissions, see [Share a snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter ModifySnapshotAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifySnapshotAttributeInput`)
     ///
-    /// - Returns: `ModifySnapshotAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifySnapshotAttributeOutput`)
     public func modifySnapshotAttribute(input: ModifySnapshotAttributeInput) async throws -> ModifySnapshotAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37182,9 +37182,9 @@ extension EC2Client {
     ///
     /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full snapshot that includes all of the blocks of data that were written to the volume at the time the snapshot was created, and moved from the standard tier to the archive tier. For more information, see [Archive Amazon EBS snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/snapshot-archive.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter ModifySnapshotTierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifySnapshotTierInput`)
     ///
-    /// - Returns: `ModifySnapshotTierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifySnapshotTierOutput`)
     public func modifySnapshotTier(input: ModifySnapshotTierInput) async throws -> ModifySnapshotTierOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37244,9 +37244,9 @@ extension EC2Client {
     ///
     /// Modifies the specified Spot Fleet request. You can only modify a Spot Fleet request of type maintain. While the Spot Fleet request is being modified, it is in the modifying state. To scale up your Spot Fleet, increase its target capacity. The Spot Fleet launches the additional Spot Instances according to the allocation strategy for the Spot Fleet request. If the allocation strategy is lowestPrice, the Spot Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is diversified, the Spot Fleet distributes the instances across the Spot Instance pools. If the allocation strategy is capacityOptimized, Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To scale down your Spot Fleet, decrease its target capacity. First, the Spot Fleet cancels any open requests that exceed the new target capacity. You can request that the Spot Fleet terminate Spot Instances until the size of the fleet no longer exceeds the new target capacity. If the allocation strategy is lowestPrice, the Spot Fleet terminates the instances with the highest price per unit. If the allocation strategy is capacityOptimized, the Spot Fleet terminates the instances in the Spot Instance pools that have the least available Spot Instance capacity. If the allocation strategy is diversified, the Spot Fleet terminates instances across the Spot Instance pools. Alternatively, you can request that the Spot Fleet keep the fleet at its current size, but not replace any Spot Instances that are interrupted or that you terminate manually. If you are finished with your Spot Fleet for now, but will use it again later, you can set the target capacity to 0.
     ///
-    /// - Parameter ModifySpotFleetRequestInput : Contains the parameters for ModifySpotFleetRequest.
+    /// - Parameter input: Contains the parameters for ModifySpotFleetRequest. (Type: `ModifySpotFleetRequestInput`)
     ///
-    /// - Returns: `ModifySpotFleetRequestOutput` : Contains the output of ModifySpotFleetRequest.
+    /// - Returns: Contains the output of ModifySpotFleetRequest. (Type: `ModifySpotFleetRequestOutput`)
     public func modifySpotFleetRequest(input: ModifySpotFleetRequestInput) async throws -> ModifySpotFleetRequestOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37317,9 +37317,9 @@ extension EC2Client {
     ///
     /// * [Outpost racks](https://docs.aws.amazon.com/outposts/latest/userguide/how-racks-work.html)
     ///
-    /// - Parameter ModifySubnetAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifySubnetAttributeInput`)
     ///
-    /// - Returns: `ModifySubnetAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifySubnetAttributeOutput`)
     public func modifySubnetAttribute(input: ModifySubnetAttributeInput) async throws -> ModifySubnetAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37379,9 +37379,9 @@ extension EC2Client {
     ///
     /// Allows or restricts mirroring network services. By default, Amazon DNS network services are not eligible for Traffic Mirror. Use AddNetworkServices to add network services to a Traffic Mirror filter. When a network service is added to the Traffic Mirror filter, all traffic related to that network service will be mirrored. When you no longer want to mirror network services, use RemoveNetworkServices to remove the network services from the Traffic Mirror filter.
     ///
-    /// - Parameter ModifyTrafficMirrorFilterNetworkServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyTrafficMirrorFilterNetworkServicesInput`)
     ///
-    /// - Returns: `ModifyTrafficMirrorFilterNetworkServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyTrafficMirrorFilterNetworkServicesOutput`)
     public func modifyTrafficMirrorFilterNetworkServices(input: ModifyTrafficMirrorFilterNetworkServicesInput) async throws -> ModifyTrafficMirrorFilterNetworkServicesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37441,9 +37441,9 @@ extension EC2Client {
     ///
     /// Modifies the specified Traffic Mirror rule. DestinationCidrBlock and SourceCidrBlock must both be an IPv4 range or an IPv6 range.
     ///
-    /// - Parameter ModifyTrafficMirrorFilterRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyTrafficMirrorFilterRuleInput`)
     ///
-    /// - Returns: `ModifyTrafficMirrorFilterRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyTrafficMirrorFilterRuleOutput`)
     public func modifyTrafficMirrorFilterRule(input: ModifyTrafficMirrorFilterRuleInput) async throws -> ModifyTrafficMirrorFilterRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37503,9 +37503,9 @@ extension EC2Client {
     ///
     /// Modifies a Traffic Mirror session.
     ///
-    /// - Parameter ModifyTrafficMirrorSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyTrafficMirrorSessionInput`)
     ///
-    /// - Returns: `ModifyTrafficMirrorSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyTrafficMirrorSessionOutput`)
     public func modifyTrafficMirrorSession(input: ModifyTrafficMirrorSessionInput) async throws -> ModifyTrafficMirrorSessionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37565,9 +37565,9 @@ extension EC2Client {
     ///
     /// Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified.
     ///
-    /// - Parameter ModifyTransitGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyTransitGatewayInput`)
     ///
-    /// - Returns: `ModifyTransitGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyTransitGatewayOutput`)
     public func modifyTransitGateway(input: ModifyTransitGatewayInput) async throws -> ModifyTransitGatewayOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37627,9 +37627,9 @@ extension EC2Client {
     ///
     /// Modifies a reference (route) to a prefix list in a specified transit gateway route table.
     ///
-    /// - Parameter ModifyTransitGatewayPrefixListReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyTransitGatewayPrefixListReferenceInput`)
     ///
-    /// - Returns: `ModifyTransitGatewayPrefixListReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyTransitGatewayPrefixListReferenceOutput`)
     public func modifyTransitGatewayPrefixListReference(input: ModifyTransitGatewayPrefixListReferenceInput) async throws -> ModifyTransitGatewayPrefixListReferenceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37689,9 +37689,9 @@ extension EC2Client {
     ///
     /// Modifies the specified VPC attachment.
     ///
-    /// - Parameter ModifyTransitGatewayVpcAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyTransitGatewayVpcAttachmentInput`)
     ///
-    /// - Returns: `ModifyTransitGatewayVpcAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyTransitGatewayVpcAttachmentOutput`)
     public func modifyTransitGatewayVpcAttachment(input: ModifyTransitGatewayVpcAttachmentInput) async throws -> ModifyTransitGatewayVpcAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37751,9 +37751,9 @@ extension EC2Client {
     ///
     /// Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
     ///
-    /// - Parameter ModifyVerifiedAccessEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVerifiedAccessEndpointInput`)
     ///
-    /// - Returns: `ModifyVerifiedAccessEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVerifiedAccessEndpointOutput`)
     public func modifyVerifiedAccessEndpoint(input: ModifyVerifiedAccessEndpointInput) async throws -> ModifyVerifiedAccessEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37814,9 +37814,9 @@ extension EC2Client {
     ///
     /// Modifies the specified Amazon Web Services Verified Access endpoint policy.
     ///
-    /// - Parameter ModifyVerifiedAccessEndpointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVerifiedAccessEndpointPolicyInput`)
     ///
-    /// - Returns: `ModifyVerifiedAccessEndpointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVerifiedAccessEndpointPolicyOutput`)
     public func modifyVerifiedAccessEndpointPolicy(input: ModifyVerifiedAccessEndpointPolicyInput) async throws -> ModifyVerifiedAccessEndpointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37877,9 +37877,9 @@ extension EC2Client {
     ///
     /// Modifies the specified Amazon Web Services Verified Access group configuration.
     ///
-    /// - Parameter ModifyVerifiedAccessGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVerifiedAccessGroupInput`)
     ///
-    /// - Returns: `ModifyVerifiedAccessGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVerifiedAccessGroupOutput`)
     public func modifyVerifiedAccessGroup(input: ModifyVerifiedAccessGroupInput) async throws -> ModifyVerifiedAccessGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -37940,9 +37940,9 @@ extension EC2Client {
     ///
     /// Modifies the specified Amazon Web Services Verified Access group policy.
     ///
-    /// - Parameter ModifyVerifiedAccessGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVerifiedAccessGroupPolicyInput`)
     ///
-    /// - Returns: `ModifyVerifiedAccessGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVerifiedAccessGroupPolicyOutput`)
     public func modifyVerifiedAccessGroupPolicy(input: ModifyVerifiedAccessGroupPolicyInput) async throws -> ModifyVerifiedAccessGroupPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38003,9 +38003,9 @@ extension EC2Client {
     ///
     /// Modifies the configuration of the specified Amazon Web Services Verified Access instance.
     ///
-    /// - Parameter ModifyVerifiedAccessInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVerifiedAccessInstanceInput`)
     ///
-    /// - Returns: `ModifyVerifiedAccessInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVerifiedAccessInstanceOutput`)
     public func modifyVerifiedAccessInstance(input: ModifyVerifiedAccessInstanceInput) async throws -> ModifyVerifiedAccessInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38066,9 +38066,9 @@ extension EC2Client {
     ///
     /// Modifies the logging configuration for the specified Amazon Web Services Verified Access instance.
     ///
-    /// - Parameter ModifyVerifiedAccessInstanceLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVerifiedAccessInstanceLoggingConfigurationInput`)
     ///
-    /// - Returns: `ModifyVerifiedAccessInstanceLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVerifiedAccessInstanceLoggingConfigurationOutput`)
     public func modifyVerifiedAccessInstanceLoggingConfiguration(input: ModifyVerifiedAccessInstanceLoggingConfigurationInput) async throws -> ModifyVerifiedAccessInstanceLoggingConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38129,9 +38129,9 @@ extension EC2Client {
     ///
     /// Modifies the configuration of the specified Amazon Web Services Verified Access trust provider.
     ///
-    /// - Parameter ModifyVerifiedAccessTrustProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVerifiedAccessTrustProviderInput`)
     ///
-    /// - Returns: `ModifyVerifiedAccessTrustProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVerifiedAccessTrustProviderOutput`)
     public func modifyVerifiedAccessTrustProvider(input: ModifyVerifiedAccessTrustProviderInput) async throws -> ModifyVerifiedAccessTrustProviderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38192,9 +38192,9 @@ extension EC2Client {
     ///
     /// You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you might be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying EBS volumes, see [Amazon EBS Elastic Volumes](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modify-volume.html) in the Amazon EBS User Guide. When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For more information, see [Extend the file system](https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html). For more information, see [Monitor the progress of volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide. With previous-generation instance types, resizing an EBS volume might require detaching and reattaching the volume or stopping and restarting the instance. After modifying a volume, you must wait at least six hours and ensure that the volume is in the in-use or available state before you can modify the same volume. This is sometimes referred to as a cooldown period.
     ///
-    /// - Parameter ModifyVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVolumeInput`)
     ///
-    /// - Returns: `ModifyVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVolumeOutput`)
     public func modifyVolume(input: ModifyVolumeInput) async throws -> ModifyVolumeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38254,9 +38254,9 @@ extension EC2Client {
     ///
     /// Modifies a volume attribute. By default, all I/O operations for the volume are suspended when the data on the volume is determined to be potentially inconsistent, to prevent undetectable, latent data corruption. The I/O access to the volume can be resumed by first enabling I/O access and then checking the data consistency on your volume. You can change the default behavior to resume I/O operations. We recommend that you change this only for boot volumes or for volumes that are stateless or disposable.
     ///
-    /// - Parameter ModifyVolumeAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVolumeAttributeInput`)
     ///
-    /// - Returns: `ModifyVolumeAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVolumeAttributeOutput`)
     public func modifyVolumeAttribute(input: ModifyVolumeAttributeInput) async throws -> ModifyVolumeAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38316,9 +38316,9 @@ extension EC2Client {
     ///
     /// Modifies the specified attribute of the specified VPC.
     ///
-    /// - Parameter ModifyVpcAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcAttributeInput`)
     ///
-    /// - Returns: `ModifyVpcAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcAttributeOutput`)
     public func modifyVpcAttribute(input: ModifyVpcAttributeInput) async throws -> ModifyVpcAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38378,9 +38378,9 @@ extension EC2Client {
     ///
     /// Modify VPC Block Public Access (BPA) exclusions. A VPC BPA exclusion is a mode that can be applied to a single VPC or subnet that exempts it from the account’s BPA mode and will allow bidirectional or egress-only access. You can create BPA exclusions for VPCs and subnets even when BPA is not enabled on the account to ensure that there is no traffic disruption to the exclusions when VPC BPA is turned on.
     ///
-    /// - Parameter ModifyVpcBlockPublicAccessExclusionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcBlockPublicAccessExclusionInput`)
     ///
-    /// - Returns: `ModifyVpcBlockPublicAccessExclusionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcBlockPublicAccessExclusionOutput`)
     public func modifyVpcBlockPublicAccessExclusion(input: ModifyVpcBlockPublicAccessExclusionInput) async throws -> ModifyVpcBlockPublicAccessExclusionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38440,9 +38440,9 @@ extension EC2Client {
     ///
     /// Modify VPC Block Public Access (BPA) options. VPC Block Public Access (BPA) enables you to block resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways. To learn more about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter ModifyVpcBlockPublicAccessOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcBlockPublicAccessOptionsInput`)
     ///
-    /// - Returns: `ModifyVpcBlockPublicAccessOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcBlockPublicAccessOptionsOutput`)
     public func modifyVpcBlockPublicAccessOptions(input: ModifyVpcBlockPublicAccessOptionsInput) async throws -> ModifyVpcBlockPublicAccessOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38502,9 +38502,9 @@ extension EC2Client {
     ///
     /// Modifies attributes of a specified VPC endpoint. The attributes that you can modify depend on the type of VPC endpoint (interface, gateway, or Gateway Load Balancer). For more information, see the [Amazon Web Services PrivateLink Guide](https://docs.aws.amazon.com/vpc/latest/privatelink/).
     ///
-    /// - Parameter ModifyVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcEndpointInput`)
     ///
-    /// - Returns: `ModifyVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcEndpointOutput`)
     public func modifyVpcEndpoint(input: ModifyVpcEndpointInput) async throws -> ModifyVpcEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38564,9 +38564,9 @@ extension EC2Client {
     ///
     /// Modifies a connection notification for VPC endpoint or VPC endpoint service. You can change the SNS topic for the notification, or the events for which to be notified.
     ///
-    /// - Parameter ModifyVpcEndpointConnectionNotificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcEndpointConnectionNotificationInput`)
     ///
-    /// - Returns: `ModifyVpcEndpointConnectionNotificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcEndpointConnectionNotificationOutput`)
     public func modifyVpcEndpointConnectionNotification(input: ModifyVpcEndpointConnectionNotificationInput) async throws -> ModifyVpcEndpointConnectionNotificationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38626,9 +38626,9 @@ extension EC2Client {
     ///
     /// Modifies the attributes of the specified VPC endpoint service configuration. If you set or modify the private DNS name, you must prove that you own the private DNS domain name.
     ///
-    /// - Parameter ModifyVpcEndpointServiceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcEndpointServiceConfigurationInput`)
     ///
-    /// - Returns: `ModifyVpcEndpointServiceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcEndpointServiceConfigurationOutput`)
     public func modifyVpcEndpointServiceConfiguration(input: ModifyVpcEndpointServiceConfigurationInput) async throws -> ModifyVpcEndpointServiceConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38688,9 +38688,9 @@ extension EC2Client {
     ///
     /// Modifies the payer responsibility for your VPC endpoint service.
     ///
-    /// - Parameter ModifyVpcEndpointServicePayerResponsibilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcEndpointServicePayerResponsibilityInput`)
     ///
-    /// - Returns: `ModifyVpcEndpointServicePayerResponsibilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcEndpointServicePayerResponsibilityOutput`)
     public func modifyVpcEndpointServicePayerResponsibility(input: ModifyVpcEndpointServicePayerResponsibilityInput) async throws -> ModifyVpcEndpointServicePayerResponsibilityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38750,9 +38750,9 @@ extension EC2Client {
     ///
     /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved.
     ///
-    /// - Parameter ModifyVpcEndpointServicePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcEndpointServicePermissionsInput`)
     ///
-    /// - Returns: `ModifyVpcEndpointServicePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcEndpointServicePermissionsOutput`)
     public func modifyVpcEndpointServicePermissions(input: ModifyVpcEndpointServicePermissionsInput) async throws -> ModifyVpcEndpointServicePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38812,9 +38812,9 @@ extension EC2Client {
     ///
     /// Modifies the VPC peering connection options on one side of a VPC peering connection. If the peered VPCs are in the same Amazon Web Services account, you can enable DNS resolution for queries from the local VPC. This ensures that queries from the local VPC resolve to private IP addresses in the peer VPC. This option is not available if the peered VPCs are in different Amazon Web Services accounts or different Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web Services account owner must initiate a separate request to modify the peering connection options. For inter-region peering connections, you must use the Region for the requester VPC to modify the requester VPC peering options and the Region for the accepter VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and the requester for a VPC peering connection, use the [DescribeVpcPeeringConnections] command.
     ///
-    /// - Parameter ModifyVpcPeeringConnectionOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcPeeringConnectionOptionsInput`)
     ///
-    /// - Returns: `ModifyVpcPeeringConnectionOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcPeeringConnectionOptionsOutput`)
     public func modifyVpcPeeringConnectionOptions(input: ModifyVpcPeeringConnectionOptionsInput) async throws -> ModifyVpcPeeringConnectionOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38874,9 +38874,9 @@ extension EC2Client {
     ///
     /// Modifies the instance tenancy attribute of the specified VPC. You can change the instance tenancy attribute of a VPC to default only. You cannot change the instance tenancy attribute to dedicated. After you modify the tenancy of the VPC, any new instances that you launch into the VPC have a tenancy of default, unless you specify otherwise during launch. The tenancy of any existing instances in the VPC is not affected. For more information, see [Dedicated Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter ModifyVpcTenancyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcTenancyInput`)
     ///
-    /// - Returns: `ModifyVpcTenancyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpcTenancyOutput`)
     public func modifyVpcTenancy(input: ModifyVpcTenancyInput) async throws -> ModifyVpcTenancyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -38947,9 +38947,9 @@ extension EC2Client {
     ///
     /// Before you perform the migration to the new gateway, you must configure the new gateway. Use [CreateVpnGateway] to create a virtual private gateway, or [CreateTransitGateway] to create a transit gateway. This step is required when you migrate from a virtual private gateway with static routes to a transit gateway. You must delete the static routes before you migrate to the new gateway. Keep a copy of the static route before you delete it. You will need to add back these routes to the transit gateway after the VPN connection migration is complete. After you migrate to the new gateway, you might need to modify your VPC route table. Use [CreateRoute] and [DeleteRoute] to make the changes described in [Update VPC route tables](https://docs.aws.amazon.com/vpn/latest/s2svpn/modify-vpn-target.html#step-update-routing) in the Amazon Web Services Site-to-Site VPN User Guide. When the new gateway is a transit gateway, modify the transit gateway route table to allow traffic between the VPC and the Amazon Web Services Site-to-Site VPN connection. Use [CreateTransitGatewayRoute] to add the routes. If you deleted VPN static routes, you must add the static routes to the transit gateway route table. After you perform this operation, the VPN endpoint's IP addresses on the Amazon Web Services side and the tunnel options remain intact. Your Amazon Web Services Site-to-Site VPN connection will be temporarily unavailable for a brief period while we provision the new endpoints.
     ///
-    /// - Parameter ModifyVpnConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpnConnectionInput`)
     ///
-    /// - Returns: `ModifyVpnConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpnConnectionOutput`)
     public func modifyVpnConnection(input: ModifyVpnConnectionInput) async throws -> ModifyVpnConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39009,9 +39009,9 @@ extension EC2Client {
     ///
     /// Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP addresses on the Amazon Web Services side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavailable for a brief period while the VPN connection is updated.
     ///
-    /// - Parameter ModifyVpnConnectionOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpnConnectionOptionsInput`)
     ///
-    /// - Returns: `ModifyVpnConnectionOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpnConnectionOptionsOutput`)
     public func modifyVpnConnectionOptions(input: ModifyVpnConnectionOptionsInput) async throws -> ModifyVpnConnectionOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39071,9 +39071,9 @@ extension EC2Client {
     ///
     /// Modifies the VPN tunnel endpoint certificate.
     ///
-    /// - Parameter ModifyVpnTunnelCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpnTunnelCertificateInput`)
     ///
-    /// - Returns: `ModifyVpnTunnelCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpnTunnelCertificateOutput`)
     public func modifyVpnTunnelCertificate(input: ModifyVpnTunnelCertificateInput) async throws -> ModifyVpnTunnelCertificateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39133,9 +39133,9 @@ extension EC2Client {
     ///
     /// Modifies the options for a VPN tunnel in an Amazon Web Services Site-to-Site VPN connection. You can modify multiple options for a tunnel in a single request, but you can only modify one tunnel at a time. For more information, see [Site-to-Site VPN tunnel options for your Site-to-Site VPN connection](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPNTunnels.html) in the Amazon Web Services Site-to-Site VPN User Guide.
     ///
-    /// - Parameter ModifyVpnTunnelOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpnTunnelOptionsInput`)
     ///
-    /// - Returns: `ModifyVpnTunnelOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyVpnTunnelOptionsOutput`)
     public func modifyVpnTunnelOptions(input: ModifyVpnTunnelOptionsInput) async throws -> ModifyVpnTunnelOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39195,9 +39195,9 @@ extension EC2Client {
     ///
     /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled. For more information, see [Monitor your instances using CloudWatch](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html) in the Amazon EC2 User Guide. To disable detailed monitoring, see [UnmonitorInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_UnmonitorInstances.html).
     ///
-    /// - Parameter MonitorInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MonitorInstancesInput`)
     ///
-    /// - Returns: `MonitorInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MonitorInstancesOutput`)
     public func monitorInstances(input: MonitorInstancesInput) async throws -> MonitorInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39257,9 +39257,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your account for more than 24 hours, and it must not be associated with an instance. After the Elastic IP address is moved, it is no longer available for use in the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.
     ///
-    /// - Parameter MoveAddressToVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MoveAddressToVpcInput`)
     ///
-    /// - Returns: `MoveAddressToVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MoveAddressToVpcOutput`)
     public func moveAddressToVpc(input: MoveAddressToVpcInput) async throws -> MoveAddressToVpcOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39319,9 +39319,9 @@ extension EC2Client {
     ///
     /// Move a BYOIPv4 CIDR to IPAM from a public IPv4 pool. If you already have a BYOIPv4 CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in [Tutorial: BYOIP address CIDRs to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoip-ipam.html).
     ///
-    /// - Parameter MoveByoipCidrToIpamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MoveByoipCidrToIpamInput`)
     ///
-    /// - Returns: `MoveByoipCidrToIpamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MoveByoipCidrToIpamOutput`)
     public func moveByoipCidrToIpam(input: MoveByoipCidrToIpamInput) async throws -> MoveByoipCidrToIpamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39393,9 +39393,9 @@ extension EC2Client {
     ///
     /// * Capacity Reservation end time - At specific time or Manually.
     ///
-    /// - Parameter MoveCapacityReservationInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MoveCapacityReservationInstancesInput`)
     ///
-    /// - Returns: `MoveCapacityReservationInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MoveCapacityReservationInstancesOutput`)
     public func moveCapacityReservationInstances(input: MoveCapacityReservationInstancesInput) async throws -> MoveCapacityReservationInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39456,9 +39456,9 @@ extension EC2Client {
     ///
     /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. For more information, see [Onboard your address range](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/byoip-onboard.html).
     ///
-    /// - Parameter ProvisionByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionByoipCidrInput`)
     ///
-    /// - Returns: `ProvisionByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionByoipCidrOutput`)
     public func provisionByoipCidr(input: ProvisionByoipCidrInput) async throws -> ProvisionByoipCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39518,9 +39518,9 @@ extension EC2Client {
     ///
     /// Provisions your Autonomous System Number (ASN) for use in your Amazon Web Services account. This action requires authorization context for Amazon to bring the ASN to an Amazon Web Services account. For more information, see [Tutorial: Bring your ASN to IPAM](https://docs.aws.amazon.com/vpc/latest/ipam/tutorials-byoasn.html) in the Amazon VPC IPAM guide.
     ///
-    /// - Parameter ProvisionIpamByoasnInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionIpamByoasnInput`)
     ///
-    /// - Returns: `ProvisionIpamByoasnOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionIpamByoasnOutput`)
     public func provisionIpamByoasn(input: ProvisionIpamByoasnInput) async throws -> ProvisionIpamByoasnOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39580,9 +39580,9 @@ extension EC2Client {
     ///
     /// Provision a CIDR to an IPAM pool. You can use this action to provision new CIDRs to a top-level pool or to transfer a CIDR from a top-level pool to a pool within it. For more information, see [Provision CIDRs to pools](https://docs.aws.amazon.com/vpc/latest/ipam/prov-cidr-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter ProvisionIpamPoolCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionIpamPoolCidrInput`)
     ///
-    /// - Returns: `ProvisionIpamPoolCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionIpamPoolCidrOutput`)
     public func provisionIpamPoolCidr(input: ProvisionIpamPoolCidrInput) async throws -> ProvisionIpamPoolCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39643,9 +39643,9 @@ extension EC2Client {
     ///
     /// Provision a CIDR to a public IPv4 pool. For more information about IPAM, see [What is IPAM?](https://docs.aws.amazon.com/vpc/latest/ipam/what-is-it-ipam.html) in the Amazon VPC IPAM User Guide.
     ///
-    /// - Parameter ProvisionPublicIpv4PoolCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionPublicIpv4PoolCidrInput`)
     ///
-    /// - Returns: `ProvisionPublicIpv4PoolCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionPublicIpv4PoolCidrOutput`)
     public func provisionPublicIpv4PoolCidr(input: ProvisionPublicIpv4PoolCidrInput) async throws -> ProvisionPublicIpv4PoolCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39705,9 +39705,9 @@ extension EC2Client {
     ///
     /// Purchase the Capacity Block for use with your account. With Capacity Blocks you ensure GPU capacity is available for machine learning (ML) workloads. You must specify the ID of the Capacity Block offering you are purchasing.
     ///
-    /// - Parameter PurchaseCapacityBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseCapacityBlockInput`)
     ///
-    /// - Returns: `PurchaseCapacityBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseCapacityBlockOutput`)
     public func purchaseCapacityBlock(input: PurchaseCapacityBlockInput) async throws -> PurchaseCapacityBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39767,9 +39767,9 @@ extension EC2Client {
     ///
     /// Purchase the Capacity Block extension for use with your account. You must specify the ID of the Capacity Block extension offering you are purchasing.
     ///
-    /// - Parameter PurchaseCapacityBlockExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseCapacityBlockExtensionInput`)
     ///
-    /// - Returns: `PurchaseCapacityBlockExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseCapacityBlockExtensionOutput`)
     public func purchaseCapacityBlockExtension(input: PurchaseCapacityBlockExtensionInput) async throws -> PurchaseCapacityBlockExtensionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39829,9 +39829,9 @@ extension EC2Client {
     ///
     /// Purchase a reservation with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This action results in the specified reservation being purchased and charged to your account.
     ///
-    /// - Parameter PurchaseHostReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseHostReservationInput`)
     ///
-    /// - Returns: `PurchaseHostReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseHostReservationOutput`)
     public func purchaseHostReservation(input: PurchaseHostReservationInput) async throws -> PurchaseHostReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39891,9 +39891,9 @@ extension EC2Client {
     ///
     /// Purchases a Reserved Instance for use with your account. With Reserved Instances, you pay a lower hourly rate compared to On-Demand instance pricing. Use [DescribeReservedInstancesOfferings] to get a list of Reserved Instance offerings that match your specifications. After you've purchased a Reserved Instance, you can check for your new Reserved Instance with [DescribeReservedInstances]. To queue a purchase for a future date and time, specify a purchase time. If you do not specify a purchase time, the default is the current time. For more information, see [Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html) and [Sell in the Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter PurchaseReservedInstancesOfferingInput : Contains the parameters for PurchaseReservedInstancesOffering.
+    /// - Parameter input: Contains the parameters for PurchaseReservedInstancesOffering. (Type: `PurchaseReservedInstancesOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedInstancesOfferingOutput` : Contains the output of PurchaseReservedInstancesOffering.
+    /// - Returns: Contains the output of PurchaseReservedInstancesOffering. (Type: `PurchaseReservedInstancesOfferingOutput`)
     public func purchaseReservedInstancesOffering(input: PurchaseReservedInstancesOfferingInput) async throws -> PurchaseReservedInstancesOfferingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -39953,9 +39953,9 @@ extension EC2Client {
     ///
     /// You can no longer purchase Scheduled Instances. Purchases the Scheduled Instances with the specified schedule. Scheduled Instances enable you to purchase Amazon EC2 compute capacity by the hour for a one-year term. Before you can purchase a Scheduled Instance, you must call [DescribeScheduledInstanceAvailability] to check for available schedules and obtain a purchase token. After you purchase a Scheduled Instance, you must call [RunScheduledInstances] during each scheduled time period. After you purchase a Scheduled Instance, you can't cancel, modify, or resell your purchase.
     ///
-    /// - Parameter PurchaseScheduledInstancesInput : Contains the parameters for PurchaseScheduledInstances.
+    /// - Parameter input: Contains the parameters for PurchaseScheduledInstances. (Type: `PurchaseScheduledInstancesInput`)
     ///
-    /// - Returns: `PurchaseScheduledInstancesOutput` : Contains the output of PurchaseScheduledInstances.
+    /// - Returns: Contains the output of PurchaseScheduledInstances. (Type: `PurchaseScheduledInstancesOutput`)
     public func purchaseScheduledInstances(input: PurchaseScheduledInstancesInput) async throws -> PurchaseScheduledInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40016,9 +40016,9 @@ extension EC2Client {
     ///
     /// Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see [Troubleshoot an unreachable instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter RebootInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootInstancesInput`)
     ///
-    /// - Returns: `RebootInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootInstancesOutput`)
     public func rebootInstances(input: RebootInstancesInput) async throws -> RebootInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40078,9 +40078,9 @@ extension EC2Client {
     ///
     /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Create an instance-store backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html) in the Amazon EC2 User Guide. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image. Register a snapshot of a root device volume You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the snapshot is encrypted, or encryption by default is enabled, the root volume of an instance launched from the AMI is encrypted. For more information, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Use encryption with EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html) in the Amazon EC2 User Guide. Amazon Web Services Marketplace product codes If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. In most cases, AMIs for Windows, RedHat, SUSE, and SQL Server require correct licensing information to be present on the AMI. For more information, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the Amazon EC2 User Guide. When creating an AMI from a snapshot, the RegisterImage operation derives the correct billing information from the snapshot's metadata, but this requires the appropriate metadata to be present. To verify if the correct billing information was applied, check the PlatformDetails field on the new AMI. If the field is empty or doesn't match the expected operating system code (for example, Windows, RedHat, SUSE, or SQL), the AMI creation was unsuccessful, and you should discard the AMI and instead create the AMI from an instance. For more information, see [Create an AMI from an instance ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#how-to-create-ebs-ami) in the Amazon EC2 User Guide. If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance is not applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter RegisterImageInput : Contains the parameters for RegisterImage.
+    /// - Parameter input: Contains the parameters for RegisterImage. (Type: `RegisterImageInput`)
     ///
-    /// - Returns: `RegisterImageOutput` : Contains the output of RegisterImage.
+    /// - Returns: Contains the output of RegisterImage. (Type: `RegisterImageOutput`)
     public func registerImage(input: RegisterImageInput) async throws -> RegisterImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40140,9 +40140,9 @@ extension EC2Client {
     ///
     /// Registers a set of tag keys to include in scheduled event notifications for your resources. To remove tags, use [DeregisterInstanceEventNotificationAttributes](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeregisterInstanceEventNotificationAttributes.html).
     ///
-    /// - Parameter RegisterInstanceEventNotificationAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterInstanceEventNotificationAttributesInput`)
     ///
-    /// - Returns: `RegisterInstanceEventNotificationAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterInstanceEventNotificationAttributesOutput`)
     public func registerInstanceEventNotificationAttributes(input: RegisterInstanceEventNotificationAttributesInput) async throws -> RegisterInstanceEventNotificationAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40202,9 +40202,9 @@ extension EC2Client {
     ///
     /// Registers members (network interfaces) with the transit gateway multicast group. A member is a network interface associated with a supported EC2 instance that receives multicast traffic. For more information, see [Multicast on transit gateways](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-multicast-overview.html) in the Amazon Web Services Transit Gateways Guide. After you add the members, use [SearchTransitGatewayMulticastGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SearchTransitGatewayMulticastGroups.html) to verify that the members were added to the transit gateway multicast group.
     ///
-    /// - Parameter RegisterTransitGatewayMulticastGroupMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTransitGatewayMulticastGroupMembersInput`)
     ///
-    /// - Returns: `RegisterTransitGatewayMulticastGroupMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTransitGatewayMulticastGroupMembersOutput`)
     public func registerTransitGatewayMulticastGroupMembers(input: RegisterTransitGatewayMulticastGroupMembersInput) async throws -> RegisterTransitGatewayMulticastGroupMembersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40264,9 +40264,9 @@ extension EC2Client {
     ///
     /// Registers sources (network interfaces) with the specified transit gateway multicast group. A multicast source is a network interface attached to a supported instance that sends multicast traffic. For more information about supported instances, see [Multicast on transit gateways](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-multicast-overview.html) in the Amazon Web Services Transit Gateways Guide. After you add the source, use [SearchTransitGatewayMulticastGroups](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SearchTransitGatewayMulticastGroups.html) to verify that the source was added to the multicast group.
     ///
-    /// - Parameter RegisterTransitGatewayMulticastGroupSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTransitGatewayMulticastGroupSourcesInput`)
     ///
-    /// - Returns: `RegisterTransitGatewayMulticastGroupSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTransitGatewayMulticastGroupSourcesOutput`)
     public func registerTransitGatewayMulticastGroupSources(input: RegisterTransitGatewayMulticastGroupSourcesInput) async throws -> RegisterTransitGatewayMulticastGroupSourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40326,9 +40326,9 @@ extension EC2Client {
     ///
     /// Rejects a request to assign billing of the available capacity of a shared Capacity Reservation to your account. For more information, see [ Billing assignment for shared Amazon EC2 Capacity Reservations](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/assign-billing.html).
     ///
-    /// - Parameter RejectCapacityReservationBillingOwnershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectCapacityReservationBillingOwnershipInput`)
     ///
-    /// - Returns: `RejectCapacityReservationBillingOwnershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectCapacityReservationBillingOwnershipOutput`)
     public func rejectCapacityReservationBillingOwnership(input: RejectCapacityReservationBillingOwnershipInput) async throws -> RejectCapacityReservationBillingOwnershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40388,9 +40388,9 @@ extension EC2Client {
     ///
     /// Rejects a request to associate cross-account subnets with a transit gateway multicast domain.
     ///
-    /// - Parameter RejectTransitGatewayMulticastDomainAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectTransitGatewayMulticastDomainAssociationsInput`)
     ///
-    /// - Returns: `RejectTransitGatewayMulticastDomainAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectTransitGatewayMulticastDomainAssociationsOutput`)
     public func rejectTransitGatewayMulticastDomainAssociations(input: RejectTransitGatewayMulticastDomainAssociationsInput) async throws -> RejectTransitGatewayMulticastDomainAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40450,9 +40450,9 @@ extension EC2Client {
     ///
     /// Rejects a transit gateway peering attachment request.
     ///
-    /// - Parameter RejectTransitGatewayPeeringAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectTransitGatewayPeeringAttachmentInput`)
     ///
-    /// - Returns: `RejectTransitGatewayPeeringAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectTransitGatewayPeeringAttachmentOutput`)
     public func rejectTransitGatewayPeeringAttachment(input: RejectTransitGatewayPeeringAttachmentInput) async throws -> RejectTransitGatewayPeeringAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40512,9 +40512,9 @@ extension EC2Client {
     ///
     /// Rejects a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use [DescribeTransitGatewayVpcAttachments] to view your pending VPC attachment requests. Use [AcceptTransitGatewayVpcAttachment] to accept a VPC attachment request.
     ///
-    /// - Parameter RejectTransitGatewayVpcAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectTransitGatewayVpcAttachmentInput`)
     ///
-    /// - Returns: `RejectTransitGatewayVpcAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectTransitGatewayVpcAttachmentOutput`)
     public func rejectTransitGatewayVpcAttachment(input: RejectTransitGatewayVpcAttachmentInput) async throws -> RejectTransitGatewayVpcAttachmentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40574,9 +40574,9 @@ extension EC2Client {
     ///
     /// Rejects VPC endpoint connection requests to your VPC endpoint service.
     ///
-    /// - Parameter RejectVpcEndpointConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectVpcEndpointConnectionsInput`)
     ///
-    /// - Returns: `RejectVpcEndpointConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectVpcEndpointConnectionsOutput`)
     public func rejectVpcEndpointConnections(input: RejectVpcEndpointConnectionsInput) async throws -> RejectVpcEndpointConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40636,9 +40636,9 @@ extension EC2Client {
     ///
     /// Rejects a VPC peering connection request. The VPC peering connection must be in the pending-acceptance state. Use the [DescribeVpcPeeringConnections] request to view your outstanding VPC peering connection requests. To delete an active VPC peering connection, or to delete a VPC peering connection request that you initiated, use [DeleteVpcPeeringConnection].
     ///
-    /// - Parameter RejectVpcPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectVpcPeeringConnectionInput`)
     ///
-    /// - Returns: `RejectVpcPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectVpcPeeringConnectionOutput`)
     public func rejectVpcPeeringConnection(input: RejectVpcPeeringConnectionInput) async throws -> RejectVpcPeeringConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40698,9 +40698,9 @@ extension EC2Client {
     ///
     /// Releases the specified Elastic IP address. [Default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. Alternatively, you can disassociate an Elastic IP address without releasing it. [Nondefault VPC] You must disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update your DNS records and any servers or devices that communicate with the address. If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another Amazon Web Services account. After you release an Elastic IP address, you might be able to recover it. For more information, see [Release an Elastic IP address](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing-eips-releasing.html).
     ///
-    /// - Parameter ReleaseAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReleaseAddressInput`)
     ///
-    /// - Returns: `ReleaseAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReleaseAddressOutput`)
     public func releaseAddress(input: ReleaseAddressInput) async throws -> ReleaseAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40760,9 +40760,9 @@ extension EC2Client {
     ///
     /// When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand billing is stopped and the host goes into released state. The host ID of Dedicated Hosts that have been released can no longer be specified in another request, for example, to modify the host. You must stop or terminate all instances on a host before it can be released. When Dedicated Hosts are released, it may take some time for them to stop counting toward your limit and you may receive capacity errors when trying to allocate new Dedicated Hosts. Wait a few minutes and then try again. Released hosts still appear in a [DescribeHosts] response.
     ///
-    /// - Parameter ReleaseHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReleaseHostsInput`)
     ///
-    /// - Returns: `ReleaseHostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReleaseHostsOutput`)
     public func releaseHosts(input: ReleaseHostsInput) async throws -> ReleaseHostsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40822,9 +40822,9 @@ extension EC2Client {
     ///
     /// Release an allocation within an IPAM pool. The Region you use should be the IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is available for allocations. You can only use this action to release manual allocations. To remove an allocation for a resource without deleting the resource, set its monitored state to false using [ModifyIpamResourceCidr](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyIpamResourceCidr.html). For more information, see [Release an allocation](https://docs.aws.amazon.com/vpc/latest/ipam/release-alloc-ipam.html) in the Amazon VPC IPAM User Guide. All EC2 API actions follow an [eventual consistency](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) model.
     ///
-    /// - Parameter ReleaseIpamPoolAllocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReleaseIpamPoolAllocationInput`)
     ///
-    /// - Returns: `ReleaseIpamPoolAllocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReleaseIpamPoolAllocationOutput`)
     public func releaseIpamPoolAllocation(input: ReleaseIpamPoolAllocationInput) async throws -> ReleaseIpamPoolAllocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40884,9 +40884,9 @@ extension EC2Client {
     ///
     /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's associated with an instance without having to disassociate the existing IAM instance profile first. Use [DescribeIamInstanceProfileAssociations] to get the association ID.
     ///
-    /// - Parameter ReplaceIamInstanceProfileAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplaceIamInstanceProfileAssociationInput`)
     ///
-    /// - Returns: `ReplaceIamInstanceProfileAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceIamInstanceProfileAssociationOutput`)
     public func replaceIamInstanceProfileAssociation(input: ReplaceIamInstanceProfileAssociationInput) async throws -> ReplaceIamInstanceProfileAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -40946,9 +40946,9 @@ extension EC2Client {
     ///
     /// Sets or replaces the criteria for Allowed AMIs. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
-    /// - Parameter ReplaceImageCriteriaInAllowedImagesSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplaceImageCriteriaInAllowedImagesSettingsInput`)
     ///
-    /// - Returns: `ReplaceImageCriteriaInAllowedImagesSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceImageCriteriaInAllowedImagesSettingsOutput`)
     public func replaceImageCriteriaInAllowedImagesSettings(input: ReplaceImageCriteriaInAllowedImagesSettingsInput) async throws -> ReplaceImageCriteriaInAllowedImagesSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41008,9 +41008,9 @@ extension EC2Client {
     ///
     /// Changes which network ACL a subnet is associated with. By default when you create a subnet, it's automatically associated with the default network ACL. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide. This is an idempotent operation.
     ///
-    /// - Parameter ReplaceNetworkAclAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplaceNetworkAclAssociationInput`)
     ///
-    /// - Returns: `ReplaceNetworkAclAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceNetworkAclAssociationOutput`)
     public func replaceNetworkAclAssociation(input: ReplaceNetworkAclAssociationInput) async throws -> ReplaceNetworkAclAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41070,9 +41070,9 @@ extension EC2Client {
     ///
     /// Replaces an entry (rule) in a network ACL. For more information, see [Network ACLs](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter ReplaceNetworkAclEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplaceNetworkAclEntryInput`)
     ///
-    /// - Returns: `ReplaceNetworkAclEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceNetworkAclEntryOutput`)
     public func replaceNetworkAclEntry(input: ReplaceNetworkAclEntryInput) async throws -> ReplaceNetworkAclEntryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41132,9 +41132,9 @@ extension EC2Client {
     ///
     /// Replaces an existing route within a route table in a VPC. You must specify either a destination CIDR block or a prefix list ID. You must also specify exactly one of the resources from the parameter list, or reset the local route to its default target. For more information, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter ReplaceRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplaceRouteInput`)
     ///
-    /// - Returns: `ReplaceRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceRouteOutput`)
     public func replaceRoute(input: ReplaceRouteInput) async throws -> ReplaceRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41194,9 +41194,9 @@ extension EC2Client {
     ///
     /// Changes the route table associated with a given subnet, internet gateway, or virtual private gateway in a VPC. After the operation completes, the subnet or gateway uses the routes in the new route table. For more information about route tables, see [Route tables](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html) in the Amazon VPC User Guide. You can also use this operation to change which table is the main route table in the VPC. Specify the main route table's association ID and the route table ID of the new main route table.
     ///
-    /// - Parameter ReplaceRouteTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplaceRouteTableAssociationInput`)
     ///
-    /// - Returns: `ReplaceRouteTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceRouteTableAssociationOutput`)
     public func replaceRouteTableAssociation(input: ReplaceRouteTableAssociationInput) async throws -> ReplaceRouteTableAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41256,9 +41256,9 @@ extension EC2Client {
     ///
     /// Replaces the specified route in the specified transit gateway route table.
     ///
-    /// - Parameter ReplaceTransitGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplaceTransitGatewayRouteInput`)
     ///
-    /// - Returns: `ReplaceTransitGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceTransitGatewayRouteOutput`)
     public func replaceTransitGatewayRoute(input: ReplaceTransitGatewayRouteInput) async throws -> ReplaceTransitGatewayRouteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41318,9 +41318,9 @@ extension EC2Client {
     ///
     /// Trigger replacement of specified VPN tunnel.
     ///
-    /// - Parameter ReplaceVpnTunnelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplaceVpnTunnelInput`)
     ///
-    /// - Returns: `ReplaceVpnTunnelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceVpnTunnelOutput`)
     public func replaceVpnTunnel(input: ReplaceVpnTunnelInput) async throws -> ReplaceVpnTunnelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41380,9 +41380,9 @@ extension EC2Client {
     ///
     /// Submits feedback about the status of an instance. The instance must be in the running state. If your experience with the instance differs from the instance status returned by [DescribeInstanceStatus], use [ReportInstanceStatus] to report your experience with the instance. Amazon EC2 collects this information to improve the accuracy of status checks. Use of this action does not change the value returned by [DescribeInstanceStatus].
     ///
-    /// - Parameter ReportInstanceStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReportInstanceStatusInput`)
     ///
-    /// - Returns: `ReportInstanceStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReportInstanceStatusOutput`)
     public func reportInstanceStatus(input: ReportInstanceStatusInput) async throws -> ReportInstanceStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41442,9 +41442,9 @@ extension EC2Client {
     ///
     /// Creates a Spot Fleet request. The Spot Fleet request specifies the total target capacity and the On-Demand target capacity. Amazon EC2 calculates the difference between the total capacity and On-Demand capacity, and launches the difference as Spot capacity. You can submit a single request that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. By default, the Spot Fleet requests Spot Instances in the Spot Instance pool where the price per unit is the lowest. Each launch specification can include its own instance weighting that reflects the value of the instance type to your application workload. Alternatively, you can specify that the Spot Fleet distribute the target capacity across the Spot pools included in its launch specifications. By ensuring that the Spot Instances in your Spot Fleet are in different Spot pools, you can improve the availability of your fleet. You can specify tags for the Spot Fleet request and instances launched by the fleet. You cannot tag other resource types in a Spot Fleet request because only the spot-fleet-request and instance resource types are supported. For more information, see [Spot Fleet requests](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html) in the Amazon EC2 User Guide. We strongly discourage using the RequestSpotFleet API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see [Which is the best Spot request method to use?](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter RequestSpotFleetInput : Contains the parameters for RequestSpotFleet.
+    /// - Parameter input: Contains the parameters for RequestSpotFleet. (Type: `RequestSpotFleetInput`)
     ///
-    /// - Returns: `RequestSpotFleetOutput` : Contains the output of RequestSpotFleet.
+    /// - Returns: Contains the output of RequestSpotFleet. (Type: `RequestSpotFleetOutput`)
     public func requestSpotFleet(input: RequestSpotFleetInput) async throws -> RequestSpotFleetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41504,9 +41504,9 @@ extension EC2Client {
     ///
     /// Creates a Spot Instance request. For more information, see [Work with Spot Instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html) in the Amazon EC2 User Guide. We strongly discourage using the RequestSpotInstances API because it is a legacy API with no planned investment. For options for requesting Spot Instances, see [Which is the best Spot request method to use?](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter RequestSpotInstancesInput : Contains the parameters for RequestSpotInstances.
+    /// - Parameter input: Contains the parameters for RequestSpotInstances. (Type: `RequestSpotInstancesInput`)
     ///
-    /// - Returns: `RequestSpotInstancesOutput` : Contains the output of RequestSpotInstances.
+    /// - Returns: Contains the output of RequestSpotInstances. (Type: `RequestSpotInstancesOutput`)
     public func requestSpotInstances(input: RequestSpotInstancesInput) async throws -> RequestSpotInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41566,9 +41566,9 @@ extension EC2Client {
     ///
     /// Resets the attribute of the specified IP address. For requirements, see [Using reverse DNS for email applications](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html#Using_Elastic_Addressing_Reverse_DNS).
     ///
-    /// - Parameter ResetAddressAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetAddressAttributeInput`)
     ///
-    /// - Returns: `ResetAddressAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetAddressAttributeOutput`)
     public func resetAddressAttribute(input: ResetAddressAttributeInput) async throws -> ResetAddressAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41628,9 +41628,9 @@ extension EC2Client {
     ///
     /// Resets the default KMS key for EBS encryption for your account in this Region to the Amazon Web Services managed KMS key for EBS. After resetting the default KMS key to the Amazon Web Services managed KMS key, you can continue to encrypt by a customer managed KMS key by specifying it when you create the volume. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter ResetEbsDefaultKmsKeyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetEbsDefaultKmsKeyIdInput`)
     ///
-    /// - Returns: `ResetEbsDefaultKmsKeyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetEbsDefaultKmsKeyIdOutput`)
     public func resetEbsDefaultKmsKeyId(input: ResetEbsDefaultKmsKeyIdInput) async throws -> ResetEbsDefaultKmsKeyIdOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41690,9 +41690,9 @@ extension EC2Client {
     ///
     /// Resets the specified attribute of the specified Amazon FPGA Image (AFI) to its default value. You can only reset the load permission attribute.
     ///
-    /// - Parameter ResetFpgaImageAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetFpgaImageAttributeInput`)
     ///
-    /// - Returns: `ResetFpgaImageAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetFpgaImageAttributeOutput`)
     public func resetFpgaImageAttribute(input: ResetFpgaImageAttributeInput) async throws -> ResetFpgaImageAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41752,9 +41752,9 @@ extension EC2Client {
     ///
     /// Resets an attribute of an AMI to its default value.
     ///
-    /// - Parameter ResetImageAttributeInput : Contains the parameters for ResetImageAttribute.
+    /// - Parameter input: Contains the parameters for ResetImageAttribute. (Type: `ResetImageAttributeInput`)
     ///
-    /// - Returns: `ResetImageAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetImageAttributeOutput`)
     public func resetImageAttribute(input: ResetImageAttributeInput) async throws -> ResetImageAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41814,9 +41814,9 @@ extension EC2Client {
     ///
     /// Resets an attribute of an instance to its default value. To reset the kernel or ramdisk, the instance must be in a stopped state. To reset the sourceDestCheck, the instance can be either running or stopped. The sourceDestCheck attribute controls whether source/destination checking is enabled. The default value is true, which means checking is enabled. This value must be false for a NAT instance to perform NAT. For more information, see [NAT instances](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_NAT_Instance.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter ResetInstanceAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetInstanceAttributeInput`)
     ///
-    /// - Returns: `ResetInstanceAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetInstanceAttributeOutput`)
     public func resetInstanceAttribute(input: ResetInstanceAttributeInput) async throws -> ResetInstanceAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41876,9 +41876,9 @@ extension EC2Client {
     ///
     /// Resets a network interface attribute. You can specify only one attribute at a time.
     ///
-    /// - Parameter ResetNetworkInterfaceAttributeInput : Contains the parameters for ResetNetworkInterfaceAttribute.
+    /// - Parameter input: Contains the parameters for ResetNetworkInterfaceAttribute. (Type: `ResetNetworkInterfaceAttributeInput`)
     ///
-    /// - Returns: `ResetNetworkInterfaceAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetNetworkInterfaceAttributeOutput`)
     public func resetNetworkInterfaceAttribute(input: ResetNetworkInterfaceAttributeInput) async throws -> ResetNetworkInterfaceAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -41938,9 +41938,9 @@ extension EC2Client {
     ///
     /// Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see [Share a snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-modifying-snapshot-permissions.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter ResetSnapshotAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetSnapshotAttributeInput`)
     ///
-    /// - Returns: `ResetSnapshotAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetSnapshotAttributeOutput`)
     public func resetSnapshotAttribute(input: ResetSnapshotAttributeInput) async throws -> ResetSnapshotAttributeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42000,9 +42000,9 @@ extension EC2Client {
     ///
     /// This action is deprecated. Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.
     ///
-    /// - Parameter RestoreAddressToClassicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreAddressToClassicInput`)
     ///
-    /// - Returns: `RestoreAddressToClassicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreAddressToClassicOutput`)
     public func restoreAddressToClassic(input: RestoreAddressToClassicInput) async throws -> RestoreAddressToClassicOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42062,9 +42062,9 @@ extension EC2Client {
     ///
     /// Restores an AMI from the Recycle Bin. For more information, see [Recover deleted Amazon EBS snapshots and EBS-back AMIs with Recycle Bin](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter RestoreImageFromRecycleBinInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreImageFromRecycleBinInput`)
     ///
-    /// - Returns: `RestoreImageFromRecycleBinOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreImageFromRecycleBinOutput`)
     public func restoreImageFromRecycleBin(input: RestoreImageFromRecycleBinInput) async throws -> RestoreImageFromRecycleBinOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42124,9 +42124,9 @@ extension EC2Client {
     ///
     /// Restores the entries from a previous version of a managed prefix list to a new version of the prefix list.
     ///
-    /// - Parameter RestoreManagedPrefixListVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreManagedPrefixListVersionInput`)
     ///
-    /// - Returns: `RestoreManagedPrefixListVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreManagedPrefixListVersionOutput`)
     public func restoreManagedPrefixListVersion(input: RestoreManagedPrefixListVersionInput) async throws -> RestoreManagedPrefixListVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42186,9 +42186,9 @@ extension EC2Client {
     ///
     /// Restores a snapshot from the Recycle Bin. For more information, see [Restore snapshots from the Recycle Bin](https://docs.aws.amazon.com/ebs/latest/userguide/recycle-bin-working-with-snaps.html#recycle-bin-restore-snaps) in the Amazon EBS User Guide.
     ///
-    /// - Parameter RestoreSnapshotFromRecycleBinInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreSnapshotFromRecycleBinInput`)
     ///
-    /// - Returns: `RestoreSnapshotFromRecycleBinOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreSnapshotFromRecycleBinOutput`)
     public func restoreSnapshotFromRecycleBin(input: RestoreSnapshotFromRecycleBinInput) async throws -> RestoreSnapshotFromRecycleBinOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42248,9 +42248,9 @@ extension EC2Client {
     ///
     /// Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore period or restore type for a snapshot that was previously temporarily restored. For more information see [ Restore an archived snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/working-with-snapshot-archiving.html#restore-archived-snapshot) and [ modify the restore period or restore type for a temporarily restored snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/working-with-snapshot-archiving.html#modify-temp-restore-period) in the Amazon EBS User Guide.
     ///
-    /// - Parameter RestoreSnapshotTierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreSnapshotTierInput`)
     ///
-    /// - Returns: `RestoreSnapshotTierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreSnapshotTierOutput`)
     public func restoreSnapshotTier(input: RestoreSnapshotTierInput) async throws -> RestoreSnapshotTierOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42310,9 +42310,9 @@ extension EC2Client {
     ///
     /// Removes an ingress authorization rule from a Client VPN endpoint.
     ///
-    /// - Parameter RevokeClientVpnIngressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeClientVpnIngressInput`)
     ///
-    /// - Returns: `RevokeClientVpnIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeClientVpnIngressOutput`)
     public func revokeClientVpnIngress(input: RevokeClientVpnIngressInput) async throws -> RevokeClientVpnIngressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42372,9 +42372,9 @@ extension EC2Client {
     ///
     /// Removes the specified outbound (egress) rules from the specified security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and destination (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not need to specify the description to revoke the rule. For a default VPC, if the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
     ///
-    /// - Parameter RevokeSecurityGroupEgressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeSecurityGroupEgressInput`)
     ///
-    /// - Returns: `RevokeSecurityGroupEgressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeSecurityGroupEgressOutput`)
     public func revokeSecurityGroupEgress(input: RevokeSecurityGroupEgressInput) async throws -> RevokeSecurityGroupEgressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42434,9 +42434,9 @@ extension EC2Client {
     ///
     /// Removes the specified inbound (ingress) rules from a security group. You can specify rules using either rule IDs or security group rule properties. If you use rule properties, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule has a protocol, from and to ports, and source (CIDR range, security group, or prefix list). For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not need to specify the description to revoke the rule. For a default VPC, if the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked. For a non-default VPC, if the values you specify do not match the existing rule's values, an InvalidPermission.NotFound client error is returned, and no rules are revoked. Amazon Web Services recommends that you describe the security group to verify that the rules were removed. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
     ///
-    /// - Parameter RevokeSecurityGroupIngressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeSecurityGroupIngressInput`)
     ///
-    /// - Returns: `RevokeSecurityGroupIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeSecurityGroupIngressOutput`)
     public func revokeSecurityGroupIngress(input: RevokeSecurityGroupIngressInput) async throws -> RevokeSecurityGroupIngressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42509,9 +42509,9 @@ extension EC2Client {
     ///
     /// You can create a [launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html), which is a resource that contains the parameters to launch an instance. When you launch an instance using [RunInstances], you can specify the launch template instead of specifying the launch parameters. To ensure faster instance launches, break up large requests into smaller batches. For example, create five separate launch requests for 100 instances each instead of one launch request for 500 instances. RunInstances is subject to both request rate limiting and resource rate limiting. For more information, see [Request throttling](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-throttling.html). An instance is ready for you to use when it's in the running state. You can check the state of your instance using [DescribeInstances]. You can tag instances and EBS volumes during launch, after launch, or both. For more information, see [CreateTags] and [Tagging your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html). Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see [Key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html). For troubleshooting, see [What to do if an instance immediately terminates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_InstanceStraightToTerminated.html), and [Troubleshooting connecting to your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html).
     ///
-    /// - Parameter RunInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RunInstancesInput`)
     ///
-    /// - Returns: `RunInstancesOutput` : Describes a launch request for one or more instances, and includes owner, requester, and security group information that applies to all instances in the launch request.
+    /// - Returns: Describes a launch request for one or more instances, and includes owner, requester, and security group information that applies to all instances in the launch request. (Type: `RunInstancesOutput`)
     public func runInstances(input: RunInstancesInput) async throws -> RunInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42572,9 +42572,9 @@ extension EC2Client {
     ///
     /// Launches the specified Scheduled Instances. Before you can launch a Scheduled Instance, you must purchase it and obtain an identifier using [PurchaseScheduledInstances]. You must launch a Scheduled Instance during its scheduled time period. You can't stop or reboot a Scheduled Instance, but you can terminate it as needed. If you terminate a Scheduled Instance before the current scheduled time period ends, you can launch it again after a few minutes.
     ///
-    /// - Parameter RunScheduledInstancesInput : Contains the parameters for RunScheduledInstances.
+    /// - Parameter input: Contains the parameters for RunScheduledInstances. (Type: `RunScheduledInstancesInput`)
     ///
-    /// - Returns: `RunScheduledInstancesOutput` : Contains the output of RunScheduledInstances.
+    /// - Returns: Contains the output of RunScheduledInstances. (Type: `RunScheduledInstancesOutput`)
     public func runScheduledInstances(input: RunScheduledInstancesInput) async throws -> RunScheduledInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42635,9 +42635,9 @@ extension EC2Client {
     ///
     /// Searches for routes in the specified local gateway route table.
     ///
-    /// - Parameter SearchLocalGatewayRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchLocalGatewayRoutesInput`)
     ///
-    /// - Returns: `SearchLocalGatewayRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchLocalGatewayRoutesOutput`)
     public func searchLocalGatewayRoutes(input: SearchLocalGatewayRoutesInput) async throws -> SearchLocalGatewayRoutesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42697,9 +42697,9 @@ extension EC2Client {
     ///
     /// Searches one or more transit gateway multicast groups and returns the group membership information.
     ///
-    /// - Parameter SearchTransitGatewayMulticastGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTransitGatewayMulticastGroupsInput`)
     ///
-    /// - Returns: `SearchTransitGatewayMulticastGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTransitGatewayMulticastGroupsOutput`)
     public func searchTransitGatewayMulticastGroups(input: SearchTransitGatewayMulticastGroupsInput) async throws -> SearchTransitGatewayMulticastGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42759,9 +42759,9 @@ extension EC2Client {
     ///
     /// Searches for routes in the specified transit gateway route table.
     ///
-    /// - Parameter SearchTransitGatewayRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTransitGatewayRoutesInput`)
     ///
-    /// - Returns: `SearchTransitGatewayRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTransitGatewayRoutesOutput`)
     public func searchTransitGatewayRoutes(input: SearchTransitGatewayRoutesInput) async throws -> SearchTransitGatewayRoutesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42821,9 +42821,9 @@ extension EC2Client {
     ///
     /// Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a kernel panic (on Linux instances), or a blue screen/stop error (on Windows instances). For instances based on Intel and AMD processors, the interrupt is received as a non-maskable interrupt (NMI). In general, the operating system crashes and reboots when a kernel panic or stop error is triggered. The operating system can also be configured to perform diagnostic tasks, such as generating a memory dump file, loading a secondary kernel, or obtaining a call trace. Before sending a diagnostic interrupt to your instance, ensure that its operating system is configured to perform the required diagnostic tasks. For more information about configuring your operating system to generate a crash dump when a kernel panic or stop error occurs, see [Send a diagnostic interrupt (for advanced users)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/diagnostic-interrupt.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter SendDiagnosticInterruptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendDiagnosticInterruptInput`)
     ///
-    /// - Returns: `SendDiagnosticInterruptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendDiagnosticInterruptOutput`)
     public func sendDiagnosticInterrupt(input: SendDiagnosticInterruptInput) async throws -> SendDiagnosticInterruptOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42894,9 +42894,9 @@ extension EC2Client {
     ///
     /// For more information, including the required IAM permissions to run this API, see [Generating the account status report for declarative policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative_status-report.html) in the Amazon Web Services Organizations User Guide.
     ///
-    /// - Parameter StartDeclarativePoliciesReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDeclarativePoliciesReportInput`)
     ///
-    /// - Returns: `StartDeclarativePoliciesReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDeclarativePoliciesReportOutput`)
     public func startDeclarativePoliciesReport(input: StartDeclarativePoliciesReportInput) async throws -> StartDeclarativePoliciesReportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -42956,9 +42956,9 @@ extension EC2Client {
     ///
     /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error. If you attempt to start a T3 instance with host tenancy and the unlimited CPU credit option, the request fails. The unlimited CPU credit option is not supported on Dedicated Hosts. Before you start the instance, either change its CPU credit option to standard, or change its tenancy to default or dedicated. For more information, see [Stop and start Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter StartInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartInstancesInput`)
     ///
-    /// - Returns: `StartInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartInstancesOutput`)
     public func startInstances(input: StartInstancesInput) async throws -> StartInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43018,9 +43018,9 @@ extension EC2Client {
     ///
     /// Starts analyzing the specified Network Access Scope.
     ///
-    /// - Parameter StartNetworkInsightsAccessScopeAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartNetworkInsightsAccessScopeAnalysisInput`)
     ///
-    /// - Returns: `StartNetworkInsightsAccessScopeAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartNetworkInsightsAccessScopeAnalysisOutput`)
     public func startNetworkInsightsAccessScopeAnalysis(input: StartNetworkInsightsAccessScopeAnalysisInput) async throws -> StartNetworkInsightsAccessScopeAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43081,9 +43081,9 @@ extension EC2Client {
     ///
     /// Starts analyzing the specified path. If the path is reachable, the operation returns the shortest feasible path.
     ///
-    /// - Parameter StartNetworkInsightsAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartNetworkInsightsAnalysisInput`)
     ///
-    /// - Returns: `StartNetworkInsightsAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartNetworkInsightsAnalysisOutput`)
     public func startNetworkInsightsAnalysis(input: StartNetworkInsightsAnalysisInput) async throws -> StartNetworkInsightsAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43144,9 +43144,9 @@ extension EC2Client {
     ///
     /// Initiates the verification process to prove that the service provider owns the private DNS name domain for the endpoint service. The service provider must successfully perform the verification before the consumer can use the name to access the service. Before the service provider runs this command, they must add a record to the DNS server.
     ///
-    /// - Parameter StartVpcEndpointServicePrivateDnsVerificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVpcEndpointServicePrivateDnsVerificationInput`)
     ///
-    /// - Returns: `StartVpcEndpointServicePrivateDnsVerificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVpcEndpointServicePrivateDnsVerificationOutput`)
     public func startVpcEndpointServicePrivateDnsVerification(input: StartVpcEndpointServicePrivateDnsVerificationInput) async throws -> StartVpcEndpointServicePrivateDnsVerificationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43206,9 +43206,9 @@ extension EC2Client {
     ///
     /// Stops an Amazon EBS-backed instance. You can restart your instance at any time using the [StartInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_StartInstances.html) API. For more information, see [Stop and start Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html) in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. By default, this includes a graceful operating system (OS) shutdown. To bypass the graceful shutdown, use the skipOsShutdown parameter; however, this might risk data integrity. You can use the StopInstances operation together with the Hibernate parameter to hibernate an instance if the instance is [enabled for hibernation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enabling-hibernation.html) and meets the [hibernation prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hibernating-prerequisites.html). Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see [Hibernate your Amazon EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html) in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the StopInstances operation together with the Force parameter to force stop your instance. For more information, see [Troubleshoot Amazon EC2 instance stop issues](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html) in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see [Amazon EC2 instance state changes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
     ///
-    /// - Parameter StopInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopInstancesInput`)
     ///
-    /// - Returns: `StopInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopInstancesOutput`)
     public func stopInstances(input: StopInstancesInput) async throws -> StopInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43268,9 +43268,9 @@ extension EC2Client {
     ///
     /// Terminates active Client VPN endpoint connections. This action can be used to terminate a specific client connection, or up to five connections established by a specific user.
     ///
-    /// - Parameter TerminateClientVpnConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateClientVpnConnectionsInput`)
     ///
-    /// - Returns: `TerminateClientVpnConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateClientVpnConnectionsOutput`)
     public func terminateClientVpnConnections(input: TerminateClientVpnConnectionsInput) async throws -> TerminateClientVpnConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43355,9 +43355,9 @@ extension EC2Client {
     ///
     /// Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. By default, the TerminateInstances operation includes a graceful operating system (OS) shutdown. To bypass the graceful shutdown, use the skipOsShutdown parameter; however, this might risk data integrity. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see [Amazon EC2 instance state changes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide. When you terminate an instance, we attempt to terminate it forcibly after a short while. If your instance appears stuck in the shutting-down state after a period of time, there might be an issue with the underlying host computer. For more information about terminating and troubleshooting terminating your instances, see [Terminate Amazon EC2 instances](https://docs.aws.amazon.com/) and [Troubleshooting terminating your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesShuttingDown.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter TerminateInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateInstancesInput`)
     ///
-    /// - Returns: `TerminateInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateInstancesOutput`)
     public func terminateInstances(input: TerminateInstancesInput) async throws -> TerminateInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43417,9 +43417,9 @@ extension EC2Client {
     ///
     /// Unassigns the specified IPv6 addresses or Prefix Delegation prefixes from a network interface.
     ///
-    /// - Parameter UnassignIpv6AddressesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnassignIpv6AddressesInput`)
     ///
-    /// - Returns: `UnassignIpv6AddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnassignIpv6AddressesOutput`)
     public func unassignIpv6Addresses(input: UnassignIpv6AddressesInput) async throws -> UnassignIpv6AddressesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43479,9 +43479,9 @@ extension EC2Client {
     ///
     /// Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation prefixes from a network interface.
     ///
-    /// - Parameter UnassignPrivateIpAddressesInput : Contains the parameters for UnassignPrivateIpAddresses.
+    /// - Parameter input: Contains the parameters for UnassignPrivateIpAddresses. (Type: `UnassignPrivateIpAddressesInput`)
     ///
-    /// - Returns: `UnassignPrivateIpAddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnassignPrivateIpAddressesOutput`)
     public func unassignPrivateIpAddresses(input: UnassignPrivateIpAddressesInput) async throws -> UnassignPrivateIpAddressesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43541,9 +43541,9 @@ extension EC2Client {
     ///
     /// Unassigns secondary private IPv4 addresses from a private NAT gateway. You cannot unassign your primary private IP. For more information, see [Edit secondary IP address associations](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html#nat-gateway-edit-secondary) in the Amazon VPC User Guide. While unassigning is in progress, you cannot assign/unassign additional IP addresses while the connections are being drained. You are, however, allowed to delete the NAT gateway. A private IP address will only be released at the end of MaxDrainDurationSeconds. The private IP addresses stay associated and support the existing connections, but do not support any new connections (new connections are distributed across the remaining assigned private IP address). After the existing connections drain out, the private IP addresses are released.
     ///
-    /// - Parameter UnassignPrivateNatGatewayAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnassignPrivateNatGatewayAddressInput`)
     ///
-    /// - Returns: `UnassignPrivateNatGatewayAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnassignPrivateNatGatewayAddressOutput`)
     public func unassignPrivateNatGatewayAddress(input: UnassignPrivateNatGatewayAddressInput) async throws -> UnassignPrivateNatGatewayAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43603,9 +43603,9 @@ extension EC2Client {
     ///
     /// Unlocks a snapshot that is locked in governance mode or that is locked in compliance mode but still in the cooling-off period. You can't unlock a snapshot that is locked in compliance mode after the cooling-off period has expired.
     ///
-    /// - Parameter UnlockSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnlockSnapshotInput`)
     ///
-    /// - Returns: `UnlockSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnlockSnapshotOutput`)
     public func unlockSnapshot(input: UnlockSnapshotInput) async throws -> UnlockSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43665,9 +43665,9 @@ extension EC2Client {
     ///
     /// Disables detailed monitoring for a running instance. For more information, see [Monitoring your instances and volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter UnmonitorInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnmonitorInstancesInput`)
     ///
-    /// - Returns: `UnmonitorInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnmonitorInstancesOutput`)
     public func unmonitorInstances(input: UnmonitorInstancesInput) async throws -> UnmonitorInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43727,9 +43727,9 @@ extension EC2Client {
     ///
     /// Updates the description of an egress (outbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the request.
     ///
-    /// - Parameter UpdateSecurityGroupRuleDescriptionsEgressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityGroupRuleDescriptionsEgressInput`)
     ///
-    /// - Returns: `UpdateSecurityGroupRuleDescriptionsEgressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityGroupRuleDescriptionsEgressOutput`)
     public func updateSecurityGroupRuleDescriptionsEgress(input: UpdateSecurityGroupRuleDescriptionsEgressInput) async throws -> UpdateSecurityGroupRuleDescriptionsEgressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43789,9 +43789,9 @@ extension EC2Client {
     ///
     /// Updates the description of an ingress (inbound) security group rule. You can replace an existing description, or add a description to a rule that did not have one previously. You can remove a description for a security group rule by omitting the description parameter in the request.
     ///
-    /// - Parameter UpdateSecurityGroupRuleDescriptionsIngressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityGroupRuleDescriptionsIngressInput`)
     ///
-    /// - Returns: `UpdateSecurityGroupRuleDescriptionsIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityGroupRuleDescriptionsIngressOutput`)
     public func updateSecurityGroupRuleDescriptionsIngress(input: UpdateSecurityGroupRuleDescriptionsIngressInput) async throws -> UpdateSecurityGroupRuleDescriptionsIngressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -43851,9 +43851,9 @@ extension EC2Client {
     ///
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of BGP propagation delays.
     ///
-    /// - Parameter WithdrawByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `WithdrawByoipCidrInput`)
     ///
-    /// - Returns: `WithdrawByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `WithdrawByoipCidrOutput`)
     public func withdrawByoipCidr(input: WithdrawByoipCidrInput) async throws -> WithdrawByoipCidrOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

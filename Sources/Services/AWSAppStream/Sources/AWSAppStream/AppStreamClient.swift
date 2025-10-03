@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppStreamClient: ClientRuntime.Client {
     public static let clientName = "AppStreamClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppStreamClient.AppStreamClientConfiguration
     let serviceName = "AppStream"
@@ -373,9 +373,9 @@ extension AppStreamClient {
     ///
     /// Associates the specified app block builder with the specified app block.
     ///
-    /// - Parameter AssociateAppBlockBuilderAppBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAppBlockBuilderAppBlockInput`)
     ///
-    /// - Returns: `AssociateAppBlockBuilderAppBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAppBlockBuilderAppBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension AppStreamClient {
     ///
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     ///
-    /// - Parameter AssociateApplicationFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApplicationFleetInput`)
     ///
-    /// - Returns: `AssociateApplicationFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApplicationFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension AppStreamClient {
     ///
     /// Associates an application to entitle.
     ///
-    /// - Parameter AssociateApplicationToEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApplicationToEntitlementInput`)
     ///
-    /// - Returns: `AssociateApplicationToEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApplicationToEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension AppStreamClient {
     ///
     /// Associates the specified fleet with the specified stack.
     ///
-    /// - Parameter AssociateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateFleetInput`)
     ///
-    /// - Returns: `AssociateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension AppStreamClient {
     ///
     /// Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
     ///
-    /// - Parameter BatchAssociateUserStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateUserStackInput`)
     ///
-    /// - Returns: `BatchAssociateUserStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateUserStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension AppStreamClient {
     ///
     /// Disassociates the specified users from the specified stacks.
     ///
-    /// - Parameter BatchDisassociateUserStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateUserStackInput`)
     ///
-    /// - Returns: `BatchDisassociateUserStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateUserStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension AppStreamClient {
     ///
     /// Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
     ///
-    /// - Parameter CopyImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyImageInput`)
     ///
-    /// - Returns: `CopyImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -872,9 +872,9 @@ extension AppStreamClient {
     ///
     /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     ///
-    /// - Parameter CreateAppBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppBlockInput`)
     ///
-    /// - Returns: `CreateAppBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -943,9 +943,9 @@ extension AppStreamClient {
     ///
     /// Creates an app block builder.
     ///
-    /// - Parameter CreateAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppBlockBuilderInput`)
     ///
-    /// - Returns: `CreateAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1020,9 +1020,9 @@ extension AppStreamClient {
     ///
     /// Creates a URL to start a create app block builder streaming session.
     ///
-    /// - Parameter CreateAppBlockBuilderStreamingURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppBlockBuilderStreamingURLInput`)
     ///
-    /// - Returns: `CreateAppBlockBuilderStreamingURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppBlockBuilderStreamingURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1089,9 +1089,9 @@ extension AppStreamClient {
     ///
     /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1161,9 +1161,9 @@ extension AppStreamClient {
     ///
     /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
-    /// - Parameter CreateDirectoryConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectoryConfigInput`)
     ///
-    /// - Returns: `CreateDirectoryConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectoryConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1234,9 +1234,9 @@ extension AppStreamClient {
     ///
     /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     ///
-    /// - Parameter CreateEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEntitlementInput`)
     ///
-    /// - Returns: `CreateEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,9 +1305,9 @@ extension AppStreamClient {
     ///
     /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1383,9 +1383,9 @@ extension AppStreamClient {
     ///
     /// Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
     ///
-    /// - Parameter CreateImageBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageBuilderInput`)
     ///
-    /// - Returns: `CreateImageBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1461,9 +1461,9 @@ extension AppStreamClient {
     ///
     /// Creates a URL to start an image builder streaming session.
     ///
-    /// - Parameter CreateImageBuilderStreamingURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageBuilderStreamingURLInput`)
     ///
-    /// - Returns: `CreateImageBuilderStreamingURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageBuilderStreamingURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1530,9 +1530,9 @@ extension AppStreamClient {
     ///
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
     ///
-    /// - Parameter CreateStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStackInput`)
     ///
-    /// - Returns: `CreateStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1605,9 +1605,9 @@ extension AppStreamClient {
     ///
     /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     ///
-    /// - Parameter CreateStreamingURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamingURLInput`)
     ///
-    /// - Returns: `CreateStreamingURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamingURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1676,9 +1676,9 @@ extension AppStreamClient {
     ///
     /// Creates custom branding that customizes the appearance of the streaming application catalog page.
     ///
-    /// - Parameter CreateThemeForStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThemeForStackInput`)
     ///
-    /// - Returns: `CreateThemeForStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThemeForStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1749,9 +1749,9 @@ extension AppStreamClient {
     ///
     /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon AppStream 2.0 Administration Guide.
     ///
-    /// - Parameter CreateUpdatedImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUpdatedImageInput`)
     ///
-    /// - Returns: `CreateUpdatedImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUpdatedImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1823,9 +1823,9 @@ extension AppStreamClient {
     ///
     /// Creates a usage report subscription. Usage reports are generated daily.
     ///
-    /// - Parameter CreateUsageReportSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUsageReportSubscriptionInput`)
     ///
-    /// - Returns: `CreateUsageReportSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUsageReportSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1893,9 +1893,9 @@ extension AppStreamClient {
     ///
     /// Creates a new user in the user pool.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,9 +1965,9 @@ extension AppStreamClient {
     ///
     /// Deletes an app block.
     ///
-    /// - Parameter DeleteAppBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppBlockInput`)
     ///
-    /// - Returns: `DeleteAppBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2035,9 +2035,9 @@ extension AppStreamClient {
     ///
     /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
     ///
-    /// - Parameter DeleteAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppBlockBuilderInput`)
     ///
-    /// - Returns: `DeleteAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2106,9 +2106,9 @@ extension AppStreamClient {
     ///
     /// Deletes an application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2177,9 +2177,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
     ///
-    /// - Parameter DeleteDirectoryConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectoryConfigInput`)
     ///
-    /// - Returns: `DeleteDirectoryConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectoryConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2246,9 +2246,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified entitlement.
     ///
-    /// - Parameter DeleteEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEntitlementInput`)
     ///
-    /// - Returns: `DeleteEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2317,9 +2317,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified fleet.
     ///
-    /// - Parameter DeleteFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetInput`)
     ///
-    /// - Returns: `DeleteFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2387,9 +2387,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified image. You cannot delete an image when it is in use. After you delete an image, you cannot provision new capacity using the image.
     ///
-    /// - Parameter DeleteImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageInput`)
     ///
-    /// - Returns: `DeleteImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2458,9 +2458,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified image builder and releases the capacity.
     ///
-    /// - Parameter DeleteImageBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageBuilderInput`)
     ///
-    /// - Returns: `DeleteImageBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2528,9 +2528,9 @@ extension AppStreamClient {
     ///
     /// Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
     ///
-    /// - Parameter DeleteImagePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImagePermissionsInput`)
     ///
-    /// - Returns: `DeleteImagePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImagePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2597,9 +2597,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
     ///
-    /// - Parameter DeleteStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStackInput`)
     ///
-    /// - Returns: `DeleteStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2668,9 +2668,9 @@ extension AppStreamClient {
     ///
     /// Deletes custom branding that customizes the appearance of the streaming application catalog page.
     ///
-    /// - Parameter DeleteThemeForStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThemeForStackInput`)
     ///
-    /// - Returns: `DeleteThemeForStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThemeForStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2738,9 +2738,9 @@ extension AppStreamClient {
     ///
     /// Disables usage report generation.
     ///
-    /// - Parameter DeleteUsageReportSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUsageReportSubscriptionInput`)
     ///
-    /// - Returns: `DeleteUsageReportSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUsageReportSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2807,9 +2807,9 @@ extension AppStreamClient {
     ///
     /// Deletes a user from the user pool.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2875,9 +2875,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more app block builder associations.
     ///
-    /// - Parameter DescribeAppBlockBuilderAppBlockAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppBlockBuilderAppBlockAssociationsInput`)
     ///
-    /// - Returns: `DescribeAppBlockBuilderAppBlockAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppBlockBuilderAppBlockAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2944,9 +2944,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more app block builders.
     ///
-    /// - Parameter DescribeAppBlockBuildersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppBlockBuildersInput`)
     ///
-    /// - Returns: `DescribeAppBlockBuildersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppBlockBuildersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3013,9 +3013,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more app blocks.
     ///
-    /// - Parameter DescribeAppBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppBlocksInput`)
     ///
-    /// - Returns: `DescribeAppBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppBlocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3082,9 +3082,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
     ///
-    /// - Parameter DescribeApplicationFleetAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationFleetAssociationsInput`)
     ///
-    /// - Returns: `DescribeApplicationFleetAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationFleetAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3151,9 +3151,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more applications.
     ///
-    /// - Parameter DescribeApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationsInput`)
     ///
-    /// - Returns: `DescribeApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3220,9 +3220,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     ///
-    /// - Parameter DescribeDirectoryConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDirectoryConfigsInput`)
     ///
-    /// - Returns: `DescribeDirectoryConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDirectoryConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3288,9 +3288,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one of more entitlements.
     ///
-    /// - Parameter DescribeEntitlementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntitlementsInput`)
     ///
-    /// - Returns: `DescribeEntitlementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3358,9 +3358,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
     ///
-    /// - Parameter DescribeFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetsInput`)
     ///
-    /// - Returns: `DescribeFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3426,9 +3426,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
     ///
-    /// - Parameter DescribeImageBuildersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageBuildersInput`)
     ///
-    /// - Returns: `DescribeImageBuildersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageBuildersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3494,9 +3494,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     ///
-    /// - Parameter DescribeImagePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImagePermissionsInput`)
     ///
-    /// - Returns: `DescribeImagePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImagePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3562,9 +3562,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     ///
-    /// - Parameter DescribeImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImagesInput`)
     ///
-    /// - Returns: `DescribeImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3631,9 +3631,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
     ///
-    /// - Parameter DescribeSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSessionsInput`)
     ///
-    /// - Returns: `DescribeSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3699,9 +3699,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
     ///
-    /// - Parameter DescribeStacksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStacksInput`)
     ///
-    /// - Returns: `DescribeStacksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStacksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3767,9 +3767,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page.
     ///
-    /// - Parameter DescribeThemeForStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThemeForStackInput`)
     ///
-    /// - Returns: `DescribeThemeForStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThemeForStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3836,9 +3836,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more usage report subscriptions.
     ///
-    /// - Parameter DescribeUsageReportSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsageReportSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeUsageReportSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsageReportSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3909,9 +3909,9 @@ extension AppStreamClient {
     ///
     /// * The user name (email address of the user associated with the stack) and the authentication type for the user
     ///
-    /// - Parameter DescribeUserStackAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserStackAssociationsInput`)
     ///
-    /// - Returns: `DescribeUserStackAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserStackAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3978,9 +3978,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified users in the user pool.
     ///
-    /// - Parameter DescribeUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsersInput`)
     ///
-    /// - Returns: `DescribeUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4048,9 +4048,9 @@ extension AppStreamClient {
     ///
     /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
     ///
-    /// - Parameter DisableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableUserInput`)
     ///
-    /// - Returns: `DisableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4116,9 +4116,9 @@ extension AppStreamClient {
     ///
     /// Disassociates a specified app block builder from a specified app block.
     ///
-    /// - Parameter DisassociateAppBlockBuilderAppBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAppBlockBuilderAppBlockInput`)
     ///
-    /// - Returns: `DisassociateAppBlockBuilderAppBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAppBlockBuilderAppBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4187,9 +4187,9 @@ extension AppStreamClient {
     ///
     /// Disassociates the specified application from the fleet.
     ///
-    /// - Parameter DisassociateApplicationFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApplicationFleetInput`)
     ///
-    /// - Returns: `DisassociateApplicationFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApplicationFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4257,9 +4257,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified application from the specified entitlement.
     ///
-    /// - Parameter DisassociateApplicationFromEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApplicationFromEntitlementInput`)
     ///
-    /// - Returns: `DisassociateApplicationFromEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApplicationFromEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4327,9 +4327,9 @@ extension AppStreamClient {
     ///
     /// Disassociates the specified fleet from the specified stack.
     ///
-    /// - Parameter DisassociateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFleetInput`)
     ///
-    /// - Returns: `DisassociateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4398,9 +4398,9 @@ extension AppStreamClient {
     ///
     /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
     ///
-    /// - Parameter EnableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableUserInput`)
     ///
-    /// - Returns: `EnableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4467,9 +4467,9 @@ extension AppStreamClient {
     ///
     /// Immediately stops the specified streaming session.
     ///
-    /// - Parameter ExpireSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExpireSessionInput`)
     ///
-    /// - Returns: `ExpireSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExpireSessionOutput`)
     public func expireSession(input: ExpireSessionInput) async throws -> ExpireSessionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4530,9 +4530,9 @@ extension AppStreamClient {
     ///
     /// Retrieves the name of the fleet that is associated with the specified stack.
     ///
-    /// - Parameter ListAssociatedFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedFleetsInput`)
     ///
-    /// - Returns: `ListAssociatedFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedFleetsOutput`)
     public func listAssociatedFleets(input: ListAssociatedFleetsInput) async throws -> ListAssociatedFleetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4593,9 +4593,9 @@ extension AppStreamClient {
     ///
     /// Retrieves the name of the stack with which the specified fleet is associated.
     ///
-    /// - Parameter ListAssociatedStacksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedStacksInput`)
     ///
-    /// - Returns: `ListAssociatedStacksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedStacksOutput`)
     public func listAssociatedStacks(input: ListAssociatedStacksInput) async throws -> ListAssociatedStacksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4656,9 +4656,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list of entitled applications.
     ///
-    /// - Parameter ListEntitledApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitledApplicationsInput`)
     ///
-    /// - Returns: `ListEntitledApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitledApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4726,9 +4726,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4794,9 +4794,9 @@ extension AppStreamClient {
     ///
     /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
     ///
-    /// - Parameter StartAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAppBlockBuilderInput`)
     ///
-    /// - Returns: `StartAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4868,9 +4868,9 @@ extension AppStreamClient {
     ///
     /// Starts the specified fleet.
     ///
-    /// - Parameter StartFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFleetInput`)
     ///
-    /// - Returns: `StartFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4943,9 +4943,9 @@ extension AppStreamClient {
     ///
     /// Starts the specified image builder.
     ///
-    /// - Parameter StartImageBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImageBuilderInput`)
     ///
-    /// - Returns: `StartImageBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImageBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5015,9 +5015,9 @@ extension AppStreamClient {
     ///
     /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
     ///
-    /// - Parameter StopAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAppBlockBuilderInput`)
     ///
-    /// - Returns: `StopAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5085,9 +5085,9 @@ extension AppStreamClient {
     ///
     /// Stops the specified fleet.
     ///
-    /// - Parameter StopFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopFleetInput`)
     ///
-    /// - Returns: `StopFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5154,9 +5154,9 @@ extension AppStreamClient {
     ///
     /// Stops the specified image builder.
     ///
-    /// - Parameter StopImageBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopImageBuilderInput`)
     ///
-    /// - Returns: `StopImageBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopImageBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5224,9 +5224,9 @@ extension AppStreamClient {
     ///
     /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use [ListTagsForResource]. To disassociate tags from your resources, use [UntagResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5294,9 +5294,9 @@ extension AppStreamClient {
     ///
     /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5362,9 +5362,9 @@ extension AppStreamClient {
     ///
     /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
     ///
-    /// - Parameter UpdateAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppBlockBuilderInput`)
     ///
-    /// - Returns: `UpdateAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5439,9 +5439,9 @@ extension AppStreamClient {
     ///
     /// Updates the specified application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5509,9 +5509,9 @@ extension AppStreamClient {
     ///
     /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
-    /// - Parameter UpdateDirectoryConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDirectoryConfigInput`)
     ///
-    /// - Returns: `UpdateDirectoryConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDirectoryConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5582,9 +5582,9 @@ extension AppStreamClient {
     ///
     /// Updates the specified entitlement.
     ///
-    /// - Parameter UpdateEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEntitlementInput`)
     ///
-    /// - Returns: `UpdateEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5660,9 +5660,9 @@ extension AppStreamClient {
     ///
     /// If the fleet is in the STARTING or STOPPED state, you can't update it.
     ///
-    /// - Parameter UpdateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFleetInput`)
     ///
-    /// - Returns: `UpdateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5738,9 +5738,9 @@ extension AppStreamClient {
     ///
     /// Adds or updates permissions for the specified private image.
     ///
-    /// - Parameter UpdateImagePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImagePermissionsInput`)
     ///
-    /// - Returns: `UpdateImagePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImagePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5808,9 +5808,9 @@ extension AppStreamClient {
     ///
     /// Updates the specified fields for the specified stack.
     ///
-    /// - Parameter UpdateStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStackInput`)
     ///
-    /// - Returns: `UpdateStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5884,9 +5884,9 @@ extension AppStreamClient {
     ///
     /// Updates custom branding that customizes the appearance of the streaming application catalog page.
     ///
-    /// - Parameter UpdateThemeForStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemeForStackInput`)
     ///
-    /// - Returns: `UpdateThemeForStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemeForStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

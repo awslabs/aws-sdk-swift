@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamInfluxDBClient: ClientRuntime.Client {
     public static let clientName = "TimestreamInfluxDBClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamInfluxDBClient.TimestreamInfluxDBClientConfiguration
     let serviceName = "Timestream InfluxDB"
@@ -372,9 +372,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Creates a new Timestream for InfluxDB cluster.
     ///
-    /// - Parameter CreateDbClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDbClusterInput`)
     ///
-    /// - Returns: `CreateDbClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDbClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Creates a new Timestream for InfluxDB DB instance.
     ///
-    /// - Parameter CreateDbInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDbInstanceInput`)
     ///
-    /// - Returns: `CreateDbInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDbInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
     ///
-    /// - Parameter CreateDbParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDbParameterGroupInput`)
     ///
-    /// - Returns: `CreateDbParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDbParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,9 +594,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Deletes a Timestream for InfluxDB cluster.
     ///
-    /// - Parameter DeleteDbClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDbClusterInput`)
     ///
-    /// - Returns: `DeleteDbClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDbClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Deletes a Timestream for InfluxDB DB instance.
     ///
-    /// - Parameter DeleteDbInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDbInstanceInput`)
     ///
-    /// - Returns: `DeleteDbInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDbInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -740,9 +740,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Retrieves information about a Timestream for InfluxDB cluster.
     ///
-    /// - Parameter GetDbClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbClusterInput`)
     ///
-    /// - Returns: `GetDbClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,9 +812,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a Timestream for InfluxDB DB instance.
     ///
-    /// - Parameter GetDbInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbInstanceInput`)
     ///
-    /// - Returns: `GetDbInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -884,9 +884,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a Timestream for InfluxDB DB parameter group.
     ///
-    /// - Parameter GetDbParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbParameterGroupInput`)
     ///
-    /// - Returns: `GetDbParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,9 +956,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a list of Timestream for InfluxDB DB clusters.
     ///
-    /// - Parameter ListDbClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbClustersInput`)
     ///
-    /// - Returns: `ListDbClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1028,9 +1028,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a list of Timestream for InfluxDB DB instances.
     ///
-    /// - Parameter ListDbInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbInstancesInput`)
     ///
-    /// - Returns: `ListDbInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1100,9 +1100,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a list of Timestream for InfluxDB clusters.
     ///
-    /// - Parameter ListDbInstancesForClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbInstancesForClusterInput`)
     ///
-    /// - Returns: `ListDbInstancesForClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbInstancesForClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1172,9 +1172,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Returns a list of Timestream for InfluxDB DB parameter groups.
     ///
-    /// - Parameter ListDbParameterGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbParameterGroupsInput`)
     ///
-    /// - Returns: `ListDbParameterGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1244,9 +1244,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// A list of tags applied to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1312,9 +1312,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1381,9 +1381,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Removes the tag from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1449,9 +1449,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Updates a Timestream for InfluxDB cluster.
     ///
-    /// - Parameter UpdateDbClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDbClusterInput`)
     ///
-    /// - Returns: `UpdateDbClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDbClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1522,9 +1522,9 @@ extension TimestreamInfluxDBClient {
     ///
     /// Updates a Timestream for InfluxDB DB instance.
     ///
-    /// - Parameter UpdateDbInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDbInstanceInput`)
     ///
-    /// - Returns: `UpdateDbInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDbInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

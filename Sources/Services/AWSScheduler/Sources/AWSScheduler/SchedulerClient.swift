@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SchedulerClient: ClientRuntime.Client {
     public static let clientName = "SchedulerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SchedulerClient.SchedulerClientConfiguration
     let serviceName = "Scheduler"
@@ -374,9 +374,9 @@ extension SchedulerClient {
     ///
     /// Creates the specified schedule.
     ///
-    /// - Parameter CreateScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduleInput`)
     ///
-    /// - Returns: `CreateScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension SchedulerClient {
     ///
     /// Creates the specified schedule group.
     ///
-    /// - Parameter CreateScheduleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduleGroupInput`)
     ///
-    /// - Returns: `CreateScheduleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScheduleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension SchedulerClient {
     ///
     /// Deletes the specified schedule.
     ///
-    /// - Parameter DeleteScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduleInput`)
     ///
-    /// - Returns: `DeleteScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension SchedulerClient {
     ///
     /// Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group. When you delete a group, it remains in a DELETING state until all of its associated schedules are deleted. Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets until the schedule group and its associated schedules are deleted. This operation is eventually consistent.
     ///
-    /// - Parameter DeleteScheduleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduleGroupInput`)
     ///
-    /// - Returns: `DeleteScheduleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,9 +659,9 @@ extension SchedulerClient {
     ///
     /// Retrieves the specified schedule.
     ///
-    /// - Parameter GetScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetScheduleInput`)
     ///
-    /// - Returns: `GetScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,9 +727,9 @@ extension SchedulerClient {
     ///
     /// Retrieves the specified schedule group.
     ///
-    /// - Parameter GetScheduleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetScheduleGroupInput`)
     ///
-    /// - Returns: `GetScheduleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetScheduleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -794,9 +794,9 @@ extension SchedulerClient {
     ///
     /// Returns a paginated list of your schedule groups.
     ///
-    /// - Parameter ListScheduleGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScheduleGroupsInput`)
     ///
-    /// - Returns: `ListScheduleGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScheduleGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,9 +861,9 @@ extension SchedulerClient {
     ///
     /// Returns a paginated list of your EventBridge Scheduler schedules.
     ///
-    /// - Parameter ListSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchedulesInput`)
     ///
-    /// - Returns: `ListSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchedulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,9 +929,9 @@ extension SchedulerClient {
     ///
     /// Lists the tags associated with the Scheduler resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,9 +996,9 @@ extension SchedulerClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified EventBridge Scheduler resource. You can only assign tags to schedule groups.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1067,9 +1067,9 @@ extension SchedulerClient {
     ///
     /// Removes one or more tags from the specified EventBridge Scheduler schedule group.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,9 +1136,9 @@ extension SchedulerClient {
     ///
     /// Updates the specified schedule. When you call UpdateSchedule, EventBridge Scheduler uses all values, including empty values, specified in the request and overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to its system-default value after the update. Before calling this operation, we recommend that you call the GetSchedule API operation and make a note of all optional parameters for your UpdateSchedule call.
     ///
-    /// - Parameter UpdateScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduleInput`)
     ///
-    /// - Returns: `UpdateScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServerlessApplicationRepositoryClient: ClientRuntime.Client {
     public static let clientName = "ServerlessApplicationRepositoryClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfiguration
     let serviceName = "ServerlessApplicationRepository"
@@ -372,9 +372,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Creates an application version.
     ///
-    /// - Parameter CreateApplicationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationVersionInput`)
     ///
-    /// - Returns: `CreateApplicationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Creates an AWS CloudFormation change set for the given application.
     ///
-    /// - Parameter CreateCloudFormationChangeSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudFormationChangeSetInput`)
     ///
-    /// - Returns: `CreateCloudFormationChangeSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudFormationChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Creates an AWS CloudFormation template.
     ///
-    /// - Parameter CreateCloudFormationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudFormationTemplateInput`)
     ///
-    /// - Returns: `CreateCloudFormationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudFormationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,9 +655,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Deletes the specified application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Gets the specified application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -793,9 +793,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Retrieves the policy for the application.
     ///
-    /// - Parameter GetApplicationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationPolicyInput`)
     ///
-    /// - Returns: `GetApplicationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,9 +861,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Gets the specified AWS CloudFormation template.
     ///
-    /// - Parameter GetCloudFormationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudFormationTemplateInput`)
     ///
-    /// - Returns: `GetCloudFormationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudFormationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,9 +929,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Retrieves the list of applications nested in the containing application.
     ///
-    /// - Parameter ListApplicationDependenciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationDependenciesInput`)
     ///
-    /// - Returns: `ListApplicationDependenciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -998,9 +998,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Lists versions for the specified application.
     ///
-    /// - Parameter ListApplicationVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationVersionsInput`)
     ///
-    /// - Returns: `ListApplicationVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1067,9 +1067,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Lists applications owned by the requester.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1135,9 +1135,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Sets the permission policy for an application. For the list of actions supported for this operation, see [Application Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions) .
     ///
-    /// - Parameter PutApplicationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationPolicyInput`)
     ///
-    /// - Returns: `PutApplicationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1206,9 +1206,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Unshares an application from an AWS Organization.This operation can be called only from the organization's master account.
     ///
-    /// - Parameter UnshareApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnshareApplicationInput`)
     ///
-    /// - Returns: `UnshareApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnshareApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1277,9 +1277,9 @@ extension ServerlessApplicationRepositoryClient {
     ///
     /// Updates the specified application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

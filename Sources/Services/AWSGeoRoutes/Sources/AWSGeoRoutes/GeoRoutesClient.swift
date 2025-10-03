@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoRoutesClient: ClientRuntime.Client {
     public static let clientName = "GeoRoutesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoRoutesClient.GeoRoutesClientConfiguration
     let serviceName = "Geo Routes"
@@ -372,9 +372,9 @@ extension GeoRoutesClient {
     ///
     /// Use the CalculateIsolines action to find service areas that can be reached in a given threshold of time, distance.
     ///
-    /// - Parameter CalculateIsolinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CalculateIsolinesInput`)
     ///
-    /// - Returns: `CalculateIsolinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CalculateIsolinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension GeoRoutesClient {
     ///
     /// Use CalculateRouteMatrix to compute results for all pairs of Origins to Destinations. Each row corresponds to one entry in Origins. Each entry in the row corresponds to the route from that entry in Origins to an entry in Destinations positions.
     ///
-    /// - Parameter CalculateRouteMatrixInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CalculateRouteMatrixInput`)
     ///
-    /// - Returns: `CalculateRouteMatrixOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CalculateRouteMatrixOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension GeoRoutesClient {
     ///
     /// CalculateRoutes computes routes given the following required parameters: Origin and Destination.
     ///
-    /// - Parameter CalculateRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CalculateRoutesInput`)
     ///
-    /// - Returns: `CalculateRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CalculateRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -585,9 +585,9 @@ extension GeoRoutesClient {
     ///
     /// OptimizeWaypoints calculates the optimal order to travel between a set of waypoints to minimize either the travel time or the distance travelled during the journey, based on road network restrictions and the traffic pattern data.
     ///
-    /// - Parameter OptimizeWaypointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `OptimizeWaypointsInput`)
     ///
-    /// - Returns: `OptimizeWaypointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `OptimizeWaypointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension GeoRoutesClient {
     ///
     /// SnapToRoads matches GPS trace to roads most likely traveled on.
     ///
-    /// - Parameter SnapToRoadsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SnapToRoadsInput`)
     ///
-    /// - Returns: `SnapToRoadsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SnapToRoadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

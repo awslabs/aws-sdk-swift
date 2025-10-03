@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointClient: ClientRuntime.Client {
     public static let clientName = "PinpointClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointClient.PinpointClientConfiguration
     let serviceName = "Pinpoint"
@@ -373,9 +373,9 @@ extension PinpointClient {
     ///
     /// Creates an application.
     ///
-    /// - Parameter CreateAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInput`)
     ///
-    /// - Returns: `CreateAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension PinpointClient {
     ///
     /// Creates a new campaign for an application or updates the settings of an existing campaign for an application.
     ///
-    /// - Parameter CreateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCampaignInput`)
     ///
-    /// - Returns: `CreateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension PinpointClient {
     ///
     /// Creates a message template for messages that are sent through the email channel.
     ///
-    /// - Parameter CreateEmailTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEmailTemplateInput`)
     ///
-    /// - Returns: `CreateEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension PinpointClient {
     ///
     /// Creates an export job for an application.
     ///
-    /// - Parameter CreateExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExportJobInput`)
     ///
-    /// - Returns: `CreateExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,9 +663,9 @@ extension PinpointClient {
     ///
     /// Creates an import job for an application.
     ///
-    /// - Parameter CreateImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImportJobInput`)
     ///
-    /// - Returns: `CreateImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -736,9 +736,9 @@ extension PinpointClient {
     ///
     /// Creates a new message template for messages using the in-app message channel.
     ///
-    /// - Parameter CreateInAppTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInAppTemplateInput`)
     ///
-    /// - Returns: `CreateInAppTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInAppTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -807,9 +807,9 @@ extension PinpointClient {
     ///
     /// Creates a journey for an application.
     ///
-    /// - Parameter CreateJourneyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJourneyInput`)
     ///
-    /// - Returns: `CreateJourneyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJourneyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -880,9 +880,9 @@ extension PinpointClient {
     ///
     /// Creates a message template for messages that are sent through a push notification channel.
     ///
-    /// - Parameter CreatePushTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePushTemplateInput`)
     ///
-    /// - Returns: `CreatePushTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePushTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -951,9 +951,9 @@ extension PinpointClient {
     ///
     /// Creates an Amazon Pinpoint configuration for a recommender model.
     ///
-    /// - Parameter CreateRecommenderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecommenderConfigurationInput`)
     ///
-    /// - Returns: `CreateRecommenderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecommenderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1024,9 +1024,9 @@ extension PinpointClient {
     ///
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     ///
-    /// - Parameter CreateSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentInput`)
     ///
-    /// - Returns: `CreateSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1097,9 +1097,9 @@ extension PinpointClient {
     ///
     /// Creates a message template for messages that are sent through the SMS channel.
     ///
-    /// - Parameter CreateSmsTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSmsTemplateInput`)
     ///
-    /// - Returns: `CreateSmsTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSmsTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1168,9 +1168,9 @@ extension PinpointClient {
     ///
     /// Creates a message template for messages that are sent through the voice channel.
     ///
-    /// - Parameter CreateVoiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceTemplateInput`)
     ///
-    /// - Returns: `CreateVoiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,9 +1239,9 @@ extension PinpointClient {
     ///
     /// Disables the ADM channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteAdmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAdmChannelInput`)
     ///
-    /// - Returns: `DeleteAdmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAdmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1309,9 +1309,9 @@ extension PinpointClient {
     ///
     /// Disables the APNs channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteApnsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApnsChannelInput`)
     ///
-    /// - Returns: `DeleteApnsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApnsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,9 +1379,9 @@ extension PinpointClient {
     ///
     /// Disables the APNs sandbox channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteApnsSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApnsSandboxChannelInput`)
     ///
-    /// - Returns: `DeleteApnsSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApnsSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1449,9 +1449,9 @@ extension PinpointClient {
     ///
     /// Disables the APNs VoIP channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteApnsVoipChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApnsVoipChannelInput`)
     ///
-    /// - Returns: `DeleteApnsVoipChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApnsVoipChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,9 +1519,9 @@ extension PinpointClient {
     ///
     /// Disables the APNs VoIP sandbox channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteApnsVoipSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApnsVoipSandboxChannelInput`)
     ///
-    /// - Returns: `DeleteApnsVoipSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApnsVoipSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1589,9 +1589,9 @@ extension PinpointClient {
     ///
     /// Deletes an application.
     ///
-    /// - Parameter DeleteAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInput`)
     ///
-    /// - Returns: `DeleteAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1659,9 +1659,9 @@ extension PinpointClient {
     ///
     /// Disables the Baidu channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteBaiduChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBaiduChannelInput`)
     ///
-    /// - Returns: `DeleteBaiduChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBaiduChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1729,9 +1729,9 @@ extension PinpointClient {
     ///
     /// Deletes a campaign from an application.
     ///
-    /// - Parameter DeleteCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCampaignInput`)
     ///
-    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,9 +1799,9 @@ extension PinpointClient {
     ///
     /// Disables the email channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteEmailChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEmailChannelInput`)
     ///
-    /// - Returns: `DeleteEmailChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEmailChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1869,9 +1869,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages that were sent through the email channel.
     ///
-    /// - Parameter DeleteEmailTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEmailTemplateInput`)
     ///
-    /// - Returns: `DeleteEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1940,9 +1940,9 @@ extension PinpointClient {
     ///
     /// Deletes an endpoint from an application.
     ///
-    /// - Parameter DeleteEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointInput`)
     ///
-    /// - Returns: `DeleteEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2010,9 +2010,9 @@ extension PinpointClient {
     ///
     /// Deletes the event stream for an application.
     ///
-    /// - Parameter DeleteEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventStreamInput`)
     ///
-    /// - Returns: `DeleteEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2080,9 +2080,9 @@ extension PinpointClient {
     ///
     /// Disables the GCM channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteGcmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGcmChannelInput`)
     ///
-    /// - Returns: `DeleteGcmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGcmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2150,9 +2150,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages sent using the in-app message channel.
     ///
-    /// - Parameter DeleteInAppTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInAppTemplateInput`)
     ///
-    /// - Returns: `DeleteInAppTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInAppTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2221,9 +2221,9 @@ extension PinpointClient {
     ///
     /// Deletes a journey from an application.
     ///
-    /// - Parameter DeleteJourneyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJourneyInput`)
     ///
-    /// - Returns: `DeleteJourneyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJourneyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2291,9 +2291,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages that were sent through a push notification channel.
     ///
-    /// - Parameter DeletePushTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePushTemplateInput`)
     ///
-    /// - Returns: `DeletePushTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePushTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2362,9 +2362,9 @@ extension PinpointClient {
     ///
     /// Deletes an Amazon Pinpoint configuration for a recommender model.
     ///
-    /// - Parameter DeleteRecommenderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecommenderConfigurationInput`)
     ///
-    /// - Returns: `DeleteRecommenderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecommenderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2432,9 +2432,9 @@ extension PinpointClient {
     ///
     /// Deletes a segment from an application.
     ///
-    /// - Parameter DeleteSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSegmentInput`)
     ///
-    /// - Returns: `DeleteSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2502,9 +2502,9 @@ extension PinpointClient {
     ///
     /// Disables the SMS channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteSmsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSmsChannelInput`)
     ///
-    /// - Returns: `DeleteSmsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSmsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2572,9 +2572,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages that were sent through the SMS channel.
     ///
-    /// - Parameter DeleteSmsTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSmsTemplateInput`)
     ///
-    /// - Returns: `DeleteSmsTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSmsTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2643,9 +2643,9 @@ extension PinpointClient {
     ///
     /// Deletes all the endpoints that are associated with a specific user ID.
     ///
-    /// - Parameter DeleteUserEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserEndpointsInput`)
     ///
-    /// - Returns: `DeleteUserEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2713,9 +2713,9 @@ extension PinpointClient {
     ///
     /// Disables the voice channel for an application and deletes any existing settings for the channel.
     ///
-    /// - Parameter DeleteVoiceChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceChannelInput`)
     ///
-    /// - Returns: `DeleteVoiceChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2783,9 +2783,9 @@ extension PinpointClient {
     ///
     /// Deletes a message template for messages that were sent through the voice channel.
     ///
-    /// - Parameter DeleteVoiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceTemplateInput`)
     ///
-    /// - Returns: `DeleteVoiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2854,9 +2854,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the ADM channel for an application.
     ///
-    /// - Parameter GetAdmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdmChannelInput`)
     ///
-    /// - Returns: `GetAdmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2924,9 +2924,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the APNs channel for an application.
     ///
-    /// - Parameter GetApnsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApnsChannelInput`)
     ///
-    /// - Returns: `GetApnsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApnsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2994,9 +2994,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the APNs sandbox channel for an application.
     ///
-    /// - Parameter GetApnsSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApnsSandboxChannelInput`)
     ///
-    /// - Returns: `GetApnsSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApnsSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3064,9 +3064,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the APNs VoIP channel for an application.
     ///
-    /// - Parameter GetApnsVoipChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApnsVoipChannelInput`)
     ///
-    /// - Returns: `GetApnsVoipChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApnsVoipChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3134,9 +3134,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the APNs VoIP sandbox channel for an application.
     ///
-    /// - Parameter GetApnsVoipSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApnsVoipSandboxChannelInput`)
     ///
-    /// - Returns: `GetApnsVoipSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApnsVoipSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3204,9 +3204,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about an application.
     ///
-    /// - Parameter GetAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppInput`)
     ///
-    /// - Returns: `GetAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3274,9 +3274,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to an application.
     ///
-    /// - Parameter GetApplicationDateRangeKpiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationDateRangeKpiInput`)
     ///
-    /// - Returns: `GetApplicationDateRangeKpiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationDateRangeKpiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3345,9 +3345,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the settings for an application.
     ///
-    /// - Parameter GetApplicationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationSettingsInput`)
     ///
-    /// - Returns: `GetApplicationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3415,9 +3415,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the applications that are associated with your Amazon Pinpoint account.
     ///
-    /// - Parameter GetAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppsInput`)
     ///
-    /// - Returns: `GetAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3486,9 +3486,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the Baidu channel for an application.
     ///
-    /// - Parameter GetBaiduChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBaiduChannelInput`)
     ///
-    /// - Returns: `GetBaiduChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBaiduChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3556,9 +3556,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for a campaign.
     ///
-    /// - Parameter GetCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignInput`)
     ///
-    /// - Returns: `GetCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3626,9 +3626,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the activities for a campaign.
     ///
-    /// - Parameter GetCampaignActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignActivitiesInput`)
     ///
-    /// - Returns: `GetCampaignActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3697,9 +3697,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
     ///
-    /// - Parameter GetCampaignDateRangeKpiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignDateRangeKpiInput`)
     ///
-    /// - Returns: `GetCampaignDateRangeKpiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignDateRangeKpiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3768,9 +3768,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for a specific version of a campaign.
     ///
-    /// - Parameter GetCampaignVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignVersionInput`)
     ///
-    /// - Returns: `GetCampaignVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3838,9 +3838,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for all versions of a campaign.
     ///
-    /// - Parameter GetCampaignVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignVersionsInput`)
     ///
-    /// - Returns: `GetCampaignVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3909,9 +3909,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for all the campaigns that are associated with an application.
     ///
-    /// - Parameter GetCampaignsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignsInput`)
     ///
-    /// - Returns: `GetCampaignsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3980,9 +3980,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the history and status of each channel for an application.
     ///
-    /// - Parameter GetChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelsInput`)
     ///
-    /// - Returns: `GetChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4050,9 +4050,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the email channel for an application.
     ///
-    /// - Parameter GetEmailChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEmailChannelInput`)
     ///
-    /// - Returns: `GetEmailChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEmailChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4120,9 +4120,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages that are sent through the email channel.
     ///
-    /// - Parameter GetEmailTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEmailTemplateInput`)
     ///
-    /// - Returns: `GetEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4191,9 +4191,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the settings and attributes of a specific endpoint for an application.
     ///
-    /// - Parameter GetEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEndpointInput`)
     ///
-    /// - Returns: `GetEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4261,9 +4261,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the event stream settings for an application.
     ///
-    /// - Parameter GetEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventStreamInput`)
     ///
-    /// - Returns: `GetEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4331,9 +4331,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of a specific export job for an application.
     ///
-    /// - Parameter GetExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExportJobInput`)
     ///
-    /// - Returns: `GetExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4401,9 +4401,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of all the export jobs for an application.
     ///
-    /// - Parameter GetExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExportJobsInput`)
     ///
-    /// - Returns: `GetExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4472,9 +4472,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the GCM channel for an application.
     ///
-    /// - Parameter GetGcmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGcmChannelInput`)
     ///
-    /// - Returns: `GetGcmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGcmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4542,9 +4542,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of a specific import job for an application.
     ///
-    /// - Parameter GetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportJobInput`)
     ///
-    /// - Returns: `GetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4612,9 +4612,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of all the import jobs for an application.
     ///
-    /// - Parameter GetImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportJobsInput`)
     ///
-    /// - Returns: `GetImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4683,9 +4683,9 @@ extension PinpointClient {
     ///
     /// Retrieves the in-app messages targeted for the provided endpoint ID.
     ///
-    /// - Parameter GetInAppMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInAppMessagesInput`)
     ///
-    /// - Returns: `GetInAppMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInAppMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4753,9 +4753,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages sent through the in-app channel.
     ///
-    /// - Parameter GetInAppTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInAppTemplateInput`)
     ///
-    /// - Returns: `GetInAppTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInAppTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4824,9 +4824,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for a journey.
     ///
-    /// - Parameter GetJourneyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyInput`)
     ///
-    /// - Returns: `GetJourneyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4894,9 +4894,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a journey.
     ///
-    /// - Parameter GetJourneyDateRangeKpiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyDateRangeKpiInput`)
     ///
-    /// - Returns: `GetJourneyDateRangeKpiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyDateRangeKpiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4965,9 +4965,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey activity.
     ///
-    /// - Parameter GetJourneyExecutionActivityMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyExecutionActivityMetricsInput`)
     ///
-    /// - Returns: `GetJourneyExecutionActivityMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyExecutionActivityMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5036,9 +5036,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a journey.
     ///
-    /// - Parameter GetJourneyExecutionMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyExecutionMetricsInput`)
     ///
-    /// - Returns: `GetJourneyExecutionMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyExecutionMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5107,9 +5107,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey activity.
     ///
-    /// - Parameter GetJourneyRunExecutionActivityMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyRunExecutionActivityMetricsInput`)
     ///
-    /// - Returns: `GetJourneyRunExecutionActivityMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyRunExecutionActivityMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5178,9 +5178,9 @@ extension PinpointClient {
     ///
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey.
     ///
-    /// - Parameter GetJourneyRunExecutionMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyRunExecutionMetricsInput`)
     ///
-    /// - Returns: `GetJourneyRunExecutionMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyRunExecutionMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5249,9 +5249,9 @@ extension PinpointClient {
     ///
     /// Provides information about the runs of a journey.
     ///
-    /// - Parameter GetJourneyRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJourneyRunsInput`)
     ///
-    /// - Returns: `GetJourneyRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJourneyRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5320,9 +5320,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages that are sent through a push notification channel.
     ///
-    /// - Parameter GetPushTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPushTemplateInput`)
     ///
-    /// - Returns: `GetPushTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPushTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5391,9 +5391,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about an Amazon Pinpoint configuration for a recommender model.
     ///
-    /// - Parameter GetRecommenderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommenderConfigurationInput`)
     ///
-    /// - Returns: `GetRecommenderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommenderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5461,9 +5461,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
     ///
-    /// - Parameter GetRecommenderConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommenderConfigurationsInput`)
     ///
-    /// - Returns: `GetRecommenderConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommenderConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5532,9 +5532,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the configuration, dimension, and other settings for a specific segment that's associated with an application.
     ///
-    /// - Parameter GetSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentInput`)
     ///
-    /// - Returns: `GetSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5602,9 +5602,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the export jobs for a segment.
     ///
-    /// - Parameter GetSegmentExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentExportJobsInput`)
     ///
-    /// - Returns: `GetSegmentExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5673,9 +5673,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the import jobs for a segment.
     ///
-    /// - Parameter GetSegmentImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentImportJobsInput`)
     ///
-    /// - Returns: `GetSegmentImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5744,9 +5744,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the configuration, dimension, and other settings for a specific version of a segment that's associated with an application.
     ///
-    /// - Parameter GetSegmentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentVersionInput`)
     ///
-    /// - Returns: `GetSegmentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5814,9 +5814,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the configuration, dimension, and other settings for all the versions of a specific segment that's associated with an application.
     ///
-    /// - Parameter GetSegmentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentVersionsInput`)
     ///
-    /// - Returns: `GetSegmentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5885,9 +5885,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the configuration, dimension, and other settings for all the segments that are associated with an application.
     ///
-    /// - Parameter GetSegmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentsInput`)
     ///
-    /// - Returns: `GetSegmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5956,9 +5956,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the SMS channel for an application.
     ///
-    /// - Parameter GetSmsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSmsChannelInput`)
     ///
-    /// - Returns: `GetSmsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSmsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6026,9 +6026,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages that are sent through the SMS channel.
     ///
-    /// - Parameter GetSmsTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSmsTemplateInput`)
     ///
-    /// - Returns: `GetSmsTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSmsTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6097,9 +6097,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the endpoints that are associated with a specific user ID.
     ///
-    /// - Parameter GetUserEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserEndpointsInput`)
     ///
-    /// - Returns: `GetUserEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6167,9 +6167,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status and settings of the voice channel for an application.
     ///
-    /// - Parameter GetVoiceChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceChannelInput`)
     ///
-    /// - Returns: `GetVoiceChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6237,9 +6237,9 @@ extension PinpointClient {
     ///
     /// Retrieves the content and settings of a message template for messages that are sent through the voice channel.
     ///
-    /// - Parameter GetVoiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceTemplateInput`)
     ///
-    /// - Returns: `GetVoiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6308,9 +6308,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about the status, configuration, and other settings for all the journeys that are associated with an application.
     ///
-    /// - Parameter ListJourneysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJourneysInput`)
     ///
-    /// - Returns: `ListJourneysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJourneysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6379,9 +6379,9 @@ extension PinpointClient {
     ///
     /// Retrieves all the tags (keys and values) that are associated with an application, campaign, message template, or segment.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6438,9 +6438,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the versions of a specific message template.
     ///
-    /// - Parameter ListTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateVersionsInput`)
     ///
-    /// - Returns: `ListTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6509,9 +6509,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about all the message templates that are associated with your Amazon Pinpoint account.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6578,9 +6578,9 @@ extension PinpointClient {
     ///
     /// Retrieves information about a phone number.
     ///
-    /// - Parameter PhoneNumberValidateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PhoneNumberValidateInput`)
     ///
-    /// - Returns: `PhoneNumberValidateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PhoneNumberValidateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6651,9 +6651,9 @@ extension PinpointClient {
     ///
     /// Creates a new event stream for an application or updates the settings of an existing event stream for an application.
     ///
-    /// - Parameter PutEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventStreamInput`)
     ///
-    /// - Returns: `PutEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6724,9 +6724,9 @@ extension PinpointClient {
     ///
     /// Creates a new event to record for endpoints, or creates or updates endpoint data that existing events are associated with.
     ///
-    /// - Parameter PutEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventsInput`)
     ///
-    /// - Returns: `PutEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6797,9 +6797,9 @@ extension PinpointClient {
     ///
     /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
     ///
-    /// - Parameter RemoveAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveAttributesInput`)
     ///
-    /// - Returns: `RemoveAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6870,9 +6870,9 @@ extension PinpointClient {
     ///
     /// Creates and sends a direct message.
     ///
-    /// - Parameter SendMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendMessagesInput`)
     ///
-    /// - Returns: `SendMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6943,9 +6943,9 @@ extension PinpointClient {
     ///
     /// Send an OTP message
     ///
-    /// - Parameter SendOTPMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendOTPMessageInput`)
     ///
-    /// - Returns: `SendOTPMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendOTPMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7016,9 +7016,9 @@ extension PinpointClient {
     ///
     /// Creates and sends a message to a list of users.
     ///
-    /// - Parameter SendUsersMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendUsersMessagesInput`)
     ///
-    /// - Returns: `SendUsersMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendUsersMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7089,9 +7089,9 @@ extension PinpointClient {
     ///
     /// Adds one or more tags (keys and values) to an application, campaign, message template, or segment.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7151,9 +7151,9 @@ extension PinpointClient {
     ///
     /// Removes one or more tags (keys and values) from an application, campaign, message template, or segment.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -7211,9 +7211,9 @@ extension PinpointClient {
     ///
     /// Enables the ADM channel for an application or updates the status and settings of the ADM channel for an application.
     ///
-    /// - Parameter UpdateAdmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAdmChannelInput`)
     ///
-    /// - Returns: `UpdateAdmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAdmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7284,9 +7284,9 @@ extension PinpointClient {
     ///
     /// Enables the APNs channel for an application or updates the status and settings of the APNs channel for an application.
     ///
-    /// - Parameter UpdateApnsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApnsChannelInput`)
     ///
-    /// - Returns: `UpdateApnsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApnsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7357,9 +7357,9 @@ extension PinpointClient {
     ///
     /// Enables the APNs sandbox channel for an application or updates the status and settings of the APNs sandbox channel for an application.
     ///
-    /// - Parameter UpdateApnsSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApnsSandboxChannelInput`)
     ///
-    /// - Returns: `UpdateApnsSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApnsSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7430,9 +7430,9 @@ extension PinpointClient {
     ///
     /// Enables the APNs VoIP channel for an application or updates the status and settings of the APNs VoIP channel for an application.
     ///
-    /// - Parameter UpdateApnsVoipChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApnsVoipChannelInput`)
     ///
-    /// - Returns: `UpdateApnsVoipChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApnsVoipChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7503,9 +7503,9 @@ extension PinpointClient {
     ///
     /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application.
     ///
-    /// - Parameter UpdateApnsVoipSandboxChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApnsVoipSandboxChannelInput`)
     ///
-    /// - Returns: `UpdateApnsVoipSandboxChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApnsVoipSandboxChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7576,9 +7576,9 @@ extension PinpointClient {
     ///
     /// Updates the settings for an application.
     ///
-    /// - Parameter UpdateApplicationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationSettingsInput`)
     ///
-    /// - Returns: `UpdateApplicationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7649,9 +7649,9 @@ extension PinpointClient {
     ///
     /// Enables the Baidu channel for an application or updates the status and settings of the Baidu channel for an application.
     ///
-    /// - Parameter UpdateBaiduChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBaiduChannelInput`)
     ///
-    /// - Returns: `UpdateBaiduChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBaiduChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7722,9 +7722,9 @@ extension PinpointClient {
     ///
     /// Updates the configuration and other settings for a campaign.
     ///
-    /// - Parameter UpdateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCampaignInput`)
     ///
-    /// - Returns: `UpdateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7795,9 +7795,9 @@ extension PinpointClient {
     ///
     /// Enables the email channel for an application or updates the status and settings of the email channel for an application.
     ///
-    /// - Parameter UpdateEmailChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEmailChannelInput`)
     ///
-    /// - Returns: `UpdateEmailChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEmailChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7868,9 +7868,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages that are sent through the email channel.
     ///
-    /// - Parameter UpdateEmailTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEmailTemplateInput`)
     ///
-    /// - Returns: `UpdateEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7942,9 +7942,9 @@ extension PinpointClient {
     ///
     /// Creates a new endpoint for an application or updates the settings and attributes of an existing endpoint for an application. You can also use this operation to define custom attributes for an endpoint. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     ///
-    /// - Parameter UpdateEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointInput`)
     ///
-    /// - Returns: `UpdateEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8015,9 +8015,9 @@ extension PinpointClient {
     ///
     /// Creates a new batch of endpoints for an application or updates the settings and attributes of a batch of existing endpoints for an application. You can also use this operation to define custom attributes for a batch of endpoints. If an update includes one or more values for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
     ///
-    /// - Parameter UpdateEndpointsBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointsBatchInput`)
     ///
-    /// - Returns: `UpdateEndpointsBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointsBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8088,9 +8088,9 @@ extension PinpointClient {
     ///
     /// Enables the GCM channel for an application or updates the status and settings of the GCM channel for an application.
     ///
-    /// - Parameter UpdateGcmChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGcmChannelInput`)
     ///
-    /// - Returns: `UpdateGcmChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGcmChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8161,9 +8161,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages sent through the in-app message channel.
     ///
-    /// - Parameter UpdateInAppTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInAppTemplateInput`)
     ///
-    /// - Returns: `UpdateInAppTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInAppTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8235,9 +8235,9 @@ extension PinpointClient {
     ///
     /// Updates the configuration and other settings for a journey.
     ///
-    /// - Parameter UpdateJourneyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJourneyInput`)
     ///
-    /// - Returns: `UpdateJourneyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJourneyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8309,9 +8309,9 @@ extension PinpointClient {
     ///
     /// Cancels (stops) an active journey.
     ///
-    /// - Parameter UpdateJourneyStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJourneyStateInput`)
     ///
-    /// - Returns: `UpdateJourneyStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJourneyStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8382,9 +8382,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages that are sent through a push notification channel.
     ///
-    /// - Parameter UpdatePushTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePushTemplateInput`)
     ///
-    /// - Returns: `UpdatePushTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePushTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8456,9 +8456,9 @@ extension PinpointClient {
     ///
     /// Updates an Amazon Pinpoint configuration for a recommender model.
     ///
-    /// - Parameter UpdateRecommenderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecommenderConfigurationInput`)
     ///
-    /// - Returns: `UpdateRecommenderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecommenderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8529,9 +8529,9 @@ extension PinpointClient {
     ///
     /// Creates a new segment for an application or updates the configuration, dimension, and other settings for an existing segment that's associated with an application.
     ///
-    /// - Parameter UpdateSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSegmentInput`)
     ///
-    /// - Returns: `UpdateSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8602,9 +8602,9 @@ extension PinpointClient {
     ///
     /// Enables the SMS channel for an application or updates the status and settings of the SMS channel for an application.
     ///
-    /// - Parameter UpdateSmsChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSmsChannelInput`)
     ///
-    /// - Returns: `UpdateSmsChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSmsChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8675,9 +8675,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages that are sent through the SMS channel.
     ///
-    /// - Parameter UpdateSmsTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSmsTemplateInput`)
     ///
-    /// - Returns: `UpdateSmsTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSmsTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8749,9 +8749,9 @@ extension PinpointClient {
     ///
     /// Changes the status of a specific version of a message template to active.
     ///
-    /// - Parameter UpdateTemplateActiveVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateActiveVersionInput`)
     ///
-    /// - Returns: `UpdateTemplateActiveVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateActiveVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8822,9 +8822,9 @@ extension PinpointClient {
     ///
     /// Enables the voice channel for an application or updates the status and settings of the voice channel for an application.
     ///
-    /// - Parameter UpdateVoiceChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceChannelInput`)
     ///
-    /// - Returns: `UpdateVoiceChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8895,9 +8895,9 @@ extension PinpointClient {
     ///
     /// Updates an existing message template for messages that are sent through the voice channel.
     ///
-    /// - Parameter UpdateVoiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceTemplateInput`)
     ///
-    /// - Returns: `UpdateVoiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8969,9 +8969,9 @@ extension PinpointClient {
     ///
     /// Verify an OTP
     ///
-    /// - Parameter VerifyOTPMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyOTPMessageInput`)
     ///
-    /// - Returns: `VerifyOTPMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyOTPMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeCatalystClient: ClientRuntime.Client {
     public static let clientName = "CodeCatalystClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCatalystClient.CodeCatalystClientConfiguration
     let serviceName = "CodeCatalyst"
@@ -373,9 +373,9 @@ extension CodeCatalystClient {
     ///
     /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
     ///
-    /// - Parameter CreateAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessTokenInput`)
     ///
-    /// - Returns: `CreateAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension CodeCatalystClient {
     ///
     /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored in the source repositories of your project. When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
     ///
-    /// - Parameter CreateDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDevEnvironmentInput`)
     ///
-    /// - Returns: `CreateDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension CodeCatalystClient {
     ///
     /// Creates a project in a specified space.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension CodeCatalystClient {
     ///
     /// Creates an empty Git-based source repository in a specified project. The repository is created with an initial empty commit with a default branch named main.
     ///
-    /// - Parameter CreateSourceRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSourceRepositoryInput`)
     ///
-    /// - Returns: `CreateSourceRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSourceRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,9 +653,9 @@ extension CodeCatalystClient {
     ///
     /// Creates a branch in a specified source repository in Amazon CodeCatalyst. This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
     ///
-    /// - Parameter CreateSourceRepositoryBranchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSourceRepositoryBranchInput`)
     ///
-    /// - Returns: `CreateSourceRepositoryBranchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSourceRepositoryBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,9 +723,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
     ///
-    /// - Parameter DeleteAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessTokenInput`)
     ///
-    /// - Returns: `DeleteAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -790,9 +790,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a Dev Environment.
     ///
-    /// - Parameter DeleteDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDevEnvironmentInput`)
     ///
-    /// - Returns: `DeleteDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -857,9 +857,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a project in a space.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -924,9 +924,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
     ///
-    /// - Parameter DeleteSourceRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceRepositoryInput`)
     ///
-    /// - Returns: `DeleteSourceRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,9 +991,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a space. Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
     ///
-    /// - Parameter DeleteSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSpaceInput`)
     ///
-    /// - Returns: `DeleteSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1058,9 +1058,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
     ///
-    /// - Parameter GetDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDevEnvironmentInput`)
     ///
-    /// - Returns: `GetDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,9 +1125,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a project.
     ///
-    /// - Parameter GetProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProjectInput`)
     ///
-    /// - Returns: `GetProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1192,9 +1192,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a source repository.
     ///
-    /// - Parameter GetSourceRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSourceRepositoryInput`)
     ///
-    /// - Returns: `GetSourceRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSourceRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,9 +1259,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about the URLs that can be used with a Git client to clone a source repository.
     ///
-    /// - Parameter GetSourceRepositoryCloneUrlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSourceRepositoryCloneUrlsInput`)
     ///
-    /// - Returns: `GetSourceRepositoryCloneUrlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSourceRepositoryCloneUrlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1326,9 +1326,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about an space.
     ///
-    /// - Parameter GetSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpaceInput`)
     ///
-    /// - Returns: `GetSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1393,9 +1393,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about the Amazon Web Services account used for billing purposes and the billing plan for the space.
     ///
-    /// - Parameter GetSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionInput`)
     ///
-    /// - Returns: `GetSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1460,9 +1460,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a user.
     ///
-    /// - Parameter GetUserDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserDetailsInput`)
     ///
-    /// - Returns: `GetUserDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1528,9 +1528,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a workflow.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1595,9 +1595,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a specified run of a workflow.
     ///
-    /// - Parameter GetWorkflowRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowRunInput`)
     ///
-    /// - Returns: `GetWorkflowRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1662,9 +1662,9 @@ extension CodeCatalystClient {
     ///
     /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
     ///
-    /// - Parameter ListAccessTokensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessTokensInput`)
     ///
-    /// - Returns: `ListAccessTokensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessTokensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1732,9 +1732,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of active sessions for a Dev Environment in a project.
     ///
-    /// - Parameter ListDevEnvironmentSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevEnvironmentSessionsInput`)
     ///
-    /// - Returns: `ListDevEnvironmentSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevEnvironmentSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1802,9 +1802,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of Dev Environments in a project.
     ///
-    /// - Parameter ListDevEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevEnvironmentsInput`)
     ///
-    /// - Returns: `ListDevEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,9 +1872,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see [Monitoring](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-monitoring.html) in the Amazon CodeCatalyst User Guide. ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail console by viewing Event history, or by creating a trail to create and maintain a record of events that extends past 90 days. For more information, see [Working with CloudTrail Event History](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html) and [Working with CloudTrail trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html).
     ///
-    /// - Parameter ListEventLogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventLogsInput`)
     ///
-    /// - Returns: `ListEventLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1942,9 +1942,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of projects.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2012,9 +2012,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of source repositories in a project.
     ///
-    /// - Parameter ListSourceRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceRepositoriesInput`)
     ///
-    /// - Returns: `ListSourceRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2082,9 +2082,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of branches in a specified source repository.
     ///
-    /// - Parameter ListSourceRepositoryBranchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceRepositoryBranchesInput`)
     ///
-    /// - Returns: `ListSourceRepositoryBranchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceRepositoryBranchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2152,9 +2152,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of spaces.
     ///
-    /// - Parameter ListSpacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpacesInput`)
     ///
-    /// - Returns: `ListSpacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2222,9 +2222,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of workflow runs of a specified workflow.
     ///
-    /// - Parameter ListWorkflowRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowRunsInput`)
     ///
-    /// - Returns: `ListWorkflowRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2293,9 +2293,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of workflows in a specified project.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2364,9 +2364,9 @@ extension CodeCatalystClient {
     ///
     /// Starts a specified Dev Environment and puts it into an active state.
     ///
-    /// - Parameter StartDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDevEnvironmentInput`)
     ///
-    /// - Returns: `StartDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2434,9 +2434,9 @@ extension CodeCatalystClient {
     ///
     /// Starts a session for a specified Dev Environment.
     ///
-    /// - Parameter StartDevEnvironmentSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDevEnvironmentSessionInput`)
     ///
-    /// - Returns: `StartDevEnvironmentSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDevEnvironmentSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2504,9 +2504,9 @@ extension CodeCatalystClient {
     ///
     /// Begins a run of a specified workflow.
     ///
-    /// - Parameter StartWorkflowRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkflowRunInput`)
     ///
-    /// - Returns: `StartWorkflowRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWorkflowRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2576,9 +2576,9 @@ extension CodeCatalystClient {
     ///
     /// Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
     ///
-    /// - Parameter StopDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDevEnvironmentInput`)
     ///
-    /// - Returns: `StopDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2643,9 +2643,9 @@ extension CodeCatalystClient {
     ///
     /// Stops a session for a specified Dev Environment.
     ///
-    /// - Parameter StopDevEnvironmentSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDevEnvironmentSessionInput`)
     ///
-    /// - Returns: `StopDevEnvironmentSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDevEnvironmentSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2710,9 +2710,9 @@ extension CodeCatalystClient {
     ///
     /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
     ///
-    /// - Parameter UpdateDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDevEnvironmentInput`)
     ///
-    /// - Returns: `UpdateDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2780,9 +2780,9 @@ extension CodeCatalystClient {
     ///
     /// Changes one or more values for a project.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2850,9 +2850,9 @@ extension CodeCatalystClient {
     ///
     /// Changes one or more values for a space.
     ///
-    /// - Parameter UpdateSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSpaceInput`)
     ///
-    /// - Returns: `UpdateSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2920,9 +2920,9 @@ extension CodeCatalystClient {
     ///
     /// Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
     ///
-    /// - Parameter VerifySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifySessionInput`)
     ///
-    /// - Returns: `VerifySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

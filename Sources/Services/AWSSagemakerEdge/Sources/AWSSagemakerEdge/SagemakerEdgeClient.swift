@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SagemakerEdgeClient: ClientRuntime.Client {
     public static let clientName = "SagemakerEdgeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SagemakerEdgeClient.SagemakerEdgeClientConfiguration
     let serviceName = "Sagemaker Edge"
@@ -371,9 +371,9 @@ extension SagemakerEdgeClient {
     ///
     /// Use to get the active deployments from a device.
     ///
-    /// - Parameter GetDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentsInput`)
     ///
-    /// - Returns: `GetDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -438,9 +438,9 @@ extension SagemakerEdgeClient {
     ///
     /// Use to check if a device is registered with SageMaker Edge Manager.
     ///
-    /// - Parameter GetDeviceRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceRegistrationInput`)
     ///
-    /// - Returns: `GetDeviceRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -505,9 +505,9 @@ extension SagemakerEdgeClient {
     ///
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
     ///
-    /// - Parameter SendHeartbeatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendHeartbeatInput`)
     ///
-    /// - Returns: `SendHeartbeatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendHeartbeatOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

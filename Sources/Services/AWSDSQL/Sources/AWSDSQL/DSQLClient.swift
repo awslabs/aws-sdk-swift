@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DSQLClient: ClientRuntime.Client {
     public static let clientName = "DSQLClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DSQLClient.DSQLClientConfiguration
     let serviceName = "DSQL"
@@ -383,9 +383,9 @@ extension DSQLClient {
     ///
     /// * The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : The output of a created cluster.
+    /// - Returns: The output of a created cluster. (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -456,9 +456,9 @@ extension DSQLClient {
     ///
     /// Deletes a cluster in Amazon Aurora DSQL.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : The output from a deleted cluster.
+    /// - Returns: The output from a deleted cluster. (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -527,9 +527,9 @@ extension DSQLClient {
     ///
     /// Retrieves information about a cluster.
     ///
-    /// - Parameter GetClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterInput`)
     ///
-    /// - Returns: `GetClusterOutput` : The output of a cluster.
+    /// - Returns: The output of a cluster. (Type: `GetClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -595,9 +595,9 @@ extension DSQLClient {
     ///
     /// Retrieves the VPC endpoint service name.
     ///
-    /// - Parameter GetVpcEndpointServiceNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpcEndpointServiceNameInput`)
     ///
-    /// - Returns: `GetVpcEndpointServiceNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpcEndpointServiceNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,9 +663,9 @@ extension DSQLClient {
     ///
     /// Retrieves information about a list of clusters.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,9 +732,9 @@ extension DSQLClient {
     ///
     /// Lists all of the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,9 +800,9 @@ extension DSQLClient {
     ///
     /// Tags a resource with a map of key and value pairs.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -872,9 +872,9 @@ extension DSQLClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,9 +954,9 @@ extension DSQLClient {
     ///
     /// * The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : The details of the cluster after it has been updated.
+    /// - Returns: The details of the cluster after it has been updated. (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

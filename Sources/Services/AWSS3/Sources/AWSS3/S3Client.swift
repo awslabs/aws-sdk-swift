@@ -86,7 +86,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3Client: ClientRuntime.Client {
     public static let clientName = "S3Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: S3Client.S3ClientConfiguration
     let serviceName = "S3"
@@ -479,9 +479,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter AbortMultipartUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AbortMultipartUploadInput`)
     ///
-    /// - Returns: `AbortMultipartUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortMultipartUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -605,9 +605,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter CompleteMultipartUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteMultipartUploadInput`)
     ///
-    /// - Returns: `CompleteMultipartUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteMultipartUploadOutput`)
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -728,9 +728,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
-    /// - Parameter CopyObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyObjectInput`)
     ///
-    /// - Returns: `CopyObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -827,9 +827,9 @@ extension S3Client {
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
-    /// - Parameter CreateBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketInput`)
     ///
-    /// - Returns: `CreateBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,9 +927,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
-    /// - Parameter CreateBucketMetadataConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketMetadataConfigurationInput`)
     ///
-    /// - Returns: `CreateBucketMetadataConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketMetadataConfigurationOutput`)
     public func createBucketMetadataConfiguration(input: CreateBucketMetadataConfigurationInput) async throws -> CreateBucketMetadataConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1013,9 +1013,9 @@ extension S3Client {
     ///
     /// * [GetBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataTableConfiguration.html)
     ///
-    /// - Parameter CreateBucketMetadataTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketMetadataTableConfigurationInput`)
     ///
-    /// - Returns: `CreateBucketMetadataTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketMetadataTableConfigurationOutput`)
     public func createBucketMetadataTableConfiguration(input: CreateBucketMetadataTableConfigurationInput) async throws -> CreateBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1149,9 +1149,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter CreateMultipartUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMultipartUploadInput`)
     ///
-    /// - Returns: `CreateMultipartUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMultipartUploadOutput`)
     public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1223,9 +1223,9 @@ extension S3Client {
     ///
     /// Permissions To obtain temporary security credentials, you must create a bucket policy or an IAM identity-based policy that grants s3express:CreateSession permission to the bucket. In a policy, you can have the s3express:SessionMode condition key to control who can create a ReadWrite or ReadOnly session. For more information about ReadWrite or ReadOnly sessions, see [x-amz-create-session-mode](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html#API_CreateSession_RequestParameters). For example policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide. To grant cross-account access to Zonal endpoint API operations, the bucket policy should also grant both accounts the s3express:CreateSession permission. If you want to encrypt objects with SSE-KMS, you must also have the kms:GenerateDataKey and the kms:Decrypt permissions in IAM identity-based policies and KMS key policies for the target KMS key. Encryption For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html). For [Zonal endpoint (object-level) API operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-differences.html#s3-express-differences-api-operations) except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), you authenticate and authorize requests through [CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html) for low latency. To encrypt new objects in a directory bucket with SSE-KMS, you must specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)). Then, when a session is created for Zonal endpoint API operations, new objects are automatically encrypted and decrypted with SSE-KMS and S3 Bucket Keys during the session. Only 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) is supported per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported. After you specify SSE-KMS as your bucket's default encryption configuration with a customer managed key, you can't change the customer managed key for the bucket's SSE-KMS configuration. In the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)) using the REST API, you can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) from the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. Also, in the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)), it's not supported to override the values of the encryption settings from the CreateSession request. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com.
     ///
-    /// - Parameter CreateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
-    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1311,9 +1311,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter DeleteBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketInput`)
     ///
-    /// - Returns: `DeleteBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1381,9 +1381,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
-    /// - Parameter DeleteBucketAnalyticsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketAnalyticsConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketAnalyticsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketAnalyticsConfigurationOutput`)
     public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1450,9 +1450,9 @@ extension S3Client {
     ///
     /// * [RESTOPTIONSobject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html)
     ///
-    /// - Parameter DeleteBucketCorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketCorsInput`)
     ///
-    /// - Returns: `DeleteBucketCorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketCorsOutput`)
     public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1533,9 +1533,9 @@ extension S3Client {
     ///
     /// * [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
     ///
-    /// - Parameter DeleteBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketEncryptionInput`)
     ///
-    /// - Returns: `DeleteBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketEncryptionOutput`)
     public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1604,9 +1604,9 @@ extension S3Client {
     ///
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
     ///
-    /// - Parameter DeleteBucketIntelligentTieringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketIntelligentTieringConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketIntelligentTieringConfigurationOutput`)
     public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1675,9 +1675,9 @@ extension S3Client {
     ///
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
     ///
-    /// - Parameter DeleteBucketInventoryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketInventoryConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketInventoryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketInventoryConfigurationOutput`)
     public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1754,9 +1754,9 @@ extension S3Client {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html)
     ///
-    /// - Parameter DeleteBucketLifecycleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketLifecycleInput`)
     ///
-    /// - Returns: `DeleteBucketLifecycleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketLifecycleOutput`)
     public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1827,9 +1827,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
-    /// - Parameter DeleteBucketMetadataConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetadataConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketMetadataConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataConfigurationOutput`)
     public func deleteBucketMetadataConfiguration(input: DeleteBucketMetadataConfigurationInput) async throws -> DeleteBucketMetadataConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1896,9 +1896,9 @@ extension S3Client {
     ///
     /// * [GetBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataTableConfiguration.html)
     ///
-    /// - Parameter DeleteBucketMetadataTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetadataTableConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketMetadataTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataTableConfigurationOutput`)
     public func deleteBucketMetadataTableConfiguration(input: DeleteBucketMetadataTableConfigurationInput) async throws -> DeleteBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1969,9 +1969,9 @@ extension S3Client {
     ///
     /// * [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html)
     ///
-    /// - Parameter DeleteBucketMetricsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetricsConfigurationInput`)
     ///
-    /// - Returns: `DeleteBucketMetricsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketMetricsConfigurationOutput`)
     public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2038,9 +2038,9 @@ extension S3Client {
     ///
     /// * [PutBucketOwnershipControls]
     ///
-    /// - Parameter DeleteBucketOwnershipControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketOwnershipControlsInput`)
     ///
-    /// - Returns: `DeleteBucketOwnershipControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketOwnershipControlsOutput`)
     public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2114,9 +2114,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter DeleteBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketPolicyInput`)
     ///
-    /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketPolicyOutput`)
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2183,9 +2183,9 @@ extension S3Client {
     ///
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html)
     ///
-    /// - Parameter DeleteBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketReplicationInput`)
     ///
-    /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketReplicationOutput`)
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2252,9 +2252,9 @@ extension S3Client {
     ///
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html)
     ///
-    /// - Parameter DeleteBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketTaggingInput`)
     ///
-    /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketTaggingOutput`)
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2321,9 +2321,9 @@ extension S3Client {
     ///
     /// * [PutBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html)
     ///
-    /// - Parameter DeleteBucketWebsiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketWebsiteInput`)
     ///
-    /// - Returns: `DeleteBucketWebsiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketWebsiteOutput`)
     public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2418,9 +2418,9 @@ extension S3Client {
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
-    /// - Parameter DeleteObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectInput`)
     ///
-    /// - Returns: `DeleteObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
     public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2487,9 +2487,9 @@ extension S3Client {
     ///
     /// * [GetObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html)
     ///
-    /// - Parameter DeleteObjectTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectTaggingInput`)
     ///
-    /// - Returns: `DeleteObjectTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectTaggingOutput`)
     public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2590,9 +2590,9 @@ extension S3Client {
     ///
     /// * [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html)
     ///
-    /// - Parameter DeleteObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectsInput`)
     ///
-    /// - Returns: `DeleteObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectsOutput`)
     public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2667,9 +2667,9 @@ extension S3Client {
     ///
     /// * [GetBucketPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicyStatus.html)
     ///
-    /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicAccessBlockInput`)
     ///
-    /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicAccessBlockOutput`)
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2734,9 +2734,9 @@ extension S3Client {
     ///
     /// * [PutBucketAccelerateConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html)
     ///
-    /// - Parameter GetBucketAccelerateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketAccelerateConfigurationInput`)
     ///
-    /// - Returns: `GetBucketAccelerateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketAccelerateConfigurationOutput`)
     public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2801,9 +2801,9 @@ extension S3Client {
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
     ///
-    /// - Parameter GetBucketAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketAclInput`)
     ///
-    /// - Returns: `GetBucketAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketAclOutput`)
     public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2872,9 +2872,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
-    /// - Parameter GetBucketAnalyticsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketAnalyticsConfigurationInput`)
     ///
-    /// - Returns: `GetBucketAnalyticsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketAnalyticsConfigurationOutput`)
     public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2941,9 +2941,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html)
     ///
-    /// - Parameter GetBucketCorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketCorsInput`)
     ///
-    /// - Returns: `GetBucketCorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketCorsOutput`)
     public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3024,9 +3024,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
     ///
-    /// - Parameter GetBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketEncryptionInput`)
     ///
-    /// - Returns: `GetBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketEncryptionOutput`)
     public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3095,9 +3095,9 @@ extension S3Client {
     ///
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
     ///
-    /// - Parameter GetBucketIntelligentTieringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketIntelligentTieringConfigurationInput`)
     ///
-    /// - Returns: `GetBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketIntelligentTieringConfigurationOutput`)
     public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3166,9 +3166,9 @@ extension S3Client {
     ///
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
     ///
-    /// - Parameter GetBucketInventoryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketInventoryConfigurationInput`)
     ///
-    /// - Returns: `GetBucketInventoryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketInventoryConfigurationOutput`)
     public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3261,9 +3261,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html)
     ///
-    /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketLifecycleConfigurationInput`)
     ///
-    /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketLifecycleConfigurationOutput`)
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3330,9 +3330,9 @@ extension S3Client {
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
-    /// - Parameter GetBucketLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketLocationInput`)
     ///
-    /// - Returns: `GetBucketLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketLocationOutput`)
     public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3399,9 +3399,9 @@ extension S3Client {
     ///
     /// * [PutBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html)
     ///
-    /// - Parameter GetBucketLoggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketLoggingInput`)
     ///
-    /// - Returns: `GetBucketLoggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketLoggingOutput`)
     public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3472,9 +3472,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
-    /// - Parameter GetBucketMetadataConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketMetadataConfigurationInput`)
     ///
-    /// - Returns: `GetBucketMetadataConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketMetadataConfigurationOutput`)
     public func getBucketMetadataConfiguration(input: GetBucketMetadataConfigurationInput) async throws -> GetBucketMetadataConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3541,9 +3541,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetadataTableConfiguration.html)
     ///
-    /// - Parameter GetBucketMetadataTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketMetadataTableConfigurationInput`)
     ///
-    /// - Returns: `GetBucketMetadataTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketMetadataTableConfigurationOutput`)
     public func getBucketMetadataTableConfiguration(input: GetBucketMetadataTableConfigurationInput) async throws -> GetBucketMetadataTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3614,9 +3614,9 @@ extension S3Client {
     ///
     /// * [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html)
     ///
-    /// - Parameter GetBucketMetricsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketMetricsConfigurationInput`)
     ///
-    /// - Returns: `GetBucketMetricsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketMetricsConfigurationOutput`)
     public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3681,9 +3681,9 @@ extension S3Client {
     ///
     /// * [PutBucketNotification](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html)
     ///
-    /// - Parameter GetBucketNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetBucketNotificationConfigurationOutput` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
+    /// - Returns: A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket. (Type: `GetBucketNotificationConfigurationOutput`)
     public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3757,9 +3757,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketOwnershipControls]
     ///
-    /// - Parameter GetBucketOwnershipControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketOwnershipControlsInput`)
     ///
-    /// - Returns: `GetBucketOwnershipControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketOwnershipControlsOutput`)
     public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3831,9 +3831,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
-    /// - Parameter GetBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketPolicyInput`)
     ///
-    /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketPolicyOutput`)
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3904,9 +3904,9 @@ extension S3Client {
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html)
     ///
-    /// - Parameter GetBucketPolicyStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketPolicyStatusInput`)
     ///
-    /// - Returns: `GetBucketPolicyStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketPolicyStatusOutput`)
     public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3973,9 +3973,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html)
     ///
-    /// - Parameter GetBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketReplicationInput`)
     ///
-    /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketReplicationOutput`)
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4040,9 +4040,9 @@ extension S3Client {
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
     ///
-    /// - Parameter GetBucketRequestPaymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketRequestPaymentInput`)
     ///
-    /// - Returns: `GetBucketRequestPaymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketRequestPaymentOutput`)
     public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4119,9 +4119,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html)
     ///
-    /// - Parameter GetBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketTaggingInput`)
     ///
-    /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketTaggingOutput`)
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4190,9 +4190,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter GetBucketVersioningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketVersioningInput`)
     ///
-    /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketVersioningOutput`)
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4259,9 +4259,9 @@ extension S3Client {
     ///
     /// * [PutBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html)
     ///
-    /// - Parameter GetBucketWebsiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketWebsiteInput`)
     ///
-    /// - Returns: `GetBucketWebsiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketWebsiteOutput`)
     public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4357,9 +4357,9 @@ extension S3Client {
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
     ///
-    /// - Parameter GetObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectInput`)
     ///
-    /// - Returns: `GetObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4436,9 +4436,9 @@ extension S3Client {
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
-    /// - Parameter GetObjectAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectAclInput`)
     ///
-    /// - Returns: `GetObjectAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectAclOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4573,9 +4573,9 @@ extension S3Client {
     ///
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
-    /// - Parameter GetObjectAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectAttributesInput`)
     ///
-    /// - Returns: `GetObjectAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4645,9 +4645,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
-    /// - Parameter GetObjectLegalHoldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectLegalHoldInput`)
     ///
-    /// - Returns: `GetObjectLegalHoldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectLegalHoldOutput`)
     public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4712,9 +4712,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
-    /// - Parameter GetObjectLockConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectLockConfigurationInput`)
     ///
-    /// - Returns: `GetObjectLockConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectLockConfigurationOutput`)
     public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4779,9 +4779,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
-    /// - Parameter GetObjectRetentionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectRetentionInput`)
     ///
-    /// - Returns: `GetObjectRetentionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectRetentionOutput`)
     public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4850,9 +4850,9 @@ extension S3Client {
     ///
     /// * [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html)
     ///
-    /// - Parameter GetObjectTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectTaggingInput`)
     ///
-    /// - Returns: `GetObjectTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectTaggingOutput`)
     public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4917,9 +4917,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
-    /// - Parameter GetObjectTorrentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectTorrentInput`)
     ///
-    /// - Returns: `GetObjectTorrentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectTorrentOutput`)
     public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4989,9 +4989,9 @@ extension S3Client {
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html)
     ///
-    /// - Parameter GetPublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicAccessBlockInput`)
     ///
-    /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicAccessBlockOutput`)
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5061,9 +5061,9 @@ extension S3Client {
     ///
     /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. You must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter HeadBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `HeadBucketInput`)
     ///
-    /// - Returns: `HeadBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `HeadBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5171,9 +5171,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
-    /// - Parameter HeadObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `HeadObjectInput`)
     ///
-    /// - Returns: `HeadObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `HeadObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5247,9 +5247,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
-    /// - Parameter ListBucketAnalyticsConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketAnalyticsConfigurationsInput`)
     ///
-    /// - Returns: `ListBucketAnalyticsConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketAnalyticsConfigurationsOutput`)
     public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5318,9 +5318,9 @@ extension S3Client {
     ///
     /// * [GetBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketIntelligentTieringConfiguration.html)
     ///
-    /// - Parameter ListBucketIntelligentTieringConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketIntelligentTieringConfigurationsInput`)
     ///
-    /// - Returns: `ListBucketIntelligentTieringConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketIntelligentTieringConfigurationsOutput`)
     public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5389,9 +5389,9 @@ extension S3Client {
     ///
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
     ///
-    /// - Parameter ListBucketInventoryConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketInventoryConfigurationsInput`)
     ///
-    /// - Returns: `ListBucketInventoryConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketInventoryConfigurationsOutput`)
     public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5460,9 +5460,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html)
     ///
-    /// - Parameter ListBucketMetricsConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketMetricsConfigurationsInput`)
     ///
-    /// - Returns: `ListBucketMetricsConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketMetricsConfigurationsOutput`)
     public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5525,9 +5525,9 @@ extension S3Client {
     ///
     /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns a list of all buckets owned by the authenticated sender of the request. To grant IAM permission to use this operation, you must add the s3:ListAllMyBuckets policy action. For information about Amazon S3 buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). We strongly recommend using only paginated ListBuckets requests. Unpaginated ListBuckets requests are only supported for Amazon Web Services accounts set to the default general purpose bucket quota of 10,000. If you have an approved general purpose bucket quota above 10,000, you must send paginated ListBuckets requests to list your account’s buckets. All unpaginated ListBuckets requests will be rejected for Amazon Web Services accounts with a general purpose bucket quota greater than 10,000.
     ///
-    /// - Parameter ListBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBucketsInput`)
     ///
-    /// - Returns: `ListBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBucketsOutput`)
     public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5589,9 +5589,9 @@ extension S3Client {
     ///
     /// Returns a list of all Amazon S3 directory buckets owned by the authenticated sender of the request. For more information about directory buckets, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions You must have the s3express:ListAllMyDirectoryBuckets permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The BucketRegion response element is not part of the ListDirectoryBuckets Response Syntax.
     ///
-    /// - Parameter ListDirectoryBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDirectoryBucketsInput`)
     ///
-    /// - Returns: `ListDirectoryBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDirectoryBucketsOutput`)
     public func listDirectoryBuckets(input: ListDirectoryBucketsInput) async throws -> ListDirectoryBucketsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5684,9 +5684,9 @@ extension S3Client {
     ///
     /// * [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html)
     ///
-    /// - Parameter ListMultipartUploadsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMultipartUploadsInput`)
     ///
-    /// - Returns: `ListMultipartUploadsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMultipartUploadsOutput`)
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5757,9 +5757,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter ListObjectVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectVersionsInput`)
     ///
-    /// - Returns: `ListObjectVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectVersionsOutput`)
     public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5832,9 +5832,9 @@ extension S3Client {
     ///
     /// * [ListBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html)
     ///
-    /// - Parameter ListObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectsInput`)
     ///
-    /// - Returns: `ListObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5931,9 +5931,9 @@ extension S3Client {
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
-    /// - Parameter ListObjectsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectsV2Input`)
     ///
-    /// - Returns: `ListObjectsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6020,9 +6020,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter ListPartsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPartsInput`)
     ///
-    /// - Returns: `ListPartsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPartsOutput`)
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6096,9 +6096,9 @@ extension S3Client {
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
-    /// - Parameter PutBucketAccelerateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketAccelerateConfigurationInput`)
     ///
-    /// - Returns: `PutBucketAccelerateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketAccelerateConfigurationOutput`)
     public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6241,9 +6241,9 @@ extension S3Client {
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
     ///
-    /// - Parameter PutBucketAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketAclInput`)
     ///
-    /// - Returns: `PutBucketAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketAclOutput`)
     public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6349,9 +6349,9 @@ extension S3Client {
     ///
     /// * [ListBucketAnalyticsConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html)
     ///
-    /// - Parameter PutBucketAnalyticsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketAnalyticsConfigurationInput`)
     ///
-    /// - Returns: `PutBucketAnalyticsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketAnalyticsConfigurationOutput`)
     public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6432,9 +6432,9 @@ extension S3Client {
     ///
     /// * [RESTOPTIONSobject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html)
     ///
-    /// - Parameter PutBucketCorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketCorsInput`)
     ///
-    /// - Returns: `PutBucketCorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketCorsOutput`)
     public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6539,9 +6539,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
     ///
-    /// - Parameter PutBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketEncryptionInput`)
     ///
-    /// - Returns: `PutBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketEncryptionOutput`)
     public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6617,9 +6617,9 @@ extension S3Client {
     ///
     /// You only need S3 Intelligent-Tiering enabled on a bucket if you want to automatically move objects stored in the S3 Intelligent-Tiering storage class to the Archive Access or Deep Archive Access tier. PutBucketIntelligentTieringConfiguration has the following special errors: HTTP 400 Bad Request Error Code: InvalidArgument Cause: Invalid Argument HTTP 400 Bad Request Error Code: TooManyConfigurations Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit. HTTP 403 Forbidden Error Cause: You are not the owner of the specified bucket, or you do not have the s3:PutIntelligentTieringConfiguration bucket permission to set the configuration on the bucket.
     ///
-    /// - Parameter PutBucketIntelligentTieringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketIntelligentTieringConfigurationInput`)
     ///
-    /// - Returns: `PutBucketIntelligentTieringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketIntelligentTieringConfigurationOutput`)
     public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6691,9 +6691,9 @@ extension S3Client {
     ///
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
     ///
-    /// - Parameter PutBucketInventoryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketInventoryConfigurationInput`)
     ///
-    /// - Returns: `PutBucketInventoryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketInventoryConfigurationOutput`)
     public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6791,9 +6791,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html)
     ///
-    /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketLifecycleConfigurationInput`)
     ///
-    /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketLifecycleConfigurationOutput`)
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6877,9 +6877,9 @@ extension S3Client {
     ///
     /// * [GetBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLogging.html)
     ///
-    /// - Parameter PutBucketLoggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketLoggingInput`)
     ///
-    /// - Returns: `PutBucketLoggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketLoggingOutput`)
     public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6961,9 +6961,9 @@ extension S3Client {
     ///
     /// * HTTP Status Code: HTTP 400 Bad Request
     ///
-    /// - Parameter PutBucketMetricsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketMetricsConfigurationInput`)
     ///
-    /// - Returns: `PutBucketMetricsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketMetricsConfigurationOutput`)
     public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7031,9 +7031,9 @@ extension S3Client {
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
     ///
-    /// - Parameter PutBucketNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketNotificationConfigurationInput`)
     ///
-    /// - Returns: `PutBucketNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketNotificationConfigurationOutput`)
     public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7103,9 +7103,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketOwnershipControls]
     ///
-    /// - Parameter PutBucketOwnershipControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketOwnershipControlsInput`)
     ///
-    /// - Returns: `PutBucketOwnershipControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketOwnershipControlsOutput`)
     public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7183,9 +7183,9 @@ extension S3Client {
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
-    /// - Parameter PutBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketPolicyInput`)
     ///
-    /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketPolicyOutput`)
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7256,9 +7256,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html)
     ///
-    /// - Parameter PutBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketReplicationInput`)
     ///
-    /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketReplicationOutput`)
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7329,9 +7329,9 @@ extension S3Client {
     ///
     /// * [GetBucketRequestPayment](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketRequestPayment.html)
     ///
-    /// - Parameter PutBucketRequestPaymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketRequestPaymentInput`)
     ///
-    /// - Returns: `PutBucketRequestPaymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketRequestPaymentOutput`)
     public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7413,9 +7413,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html)
     ///
-    /// - Parameter PutBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketTaggingInput`)
     ///
-    /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketTaggingOutput`)
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7488,9 +7488,9 @@ extension S3Client {
     ///
     /// * [GetBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html)
     ///
-    /// - Parameter PutBucketVersioningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketVersioningInput`)
     ///
-    /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketVersioningOutput`)
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7603,9 +7603,9 @@ extension S3Client {
     ///
     /// Amazon S3 has a limitation of 50 routing rules per website configuration. If you require more than 50 routing rules, you can use object redirect. For more information, see [Configuring an Object Redirect](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html) in the Amazon S3 User Guide. The maximum request length is limited to 128 KB.
     ///
-    /// - Parameter PutBucketWebsiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketWebsiteInput`)
     ///
-    /// - Returns: `PutBucketWebsiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketWebsiteOutput`)
     public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -7717,9 +7717,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter PutObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectInput`)
     ///
-    /// - Returns: `PutObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7867,9 +7867,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
-    /// - Parameter PutObjectAclInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectAclInput`)
     ///
-    /// - Returns: `PutObjectAclOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectAclOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7941,9 +7941,9 @@ extension S3Client {
     ///
     /// This operation is not supported for directory buckets. Applies a legal hold configuration to the specified object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for Amazon S3 on Outposts.
     ///
-    /// - Parameter PutObjectLegalHoldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectLegalHoldInput`)
     ///
-    /// - Returns: `PutObjectLegalHoldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectLegalHoldOutput`)
     public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8016,9 +8016,9 @@ extension S3Client {
     ///
     /// * You can enable Object Lock for new or existing buckets. For more information, see [Configuring Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-configure.html).
     ///
-    /// - Parameter PutObjectLockConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectLockConfigurationInput`)
     ///
-    /// - Returns: `PutObjectLockConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectLockConfigurationOutput`)
     public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8085,9 +8085,9 @@ extension S3Client {
     ///
     /// This operation is not supported for directory buckets. Places an Object Retention configuration on an object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). Users or accounts require the s3:PutObjectRetention permission in order to place an Object Retention configuration on objects. Bypassing a Governance Retention configuration requires the s3:BypassGovernanceRetention permission. This functionality is not supported for Amazon S3 on Outposts.
     ///
-    /// - Parameter PutObjectRetentionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectRetentionInput`)
     ///
-    /// - Returns: `PutObjectRetentionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectRetentionOutput`)
     public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8169,9 +8169,9 @@ extension S3Client {
     ///
     /// * [DeleteObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html)
     ///
-    /// - Parameter PutObjectTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectTaggingInput`)
     ///
-    /// - Returns: `PutObjectTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectTaggingOutput`)
     public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8246,9 +8246,9 @@ extension S3Client {
     ///
     /// * [Using Amazon S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html)
     ///
-    /// - Parameter PutPublicAccessBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPublicAccessBlockInput`)
     ///
-    /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPublicAccessBlockOutput`)
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8320,9 +8320,9 @@ extension S3Client {
     ///
     /// Permissions To grant access to the RenameObject operation on a directory bucket, we recommend that you use the CreateSession operation for session-based authorization. Specifically, you grant the s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the CreateSession API call on the directory bucket to obtain a session token. With the session token in your request header, you can make API requests to this operation. After the session token expires, you make another CreateSession API call to generate a new session token for use. The Amazon Web Services CLI and SDKs will create and manage your session including refreshing the session token automatically to avoid service interruptions when a session expires. In your bucket policy, you can specify the s3express:SessionMode condition key to control who can create a ReadWrite or ReadOnly session. A ReadWrite session is required for executing all the Zonal endpoint API operations, including RenameObject. For more information about authorization, see [CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html). To learn more about Zonal endpoint API operations, see [Authorizing Zonal endpoint API operations with CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-create-session.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com.
     ///
-    /// - Parameter RenameObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RenameObjectInput`)
     ///
-    /// - Returns: `RenameObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RenameObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8453,9 +8453,9 @@ extension S3Client {
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
     ///
-    /// - Parameter RestoreObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreObjectInput`)
     ///
-    /// - Returns: `RestoreObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8551,9 +8551,9 @@ extension S3Client {
     ///
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)
     ///
-    /// - Parameter SelectObjectContentInput : Learn Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
+    /// - Parameter input: Learn Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html). (Type: `SelectObjectContentInput`)
     ///
-    /// - Returns: `SelectObjectContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SelectObjectContentOutput`)
     public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8646,9 +8646,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
-    /// - Parameter UpdateBucketMetadataInventoryTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBucketMetadataInventoryTableConfigurationInput`)
     ///
-    /// - Returns: `UpdateBucketMetadataInventoryTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataInventoryTableConfigurationOutput`)
     public func updateBucketMetadataInventoryTableConfiguration(input: UpdateBucketMetadataInventoryTableConfigurationInput) async throws -> UpdateBucketMetadataInventoryTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8723,9 +8723,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataInventoryTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataInventoryTableConfiguration.html)
     ///
-    /// - Parameter UpdateBucketMetadataJournalTableConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBucketMetadataJournalTableConfigurationInput`)
     ///
-    /// - Returns: `UpdateBucketMetadataJournalTableConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataJournalTableConfigurationOutput`)
     public func updateBucketMetadataJournalTableConfiguration(input: UpdateBucketMetadataJournalTableConfigurationInput) async throws -> UpdateBucketMetadataJournalTableConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8839,9 +8839,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter UploadPartInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadPartInput`)
     ///
-    /// - Returns: `UploadPartOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadPartOutput`)
     public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -8971,9 +8971,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
-    /// - Parameter UploadPartCopyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadPartCopyInput`)
     ///
-    /// - Returns: `UploadPartCopyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadPartCopyOutput`)
     public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -9036,9 +9036,9 @@ extension S3Client {
     ///
     /// This operation is not supported for directory buckets. Passes transformed objects to a GetObject operation when using Object Lambda access points. For information about Object Lambda access points, see [Transforming objects with Object Lambda access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html) in the Amazon S3 User Guide. This operation supports metadata that can be returned by [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html), in addition to RequestRoute, RequestToken, StatusCode, ErrorCode, and ErrorMessage. The GetObject response metadata is supported so that the WriteGetObjectResponse caller, typically an Lambda function, can provide the same metadata when it internally invokes GetObject. When WriteGetObjectResponse is called by a customer-owned Lambda function, the metadata returned to the end user GetObject call might differ from what Amazon S3 would normally return. You can include any number of metadata headers. When including a metadata header, it should be prefaced with x-amz-meta. For example, x-amz-meta-my-custom-header: MyCustomValue. The primary use case for this is to forward GetObject metadata. Amazon Web Services provides some prebuilt Lambda functions that you can use with S3 Object Lambda to detect and redact personally identifiable information (PII) and decompress S3 objects. These Lambda functions are available in the Amazon Web Services Serverless Application Repository, and can be selected through the Amazon Web Services Management Console when you create your Object Lambda access point. Example 1: PII Access Control - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically detects personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 2: PII Redaction - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically redacts personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 3: Decompression - The Lambda function S3ObjectLambdaDecompression, is equipped to decompress objects stored in S3 in one of six compressed file formats including bzip2, gzip, snappy, zlib, zstandard and ZIP. For information on how to view and use these functions, see [Using Amazon Web Services built Lambda functions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-examples.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter WriteGetObjectResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `WriteGetObjectResponseInput`)
     ///
-    /// - Returns: `WriteGetObjectResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `WriteGetObjectResponseOutput`)
     public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

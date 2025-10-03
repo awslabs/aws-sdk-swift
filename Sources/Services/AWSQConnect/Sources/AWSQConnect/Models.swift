@@ -456,6 +456,79 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    /// Configuration settings for the EMAIL_GENERATIVE_ANSWER AI agent including prompts, locale, and knowledge base associations.
+    public struct EmailGenerativeAnswerAIAgentConfiguration: Swift.Sendable {
+        /// Configuration settings for knowledge base associations used by the email generative answer agent.
+        public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
+        /// The ID of the System AI prompt used for generating comprehensive knowledge-based answers from email queries.
+        public var emailGenerativeAnswerAIPromptId: Swift.String?
+        /// The ID of the System AI prompt used for reformulating email queries to optimize knowledge base search results.
+        public var emailQueryReformulationAIPromptId: Swift.String?
+        /// The locale setting for language-specific email processing and response generation (for example, en_US, es_ES).
+        public var locale: Swift.String?
+
+        public init(
+            associationConfigurations: [QConnectClientTypes.AssociationConfiguration]? = nil,
+            emailGenerativeAnswerAIPromptId: Swift.String? = nil,
+            emailQueryReformulationAIPromptId: Swift.String? = nil,
+            locale: Swift.String? = nil
+        ) {
+            self.associationConfigurations = associationConfigurations
+            self.emailGenerativeAnswerAIPromptId = emailGenerativeAnswerAIPromptId
+            self.emailQueryReformulationAIPromptId = emailQueryReformulationAIPromptId
+            self.locale = locale
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Configuration settings for the EMAIL_OVERVIEW AI agent including prompt ID and locale settings.
+    public struct EmailOverviewAIAgentConfiguration: Swift.Sendable {
+        /// The ID of the System AI prompt used for generating structured email conversation summaries.
+        public var emailOverviewAIPromptId: Swift.String?
+        /// The locale setting for language-specific email overview processing (for example, en_US, es_ES).
+        public var locale: Swift.String?
+
+        public init(
+            emailOverviewAIPromptId: Swift.String? = nil,
+            locale: Swift.String? = nil
+        ) {
+            self.emailOverviewAIPromptId = emailOverviewAIPromptId
+            self.locale = locale
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Configuration settings for the EMAIL_RESPONSE AI agent including prompts, locale, and knowledge base associations.
+    public struct EmailResponseAIAgentConfiguration: Swift.Sendable {
+        /// Configuration settings for knowledge base associations used by the email response agent.
+        public var associationConfigurations: [QConnectClientTypes.AssociationConfiguration]?
+        /// The ID of the System AI prompt used for reformulating email queries to optimize knowledge base search for response generation.
+        public var emailQueryReformulationAIPromptId: Swift.String?
+        /// The ID of the System AI prompt used for generating professional email responses based on knowledge base content.
+        public var emailResponseAIPromptId: Swift.String?
+        /// The locale setting for language-specific email response generation (for example, en_US, es_ES).
+        public var locale: Swift.String?
+
+        public init(
+            associationConfigurations: [QConnectClientTypes.AssociationConfiguration]? = nil,
+            emailQueryReformulationAIPromptId: Swift.String? = nil,
+            emailResponseAIPromptId: Swift.String? = nil,
+            locale: Swift.String? = nil
+        ) {
+            self.associationConfigurations = associationConfigurations
+            self.emailQueryReformulationAIPromptId = emailQueryReformulationAIPromptId
+            self.emailResponseAIPromptId = emailResponseAIPromptId
+            self.locale = locale
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
     /// The configuration for the MANUAL_SEARCH AI Agent type.
     public struct ManualSearchAIAgentConfiguration: Swift.Sendable {
         /// The AI Guardrail identifier for the Answer Generation guardrail used by the MANUAL_SEARCH AI Agent.
@@ -518,6 +591,12 @@ extension QConnectClientTypes {
         case answerrecommendationaiagentconfiguration(QConnectClientTypes.AnswerRecommendationAIAgentConfiguration)
         /// The configuration for AI Agents of type SELF_SERVICE.
         case selfserviceaiagentconfiguration(QConnectClientTypes.SelfServiceAIAgentConfiguration)
+        /// Configuration for the EMAIL_RESPONSE AI agent that generates professional email responses using knowledge base content.
+        case emailresponseaiagentconfiguration(QConnectClientTypes.EmailResponseAIAgentConfiguration)
+        /// Configuration for the EMAIL_OVERVIEW AI agent that generates structured overview of email conversations.
+        case emailoverviewaiagentconfiguration(QConnectClientTypes.EmailOverviewAIAgentConfiguration)
+        /// Configuration for the EMAIL_GENERATIVE_ANSWER AI agent that provides comprehensive knowledge-based answers for customer queries.
+        case emailgenerativeansweraiagentconfiguration(QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -526,6 +605,9 @@ extension QConnectClientTypes {
 
     public enum AIAgentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case answerRecommendation
+        case emailGenerativeAnswer
+        case emailOverview
+        case emailResponse
         case manualSearch
         case selfService
         case sdkUnknown(Swift.String)
@@ -533,6 +615,9 @@ extension QConnectClientTypes {
         public static var allCases: [AIAgentType] {
             return [
                 .answerRecommendation,
+                .emailGenerativeAnswer,
+                .emailOverview,
+                .emailResponse,
                 .manualSearch,
                 .selfService
             ]
@@ -546,6 +631,9 @@ extension QConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .answerRecommendation: return "ANSWER_RECOMMENDATION"
+            case .emailGenerativeAnswer: return "EMAIL_GENERATIVE_ANSWER"
+            case .emailOverview: return "EMAIL_OVERVIEW"
+            case .emailResponse: return "EMAIL_RESPONSE"
             case .manualSearch: return "MANUAL_SEARCH"
             case .selfService: return "SELF_SERVICE"
             case let .sdkUnknown(s): return s
@@ -2455,6 +2543,10 @@ extension QConnectClientTypes {
 
     public enum AIPromptType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case answerGeneration
+        case emailGenerativeAnswer
+        case emailOverview
+        case emailQueryReformulation
+        case emailResponse
         case intentLabelingGeneration
         case queryReformulation
         case selfServiceAnswerGeneration
@@ -2464,6 +2556,10 @@ extension QConnectClientTypes {
         public static var allCases: [AIPromptType] {
             return [
                 .answerGeneration,
+                .emailGenerativeAnswer,
+                .emailOverview,
+                .emailQueryReformulation,
+                .emailResponse,
                 .intentLabelingGeneration,
                 .queryReformulation,
                 .selfServiceAnswerGeneration,
@@ -2479,6 +2575,10 @@ extension QConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .answerGeneration: return "ANSWER_GENERATION"
+            case .emailGenerativeAnswer: return "EMAIL_GENERATIVE_ANSWER"
+            case .emailOverview: return "EMAIL_OVERVIEW"
+            case .emailQueryReformulation: return "EMAIL_QUERY_REFORMULATION"
+            case .emailResponse: return "EMAIL_RESPONSE"
             case .intentLabelingGeneration: return "INTENT_LABELING_GENERATION"
             case .queryReformulation: return "QUERY_REFORMULATION"
             case .selfServiceAnswerGeneration: return "SELF_SERVICE_ANSWER_GENERATION"
@@ -2500,7 +2600,7 @@ public struct CreateAIPromptInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the AI Prompt.
     public var description: Swift.String?
-    /// The identifier of the model used for this AI Prompt.
+    /// The identifier of the model used for this AI Prompt. For information about which models are supported in each Amazon Web Services Region, see [Supported models for system/custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
     /// This member is required.
     public var modelId: Swift.String?
     /// The name of the AI Prompt.
@@ -2996,7 +3096,7 @@ public struct UpdateAIPromptInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the Amazon Q in Connect AI Prompt.
     public var description: Swift.String?
-    /// The identifier of the model used for this AI Prompt. For more information on supported models, see [Supported models for system and custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
+    /// The identifier of the model used for this AI Prompt. For information about which models are supported in each Amazon Web Services Region, see [Supported models for system/custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
     public var modelId: Swift.String?
     /// The configuration of the prompt template for this AI Prompt.
     public var templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration?
@@ -3820,6 +3920,54 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    /// Details of streaming chunk data for email overview including completion text and pagination tokens.
+    public struct EmailOverviewChunkDataDetails: Swift.Sendable {
+        /// The partial or complete overview text content in structured HTML format with customer issues, resolutions, and next steps.
+        public var completion: Swift.String?
+        /// Token for retrieving the next chunk of streaming overview data, if available.
+        public var nextChunkToken: Swift.String?
+
+        public init(
+            completion: Swift.String? = nil,
+            nextChunkToken: Swift.String? = nil
+        ) {
+            self.completion = completion
+            self.nextChunkToken = nextChunkToken
+        }
+    }
+}
+
+extension QConnectClientTypes.EmailOverviewChunkDataDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmailOverviewChunkDataDetails(nextChunkToken: \(Swift.String(describing: nextChunkToken)), completion: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// Details of streaming chunk data for email responses including completion text and pagination tokens.
+    public struct EmailResponseChunkDataDetails: Swift.Sendable {
+        /// The partial or complete professional email response text with appropriate greetings and closings.
+        public var completion: Swift.String?
+        /// Token for retrieving the next chunk of streaming response data, if available.
+        public var nextChunkToken: Swift.String?
+
+        public init(
+            completion: Swift.String? = nil,
+            nextChunkToken: Swift.String? = nil
+        ) {
+            self.completion = completion
+            self.nextChunkToken = nextChunkToken
+        }
+    }
+}
+
+extension QConnectClientTypes.EmailResponseChunkDataDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmailResponseChunkDataDetails(nextChunkToken: \(Swift.String(describing: nextChunkToken)), completion: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
     /// Details about the detected intent.
     public struct IntentDetectedDataDetails: Swift.Sendable {
         /// The detected intent.
@@ -4049,6 +4197,9 @@ extension QConnectClientTypes {
         case blockedGenerativeAnswerChunk
         case blockedIntentAnswerChunk
         case detectedIntent
+        case emailGenerativeAnswerChunk
+        case emailOverviewChunk
+        case emailResponseChunk
         case generativeAnswer
         case generativeAnswerChunk
         case generativeResponse
@@ -4061,6 +4212,9 @@ extension QConnectClientTypes {
                 .blockedGenerativeAnswerChunk,
                 .blockedIntentAnswerChunk,
                 .detectedIntent,
+                .emailGenerativeAnswerChunk,
+                .emailOverviewChunk,
+                .emailResponseChunk,
                 .generativeAnswer,
                 .generativeAnswerChunk,
                 .generativeResponse,
@@ -4079,6 +4233,9 @@ extension QConnectClientTypes {
             case .blockedGenerativeAnswerChunk: return "BLOCKED_GENERATIVE_ANSWER_CHUNK"
             case .blockedIntentAnswerChunk: return "BLOCKED_INTENT_ANSWER_CHUNK"
             case .detectedIntent: return "DETECTED_INTENT"
+            case .emailGenerativeAnswerChunk: return "EMAIL_GENERATIVE_ANSWER_CHUNK"
+            case .emailOverviewChunk: return "EMAIL_OVERVIEW_CHUNK"
+            case .emailResponseChunk: return "EMAIL_RESPONSE_CHUNK"
             case .generativeAnswer: return "GENERATIVE_ANSWER"
             case .generativeAnswerChunk: return "GENERATIVE_ANSWER_CHUNK"
             case .generativeResponse: return "GENERATIVE_RESPONSE"
@@ -4721,6 +4878,9 @@ extension QConnectClientTypes {
     public enum QueryResultType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blockedGenerativeAnswerChunk
         case blockedIntentAnswerChunk
+        case emailGenerativeAnswerChunk
+        case emailOverviewChunk
+        case emailResponseChunk
         case generativeAnswer
         case generativeAnswerChunk
         case intentAnswer
@@ -4732,6 +4892,9 @@ extension QConnectClientTypes {
             return [
                 .blockedGenerativeAnswerChunk,
                 .blockedIntentAnswerChunk,
+                .emailGenerativeAnswerChunk,
+                .emailOverviewChunk,
+                .emailResponseChunk,
                 .generativeAnswer,
                 .generativeAnswerChunk,
                 .intentAnswer,
@@ -4749,6 +4912,9 @@ extension QConnectClientTypes {
             switch self {
             case .blockedGenerativeAnswerChunk: return "BLOCKED_GENERATIVE_ANSWER_CHUNK"
             case .blockedIntentAnswerChunk: return "BLOCKED_INTENT_ANSWER_CHUNK"
+            case .emailGenerativeAnswerChunk: return "EMAIL_GENERATIVE_ANSWER_CHUNK"
+            case .emailOverviewChunk: return "EMAIL_OVERVIEW_CHUNK"
+            case .emailResponseChunk: return "EMAIL_RESPONSE_CHUNK"
             case .generativeAnswer: return "GENERATIVE_ANSWER"
             case .generativeAnswerChunk: return "GENERATIVE_ANSWER_CHUNK"
             case .intentAnswer: return "INTENT_ANSWER"
@@ -4948,6 +5114,29 @@ public struct SearchSessionsOutput: Swift.Sendable {
     }
 }
 
+/// An error occurred while calling a dependency. For example, calling connect:DecribeContact as part of CreateSession with a contactArn.
+public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DependencyFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct CreateSessionInput: Swift.Sendable {
     /// The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
     public var aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]?
@@ -4956,6 +5145,8 @@ public struct CreateSessionInput: Swift.Sendable {
     public var assistantId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the email contact in Amazon Connect. Used to retrieve email content and establish session context for AI-powered email assistance.
+    public var contactArn: Swift.String?
     /// The description.
     public var description: Swift.String?
     /// The name of the session.
@@ -4970,6 +5161,7 @@ public struct CreateSessionInput: Swift.Sendable {
         aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]? = nil,
         assistantId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        contactArn: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         tagFilter: QConnectClientTypes.TagFilter? = nil,
@@ -4978,6 +5170,7 @@ public struct CreateSessionInput: Swift.Sendable {
         self.aiAgentConfiguration = aiAgentConfiguration
         self.assistantId = assistantId
         self.clientToken = clientToken
+        self.contactArn = contactArn
         self.description = description
         self.name = name
         self.tagFilter = tagFilter
@@ -10571,6 +10764,12 @@ extension QConnectClientTypes {
         case sourcecontentdata(QConnectClientTypes.SourceContentDataDetails)
         /// Details about the generative chunk data.
         case generativechunkdata(QConnectClientTypes.GenerativeChunkDataDetails)
+        /// Streaming chunk data for email response generation containing partial response content.
+        case emailresponsechunkdata(QConnectClientTypes.EmailResponseChunkDataDetails)
+        /// Streaming chunk data for email overview containing partial overview content.
+        case emailoverviewchunkdata(QConnectClientTypes.EmailOverviewChunkDataDetails)
+        /// Streaming chunk data for email generative answers containing partial knowledge-based response content.
+        case emailgenerativeanswerchunkdata(QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10594,6 +10793,34 @@ extension QConnectClientTypes {
             self.reference = reference
         }
     }
+}
+
+extension QConnectClientTypes {
+
+    /// Details of streaming chunk data for email generative answers including completion text and references.
+    public struct EmailGenerativeAnswerChunkDataDetails: Swift.Sendable {
+        /// The partial or complete text content of the generative answer response.
+        public var completion: Swift.String?
+        /// Token for retrieving the next chunk of streaming response data, if available.
+        public var nextChunkToken: Swift.String?
+        /// Source references and citations from knowledge base articles used to generate the answer.
+        public var references: [QConnectClientTypes.DataSummary]?
+
+        public init(
+            completion: Swift.String? = nil,
+            nextChunkToken: Swift.String? = nil,
+            references: [QConnectClientTypes.DataSummary]? = nil
+        ) {
+            self.completion = completion
+            self.nextChunkToken = nextChunkToken
+            self.references = references
+        }
+    }
+}
+
+extension QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmailGenerativeAnswerChunkDataDetails(nextChunkToken: \(Swift.String(describing: nextChunkToken)), references: \(Swift.String(describing: references)), completion: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -12436,6 +12663,7 @@ extension CreateSessionInput {
         guard let value else { return }
         try writer["aiAgentConfiguration"].writeMap(value.aiAgentConfiguration, valueWritingClosure: QConnectClientTypes.AIAgentConfigurationData.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
+        try writer["contactArn"].write(value.contactArn)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["tagFilter"].write(value.tagFilter, with: QConnectClientTypes.TagFilter.write(value:to:))
@@ -14060,6 +14288,7 @@ enum CreateSessionOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DependencyFailedException": return try DependencyFailedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -15437,6 +15666,19 @@ extension UnauthorizedException {
     }
 }
 
+extension DependencyFailedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DependencyFailedException {
+        let reader = baseError.errorBodyReader
+        var value = DependencyFailedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension RequestTimeoutException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
@@ -15506,6 +15748,12 @@ extension QConnectClientTypes.AIAgentConfiguration {
         switch value {
             case let .answerrecommendationaiagentconfiguration(answerrecommendationaiagentconfiguration):
                 try writer["answerRecommendationAIAgentConfiguration"].write(answerrecommendationaiagentconfiguration, with: QConnectClientTypes.AnswerRecommendationAIAgentConfiguration.write(value:to:))
+            case let .emailgenerativeansweraiagentconfiguration(emailgenerativeansweraiagentconfiguration):
+                try writer["emailGenerativeAnswerAIAgentConfiguration"].write(emailgenerativeansweraiagentconfiguration, with: QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration.write(value:to:))
+            case let .emailoverviewaiagentconfiguration(emailoverviewaiagentconfiguration):
+                try writer["emailOverviewAIAgentConfiguration"].write(emailoverviewaiagentconfiguration, with: QConnectClientTypes.EmailOverviewAIAgentConfiguration.write(value:to:))
+            case let .emailresponseaiagentconfiguration(emailresponseaiagentconfiguration):
+                try writer["emailResponseAIAgentConfiguration"].write(emailresponseaiagentconfiguration, with: QConnectClientTypes.EmailResponseAIAgentConfiguration.write(value:to:))
             case let .manualsearchaiagentconfiguration(manualsearchaiagentconfiguration):
                 try writer["manualSearchAIAgentConfiguration"].write(manualsearchaiagentconfiguration, with: QConnectClientTypes.ManualSearchAIAgentConfiguration.write(value:to:))
             case let .selfserviceaiagentconfiguration(selfserviceaiagentconfiguration):
@@ -15525,28 +15773,34 @@ extension QConnectClientTypes.AIAgentConfiguration {
                 return .answerrecommendationaiagentconfiguration(try reader["answerRecommendationAIAgentConfiguration"].read(with: QConnectClientTypes.AnswerRecommendationAIAgentConfiguration.read(from:)))
             case "selfServiceAIAgentConfiguration":
                 return .selfserviceaiagentconfiguration(try reader["selfServiceAIAgentConfiguration"].read(with: QConnectClientTypes.SelfServiceAIAgentConfiguration.read(from:)))
+            case "emailResponseAIAgentConfiguration":
+                return .emailresponseaiagentconfiguration(try reader["emailResponseAIAgentConfiguration"].read(with: QConnectClientTypes.EmailResponseAIAgentConfiguration.read(from:)))
+            case "emailOverviewAIAgentConfiguration":
+                return .emailoverviewaiagentconfiguration(try reader["emailOverviewAIAgentConfiguration"].read(with: QConnectClientTypes.EmailOverviewAIAgentConfiguration.read(from:)))
+            case "emailGenerativeAnswerAIAgentConfiguration":
+                return .emailgenerativeansweraiagentconfiguration(try reader["emailGenerativeAnswerAIAgentConfiguration"].read(with: QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension QConnectClientTypes.SelfServiceAIAgentConfiguration {
+extension QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration {
 
-    static func write(value: QConnectClientTypes.SelfServiceAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["selfServiceAIGuardrailId"].write(value.selfServiceAIGuardrailId)
-        try writer["selfServiceAnswerGenerationAIPromptId"].write(value.selfServiceAnswerGenerationAIPromptId)
-        try writer["selfServicePreProcessingAIPromptId"].write(value.selfServicePreProcessingAIPromptId)
+        try writer["emailGenerativeAnswerAIPromptId"].write(value.emailGenerativeAnswerAIPromptId)
+        try writer["emailQueryReformulationAIPromptId"].write(value.emailQueryReformulationAIPromptId)
+        try writer["locale"].write(value.locale)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SelfServiceAIAgentConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.SelfServiceAIAgentConfiguration()
-        value.selfServicePreProcessingAIPromptId = try reader["selfServicePreProcessingAIPromptId"].readIfPresent()
-        value.selfServiceAnswerGenerationAIPromptId = try reader["selfServiceAnswerGenerationAIPromptId"].readIfPresent()
-        value.selfServiceAIGuardrailId = try reader["selfServiceAIGuardrailId"].readIfPresent()
+        var value = QConnectClientTypes.EmailGenerativeAnswerAIAgentConfiguration()
+        value.emailGenerativeAnswerAIPromptId = try reader["emailGenerativeAnswerAIPromptId"].readIfPresent()
+        value.emailQueryReformulationAIPromptId = try reader["emailQueryReformulationAIPromptId"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
         value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -15687,6 +15941,65 @@ extension QConnectClientTypes.TagCondition {
         var value = QConnectClientTypes.TagCondition()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailOverviewAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.EmailOverviewAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["emailOverviewAIPromptId"].write(value.emailOverviewAIPromptId)
+        try writer["locale"].write(value.locale)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailOverviewAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailOverviewAIAgentConfiguration()
+        value.emailOverviewAIPromptId = try reader["emailOverviewAIPromptId"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailResponseAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.EmailResponseAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["emailQueryReformulationAIPromptId"].write(value.emailQueryReformulationAIPromptId)
+        try writer["emailResponseAIPromptId"].write(value.emailResponseAIPromptId)
+        try writer["locale"].write(value.locale)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailResponseAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailResponseAIAgentConfiguration()
+        value.emailResponseAIPromptId = try reader["emailResponseAIPromptId"].readIfPresent()
+        value.emailQueryReformulationAIPromptId = try reader["emailQueryReformulationAIPromptId"].readIfPresent()
+        value.locale = try reader["locale"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.SelfServiceAIAgentConfiguration {
+
+    static func write(value: QConnectClientTypes.SelfServiceAIAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationConfigurations"].writeList(value.associationConfigurations, memberWritingClosure: QConnectClientTypes.AssociationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["selfServiceAIGuardrailId"].write(value.selfServiceAIGuardrailId)
+        try writer["selfServiceAnswerGenerationAIPromptId"].write(value.selfServiceAnswerGenerationAIPromptId)
+        try writer["selfServicePreProcessingAIPromptId"].write(value.selfServicePreProcessingAIPromptId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.SelfServiceAIAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.SelfServiceAIAgentConfiguration()
+        value.selfServicePreProcessingAIPromptId = try reader["selfServicePreProcessingAIPromptId"].readIfPresent()
+        value.selfServiceAnswerGenerationAIPromptId = try reader["selfServiceAnswerGenerationAIPromptId"].readIfPresent()
+        value.selfServiceAIGuardrailId = try reader["selfServiceAIGuardrailId"].readIfPresent()
+        value.associationConfigurations = try reader["associationConfigurations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.AssociationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17299,9 +17612,49 @@ extension QConnectClientTypes.DataDetails {
                 return .sourcecontentdata(try reader["sourceContentData"].read(with: QConnectClientTypes.SourceContentDataDetails.read(from:)))
             case "generativeChunkData":
                 return .generativechunkdata(try reader["generativeChunkData"].read(with: QConnectClientTypes.GenerativeChunkDataDetails.read(from:)))
+            case "emailResponseChunkData":
+                return .emailresponsechunkdata(try reader["emailResponseChunkData"].read(with: QConnectClientTypes.EmailResponseChunkDataDetails.read(from:)))
+            case "emailOverviewChunkData":
+                return .emailoverviewchunkdata(try reader["emailOverviewChunkData"].read(with: QConnectClientTypes.EmailOverviewChunkDataDetails.read(from:)))
+            case "emailGenerativeAnswerChunkData":
+                return .emailgenerativeanswerchunkdata(try reader["emailGenerativeAnswerChunkData"].read(with: QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailGenerativeAnswerChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.references = try reader["references"].readListIfPresent(memberReadingClosure: QConnectClientTypes.DataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailOverviewChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailOverviewChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailOverviewChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.EmailResponseChunkDataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.EmailResponseChunkDataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.EmailResponseChunkDataDetails()
+        value.completion = try reader["completion"].readIfPresent()
+        value.nextChunkToken = try reader["nextChunkToken"].readIfPresent()
+        return value
     }
 }
 

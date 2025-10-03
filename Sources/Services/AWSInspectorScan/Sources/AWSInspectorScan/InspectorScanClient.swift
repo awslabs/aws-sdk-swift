@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class InspectorScanClient: ClientRuntime.Client {
     public static let clientName = "InspectorScanClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: InspectorScanClient.InspectorScanClientConfiguration
     let serviceName = "Inspector Scan"
@@ -372,9 +372,9 @@ extension InspectorScanClient {
     ///
     /// Scans a provided CycloneDX 1.5 SBOM and reports on any vulnerabilities discovered in that SBOM. You can generate compatible SBOMs for your resources using the [Amazon Inspector SBOM generator].
     ///
-    /// - Parameter ScanSbomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ScanSbomInput`)
     ///
-    /// - Returns: `ScanSbomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ScanSbomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

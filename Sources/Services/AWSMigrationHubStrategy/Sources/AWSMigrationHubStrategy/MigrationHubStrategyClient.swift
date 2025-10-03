@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubStrategyClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubStrategyClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubStrategyClient.MigrationHubStrategyClientConfiguration
     let serviceName = "MigrationHubStrategy"
@@ -373,9 +373,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves details about an application component.
     ///
-    /// - Parameter GetApplicationComponentDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationComponentDetailsInput`)
     ///
-    /// - Returns: `GetApplicationComponentDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationComponentDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -439,9 +439,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the recommended strategies and tools for an application component running on a server.
     ///
-    /// - Parameter GetApplicationComponentStrategiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationComponentStrategiesInput`)
     ///
-    /// - Returns: `GetApplicationComponentStrategiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationComponentStrategiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -505,9 +505,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves the status of an on-going assessment.
     ///
-    /// - Parameter GetAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssessmentInput`)
     ///
-    /// - Returns: `GetAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -572,9 +572,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves the details about a specific import task.
     ///
-    /// - Parameter GetImportFileTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportFileTaskInput`)
     ///
-    /// - Returns: `GetImportFileTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportFileTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,9 +640,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieve the latest ID of a specific assessment task.
     ///
-    /// - Parameter GetLatestAssessmentIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLatestAssessmentIdInput`)
     ///
-    /// - Returns: `GetLatestAssessmentIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLatestAssessmentIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,9 +707,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves your migration and modernization preferences.
     ///
-    /// - Parameter GetPortfolioPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPortfolioPreferencesInput`)
     ///
-    /// - Returns: `GetPortfolioPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPortfolioPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,9 +774,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
     ///
-    /// - Parameter GetPortfolioSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPortfolioSummaryInput`)
     ///
-    /// - Returns: `GetPortfolioSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPortfolioSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,9 +840,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves detailed information about the specified recommendation report.
     ///
-    /// - Parameter GetRecommendationReportDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationReportDetailsInput`)
     ///
-    /// - Returns: `GetRecommendationReportDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationReportDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,9 +908,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves detailed information about a specified server.
     ///
-    /// - Parameter GetServerDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServerDetailsInput`)
     ///
-    /// - Returns: `GetServerDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServerDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,9 +977,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves recommended strategies and tools for the specified server.
     ///
-    /// - Parameter GetServerStrategiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServerStrategiesInput`)
     ///
-    /// - Returns: `GetServerStrategiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServerStrategiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,9 +1045,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
     ///
-    /// - Parameter ListAnalyzableServersInput : Represents input for ListAnalyzableServers operation.
+    /// - Parameter input: Represents input for ListAnalyzableServers operation. (Type: `ListAnalyzableServersInput`)
     ///
-    /// - Returns: `ListAnalyzableServersOutput` : Represents output for ListAnalyzableServers operation.
+    /// - Returns: Represents output for ListAnalyzableServers operation. (Type: `ListAnalyzableServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1115,9 +1115,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the application components (processes).
     ///
-    /// - Parameter ListApplicationComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationComponentsInput`)
     ///
-    /// - Returns: `ListApplicationComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1185,9 +1185,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the installed collectors.
     ///
-    /// - Parameter ListCollectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollectorsInput`)
     ///
-    /// - Returns: `ListCollectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1253,9 +1253,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the imports performed.
     ///
-    /// - Parameter ListImportFileTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportFileTaskInput`)
     ///
-    /// - Returns: `ListImportFileTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportFileTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1321,9 +1321,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Returns a list of all the servers.
     ///
-    /// - Parameter ListServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServersInput`)
     ///
-    /// - Returns: `ListServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1391,9 +1391,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Saves the specified migration and modernization preferences.
     ///
-    /// - Parameter PutPortfolioPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPortfolioPreferencesInput`)
     ///
-    /// - Returns: `PutPortfolioPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPortfolioPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1462,9 +1462,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Starts the assessment of an on-premises environment.
     ///
-    /// - Parameter StartAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAssessmentInput`)
     ///
-    /// - Returns: `StartAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1532,9 +1532,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Starts a file import.
     ///
-    /// - Parameter StartImportFileTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportFileTaskInput`)
     ///
-    /// - Returns: `StartImportFileTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportFileTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1603,9 +1603,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Starts generating a recommendation report.
     ///
-    /// - Parameter StartRecommendationReportGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRecommendationReportGenerationInput`)
     ///
-    /// - Returns: `StartRecommendationReportGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRecommendationReportGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1674,9 +1674,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Stops the assessment of an on-premises environment.
     ///
-    /// - Parameter StopAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAssessmentInput`)
     ///
-    /// - Returns: `StopAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,9 +1744,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Updates the configuration of an application component.
     ///
-    /// - Parameter UpdateApplicationComponentConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationComponentConfigInput`)
     ///
-    /// - Returns: `UpdateApplicationComponentConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationComponentConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1814,9 +1814,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Updates the configuration of the specified server.
     ///
-    /// - Parameter UpdateServerConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServerConfigInput`)
     ///
-    /// - Returns: `UpdateServerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

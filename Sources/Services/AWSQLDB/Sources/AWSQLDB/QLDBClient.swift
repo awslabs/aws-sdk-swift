@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QLDBClient: ClientRuntime.Client {
     public static let clientName = "QLDBClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: QLDBClient.QLDBClientConfiguration
     let serviceName = "QLDB"
@@ -373,9 +373,9 @@ extension QLDBClient {
     ///
     /// Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream resources are subject to a 7-day retention period, so they are automatically deleted after this limit expires.
     ///
-    /// - Parameter CancelJournalKinesisStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJournalKinesisStreamInput`)
     ///
-    /// - Returns: `CancelJournalKinesisStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJournalKinesisStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -439,9 +439,9 @@ extension QLDBClient {
     ///
     /// Creates a new ledger in your Amazon Web Services account in the current Region.
     ///
-    /// - Parameter CreateLedgerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLedgerInput`)
     ///
-    /// - Returns: `CreateLedgerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLedgerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,9 +509,9 @@ extension QLDBClient {
     ///
     /// Deletes a ledger and all of its contents. This action is irreversible. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     ///
-    /// - Parameter DeleteLedgerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLedgerInput`)
     ///
-    /// - Returns: `DeleteLedgerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLedgerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -576,9 +576,9 @@ extension QLDBClient {
     ///
     /// Returns detailed information about a given Amazon QLDB journal stream. The output includes the Amazon Resource Name (ARN), stream name, current status, creation time, and the parameters of the original stream creation request. This action does not return any expired journal streams. For more information, see [Expiration for terminal streams](https://docs.aws.amazon.com/qldb/latest/developerguide/streams.create.html#streams.create.states.expiration) in the Amazon QLDB Developer Guide.
     ///
-    /// - Parameter DescribeJournalKinesisStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJournalKinesisStreamInput`)
     ///
-    /// - Returns: `DescribeJournalKinesisStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJournalKinesisStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -642,9 +642,9 @@ extension QLDBClient {
     ///
     /// Returns information about a journal export job, including the ledger name, export ID, creation time, current status, and the parameters of the original export creation request. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide. If the export job with the given ExportId doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException.
     ///
-    /// - Parameter DescribeJournalS3ExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJournalS3ExportInput`)
     ///
-    /// - Returns: `DescribeJournalS3ExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJournalS3ExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,9 +706,9 @@ extension QLDBClient {
     ///
     /// Returns information about a ledger, including its state, permissions mode, encryption at rest settings, and when it was created.
     ///
-    /// - Parameter DescribeLedgerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLedgerInput`)
     ///
-    /// - Returns: `DescribeLedgerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLedgerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,9 +771,9 @@ extension QLDBClient {
     ///
     /// Exports journal contents within a date and time range from a ledger into a specified Amazon Simple Storage Service (Amazon S3) bucket. A journal export job can write the data objects in either the text or binary representation of Amazon Ion format, or in JSON Lines text format. If the ledger with the given Name doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name is in CREATING status, then throws ResourcePreconditionNotMetException. You can initiate up to two concurrent journal export requests for each ledger. Beyond this limit, journal export requests throw LimitExceededException.
     ///
-    /// - Parameter ExportJournalToS3Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportJournalToS3Input`)
     ///
-    /// - Returns: `ExportJournalToS3Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportJournalToS3Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,9 +839,9 @@ extension QLDBClient {
     ///
     /// Returns a block object at a specified address in a journal. Also returns a proof of the specified block for verification if DigestTipAddress is provided. For information about the data contents in a block, see [Journal contents](https://docs.aws.amazon.com/qldb/latest/developerguide/journal-contents.html) in the Amazon QLDB Developer Guide. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
     ///
-    /// - Parameter GetBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBlockInput`)
     ///
-    /// - Returns: `GetBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,9 +908,9 @@ extension QLDBClient {
     ///
     /// Returns the digest of a ledger at the latest committed block in the journal. The response includes a 256-bit hash value and a block address.
     ///
-    /// - Parameter GetDigestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDigestInput`)
     ///
-    /// - Returns: `GetDigestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDigestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -974,9 +974,9 @@ extension QLDBClient {
     ///
     /// Returns a revision data object for a specified document ID and block address. Also returns a proof of the specified revision for verification if DigestTipAddress is provided.
     ///
-    /// - Parameter GetRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRevisionInput`)
     ///
-    /// - Returns: `GetRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,9 +1043,9 @@ extension QLDBClient {
     ///
     /// Returns all Amazon QLDB journal streams for a given ledger. This action does not return any expired journal streams. For more information, see [Expiration for terminal streams](https://docs.aws.amazon.com/qldb/latest/developerguide/streams.create.html#streams.create.states.expiration) in the Amazon QLDB Developer Guide. This action returns a maximum of MaxResults items. It is paginated so that you can retrieve all the items by calling ListJournalKinesisStreamsForLedger multiple times.
     ///
-    /// - Parameter ListJournalKinesisStreamsForLedgerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJournalKinesisStreamsForLedgerInput`)
     ///
-    /// - Returns: `ListJournalKinesisStreamsForLedgerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJournalKinesisStreamsForLedgerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1110,9 +1110,9 @@ extension QLDBClient {
     ///
     /// Returns all journal export jobs for all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple times. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide.
     ///
-    /// - Parameter ListJournalS3ExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJournalS3ExportsInput`)
     ///
-    /// - Returns: `ListJournalS3ExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJournalS3ExportsOutput`)
     public func listJournalS3Exports(input: ListJournalS3ExportsInput) async throws -> ListJournalS3ExportsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1170,9 +1170,9 @@ extension QLDBClient {
     ///
     /// Returns all journal export jobs for a specified ledger. This action returns a maximum of MaxResults items, and is paginated so that you can retrieve all the items by calling ListJournalS3ExportsForLedger multiple times. This action does not return any expired export jobs. For more information, see [Export job expiration](https://docs.aws.amazon.com/qldb/latest/developerguide/export-journal.request.html#export-journal.request.expiration) in the Amazon QLDB Developer Guide.
     ///
-    /// - Parameter ListJournalS3ExportsForLedgerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJournalS3ExportsForLedgerInput`)
     ///
-    /// - Returns: `ListJournalS3ExportsForLedgerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJournalS3ExportsForLedgerOutput`)
     public func listJournalS3ExportsForLedger(input: ListJournalS3ExportsForLedgerInput) async throws -> ListJournalS3ExportsForLedgerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1230,9 +1230,9 @@ extension QLDBClient {
     ///
     /// Returns all ledgers that are associated with the current Amazon Web Services account and Region. This action returns a maximum of MaxResults items and is paginated so that you can retrieve all the items by calling ListLedgers multiple times.
     ///
-    /// - Parameter ListLedgersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLedgersInput`)
     ///
-    /// - Returns: `ListLedgersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLedgersOutput`)
     public func listLedgers(input: ListLedgersInput) async throws -> ListLedgersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1290,9 +1290,9 @@ extension QLDBClient {
     ///
     /// Returns all tags for a specified Amazon QLDB resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1355,9 +1355,9 @@ extension QLDBClient {
     ///
     /// Creates a journal stream for a given Amazon QLDB ledger. The stream captures every document revision that is committed to the ledger's journal and delivers the data to a specified Amazon Kinesis Data Streams resource.
     ///
-    /// - Parameter StreamJournalToKinesisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StreamJournalToKinesisInput`)
     ///
-    /// - Returns: `StreamJournalToKinesisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StreamJournalToKinesisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1424,9 +1424,9 @@ extension QLDBClient {
     ///
     /// Adds one or more tags to a specified Amazon QLDB resource. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,9 +1492,9 @@ extension QLDBClient {
     ///
     /// Removes one or more tags from a specified Amazon QLDB resource. You can specify up to 50 tag keys to remove.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1558,9 +1558,9 @@ extension QLDBClient {
     ///
     /// Updates properties on a ledger.
     ///
-    /// - Parameter UpdateLedgerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLedgerInput`)
     ///
-    /// - Returns: `UpdateLedgerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLedgerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,9 +1626,9 @@ extension QLDBClient {
     ///
     /// Updates the permissions mode of a ledger. Before you switch to the STANDARD permissions mode, you must first create all required IAM policies and table tags to avoid disruption to your users. To learn more, see [Migrating to the standard permissions mode](https://docs.aws.amazon.com/qldb/latest/developerguide/ledger-management.basics.html#ledger-mgmt.basics.update-permissions.migrating) in the Amazon QLDB Developer Guide.
     ///
-    /// - Parameter UpdateLedgerPermissionsModeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLedgerPermissionsModeInput`)
     ///
-    /// - Returns: `UpdateLedgerPermissionsModeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLedgerPermissionsModeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

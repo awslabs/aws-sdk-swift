@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResourceExplorer2Client: ClientRuntime.Client {
     public static let clientName = "ResourceExplorer2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceExplorer2Client.ResourceExplorer2ClientConfiguration
     let serviceName = "Resource Explorer 2"
@@ -374,9 +374,9 @@ extension ResourceExplorer2Client {
     ///
     /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a [Search] that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     ///
-    /// - Parameter AssociateDefaultViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDefaultViewInput`)
     ///
-    /// - Returns: `AssociateDefaultViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDefaultViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves details about a list of views.
     ///
-    /// - Parameter BatchGetViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetViewInput`)
     ///
-    /// - Returns: `BatchGetViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension ResourceExplorer2Client {
     ///
     /// * Action: iam:CreateServiceLinkedRole Resource: No specific resource (*). This permission is required only the first time you create an index to turn on Resource Explorer in the account. Resource Explorer uses this to create the [service-linked role needed to index the resources in your account](https://docs.aws.amazon.com/resource-explorer/latest/userguide/security_iam_service-linked-roles.html). Resource Explorer uses the same service-linked role for all additional indexes you create afterwards.
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension ResourceExplorer2Client {
     ///
     /// Creates a view that users can query by using the [Search] operation. Results from queries that you make using this view include only resources that match the view's Filters. For more information about Amazon Web Services Resource Explorer views, see [Managing views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-views.html) in the Amazon Web Services Resource Explorer User Guide. Only the principals with an IAM identity-based policy that grants Allow to the Search action on a Resource with the [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of this view can [Search] using views you create with this operation.
     ///
-    /// - Parameter CreateViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateViewInput`)
     ///
-    /// - Returns: `CreateViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,9 +666,9 @@ extension ResourceExplorer2Client {
     ///
     /// Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the [GetIndex] operation and checking the Status response value. If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
     ///
-    /// - Parameter DeleteIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
     ///
-    /// - Returns: `DeleteIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension ResourceExplorer2Client {
     ///
     /// Deletes the specified view. If the specified view is the default view for its Amazon Web Services Region, then all [Search] operations in that Region must explicitly specify the view to use until you configure a new default by calling the [AssociateDefaultView] operation.
     ///
-    /// - Parameter DeleteViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteViewInput`)
     ///
-    /// - Returns: `DeleteViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,9 +809,9 @@ extension ResourceExplorer2Client {
     ///
     /// After you call this operation, the affected Amazon Web Services Region no longer has a default view. All [Search] operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the [AssociateDefaultView] operation. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     ///
-    /// - Parameter DisassociateDefaultViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDefaultViewInput`)
     ///
-    /// - Returns: `DisassociateDefaultViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDefaultViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,9 +877,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
     ///
-    /// - Parameter GetAccountLevelServiceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountLevelServiceConfigurationInput`)
     ///
-    /// - Returns: `GetAccountLevelServiceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountLevelServiceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,9 +944,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call [GetView] to retrieve the details of that view.
     ///
-    /// - Parameter GetDefaultViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDefaultViewInput`)
     ///
-    /// - Returns: `GetDefaultViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDefaultViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1012,9 +1012,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
     ///
-    /// - Parameter GetIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIndexInput`)
     ///
-    /// - Returns: `GetIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1080,9 +1080,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves details of the specified [Amazon Web Services-managed view](https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html).
     ///
-    /// - Parameter GetManagedViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedViewInput`)
     ///
-    /// - Returns: `GetManagedViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,9 +1152,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves details of the specified view.
     ///
-    /// - Parameter GetViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetViewInput`)
     ///
-    /// - Returns: `GetViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,9 +1224,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
     ///
-    /// - Parameter ListIndexesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexesInput`)
     ///
-    /// - Returns: `ListIndexesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,9 +1294,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
     ///
-    /// - Parameter ListIndexesForMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexesForMembersInput`)
     ///
-    /// - Returns: `ListIndexesForMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexesForMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1364,9 +1364,9 @@ extension ResourceExplorer2Client {
     ///
     /// Lists the Amazon resource names (ARNs) of the [Amazon Web Services-managed views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html) available in the Amazon Web Services Region in which you call this operation.
     ///
-    /// - Parameter ListManagedViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedViewsInput`)
     ///
-    /// - Returns: `ListManagedViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1435,9 +1435,9 @@ extension ResourceExplorer2Client {
     ///
     /// Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
     ///
-    /// - Parameter ListResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
-    /// - Returns: `ListResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,9 +1507,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
     ///
-    /// - Parameter ListSupportedResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupportedResourceTypesInput`)
     ///
-    /// - Returns: `ListSupportedResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupportedResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,9 +1577,9 @@ extension ResourceExplorer2Client {
     ///
     /// Lists the tags that are attached to the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,9 +1646,9 @@ extension ResourceExplorer2Client {
     ///
     /// Lists the [Amazon resource names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the views available in the Amazon Web Services Region in which you call this operation. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
-    /// - Parameter ListViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListViewsInput`)
     ///
-    /// - Returns: `ListViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1716,9 +1716,9 @@ extension ResourceExplorer2Client {
     ///
     /// Searches for resources and displays details about all resources that match the specified criteria. You must specify a query string. All search queries must use a view. If you don't explicitly specify a view, then Amazon Web Services Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation. The results are the logical intersection of the results that match both the QueryString parameter supplied to this operation and the SearchFilter parameter attached to the view. For the complete syntax supported by the QueryString parameter, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/APIReference/about-query-syntax.html). If your search results are empty, or are missing results that you think should be there, see [Troubleshooting Resource Explorer search](https://docs.aws.amazon.com/resource-explorer/latest/userguide/troubleshooting_search.html).
     ///
-    /// - Parameter SearchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchInput`)
     ///
-    /// - Returns: `SearchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,9 +1788,9 @@ extension ResourceExplorer2Client {
     ///
     /// Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,9 +1860,9 @@ extension ResourceExplorer2Client {
     ///
     /// Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1934,9 +1934,9 @@ extension ResourceExplorer2Client {
     ///
     /// * LOCAL index type The index contains information about resources in only the Amazon Web Services Region in which the index exists. If an aggregator index in another Region exists, then information in this local index is replicated to the aggregator index. When you change the index type to LOCAL, Resource Explorer turns off the replication of resource information from all other Amazon Web Services Regions in the Amazon Web Services account to this Region. The aggregator index remains in the UPDATING state until all replication with other Regions successfully stops. You can check the status of the asynchronous task by using the [GetIndex] operation. When Resource Explorer successfully stops all replication with other Regions, the Status response of that operation changes from UPDATING to ACTIVE. Separately, the resource information from other Regions that was previously stored in the index is deleted within 30 days by another background task. Until that asynchronous task completes, some results from other Regions can continue to appear in search results. After you demote an aggregator index to a local index, you must wait 24 hours before you can promote another index to be the new aggregator index for the account.
     ///
-    /// - Parameter UpdateIndexTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexTypeInput`)
     ///
-    /// - Returns: `UpdateIndexTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIndexTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2007,9 +2007,9 @@ extension ResourceExplorer2Client {
     ///
     /// Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
     ///
-    /// - Parameter UpdateViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateViewInput`)
     ///
-    /// - Returns: `UpdateViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

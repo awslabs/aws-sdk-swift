@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCampaignsV2Client: ClientRuntime.Client {
     public static let clientName = "ConnectCampaignsV2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfiguration
     let serviceName = "ConnectCampaignsV2"
@@ -372,9 +372,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Creates a campaign for the specified Amazon Connect account. This API is idempotent.
     ///
-    /// - Parameter CreateCampaignInput : The request for CreateCampaign API.
+    /// - Parameter input: The request for CreateCampaign API. (Type: `CreateCampaignInput`)
     ///
-    /// - Returns: `CreateCampaignOutput` : The response for Create Campaign API
+    /// - Returns: The response for Create Campaign API (Type: `CreateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Deletes a campaign from the specified Amazon Connect account.
     ///
-    /// - Parameter DeleteCampaignInput : The request for DeleteCampaign API.
+    /// - Parameter input: The request for DeleteCampaign API. (Type: `DeleteCampaignInput`)
     ///
-    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Deletes the channel subtype config of a campaign. This API is idempotent.
     ///
-    /// - Parameter DeleteCampaignChannelSubtypeConfigInput : The request for DeleteCampaignChannelSubtypeConfig API.
+    /// - Parameter input: The request for DeleteCampaignChannelSubtypeConfig API. (Type: `DeleteCampaignChannelSubtypeConfigInput`)
     ///
-    /// - Returns: `DeleteCampaignChannelSubtypeConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignChannelSubtypeConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,9 +581,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Deletes the communication limits config for a campaign. This API is idempotent.
     ///
-    /// - Parameter DeleteCampaignCommunicationLimitsInput : The request for DeleteCampaignCommunicationLimits API.
+    /// - Parameter input: The request for DeleteCampaignCommunicationLimits API. (Type: `DeleteCampaignCommunicationLimitsInput`)
     ///
-    /// - Returns: `DeleteCampaignCommunicationLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignCommunicationLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -651,9 +651,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Deletes the communication time config for a campaign. This API is idempotent.
     ///
-    /// - Parameter DeleteCampaignCommunicationTimeInput : The request for DeleteCampaignCommunicationTime API.
+    /// - Parameter input: The request for DeleteCampaignCommunicationTime API. (Type: `DeleteCampaignCommunicationTimeInput`)
     ///
-    /// - Returns: `DeleteCampaignCommunicationTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignCommunicationTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -721,9 +721,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Deletes a connect instance config from the specified AWS account.
     ///
-    /// - Parameter DeleteConnectInstanceConfigInput : The request for DeleteConnectInstanceConfig API.
+    /// - Parameter input: The request for DeleteConnectInstanceConfig API. (Type: `DeleteConnectInstanceConfigInput`)
     ///
-    /// - Returns: `DeleteConnectInstanceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectInstanceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,9 +791,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Delete the integration for the specified Amazon Connect instance.
     ///
-    /// - Parameter DeleteConnectInstanceIntegrationInput : The request for DeleteConnectInstanceIntegration API.
+    /// - Parameter input: The request for DeleteConnectInstanceIntegration API. (Type: `DeleteConnectInstanceIntegrationInput`)
     ///
-    /// - Returns: `DeleteConnectInstanceIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectInstanceIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -862,9 +862,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
     ///
-    /// - Parameter DeleteInstanceOnboardingJobInput : The request for DeleteInstanceOnboardingJob API.
+    /// - Parameter input: The request for DeleteInstanceOnboardingJob API. (Type: `DeleteInstanceOnboardingJobInput`)
     ///
-    /// - Returns: `DeleteInstanceOnboardingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceOnboardingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,9 +930,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Describes the specific campaign.
     ///
-    /// - Parameter DescribeCampaignInput : The request for DescribeCampaign API.
+    /// - Parameter input: The request for DescribeCampaign API. (Type: `DescribeCampaignInput`)
     ///
-    /// - Returns: `DescribeCampaignOutput` : The response for DescribeCampaign API.
+    /// - Returns: The response for DescribeCampaign API. (Type: `DescribeCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,9 +997,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Get state of a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter GetCampaignStateInput : The request for GetCampaignState API.
+    /// - Parameter input: The request for GetCampaignState API. (Type: `GetCampaignStateInput`)
     ///
-    /// - Returns: `GetCampaignStateOutput` : The response for GetCampaignState API.
+    /// - Returns: The response for GetCampaignState API. (Type: `GetCampaignStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,9 +1065,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Get state of campaigns for the specified Amazon Connect account.
     ///
-    /// - Parameter GetCampaignStateBatchInput : The request for GetCampaignStateBatch API.
+    /// - Parameter input: The request for GetCampaignStateBatch API. (Type: `GetCampaignStateBatchInput`)
     ///
-    /// - Returns: `GetCampaignStateBatchOutput` : The response for GetCampaignStateBatch API.
+    /// - Returns: The response for GetCampaignStateBatch API. (Type: `GetCampaignStateBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1135,9 +1135,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Get the specific Connect instance config.
     ///
-    /// - Parameter GetConnectInstanceConfigInput : The request for GetConnectInstanceConfig API.
+    /// - Parameter input: The request for GetConnectInstanceConfig API. (Type: `GetConnectInstanceConfigInput`)
     ///
-    /// - Returns: `GetConnectInstanceConfigOutput` : The response for GetConnectInstanceConfig API.
+    /// - Returns: The response for GetConnectInstanceConfig API. (Type: `GetConnectInstanceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1202,9 +1202,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Get the instance communication limits.
     ///
-    /// - Parameter GetInstanceCommunicationLimitsInput : The request for GetInstanceCommunicationLimits API.
+    /// - Parameter input: The request for GetInstanceCommunicationLimits API. (Type: `GetInstanceCommunicationLimitsInput`)
     ///
-    /// - Returns: `GetInstanceCommunicationLimitsOutput` : The response for GetInstanceCommunicationLimits API.
+    /// - Returns: The response for GetInstanceCommunicationLimits API. (Type: `GetInstanceCommunicationLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,9 +1269,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Get the specific instance onboarding job status.
     ///
-    /// - Parameter GetInstanceOnboardingJobStatusInput : The request for GetInstanceOnboardingJobStatus API.
+    /// - Parameter input: The request for GetInstanceOnboardingJobStatus API. (Type: `GetInstanceOnboardingJobStatusInput`)
     ///
-    /// - Returns: `GetInstanceOnboardingJobStatusOutput` : The response for GetInstanceOnboardingJobStatus API.
+    /// - Returns: The response for GetInstanceOnboardingJobStatus API. (Type: `GetInstanceOnboardingJobStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1336,9 +1336,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Provides summary information about the campaigns under the specified Amazon Connect account.
     ///
-    /// - Parameter ListCampaignsInput : The request for ListCampaigns API.
+    /// - Parameter input: The request for ListCampaigns API. (Type: `ListCampaignsInput`)
     ///
-    /// - Returns: `ListCampaignsOutput` : The response for ListCampaigns API.
+    /// - Returns: The response for ListCampaigns API. (Type: `ListCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1405,9 +1405,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Provides summary information about the integration under the specified Connect instance.
     ///
-    /// - Parameter ListConnectInstanceIntegrationsInput : The request for ListConnectInstanceIntegrations API.
+    /// - Parameter input: The request for ListConnectInstanceIntegrations API. (Type: `ListConnectInstanceIntegrationsInput`)
     ///
-    /// - Returns: `ListConnectInstanceIntegrationsOutput` : The response for ListConnectInstanceIntegrations API.
+    /// - Returns: The response for ListConnectInstanceIntegrations API. (Type: `ListConnectInstanceIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1474,9 +1474,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// List tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : The request for ListTagsForResource API.
+    /// - Parameter input: The request for ListTagsForResource API. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : The request for ListTagsForResource API.
+    /// - Returns: The request for ListTagsForResource API. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1542,9 +1542,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Pauses a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter PauseCampaignInput : The request for PauseCampaign API.
+    /// - Parameter input: The request for PauseCampaign API. (Type: `PauseCampaignInput`)
     ///
-    /// - Returns: `PauseCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PauseCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1612,9 +1612,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Put or update the integration for the specified Amazon Connect instance.
     ///
-    /// - Parameter PutConnectInstanceIntegrationInput : The request for PutConnectInstanceIntegration API.
+    /// - Parameter input: The request for PutConnectInstanceIntegration API. (Type: `PutConnectInstanceIntegrationInput`)
     ///
-    /// - Returns: `PutConnectInstanceIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutConnectInstanceIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1684,9 +1684,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Put the instance communication limits. This API is idempotent.
     ///
-    /// - Parameter PutInstanceCommunicationLimitsInput : The request for PutInstanceCommunicationLimits API.
+    /// - Parameter input: The request for PutInstanceCommunicationLimits API. (Type: `PutInstanceCommunicationLimitsInput`)
     ///
-    /// - Returns: `PutInstanceCommunicationLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInstanceCommunicationLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1755,9 +1755,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Creates outbound requests for the specified campaign Amazon Connect account. This API is idempotent.
     ///
-    /// - Parameter PutOutboundRequestBatchInput : The request for PutOutboundRequestBatch API.
+    /// - Parameter input: The request for PutOutboundRequestBatch API. (Type: `PutOutboundRequestBatchInput`)
     ///
-    /// - Returns: `PutOutboundRequestBatchOutput` : The response for PutOutboundRequestBatch API.
+    /// - Returns: The response for PutOutboundRequestBatch API. (Type: `PutOutboundRequestBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1828,9 +1828,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Takes in a list of profile outbound requests to be placed as part of an outbound campaign. This API is idempotent.
     ///
-    /// - Parameter PutProfileOutboundRequestBatchInput : The request for PutProfileOutboundRequestBatch API
+    /// - Parameter input: The request for PutProfileOutboundRequestBatch API (Type: `PutProfileOutboundRequestBatchInput`)
     ///
-    /// - Returns: `PutProfileOutboundRequestBatchOutput` : The response for PutProfileOutboundRequestBatch API
+    /// - Returns: The response for PutProfileOutboundRequestBatch API (Type: `PutProfileOutboundRequestBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1901,9 +1901,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter ResumeCampaignInput : The request for ResumeCampaign API.
+    /// - Parameter input: The request for ResumeCampaign API. (Type: `ResumeCampaignInput`)
     ///
-    /// - Returns: `ResumeCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1971,9 +1971,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Starts a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter StartCampaignInput : The request for StartCampaign API.
+    /// - Parameter input: The request for StartCampaign API. (Type: `StartCampaignInput`)
     ///
-    /// - Returns: `StartCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2041,9 +2041,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Onboard the specific Amazon Connect instance to Connect Campaigns.
     ///
-    /// - Parameter StartInstanceOnboardingJobInput : The request for StartInstanceOnboardingJob API.
+    /// - Parameter input: The request for StartInstanceOnboardingJob API. (Type: `StartInstanceOnboardingJobInput`)
     ///
-    /// - Returns: `StartInstanceOnboardingJobOutput` : The response for StartInstanceOnboardingJob API.
+    /// - Returns: The response for StartInstanceOnboardingJob API. (Type: `StartInstanceOnboardingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2113,9 +2113,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter StopCampaignInput : The request for StopCampaign API.
+    /// - Parameter input: The request for StopCampaign API. (Type: `StopCampaignInput`)
     ///
-    /// - Returns: `StopCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2183,9 +2183,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Tag a resource.
     ///
-    /// - Parameter TagResourceInput : The request for TagResource API.
+    /// - Parameter input: The request for TagResource API. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2254,9 +2254,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Untag a resource.
     ///
-    /// - Parameter UntagResourceInput : The request for UntagResource API.
+    /// - Parameter input: The request for UntagResource API. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2323,9 +2323,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Updates the channel subtype config of a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignChannelSubtypeConfigInput : The request for UpdateCampaignChannelSubtypeConfig API.
+    /// - Parameter input: The request for UpdateCampaignChannelSubtypeConfig API. (Type: `UpdateCampaignChannelSubtypeConfigInput`)
     ///
-    /// - Returns: `UpdateCampaignChannelSubtypeConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignChannelSubtypeConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2394,9 +2394,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Updates the communication limits config for a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignCommunicationLimitsInput : The request for UpdateCampaignCommunicationLimits API.
+    /// - Parameter input: The request for UpdateCampaignCommunicationLimits API. (Type: `UpdateCampaignCommunicationLimitsInput`)
     ///
-    /// - Returns: `UpdateCampaignCommunicationLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignCommunicationLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2466,9 +2466,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Updates the communication time config for a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignCommunicationTimeInput : The request for UpdateCampaignCommunicationTime API.
+    /// - Parameter input: The request for UpdateCampaignCommunicationTime API. (Type: `UpdateCampaignCommunicationTimeInput`)
     ///
-    /// - Returns: `UpdateCampaignCommunicationTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignCommunicationTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2538,9 +2538,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Updates the campaign flow associated with a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignFlowAssociationInput : The request for UpdateCampaignFlowAssociation API.
+    /// - Parameter input: The request for UpdateCampaignFlowAssociation API. (Type: `UpdateCampaignFlowAssociationInput`)
     ///
-    /// - Returns: `UpdateCampaignFlowAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignFlowAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2610,9 +2610,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Updates the name of a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignNameInput : The request for UpdateCampaignName API.
+    /// - Parameter input: The request for UpdateCampaignName API. (Type: `UpdateCampaignNameInput`)
     ///
-    /// - Returns: `UpdateCampaignNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2681,9 +2681,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Updates the schedule for a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignScheduleInput : The request for UpdateCampaignSchedule API.
+    /// - Parameter input: The request for UpdateCampaignSchedule API. (Type: `UpdateCampaignScheduleInput`)
     ///
-    /// - Returns: `UpdateCampaignScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2753,9 +2753,9 @@ extension ConnectCampaignsV2Client {
     ///
     /// Updates the campaign source with a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignSourceInput : The request for UpdateCampaignSource API.
+    /// - Parameter input: The request for UpdateCampaignSource API. (Type: `UpdateCampaignSourceInput`)
     ///
-    /// - Returns: `UpdateCampaignSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTTwinMakerClient: ClientRuntime.Client {
     public static let clientName = "IoTTwinMakerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTTwinMakerClient.IoTTwinMakerClientConfiguration
     let serviceName = "IoTTwinMaker"
@@ -373,9 +373,9 @@ extension IoTTwinMakerClient {
     ///
     /// Sets values for multiple time series properties.
     ///
-    /// - Parameter BatchPutPropertyValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutPropertyValuesInput`)
     ///
-    /// - Returns: `BatchPutPropertyValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutPropertyValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension IoTTwinMakerClient {
     ///
     /// Cancels the metadata transfer job.
     ///
-    /// - Parameter CancelMetadataTransferJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMetadataTransferJobInput`)
     ///
-    /// - Returns: `CancelMetadataTransferJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMetadataTransferJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates a component type.
     ///
-    /// - Parameter CreateComponentTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComponentTypeInput`)
     ///
-    /// - Returns: `CreateComponentTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComponentTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates an entity.
     ///
-    /// - Parameter CreateEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEntityInput`)
     ///
-    /// - Returns: `CreateEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates a new metadata transfer job.
     ///
-    /// - Parameter CreateMetadataTransferJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMetadataTransferJobInput`)
     ///
-    /// - Returns: `CreateMetadataTransferJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMetadataTransferJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates a scene.
     ///
-    /// - Parameter CreateSceneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSceneInput`)
     ///
-    /// - Returns: `CreateSceneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSceneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -801,9 +801,9 @@ extension IoTTwinMakerClient {
     ///
     /// This action creates a SyncJob.
     ///
-    /// - Parameter CreateSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSyncJobInput`)
     ///
-    /// - Returns: `CreateSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,9 +873,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates a workplace.
     ///
-    /// - Parameter CreateWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceInput`)
     ///
-    /// - Returns: `CreateWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -945,9 +945,9 @@ extension IoTTwinMakerClient {
     ///
     /// Deletes a component type.
     ///
-    /// - Parameter DeleteComponentTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComponentTypeInput`)
     ///
-    /// - Returns: `DeleteComponentTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComponentTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,9 +1013,9 @@ extension IoTTwinMakerClient {
     ///
     /// Deletes an entity.
     ///
-    /// - Parameter DeleteEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEntityInput`)
     ///
-    /// - Returns: `DeleteEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,9 +1082,9 @@ extension IoTTwinMakerClient {
     ///
     /// Deletes a scene.
     ///
-    /// - Parameter DeleteSceneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSceneInput`)
     ///
-    /// - Returns: `DeleteSceneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSceneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,9 +1150,9 @@ extension IoTTwinMakerClient {
     ///
     /// Delete the SyncJob.
     ///
-    /// - Parameter DeleteSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSyncJobInput`)
     ///
-    /// - Returns: `DeleteSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,9 +1219,9 @@ extension IoTTwinMakerClient {
     ///
     /// Deletes a workspace.
     ///
-    /// - Parameter DeleteWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceInput`)
     ///
-    /// - Returns: `DeleteWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,9 +1287,9 @@ extension IoTTwinMakerClient {
     ///
     /// Run queries to access information from your knowledge graph of entities within individual workspaces. The ExecuteQuery action only works with [Amazon Web Services Java SDK2](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html). ExecuteQuery will not work with any Amazon Web Services Java SDK version < 2.x.
     ///
-    /// - Parameter ExecuteQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteQueryInput`)
     ///
-    /// - Returns: `ExecuteQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,9 +1359,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about a component type.
     ///
-    /// - Parameter GetComponentTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentTypeInput`)
     ///
-    /// - Returns: `GetComponentTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1427,9 +1427,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about an entity.
     ///
-    /// - Parameter GetEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEntityInput`)
     ///
-    /// - Returns: `GetEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1495,9 +1495,9 @@ extension IoTTwinMakerClient {
     ///
     /// Gets a nmetadata transfer job.
     ///
-    /// - Parameter GetMetadataTransferJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetadataTransferJobInput`)
     ///
-    /// - Returns: `GetMetadataTransferJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetadataTransferJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1563,9 +1563,9 @@ extension IoTTwinMakerClient {
     ///
     /// Gets the pricing plan.
     ///
-    /// - Parameter GetPricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPricingPlanInput`)
     ///
-    /// - Returns: `GetPricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1630,9 +1630,9 @@ extension IoTTwinMakerClient {
     ///
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
     ///
-    /// - Parameter GetPropertyValueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPropertyValueInput`)
     ///
-    /// - Returns: `GetPropertyValueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPropertyValueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1703,9 +1703,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
     ///
-    /// - Parameter GetPropertyValueHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPropertyValueHistoryInput`)
     ///
-    /// - Returns: `GetPropertyValueHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPropertyValueHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1776,9 +1776,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about a scene.
     ///
-    /// - Parameter GetSceneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSceneInput`)
     ///
-    /// - Returns: `GetSceneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSceneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1844,9 +1844,9 @@ extension IoTTwinMakerClient {
     ///
     /// Gets the SyncJob.
     ///
-    /// - Parameter GetSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSyncJobInput`)
     ///
-    /// - Returns: `GetSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1914,9 +1914,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about a workspace.
     ///
-    /// - Parameter GetWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkspaceInput`)
     ///
-    /// - Returns: `GetWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1982,9 +1982,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists all component types in a workspace.
     ///
-    /// - Parameter ListComponentTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentTypesInput`)
     ///
-    /// - Returns: `ListComponentTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,9 +2052,9 @@ extension IoTTwinMakerClient {
     ///
     /// This API lists the components of an entity.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2123,9 +2123,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists all entities in a workspace.
     ///
-    /// - Parameter ListEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitiesInput`)
     ///
-    /// - Returns: `ListEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2193,9 +2193,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists the metadata transfer jobs.
     ///
-    /// - Parameter ListMetadataTransferJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetadataTransferJobsInput`)
     ///
-    /// - Returns: `ListMetadataTransferJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetadataTransferJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2263,9 +2263,9 @@ extension IoTTwinMakerClient {
     ///
     /// This API lists the properties of a component.
     ///
-    /// - Parameter ListPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPropertiesInput`)
     ///
-    /// - Returns: `ListPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2334,9 +2334,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists all scenes in a workspace.
     ///
-    /// - Parameter ListScenesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScenesInput`)
     ///
-    /// - Returns: `ListScenesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScenesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2404,9 +2404,9 @@ extension IoTTwinMakerClient {
     ///
     /// List all SyncJobs.
     ///
-    /// - Parameter ListSyncJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSyncJobsInput`)
     ///
-    /// - Returns: `ListSyncJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSyncJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2475,9 +2475,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists the sync resources.
     ///
-    /// - Parameter ListSyncResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSyncResourcesInput`)
     ///
-    /// - Returns: `ListSyncResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSyncResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2546,9 +2546,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists all tags associated with a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2614,9 +2614,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about workspaces in the current account.
     ///
-    /// - Parameter ListWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkspacesInput`)
     ///
-    /// - Returns: `ListWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2684,9 +2684,9 @@ extension IoTTwinMakerClient {
     ///
     /// Adds tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2753,9 +2753,9 @@ extension IoTTwinMakerClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2819,9 +2819,9 @@ extension IoTTwinMakerClient {
     ///
     /// Updates information in a component type.
     ///
-    /// - Parameter UpdateComponentTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComponentTypeInput`)
     ///
-    /// - Returns: `UpdateComponentTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComponentTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2891,9 +2891,9 @@ extension IoTTwinMakerClient {
     ///
     /// Updates an entity.
     ///
-    /// - Parameter UpdateEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEntityInput`)
     ///
-    /// - Returns: `UpdateEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2964,9 +2964,9 @@ extension IoTTwinMakerClient {
     ///
     /// Update the pricing plan.
     ///
-    /// - Parameter UpdatePricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePricingPlanInput`)
     ///
-    /// - Returns: `UpdatePricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3034,9 +3034,9 @@ extension IoTTwinMakerClient {
     ///
     /// Updates a scene.
     ///
-    /// - Parameter UpdateSceneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSceneInput`)
     ///
-    /// - Returns: `UpdateSceneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSceneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3105,9 +3105,9 @@ extension IoTTwinMakerClient {
     ///
     /// Updates a workspace.
     ///
-    /// - Parameter UpdateWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceInput`)
     ///
-    /// - Returns: `UpdateWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

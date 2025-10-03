@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoClient.KinesisVideoClientConfiguration
     let serviceName = "Kinesis Video"
@@ -372,9 +372,9 @@ extension KinesisVideoClient {
     ///
     /// Creates a signaling channel. CreateSignalingChannel is an asynchronous operation.
     ///
-    /// - Parameter CreateSignalingChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSignalingChannelInput`)
     ///
-    /// - Returns: `CreateSignalingChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSignalingChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -450,9 +450,9 @@ extension KinesisVideoClient {
     ///
     /// Creates a new Kinesis video stream. When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version. CreateStream is an asynchronous operation. For information about how the service works, see [How it Works](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/how-it-works.html). You must have permissions for the KinesisVideo:CreateStream action.
     ///
-    /// - Parameter CreateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamInput`)
     ///
-    /// - Returns: `CreateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -529,9 +529,9 @@ extension KinesisVideoClient {
     ///
     /// An asynchronous API that deletes a stream’s existing edge configuration, as well as the corresponding media from the Edge Agent. When you invoke this API, the sync status is set to DELETING. A deletion process starts, in which active edge jobs are stopped and all media is deleted from the edge device. The time to delete varies, depending on the total amount of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED. You will need to re-try the deletion. When the deletion process has completed successfully, the edge configuration is no longer accessible.
     ///
-    /// - Parameter DeleteEdgeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEdgeConfigurationInput`)
     ///
-    /// - Returns: `DeleteEdgeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEdgeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -600,9 +600,9 @@ extension KinesisVideoClient {
     ///
     /// Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation. If you don't specify the channel's current version, the most recent version is deleted.
     ///
-    /// - Parameter DeleteSignalingChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSignalingChannelInput`)
     ///
-    /// - Returns: `DeleteSignalingChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSignalingChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -678,9 +678,9 @@ extension KinesisVideoClient {
     ///
     /// Deletes a Kinesis video stream and the data contained in the stream. This method marks the stream for deletion, and makes the data in the stream inaccessible immediately. To ensure that you have the latest version of the stream before deleting it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. This operation requires permission for the KinesisVideo:DeleteStream action.
     ///
-    /// - Parameter DeleteStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStreamInput`)
     ///
-    /// - Returns: `DeleteStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,9 +756,9 @@ extension KinesisVideoClient {
     ///
     /// Describes a stream’s edge configuration that was set using the StartEdgeConfigurationUpdate API and the latest status of the edge agent's recorder and uploader jobs. Use this API to get the status of the configuration to determine if the configuration is in sync with the Edge Agent. Use this API to evaluate the health of the Edge Agent.
     ///
-    /// - Parameter DescribeEdgeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEdgeConfigurationInput`)
     ///
-    /// - Returns: `DescribeEdgeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEdgeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -827,9 +827,9 @@ extension KinesisVideoClient {
     ///
     /// Gets the ImageGenerationConfiguration for a given Kinesis video stream.
     ///
-    /// - Parameter DescribeImageGenerationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageGenerationConfigurationInput`)
     ///
-    /// - Returns: `DescribeImageGenerationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageGenerationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -897,9 +897,9 @@ extension KinesisVideoClient {
     ///
     /// Returns the most current information about the stream. The streamName or streamARN should be provided in the input.
     ///
-    /// - Parameter DescribeMappedResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMappedResourceConfigurationInput`)
     ///
-    /// - Returns: `DescribeMappedResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMappedResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,9 +967,9 @@ extension KinesisVideoClient {
     ///
     /// Returns the most current information about the channel. Specify the ChannelName or ChannelARN in the input.
     ///
-    /// - Parameter DescribeMediaStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMediaStorageConfigurationInput`)
     ///
-    /// - Returns: `DescribeMediaStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMediaStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,9 +1037,9 @@ extension KinesisVideoClient {
     ///
     /// Gets the NotificationConfiguration for a given Kinesis video stream.
     ///
-    /// - Parameter DescribeNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNotificationConfigurationInput`)
     ///
-    /// - Returns: `DescribeNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1107,9 +1107,9 @@ extension KinesisVideoClient {
     ///
     /// Returns the most current information about the signaling channel. You must specify either the name or the Amazon Resource Name (ARN) of the channel that you want to describe.
     ///
-    /// - Parameter DescribeSignalingChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSignalingChannelInput`)
     ///
-    /// - Returns: `DescribeSignalingChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSignalingChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1177,9 +1177,9 @@ extension KinesisVideoClient {
     ///
     /// Returns the most current information about the specified stream. You must specify either the StreamName or the StreamARN.
     ///
-    /// - Parameter DescribeStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStreamInput`)
     ///
-    /// - Returns: `DescribeStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1247,9 +1247,9 @@ extension KinesisVideoClient {
     ///
     /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation). The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint. In the request, specify the stream either by StreamName or StreamARN.
     ///
-    /// - Parameter GetDataEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataEndpointInput`)
     ///
-    /// - Returns: `GetDataEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1317,9 +1317,9 @@ extension KinesisVideoClient {
     ///
     /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties. Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
     ///
-    /// - Parameter GetSignalingChannelEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSignalingChannelEndpointInput`)
     ///
-    /// - Returns: `GetSignalingChannelEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSignalingChannelEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,9 +1394,9 @@ extension KinesisVideoClient {
     ///
     /// Returns an array of edge configurations associated with the specified Edge Agent. In the request, you must specify the Edge Agent HubDeviceArn.
     ///
-    /// - Parameter ListEdgeAgentConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEdgeAgentConfigurationsInput`)
     ///
-    /// - Returns: `ListEdgeAgentConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEdgeAgentConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1463,9 +1463,9 @@ extension KinesisVideoClient {
     ///
     /// Returns an array of ChannelInfo objects. Each object describes a signaling channel. To retrieve only those channels that satisfy a specific condition, you can specify a ChannelNameCondition.
     ///
-    /// - Parameter ListSignalingChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSignalingChannelsInput`)
     ///
-    /// - Returns: `ListSignalingChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSignalingChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1532,9 +1532,9 @@ extension KinesisVideoClient {
     ///
     /// Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only streams that satisfy a specific condition, you can specify a StreamNameCondition.
     ///
-    /// - Parameter ListStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamsInput`)
     ///
-    /// - Returns: `ListStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1600,9 +1600,9 @@ extension KinesisVideoClient {
     ///
     /// Returns a list of tags associated with the specified signaling channel.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1670,9 +1670,9 @@ extension KinesisVideoClient {
     ///
     /// Returns a list of tags associated with the specified stream. In the request, you must specify either the StreamName or the StreamARN.
     ///
-    /// - Parameter ListTagsForStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForStreamInput`)
     ///
-    /// - Returns: `ListTagsForStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1741,9 +1741,9 @@ extension KinesisVideoClient {
     ///
     /// An asynchronous API that updates a stream’s existing edge configuration. The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the edge configuration is acknowledged, and synced with the Edge Agent. If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke this API during the syncing process, a ResourceInUseException will be thrown. The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state. To move an edge configuration from one device to another, use [DeleteEdgeConfiguration] to delete the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
     ///
-    /// - Parameter StartEdgeConfigurationUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEdgeConfigurationUpdateInput`)
     ///
-    /// - Returns: `StartEdgeConfigurationUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEdgeConfigurationUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1819,9 +1819,9 @@ extension KinesisVideoClient {
     ///
     /// Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management and Cost Management User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1890,9 +1890,9 @@ extension KinesisVideoClient {
     ///
     /// Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that you can define and assign to Amazon Web Services resources. If you specify a tag that already exists, the tag value is replaced with the value that you specify in the request. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management and Cost Management User Guide. You must provide either the StreamName or the StreamARN. This operation requires permission for the KinesisVideo:TagStream action. A Kinesis video stream can support up to 50 tags.
     ///
-    /// - Parameter TagStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagStreamInput`)
     ///
-    /// - Returns: `TagStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1962,9 +1962,9 @@ extension KinesisVideoClient {
     ///
     /// Removes one or more tags from a signaling channel. In the request, specify only a tag key or keys; don't specify the value. If you specify a tag key that does not exist, it's ignored.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2032,9 +2032,9 @@ extension KinesisVideoClient {
     ///
     /// Removes one or more tags from a stream. In the request, specify only a tag key or keys; don't specify the value. If you specify a tag key that does not exist, it's ignored. In the request, you must provide the StreamName or StreamARN.
     ///
-    /// - Parameter UntagStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagStreamInput`)
     ///
-    /// - Returns: `UntagStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2107,9 +2107,9 @@ extension KinesisVideoClient {
     ///
     /// * If the data retention period is decreased, existing data is retained for the new retention period. For example, if the data retention period is decreased from seven hours to one hour, all existing data is retained for one hour, and any data older than one hour is deleted immediately.
     ///
-    /// - Parameter UpdateDataRetentionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataRetentionInput`)
     ///
-    /// - Returns: `UpdateDataRetentionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataRetentionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2185,9 +2185,9 @@ extension KinesisVideoClient {
     ///
     /// Updates the StreamInfo and ImageProcessingConfiguration fields.
     ///
-    /// - Parameter UpdateImageGenerationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImageGenerationConfigurationInput`)
     ///
-    /// - Returns: `UpdateImageGenerationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImageGenerationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2270,9 +2270,9 @@ extension KinesisVideoClient {
     ///
     /// If StorageStatus is enabled, direct peer-to-peer (master-viewer) connections no longer occur. Peers connect directly to the storage session. You must call the JoinStorageSession API to trigger an SDP offer send and establish a connection between a peer and the storage session.
     ///
-    /// - Parameter UpdateMediaStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMediaStorageConfigurationInput`)
     ///
-    /// - Returns: `UpdateMediaStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMediaStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2348,9 +2348,9 @@ extension KinesisVideoClient {
     ///
     /// Updates the notification information for a stream.
     ///
-    /// - Parameter UpdateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotificationConfigurationInput`)
     ///
-    /// - Returns: `UpdateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2426,9 +2426,9 @@ extension KinesisVideoClient {
     ///
     /// Updates the existing signaling channel. This is an asynchronous operation and takes time to complete. If the MessageTtlSeconds value is updated (either increased or reduced), it only applies to new messages sent via this channel after it's been updated. Existing messages are still expired as per the previous MessageTtlSeconds value.
     ///
-    /// - Parameter UpdateSignalingChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSignalingChannelInput`)
     ///
-    /// - Returns: `UpdateSignalingChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSignalingChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2504,9 +2504,9 @@ extension KinesisVideoClient {
     ///
     /// Updates stream metadata, such as the device name and media type. You must provide the stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the latest version of the stream before updating it, you can specify the stream version. Kinesis Video Streams assigns a version to each stream. When you update a stream, Kinesis Video Streams assigns a new version number. To get the latest stream version, use the DescribeStream API. UpdateStream is an asynchronous operation, and takes time to complete.
     ///
-    /// - Parameter UpdateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamInput`)
     ///
-    /// - Returns: `UpdateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkSpacesWebClient: ClientRuntime.Client {
     public static let clientName = "WorkSpacesWebClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesWebClient.WorkSpacesWebClientConfiguration
     let serviceName = "WorkSpaces Web"
@@ -374,9 +374,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a browser settings resource with a web portal.
     ///
-    /// - Parameter AssociateBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateBrowserSettingsInput`)
     ///
-    /// - Returns: `AssociateBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a data protection settings resource with a web portal.
     ///
-    /// - Parameter AssociateDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDataProtectionSettingsInput`)
     ///
-    /// - Returns: `AssociateDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates an IP access settings resource with a web portal.
     ///
-    /// - Parameter AssociateIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateIpAccessSettingsInput`)
     ///
-    /// - Returns: `AssociateIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a network settings resource with a web portal.
     ///
-    /// - Parameter AssociateNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateNetworkSettingsInput`)
     ///
-    /// - Returns: `AssociateNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,9 +654,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a session logger with a portal.
     ///
-    /// - Parameter AssociateSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSessionLoggerInput`)
     ///
-    /// - Returns: `AssociateSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a trust store with a web portal.
     ///
-    /// - Parameter AssociateTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTrustStoreInput`)
     ///
-    /// - Returns: `AssociateTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -794,9 +794,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a user access logging settings resource with a web portal.
     ///
-    /// - Parameter AssociateUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `AssociateUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -864,9 +864,9 @@ extension WorkSpacesWebClient {
     ///
     /// Associates a user settings resource with a web portal.
     ///
-    /// - Parameter AssociateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateUserSettingsInput`)
     ///
-    /// - Returns: `AssociateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,9 +934,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
     ///
-    /// - Parameter CreateBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBrowserSettingsInput`)
     ///
-    /// - Returns: `CreateBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1008,9 +1008,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a data protection settings resource that can be associated with a web portal.
     ///
-    /// - Parameter CreateDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataProtectionSettingsInput`)
     ///
-    /// - Returns: `CreateDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,9 +1082,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates an identity provider resource that is then associated with a web portal.
     ///
-    /// - Parameter CreateIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdentityProviderInput`)
     ///
-    /// - Returns: `CreateIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1156,9 +1156,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates an IP access settings resource that can be associated with a web portal.
     ///
-    /// - Parameter CreateIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIpAccessSettingsInput`)
     ///
-    /// - Returns: `CreateIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1229,9 +1229,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
     ///
-    /// - Parameter CreateNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkSettingsInput`)
     ///
-    /// - Returns: `CreateNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1302,9 +1302,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a web portal.
     ///
-    /// - Parameter CreatePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePortalInput`)
     ///
-    /// - Returns: `CreatePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1376,9 +1376,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a session logger.
     ///
-    /// - Parameter CreateSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionLoggerInput`)
     ///
-    /// - Returns: `CreateSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1449,9 +1449,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
     ///
-    /// - Parameter CreateTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrustStoreInput`)
     ///
-    /// - Returns: `CreateTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1522,9 +1522,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a user access logging settings resource that can be associated with a web portal.
     ///
-    /// - Parameter CreateUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `CreateUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1595,9 +1595,9 @@ extension WorkSpacesWebClient {
     ///
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
     ///
-    /// - Parameter CreateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserSettingsInput`)
     ///
-    /// - Returns: `CreateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1668,9 +1668,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes browser settings.
     ///
-    /// - Parameter DeleteBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrowserSettingsInput`)
     ///
-    /// - Returns: `DeleteBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1736,9 +1736,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes data protection settings.
     ///
-    /// - Parameter DeleteDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataProtectionSettingsInput`)
     ///
-    /// - Returns: `DeleteDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,9 +1804,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes the identity provider.
     ///
-    /// - Parameter DeleteIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentityProviderInput`)
     ///
-    /// - Returns: `DeleteIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,9 +1872,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes IP access settings.
     ///
-    /// - Parameter DeleteIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpAccessSettingsInput`)
     ///
-    /// - Returns: `DeleteIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1940,9 +1940,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes network settings.
     ///
-    /// - Parameter DeleteNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkSettingsInput`)
     ///
-    /// - Returns: `DeleteNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2008,9 +2008,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes a web portal.
     ///
-    /// - Parameter DeletePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePortalInput`)
     ///
-    /// - Returns: `DeletePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2076,9 +2076,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes a session logger resource.
     ///
-    /// - Parameter DeleteSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSessionLoggerInput`)
     ///
-    /// - Returns: `DeleteSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2144,9 +2144,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes the trust store.
     ///
-    /// - Parameter DeleteTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrustStoreInput`)
     ///
-    /// - Returns: `DeleteTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,9 +2212,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes user access logging settings.
     ///
-    /// - Parameter DeleteUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `DeleteUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2280,9 +2280,9 @@ extension WorkSpacesWebClient {
     ///
     /// Deletes user settings.
     ///
-    /// - Parameter DeleteUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserSettingsInput`)
     ///
-    /// - Returns: `DeleteUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2348,9 +2348,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates browser settings from a web portal.
     ///
-    /// - Parameter DisassociateBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateBrowserSettingsInput`)
     ///
-    /// - Returns: `DisassociateBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2417,9 +2417,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates data protection settings from a web portal.
     ///
-    /// - Parameter DisassociateDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDataProtectionSettingsInput`)
     ///
-    /// - Returns: `DisassociateDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2486,9 +2486,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates IP access settings from a web portal.
     ///
-    /// - Parameter DisassociateIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateIpAccessSettingsInput`)
     ///
-    /// - Returns: `DisassociateIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2555,9 +2555,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates network settings from a web portal.
     ///
-    /// - Parameter DisassociateNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateNetworkSettingsInput`)
     ///
-    /// - Returns: `DisassociateNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2624,9 +2624,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates a session logger from a portal.
     ///
-    /// - Parameter DisassociateSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSessionLoggerInput`)
     ///
-    /// - Returns: `DisassociateSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2692,9 +2692,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates a trust store from a web portal.
     ///
-    /// - Parameter DisassociateTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTrustStoreInput`)
     ///
-    /// - Returns: `DisassociateTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2761,9 +2761,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates user access logging settings from a web portal.
     ///
-    /// - Parameter DisassociateUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `DisassociateUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2830,9 +2830,9 @@ extension WorkSpacesWebClient {
     ///
     /// Disassociates user settings from a web portal.
     ///
-    /// - Parameter DisassociateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateUserSettingsInput`)
     ///
-    /// - Returns: `DisassociateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2899,9 +2899,9 @@ extension WorkSpacesWebClient {
     ///
     /// Expires an active secure browser session.
     ///
-    /// - Parameter ExpireSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExpireSessionInput`)
     ///
-    /// - Returns: `ExpireSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExpireSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2967,9 +2967,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets browser settings.
     ///
-    /// - Parameter GetBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBrowserSettingsInput`)
     ///
-    /// - Returns: `GetBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3035,9 +3035,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the data protection settings.
     ///
-    /// - Parameter GetDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataProtectionSettingsInput`)
     ///
-    /// - Returns: `GetDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3103,9 +3103,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the identity provider.
     ///
-    /// - Parameter GetIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdentityProviderInput`)
     ///
-    /// - Returns: `GetIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3171,9 +3171,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the IP access settings.
     ///
-    /// - Parameter GetIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIpAccessSettingsInput`)
     ///
-    /// - Returns: `GetIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3239,9 +3239,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the network settings.
     ///
-    /// - Parameter GetNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkSettingsInput`)
     ///
-    /// - Returns: `GetNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3307,9 +3307,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the web portal.
     ///
-    /// - Parameter GetPortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPortalInput`)
     ///
-    /// - Returns: `GetPortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3375,9 +3375,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the service provider metadata.
     ///
-    /// - Parameter GetPortalServiceProviderMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPortalServiceProviderMetadataInput`)
     ///
-    /// - Returns: `GetPortalServiceProviderMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPortalServiceProviderMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3443,9 +3443,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets information for a secure browser session.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3511,9 +3511,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets details about a specific session logger resource.
     ///
-    /// - Parameter GetSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionLoggerInput`)
     ///
-    /// - Returns: `GetSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3579,9 +3579,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the trust store.
     ///
-    /// - Parameter GetTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrustStoreInput`)
     ///
-    /// - Returns: `GetTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3647,9 +3647,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets the trust store certificate.
     ///
-    /// - Parameter GetTrustStoreCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrustStoreCertificateInput`)
     ///
-    /// - Returns: `GetTrustStoreCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrustStoreCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3716,9 +3716,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets user access logging settings.
     ///
-    /// - Parameter GetUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `GetUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3784,9 +3784,9 @@ extension WorkSpacesWebClient {
     ///
     /// Gets user settings.
     ///
-    /// - Parameter GetUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserSettingsInput`)
     ///
-    /// - Returns: `GetUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3852,9 +3852,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of browser settings.
     ///
-    /// - Parameter ListBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrowserSettingsInput`)
     ///
-    /// - Returns: `ListBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3920,9 +3920,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of data protection settings.
     ///
-    /// - Parameter ListDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataProtectionSettingsInput`)
     ///
-    /// - Returns: `ListDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3988,9 +3988,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of identity providers for a specific web portal.
     ///
-    /// - Parameter ListIdentityProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityProvidersInput`)
     ///
-    /// - Returns: `ListIdentityProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4056,9 +4056,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of IP access settings.
     ///
-    /// - Parameter ListIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIpAccessSettingsInput`)
     ///
-    /// - Returns: `ListIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4124,9 +4124,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of network settings.
     ///
-    /// - Parameter ListNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNetworkSettingsInput`)
     ///
-    /// - Returns: `ListNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4192,9 +4192,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list or web portals.
     ///
-    /// - Parameter ListPortalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPortalsInput`)
     ///
-    /// - Returns: `ListPortalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPortalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4260,9 +4260,9 @@ extension WorkSpacesWebClient {
     ///
     /// Lists all available session logger resources.
     ///
-    /// - Parameter ListSessionLoggersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionLoggersInput`)
     ///
-    /// - Returns: `ListSessionLoggersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionLoggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4328,9 +4328,9 @@ extension WorkSpacesWebClient {
     ///
     /// Lists information for multiple secure browser sessions from a specific portal.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4397,9 +4397,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4465,9 +4465,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of trust store certificates.
     ///
-    /// - Parameter ListTrustStoreCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustStoreCertificatesInput`)
     ///
-    /// - Returns: `ListTrustStoreCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustStoreCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4534,9 +4534,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of trust stores.
     ///
-    /// - Parameter ListTrustStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustStoresInput`)
     ///
-    /// - Returns: `ListTrustStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4602,9 +4602,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of user access logging settings.
     ///
-    /// - Parameter ListUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `ListUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4670,9 +4670,9 @@ extension WorkSpacesWebClient {
     ///
     /// Retrieves a list of user settings.
     ///
-    /// - Parameter ListUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserSettingsInput`)
     ///
-    /// - Returns: `ListUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4738,9 +4738,9 @@ extension WorkSpacesWebClient {
     ///
     /// Adds or overwrites one or more tags for the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4811,9 +4811,9 @@ extension WorkSpacesWebClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4880,9 +4880,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates browser settings.
     ///
-    /// - Parameter UpdateBrowserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrowserSettingsInput`)
     ///
-    /// - Returns: `UpdateBrowserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrowserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4952,9 +4952,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates data protection settings.
     ///
-    /// - Parameter UpdateDataProtectionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataProtectionSettingsInput`)
     ///
-    /// - Returns: `UpdateDataProtectionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataProtectionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5024,9 +5024,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the identity provider.
     ///
-    /// - Parameter UpdateIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdentityProviderInput`)
     ///
-    /// - Returns: `UpdateIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5096,9 +5096,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates IP access settings.
     ///
-    /// - Parameter UpdateIpAccessSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIpAccessSettingsInput`)
     ///
-    /// - Returns: `UpdateIpAccessSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIpAccessSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5168,9 +5168,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates network settings.
     ///
-    /// - Parameter UpdateNetworkSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNetworkSettingsInput`)
     ///
-    /// - Returns: `UpdateNetworkSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNetworkSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5240,9 +5240,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates a web portal.
     ///
-    /// - Parameter UpdatePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePortalInput`)
     ///
-    /// - Returns: `UpdatePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5313,9 +5313,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the details of a session logger.
     ///
-    /// - Parameter UpdateSessionLoggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSessionLoggerInput`)
     ///
-    /// - Returns: `UpdateSessionLoggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSessionLoggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5384,9 +5384,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the trust store.
     ///
-    /// - Parameter UpdateTrustStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrustStoreInput`)
     ///
-    /// - Returns: `UpdateTrustStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrustStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5457,9 +5457,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the user access logging settings.
     ///
-    /// - Parameter UpdateUserAccessLoggingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserAccessLoggingSettingsInput`)
     ///
-    /// - Returns: `UpdateUserAccessLoggingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserAccessLoggingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5529,9 +5529,9 @@ extension WorkSpacesWebClient {
     ///
     /// Updates the user settings.
     ///
-    /// - Parameter UpdateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserSettingsInput`)
     ///
-    /// - Returns: `UpdateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

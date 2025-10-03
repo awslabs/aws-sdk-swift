@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTAnalyticsClient: ClientRuntime.Client {
     public static let clientName = "IoTAnalyticsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTAnalyticsClient.IoTAnalyticsClientConfiguration
     let serviceName = "IoTAnalytics"
@@ -373,9 +373,9 @@ extension IoTAnalyticsClient {
     ///
     /// Sends messages to a channel.
     ///
-    /// - Parameter BatchPutMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutMessageInput`)
     ///
-    /// - Returns: `BatchPutMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension IoTAnalyticsClient {
     ///
     /// Cancels the reprocessing of data through the pipeline.
     ///
-    /// - Parameter CancelPipelineReprocessingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelPipelineReprocessingInput`)
     ///
-    /// - Returns: `CancelPipelineReprocessingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelPipelineReprocessingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension IoTAnalyticsClient {
     ///
     /// Used to create a channel. A channel collects data from an MQTT topic and archives the raw, unprocessed messages before publishing the data to a pipeline.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension IoTAnalyticsClient {
     ///
     /// Used to create a dataset. A dataset stores data retrieved from a data store by applying a queryAction (a SQL query) or a containerAction (executing a containerized application). This operation creates the skeleton of a dataset. The dataset can be populated manually by calling CreateDatasetContent or automatically according to a trigger you specify.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension IoTAnalyticsClient {
     ///
     /// Creates the content of a dataset by applying a queryAction (a SQL query) or a containerAction (executing a containerized application).
     ///
-    /// - Parameter CreateDatasetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetContentInput`)
     ///
-    /// - Returns: `CreateDatasetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,9 +727,9 @@ extension IoTAnalyticsClient {
     ///
     /// Creates a data store, which is a repository for messages.
     ///
-    /// - Parameter CreateDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatastoreInput`)
     ///
-    /// - Returns: `CreateDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension IoTAnalyticsClient {
     ///
     /// Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     ///
-    /// - Parameter CreatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePipelineInput`)
     ///
-    /// - Returns: `CreatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the specified channel.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -939,9 +939,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the specified dataset. You do not have to delete the content of the dataset before you perform this operation.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1007,9 +1007,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the content of the specified dataset.
     ///
-    /// - Parameter DeleteDatasetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetContentInput`)
     ///
-    /// - Returns: `DeleteDatasetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1076,9 +1076,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the specified data store.
     ///
-    /// - Parameter DeleteDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatastoreInput`)
     ///
-    /// - Returns: `DeleteDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1144,9 +1144,9 @@ extension IoTAnalyticsClient {
     ///
     /// Deletes the specified pipeline.
     ///
-    /// - Parameter DeletePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePipelineInput`)
     ///
-    /// - Returns: `DeletePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,9 +1212,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about a channel.
     ///
-    /// - Parameter DescribeChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelInput`)
     ///
-    /// - Returns: `DescribeChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,9 +1281,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about a dataset.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1349,9 +1349,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about a data store.
     ///
-    /// - Parameter DescribeDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatastoreInput`)
     ///
-    /// - Returns: `DescribeDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1418,9 +1418,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves the current settings of the IoT Analytics logging options.
     ///
-    /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLoggingOptionsInput`)
     ///
-    /// - Returns: `DescribeLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1486,9 +1486,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about a pipeline.
     ///
-    /// - Parameter DescribePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePipelineInput`)
     ///
-    /// - Returns: `DescribePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1554,9 +1554,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves the contents of a dataset as presigned URIs.
     ///
-    /// - Parameter GetDatasetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatasetContentInput`)
     ///
-    /// - Returns: `GetDatasetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatasetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1623,9 +1623,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves a list of channels.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,9 +1691,9 @@ extension IoTAnalyticsClient {
     ///
     /// Lists information about dataset contents that have been created.
     ///
-    /// - Parameter ListDatasetContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetContentsInput`)
     ///
-    /// - Returns: `ListDatasetContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1760,9 +1760,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves information about datasets.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1828,9 +1828,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves a list of data stores.
     ///
-    /// - Parameter ListDatastoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatastoresInput`)
     ///
-    /// - Returns: `ListDatastoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatastoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1896,9 +1896,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves a list of pipelines.
     ///
-    /// - Parameter ListPipelinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelinesInput`)
     ///
-    /// - Returns: `ListPipelinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1964,9 +1964,9 @@ extension IoTAnalyticsClient {
     ///
     /// Lists the tags (metadata) that you have assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2034,9 +2034,9 @@ extension IoTAnalyticsClient {
     ///
     /// Sets or updates the IoT Analytics logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     ///
-    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLoggingOptionsInput`)
     ///
-    /// - Returns: `PutLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2104,9 +2104,9 @@ extension IoTAnalyticsClient {
     ///
     /// Simulates the results of running a pipeline activity on a message payload.
     ///
-    /// - Parameter RunPipelineActivityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RunPipelineActivityInput`)
     ///
-    /// - Returns: `RunPipelineActivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RunPipelineActivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2174,9 +2174,9 @@ extension IoTAnalyticsClient {
     ///
     /// Retrieves a sample of messages from the specified channel ingested during the specified timeframe. Up to 10 messages can be retrieved.
     ///
-    /// - Parameter SampleChannelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SampleChannelDataInput`)
     ///
-    /// - Returns: `SampleChannelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SampleChannelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2243,9 +2243,9 @@ extension IoTAnalyticsClient {
     ///
     /// Starts the reprocessing of raw message data through the pipeline.
     ///
-    /// - Parameter StartPipelineReprocessingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPipelineReprocessingInput`)
     ///
-    /// - Returns: `StartPipelineReprocessingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPipelineReprocessingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2315,9 +2315,9 @@ extension IoTAnalyticsClient {
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2388,9 +2388,9 @@ extension IoTAnalyticsClient {
     ///
     /// Removes the given tags (metadata) from the resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2458,9 +2458,9 @@ extension IoTAnalyticsClient {
     ///
     /// Used to update the settings of a channel.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2529,9 +2529,9 @@ extension IoTAnalyticsClient {
     ///
     /// Updates the settings of a dataset.
     ///
-    /// - Parameter UpdateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetInput`)
     ///
-    /// - Returns: `UpdateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2600,9 +2600,9 @@ extension IoTAnalyticsClient {
     ///
     /// Used to update the settings of a data store.
     ///
-    /// - Parameter UpdateDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatastoreInput`)
     ///
-    /// - Returns: `UpdateDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2671,9 +2671,9 @@ extension IoTAnalyticsClient {
     ///
     /// Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
     ///
-    /// - Parameter UpdatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePipelineInput`)
     ///
-    /// - Returns: `UpdatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

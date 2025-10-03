@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MedicalImagingClient: ClientRuntime.Client {
     public static let clientName = "MedicalImagingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MedicalImagingClient.MedicalImagingClientConfiguration
     let serviceName = "Medical Imaging"
@@ -376,9 +376,9 @@ extension MedicalImagingClient {
     ///
     /// Copy an image set.
     ///
-    /// - Parameter CopyImageSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyImageSetInput`)
     ///
-    /// - Returns: `CopyImageSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyImageSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -450,9 +450,9 @@ extension MedicalImagingClient {
     ///
     /// Create a data store.
     ///
-    /// - Parameter CreateDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatastoreInput`)
     ///
-    /// - Returns: `CreateDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -524,9 +524,9 @@ extension MedicalImagingClient {
     ///
     /// Delete a data store. Before a data store can be deleted, you must first delete all image sets within it.
     ///
-    /// - Parameter DeleteDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatastoreInput`)
     ///
-    /// - Returns: `DeleteDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension MedicalImagingClient {
     ///
     /// Delete an image set.
     ///
-    /// - Parameter DeleteImageSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageSetInput`)
     ///
-    /// - Returns: `DeleteImageSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension MedicalImagingClient {
     ///
     /// Get the import job properties to learn more about the job or job progress. The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus returns as COMPLETED, we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports.
     ///
-    /// - Parameter GetDICOMImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDICOMImportJobInput`)
     ///
-    /// - Returns: `GetDICOMImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDICOMImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension MedicalImagingClient {
     ///
     /// Get data store properties.
     ///
-    /// - Parameter GetDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatastoreInput`)
     ///
-    /// - Returns: `GetDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension MedicalImagingClient {
     ///
     /// Get an image frame (pixel data) for an image set.
     ///
-    /// - Parameter GetImageFrameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageFrameInput`)
     ///
-    /// - Returns: `GetImageFrameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageFrameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension MedicalImagingClient {
     ///
     /// Get image set properties.
     ///
-    /// - Parameter GetImageSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageSetInput`)
     ///
-    /// - Returns: `GetImageSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -941,9 +941,9 @@ extension MedicalImagingClient {
     ///
     /// Get metadata attributes for an image set.
     ///
-    /// - Parameter GetImageSetMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageSetMetadataInput`)
     ///
-    /// - Returns: `GetImageSetMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageSetMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,9 +1011,9 @@ extension MedicalImagingClient {
     ///
     /// List import jobs created for a specific data store.
     ///
-    /// - Parameter ListDICOMImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDICOMImportJobsInput`)
     ///
-    /// - Returns: `ListDICOMImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDICOMImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,9 +1081,9 @@ extension MedicalImagingClient {
     ///
     /// List data stores.
     ///
-    /// - Parameter ListDatastoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatastoresInput`)
     ///
-    /// - Returns: `ListDatastoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatastoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1149,9 +1149,9 @@ extension MedicalImagingClient {
     ///
     /// List image set versions.
     ///
-    /// - Parameter ListImageSetVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImageSetVersionsInput`)
     ///
-    /// - Returns: `ListImageSetVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImageSetVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,9 +1219,9 @@ extension MedicalImagingClient {
     ///
     /// Lists all tags associated with a medical imaging resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,9 +1287,9 @@ extension MedicalImagingClient {
     ///
     /// Search image sets based on defined input attributes. SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting in descending order from newest to oldest.
     ///
-    /// - Parameter SearchImageSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchImageSetsInput`)
     ///
-    /// - Returns: `SearchImageSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchImageSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,9 +1360,9 @@ extension MedicalImagingClient {
     ///
     /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
     ///
-    /// - Parameter StartDICOMImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDICOMImportJobInput`)
     ///
-    /// - Returns: `StartDICOMImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDICOMImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1434,9 +1434,9 @@ extension MedicalImagingClient {
     ///
     /// Adds a user-specifed key and value tag to a medical imaging resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1505,9 +1505,9 @@ extension MedicalImagingClient {
     ///
     /// Removes tags from a medical imaging resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1574,9 +1574,9 @@ extension MedicalImagingClient {
     ///
     /// Update image set metadata attributes.
     ///
-    /// - Parameter UpdateImageSetMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImageSetMetadataInput`)
     ///
-    /// - Returns: `UpdateImageSetMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImageSetMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

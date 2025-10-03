@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeGuruReviewerClient: ClientRuntime.Client {
     public static let clientName = "CodeGuruReviewerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration
     let serviceName = "CodeGuru Reviewer"
@@ -373,9 +373,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Use to associate an Amazon Web Services CodeCommit repository or a repository managed by Amazon Web Services CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews source code changes in the repository's pull requests and provides automatic recommendations. You can view recommendations using the CodeGuru Reviewer console. For more information, see [Recommendations in Amazon CodeGuru Reviewer](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/recommendations.html) in the Amazon CodeGuru Reviewer User Guide. If you associate a CodeCommit or S3 repository, it must be in the same Amazon Web Services Region and Amazon Web Services account where its CodeGuru Reviewer code reviews are configured. Bitbucket and GitHub Enterprise Server repositories are managed by Amazon Web Services CodeStar Connections to connect to CodeGuru Reviewer. For more information, see [Associate a repository](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-associate-repository.html) in the Amazon CodeGuru Reviewer User Guide. You cannot use the CodeGuru Reviewer SDK or the Amazon Web Services CLI to associate a GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub repository, use the console. For more information, see [Getting started with CodeGuru Reviewer](https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-with-guru.html) in the CodeGuru Reviewer User Guide.
     ///
-    /// - Parameter AssociateRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateRepositoryInput`)
     ///
-    /// - Returns: `AssociateRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Use to create a code review with a [CodeReviewType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReviewType.html) of RepositoryAnalysis. This type of code review analyzes all code under a specified branch in an associated repository. PullRequest code reviews are automatically triggered by a pull request.
     ///
-    /// - Parameter CreateCodeReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCodeReviewInput`)
     ///
-    /// - Returns: `CreateCodeReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCodeReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Returns the metadata associated with the code review along with its status.
     ///
-    /// - Parameter DescribeCodeReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCodeReviewInput`)
     ///
-    /// - Returns: `DescribeCodeReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCodeReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Describes the customer feedback for a CodeGuru Reviewer recommendation.
     ///
-    /// - Parameter DescribeRecommendationFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecommendationFeedbackInput`)
     ///
-    /// - Returns: `DescribeRecommendationFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecommendationFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,9 +655,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Returns a [RepositoryAssociation](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html) object that contains information about the requested repository association.
     ///
-    /// - Parameter DescribeRepositoryAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRepositoryAssociationInput`)
     ///
-    /// - Returns: `DescribeRepositoryAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRepositoryAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,9 +723,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Removes the association between Amazon CodeGuru Reviewer and a repository.
     ///
-    /// - Parameter DisassociateRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateRepositoryInput`)
     ///
-    /// - Returns: `DisassociateRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,9 +792,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Lists all the code reviews that the customer has created in the past 90 days.
     ///
-    /// - Parameter ListCodeReviewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeReviewsInput`)
     ///
-    /// - Returns: `ListCodeReviewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeReviewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -860,9 +860,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Returns a list of [RecommendationFeedbackSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RecommendationFeedbackSummary.html) objects that contain customer recommendation feedback for all CodeGuru Reviewer users.
     ///
-    /// - Parameter ListRecommendationFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationFeedbackInput`)
     ///
-    /// - Returns: `ListRecommendationFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,9 +929,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Returns the list of all recommendations for a completed code review.
     ///
-    /// - Parameter ListRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationsInput`)
     ///
-    /// - Returns: `ListRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -998,9 +998,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Returns a list of [RepositoryAssociationSummary](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html) objects that contain summary information about a repository association. You can filter the returned list by [ProviderType](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-ProviderType), [Name](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Name), [State](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-State), and [Owner](https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociationSummary.html#reviewer-Type-RepositoryAssociationSummary-Owner).
     ///
-    /// - Parameter ListRepositoryAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositoryAssociationsInput`)
     ///
-    /// - Returns: `ListRepositoryAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositoryAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,9 +1065,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Returns the list of tags associated with an associated repository resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,9 +1131,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten.
     ///
-    /// - Parameter PutRecommendationFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRecommendationFeedbackInput`)
     ///
-    /// - Returns: `PutRecommendationFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRecommendationFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1202,9 +1202,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Adds one or more tags to an associated repository.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1271,9 +1271,9 @@ extension CodeGuruReviewerClient {
     ///
     /// Removes a tag from an associated repository.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

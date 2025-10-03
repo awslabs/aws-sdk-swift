@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IdentitystoreClient: ClientRuntime.Client {
     public static let clientName = "IdentitystoreClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IdentitystoreClient.IdentitystoreClientConfiguration
     let serviceName = "identitystore"
@@ -372,9 +372,9 @@ extension IdentitystoreClient {
     ///
     /// Creates a group within the specified identity store.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -450,9 +450,9 @@ extension IdentitystoreClient {
     ///
     /// Creates a relationship between a member and a group. The following identifiers must be specified: GroupId, IdentityStoreId, and MemberId.
     ///
-    /// - Parameter CreateGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupMembershipInput`)
     ///
-    /// - Returns: `CreateGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -528,9 +528,9 @@ extension IdentitystoreClient {
     ///
     /// Creates a user within the specified identity store.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -606,9 +606,9 @@ extension IdentitystoreClient {
     ///
     /// Delete a group within an identity store given GroupId.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,9 +683,9 @@ extension IdentitystoreClient {
     ///
     /// Delete a membership within a group given MembershipId.
     ///
-    /// - Parameter DeleteGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupMembershipInput`)
     ///
-    /// - Returns: `DeleteGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -760,9 +760,9 @@ extension IdentitystoreClient {
     ///
     /// Deletes a user within an identity store given UserId.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,9 +837,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves the group metadata and attributes from GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter DescribeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupInput`)
     ///
-    /// - Returns: `DescribeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,9 +909,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves membership metadata and attributes from MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter DescribeGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupMembershipInput`)
     ///
-    /// - Returns: `DescribeGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -981,9 +981,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves the user metadata and attributes from the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1053,9 +1053,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter GetGroupIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupIdInput`)
     ///
-    /// - Returns: `GetGroupIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,9 +1125,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves the MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter GetGroupMembershipIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupMembershipIdInput`)
     ///
-    /// - Returns: `GetGroupMembershipIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupMembershipIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,9 +1197,9 @@ extension IdentitystoreClient {
     ///
     /// Retrieves the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter GetUserIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserIdInput`)
     ///
-    /// - Returns: `GetUserIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,9 +1269,9 @@ extension IdentitystoreClient {
     ///
     /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter IsMemberInGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IsMemberInGroupsInput`)
     ///
-    /// - Returns: `IsMemberInGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IsMemberInGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,9 +1341,9 @@ extension IdentitystoreClient {
     ///
     /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter ListGroupMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupMembershipsInput`)
     ///
-    /// - Returns: `ListGroupMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,9 +1413,9 @@ extension IdentitystoreClient {
     ///
     /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter ListGroupMembershipsForMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupMembershipsForMemberInput`)
     ///
-    /// - Returns: `ListGroupMembershipsForMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupMembershipsForMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1485,9 +1485,9 @@ extension IdentitystoreClient {
     ///
     /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1557,9 +1557,9 @@ extension IdentitystoreClient {
     ///
     /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1629,9 +1629,9 @@ extension IdentitystoreClient {
     ///
     /// For the specified group in the specified identity store, updates the group metadata and attributes.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1707,9 +1707,9 @@ extension IdentitystoreClient {
     ///
     /// For the specified user in the specified identity store, updates the user metadata and attributes.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

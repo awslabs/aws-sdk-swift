@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MailManagerClient: ClientRuntime.Client {
     public static let clientName = "MailManagerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MailManagerClient.MailManagerClientConfiguration
     let serviceName = "MailManager"
@@ -374,9 +374,9 @@ extension MailManagerClient {
     ///
     /// Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy.
     ///
-    /// - Parameter CreateAddonInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddonInstanceInput`)
     ///
-    /// - Returns: `CreateAddonInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddonInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension MailManagerClient {
     ///
     /// Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies.
     ///
-    /// - Parameter CreateAddonSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddonSubscriptionInput`)
     ///
-    /// - Returns: `CreateAddonSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddonSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension MailManagerClient {
     ///
     /// Creates a new address list.
     ///
-    /// - Parameter CreateAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddressListInput`)
     ///
-    /// - Returns: `CreateAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension MailManagerClient {
     ///
     /// Creates an import job for an address list.
     ///
-    /// - Parameter CreateAddressListImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddressListImportJobInput`)
     ///
-    /// - Returns: `CreateAddressListImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddressListImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension MailManagerClient {
     ///
     /// Creates a new email archive resource for storing and retaining emails.
     ///
-    /// - Parameter CreateArchiveInput : The request to create a new email archive.
+    /// - Parameter input: The request to create a new email archive. (Type: `CreateArchiveInput`)
     ///
-    /// - Returns: `CreateArchiveOutput` : The response from creating a new email archive.
+    /// - Returns: The response from creating a new email archive. (Type: `CreateArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,9 +735,9 @@ extension MailManagerClient {
     ///
     /// Provision a new ingress endpoint resource.
     ///
-    /// - Parameter CreateIngressPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngressPointInput`)
     ///
-    /// - Returns: `CreateIngressPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngressPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,9 +806,9 @@ extension MailManagerClient {
     ///
     /// Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations.
     ///
-    /// - Parameter CreateRelayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRelayInput`)
     ///
-    /// - Returns: `CreateRelayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRelayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,9 +877,9 @@ extension MailManagerClient {
     ///
     /// Provision a new rule set.
     ///
-    /// - Parameter CreateRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleSetInput`)
     ///
-    /// - Returns: `CreateRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension MailManagerClient {
     ///
     /// Provision a new traffic policy resource.
     ///
-    /// - Parameter CreateTrafficPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrafficPolicyInput`)
     ///
-    /// - Returns: `CreateTrafficPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,9 +1019,9 @@ extension MailManagerClient {
     ///
     /// Deletes an Add On instance.
     ///
-    /// - Parameter DeleteAddonInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAddonInstanceInput`)
     ///
-    /// - Returns: `DeleteAddonInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAddonInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,9 +1088,9 @@ extension MailManagerClient {
     ///
     /// Deletes an Add On subscription.
     ///
-    /// - Parameter DeleteAddonSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAddonSubscriptionInput`)
     ///
-    /// - Returns: `DeleteAddonSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAddonSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1157,9 +1157,9 @@ extension MailManagerClient {
     ///
     /// Deletes an address list.
     ///
-    /// - Parameter DeleteAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAddressListInput`)
     ///
-    /// - Returns: `DeleteAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,9 +1227,9 @@ extension MailManagerClient {
     ///
     /// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
     ///
-    /// - Parameter DeleteArchiveInput : The request to initiate deletion of an email archive.
+    /// - Parameter input: The request to initiate deletion of an email archive. (Type: `DeleteArchiveInput`)
     ///
-    /// - Returns: `DeleteArchiveOutput` : The response indicating if the archive deletion was successfully initiated. On success, returns an HTTP 200 status code. On failure, returns an error message.
+    /// - Returns: The response indicating if the archive deletion was successfully initiated. On success, returns an HTTP 200 status code. On failure, returns an error message. (Type: `DeleteArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1298,9 +1298,9 @@ extension MailManagerClient {
     ///
     /// Delete an ingress endpoint resource.
     ///
-    /// - Parameter DeleteIngressPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIngressPointInput`)
     ///
-    /// - Returns: `DeleteIngressPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIngressPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1368,9 +1368,9 @@ extension MailManagerClient {
     ///
     /// Deletes an existing relay resource.
     ///
-    /// - Parameter DeleteRelayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRelayInput`)
     ///
-    /// - Returns: `DeleteRelayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRelayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1438,9 +1438,9 @@ extension MailManagerClient {
     ///
     /// Delete a rule set.
     ///
-    /// - Parameter DeleteRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleSetInput`)
     ///
-    /// - Returns: `DeleteRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,9 +1507,9 @@ extension MailManagerClient {
     ///
     /// Delete a traffic policy resource.
     ///
-    /// - Parameter DeleteTrafficPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrafficPolicyInput`)
     ///
-    /// - Returns: `DeleteTrafficPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,9 +1577,9 @@ extension MailManagerClient {
     ///
     /// Removes a member from an address list.
     ///
-    /// - Parameter DeregisterMemberFromAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterMemberFromAddressListInput`)
     ///
-    /// - Returns: `DeregisterMemberFromAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterMemberFromAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1648,9 +1648,9 @@ extension MailManagerClient {
     ///
     /// Gets detailed information about an Add On instance.
     ///
-    /// - Parameter GetAddonInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAddonInstanceInput`)
     ///
-    /// - Returns: `GetAddonInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAddonInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,9 +1717,9 @@ extension MailManagerClient {
     ///
     /// Gets detailed information about an Add On subscription.
     ///
-    /// - Parameter GetAddonSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAddonSubscriptionInput`)
     ///
-    /// - Returns: `GetAddonSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAddonSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1786,9 +1786,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of an address list.
     ///
-    /// - Parameter GetAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAddressListInput`)
     ///
-    /// - Returns: `GetAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1857,9 +1857,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of an import job.
     ///
-    /// - Parameter GetAddressListImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAddressListImportJobInput`)
     ///
-    /// - Returns: `GetAddressListImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAddressListImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1928,9 +1928,9 @@ extension MailManagerClient {
     ///
     /// Retrieves the full details and current state of a specified email archive.
     ///
-    /// - Parameter GetArchiveInput : The request to retrieve details of an email archive.
+    /// - Parameter input: The request to retrieve details of an email archive. (Type: `GetArchiveInput`)
     ///
-    /// - Returns: `GetArchiveOutput` : The response containing details of the requested archive.
+    /// - Returns: The response containing details of the requested archive. (Type: `GetArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1999,9 +1999,9 @@ extension MailManagerClient {
     ///
     /// Retrieves the details and current status of a specific email archive export job.
     ///
-    /// - Parameter GetArchiveExportInput : The request to retrieve details of a specific archive export job.
+    /// - Parameter input: The request to retrieve details of a specific archive export job. (Type: `GetArchiveExportInput`)
     ///
-    /// - Returns: `GetArchiveExportOutput` : The response containing details of the specified archive export job.
+    /// - Returns: The response containing details of the specified archive export job. (Type: `GetArchiveExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2069,9 +2069,9 @@ extension MailManagerClient {
     ///
     /// Returns a pre-signed URL that provides temporary download access to the specific email message stored in the archive.
     ///
-    /// - Parameter GetArchiveMessageInput : The request to get details of a specific email message stored in an archive.
+    /// - Parameter input: The request to get details of a specific email message stored in an archive. (Type: `GetArchiveMessageInput`)
     ///
-    /// - Returns: `GetArchiveMessageOutput` : The response containing details about the requested archived email message.
+    /// - Returns: The response containing details about the requested archived email message. (Type: `GetArchiveMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2139,9 +2139,9 @@ extension MailManagerClient {
     ///
     /// Returns the textual content of a specific email message stored in the archive. Attachments are not included.
     ///
-    /// - Parameter GetArchiveMessageContentInput : The request to get the textual content of a specific email message stored in an archive.
+    /// - Parameter input: The request to get the textual content of a specific email message stored in an archive. (Type: `GetArchiveMessageContentInput`)
     ///
-    /// - Returns: `GetArchiveMessageContentOutput` : The response containing the textual content of the requested archived email message.
+    /// - Returns: The response containing the textual content of the requested archived email message. (Type: `GetArchiveMessageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2209,9 +2209,9 @@ extension MailManagerClient {
     ///
     /// Retrieves the details and current status of a specific email archive search job.
     ///
-    /// - Parameter GetArchiveSearchInput : The request to retrieve details of a specific archive search job.
+    /// - Parameter input: The request to retrieve details of a specific archive search job. (Type: `GetArchiveSearchInput`)
     ///
-    /// - Returns: `GetArchiveSearchOutput` : The response containing details of the specified archive search job.
+    /// - Returns: The response containing details of the specified archive search job. (Type: `GetArchiveSearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2279,9 +2279,9 @@ extension MailManagerClient {
     ///
     /// Returns the results of a completed email archive search job.
     ///
-    /// - Parameter GetArchiveSearchResultsInput : The request to retrieve results from a completed archive search job.
+    /// - Parameter input: The request to retrieve results from a completed archive search job. (Type: `GetArchiveSearchResultsInput`)
     ///
-    /// - Returns: `GetArchiveSearchResultsOutput` : The response containing search results from a completed archive search.
+    /// - Returns: The response containing search results from a completed archive search. (Type: `GetArchiveSearchResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2350,9 +2350,9 @@ extension MailManagerClient {
     ///
     /// Fetch ingress endpoint resource attributes.
     ///
-    /// - Parameter GetIngressPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIngressPointInput`)
     ///
-    /// - Returns: `GetIngressPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIngressPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2419,9 +2419,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of a member in an address list.
     ///
-    /// - Parameter GetMemberOfAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemberOfAddressListInput`)
     ///
-    /// - Returns: `GetMemberOfAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemberOfAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,9 +2490,9 @@ extension MailManagerClient {
     ///
     /// Fetch the relay resource and it's attributes.
     ///
-    /// - Parameter GetRelayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelayInput`)
     ///
-    /// - Returns: `GetRelayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2559,9 +2559,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of a rule set.
     ///
-    /// - Parameter GetRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleSetInput`)
     ///
-    /// - Returns: `GetRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2628,9 +2628,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of a traffic policy resource.
     ///
-    /// - Parameter GetTrafficPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrafficPolicyInput`)
     ///
-    /// - Returns: `GetTrafficPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2697,9 +2697,9 @@ extension MailManagerClient {
     ///
     /// Lists all Add On instances in your account.
     ///
-    /// - Parameter ListAddonInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddonInstancesInput`)
     ///
-    /// - Returns: `ListAddonInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddonInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2765,9 +2765,9 @@ extension MailManagerClient {
     ///
     /// Lists all Add On subscriptions in your account.
     ///
-    /// - Parameter ListAddonSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddonSubscriptionsInput`)
     ///
-    /// - Returns: `ListAddonSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddonSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2833,9 +2833,9 @@ extension MailManagerClient {
     ///
     /// Lists jobs for an address list.
     ///
-    /// - Parameter ListAddressListImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddressListImportJobsInput`)
     ///
-    /// - Returns: `ListAddressListImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddressListImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2904,9 +2904,9 @@ extension MailManagerClient {
     ///
     /// Lists address lists for this account.
     ///
-    /// - Parameter ListAddressListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddressListsInput`)
     ///
-    /// - Returns: `ListAddressListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddressListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2974,9 +2974,9 @@ extension MailManagerClient {
     ///
     /// Returns a list of email archive export jobs.
     ///
-    /// - Parameter ListArchiveExportsInput : The request to list archive export jobs in your account.
+    /// - Parameter input: The request to list archive export jobs in your account. (Type: `ListArchiveExportsInput`)
     ///
-    /// - Returns: `ListArchiveExportsOutput` : The response containing a list of archive export jobs and their statuses.
+    /// - Returns: The response containing a list of archive export jobs and their statuses. (Type: `ListArchiveExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3045,9 +3045,9 @@ extension MailManagerClient {
     ///
     /// Returns a list of email archive search jobs.
     ///
-    /// - Parameter ListArchiveSearchesInput : The request to list archive search jobs in your account.
+    /// - Parameter input: The request to list archive search jobs in your account. (Type: `ListArchiveSearchesInput`)
     ///
-    /// - Returns: `ListArchiveSearchesOutput` : The response containing a list of archive search jobs and their statuses.
+    /// - Returns: The response containing a list of archive search jobs and their statuses. (Type: `ListArchiveSearchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3116,9 +3116,9 @@ extension MailManagerClient {
     ///
     /// Returns a list of all email archives in your account.
     ///
-    /// - Parameter ListArchivesInput : The request to list email archives in your account.
+    /// - Parameter input: The request to list email archives in your account. (Type: `ListArchivesInput`)
     ///
-    /// - Returns: `ListArchivesOutput` : The response containing a list of your email archives.
+    /// - Returns: The response containing a list of your email archives. (Type: `ListArchivesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3186,9 +3186,9 @@ extension MailManagerClient {
     ///
     /// List all ingress endpoint resources.
     ///
-    /// - Parameter ListIngressPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngressPointsInput`)
     ///
-    /// - Returns: `ListIngressPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngressPointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3254,9 +3254,9 @@ extension MailManagerClient {
     ///
     /// Lists members of an address list.
     ///
-    /// - Parameter ListMembersOfAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersOfAddressListInput`)
     ///
-    /// - Returns: `ListMembersOfAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOfAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3325,9 +3325,9 @@ extension MailManagerClient {
     ///
     /// Lists all the existing relay resources.
     ///
-    /// - Parameter ListRelaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRelaysInput`)
     ///
-    /// - Returns: `ListRelaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRelaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3393,9 +3393,9 @@ extension MailManagerClient {
     ///
     /// List rule sets for this account.
     ///
-    /// - Parameter ListRuleSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleSetsInput`)
     ///
-    /// - Returns: `ListRuleSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3461,9 +3461,9 @@ extension MailManagerClient {
     ///
     /// Retrieves the list of tags (keys and values) assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3530,9 +3530,9 @@ extension MailManagerClient {
     ///
     /// List traffic policy resources.
     ///
-    /// - Parameter ListTrafficPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrafficPoliciesInput`)
     ///
-    /// - Returns: `ListTrafficPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrafficPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3598,9 +3598,9 @@ extension MailManagerClient {
     ///
     /// Adds a member to an address list.
     ///
-    /// - Parameter RegisterMemberToAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterMemberToAddressListInput`)
     ///
-    /// - Returns: `RegisterMemberToAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterMemberToAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3670,9 +3670,9 @@ extension MailManagerClient {
     ///
     /// Starts an import job for an address list.
     ///
-    /// - Parameter StartAddressListImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAddressListImportJobInput`)
     ///
-    /// - Returns: `StartAddressListImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAddressListImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3743,9 +3743,9 @@ extension MailManagerClient {
     ///
     /// Initiates an export of emails from the specified archive.
     ///
-    /// - Parameter StartArchiveExportInput : The request to initiate an export of emails from an archive.
+    /// - Parameter input: The request to initiate an export of emails from an archive. (Type: `StartArchiveExportInput`)
     ///
-    /// - Returns: `StartArchiveExportOutput` : The response from initiating an archive export.
+    /// - Returns: The response from initiating an archive export. (Type: `StartArchiveExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3815,9 +3815,9 @@ extension MailManagerClient {
     ///
     /// Initiates a search across emails in the specified archive.
     ///
-    /// - Parameter StartArchiveSearchInput : The request to initiate a search across emails in an archive.
+    /// - Parameter input: The request to initiate a search across emails in an archive. (Type: `StartArchiveSearchInput`)
     ///
-    /// - Returns: `StartArchiveSearchOutput` : The response from initiating an archive search.
+    /// - Returns: The response from initiating an archive search. (Type: `StartArchiveSearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3888,9 +3888,9 @@ extension MailManagerClient {
     ///
     /// Stops an ongoing import job for an address list.
     ///
-    /// - Parameter StopAddressListImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAddressListImportJobInput`)
     ///
-    /// - Returns: `StopAddressListImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAddressListImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3960,9 +3960,9 @@ extension MailManagerClient {
     ///
     /// Stops an in-progress export of emails from an archive.
     ///
-    /// - Parameter StopArchiveExportInput : The request to stop an in-progress archive export job.
+    /// - Parameter input: The request to stop an in-progress archive export job. (Type: `StopArchiveExportInput`)
     ///
-    /// - Returns: `StopArchiveExportOutput` : The response indicating if the request to stop the export job succeeded. On success, returns an HTTP 200 status code. On failure, returns an error message.
+    /// - Returns: The response indicating if the request to stop the export job succeeded. On success, returns an HTTP 200 status code. On failure, returns an error message. (Type: `StopArchiveExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4030,9 +4030,9 @@ extension MailManagerClient {
     ///
     /// Stops an in-progress archive search job.
     ///
-    /// - Parameter StopArchiveSearchInput : The request to stop an in-progress archive search job.
+    /// - Parameter input: The request to stop an in-progress archive search job. (Type: `StopArchiveSearchInput`)
     ///
-    /// - Returns: `StopArchiveSearchOutput` : The response indicating if the request to stop the search job succeeded. On success, returns an HTTP 200 status code. On failure, returns an error message.
+    /// - Returns: The response indicating if the request to stop the search job succeeded. On success, returns an HTTP 200 status code. On failure, returns an error message. (Type: `StopArchiveSearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4100,9 +4100,9 @@ extension MailManagerClient {
     ///
     /// Adds one or more tags (keys and values) to a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4171,9 +4171,9 @@ extension MailManagerClient {
     ///
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4241,9 +4241,9 @@ extension MailManagerClient {
     ///
     /// Updates the attributes of an existing email archive.
     ///
-    /// - Parameter UpdateArchiveInput : The request to update properties of an existing email archive.
+    /// - Parameter input: The request to update properties of an existing email archive. (Type: `UpdateArchiveInput`)
     ///
-    /// - Returns: `UpdateArchiveOutput` : The response indicating if the archive update succeeded or failed. On success, returns an HTTP 200 status code. On failure, returns an error message.
+    /// - Returns: The response indicating if the archive update succeeded or failed. On success, returns an HTTP 200 status code. On failure, returns an error message. (Type: `UpdateArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4314,9 +4314,9 @@ extension MailManagerClient {
     ///
     /// Update attributes of a provisioned ingress endpoint resource.
     ///
-    /// - Parameter UpdateIngressPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIngressPointInput`)
     ///
-    /// - Returns: `UpdateIngressPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIngressPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4384,9 +4384,9 @@ extension MailManagerClient {
     ///
     /// Updates the attributes of an existing relay resource.
     ///
-    /// - Parameter UpdateRelayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRelayInput`)
     ///
-    /// - Returns: `UpdateRelayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRelayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4454,9 +4454,9 @@ extension MailManagerClient {
     ///
     /// Update attributes of an already provisioned rule set.
     ///
-    /// - Parameter UpdateRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleSetInput`)
     ///
-    /// - Returns: `UpdateRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4524,9 +4524,9 @@ extension MailManagerClient {
     ///
     /// Update attributes of an already provisioned traffic policy resource.
     ///
-    /// - Parameter UpdateTrafficPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrafficPolicyInput`)
     ///
-    /// - Returns: `UpdateTrafficPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

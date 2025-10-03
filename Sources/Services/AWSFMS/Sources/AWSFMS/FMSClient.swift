@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FMSClient: ClientRuntime.Client {
     public static let clientName = "FMSClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: FMSClient.FMSClientConfiguration
     let serviceName = "FMS"
@@ -373,9 +373,9 @@ extension FMSClient {
     ///
     /// Sets a Firewall Manager default administrator account. The Firewall Manager default administrator account can manage third-party firewalls and has full administrative scope that allows administration of all policy types, accounts, organizational units, and Regions. This account must be a member account of the organization in Organizations whose resources you want to protect. For information about working with Firewall Manager administrator accounts, see [Managing Firewall Manager administrators](https://docs.aws.amazon.com/organizations/latest/userguide/fms-administrators.html) in the Firewall Manager Developer Guide.
     ///
-    /// - Parameter AssociateAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAdminAccountInput`)
     ///
-    /// - Returns: `AssociateAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension FMSClient {
     ///
     /// Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
     ///
-    /// - Parameter AssociateThirdPartyFirewallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateThirdPartyFirewallInput`)
     ///
-    /// - Returns: `AssociateThirdPartyFirewallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateThirdPartyFirewallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension FMSClient {
     ///
     /// Associate resources to a Firewall Manager resource set.
     ///
-    /// - Parameter BatchAssociateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateResourceInput`)
     ///
-    /// - Returns: `BatchAssociateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension FMSClient {
     ///
     /// Disassociates resources from a Firewall Manager resource set.
     ///
-    /// - Parameter BatchDisassociateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateResourceInput`)
     ///
-    /// - Returns: `BatchDisassociateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,9 +659,9 @@ extension FMSClient {
     ///
     /// Permanently deletes an Firewall Manager applications list.
     ///
-    /// - Parameter DeleteAppsListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppsListInput`)
     ///
-    /// - Returns: `DeleteAppsListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppsListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension FMSClient {
     ///
     /// Deletes an Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
     ///
-    /// - Parameter DeleteNotificationChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotificationChannelInput`)
     ///
-    /// - Returns: `DeleteNotificationChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotificationChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension FMSClient {
     ///
     /// Permanently deletes an Firewall Manager policy.
     ///
-    /// - Parameter DeletePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyInput`)
     ///
-    /// - Returns: `DeletePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension FMSClient {
     ///
     /// Permanently deletes an Firewall Manager protocols list.
     ///
-    /// - Parameter DeleteProtocolsListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProtocolsListInput`)
     ///
-    /// - Returns: `DeleteProtocolsListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProtocolsListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -941,9 +941,9 @@ extension FMSClient {
     ///
     /// Deletes the specified [ResourceSet].
     ///
-    /// - Parameter DeleteResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceSetInput`)
     ///
-    /// - Returns: `DeleteResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1012,9 +1012,9 @@ extension FMSClient {
     ///
     /// Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a [PutAdminAccount] request. To set an account as a default administrator account, you must submit an [AssociateAdminAccount] request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
     ///
-    /// - Parameter DisassociateAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAdminAccountInput`)
     ///
-    /// - Returns: `DisassociateAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,9 +1082,9 @@ extension FMSClient {
     ///
     /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFirewall, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
     ///
-    /// - Parameter DisassociateThirdPartyFirewallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateThirdPartyFirewallInput`)
     ///
-    /// - Returns: `DisassociateThirdPartyFirewallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateThirdPartyFirewallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1153,9 +1153,9 @@ extension FMSClient {
     ///
     /// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager default administrator.
     ///
-    /// - Parameter GetAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdminAccountInput`)
     ///
-    /// - Returns: `GetAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1223,9 +1223,9 @@ extension FMSClient {
     ///
     /// Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
     ///
-    /// - Parameter GetAdminScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdminScopeInput`)
     ///
-    /// - Returns: `GetAdminScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdminScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1295,9 +1295,9 @@ extension FMSClient {
     ///
     /// Returns information about the specified Firewall Manager applications list.
     ///
-    /// - Parameter GetAppsListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppsListInput`)
     ///
-    /// - Returns: `GetAppsListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppsListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1365,9 +1365,9 @@ extension FMSClient {
     ///
     /// Returns detailed compliance information about the specified member account. Details include resources that are in and out of compliance with the specified policy. The reasons for resources being considered compliant depend on the Firewall Manager policy type.
     ///
-    /// - Parameter GetComplianceDetailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComplianceDetailInput`)
     ///
-    /// - Returns: `GetComplianceDetailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComplianceDetailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1436,9 +1436,9 @@ extension FMSClient {
     ///
     /// Information about the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
     ///
-    /// - Parameter GetNotificationChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationChannelInput`)
     ///
-    /// - Returns: `GetNotificationChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1506,9 +1506,9 @@ extension FMSClient {
     ///
     /// Returns information about the specified Firewall Manager policy.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,9 +1577,9 @@ extension FMSClient {
     ///
     /// If you created a Shield Advanced policy, returns policy-level attack summary information in the event of a potential DDoS attack. Other policy types are currently unsupported.
     ///
-    /// - Parameter GetProtectionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProtectionStatusInput`)
     ///
-    /// - Returns: `GetProtectionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProtectionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1647,9 +1647,9 @@ extension FMSClient {
     ///
     /// Returns information about the specified Firewall Manager protocols list.
     ///
-    /// - Parameter GetProtocolsListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProtocolsListInput`)
     ///
-    /// - Returns: `GetProtocolsListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProtocolsListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,9 +1717,9 @@ extension FMSClient {
     ///
     /// Gets information about a specific resource set.
     ///
-    /// - Parameter GetResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSetInput`)
     ///
-    /// - Returns: `GetResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,9 +1788,9 @@ extension FMSClient {
     ///
     /// The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
     ///
-    /// - Parameter GetThirdPartyFirewallAssociationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThirdPartyFirewallAssociationStatusInput`)
     ///
-    /// - Returns: `GetThirdPartyFirewallAssociationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThirdPartyFirewallAssociationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,9 +1859,9 @@ extension FMSClient {
     ///
     /// Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
     ///
-    /// - Parameter GetViolationDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetViolationDetailsInput`)
     ///
-    /// - Returns: `GetViolationDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetViolationDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1929,9 +1929,9 @@ extension FMSClient {
     ///
     /// Returns a AdminAccounts object that lists the Firewall Manager administrators within the organization that are onboarded to Firewall Manager by [AssociateAdminAccount]. This operation can be called only from the organization's management account.
     ///
-    /// - Parameter ListAdminAccountsForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAdminAccountsForOrganizationInput`)
     ///
-    /// - Returns: `ListAdminAccountsForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAdminAccountsForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2000,9 +2000,9 @@ extension FMSClient {
     ///
     /// Lists the accounts that are managing the specified Organizations member account. This is useful for any member account so that they can view the accounts who are managing their account. This operation only returns the managing administrators that have the requested account within their [AdminScope].
     ///
-    /// - Parameter ListAdminsManagingAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAdminsManagingAccountInput`)
     ///
-    /// - Returns: `ListAdminsManagingAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAdminsManagingAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2070,9 +2070,9 @@ extension FMSClient {
     ///
     /// Returns an array of AppsListDataSummary objects.
     ///
-    /// - Parameter ListAppsListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppsListsInput`)
     ///
-    /// - Returns: `ListAppsListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppsListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2141,9 +2141,9 @@ extension FMSClient {
     ///
     /// Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy.
     ///
-    /// - Parameter ListComplianceStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComplianceStatusInput`)
     ///
-    /// - Returns: `ListComplianceStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComplianceStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2210,9 +2210,9 @@ extension FMSClient {
     ///
     /// Returns an array of resources in the organization's accounts that are available to be associated with a resource set.
     ///
-    /// - Parameter ListDiscoveredResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDiscoveredResourcesInput`)
     ///
-    /// - Returns: `ListDiscoveredResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDiscoveredResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2280,9 +2280,9 @@ extension FMSClient {
     ///
     /// Returns a MemberAccounts object that lists the member accounts in the administrator's Amazon Web Services organization. Either an Firewall Manager administrator or the organization's management account can make this request.
     ///
-    /// - Parameter ListMemberAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMemberAccountsInput`)
     ///
-    /// - Returns: `ListMemberAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMemberAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2349,9 +2349,9 @@ extension FMSClient {
     ///
     /// Returns an array of PolicySummary objects.
     ///
-    /// - Parameter ListPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPoliciesInput`)
     ///
-    /// - Returns: `ListPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2420,9 +2420,9 @@ extension FMSClient {
     ///
     /// Returns an array of ProtocolsListDataSummary objects.
     ///
-    /// - Parameter ListProtocolsListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProtocolsListsInput`)
     ///
-    /// - Returns: `ListProtocolsListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProtocolsListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,9 +2490,9 @@ extension FMSClient {
     ///
     /// Returns an array of resources that are currently associated to a resource set.
     ///
-    /// - Parameter ListResourceSetResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSetResourcesInput`)
     ///
-    /// - Returns: `ListResourceSetResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSetResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2561,9 +2561,9 @@ extension FMSClient {
     ///
     /// Returns an array of ResourceSetSummary objects.
     ///
-    /// - Parameter ListResourceSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSetsInput`)
     ///
-    /// - Returns: `ListResourceSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2631,9 +2631,9 @@ extension FMSClient {
     ///
     /// Retrieves the list of tags for the specified Amazon Web Services resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2702,9 +2702,9 @@ extension FMSClient {
     ///
     /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
     ///
-    /// - Parameter ListThirdPartyFirewallFirewallPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThirdPartyFirewallFirewallPoliciesInput`)
     ///
-    /// - Returns: `ListThirdPartyFirewallFirewallPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThirdPartyFirewallFirewallPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2773,9 +2773,9 @@ extension FMSClient {
     ///
     /// Creates or updates an Firewall Manager administrator account. The account must be a member of the organization that was onboarded to Firewall Manager by [AssociateAdminAccount]. Only the organization's management account can create an Firewall Manager administrator account. When you create an Firewall Manager administrator account, the service checks to see if the account is already a delegated administrator within Organizations. If the account isn't a delegated administrator, Firewall Manager calls Organizations to delegate the account within Organizations. For more information about administrator accounts within Organizations, see [Managing the Amazon Web Services Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html).
     ///
-    /// - Parameter PutAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAdminAccountInput`)
     ///
-    /// - Returns: `PutAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2844,9 +2844,9 @@ extension FMSClient {
     ///
     /// Creates an Firewall Manager applications list.
     ///
-    /// - Parameter PutAppsListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAppsListInput`)
     ///
-    /// - Returns: `PutAppsListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAppsListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2916,9 +2916,9 @@ extension FMSClient {
     ///
     /// Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall Manager uses to record SNS logs. To perform this action outside of the console, you must first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs. If the SnsRoleName provided is a role other than the AWSServiceRoleForFMS service-linked role, this role must have a trust relationship configured to allow the Firewall Manager service principal fms.amazonaws.com to assume this role. For information about configuring an SNS access policy, see [Service roles for Firewall Manager](https://docs.aws.amazon.com/waf/latest/developerguide/fms-security_iam_service-with-iam.html#fms-security_iam_service-with-iam-roles-service) in the Firewall Manager Developer Guide.
     ///
-    /// - Parameter PutNotificationChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutNotificationChannelInput`)
     ///
-    /// - Returns: `PutNotificationChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutNotificationChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3004,9 +3004,9 @@ extension FMSClient {
     ///
     /// * Fortigate CNF policy - This policy applies Fortigate Cloud Native Firewall (CNF) protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats and secures cloud infrastructures with industry-leading advanced threat prevention, smart web application firewalls (WAF), and API protection.
     ///
-    /// - Parameter PutPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPolicyInput`)
     ///
-    /// - Returns: `PutPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3077,9 +3077,9 @@ extension FMSClient {
     ///
     /// Creates an Firewall Manager protocols list.
     ///
-    /// - Parameter PutProtocolsListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProtocolsListInput`)
     ///
-    /// - Returns: `PutProtocolsListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProtocolsListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3149,9 +3149,9 @@ extension FMSClient {
     ///
     /// Creates the resource set. An Firewall Manager resource set defines the resources to import into an Firewall Manager policy from another Amazon Web Services service.
     ///
-    /// - Parameter PutResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourceSetInput`)
     ///
-    /// - Returns: `PutResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3220,9 +3220,9 @@ extension FMSClient {
     ///
     /// Adds one or more tags to an Amazon Web Services resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3292,9 +3292,9 @@ extension FMSClient {
     ///
     /// Removes one or more tags from an Amazon Web Services resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

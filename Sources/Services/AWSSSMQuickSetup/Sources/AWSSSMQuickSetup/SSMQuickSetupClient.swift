@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMQuickSetupClient: ClientRuntime.Client {
     public static let clientName = "SSMQuickSetupClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMQuickSetupClient.SSMQuickSetupClientConfiguration
     let serviceName = "SSM QuickSetup"
@@ -373,9 +373,9 @@ extension SSMQuickSetupClient {
     ///
     /// Creates a Quick Setup configuration manager resource. This object is a collection of desired state configurations for multiple configuration definitions and summaries describing the deployments of those definitions.
     ///
-    /// - Parameter CreateConfigurationManagerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationManagerInput`)
     ///
-    /// - Returns: `CreateConfigurationManagerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationManagerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension SSMQuickSetupClient {
     ///
     /// Deletes a configuration manager.
     ///
-    /// - Parameter DeleteConfigurationManagerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationManagerInput`)
     ///
-    /// - Returns: `DeleteConfigurationManagerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationManagerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns details about the specified configuration.
     ///
-    /// - Parameter GetConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationInput`)
     ///
-    /// - Returns: `GetConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,9 +582,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns a configuration manager.
     ///
-    /// - Parameter GetConfigurationManagerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationManagerInput`)
     ///
-    /// - Returns: `GetConfigurationManagerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationManagerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -651,9 +651,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns settings configured for Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSettingsInput`)
     ///
-    /// - Returns: `GetServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,9 +718,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns Quick Setup configuration managers.
     ///
-    /// - Parameter ListConfigurationManagersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationManagersInput`)
     ///
-    /// - Returns: `ListConfigurationManagersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationManagersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -789,9 +789,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns configurations deployed by Quick Setup in the requesting Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter ListConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
     ///
-    /// - Returns: `ListConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -860,9 +860,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns the available Quick Setup types.
     ///
-    /// - Parameter ListQuickSetupTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQuickSetupTypesInput`)
     ///
-    /// - Returns: `ListQuickSetupTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQuickSetupTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,9 +927,9 @@ extension SSMQuickSetupClient {
     ///
     /// Returns tags assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,9 +996,9 @@ extension SSMQuickSetupClient {
     ///
     /// Assigns key-value pairs of metadata to Amazon Web Services resources.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,9 +1068,9 @@ extension SSMQuickSetupClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1138,9 +1138,9 @@ extension SSMQuickSetupClient {
     ///
     /// Updates a Quick Setup configuration definition.
     ///
-    /// - Parameter UpdateConfigurationDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationDefinitionInput`)
     ///
-    /// - Returns: `UpdateConfigurationDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1210,9 +1210,9 @@ extension SSMQuickSetupClient {
     ///
     /// Updates a Quick Setup configuration manager.
     ///
-    /// - Parameter UpdateConfigurationManagerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationManagerInput`)
     ///
-    /// - Returns: `UpdateConfigurationManagerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationManagerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1282,9 +1282,9 @@ extension SSMQuickSetupClient {
     ///
     /// Updates settings configured for Quick Setup.
     ///
-    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSettingsInput`)
     ///
-    /// - Returns: `UpdateServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

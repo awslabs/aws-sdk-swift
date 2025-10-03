@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class M2Client: ClientRuntime.Client {
     public static let clientName = "M2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: M2Client.M2ClientConfiguration
     let serviceName = "m2"
@@ -374,9 +374,9 @@ extension M2Client {
     ///
     /// Cancels the running of a specific batch job execution.
     ///
-    /// - Parameter CancelBatchJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelBatchJobExecutionInput`)
     ///
-    /// - Returns: `CancelBatchJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelBatchJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension M2Client {
     ///
     /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension M2Client {
     ///
     /// Starts a data set export task for a specific application.
     ///
-    /// - Parameter CreateDataSetExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSetExportTaskInput`)
     ///
-    /// - Returns: `CreateDataSetExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSetExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension M2Client {
     ///
     /// Starts a data set import task for a specific application.
     ///
-    /// - Parameter CreateDataSetImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSetImportTaskInput`)
     ///
-    /// - Returns: `CreateDataSetImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSetImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension M2Client {
     ///
     /// Creates and starts a deployment to deploy an application into a runtime environment.
     ///
-    /// - Parameter CreateDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -741,9 +741,9 @@ extension M2Client {
     ///
     /// Creates a runtime environment for a given runtime engine.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -814,9 +814,9 @@ extension M2Client {
     ///
     /// Deletes a specific application. You cannot delete a running application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,9 +882,9 @@ extension M2Client {
     ///
     /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
     ///
-    /// - Parameter DeleteApplicationFromEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationFromEnvironmentInput`)
     ///
-    /// - Returns: `DeleteApplicationFromEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationFromEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -951,9 +951,9 @@ extension M2Client {
     ///
     /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,9 +1019,9 @@ extension M2Client {
     ///
     /// Describes the details of a specific application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1087,9 +1087,9 @@ extension M2Client {
     ///
     /// Returns details about a specific version of a specific application.
     ///
-    /// - Parameter GetApplicationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationVersionInput`)
     ///
-    /// - Returns: `GetApplicationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1155,9 +1155,9 @@ extension M2Client {
     ///
     /// Gets the details of a specific batch job execution for a specific application.
     ///
-    /// - Parameter GetBatchJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBatchJobExecutionInput`)
     ///
-    /// - Returns: `GetBatchJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBatchJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1223,9 +1223,9 @@ extension M2Client {
     ///
     /// Gets the details of a specific data set.
     ///
-    /// - Parameter GetDataSetDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSetDetailsInput`)
     ///
-    /// - Returns: `GetDataSetDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSetDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,9 +1294,9 @@ extension M2Client {
     ///
     /// Gets the status of a data set import task initiated with the [CreateDataSetExportTask] operation.
     ///
-    /// - Parameter GetDataSetExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSetExportTaskInput`)
     ///
-    /// - Returns: `GetDataSetExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSetExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1362,9 +1362,9 @@ extension M2Client {
     ///
     /// Gets the status of a data set import task initiated with the [CreateDataSetImportTask] operation.
     ///
-    /// - Parameter GetDataSetImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSetImportTaskInput`)
     ///
-    /// - Returns: `GetDataSetImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSetImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1430,9 +1430,9 @@ extension M2Client {
     ///
     /// Gets details of a specific deployment with a given deployment identifier.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1498,9 +1498,9 @@ extension M2Client {
     ///
     /// Describes a specific runtime environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1566,9 +1566,9 @@ extension M2Client {
     ///
     /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
     ///
-    /// - Parameter GetSignedBluinsightsUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSignedBluinsightsUrlInput`)
     ///
-    /// - Returns: `GetSignedBluinsightsUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSignedBluinsightsUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1632,9 +1632,9 @@ extension M2Client {
     ///
     /// Returns a list of the application versions for a specific application.
     ///
-    /// - Parameter ListApplicationVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationVersionsInput`)
     ///
-    /// - Returns: `ListApplicationVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1701,9 +1701,9 @@ extension M2Client {
     ///
     /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1769,9 +1769,9 @@ extension M2Client {
     ///
     /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
     ///
-    /// - Parameter ListBatchJobDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBatchJobDefinitionsInput`)
     ///
-    /// - Returns: `ListBatchJobDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBatchJobDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,9 +1838,9 @@ extension M2Client {
     ///
     /// Lists historical, current, and scheduled batch job executions for a specific application.
     ///
-    /// - Parameter ListBatchJobExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBatchJobExecutionsInput`)
     ///
-    /// - Returns: `ListBatchJobExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBatchJobExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1907,9 +1907,9 @@ extension M2Client {
     ///
     /// Lists all the job steps for a JCL file to restart a batch job. This is only applicable for Micro Focus engine with versions 8.0.6 and above.
     ///
-    /// - Parameter ListBatchJobRestartPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBatchJobRestartPointsInput`)
     ///
-    /// - Returns: `ListBatchJobRestartPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBatchJobRestartPointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1977,9 +1977,9 @@ extension M2Client {
     ///
     /// Lists the data set exports for the specified application.
     ///
-    /// - Parameter ListDataSetExportHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSetExportHistoryInput`)
     ///
-    /// - Returns: `ListDataSetExportHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSetExportHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2046,9 +2046,9 @@ extension M2Client {
     ///
     /// Lists the data set imports for the specified application.
     ///
-    /// - Parameter ListDataSetImportHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSetImportHistoryInput`)
     ///
-    /// - Returns: `ListDataSetImportHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSetImportHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2115,9 +2115,9 @@ extension M2Client {
     ///
     /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
     ///
-    /// - Parameter ListDataSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSetsInput`)
     ///
-    /// - Returns: `ListDataSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2187,9 +2187,9 @@ extension M2Client {
     ///
     /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2256,9 +2256,9 @@ extension M2Client {
     ///
     /// Lists the available engine versions.
     ///
-    /// - Parameter ListEngineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngineVersionsInput`)
     ///
-    /// - Returns: `ListEngineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngineVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2324,9 +2324,9 @@ extension M2Client {
     ///
     /// Lists the runtime environments.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2392,9 +2392,9 @@ extension M2Client {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2460,9 +2460,9 @@ extension M2Client {
     ///
     /// Starts an application that is currently stopped.
     ///
-    /// - Parameter StartApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartApplicationInput`)
     ///
-    /// - Returns: `StartApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2529,9 +2529,9 @@ extension M2Client {
     ///
     /// Starts a batch job and returns the unique identifier of this execution of the batch job. The associated application must be running in order to start the batch job.
     ///
-    /// - Parameter StartBatchJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBatchJobInput`)
     ///
-    /// - Returns: `StartBatchJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBatchJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,9 +2601,9 @@ extension M2Client {
     ///
     /// Stops a running application.
     ///
-    /// - Parameter StopApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopApplicationInput`)
     ///
-    /// - Returns: `StopApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2673,9 +2673,9 @@ extension M2Client {
     ///
     /// Adds one or more tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2745,9 +2745,9 @@ extension M2Client {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2814,9 +2814,9 @@ extension M2Client {
     ///
     /// Updates an application and creates a new version.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2886,9 +2886,9 @@ extension M2Client {
     ///
     /// Updates the configuration details for a specific runtime environment.
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

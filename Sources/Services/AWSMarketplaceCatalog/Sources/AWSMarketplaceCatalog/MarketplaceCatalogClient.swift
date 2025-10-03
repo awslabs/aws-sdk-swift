@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceCatalogClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceCatalogClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceCatalogClient.MarketplaceCatalogClientConfiguration
     let serviceName = "Marketplace Catalog"
@@ -374,9 +374,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Returns metadata and content for multiple entities. This is the Batch version of the DescribeEntity API and uses the same IAM permission action as DescribeEntity API.
     ///
-    /// - Parameter BatchDescribeEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDescribeEntitiesInput`)
     ///
-    /// - Returns: `BatchDescribeEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDescribeEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Used to cancel an open change request. Must be sent before the status of the request changes to APPLYING, the final stage of completing your change request. You can describe a change during the 60-day request history retention period for API calls.
     ///
-    /// - Parameter CancelChangeSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelChangeSetInput`)
     ///
-    /// - Returns: `CancelChangeSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Deletes a resource-based policy on an entity that is identified by its resource ARN.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Provides information about a given change set.
     ///
-    /// - Parameter DescribeChangeSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChangeSetInput`)
     ///
-    /// - Returns: `DescribeChangeSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,9 +652,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Returns the metadata and content of the entity.
     ///
-    /// - Parameter DescribeEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntityInput`)
     ///
-    /// - Returns: `DescribeEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -722,9 +722,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Gets a resource-based policy of an entity that is identified by its resource ARN.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,9 +791,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
     ///
-    /// - Parameter ListChangeSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChangeSetsInput`)
     ///
-    /// - Returns: `ListChangeSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChangeSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,9 +861,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Provides the list of entities of a given type.
     ///
-    /// - Parameter ListEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitiesInput`)
     ///
-    /// - Returns: `ListEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,9 +932,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Lists all tags that have been added to a resource (either an [entity](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities) or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets)).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,9 +1003,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Attaches a resource-based policy to an entity. Examples of an entity include: AmiProduct and ContainerProduct.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,9 +1074,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Allows you to request changes for your entities. Within a single ChangeSet, you can't start the same change type against the same entity multiple times. Additionally, when a ChangeSet is running, all the entities targeted by the different changes are locked until the change set has completed (either succeeded, cancelled, or failed). If you try to start a change set containing a change against an entity that is already locked, you will receive a ResourceInUseException error. For example, you can't start the ChangeSet described in the [example](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples) later in this topic because it contains two changes to run the same change type (AddRevisions) against the same entity (entity-id@1). For more information about working with change sets, see [ Working with change sets](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets). For information about change types for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products). To download "DetailsDocument" shapes, see [Python](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python) and [Java](https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main) shapes on GitHub.
     ///
-    /// - Parameter StartChangeSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartChangeSetInput`)
     ///
-    /// - Returns: `StartChangeSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,9 +1148,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Tags a resource (either an [entity](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities) or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets)).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,9 +1219,9 @@ extension MarketplaceCatalogClient {
     ///
     /// Removes a tag or list of tags from a resource (either an [entity](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#catalog-api-entities) or [change set](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets)).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

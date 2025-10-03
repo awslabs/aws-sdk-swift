@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SavingsplansClient: ClientRuntime.Client {
     public static let clientName = "SavingsplansClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SavingsplansClient.SavingsplansClientConfiguration
     let serviceName = "savingsplans"
@@ -373,9 +373,9 @@ extension SavingsplansClient {
     ///
     /// Creates a Savings Plan.
     ///
-    /// - Parameter CreateSavingsPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSavingsPlanInput`)
     ///
-    /// - Returns: `CreateSavingsPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSavingsPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension SavingsplansClient {
     ///
     /// Deletes the queued purchase for the specified Savings Plan.
     ///
-    /// - Parameter DeleteQueuedSavingsPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueuedSavingsPlanInput`)
     ///
-    /// - Returns: `DeleteQueuedSavingsPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueuedSavingsPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension SavingsplansClient {
     ///
     /// Describes the rates for the specified Savings Plan.
     ///
-    /// - Parameter DescribeSavingsPlanRatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlanRatesInput`)
     ///
-    /// - Returns: `DescribeSavingsPlanRatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSavingsPlanRatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,9 +582,9 @@ extension SavingsplansClient {
     ///
     /// Describes the specified Savings Plans.
     ///
-    /// - Parameter DescribeSavingsPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlansInput`)
     ///
-    /// - Returns: `DescribeSavingsPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSavingsPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -650,9 +650,9 @@ extension SavingsplansClient {
     ///
     /// Describes the offering rates for the specified Savings Plans.
     ///
-    /// - Parameter DescribeSavingsPlansOfferingRatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlansOfferingRatesInput`)
     ///
-    /// - Returns: `DescribeSavingsPlansOfferingRatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSavingsPlansOfferingRatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,9 +718,9 @@ extension SavingsplansClient {
     ///
     /// Describes the offerings for the specified Savings Plans.
     ///
-    /// - Parameter DescribeSavingsPlansOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlansOfferingsInput`)
     ///
-    /// - Returns: `DescribeSavingsPlansOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSavingsPlansOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,9 +786,9 @@ extension SavingsplansClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,9 +855,9 @@ extension SavingsplansClient {
     ///
     /// Returns the specified Savings Plan.
     ///
-    /// - Parameter ReturnSavingsPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReturnSavingsPlanInput`)
     ///
-    /// - Returns: `ReturnSavingsPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReturnSavingsPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -926,9 +926,9 @@ extension SavingsplansClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,9 +996,9 @@ extension SavingsplansClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

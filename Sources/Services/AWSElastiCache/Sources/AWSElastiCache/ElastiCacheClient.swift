@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElastiCacheClient: ClientRuntime.Client {
     public static let clientName = "ElastiCacheClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ElastiCacheClient.ElastiCacheClientConfiguration
     let serviceName = "ElastiCache"
@@ -372,9 +372,9 @@ extension ElastiCacheClient {
     ///
     /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags in Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Tagging.html) in the ElastiCache User Guide.
     ///
-    /// - Parameter AddTagsToResourceInput : Represents the input of an AddTagsToResource operation.
+    /// - Parameter input: Represents the input of an AddTagsToResource operation. (Type: `AddTagsToResourceInput`)
     ///
-    /// - Returns: `AddTagsToResourceOutput` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    /// - Returns: Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations. (Type: `AddTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -454,9 +454,9 @@ extension ElastiCacheClient {
     ///
     /// Allows network ingress to a cache security group. Applications using ElastiCache must be running on Amazon EC2, and Amazon EC2 security groups are used as the authorization mechanism. You cannot authorize ingress from an Amazon EC2 security group in one region to an ElastiCache cluster in another region.
     ///
-    /// - Parameter AuthorizeCacheSecurityGroupIngressInput : Represents the input of an AuthorizeCacheSecurityGroupIngress operation.
+    /// - Parameter input: Represents the input of an AuthorizeCacheSecurityGroupIngress operation. (Type: `AuthorizeCacheSecurityGroupIngressInput`)
     ///
-    /// - Returns: `AuthorizeCacheSecurityGroupIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeCacheSecurityGroupIngressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,9 +525,9 @@ extension ElastiCacheClient {
     ///
     /// Apply the service update. For more information on service updates and applying them, see [Applying Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/applying-updates.html).
     ///
-    /// - Parameter BatchApplyUpdateActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchApplyUpdateActionInput`)
     ///
-    /// - Returns: `BatchApplyUpdateActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchApplyUpdateActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension ElastiCacheClient {
     ///
     /// Stop the service update. For more information on service updates and stopping them, see [Stopping Service Updates](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/stopping-self-service-updates.html).
     ///
-    /// - Parameter BatchStopUpdateActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchStopUpdateActionInput`)
     ///
-    /// - Returns: `BatchStopUpdateActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchStopUpdateActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension ElastiCacheClient {
     ///
     /// Complete the migration of data.
     ///
-    /// - Parameter CompleteMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteMigrationInput`)
     ///
-    /// - Returns: `CompleteMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension ElastiCacheClient {
     ///
     /// Creates a copy of an existing serverless cache’s snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
-    /// - Parameter CopyServerlessCacheSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyServerlessCacheSnapshotInput`)
     ///
-    /// - Returns: `CopyServerlessCacheSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyServerlessCacheSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,9 +820,9 @@ extension ElastiCacheClient {
     ///
     /// * Error Message: ElastiCache has not been granted READ_ACP permissions %s on the S3 Bucket. Solution: Add View Permissions on the bucket. For more information, see [Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-exporting.html#backups-exporting-grant-access) in the ElastiCache User Guide.
     ///
-    /// - Parameter CopySnapshotInput : Represents the input of a CopySnapshotMessage operation.
+    /// - Parameter input: Represents the input of a CopySnapshotMessage operation. (Type: `CopySnapshotInput`)
     ///
-    /// - Returns: `CopySnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopySnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,9 +893,9 @@ extension ElastiCacheClient {
     ///
     /// Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached, Valkey or Redis OSS. This operation is not supported for Valkey or Redis OSS (cluster mode enabled) clusters.
     ///
-    /// - Parameter CreateCacheClusterInput : Represents the input of a CreateCacheCluster operation.
+    /// - Parameter input: Represents the input of a CreateCacheCluster operation. (Type: `CreateCacheClusterInput`)
     ///
-    /// - Returns: `CreateCacheClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCacheClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,9 +977,9 @@ extension ElastiCacheClient {
     ///
     /// * [Parameters and Parameter Groups](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ParameterGroups.html) in the ElastiCache User Guide.
     ///
-    /// - Parameter CreateCacheParameterGroupInput : Represents the input of a CreateCacheParameterGroup operation.
+    /// - Parameter input: Represents the input of a CreateCacheParameterGroup operation. (Type: `CreateCacheParameterGroupInput`)
     ///
-    /// - Returns: `CreateCacheParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCacheParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1049,9 +1049,9 @@ extension ElastiCacheClient {
     ///
     /// Creates a new cache security group. Use a cache security group to control access to one or more clusters. Cache security groups are only used when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a VPC, use a cache subnet group instead. For more information, see [CreateCacheSubnetGroup](https://docs.aws.amazon.com/AmazonElastiCache/latest/APIReference/API_CreateCacheSubnetGroup.html).
     ///
-    /// - Parameter CreateCacheSecurityGroupInput : Represents the input of a CreateCacheSecurityGroup operation.
+    /// - Parameter input: Represents the input of a CreateCacheSecurityGroup operation. (Type: `CreateCacheSecurityGroupInput`)
     ///
-    /// - Returns: `CreateCacheSecurityGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCacheSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,9 +1120,9 @@ extension ElastiCacheClient {
     ///
     /// Creates a new cache subnet group. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
     ///
-    /// - Parameter CreateCacheSubnetGroupInput : Represents the input of a CreateCacheSubnetGroup operation.
+    /// - Parameter input: Represents the input of a CreateCacheSubnetGroup operation. (Type: `CreateCacheSubnetGroupInput`)
     ///
-    /// - Returns: `CreateCacheSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCacheSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1196,9 +1196,9 @@ extension ElastiCacheClient {
     ///
     /// * The PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
     ///
-    /// - Parameter CreateGlobalReplicationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGlobalReplicationGroupInput`)
     ///
-    /// - Returns: `CreateGlobalReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlobalReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1267,9 +1267,9 @@ extension ElastiCacheClient {
     ///
     /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed. The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see [Creating a Subnet Group](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SubnetGroups.Creating.html). For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see [Amazon Service Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) and choose the limit type Nodes per cluster per instance type. When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use scaling. For more information, see [Scaling self-designed clusters](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Scaling.html) in the ElastiCache User Guide. This operation is valid for Valkey and Redis OSS only.
     ///
-    /// - Parameter CreateReplicationGroupInput : Represents the input of a CreateReplicationGroup operation.
+    /// - Parameter input: Represents the input of a CreateReplicationGroup operation. (Type: `CreateReplicationGroupInput`)
     ///
-    /// - Returns: `CreateReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1352,9 +1352,9 @@ extension ElastiCacheClient {
     ///
     /// Creates a serverless cache.
     ///
-    /// - Parameter CreateServerlessCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServerlessCacheInput`)
     ///
-    /// - Returns: `CreateServerlessCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServerlessCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1429,9 +1429,9 @@ extension ElastiCacheClient {
     ///
     /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
-    /// - Parameter CreateServerlessCacheSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServerlessCacheSnapshotInput`)
     ///
-    /// - Returns: `CreateServerlessCacheSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServerlessCacheSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,9 +1503,9 @@ extension ElastiCacheClient {
     ///
     /// Creates a copy of an entire cluster or replication group at a specific moment in time. This operation is valid for Valkey or Redis OSS only.
     ///
-    /// - Parameter CreateSnapshotInput : Represents the input of a CreateSnapshot operation.
+    /// - Parameter input: Represents the input of a CreateSnapshot operation. (Type: `CreateSnapshotInput`)
     ///
-    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,9 +1586,9 @@ extension ElastiCacheClient {
     ///
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1659,9 +1659,9 @@ extension ElastiCacheClient {
     ///
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user group. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html)
     ///
-    /// - Parameter CreateUserGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserGroupInput`)
     ///
-    /// - Returns: `CreateUserGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1733,9 +1733,9 @@ extension ElastiCacheClient {
     ///
     /// Decreases the number of node groups in a Global datastore
     ///
-    /// - Parameter DecreaseNodeGroupsInGlobalReplicationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DecreaseNodeGroupsInGlobalReplicationGroupInput`)
     ///
-    /// - Returns: `DecreaseNodeGroupsInGlobalReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DecreaseNodeGroupsInGlobalReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1803,9 +1803,9 @@ extension ElastiCacheClient {
     ///
     /// Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     ///
-    /// - Parameter DecreaseReplicaCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DecreaseReplicaCountInput`)
     ///
-    /// - Returns: `DecreaseReplicaCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DecreaseReplicaCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1895,9 +1895,9 @@ extension ElastiCacheClient {
     ///
     /// * A cluster that is not in the available state
     ///
-    /// - Parameter DeleteCacheClusterInput : Represents the input of a DeleteCacheCluster operation.
+    /// - Parameter input: Represents the input of a DeleteCacheCluster operation. (Type: `DeleteCacheClusterInput`)
     ///
-    /// - Returns: `DeleteCacheClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCacheClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1975,9 +1975,9 @@ extension ElastiCacheClient {
     ///
     /// Deletes the specified cache parameter group. You cannot delete a cache parameter group if it is associated with any cache clusters. You cannot delete the default cache parameter groups in your account.
     ///
-    /// - Parameter DeleteCacheParameterGroupInput : Represents the input of a DeleteCacheParameterGroup operation.
+    /// - Parameter input: Represents the input of a DeleteCacheParameterGroup operation. (Type: `DeleteCacheParameterGroupInput`)
     ///
-    /// - Returns: `DeleteCacheParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCacheParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2045,9 +2045,9 @@ extension ElastiCacheClient {
     ///
     /// Deletes a cache security group. You cannot delete a cache security group if it is associated with any clusters.
     ///
-    /// - Parameter DeleteCacheSecurityGroupInput : Represents the input of a DeleteCacheSecurityGroup operation.
+    /// - Parameter input: Represents the input of a DeleteCacheSecurityGroup operation. (Type: `DeleteCacheSecurityGroupInput`)
     ///
-    /// - Returns: `DeleteCacheSecurityGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCacheSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2115,9 +2115,9 @@ extension ElastiCacheClient {
     ///
     /// Deletes a cache subnet group. You cannot delete a default cache subnet group or one that is associated with any clusters.
     ///
-    /// - Parameter DeleteCacheSubnetGroupInput : Represents the input of a DeleteCacheSubnetGroup operation.
+    /// - Parameter input: Represents the input of a DeleteCacheSubnetGroup operation. (Type: `DeleteCacheSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteCacheSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCacheSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2190,9 +2190,9 @@ extension ElastiCacheClient {
     ///
     /// Since the Global Datastore has only a primary cluster, you can delete the Global Datastore while retaining the primary by setting RetainPrimaryReplicationGroup=true. The primary cluster is never deleted when deleting a Global Datastore. It can only be deleted when it no longer is associated with any Global Datastore. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.
     ///
-    /// - Parameter DeleteGlobalReplicationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGlobalReplicationGroupInput`)
     ///
-    /// - Returns: `DeleteGlobalReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGlobalReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2263,9 +2263,9 @@ extension ElastiCacheClient {
     ///
     /// * This operation is valid for Redis OSS only.
     ///
-    /// - Parameter DeleteReplicationGroupInput : Represents the input of a DeleteReplicationGroup operation.
+    /// - Parameter input: Represents the input of a DeleteReplicationGroup operation. (Type: `DeleteReplicationGroupInput`)
     ///
-    /// - Returns: `DeleteReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2343,9 +2343,9 @@ extension ElastiCacheClient {
     ///
     /// Deletes a specified existing serverless cache. CreateServerlessCacheSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception.
     ///
-    /// - Parameter DeleteServerlessCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServerlessCacheInput`)
     ///
-    /// - Returns: `DeleteServerlessCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServerlessCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2416,9 +2416,9 @@ extension ElastiCacheClient {
     ///
     /// Deletes an existing serverless cache snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
-    /// - Parameter DeleteServerlessCacheSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServerlessCacheSnapshotInput`)
     ///
-    /// - Returns: `DeleteServerlessCacheSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServerlessCacheSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2486,9 +2486,9 @@ extension ElastiCacheClient {
     ///
     /// Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation. This operation is valid for Valkey or Redis OSS only.
     ///
-    /// - Parameter DeleteSnapshotInput : Represents the input of a DeleteSnapshot operation.
+    /// - Parameter input: Represents the input of a DeleteSnapshot operation. (Type: `DeleteSnapshotInput`)
     ///
-    /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2556,9 +2556,9 @@ extension ElastiCacheClient {
     ///
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2627,9 +2627,9 @@ extension ElastiCacheClient {
     ///
     /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user group. The user group must first be disassociated from the replication group before it can be deleted. For more information, see [Using Role Based Access Control (RBAC)](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
     ///
-    /// - Parameter DeleteUserGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserGroupInput`)
     ///
-    /// - Returns: `DeleteUserGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2697,9 +2697,9 @@ extension ElastiCacheClient {
     ///
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
     ///
-    /// - Parameter DescribeCacheClustersInput : Represents the input of a DescribeCacheClusters operation.
+    /// - Parameter input: Represents the input of a DescribeCacheClusters operation. (Type: `DescribeCacheClustersInput`)
     ///
-    /// - Returns: `DescribeCacheClustersOutput` : Represents the output of a DescribeCacheClusters operation.
+    /// - Returns: Represents the output of a DescribeCacheClusters operation. (Type: `DescribeCacheClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2766,9 +2766,9 @@ extension ElastiCacheClient {
     ///
     /// Returns a list of the available cache engines and their versions.
     ///
-    /// - Parameter DescribeCacheEngineVersionsInput : Represents the input of a DescribeCacheEngineVersions operation.
+    /// - Parameter input: Represents the input of a DescribeCacheEngineVersions operation. (Type: `DescribeCacheEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeCacheEngineVersionsOutput` : Represents the output of a [DescribeCacheEngineVersions] operation.
+    /// - Returns: Represents the output of a [DescribeCacheEngineVersions] operation. (Type: `DescribeCacheEngineVersionsOutput`)
     public func describeCacheEngineVersions(input: DescribeCacheEngineVersionsInput) async throws -> DescribeCacheEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2828,9 +2828,9 @@ extension ElastiCacheClient {
     ///
     /// Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
     ///
-    /// - Parameter DescribeCacheParameterGroupsInput : Represents the input of a DescribeCacheParameterGroups operation.
+    /// - Parameter input: Represents the input of a DescribeCacheParameterGroups operation. (Type: `DescribeCacheParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeCacheParameterGroupsOutput` : Represents the output of a DescribeCacheParameterGroups operation.
+    /// - Returns: Represents the output of a DescribeCacheParameterGroups operation. (Type: `DescribeCacheParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2897,9 +2897,9 @@ extension ElastiCacheClient {
     ///
     /// Returns the detailed parameter list for a particular cache parameter group.
     ///
-    /// - Parameter DescribeCacheParametersInput : Represents the input of a DescribeCacheParameters operation.
+    /// - Parameter input: Represents the input of a DescribeCacheParameters operation. (Type: `DescribeCacheParametersInput`)
     ///
-    /// - Returns: `DescribeCacheParametersOutput` : Represents the output of a DescribeCacheParameters operation.
+    /// - Returns: Represents the output of a DescribeCacheParameters operation. (Type: `DescribeCacheParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2966,9 +2966,9 @@ extension ElastiCacheClient {
     ///
     /// Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup
     ///
-    /// - Parameter DescribeCacheSecurityGroupsInput : Represents the input of a DescribeCacheSecurityGroups operation.
+    /// - Parameter input: Represents the input of a DescribeCacheSecurityGroups operation. (Type: `DescribeCacheSecurityGroupsInput`)
     ///
-    /// - Returns: `DescribeCacheSecurityGroupsOutput` : Represents the output of a DescribeCacheSecurityGroups operation.
+    /// - Returns: Represents the output of a DescribeCacheSecurityGroups operation. (Type: `DescribeCacheSecurityGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3035,9 +3035,9 @@ extension ElastiCacheClient {
     ///
     /// Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
     ///
-    /// - Parameter DescribeCacheSubnetGroupsInput : Represents the input of a DescribeCacheSubnetGroups operation.
+    /// - Parameter input: Represents the input of a DescribeCacheSubnetGroups operation. (Type: `DescribeCacheSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeCacheSubnetGroupsOutput` : Represents the output of a DescribeCacheSubnetGroups operation.
+    /// - Returns: Represents the output of a DescribeCacheSubnetGroups operation. (Type: `DescribeCacheSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3102,9 +3102,9 @@ extension ElastiCacheClient {
     ///
     /// Returns the default engine and system parameter information for the specified cache engine.
     ///
-    /// - Parameter DescribeEngineDefaultParametersInput : Represents the input of a DescribeEngineDefaultParameters operation.
+    /// - Parameter input: Represents the input of a DescribeEngineDefaultParameters operation. (Type: `DescribeEngineDefaultParametersInput`)
     ///
-    /// - Returns: `DescribeEngineDefaultParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineDefaultParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3170,9 +3170,9 @@ extension ElastiCacheClient {
     ///
     /// Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
-    /// - Parameter DescribeEventsInput : Represents the input of a DescribeEvents operation.
+    /// - Parameter input: Represents the input of a DescribeEvents operation. (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : Represents the output of a DescribeEvents operation.
+    /// - Returns: Represents the output of a DescribeEvents operation. (Type: `DescribeEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3238,9 +3238,9 @@ extension ElastiCacheClient {
     ///
     /// Returns information about a particular global replication group. If no identifier is specified, returns information about all Global datastores.
     ///
-    /// - Parameter DescribeGlobalReplicationGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalReplicationGroupsInput`)
     ///
-    /// - Returns: `DescribeGlobalReplicationGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalReplicationGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3307,9 +3307,9 @@ extension ElastiCacheClient {
     ///
     /// Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups. This operation is valid for Valkey or Redis OSS only.
     ///
-    /// - Parameter DescribeReplicationGroupsInput : Represents the input of a DescribeReplicationGroups operation.
+    /// - Parameter input: Represents the input of a DescribeReplicationGroups operation. (Type: `DescribeReplicationGroupsInput`)
     ///
-    /// - Returns: `DescribeReplicationGroupsOutput` : Represents the output of a DescribeReplicationGroups operation.
+    /// - Returns: Represents the output of a DescribeReplicationGroups operation. (Type: `DescribeReplicationGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3376,9 +3376,9 @@ extension ElastiCacheClient {
     ///
     /// Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
     ///
-    /// - Parameter DescribeReservedCacheNodesInput : Represents the input of a DescribeReservedCacheNodes operation.
+    /// - Parameter input: Represents the input of a DescribeReservedCacheNodes operation. (Type: `DescribeReservedCacheNodesInput`)
     ///
-    /// - Returns: `DescribeReservedCacheNodesOutput` : Represents the output of a DescribeReservedCacheNodes operation.
+    /// - Returns: Represents the output of a DescribeReservedCacheNodes operation. (Type: `DescribeReservedCacheNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3445,9 +3445,9 @@ extension ElastiCacheClient {
     ///
     /// Lists available reserved cache node offerings.
     ///
-    /// - Parameter DescribeReservedCacheNodesOfferingsInput : Represents the input of a DescribeReservedCacheNodesOfferings operation.
+    /// - Parameter input: Represents the input of a DescribeReservedCacheNodesOfferings operation. (Type: `DescribeReservedCacheNodesOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedCacheNodesOfferingsOutput` : Represents the output of a DescribeReservedCacheNodesOfferings operation.
+    /// - Returns: Represents the output of a DescribeReservedCacheNodesOfferings operation. (Type: `DescribeReservedCacheNodesOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3514,9 +3514,9 @@ extension ElastiCacheClient {
     ///
     /// Returns information about serverless cache snapshots. By default, this API lists all of the customer’s serverless cache snapshots. It can also describe a single serverless cache snapshot, or the snapshots associated with a particular serverless cache. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///
-    /// - Parameter DescribeServerlessCacheSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServerlessCacheSnapshotsInput`)
     ///
-    /// - Returns: `DescribeServerlessCacheSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServerlessCacheSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3584,9 +3584,9 @@ extension ElastiCacheClient {
     ///
     /// Returns information about a specific serverless cache. If no identifier is specified, then the API returns information on all the serverless caches belonging to this Amazon Web Services account.
     ///
-    /// - Parameter DescribeServerlessCachesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServerlessCachesInput`)
     ///
-    /// - Returns: `DescribeServerlessCachesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServerlessCachesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3653,9 +3653,9 @@ extension ElastiCacheClient {
     ///
     /// Returns details of the service updates
     ///
-    /// - Parameter DescribeServiceUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceUpdatesInput`)
     ///
-    /// - Returns: `DescribeServiceUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3722,9 +3722,9 @@ extension ElastiCacheClient {
     ///
     /// Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster. This operation is valid for Valkey or Redis OSS only.
     ///
-    /// - Parameter DescribeSnapshotsInput : Represents the input of a DescribeSnapshotsMessage operation.
+    /// - Parameter input: Represents the input of a DescribeSnapshotsMessage operation. (Type: `DescribeSnapshotsInput`)
     ///
-    /// - Returns: `DescribeSnapshotsOutput` : Represents the output of a DescribeSnapshots operation.
+    /// - Returns: Represents the output of a DescribeSnapshots operation. (Type: `DescribeSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3792,9 +3792,9 @@ extension ElastiCacheClient {
     ///
     /// Returns details of the update actions
     ///
-    /// - Parameter DescribeUpdateActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUpdateActionsInput`)
     ///
-    /// - Returns: `DescribeUpdateActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUpdateActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3860,9 +3860,9 @@ extension ElastiCacheClient {
     ///
     /// Returns a list of user groups.
     ///
-    /// - Parameter DescribeUserGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserGroupsInput`)
     ///
-    /// - Returns: `DescribeUserGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3929,9 +3929,9 @@ extension ElastiCacheClient {
     ///
     /// Returns a list of users.
     ///
-    /// - Parameter DescribeUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsersInput`)
     ///
-    /// - Returns: `DescribeUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3998,9 +3998,9 @@ extension ElastiCacheClient {
     ///
     /// Remove a secondary cluster from the Global datastore using the Global datastore name. The secondary cluster will no longer receive updates from the primary cluster, but will remain as a standalone cluster in that Amazon region.
     ///
-    /// - Parameter DisassociateGlobalReplicationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateGlobalReplicationGroupInput`)
     ///
-    /// - Returns: `DisassociateGlobalReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateGlobalReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4068,9 +4068,9 @@ extension ElastiCacheClient {
     ///
     /// Provides the functionality to export the serverless cache snapshot data to Amazon S3. Available for Valkey and Redis OSS only.
     ///
-    /// - Parameter ExportServerlessCacheSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportServerlessCacheSnapshotInput`)
     ///
-    /// - Returns: `ExportServerlessCacheSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportServerlessCacheSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4138,9 +4138,9 @@ extension ElastiCacheClient {
     ///
     /// Used to failover the primary region to a secondary region. The secondary region will become primary, and all other clusters will become secondary.
     ///
-    /// - Parameter FailoverGlobalReplicationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverGlobalReplicationGroupInput`)
     ///
-    /// - Returns: `FailoverGlobalReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverGlobalReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4208,9 +4208,9 @@ extension ElastiCacheClient {
     ///
     /// Increase the number of node groups in the Global datastore
     ///
-    /// - Parameter IncreaseNodeGroupsInGlobalReplicationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IncreaseNodeGroupsInGlobalReplicationGroupInput`)
     ///
-    /// - Returns: `IncreaseNodeGroupsInGlobalReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IncreaseNodeGroupsInGlobalReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4277,9 +4277,9 @@ extension ElastiCacheClient {
     ///
     /// Dynamically increases the number of replicas in a Valkey or Redis OSS (cluster mode disabled) replication group or the number of replica nodes in one or more node groups (shards) of a Valkey or Redis OSS (cluster mode enabled) replication group. This operation is performed with no cluster down time.
     ///
-    /// - Parameter IncreaseReplicaCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IncreaseReplicaCountInput`)
     ///
-    /// - Returns: `IncreaseReplicaCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IncreaseReplicaCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4355,9 +4355,9 @@ extension ElastiCacheClient {
     ///
     /// Lists all available node types that you can scale with your cluster's replication group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
     ///
-    /// - Parameter ListAllowedNodeTypeModificationsInput : The input parameters for the ListAllowedNodeTypeModifications operation.
+    /// - Parameter input: The input parameters for the ListAllowedNodeTypeModifications operation. (Type: `ListAllowedNodeTypeModificationsInput`)
     ///
-    /// - Returns: `ListAllowedNodeTypeModificationsOutput` : Represents the allowed node types you can use to modify your cluster or replication group.
+    /// - Returns: Represents the allowed node types you can use to modify your cluster or replication group. (Type: `ListAllowedNodeTypeModificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4425,9 +4425,9 @@ extension ElastiCacheClient {
     ///
     /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html). If the cluster is not in the available state, ListTagsForResource returns an error.
     ///
-    /// - Parameter ListTagsForResourceInput : The input parameters for the ListTagsForResource operation.
+    /// - Parameter input: The input parameters for the ListTagsForResource operation. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    /// - Returns: Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4506,9 +4506,9 @@ extension ElastiCacheClient {
     ///
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
     ///
-    /// - Parameter ModifyCacheClusterInput : Represents the input of a ModifyCacheCluster operation.
+    /// - Parameter input: Represents the input of a ModifyCacheCluster operation. (Type: `ModifyCacheClusterInput`)
     ///
-    /// - Returns: `ModifyCacheClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyCacheClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4583,13 +4583,16 @@ extension ElastiCacheClient {
     ///
     /// Modifies the parameters of a cache parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     ///
-    /// - Parameter ModifyCacheParameterGroupInput : Represents the input of a ModifyCacheParameterGroup operation.
+    /// - Parameter input: Represents the input of a ModifyCacheParameterGroup operation. (Type: `ModifyCacheParameterGroupInput`)
     ///
-    /// - Returns: `ModifyCacheParameterGroupOutput` : Represents the output of one of the following operations:
+    /// - Returns: Represents the output of one of the following operations:
     ///
     /// * ModifyCacheParameterGroup
     ///
     /// * ResetCacheParameterGroup
+    ///
+    ///
+    /// (Type: `ModifyCacheParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4658,9 +4661,9 @@ extension ElastiCacheClient {
     ///
     /// Modifies an existing cache subnet group.
     ///
-    /// - Parameter ModifyCacheSubnetGroupInput : Represents the input of a ModifyCacheSubnetGroup operation.
+    /// - Parameter input: Represents the input of a ModifyCacheSubnetGroup operation. (Type: `ModifyCacheSubnetGroupInput`)
     ///
-    /// - Returns: `ModifyCacheSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyCacheSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4729,9 +4732,9 @@ extension ElastiCacheClient {
     ///
     /// Modifies the settings for a Global datastore.
     ///
-    /// - Parameter ModifyGlobalReplicationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyGlobalReplicationGroupInput`)
     ///
-    /// - Returns: `ModifyGlobalReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyGlobalReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4805,9 +4808,9 @@ extension ElastiCacheClient {
     ///
     /// This operation is valid for Valkey or Redis OSS only.
     ///
-    /// - Parameter ModifyReplicationGroupInput : Represents the input of a ModifyReplicationGroups operation.
+    /// - Parameter input: Represents the input of a ModifyReplicationGroups operation. (Type: `ModifyReplicationGroupInput`)
     ///
-    /// - Returns: `ModifyReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4887,9 +4890,9 @@ extension ElastiCacheClient {
     ///
     /// Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among existing shards.
     ///
-    /// - Parameter ModifyReplicationGroupShardConfigurationInput : Represents the input for a ModifyReplicationGroupShardConfiguration operation.
+    /// - Parameter input: Represents the input for a ModifyReplicationGroupShardConfiguration operation. (Type: `ModifyReplicationGroupShardConfigurationInput`)
     ///
-    /// - Returns: `ModifyReplicationGroupShardConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyReplicationGroupShardConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4963,9 +4966,9 @@ extension ElastiCacheClient {
     ///
     /// This API modifies the attributes of a serverless cache.
     ///
-    /// - Parameter ModifyServerlessCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyServerlessCacheInput`)
     ///
-    /// - Returns: `ModifyServerlessCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyServerlessCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5037,9 +5040,9 @@ extension ElastiCacheClient {
     ///
     /// Changes user password(s) and/or access string.
     ///
-    /// - Parameter ModifyUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyUserInput`)
     ///
-    /// - Returns: `ModifyUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5108,9 +5111,9 @@ extension ElastiCacheClient {
     ///
     /// Changes the list of users that belong to the user group.
     ///
-    /// - Parameter ModifyUserGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyUserGroupInput`)
     ///
-    /// - Returns: `ModifyUserGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyUserGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5182,9 +5185,9 @@ extension ElastiCacheClient {
     ///
     /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/reserved-nodes.html).
     ///
-    /// - Parameter PurchaseReservedCacheNodesOfferingInput : Represents the input of a PurchaseReservedCacheNodesOffering operation.
+    /// - Parameter input: Represents the input of a PurchaseReservedCacheNodesOffering operation. (Type: `PurchaseReservedCacheNodesOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedCacheNodesOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseReservedCacheNodesOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5254,9 +5257,9 @@ extension ElastiCacheClient {
     ///
     /// Redistribute slots to ensure uniform distribution across existing shards in the cluster.
     ///
-    /// - Parameter RebalanceSlotsInGlobalReplicationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebalanceSlotsInGlobalReplicationGroupInput`)
     ///
-    /// - Returns: `RebalanceSlotsInGlobalReplicationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebalanceSlotsInGlobalReplicationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5323,9 +5326,9 @@ extension ElastiCacheClient {
     ///
     /// Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING. The reboot causes the contents of the cache (for each cache node being rebooted) to be lost. When the reboot is complete, a cluster event is created. Rebooting a cluster is currently supported on Memcached, Valkey and Redis OSS (cluster mode disabled) clusters. Rebooting is not supported on Valkey or Redis OSS (cluster mode enabled) clusters. If you make changes to parameters that require a Valkey or Redis OSS (cluster mode enabled) cluster reboot for the changes to be applied, see [Rebooting a Cluster](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/nodes.rebooting.html) for an alternate process.
     ///
-    /// - Parameter RebootCacheClusterInput : Represents the input of a RebootCacheCluster operation.
+    /// - Parameter input: Represents the input of a RebootCacheCluster operation. (Type: `RebootCacheClusterInput`)
     ///
-    /// - Returns: `RebootCacheClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootCacheClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5391,9 +5394,9 @@ extension ElastiCacheClient {
     ///
     /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see [Resource-level permissions](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.ResourceLevelPermissions.html).
     ///
-    /// - Parameter RemoveTagsFromResourceInput : Represents the input of a RemoveTagsFromResource operation.
+    /// - Parameter input: Represents the input of a RemoveTagsFromResource operation. (Type: `RemoveTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveTagsFromResourceOutput` : Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations.
+    /// - Returns: Represents the output from the AddTagsToResource, ListTagsForResource, and RemoveTagsFromResource operations. (Type: `RemoveTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5473,13 +5476,16 @@ extension ElastiCacheClient {
     ///
     /// Modifies the parameters of a cache parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire cache parameter group, specify the ResetAllParameters and CacheParameterGroupName parameters.
     ///
-    /// - Parameter ResetCacheParameterGroupInput : Represents the input of a ResetCacheParameterGroup operation.
+    /// - Parameter input: Represents the input of a ResetCacheParameterGroup operation. (Type: `ResetCacheParameterGroupInput`)
     ///
-    /// - Returns: `ResetCacheParameterGroupOutput` : Represents the output of one of the following operations:
+    /// - Returns: Represents the output of one of the following operations:
     ///
     /// * ModifyCacheParameterGroup
     ///
     /// * ResetCacheParameterGroup
+    ///
+    ///
+    /// (Type: `ResetCacheParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5548,9 +5554,9 @@ extension ElastiCacheClient {
     ///
     /// Revokes ingress from a cache security group. Use this operation to disallow access from an Amazon EC2 security group that had been previously authorized.
     ///
-    /// - Parameter RevokeCacheSecurityGroupIngressInput : Represents the input of a RevokeCacheSecurityGroupIngress operation.
+    /// - Parameter input: Represents the input of a RevokeCacheSecurityGroupIngress operation. (Type: `RevokeCacheSecurityGroupIngressInput`)
     ///
-    /// - Returns: `RevokeCacheSecurityGroupIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeCacheSecurityGroupIngressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5619,9 +5625,9 @@ extension ElastiCacheClient {
     ///
     /// Start the migration of data.
     ///
-    /// - Parameter StartMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMigrationInput`)
     ///
-    /// - Returns: `StartMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5720,9 +5726,9 @@ extension ElastiCacheClient {
     ///
     /// Also see, [Testing Multi-AZ ](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/AutoFailover.html#auto-failover-test) in the ElastiCache User Guide.
     ///
-    /// - Parameter TestFailoverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestFailoverInput`)
     ///
-    /// - Returns: `TestFailoverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestFailoverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5795,9 +5801,9 @@ extension ElastiCacheClient {
     ///
     /// Async API to test connection between source and target replication group.
     ///
-    /// - Parameter TestMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestMigrationInput`)
     ///
-    /// - Returns: `TestMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

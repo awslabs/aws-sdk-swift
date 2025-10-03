@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFrontKeyValueStoreClient: ClientRuntime.Client {
     public static let clientName = "CloudFrontKeyValueStoreClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration
     let serviceName = "CloudFront KeyValueStore"
@@ -376,9 +376,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Deletes the key value pair specified by the key.
     ///
-    /// - Parameter DeleteKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyInput`)
     ///
-    /// - Returns: `DeleteKeyOutput` : Metadata information about a Key Value Store.
+    /// - Returns: Metadata information about a Key Value Store. (Type: `DeleteKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Returns metadata information about Key Value Store.
     ///
-    /// - Parameter DescribeKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyValueStoreInput`)
     ///
-    /// - Returns: `DescribeKeyValueStoreOutput` : Metadata information about a Key Value Store.
+    /// - Returns: Metadata information about a Key Value Store. (Type: `DescribeKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Returns a key value pair.
     ///
-    /// - Parameter GetKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyInput`)
     ///
-    /// - Returns: `GetKeyOutput` : A key value pair.
+    /// - Returns: A key value pair. (Type: `GetKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Returns a list of key value pairs.
     ///
-    /// - Parameter ListKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeysInput`)
     ///
-    /// - Returns: `ListKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,9 +653,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Creates a new key value pair or replaces the value of an existing key.
     ///
-    /// - Parameter PutKeyInput : A key value pair.
+    /// - Parameter input: A key value pair. (Type: `PutKeyInput`)
     ///
-    /// - Returns: `PutKeyOutput` : Metadata information about a Key Value Store.
+    /// - Returns: Metadata information about a Key Value Store. (Type: `PutKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,9 +727,9 @@ extension CloudFrontKeyValueStoreClient {
     ///
     /// Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
     ///
-    /// - Parameter UpdateKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeysInput`)
     ///
-    /// - Returns: `UpdateKeysOutput` : Metadata information about a Key Value Store.
+    /// - Returns: Metadata information about a Key Value Store. (Type: `UpdateKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

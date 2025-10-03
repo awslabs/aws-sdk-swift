@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTFleetWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTFleetWiseClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTFleetWiseClient.IoTFleetWiseClientConfiguration
     let serviceName = "IoTFleetWise"
@@ -374,9 +374,9 @@ extension IoTFleetWiseClient {
     ///
     /// Adds, or associates, a vehicle with a fleet.
     ///
-    /// - Parameter AssociateVehicleFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateVehicleFleetInput`)
     ///
-    /// - Returns: `AssociateVehicleFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateVehicleFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Create multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter BatchCreateVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateVehicleInput`)
     ///
-    /// - Returns: `BatchCreateVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Update multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/update-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter BatchUpdateVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateVehicleInput`)
     ///
-    /// - Returns: `BatchUpdateVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html) in the Amazon Web Services IoT FleetWise Developer Guide. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCampaignInput`)
     ///
-    /// - Returns: `CreateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -673,9 +673,9 @@ extension IoTFleetWiseClient {
     ///
     /// * The signal decoders are specified in the model manifest.
     ///
-    /// - Parameter CreateDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDecoderManifestInput`)
     ///
-    /// - Returns: `CreateDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -748,9 +748,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a fleet that represents a group of vehicles. You must create both a signal catalog and vehicles before you can create a fleet. For more information, see [Fleets](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleets.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -822,9 +822,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see [Vehicle models](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/vehicle-models.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateModelManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelManifestInput`)
     ///
-    /// - Returns: `CreateModelManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -897,9 +897,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a collection of standardized signals that can be reused to create vehicle models.
     ///
-    /// - Parameter CreateSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSignalCatalogInput`)
     ///
-    /// - Returns: `CreateSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,9 +972,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateStateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStateTemplateInput`)
     ///
-    /// - Returns: `CreateStateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,9 +1047,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see [Create a vehicle (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicle-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVehicleInput`)
     ///
-    /// - Returns: `CreateVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,9 +1121,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a data collection campaign. Deleting a campaign suspends all data collection and removes it from any vehicles.
     ///
-    /// - Parameter DeleteCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCampaignInput`)
     ///
-    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,9 +1193,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.
     ///
-    /// - Parameter DeleteDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDecoderManifestInput`)
     ///
-    /// - Returns: `DeleteDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,9 +1265,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter DeleteFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetInput`)
     ///
-    /// - Returns: `DeleteFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1336,9 +1336,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a vehicle model (model manifest).
     ///
-    /// - Parameter DeleteModelManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelManifestInput`)
     ///
-    /// - Returns: `DeleteModelManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1408,9 +1408,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a signal catalog.
     ///
-    /// - Parameter DeleteSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSignalCatalogInput`)
     ///
-    /// - Returns: `DeleteSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,9 +1480,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a state template.
     ///
-    /// - Parameter DeleteStateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStateTemplateInput`)
     ///
-    /// - Returns: `DeleteStateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,9 +1551,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a vehicle and removes it from any campaigns.
     ///
-    /// - Parameter DeleteVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVehicleInput`)
     ///
-    /// - Returns: `DeleteVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,9 +1622,9 @@ extension IoTFleetWiseClient {
     ///
     /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.
     ///
-    /// - Parameter DisassociateVehicleFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateVehicleFleetInput`)
     ///
-    /// - Returns: `DisassociateVehicleFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateVehicleFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1694,9 +1694,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a campaign. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter GetCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignInput`)
     ///
-    /// - Returns: `GetCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1766,9 +1766,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a created decoder manifest.
     ///
-    /// - Parameter GetDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDecoderManifestInput`)
     ///
-    /// - Returns: `GetDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,9 +1838,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
     ///
-    /// - Parameter GetEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEncryptionConfigurationInput`)
     ///
-    /// - Returns: `GetEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,9 +1910,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a fleet.
     ///
-    /// - Parameter GetFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFleetInput`)
     ///
-    /// - Returns: `GetFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1982,9 +1982,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves the logging options.
     ///
-    /// - Parameter GetLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggingOptionsInput`)
     ///
-    /// - Returns: `GetLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,9 +2052,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a vehicle model (model manifest).
     ///
-    /// - Parameter GetModelManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelManifestInput`)
     ///
-    /// - Returns: `GetModelManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2124,9 +2124,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). This API operation doesn't require input parameters.
     ///
-    /// - Parameter GetRegisterAccountStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegisterAccountStatusInput`)
     ///
-    /// - Returns: `GetRegisterAccountStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegisterAccountStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2196,9 +2196,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a signal catalog.
     ///
-    /// - Parameter GetSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSignalCatalogInput`)
     ///
-    /// - Returns: `GetSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2268,9 +2268,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter GetStateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStateTemplateInput`)
     ///
-    /// - Returns: `GetStateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2340,9 +2340,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a vehicle.
     ///
-    /// - Parameter GetVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVehicleInput`)
     ///
-    /// - Returns: `GetVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2412,9 +2412,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about the status of campaigns, decoder manifests, or state templates associated with a vehicle.
     ///
-    /// - Parameter GetVehicleStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVehicleStatusInput`)
     ///
-    /// - Returns: `GetVehicleStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVehicleStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2485,9 +2485,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a decoder manifest using your existing CAN DBC file from your local device. The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
     ///
-    /// - Parameter ImportDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportDecoderManifestInput`)
     ///
-    /// - Returns: `ImportDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2560,9 +2560,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a signal catalog using your existing VSS formatted content from your local device.
     ///
-    /// - Parameter ImportSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportSignalCatalogInput`)
     ///
-    /// - Returns: `ImportSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2635,9 +2635,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists information about created campaigns. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListCampaignsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCampaignsInput`)
     ///
-    /// - Returns: `ListCampaignsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2707,9 +2707,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists the network interfaces specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListDecoderManifestNetworkInterfacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDecoderManifestNetworkInterfacesInput`)
     ///
-    /// - Returns: `ListDecoderManifestNetworkInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDecoderManifestNetworkInterfacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2780,9 +2780,9 @@ extension IoTFleetWiseClient {
     ///
     /// A list of information about signal decoders specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListDecoderManifestSignalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDecoderManifestSignalsInput`)
     ///
-    /// - Returns: `ListDecoderManifestSignalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDecoderManifestSignalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2853,9 +2853,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists decoder manifests. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListDecoderManifestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDecoderManifestsInput`)
     ///
-    /// - Returns: `ListDecoderManifestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDecoderManifestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2925,9 +2925,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information for each created fleet in an Amazon Web Services account. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetsInput`)
     ///
-    /// - Returns: `ListFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2998,9 +2998,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListFleetsForVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetsForVehicleInput`)
     ///
-    /// - Returns: `ListFleetsForVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetsForVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3071,9 +3071,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists information about nodes specified in a vehicle model (model manifest). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListModelManifestNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelManifestNodesInput`)
     ///
-    /// - Returns: `ListModelManifestNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelManifestNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3145,9 +3145,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves a list of vehicle models (model manifests). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListModelManifestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelManifestsInput`)
     ///
-    /// - Returns: `ListModelManifestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelManifestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3217,9 +3217,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists of information about the signals (nodes) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListSignalCatalogNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSignalCatalogNodesInput`)
     ///
-    /// - Returns: `ListSignalCatalogNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSignalCatalogNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3291,9 +3291,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists all the created signal catalogs in an Amazon Web Services account. You can use to list information about each signal (node) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListSignalCatalogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSignalCatalogsInput`)
     ///
-    /// - Returns: `ListSignalCatalogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSignalCatalogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3363,9 +3363,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists information about created state templates. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter ListStateTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStateTemplatesInput`)
     ///
-    /// - Returns: `ListStateTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStateTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3435,9 +3435,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3508,9 +3508,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves a list of summaries of created vehicles. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListVehiclesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVehiclesInput`)
     ///
-    /// - Returns: `ListVehiclesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVehiclesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3580,9 +3580,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves a list of summaries of all vehicles associated with a fleet. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListVehiclesInFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVehiclesInFleetInput`)
     ///
-    /// - Returns: `ListVehiclesInFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVehiclesInFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3653,9 +3653,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see [Data encryption](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/data-encryption.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter PutEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEncryptionConfigurationInput`)
     ///
-    /// - Returns: `PutEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3726,9 +3726,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates or updates the logging option.
     ///
-    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLoggingOptionsInput`)
     ///
-    /// - Returns: `PutLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3799,9 +3799,9 @@ extension IoTFleetWiseClient {
     ///
     /// This API operation contains deprecated parameters. Register your account again without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the [CreateCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CreateCampaign.html) API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more information, see the [DeleteCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DeleteCampaign.html) API operation. If you want to delete the Timestream inline policy from the service-linked role, such as to mitigate an overly permissive policy, you must first delete any existing campaigns. Then delete the service-linked role and register your account again to enable CloudWatch metrics. For more information, see [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) in the Identity and Access Management API Reference. Registers your Amazon Web Services account, IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). An Amazon Web Services account is not the same thing as a "user." An [Amazon Web Services user](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management.html#intro-identity-users) is an identity that you create using Identity and Access Management (IAM) and takes the form of either an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) or an [IAM role, both with credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). A single Amazon Web Services account can, and typically does, contain many users and roles.
     ///
-    /// - Parameter RegisterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAccountInput`)
     ///
-    /// - Returns: `RegisterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3872,9 +3872,9 @@ extension IoTFleetWiseClient {
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3945,9 +3945,9 @@ extension IoTFleetWiseClient {
     ///
     /// Removes the given tags (metadata) from the resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4018,9 +4018,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a campaign.
     ///
-    /// - Parameter UpdateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCampaignInput`)
     ///
-    /// - Returns: `UpdateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4091,9 +4091,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a decoder manifest. A decoder manifest can only be updated when the status is DRAFT. Only ACTIVE decoder manifests can be associated with vehicles.
     ///
-    /// - Parameter UpdateDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDecoderManifestInput`)
     ///
-    /// - Returns: `UpdateDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4166,9 +4166,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates the description of an existing fleet.
     ///
-    /// - Parameter UpdateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFleetInput`)
     ///
-    /// - Returns: `UpdateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4239,9 +4239,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated.
     ///
-    /// - Parameter UpdateModelManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelManifestInput`)
     ///
-    /// - Returns: `UpdateModelManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4313,9 +4313,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a signal catalog.
     ///
-    /// - Parameter UpdateSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSignalCatalogInput`)
     ///
-    /// - Returns: `UpdateSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4389,9 +4389,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter UpdateStateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStateTemplateInput`)
     ///
-    /// - Returns: `UpdateStateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4463,9 +4463,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a vehicle. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter UpdateVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVehicleInput`)
     ///
-    /// - Returns: `UpdateVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

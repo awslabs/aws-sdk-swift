@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaConnectClient: ClientRuntime.Client {
     public static let clientName = "MediaConnectClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConnectClient.MediaConnectClientConfiguration
     let serviceName = "MediaConnect"
@@ -373,9 +373,9 @@ extension MediaConnectClient {
     ///
     /// Adds outputs to an existing bridge.
     ///
-    /// - Parameter AddBridgeOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddBridgeOutputsInput`)
     ///
-    /// - Returns: `AddBridgeOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddBridgeOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension MediaConnectClient {
     ///
     /// Adds sources to an existing bridge.
     ///
-    /// - Parameter AddBridgeSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddBridgeSourcesInput`)
     ///
-    /// - Returns: `AddBridgeSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddBridgeSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension MediaConnectClient {
     ///
     /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
     ///
-    /// - Parameter AddFlowMediaStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowMediaStreamsInput`)
     ///
-    /// - Returns: `AddFlowMediaStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowMediaStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension MediaConnectClient {
     ///
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     ///
-    /// - Parameter AddFlowOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowOutputsInput`)
     ///
-    /// - Returns: `AddFlowOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension MediaConnectClient {
     ///
     /// Adds sources to a flow.
     ///
-    /// - Parameter AddFlowSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowSourcesInput`)
     ///
-    /// - Returns: `AddFlowSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -736,9 +736,9 @@ extension MediaConnectClient {
     ///
     /// Adds VPC interfaces to a flow.
     ///
-    /// - Parameter AddFlowVpcInterfacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowVpcInterfacesInput`)
     ///
-    /// - Returns: `AddFlowVpcInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowVpcInterfacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -808,9 +808,9 @@ extension MediaConnectClient {
     ///
     /// Creates a new bridge. The request must include one source.
     ///
-    /// - Parameter CreateBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBridgeInput`)
     ///
-    /// - Returns: `CreateBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,9 +881,9 @@ extension MediaConnectClient {
     ///
     /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     ///
-    /// - Parameter CreateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlowInput`)
     ///
-    /// - Returns: `CreateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -953,9 +953,9 @@ extension MediaConnectClient {
     ///
     /// Creates a new gateway. The request must include at least one network (up to four).
     ///
-    /// - Parameter CreateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayInput`)
     ///
-    /// - Returns: `CreateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1026,9 +1026,9 @@ extension MediaConnectClient {
     ///
     /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
     ///
-    /// - Parameter DeleteBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBridgeInput`)
     ///
-    /// - Returns: `DeleteBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1096,9 +1096,9 @@ extension MediaConnectClient {
     ///
     /// Deletes a flow. Before you can delete a flow, you must stop the flow.
     ///
-    /// - Parameter DeleteFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlowInput`)
     ///
-    /// - Returns: `DeleteFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1165,9 +1165,9 @@ extension MediaConnectClient {
     ///
     /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
     ///
-    /// - Parameter DeleteGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayInput`)
     ///
-    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1235,9 +1235,9 @@ extension MediaConnectClient {
     ///
     /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
     ///
-    /// - Parameter DeregisterGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterGatewayInstanceInput`)
     ///
-    /// - Returns: `DeregisterGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1306,9 +1306,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a bridge.
     ///
-    /// - Parameter DescribeBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBridgeInput`)
     ///
-    /// - Returns: `DescribeBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1376,9 +1376,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
     ///
-    /// - Parameter DescribeFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowInput`)
     ///
-    /// - Returns: `DescribeFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1445,9 +1445,9 @@ extension MediaConnectClient {
     ///
     /// The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
     ///
-    /// - Parameter DescribeFlowSourceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowSourceMetadataInput`)
     ///
-    /// - Returns: `DescribeFlowSourceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowSourceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1514,9 +1514,9 @@ extension MediaConnectClient {
     ///
     /// Describes the thumbnail for the flow source.
     ///
-    /// - Parameter DescribeFlowSourceThumbnailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowSourceThumbnailInput`)
     ///
-    /// - Returns: `DescribeFlowSourceThumbnailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowSourceThumbnailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1583,9 +1583,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
     ///
-    /// - Parameter DescribeGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayInput`)
     ///
-    /// - Returns: `DescribeGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1653,9 +1653,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of an instance.
     ///
-    /// - Parameter DescribeGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayInstanceInput`)
     ///
-    /// - Returns: `DescribeGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1723,9 +1723,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
     ///
-    /// - Parameter DescribeOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOfferingInput`)
     ///
-    /// - Returns: `DescribeOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1791,9 +1791,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
     ///
-    /// - Parameter DescribeReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservationInput`)
     ///
-    /// - Returns: `DescribeReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,9 +1859,9 @@ extension MediaConnectClient {
     ///
     /// Grants entitlements to an existing flow.
     ///
-    /// - Parameter GrantFlowEntitlementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GrantFlowEntitlementsInput`)
     ///
-    /// - Returns: `GrantFlowEntitlementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GrantFlowEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1932,9 +1932,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
     ///
-    /// - Parameter ListBridgesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBridgesInput`)
     ///
-    /// - Returns: `ListBridgesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBridgesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2001,9 +2001,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
     ///
-    /// - Parameter ListEntitlementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitlementsInput`)
     ///
-    /// - Returns: `ListEntitlementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2069,9 +2069,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of flows that are associated with this account. This request returns a paginated result.
     ///
-    /// - Parameter ListFlowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowsInput`)
     ///
-    /// - Returns: `ListFlowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2137,9 +2137,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListGatewayInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewayInstancesInput`)
     ///
-    /// - Returns: `ListGatewayInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewayInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2206,9 +2206,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of gateways that are associated with this account. This request returns a paginated result.
     ///
-    /// - Parameter ListGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewaysInput`)
     ///
-    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2275,9 +2275,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
     ///
-    /// - Parameter ListOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOfferingsInput`)
     ///
-    /// - Returns: `ListOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2343,9 +2343,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
     ///
-    /// - Parameter ListReservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReservationsInput`)
     ///
-    /// - Returns: `ListReservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReservationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2411,9 +2411,9 @@ extension MediaConnectClient {
     ///
     /// List all tags on a MediaConnect resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2477,9 +2477,9 @@ extension MediaConnectClient {
     ///
     /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
     ///
-    /// - Parameter PurchaseOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseOfferingInput`)
     ///
-    /// - Returns: `PurchaseOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2549,9 +2549,9 @@ extension MediaConnectClient {
     ///
     /// Removes an output from a bridge.
     ///
-    /// - Parameter RemoveBridgeOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveBridgeOutputInput`)
     ///
-    /// - Returns: `RemoveBridgeOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveBridgeOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2619,9 +2619,9 @@ extension MediaConnectClient {
     ///
     /// Removes a source from a bridge.
     ///
-    /// - Parameter RemoveBridgeSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveBridgeSourceInput`)
     ///
-    /// - Returns: `RemoveBridgeSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveBridgeSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2689,9 +2689,9 @@ extension MediaConnectClient {
     ///
     /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
     ///
-    /// - Parameter RemoveFlowMediaStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowMediaStreamInput`)
     ///
-    /// - Returns: `RemoveFlowMediaStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowMediaStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2758,9 +2758,9 @@ extension MediaConnectClient {
     ///
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     ///
-    /// - Parameter RemoveFlowOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowOutputInput`)
     ///
-    /// - Returns: `RemoveFlowOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2827,9 +2827,9 @@ extension MediaConnectClient {
     ///
     /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
     ///
-    /// - Parameter RemoveFlowSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowSourceInput`)
     ///
-    /// - Returns: `RemoveFlowSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2896,9 +2896,9 @@ extension MediaConnectClient {
     ///
     /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
     ///
-    /// - Parameter RemoveFlowVpcInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowVpcInterfaceInput`)
     ///
-    /// - Returns: `RemoveFlowVpcInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowVpcInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2965,9 +2965,9 @@ extension MediaConnectClient {
     ///
     /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     ///
-    /// - Parameter RevokeFlowEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeFlowEntitlementInput`)
     ///
-    /// - Returns: `RevokeFlowEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeFlowEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3034,9 +3034,9 @@ extension MediaConnectClient {
     ///
     /// Starts a flow.
     ///
-    /// - Parameter StartFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFlowInput`)
     ///
-    /// - Returns: `StartFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3103,9 +3103,9 @@ extension MediaConnectClient {
     ///
     /// Stops a flow.
     ///
-    /// - Parameter StopFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopFlowInput`)
     ///
-    /// - Returns: `StopFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3172,9 +3172,9 @@ extension MediaConnectClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3241,9 +3241,9 @@ extension MediaConnectClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3308,9 +3308,9 @@ extension MediaConnectClient {
     ///
     /// Updates the bridge.
     ///
-    /// - Parameter UpdateBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeInput`)
     ///
-    /// - Returns: `UpdateBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3381,9 +3381,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing bridge output.
     ///
-    /// - Parameter UpdateBridgeOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeOutputInput`)
     ///
-    /// - Returns: `UpdateBridgeOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3454,9 +3454,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing bridge source.
     ///
-    /// - Parameter UpdateBridgeSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeSourceInput`)
     ///
-    /// - Returns: `UpdateBridgeSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3527,9 +3527,9 @@ extension MediaConnectClient {
     ///
     /// Updates the bridge state.
     ///
-    /// - Parameter UpdateBridgeStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeStateInput`)
     ///
-    /// - Returns: `UpdateBridgeStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3600,9 +3600,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing flow.
     ///
-    /// - Parameter UpdateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowInput`)
     ///
-    /// - Returns: `UpdateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3672,9 +3672,9 @@ extension MediaConnectClient {
     ///
     /// Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     ///
-    /// - Parameter UpdateFlowEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowEntitlementInput`)
     ///
-    /// - Returns: `UpdateFlowEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3744,9 +3744,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing media stream.
     ///
-    /// - Parameter UpdateFlowMediaStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowMediaStreamInput`)
     ///
-    /// - Returns: `UpdateFlowMediaStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowMediaStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3816,9 +3816,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing flow output.
     ///
-    /// - Parameter UpdateFlowOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowOutputInput`)
     ///
-    /// - Returns: `UpdateFlowOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3888,9 +3888,9 @@ extension MediaConnectClient {
     ///
     /// Updates the source of a flow.
     ///
-    /// - Parameter UpdateFlowSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowSourceInput`)
     ///
-    /// - Returns: `UpdateFlowSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3960,9 +3960,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing gateway instance.
     ///
-    /// - Parameter UpdateGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayInstanceInput`)
     ///
-    /// - Returns: `UpdateGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

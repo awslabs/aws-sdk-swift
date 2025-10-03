@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MqClient: ClientRuntime.Client {
     public static let clientName = "MqClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MqClient.MqClientConfiguration
     let serviceName = "mq"
@@ -401,9 +401,9 @@ extension MqClient {
     ///
     /// For more information, see [Create an IAM User and Get Your Amazon Web Services Credentials](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user) and [Never Modify or Delete the Amazon MQ Elastic Network Interface](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface) in the Amazon MQ Developer Guide.
     ///
-    /// - Parameter CreateBrokerInput : Creates a broker using the specified properties.
+    /// - Parameter input: Creates a broker using the specified properties. (Type: `CreateBrokerInput`)
     ///
-    /// - Returns: `CreateBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -473,9 +473,9 @@ extension MqClient {
     ///
     /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
     ///
-    /// - Parameter CreateConfigurationInput : Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+    /// - Parameter input: Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version). (Type: `CreateConfigurationInput`)
     ///
-    /// - Returns: `CreateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -543,9 +543,9 @@ extension MqClient {
     ///
     /// Add a tag to a resource.
     ///
-    /// - Parameter CreateTagsInput : A map of the key-value pairs for the resource tag.
+    /// - Parameter input: A map of the key-value pairs for the resource tag. (Type: `CreateTagsInput`)
     ///
-    /// - Returns: `CreateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,9 +613,9 @@ extension MqClient {
     ///
     /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
     ///
-    /// - Parameter CreateUserInput : Creates a new ActiveMQ user.
+    /// - Parameter input: Creates a new ActiveMQ user. (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -684,9 +684,9 @@ extension MqClient {
     ///
     /// Deletes a broker. Note: This API is asynchronous.
     ///
-    /// - Parameter DeleteBrokerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrokerInput`)
     ///
-    /// - Returns: `DeleteBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -751,9 +751,9 @@ extension MqClient {
     ///
     /// Deletes the specified configuration.
     ///
-    /// - Parameter DeleteConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationInput`)
     ///
-    /// - Returns: `DeleteConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,9 +819,9 @@ extension MqClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter DeleteTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -887,9 +887,9 @@ extension MqClient {
     ///
     /// Deletes an ActiveMQ user.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,9 +954,9 @@ extension MqClient {
     ///
     /// Returns information about the specified broker.
     ///
-    /// - Parameter DescribeBrokerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrokerInput`)
     ///
-    /// - Returns: `DescribeBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,9 +1021,9 @@ extension MqClient {
     ///
     /// Describe available engine types and versions.
     ///
-    /// - Parameter DescribeBrokerEngineTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrokerEngineTypesInput`)
     ///
-    /// - Returns: `DescribeBrokerEngineTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrokerEngineTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,9 +1088,9 @@ extension MqClient {
     ///
     /// Describe available broker instance options.
     ///
-    /// - Parameter DescribeBrokerInstanceOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrokerInstanceOptionsInput`)
     ///
-    /// - Returns: `DescribeBrokerInstanceOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrokerInstanceOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1155,9 +1155,9 @@ extension MqClient {
     ///
     /// Returns information about the specified configuration.
     ///
-    /// - Parameter DescribeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationInput`)
     ///
-    /// - Returns: `DescribeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1222,9 +1222,9 @@ extension MqClient {
     ///
     /// Returns the specified configuration revision for the specified configuration.
     ///
-    /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationRevisionInput`)
     ///
-    /// - Returns: `DescribeConfigurationRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1289,9 +1289,9 @@ extension MqClient {
     ///
     /// Returns information about an ActiveMQ user.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1356,9 +1356,9 @@ extension MqClient {
     ///
     /// Returns a list of all brokers.
     ///
-    /// - Parameter ListBrokersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrokersInput`)
     ///
-    /// - Returns: `ListBrokersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrokersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,9 +1423,9 @@ extension MqClient {
     ///
     /// Returns a list of all revisions for the specified configuration.
     ///
-    /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationRevisionsInput`)
     ///
-    /// - Returns: `ListConfigurationRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1491,9 +1491,9 @@ extension MqClient {
     ///
     /// Returns a list of all configurations.
     ///
-    /// - Parameter ListConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
     ///
-    /// - Returns: `ListConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1558,9 +1558,9 @@ extension MqClient {
     ///
     /// Lists tags for a resource.
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,9 +1625,9 @@ extension MqClient {
     ///
     /// Returns a list of all ActiveMQ users.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1693,9 +1693,9 @@ extension MqClient {
     ///
     /// Promotes a data replication replica broker to the primary broker role.
     ///
-    /// - Parameter PromoteInput : Promotes a data replication replica broker to the primary broker role.
+    /// - Parameter input: Promotes a data replication replica broker to the primary broker role. (Type: `PromoteInput`)
     ///
-    /// - Returns: `PromoteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromoteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1763,9 +1763,9 @@ extension MqClient {
     ///
     /// Reboots a broker. Note: This API is asynchronous.
     ///
-    /// - Parameter RebootBrokerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootBrokerInput`)
     ///
-    /// - Returns: `RebootBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1830,9 +1830,9 @@ extension MqClient {
     ///
     /// Adds a pending configuration change to a broker.
     ///
-    /// - Parameter UpdateBrokerInput : Updates the broker using the specified properties.
+    /// - Parameter input: Updates the broker using the specified properties. (Type: `UpdateBrokerInput`)
     ///
-    /// - Returns: `UpdateBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1901,9 +1901,9 @@ extension MqClient {
     ///
     /// Updates the specified configuration.
     ///
-    /// - Parameter UpdateConfigurationInput : Updates the specified configuration.
+    /// - Parameter input: Updates the specified configuration. (Type: `UpdateConfigurationInput`)
     ///
-    /// - Returns: `UpdateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1972,9 +1972,9 @@ extension MqClient {
     ///
     /// Updates the information for an ActiveMQ user.
     ///
-    /// - Parameter UpdateUserInput : Updates the information for an ActiveMQ user.
+    /// - Parameter input: Updates the information for an ActiveMQ user. (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

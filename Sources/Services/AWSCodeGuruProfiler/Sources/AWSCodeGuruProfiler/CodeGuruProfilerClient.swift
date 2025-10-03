@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeGuruProfilerClient: ClientRuntime.Client {
     public static let clientName = "CodeGuruProfilerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeGuruProfilerClient.CodeGuruProfilerClientConfiguration
     let serviceName = "CodeGuruProfiler"
@@ -377,9 +377,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Add up to 2 anomaly notifications channels for a profiling group.
     ///
-    /// - Parameter AddNotificationChannelsInput : The structure representing the AddNotificationChannelsRequest.
+    /// - Parameter input: The structure representing the AddNotificationChannelsRequest. (Type: `AddNotificationChannelsInput`)
     ///
-    /// - Returns: `AddNotificationChannelsOutput` : The structure representing the AddNotificationChannelsResponse.
+    /// - Returns: The structure representing the AddNotificationChannelsResponse. (Type: `AddNotificationChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Returns the time series of values for a requested list of frame metrics from a time period.
     ///
-    /// - Parameter BatchGetFrameMetricDataInput : The structure representing the BatchGetFrameMetricDataRequest.
+    /// - Parameter input: The structure representing the BatchGetFrameMetricDataRequest. (Type: `BatchGetFrameMetricDataInput`)
     ///
-    /// - Returns: `BatchGetFrameMetricDataOutput` : The structure representing the BatchGetFrameMetricDataResponse.
+    /// - Returns: The structure representing the BatchGetFrameMetricDataResponse. (Type: `BatchGetFrameMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Used by profiler agents to report their current state and to receive remote configuration updates. For example, ConfigureAgent can be used to tell an agent whether to profile or not and for how long to return profiling data.
     ///
-    /// - Parameter ConfigureAgentInput : The structure representing the configureAgentRequest.
+    /// - Parameter input: The structure representing the configureAgentRequest. (Type: `ConfigureAgentInput`)
     ///
-    /// - Returns: `ConfigureAgentOutput` : The structure representing the configureAgentResponse.
+    /// - Returns: The structure representing the configureAgentResponse. (Type: `ConfigureAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Creates a profiling group.
     ///
-    /// - Parameter CreateProfilingGroupInput : The structure representing the createProfiliingGroupRequest.
+    /// - Parameter input: The structure representing the createProfiliingGroupRequest. (Type: `CreateProfilingGroupInput`)
     ///
-    /// - Returns: `CreateProfilingGroupOutput` : The structure representing the createProfilingGroupResponse.
+    /// - Returns: The structure representing the createProfilingGroupResponse. (Type: `CreateProfilingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,9 +663,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Deletes a profiling group.
     ///
-    /// - Parameter DeleteProfilingGroupInput : The structure representing the deleteProfilingGroupRequest.
+    /// - Parameter input: The structure representing the deleteProfilingGroupRequest. (Type: `DeleteProfilingGroupInput`)
     ///
-    /// - Returns: `DeleteProfilingGroupOutput` : The structure representing the deleteProfilingGroupResponse.
+    /// - Returns: The structure representing the deleteProfilingGroupResponse. (Type: `DeleteProfilingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Returns a [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) object that contains information about the requested profiling group.
     ///
-    /// - Parameter DescribeProfilingGroupInput : The structure representing the describeProfilingGroupRequest.
+    /// - Parameter input: The structure representing the describeProfilingGroupRequest. (Type: `DescribeProfilingGroupInput`)
     ///
-    /// - Returns: `DescribeProfilingGroupOutput` : The structure representing the describeProfilingGroupResponse.
+    /// - Returns: The structure representing the describeProfilingGroupResponse. (Type: `DescribeProfilingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -798,9 +798,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Returns a list of [FindingsReportSummary](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_FindingsReportSummary.html) objects that contain analysis results for all profiling groups in your AWS account.
     ///
-    /// - Parameter GetFindingsReportAccountSummaryInput : The structure representing the GetFindingsReportAccountSummaryRequest.
+    /// - Parameter input: The structure representing the GetFindingsReportAccountSummaryRequest. (Type: `GetFindingsReportAccountSummaryInput`)
     ///
-    /// - Returns: `GetFindingsReportAccountSummaryOutput` : The structure representing the GetFindingsReportAccountSummaryResponse.
+    /// - Returns: The structure representing the GetFindingsReportAccountSummaryResponse. (Type: `GetFindingsReportAccountSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,9 +865,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Get the current configuration for anomaly notifications for a profiling group.
     ///
-    /// - Parameter GetNotificationConfigurationInput : The structure representing the GetNotificationConfigurationRequest.
+    /// - Parameter input: The structure representing the GetNotificationConfigurationRequest. (Type: `GetNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetNotificationConfigurationOutput` : The structure representing the GetNotificationConfigurationResponse.
+    /// - Returns: The structure representing the GetNotificationConfigurationResponse. (Type: `GetNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,9 +932,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Returns the JSON-formatted resource-based policy on a profiling group.
     ///
-    /// - Parameter GetPolicyInput : The structure representing the getPolicyRequest.
+    /// - Parameter input: The structure representing the getPolicyRequest. (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : The structure representing the getPolicyResponse.
+    /// - Returns: The structure representing the getPolicyResponse. (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1014,9 +1014,9 @@ extension CodeGuruProfilerClient {
     ///
     /// * If you want to return an aggregated profile for a time range that doesn't align with an existing aggregated profile, then CodeGuru Profiler makes a best effort to combine existing aggregated profiles from the requested time range and return them as one aggregated profile. If aggregated profiles do not exist for the full time range requested, then aggregated profiles for a smaller time range are returned. For example, if the requested time range is from 00:00 to 00:20, and the existing aggregated profiles are from 00:15 and 00:25, then the aggregated profiles from 00:15 to 00:20 are returned.
     ///
-    /// - Parameter GetProfileInput : The structure representing the getProfileRequest.
+    /// - Parameter input: The structure representing the getProfileRequest. (Type: `GetProfileInput`)
     ///
-    /// - Returns: `GetProfileOutput` : The structure representing the getProfileResponse.
+    /// - Returns: The structure representing the getProfileResponse. (Type: `GetProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1083,9 +1083,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Returns a list of [Recommendation](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Recommendation.html) objects that contain recommendations for a profiling group for a given time period. A list of [Anomaly](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_Anomaly.html) objects that contains details about anomalies detected in the profiling group for the same time period is also returned.
     ///
-    /// - Parameter GetRecommendationsInput : The structure representing the GetRecommendationsRequest.
+    /// - Parameter input: The structure representing the GetRecommendationsRequest. (Type: `GetRecommendationsInput`)
     ///
-    /// - Returns: `GetRecommendationsOutput` : The structure representing the GetRecommendationsResponse.
+    /// - Returns: The structure representing the GetRecommendationsResponse. (Type: `GetRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1151,9 +1151,9 @@ extension CodeGuruProfilerClient {
     ///
     /// List the available reports for a given profiling group and time range.
     ///
-    /// - Parameter ListFindingsReportsInput : The structure representing the ListFindingsReportsRequest.
+    /// - Parameter input: The structure representing the ListFindingsReportsRequest. (Type: `ListFindingsReportsInput`)
     ///
-    /// - Returns: `ListFindingsReportsOutput` : The structure representing the ListFindingsReportsResponse.
+    /// - Returns: The structure representing the ListFindingsReportsResponse. (Type: `ListFindingsReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,9 +1219,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
     ///
-    /// - Parameter ListProfileTimesInput : The structure representing the listProfileTimesRequest.
+    /// - Parameter input: The structure representing the listProfileTimesRequest. (Type: `ListProfileTimesInput`)
     ///
-    /// - Returns: `ListProfileTimesOutput` : The structure representing the listProfileTimesResponse.
+    /// - Returns: The structure representing the listProfileTimesResponse. (Type: `ListProfileTimesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,9 +1287,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Returns a list of profiling groups. The profiling groups are returned as [ProfilingGroupDescription](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ProfilingGroupDescription.html) objects.
     ///
-    /// - Parameter ListProfilingGroupsInput : The structure representing the listProfilingGroupsRequest.
+    /// - Parameter input: The structure representing the listProfilingGroupsRequest. (Type: `ListProfilingGroupsInput`)
     ///
-    /// - Returns: `ListProfilingGroupsOutput` : The structure representing the listProfilingGroupsResponse.
+    /// - Returns: The structure representing the listProfilingGroupsResponse. (Type: `ListProfilingGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1353,9 +1353,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Returns a list of the tags that are assigned to a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,9 +1419,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Submits profiling data to an aggregated profile of a profiling group. To get an aggregated profile that is created with this profiling data, use [GetProfile](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_GetProfile.html).
     ///
-    /// - Parameter PostAgentProfileInput : The structure representing the postAgentProfileRequest.
+    /// - Parameter input: The structure representing the postAgentProfileRequest. (Type: `PostAgentProfileInput`)
     ///
-    /// - Returns: `PostAgentProfileOutput` : The structure representing the postAgentProfileResponse.
+    /// - Returns: The structure representing the postAgentProfileResponse. (Type: `PostAgentProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,9 +1492,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Adds permissions to a profiling group's resource-based policy that are provided using an action group. If a profiling group doesn't have a resource-based policy, one is created for it using the permissions in the action group and the roles and users in the principals parameter. The one supported action group that can be added is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see [Resource-based policies in CodeGuru Profiler](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html) in the Amazon CodeGuru Profiler User Guide, [ConfigureAgent](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html), and [PostAgentProfile](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html). The first time you call PutPermission on a profiling group, do not specify a revisionId because it doesn't have a resource-based policy. Subsequent calls must provide a revisionId to specify which revision of the resource-based policy to add the permissions to. The response contains the profiling group's JSON-formatted resource policy.
     ///
-    /// - Parameter PutPermissionInput : The structure representing the putPermissionRequest.
+    /// - Parameter input: The structure representing the putPermissionRequest. (Type: `PutPermissionInput`)
     ///
-    /// - Returns: `PutPermissionOutput` : The structure representing the putPermissionResponse.
+    /// - Returns: The structure representing the putPermissionResponse. (Type: `PutPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1563,9 +1563,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Remove one anomaly notifications channel for a profiling group.
     ///
-    /// - Parameter RemoveNotificationChannelInput : The structure representing the RemoveNotificationChannelRequest.
+    /// - Parameter input: The structure representing the RemoveNotificationChannelRequest. (Type: `RemoveNotificationChannelInput`)
     ///
-    /// - Returns: `RemoveNotificationChannelOutput` : The structure representing the RemoveNotificationChannelResponse.
+    /// - Returns: The structure representing the RemoveNotificationChannelResponse. (Type: `RemoveNotificationChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1630,9 +1630,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see [Resource-based policies in CodeGuru Profiler](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html) in the Amazon CodeGuru Profiler User Guide, [ConfigureAgent](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html), and [PostAgentProfile](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html).
     ///
-    /// - Parameter RemovePermissionInput : The structure representing the removePermissionRequest.
+    /// - Parameter input: The structure representing the removePermissionRequest. (Type: `RemovePermissionInput`)
     ///
-    /// - Returns: `RemovePermissionOutput` : The structure representing the removePermissionResponse.
+    /// - Returns: The structure representing the removePermissionResponse. (Type: `RemovePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1699,9 +1699,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is useful or not.
     ///
-    /// - Parameter SubmitFeedbackInput : The structure representing the SubmitFeedbackRequest.
+    /// - Parameter input: The structure representing the SubmitFeedbackRequest. (Type: `SubmitFeedbackInput`)
     ///
-    /// - Returns: `SubmitFeedbackOutput` : The structure representing the SubmitFeedbackResponse.
+    /// - Returns: The structure representing the SubmitFeedbackResponse. (Type: `SubmitFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1769,9 +1769,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Use to assign one or more tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,9 +1838,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Use to remove one or more tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1905,9 +1905,9 @@ extension CodeGuruProfilerClient {
     ///
     /// Updates a profiling group.
     ///
-    /// - Parameter UpdateProfilingGroupInput : The structure representing the updateProfilingGroupRequest.
+    /// - Parameter input: The structure representing the updateProfilingGroupRequest. (Type: `UpdateProfilingGroupInput`)
     ///
-    /// - Returns: `UpdateProfilingGroupOutput` : The structure representing the updateProfilingGroupResponse.
+    /// - Returns: The structure representing the updateProfilingGroupResponse. (Type: `UpdateProfilingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

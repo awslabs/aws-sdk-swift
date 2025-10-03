@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OdbClient: ClientRuntime.Client {
     public static let clientName = "OdbClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: OdbClient.OdbClientConfiguration
     let serviceName = "odb"
@@ -373,9 +373,9 @@ extension OdbClient {
     ///
     /// Registers the Amazon Web Services Marketplace token for your Amazon Web Services account to activate your Oracle Database@Amazon Web Services subscription.
     ///
-    /// - Parameter AcceptMarketplaceRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptMarketplaceRegistrationInput`)
     ///
-    /// - Returns: `AcceptMarketplaceRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptMarketplaceRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension OdbClient {
     ///
     /// Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
     ///
-    /// - Parameter CreateCloudAutonomousVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudAutonomousVmClusterInput`)
     ///
-    /// - Returns: `CreateCloudAutonomousVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudAutonomousVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension OdbClient {
     ///
     /// Creates an Exadata infrastructure.
     ///
-    /// - Parameter CreateCloudExadataInfrastructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudExadataInfrastructureInput`)
     ///
-    /// - Returns: `CreateCloudExadataInfrastructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudExadataInfrastructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,9 +594,9 @@ extension OdbClient {
     ///
     /// Creates a VM cluster on the specified Exadata infrastructure.
     ///
-    /// - Parameter CreateCloudVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudVmClusterInput`)
     ///
-    /// - Returns: `CreateCloudVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -669,9 +669,9 @@ extension OdbClient {
     ///
     /// Creates an ODB network.
     ///
-    /// - Parameter CreateOdbNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOdbNetworkInput`)
     ///
-    /// - Returns: `CreateOdbNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOdbNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,9 +743,9 @@ extension OdbClient {
     ///
     /// Creates a peering connection between an ODB network and either another ODB network or a customer-owned VPC. A peering connection enables private connectivity between the networks for application-tier communication.
     ///
-    /// - Parameter CreateOdbPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOdbPeeringConnectionInput`)
     ///
-    /// - Returns: `CreateOdbPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOdbPeeringConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -817,9 +817,9 @@ extension OdbClient {
     ///
     /// Deletes an Autonomous VM cluster.
     ///
-    /// - Parameter DeleteCloudAutonomousVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudAutonomousVmClusterInput`)
     ///
-    /// - Returns: `DeleteCloudAutonomousVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudAutonomousVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -889,9 +889,9 @@ extension OdbClient {
     ///
     /// Deletes the specified Exadata infrastructure. Before you use this operation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure.
     ///
-    /// - Parameter DeleteCloudExadataInfrastructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudExadataInfrastructureInput`)
     ///
-    /// - Returns: `DeleteCloudExadataInfrastructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudExadataInfrastructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -962,9 +962,9 @@ extension OdbClient {
     ///
     /// Deletes the specified VM cluster.
     ///
-    /// - Parameter DeleteCloudVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudVmClusterInput`)
     ///
-    /// - Returns: `DeleteCloudVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1034,9 +1034,9 @@ extension OdbClient {
     ///
     /// Deletes the specified ODB network.
     ///
-    /// - Parameter DeleteOdbNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOdbNetworkInput`)
     ///
-    /// - Returns: `DeleteOdbNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOdbNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1106,9 +1106,9 @@ extension OdbClient {
     ///
     /// Deletes an ODB peering connection. When you delete an ODB peering connection, the underlying VPC peering connection is also deleted.
     ///
-    /// - Parameter DeleteOdbPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOdbPeeringConnectionInput`)
     ///
-    /// - Returns: `DeleteOdbPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOdbPeeringConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,9 +1178,9 @@ extension OdbClient {
     ///
     /// Gets information about a specific Autonomous VM cluster.
     ///
-    /// - Parameter GetCloudAutonomousVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudAutonomousVmClusterInput`)
     ///
-    /// - Returns: `GetCloudAutonomousVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudAutonomousVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1250,9 +1250,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified Exadata infrastructure.
     ///
-    /// - Parameter GetCloudExadataInfrastructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudExadataInfrastructureInput`)
     ///
-    /// - Returns: `GetCloudExadataInfrastructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudExadataInfrastructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1322,9 +1322,9 @@ extension OdbClient {
     ///
     /// Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure.
     ///
-    /// - Parameter GetCloudExadataInfrastructureUnallocatedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudExadataInfrastructureUnallocatedResourcesInput`)
     ///
-    /// - Returns: `GetCloudExadataInfrastructureUnallocatedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudExadataInfrastructureUnallocatedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,9 +1394,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified VM cluster.
     ///
-    /// - Parameter GetCloudVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudVmClusterInput`)
     ///
-    /// - Returns: `GetCloudVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1466,9 +1466,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified DB node.
     ///
-    /// - Parameter GetDbNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbNodeInput`)
     ///
-    /// - Returns: `GetDbNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,9 +1538,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified database server.
     ///
-    /// - Parameter GetDbServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbServerInput`)
     ///
-    /// - Returns: `GetDbServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,9 +1610,9 @@ extension OdbClient {
     ///
     /// Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
     ///
-    /// - Parameter GetOciOnboardingStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOciOnboardingStatusInput`)
     ///
-    /// - Returns: `GetOciOnboardingStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOciOnboardingStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1681,9 +1681,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified ODB network.
     ///
-    /// - Parameter GetOdbNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOdbNetworkInput`)
     ///
-    /// - Returns: `GetOdbNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOdbNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1753,9 +1753,9 @@ extension OdbClient {
     ///
     /// Retrieves information about an ODB peering connection.
     ///
-    /// - Parameter GetOdbPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOdbPeeringConnectionInput`)
     ///
-    /// - Returns: `GetOdbPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOdbPeeringConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1825,9 +1825,9 @@ extension OdbClient {
     ///
     /// Initializes the ODB service for the first time in an account.
     ///
-    /// - Parameter InitializeServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitializeServiceInput`)
     ///
-    /// - Returns: `InitializeServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitializeServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1896,9 +1896,9 @@ extension OdbClient {
     ///
     /// Lists all Autonomous VMs in an Autonomous VM cluster.
     ///
-    /// - Parameter ListAutonomousVirtualMachinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutonomousVirtualMachinesInput`)
     ///
-    /// - Returns: `ListAutonomousVirtualMachinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutonomousVirtualMachinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1968,9 +1968,9 @@ extension OdbClient {
     ///
     /// Lists all Autonomous VM clusters in a specified Cloud Exadata infrastructure.
     ///
-    /// - Parameter ListCloudAutonomousVmClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCloudAutonomousVmClustersInput`)
     ///
-    /// - Returns: `ListCloudAutonomousVmClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCloudAutonomousVmClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2040,9 +2040,9 @@ extension OdbClient {
     ///
     /// Returns information about the Exadata infrastructures owned by your Amazon Web Services account.
     ///
-    /// - Parameter ListCloudExadataInfrastructuresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCloudExadataInfrastructuresInput`)
     ///
-    /// - Returns: `ListCloudExadataInfrastructuresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCloudExadataInfrastructuresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2111,9 +2111,9 @@ extension OdbClient {
     ///
     /// Returns information about the VM clusters owned by your Amazon Web Services account or only the ones on the specified Exadata infrastructure.
     ///
-    /// - Parameter ListCloudVmClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCloudVmClustersInput`)
     ///
-    /// - Returns: `ListCloudVmClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCloudVmClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2183,9 +2183,9 @@ extension OdbClient {
     ///
     /// Returns information about the DB nodes for the specified VM cluster.
     ///
-    /// - Parameter ListDbNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbNodesInput`)
     ///
-    /// - Returns: `ListDbNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2255,9 +2255,9 @@ extension OdbClient {
     ///
     /// Returns information about the database servers that belong to the specified Exadata infrastructure.
     ///
-    /// - Parameter ListDbServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbServersInput`)
     ///
-    /// - Returns: `ListDbServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2327,9 +2327,9 @@ extension OdbClient {
     ///
     /// Returns information about the shapes that are available for an Exadata infrastructure.
     ///
-    /// - Parameter ListDbSystemShapesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbSystemShapesInput`)
     ///
-    /// - Returns: `ListDbSystemShapesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbSystemShapesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2398,9 +2398,9 @@ extension OdbClient {
     ///
     /// Returns information about Oracle Grid Infrastructure (GI) software versions that are available for a VM cluster for the specified shape.
     ///
-    /// - Parameter ListGiVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGiVersionsInput`)
     ///
-    /// - Returns: `ListGiVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGiVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2469,9 +2469,9 @@ extension OdbClient {
     ///
     /// Returns information about the ODB networks owned by your Amazon Web Services account.
     ///
-    /// - Parameter ListOdbNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOdbNetworksInput`)
     ///
-    /// - Returns: `ListOdbNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOdbNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2540,9 +2540,9 @@ extension OdbClient {
     ///
     /// Lists all ODB peering connections or those associated with a specific ODB network.
     ///
-    /// - Parameter ListOdbPeeringConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOdbPeeringConnectionsInput`)
     ///
-    /// - Returns: `ListOdbPeeringConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOdbPeeringConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2612,9 +2612,9 @@ extension OdbClient {
     ///
     /// Returns information about the system versions that are available for a VM cluster for the specified giVersion and shape.
     ///
-    /// - Parameter ListSystemVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSystemVersionsInput`)
     ///
-    /// - Returns: `ListSystemVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSystemVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2684,9 +2684,9 @@ extension OdbClient {
     ///
     /// Returns information about the tags applied to this resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2752,9 +2752,9 @@ extension OdbClient {
     ///
     /// Reboots the specified DB node in a VM cluster.
     ///
-    /// - Parameter RebootDbNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootDbNodeInput`)
     ///
-    /// - Returns: `RebootDbNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootDbNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2824,9 +2824,9 @@ extension OdbClient {
     ///
     /// Starts the specified DB node in a VM cluster.
     ///
-    /// - Parameter StartDbNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDbNodeInput`)
     ///
-    /// - Returns: `StartDbNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDbNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2896,9 +2896,9 @@ extension OdbClient {
     ///
     /// Stops the specified DB node in a VM cluster.
     ///
-    /// - Parameter StopDbNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDbNodeInput`)
     ///
-    /// - Returns: `StopDbNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDbNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2968,9 +2968,9 @@ extension OdbClient {
     ///
     /// Applies tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3037,9 +3037,9 @@ extension OdbClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3105,9 +3105,9 @@ extension OdbClient {
     ///
     /// Updates the properties of an Exadata infrastructure resource.
     ///
-    /// - Parameter UpdateCloudExadataInfrastructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCloudExadataInfrastructureInput`)
     ///
-    /// - Returns: `UpdateCloudExadataInfrastructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCloudExadataInfrastructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3178,9 +3178,9 @@ extension OdbClient {
     ///
     /// Updates properties of a specified ODB network.
     ///
-    /// - Parameter UpdateOdbNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOdbNetworkInput`)
     ///
-    /// - Returns: `UpdateOdbNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOdbNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

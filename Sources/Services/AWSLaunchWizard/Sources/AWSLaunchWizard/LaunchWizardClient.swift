@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LaunchWizardClient: ClientRuntime.Client {
     public static let clientName = "LaunchWizardClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: LaunchWizardClient.LaunchWizardClientConfiguration
     let serviceName = "Launch Wizard"
@@ -372,9 +372,9 @@ extension LaunchWizardClient {
     ///
     /// Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the Clone deployment action on.
     ///
-    /// - Parameter CreateDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension LaunchWizardClient {
     ///
     /// Deletes a deployment.
     ///
-    /// - Parameter DeleteDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentInput`)
     ///
-    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension LaunchWizardClient {
     ///
     /// Returns information about the deployment.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,9 +581,9 @@ extension LaunchWizardClient {
     ///
     /// Returns information about a workload.
     ///
-    /// - Parameter GetWorkloadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadInput`)
     ///
-    /// - Returns: `GetWorkloadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -650,9 +650,9 @@ extension LaunchWizardClient {
     ///
     /// Returns details for a given workload and deployment pattern, including the available specifications. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html) operation to discover the available workload names and the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html) operation to discover the available deployment pattern names of a given workload.
     ///
-    /// - Parameter GetWorkloadDeploymentPatternInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadDeploymentPatternInput`)
     ///
-    /// - Returns: `GetWorkloadDeploymentPatternOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadDeploymentPatternOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -719,9 +719,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the events of a deployment.
     ///
-    /// - Parameter ListDeploymentEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentEventsInput`)
     ///
-    /// - Returns: `ListDeploymentEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,9 +788,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the deployments that have been created.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,9 +856,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the tags associated with a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,9 +922,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the workload deployment patterns for a given workload name. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html) operation to discover the available workload names.
     ///
-    /// - Parameter ListWorkloadDeploymentPatternsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadDeploymentPatternsInput`)
     ///
-    /// - Returns: `ListWorkloadDeploymentPatternsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadDeploymentPatternsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,9 +991,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the available workload names. You can use the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html) operation to discover the available deployment patterns for a given workload.
     ///
-    /// - Parameter ListWorkloadsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadsInput`)
     ///
-    /// - Returns: `ListWorkloadsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1059,9 +1059,9 @@ extension LaunchWizardClient {
     ///
     /// Adds the specified tags to the given resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1128,9 +1128,9 @@ extension LaunchWizardClient {
     ///
     /// Removes the specified tags from the given resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

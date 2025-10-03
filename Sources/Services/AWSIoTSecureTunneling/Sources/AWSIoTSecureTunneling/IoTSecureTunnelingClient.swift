@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTSecureTunnelingClient: ClientRuntime.Client {
     public static let clientName = "IoTSecureTunnelingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTSecureTunnelingClient.IoTSecureTunnelingClientConfiguration
     let serviceName = "IoTSecureTunneling"
@@ -373,9 +373,9 @@ extension IoTSecureTunnelingClient {
     ///
     /// Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted. Requires permission to access the [CloseTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CloseTunnelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CloseTunnelInput`)
     ///
-    /// - Returns: `CloseTunnelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CloseTunnelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension IoTSecureTunnelingClient {
     ///
     /// Gets information about a tunnel identified by the unique tunnel id. Requires permission to access the [DescribeTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeTunnelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTunnelInput`)
     ///
-    /// - Returns: `DescribeTunnelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTunnelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -510,9 +510,9 @@ extension IoTSecureTunnelingClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,9 +579,9 @@ extension IoTSecureTunnelingClient {
     ///
     /// List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels. Requires permission to access the [ListTunnels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListTunnelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTunnelsInput`)
     ///
-    /// - Returns: `ListTunnelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTunnelsOutput`)
     public func listTunnels(input: ListTunnelsInput) async throws -> ListTunnelsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -643,9 +643,9 @@ extension IoTSecureTunnelingClient {
     ///
     /// Creates a new tunnel, and returns two client access tokens for clients to use to connect to the IoT Secure Tunneling proxy server. Requires permission to access the [OpenTunnel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter OpenTunnelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `OpenTunnelInput`)
     ///
-    /// - Returns: `OpenTunnelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `OpenTunnelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -711,9 +711,9 @@ extension IoTSecureTunnelingClient {
     ///
     /// Revokes the current client access token (CAT) and returns new CAT for clients to use when reconnecting to secure tunneling to access the same tunnel. Requires permission to access the [RotateTunnelAccessToken](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Rotating the CAT doesn't extend the tunnel duration. For example, say the tunnel duration is 12 hours and the tunnel has already been open for 4 hours. When you rotate the access tokens, the new tokens that are generated can only be used for the remaining 8 hours.
     ///
-    /// - Parameter RotateTunnelAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RotateTunnelAccessTokenInput`)
     ///
-    /// - Returns: `RotateTunnelAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RotateTunnelAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -779,9 +779,9 @@ extension IoTSecureTunnelingClient {
     ///
     /// A resource tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,9 +847,9 @@ extension IoTSecureTunnelingClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

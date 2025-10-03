@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2InstanceConnectClient: ClientRuntime.Client {
     public static let clientName = "EC2InstanceConnectClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration
     let serviceName = "EC2 Instance Connect"
@@ -372,9 +372,9 @@ extension EC2InstanceConnectClient {
     ///
     /// Pushes an SSH public key to the specified EC2 instance for use by the specified user. The key remains for 60 seconds. For more information, see [Connect to your Linux instance using EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter SendSSHPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendSSHPublicKeyInput`)
     ///
-    /// - Returns: `SendSSHPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendSSHPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension EC2InstanceConnectClient {
     ///
     /// Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds, which gives you 60 seconds to establish a serial console connection to the instance using SSH. For more information, see [EC2 Serial Console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter SendSerialConsoleSSHPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendSerialConsoleSSHPublicKeyInput`)
     ///
-    /// - Returns: `SendSerialConsoleSSHPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendSerialConsoleSSHPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoMapsClient: ClientRuntime.Client {
     public static let clientName = "GeoMapsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoMapsClient.GeoMapsClientConfiguration
     let serviceName = "Geo Maps"
@@ -368,9 +368,9 @@ extension GeoMapsClient {
     ///
     /// GetGlyphs returns the map's glyphs.
     ///
-    /// - Parameter GetGlyphsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlyphsInput`)
     ///
-    /// - Returns: `GetGlyphsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlyphsOutput`)
     public func getGlyphs(input: GetGlyphsInput) async throws -> GetGlyphsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -427,9 +427,9 @@ extension GeoMapsClient {
     ///
     /// GetSprites returns the map's sprites.
     ///
-    /// - Parameter GetSpritesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpritesInput`)
     ///
-    /// - Returns: `GetSpritesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpritesOutput`)
     public func getSprites(input: GetSpritesInput) async throws -> GetSpritesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -486,9 +486,9 @@ extension GeoMapsClient {
     ///
     /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
     ///
-    /// - Parameter GetStaticMapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStaticMapInput`)
     ///
-    /// - Returns: `GetStaticMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStaticMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,9 +554,9 @@ extension GeoMapsClient {
     ///
     /// GetStyleDescriptor returns information about the style.
     ///
-    /// - Parameter GetStyleDescriptorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStyleDescriptorInput`)
     ///
-    /// - Returns: `GetStyleDescriptorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStyleDescriptorOutput`)
     public func getStyleDescriptor(input: GetStyleDescriptorInput) async throws -> GetStyleDescriptorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -614,9 +614,9 @@ extension GeoMapsClient {
     ///
     /// GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.
     ///
-    /// - Parameter GetTileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTileInput`)
     ///
-    /// - Returns: `GetTileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

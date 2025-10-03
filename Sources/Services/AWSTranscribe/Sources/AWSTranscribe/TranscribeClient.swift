@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranscribeClient: ClientRuntime.Client {
     public static let clientName = "TranscribeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeClient.TranscribeClientConfiguration
     let serviceName = "Transcribe"
@@ -374,9 +374,9 @@ extension TranscribeClient {
     ///
     /// Creates a new Call Analytics category. All categories are automatically applied to your Call Analytics transcriptions. Note that in order to apply categories to your transcriptions, you must create them before submitting your transcription request, as categories cannot be applied retroactively. When creating a new category, you can use the InputType parameter to label the category as a POST_CALL or a REAL_TIME category. POST_CALL categories can only be applied to post-call transcriptions and REAL_TIME categories can only be applied to real-time transcriptions. If you do not include InputType, your category is created as a POST_CALL category by default. Call Analytics categories are composed of rules. For each category, you must create between 1 and 20 rules. Rules can include these parameters: , , , and . To update an existing category, see . To learn more about Call Analytics categories, see [Creating categories for post-call transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html).
     ///
-    /// - Parameter CreateCallAnalyticsCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCallAnalyticsCategoryInput`)
     ///
-    /// - Returns: `CreateCallAnalyticsCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCallAnalyticsCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,9 +453,9 @@ extension TranscribeClient {
     ///
     /// * A unique name for your model
     ///
-    /// - Parameter CreateLanguageModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLanguageModelInput`)
     ///
-    /// - Returns: `CreateLanguageModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLanguageModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -524,9 +524,9 @@ extension TranscribeClient {
     ///
     /// Creates a new custom medical vocabulary. Before creating a new custom medical vocabulary, you must first upload a text file that contains your vocabulary table into an Amazon S3 bucket. Note that this differs from , where you can include a list of terms within your request using the Phrases flag; CreateMedicalVocabulary does not support the Phrases flag and only accepts vocabularies in table format. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     ///
-    /// - Parameter CreateMedicalVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMedicalVocabularyInput`)
     ///
-    /// - Returns: `CreateMedicalVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMedicalVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -595,9 +595,9 @@ extension TranscribeClient {
     ///
     /// Creates a new custom vocabulary. When creating a new custom vocabulary, you can either upload a text file that contains your new entries, phrases, and terms into an Amazon S3 bucket and include the URI in your request. Or you can include a list of terms directly in your request using the Phrases flag. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     ///
-    /// - Parameter CreateVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVocabularyInput`)
     ///
-    /// - Returns: `CreateVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,9 +666,9 @@ extension TranscribeClient {
     ///
     /// Creates a new custom vocabulary filter. You can use custom vocabulary filters to mask, delete, or flag specific words from your transcript. Custom vocabulary filters are commonly used to mask profanity in transcripts. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Vocabulary filtering](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
     ///
-    /// - Parameter CreateVocabularyFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVocabularyFilterInput`)
     ///
-    /// - Returns: `CreateVocabularyFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVocabularyFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension TranscribeClient {
     ///
     /// Deletes a Call Analytics category. To use this operation, specify the name of the category you want to delete using CategoryName. Category names are case sensitive.
     ///
-    /// - Parameter DeleteCallAnalyticsCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCallAnalyticsCategoryInput`)
     ///
-    /// - Returns: `DeleteCallAnalyticsCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCallAnalyticsCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -808,9 +808,9 @@ extension TranscribeClient {
     ///
     /// Deletes a Call Analytics job. To use this operation, specify the name of the job you want to delete using CallAnalyticsJobName. Job names are case sensitive.
     ///
-    /// - Parameter DeleteCallAnalyticsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCallAnalyticsJobInput`)
     ///
-    /// - Returns: `DeleteCallAnalyticsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCallAnalyticsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,9 +878,9 @@ extension TranscribeClient {
     ///
     /// Deletes a custom language model. To use this operation, specify the name of the language model you want to delete using ModelName. custom language model names are case sensitive.
     ///
-    /// - Parameter DeleteLanguageModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLanguageModelInput`)
     ///
-    /// - Returns: `DeleteLanguageModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLanguageModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension TranscribeClient {
     ///
     /// Deletes a Medical Scribe job. To use this operation, specify the name of the job you want to delete using MedicalScribeJobName. Job names are case sensitive.
     ///
-    /// - Parameter DeleteMedicalScribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMedicalScribeJobInput`)
     ///
-    /// - Returns: `DeleteMedicalScribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMedicalScribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1018,9 +1018,9 @@ extension TranscribeClient {
     ///
     /// Deletes a medical transcription job. To use this operation, specify the name of the job you want to delete using MedicalTranscriptionJobName. Job names are case sensitive.
     ///
-    /// - Parameter DeleteMedicalTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMedicalTranscriptionJobInput`)
     ///
-    /// - Returns: `DeleteMedicalTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMedicalTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,9 +1088,9 @@ extension TranscribeClient {
     ///
     /// Deletes a custom medical vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName. Custom vocabulary names are case sensitive.
     ///
-    /// - Parameter DeleteMedicalVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMedicalVocabularyInput`)
     ///
-    /// - Returns: `DeleteMedicalVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMedicalVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1159,9 +1159,9 @@ extension TranscribeClient {
     ///
     /// Deletes a transcription job. To use this operation, specify the name of the job you want to delete using TranscriptionJobName. Job names are case sensitive.
     ///
-    /// - Parameter DeleteTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTranscriptionJobInput`)
     ///
-    /// - Returns: `DeleteTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1229,9 +1229,9 @@ extension TranscribeClient {
     ///
     /// Deletes a custom vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName. Custom vocabulary names are case sensitive.
     ///
-    /// - Parameter DeleteVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVocabularyInput`)
     ///
-    /// - Returns: `DeleteVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1300,9 +1300,9 @@ extension TranscribeClient {
     ///
     /// Deletes a custom vocabulary filter. To use this operation, specify the name of the custom vocabulary filter you want to delete using VocabularyFilterName. Custom vocabulary filter names are case sensitive.
     ///
-    /// - Parameter DeleteVocabularyFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVocabularyFilterInput`)
     ///
-    /// - Returns: `DeleteVocabularyFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVocabularyFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1371,9 +1371,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified custom language model. This operation also shows if the base language model that you used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use DescribeLanguageModel to help identify the reason for this failure.
     ///
-    /// - Parameter DescribeLanguageModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLanguageModelInput`)
     ///
-    /// - Returns: `DescribeLanguageModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLanguageModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1442,9 +1442,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified Call Analytics category. To get a list of your Call Analytics categories, use the operation.
     ///
-    /// - Parameter GetCallAnalyticsCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCallAnalyticsCategoryInput`)
     ///
-    /// - Returns: `GetCallAnalyticsCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCallAnalyticsCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1513,9 +1513,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus. If the status is COMPLETED, the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTranscriptFileUri. If you chose to redact the audio in your media file, you can find your redacted media file at the location specified in RedactedMediaFileUri. To get a list of your Call Analytics jobs, use the operation.
     ///
-    /// - Parameter GetCallAnalyticsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCallAnalyticsJobInput`)
     ///
-    /// - Returns: `GetCallAnalyticsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCallAnalyticsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1584,9 +1584,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in MedicalScribeOutput. If the status is FAILED, FailureReason provides details on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation.
     ///
-    /// - Parameter GetMedicalScribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMedicalScribeJobInput`)
     ///
-    /// - Returns: `GetMedicalScribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMedicalScribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1655,9 +1655,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified medical transcription job. To view the status of the specified medical transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. To get a list of your medical transcription jobs, use the operation.
     ///
-    /// - Parameter GetMedicalTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMedicalTranscriptionJobInput`)
     ///
-    /// - Returns: `GetMedicalTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMedicalTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1726,9 +1726,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified custom medical vocabulary. To view the status of the specified custom medical vocabulary, check the VocabularyState field. If the status is READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your vocabulary failed. To get a list of your custom medical vocabularies, use the operation.
     ///
-    /// - Parameter GetMedicalVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMedicalVocabularyInput`)
     ///
-    /// - Returns: `GetMedicalVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMedicalVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1797,9 +1797,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified transcription job. To view the status of the specified transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscriptFileUri. To get a list of your transcription jobs, use the operation.
     ///
-    /// - Parameter GetTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTranscriptionJobInput`)
     ///
-    /// - Returns: `GetTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1868,9 +1868,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified custom vocabulary. To view the status of the specified custom vocabulary, check the VocabularyState field. If the status is READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your custom vocabulary failed. To get a list of your custom vocabularies, use the operation.
     ///
-    /// - Parameter GetVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVocabularyInput`)
     ///
-    /// - Returns: `GetVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1939,9 +1939,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified custom vocabulary filter. To get a list of your custom vocabulary filters, use the operation.
     ///
-    /// - Parameter GetVocabularyFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVocabularyFilterInput`)
     ///
-    /// - Returns: `GetVocabularyFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVocabularyFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2010,9 +2010,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of Call Analytics categories, including all rules that make up each category. To get detailed information about a specific Call Analytics category, use the operation.
     ///
-    /// - Parameter ListCallAnalyticsCategoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCallAnalyticsCategoriesInput`)
     ///
-    /// - Returns: `ListCallAnalyticsCategoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCallAnalyticsCategoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2081,9 +2081,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of Call Analytics jobs that match the specified criteria. If no criteria are specified, all Call Analytics jobs are returned. To get detailed information about a specific Call Analytics job, use the operation.
     ///
-    /// - Parameter ListCallAnalyticsJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCallAnalyticsJobsInput`)
     ///
-    /// - Returns: `ListCallAnalyticsJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCallAnalyticsJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2152,9 +2152,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of custom language models that match the specified criteria. If no criteria are specified, all custom language models are returned. To get detailed information about a specific custom language model, use the operation.
     ///
-    /// - Parameter ListLanguageModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLanguageModelsInput`)
     ///
-    /// - Returns: `ListLanguageModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLanguageModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2223,9 +2223,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of Medical Scribe jobs that match the specified criteria. If no criteria are specified, all Medical Scribe jobs are returned. To get detailed information about a specific Medical Scribe job, use the operation.
     ///
-    /// - Parameter ListMedicalScribeJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMedicalScribeJobsInput`)
     ///
-    /// - Returns: `ListMedicalScribeJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMedicalScribeJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2294,9 +2294,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the operation.
     ///
-    /// - Parameter ListMedicalTranscriptionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMedicalTranscriptionJobsInput`)
     ///
-    /// - Returns: `ListMedicalTranscriptionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMedicalTranscriptionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2365,9 +2365,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of custom medical vocabularies that match the specified criteria. If no criteria are specified, all custom medical vocabularies are returned. To get detailed information about a specific custom medical vocabulary, use the operation.
     ///
-    /// - Parameter ListMedicalVocabulariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMedicalVocabulariesInput`)
     ///
-    /// - Returns: `ListMedicalVocabulariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMedicalVocabulariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2436,9 +2436,9 @@ extension TranscribeClient {
     ///
     /// Lists all tags associated with the specified transcription job, vocabulary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2507,9 +2507,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of transcription jobs that match the specified criteria. If no criteria are specified, all transcription jobs are returned. To get detailed information about a specific transcription job, use the operation.
     ///
-    /// - Parameter ListTranscriptionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTranscriptionJobsInput`)
     ///
-    /// - Returns: `ListTranscriptionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTranscriptionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2578,9 +2578,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of custom vocabularies that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary, use the operation.
     ///
-    /// - Parameter ListVocabulariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVocabulariesInput`)
     ///
-    /// - Returns: `ListVocabulariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVocabulariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2649,9 +2649,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of custom vocabulary filters that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary filter, use the operation.
     ///
-    /// - Parameter ListVocabularyFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVocabularyFiltersInput`)
     ///
-    /// - Returns: `ListVocabularyFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVocabularyFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2729,9 +2729,9 @@ extension TranscribeClient {
     ///
     /// With Call Analytics, you can redact the audio contained in your media file by including RedactedMediaFileUri, instead of MediaFileUri, to specify the location of your input audio. If you choose to redact your audio, you can find your redacted media at the location specified in the RedactedMediaFileUri field of your response.
     ///
-    /// - Parameter StartCallAnalyticsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCallAnalyticsJobInput`)
     ///
-    /// - Returns: `StartCallAnalyticsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCallAnalyticsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2812,9 +2812,9 @@ extension TranscribeClient {
     ///
     /// * ChannelDefinitions: A MedicalScribeChannelDefinitions array should be set if and only if the ChannelIdentification value of Settings is set to true.
     ///
-    /// - Parameter StartMedicalScribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMedicalScribeJobInput`)
     ///
-    /// - Returns: `StartMedicalScribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMedicalScribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2897,9 +2897,9 @@ extension TranscribeClient {
     ///
     /// * Type: Choose whether your audio is a conversation or a dictation.
     ///
-    /// - Parameter StartMedicalTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMedicalTranscriptionJobInput`)
     ///
-    /// - Returns: `StartMedicalTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMedicalTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2976,9 +2976,9 @@ extension TranscribeClient {
     ///
     /// * One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. If you do not know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
     ///
-    /// - Parameter StartTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTranscriptionJobInput`)
     ///
-    /// - Returns: `StartTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3047,9 +3047,9 @@ extension TranscribeClient {
     ///
     /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3119,9 +3119,9 @@ extension TranscribeClient {
     ///
     /// Removes the specified tags from the specified Amazon Transcribe resource. If you include UntagResource in your request, you must also include ResourceArn and TagKeys.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3191,9 +3191,9 @@ extension TranscribeClient {
     ///
     /// Updates the specified Call Analytics category with new rules. Note that the UpdateCallAnalyticsCategory operation overwrites all existing rules contained in the specified category. You cannot append additional rules onto an existing category. To create a new category, see .
     ///
-    /// - Parameter UpdateCallAnalyticsCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCallAnalyticsCategoryInput`)
     ///
-    /// - Returns: `UpdateCallAnalyticsCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCallAnalyticsCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3263,9 +3263,9 @@ extension TranscribeClient {
     ///
     /// Updates an existing custom medical vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     ///
-    /// - Parameter UpdateMedicalVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMedicalVocabularyInput`)
     ///
-    /// - Returns: `UpdateMedicalVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMedicalVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3335,9 +3335,9 @@ extension TranscribeClient {
     ///
     /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     ///
-    /// - Parameter UpdateVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVocabularyInput`)
     ///
-    /// - Returns: `UpdateVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3407,9 +3407,9 @@ extension TranscribeClient {
     ///
     /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter.
     ///
-    /// - Parameter UpdateVocabularyFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVocabularyFilterInput`)
     ///
-    /// - Returns: `UpdateVocabularyFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVocabularyFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

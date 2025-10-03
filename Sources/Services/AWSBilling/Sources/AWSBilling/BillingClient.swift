@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BillingClient: ClientRuntime.Client {
     public static let clientName = "BillingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BillingClient.BillingClientConfiguration
     let serviceName = "Billing"
@@ -374,9 +374,9 @@ extension BillingClient {
     ///
     /// Associates one or more source billing views with an existing billing view. This allows creating aggregate billing views that combine data from multiple sources.
     ///
-    /// - Parameter AssociateSourceViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceViewsInput`)
     ///
-    /// - Returns: `AssociateSourceViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSourceViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension BillingClient {
     ///
     /// Creates a billing view with the specified billing view attributes.
     ///
-    /// - Parameter CreateBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBillingViewInput`)
     ///
-    /// - Returns: `CreateBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,9 +525,9 @@ extension BillingClient {
     ///
     /// Deletes the specified billing view.
     ///
-    /// - Parameter DeleteBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBillingViewInput`)
     ///
-    /// - Returns: `DeleteBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension BillingClient {
     ///
     /// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views.
     ///
-    /// - Parameter DisassociateSourceViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceViewsInput`)
     ///
-    /// - Returns: `DisassociateSourceViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension BillingClient {
     ///
     /// Returns the metadata associated to the specified billing view ARN.
     ///
-    /// - Parameter GetBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBillingViewInput`)
     ///
-    /// - Returns: `GetBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,9 +743,9 @@ extension BillingClient {
     ///
     /// Returns the resource-based policy document attached to the resource in JSON format.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -815,9 +815,9 @@ extension BillingClient {
     ///
     /// Lists the billing views available for a given time period. Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views representing pro forma costs associated with each created billing group.
     ///
-    /// - Parameter ListBillingViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillingViewsInput`)
     ///
-    /// - Returns: `ListBillingViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillingViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,9 +886,9 @@ extension BillingClient {
     ///
     /// Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
     ///
-    /// - Parameter ListSourceViewsForBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceViewsForBillingViewInput`)
     ///
-    /// - Returns: `ListSourceViewsForBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceViewsForBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -958,9 +958,9 @@ extension BillingClient {
     ///
     /// Lists tags associated with the billing view resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1030,9 +1030,9 @@ extension BillingClient {
     ///
     /// An API operation for adding one or more tags (key-value pairs) to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1102,9 +1102,9 @@ extension BillingClient {
     ///
     /// Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1174,9 +1174,9 @@ extension BillingClient {
     ///
     /// An API to update the attributes of the billing view.
     ///
-    /// - Parameter UpdateBillingViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBillingViewInput`)
     ///
-    /// - Returns: `UpdateBillingViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBillingViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

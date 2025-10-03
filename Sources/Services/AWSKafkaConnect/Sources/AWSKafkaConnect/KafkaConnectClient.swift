@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KafkaConnectClient: ClientRuntime.Client {
     public static let clientName = "KafkaConnectClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: KafkaConnectClient.KafkaConnectClientConfiguration
     let serviceName = "KafkaConnect"
@@ -373,9 +373,9 @@ extension KafkaConnectClient {
     ///
     /// Creates a connector using the specified properties.
     ///
-    /// - Parameter CreateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
-    /// - Returns: `CreateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension KafkaConnectClient {
     ///
     /// Creates a custom plugin using the specified properties.
     ///
-    /// - Parameter CreateCustomPluginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomPluginInput`)
     ///
-    /// - Returns: `CreateCustomPluginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomPluginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension KafkaConnectClient {
     ///
     /// Creates a worker configuration using the specified properties.
     ///
-    /// - Parameter CreateWorkerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkerConfigurationInput`)
     ///
-    /// - Returns: `CreateWorkerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -595,9 +595,9 @@ extension KafkaConnectClient {
     ///
     /// Deletes the specified connector.
     ///
-    /// - Parameter DeleteConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
-    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,9 +666,9 @@ extension KafkaConnectClient {
     ///
     /// Deletes a custom plugin.
     ///
-    /// - Parameter DeleteCustomPluginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomPluginInput`)
     ///
-    /// - Returns: `DeleteCustomPluginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomPluginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -736,9 +736,9 @@ extension KafkaConnectClient {
     ///
     /// Deletes the specified worker configuration.
     ///
-    /// - Parameter DeleteWorkerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkerConfigurationInput`)
     ///
-    /// - Returns: `DeleteWorkerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,9 +806,9 @@ extension KafkaConnectClient {
     ///
     /// Returns summary information about the connector.
     ///
-    /// - Parameter DescribeConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectorInput`)
     ///
-    /// - Returns: `DescribeConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -876,9 +876,9 @@ extension KafkaConnectClient {
     ///
     /// Returns information about the specified connector's operations.
     ///
-    /// - Parameter DescribeConnectorOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectorOperationInput`)
     ///
-    /// - Returns: `DescribeConnectorOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectorOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -946,9 +946,9 @@ extension KafkaConnectClient {
     ///
     /// A summary description of the custom plugin.
     ///
-    /// - Parameter DescribeCustomPluginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomPluginInput`)
     ///
-    /// - Returns: `DescribeCustomPluginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomPluginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1016,9 +1016,9 @@ extension KafkaConnectClient {
     ///
     /// Returns information about a worker configuration.
     ///
-    /// - Parameter DescribeWorkerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkerConfigurationInput`)
     ///
-    /// - Returns: `DescribeWorkerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,9 +1086,9 @@ extension KafkaConnectClient {
     ///
     /// Lists information about a connector's operation(s).
     ///
-    /// - Parameter ListConnectorOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorOperationsInput`)
     ///
-    /// - Returns: `ListConnectorOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1157,9 +1157,9 @@ extension KafkaConnectClient {
     ///
     /// Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,9 +1228,9 @@ extension KafkaConnectClient {
     ///
     /// Returns a list of all of the custom plugins in this account and Region.
     ///
-    /// - Parameter ListCustomPluginsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomPluginsInput`)
     ///
-    /// - Returns: `ListCustomPluginsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomPluginsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1299,9 +1299,9 @@ extension KafkaConnectClient {
     ///
     /// Lists all the tags attached to the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,9 +1369,9 @@ extension KafkaConnectClient {
     ///
     /// Returns a list of all of the worker configurations in this account and Region.
     ///
-    /// - Parameter ListWorkerConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkerConfigurationsInput`)
     ///
-    /// - Returns: `ListWorkerConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkerConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1440,9 +1440,9 @@ extension KafkaConnectClient {
     ///
     /// Attaches tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1514,9 +1514,9 @@ extension KafkaConnectClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1585,9 +1585,9 @@ extension KafkaConnectClient {
     ///
     /// Updates the specified connector.
     ///
-    /// - Parameter UpdateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorInput`)
     ///
-    /// - Returns: `UpdateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

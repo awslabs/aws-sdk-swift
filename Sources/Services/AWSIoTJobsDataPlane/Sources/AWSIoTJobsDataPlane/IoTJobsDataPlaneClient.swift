@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTJobsDataPlaneClient: ClientRuntime.Client {
     public static let clientName = "IoTJobsDataPlaneClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTJobsDataPlaneClient.IoTJobsDataPlaneClientConfiguration
     let serviceName = "IoT Jobs Data Plane"
@@ -373,9 +373,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Gets details of a job execution. Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobExecutionInput`)
     ///
-    /// - Returns: `DescribeJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Gets the list of all jobs for a thing that are not in a terminal status. Requires permission to access the [GetPendingJobExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetPendingJobExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPendingJobExecutionsInput`)
     ///
-    /// - Returns: `GetPendingJobExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPendingJobExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,9 +511,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Using the command created with the CreateCommand API, start a command execution on a specific device.
     ///
-    /// - Parameter StartCommandExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCommandExecutionInput`)
     ///
-    /// - Returns: `StartCommandExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCommandExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing. Requires permission to access the [StartNextPendingJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StartNextPendingJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartNextPendingJobExecutionInput`)
     ///
-    /// - Returns: `StartNextPendingJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartNextPendingJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,9 +655,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Updates the status of a job execution. Requires permission to access the [UpdateJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotjobsdataplane.html) action.
     ///
-    /// - Parameter UpdateJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobExecutionInput`)
     ///
-    /// - Returns: `UpdateJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

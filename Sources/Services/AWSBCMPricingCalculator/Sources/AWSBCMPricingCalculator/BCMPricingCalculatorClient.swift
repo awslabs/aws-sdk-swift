@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMPricingCalculatorClient: ClientRuntime.Client {
     public static let clientName = "BCMPricingCalculatorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration
     let serviceName = "BCM Pricing Calculator"
@@ -374,9 +374,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario. The BatchCreateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:CreateBillScenarioCommitmentModification in your policies.
     ///
-    /// - Parameter BatchCreateBillScenarioCommitmentModificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateBillScenarioCommitmentModificationInput`)
     ///
-    /// - Returns: `BatchCreateBillScenarioCommitmentModificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateBillScenarioCommitmentModificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Create Amazon Web Services service usage that you want to model in a Bill Scenario. The BatchCreateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:CreateBillScenarioUsageModification in your policies.
     ///
-    /// - Parameter BatchCreateBillScenarioUsageModificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateBillScenarioUsageModificationInput`)
     ///
-    /// - Returns: `BatchCreateBillScenarioUsageModificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateBillScenarioUsageModificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,9 +525,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Create Amazon Web Services service usage that you want to model in a Workload Estimate. The BatchCreateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:CreateWorkloadEstimateUsage in your policies.
     ///
-    /// - Parameter BatchCreateWorkloadEstimateUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateWorkloadEstimateUsageInput`)
     ///
-    /// - Returns: `BatchCreateWorkloadEstimateUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateWorkloadEstimateUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -601,9 +601,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate [ BillScenarioCommitmentModificationAction](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BillScenarioCommitmentModificationAction.html) of [ BatchCreateBillScenarioCommitmentModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchCreateBillScenarioUsageModification.html) operation. The BatchDeleteBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteBillScenarioCommitmentModification in your policies.
     ///
-    /// - Parameter BatchDeleteBillScenarioCommitmentModificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteBillScenarioCommitmentModificationInput`)
     ///
-    /// - Returns: `BatchDeleteBillScenarioCommitmentModificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteBillScenarioCommitmentModificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -675,9 +675,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateBillScenarioUsageModification](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateBillScenarioUsageModification.html). The BatchDeleteBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteBillScenarioUsageModification in your policies.
     ///
-    /// - Parameter BatchDeleteBillScenarioUsageModificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteBillScenarioUsageModificationInput`)
     ///
-    /// - Returns: `BatchDeleteBillScenarioUsageModificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteBillScenarioUsageModificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -750,9 +750,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see [ BatchUpdateWorkloadEstimateUsage](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AWSBCMPricingCalculator_BatchUpdateWorkloadEstimateUsage.html). The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:DeleteWorkloadEstimateUsage in your policies.
     ///
-    /// - Parameter BatchDeleteWorkloadEstimateUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteWorkloadEstimateUsageInput`)
     ///
-    /// - Returns: `BatchDeleteWorkloadEstimateUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteWorkloadEstimateUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -824,9 +824,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID. The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateBillScenarioCommitmentModification in your policies.
     ///
-    /// - Parameter BatchUpdateBillScenarioCommitmentModificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateBillScenarioCommitmentModificationInput`)
     ///
-    /// - Returns: `BatchUpdateBillScenarioCommitmentModificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateBillScenarioCommitmentModificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,9 +898,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID. The BatchUpdateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateBillScenarioUsageModification in your policies.
     ///
-    /// - Parameter BatchUpdateBillScenarioUsageModificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateBillScenarioUsageModificationInput`)
     ///
-    /// - Returns: `BatchUpdateBillScenarioUsageModificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateBillScenarioUsageModificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,9 +973,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID. The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission bcm-pricing-calculator:UpdateWorkloadEstimateUsage in your policies.
     ///
-    /// - Parameter BatchUpdateWorkloadEstimateUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateWorkloadEstimateUsageInput`)
     ///
-    /// - Returns: `BatchUpdateWorkloadEstimateUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateWorkloadEstimateUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,9 +1047,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments from your most recent completed anniversary bill, with any applicable discounts applied.
     ///
-    /// - Parameter CreateBillEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBillEstimateInput`)
     ///
-    /// - Returns: `CreateBillEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBillEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1122,9 +1122,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs.
     ///
-    /// - Parameter CreateBillScenarioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBillScenarioInput`)
     ///
-    /// - Returns: `CreateBillScenarioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBillScenarioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,9 +1197,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Creates a new workload estimate to model costs for a specific workload.
     ///
-    /// - Parameter CreateWorkloadEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkloadEstimateInput`)
     ///
-    /// - Returns: `CreateWorkloadEstimateOutput` : Mixin for common fields returned by CRUD APIs
+    /// - Returns: Mixin for common fields returned by CRUD APIs (Type: `CreateWorkloadEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1272,9 +1272,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Deletes an existing bill estimate.
     ///
-    /// - Parameter DeleteBillEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBillEstimateInput`)
     ///
-    /// - Returns: `DeleteBillEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBillEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1345,9 +1345,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Deletes an existing bill scenario.
     ///
-    /// - Parameter DeleteBillScenarioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBillScenarioInput`)
     ///
-    /// - Returns: `DeleteBillScenarioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBillScenarioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1418,9 +1418,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Deletes an existing workload estimate.
     ///
-    /// - Parameter DeleteWorkloadEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkloadEstimateInput`)
     ///
-    /// - Returns: `DeleteWorkloadEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkloadEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1490,9 +1490,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Retrieves details of a specific bill estimate.
     ///
-    /// - Parameter GetBillEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBillEstimateInput`)
     ///
-    /// - Returns: `GetBillEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBillEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1563,9 +1563,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Retrieves details of a specific bill scenario.
     ///
-    /// - Parameter GetBillScenarioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBillScenarioInput`)
     ///
-    /// - Returns: `GetBillScenarioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBillScenarioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1636,9 +1636,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Retrieves the current preferences for Pricing Calculator.
     ///
-    /// - Parameter GetPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPreferencesInput`)
     ///
-    /// - Returns: `GetPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1708,9 +1708,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Retrieves details of a specific workload estimate.
     ///
-    /// - Parameter GetWorkloadEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadEstimateInput`)
     ///
-    /// - Returns: `GetWorkloadEstimateOutput` : Mixin for common fields returned by CRUD APIs
+    /// - Returns: Mixin for common fields returned by CRUD APIs (Type: `GetWorkloadEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1781,9 +1781,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists the commitments associated with a bill estimate.
     ///
-    /// - Parameter ListBillEstimateCommitmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillEstimateCommitmentsInput`)
     ///
-    /// - Returns: `ListBillEstimateCommitmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillEstimateCommitmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1854,9 +1854,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists the input commitment modifications associated with a bill estimate.
     ///
-    /// - Parameter ListBillEstimateInputCommitmentModificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillEstimateInputCommitmentModificationsInput`)
     ///
-    /// - Returns: `ListBillEstimateInputCommitmentModificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillEstimateInputCommitmentModificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1927,9 +1927,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists the input usage modifications associated with a bill estimate.
     ///
-    /// - Parameter ListBillEstimateInputUsageModificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillEstimateInputUsageModificationsInput`)
     ///
-    /// - Returns: `ListBillEstimateInputUsageModificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillEstimateInputUsageModificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2000,9 +2000,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists the line items associated with a bill estimate.
     ///
-    /// - Parameter ListBillEstimateLineItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillEstimateLineItemsInput`)
     ///
-    /// - Returns: `ListBillEstimateLineItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillEstimateLineItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2073,9 +2073,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists all bill estimates for the account.
     ///
-    /// - Parameter ListBillEstimatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillEstimatesInput`)
     ///
-    /// - Returns: `ListBillEstimatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillEstimatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2145,9 +2145,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists the commitment modifications associated with a bill scenario.
     ///
-    /// - Parameter ListBillScenarioCommitmentModificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillScenarioCommitmentModificationsInput`)
     ///
-    /// - Returns: `ListBillScenarioCommitmentModificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillScenarioCommitmentModificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2218,9 +2218,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists the usage modifications associated with a bill scenario.
     ///
-    /// - Parameter ListBillScenarioUsageModificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillScenarioUsageModificationsInput`)
     ///
-    /// - Returns: `ListBillScenarioUsageModificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillScenarioUsageModificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2291,9 +2291,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists all bill scenarios for the account.
     ///
-    /// - Parameter ListBillScenariosInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillScenariosInput`)
     ///
-    /// - Returns: `ListBillScenariosOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillScenariosOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2363,9 +2363,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists all tags associated with a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2435,9 +2435,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists the usage associated with a workload estimate.
     ///
-    /// - Parameter ListWorkloadEstimateUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadEstimateUsageInput`)
     ///
-    /// - Returns: `ListWorkloadEstimateUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadEstimateUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2508,9 +2508,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Lists all workload estimates for the account.
     ///
-    /// - Parameter ListWorkloadEstimatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadEstimatesInput`)
     ///
-    /// - Returns: `ListWorkloadEstimatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadEstimatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2580,9 +2580,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Adds one or more tags to a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2653,9 +2653,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Removes one or more tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2725,9 +2725,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Updates an existing bill estimate.
     ///
-    /// - Parameter UpdateBillEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBillEstimateInput`)
     ///
-    /// - Returns: `UpdateBillEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBillEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2799,9 +2799,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Updates an existing bill scenario.
     ///
-    /// - Parameter UpdateBillScenarioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBillScenarioInput`)
     ///
-    /// - Returns: `UpdateBillScenarioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBillScenarioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2873,9 +2873,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Updates the preferences for Pricing Calculator.
     ///
-    /// - Parameter UpdatePreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePreferencesInput`)
     ///
-    /// - Returns: `UpdatePreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2946,9 +2946,9 @@ extension BCMPricingCalculatorClient {
     ///
     /// Updates an existing workload estimate.
     ///
-    /// - Parameter UpdateWorkloadEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkloadEstimateInput`)
     ///
-    /// - Returns: `UpdateWorkloadEstimateOutput` : Mixin for common fields returned by CRUD APIs
+    /// - Returns: Mixin for common fields returned by CRUD APIs (Type: `UpdateWorkloadEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

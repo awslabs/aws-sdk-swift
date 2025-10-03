@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKVoiceClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKVoiceClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKVoiceClient.ChimeSDKVoiceClientConfiguration
     let serviceName = "Chime SDK Voice"
@@ -373,9 +373,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter AssociatePhoneNumbersWithVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePhoneNumbersWithVoiceConnectorInput`)
     ///
-    /// - Returns: `AssociatePhoneNumbersWithVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePhoneNumbersWithVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
     ///
-    /// - Parameter AssociatePhoneNumbersWithVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePhoneNumbersWithVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `AssociatePhoneNumbersWithVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePhoneNumbersWithVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,9 +523,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime SDK Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
-    /// - Parameter BatchDeletePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeletePhoneNumberInput`)
     ///
-    /// - Returns: `BatchDeletePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeletePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates phone number product types, calling names, or phone number names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type, the calling name, or phone name. You cannot have a duplicate phoneNumberId in a request.
     ///
-    /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdatePhoneNumberInput`)
     ///
-    /// - Returns: `BatchUpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
     ///
-    /// - Parameter CreatePhoneNumberOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePhoneNumberOrderInput`)
     ///
-    /// - Returns: `CreatePhoneNumberOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePhoneNumberOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for the specified participant phone numbers.
     ///
-    /// - Parameter CreateProxySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProxySessionInput`)
     ///
-    /// - Returns: `CreateProxySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProxySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -818,9 +818,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a SIP media application. For more information about SIP media applications, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
     ///
-    /// - Parameter CreateSipMediaApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSipMediaApplicationInput`)
     ///
-    /// - Returns: `CreateSipMediaApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSipMediaApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,9 +893,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
     ///
-    /// - Parameter CreateSipMediaApplicationCallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSipMediaApplicationCallInput`)
     ///
-    /// - Returns: `CreateSipMediaApplicationCallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSipMediaApplicationCallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,9 +967,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see [Managing SIP media applications and rules](https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html) in the Amazon Chime SDK Administrator Guide.
     ///
-    /// - Parameter CreateSipRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSipRuleInput`)
     ///
-    /// - Returns: `CreateSipRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSipRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,9 +1042,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates an Amazon Chime SDK Voice Connector. For more information about Voice Connectors, see [Managing Amazon Chime SDK Voice Connector groups](https://docs.aws.amazon.com/chime-sdk/latest/ag/voice-connector-groups.html) in the Amazon Chime SDK Administrator Guide.
     ///
-    /// - Parameter CreateVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceConnectorInput`)
     ///
-    /// - Returns: `CreateVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,9 +1116,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates an Amazon Chime SDK Voice Connector group under the administrator's AWS account. You can associate Amazon Chime SDK Voice Connectors with the Voice Connector group by including VoiceConnectorItems in the request. You can include Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
     ///
-    /// - Parameter CreateVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `CreateVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1190,9 +1190,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a voice profile, which consists of an enrolled user and their latest voice print. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profiles and voice analytics, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
     ///
-    /// - Parameter CreateVoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceProfileInput`)
     ///
-    /// - Returns: `CreateVoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1267,9 +1267,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Creates a voice profile domain, a collection of voice profiles, their voice prints, and encrypted enrollment audio. Before creating any voice profiles, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK. For more information about voice profile domains, see [Using Amazon Chime SDK Voice Analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide.
     ///
-    /// - Parameter CreateVoiceProfileDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVoiceProfileDomainInput`)
     ///
-    /// - Returns: `CreateVoiceProfileDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVoiceProfileDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1342,9 +1342,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime SDK Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue queue for 7 days before they are deleted permanently.
     ///
-    /// - Parameter DeletePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePhoneNumberInput`)
     ///
-    /// - Returns: `DeletePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1412,9 +1412,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter DeleteProxySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProxySessionInput`)
     ///
-    /// - Returns: `DeleteProxySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProxySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,9 +1482,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes a SIP media application.
     ///
-    /// - Parameter DeleteSipMediaApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSipMediaApplicationInput`)
     ///
-    /// - Returns: `DeleteSipMediaApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSipMediaApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1553,9 +1553,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes a SIP rule.
     ///
-    /// - Parameter DeleteSipRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSipRuleInput`)
     ///
-    /// - Returns: `DeleteSipRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSipRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1624,9 +1624,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes an Amazon Chime SDK Voice Connector. Any phone numbers associated with the Amazon Chime SDK Voice Connector must be disassociated from it before it can be deleted.
     ///
-    /// - Parameter DeleteVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1695,9 +1695,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the emergency calling details from the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter DeleteVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorEmergencyCallingConfigurationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorEmergencyCallingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1765,9 +1765,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the external systems configuration for a Voice Connector.
     ///
-    /// - Parameter DeleteVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorExternalSystemsConfigurationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorExternalSystemsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1835,9 +1835,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes an Amazon Chime SDK Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
     ///
-    /// - Parameter DeleteVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1906,9 +1906,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the origination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the origination settings.
     ///
-    /// - Parameter DeleteVoiceConnectorOriginationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorOriginationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorOriginationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorOriginationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1976,9 +1976,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter DeleteVoiceConnectorProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorProxyInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2046,9 +2046,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes a Voice Connector's streaming configuration.
     ///
-    /// - Parameter DeleteVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorStreamingConfigurationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorStreamingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2116,9 +2116,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the termination settings for the specified Amazon Chime SDK Voice Connector. If emergency calling is configured for the Voice Connector, it must be deleted prior to deleting the termination settings.
     ///
-    /// - Parameter DeleteVoiceConnectorTerminationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorTerminationInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorTerminationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorTerminationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2186,9 +2186,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
     ///
-    /// - Parameter DeleteVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceConnectorTerminationCredentialsInput`)
     ///
-    /// - Returns: `DeleteVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceConnectorTerminationCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2260,9 +2260,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
     ///
-    /// - Parameter DeleteVoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceProfileInput`)
     ///
-    /// - Returns: `DeleteVoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2332,9 +2332,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Deletes all voice profiles in the domain. WARNING: This action is not reversible.
     ///
-    /// - Parameter DeleteVoiceProfileDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVoiceProfileDomainInput`)
     ///
-    /// - Returns: `DeleteVoiceProfileDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVoiceProfileDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2404,9 +2404,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter DisassociatePhoneNumbersFromVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePhoneNumbersFromVoiceConnectorInput`)
     ///
-    /// - Returns: `DisassociatePhoneNumbersFromVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePhoneNumbersFromVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2478,9 +2478,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice Connector group.
     ///
-    /// - Parameter DisassociatePhoneNumbersFromVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePhoneNumbersFromVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `DisassociatePhoneNumbersFromVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePhoneNumbersFromVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2552,9 +2552,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     ///
-    /// - Parameter GetGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlobalSettingsInput`)
     ///
-    /// - Returns: `GetGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2621,9 +2621,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
-    /// - Parameter GetPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberInput`)
     ///
-    /// - Returns: `GetPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2691,9 +2691,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
-    /// - Parameter GetPhoneNumberOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberOrderInput`)
     ///
-    /// - Returns: `GetPhoneNumberOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2761,9 +2761,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
-    /// - Parameter GetPhoneNumberSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberSettingsInput`)
     ///
-    /// - Returns: `GetPhoneNumberSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2830,9 +2830,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter GetProxySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProxySessionInput`)
     ///
-    /// - Returns: `GetProxySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProxySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2900,9 +2900,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
     ///
-    /// - Parameter GetSipMediaApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSipMediaApplicationInput`)
     ///
-    /// - Returns: `GetSipMediaApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSipMediaApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2971,9 +2971,9 @@ extension ChimeSDKVoiceClient {
     /// Gets the Alexa Skill configuration for the SIP media application. Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
     @available(*, deprecated, message: "Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).")
     ///
-    /// - Parameter GetSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSipMediaApplicationAlexaSkillConfigurationInput`)
     ///
-    /// - Returns: `GetSipMediaApplicationAlexaSkillConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSipMediaApplicationAlexaSkillConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3041,9 +3041,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the logging configuration for the specified SIP media application.
     ///
-    /// - Parameter GetSipMediaApplicationLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSipMediaApplicationLoggingConfigurationInput`)
     ///
-    /// - Returns: `GetSipMediaApplicationLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSipMediaApplicationLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3111,9 +3111,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
     ///
-    /// - Parameter GetSipRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSipRuleInput`)
     ///
-    /// - Returns: `GetSipRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSipRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3181,9 +3181,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of the specified speaker search task.
     ///
-    /// - Parameter GetSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `GetSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3253,9 +3253,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector, such as timestamps,name, outbound host, and encryption requirements.
     ///
-    /// - Parameter GetVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorInput`)
     ///
-    /// - Returns: `GetVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3323,9 +3323,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the emergency calling configuration details for the specified Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorEmergencyCallingConfigurationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorEmergencyCallingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3393,9 +3393,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Gets information about an external systems configuration for a Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorExternalSystemsConfigurationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorExternalSystemsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3463,9 +3463,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems.
     ///
-    /// - Parameter GetVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `GetVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3533,9 +3533,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the logging configuration settings for the specified Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
     ///
-    /// - Parameter GetVoiceConnectorLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorLoggingConfigurationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3603,9 +3603,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the origination settings for the specified Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorOriginationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorOriginationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorOriginationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorOriginationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3673,9 +3673,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorProxyInput`)
     ///
-    /// - Returns: `GetVoiceConnectorProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3743,9 +3743,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the streaming configuration details for the specified Amazon Chime SDK Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
     ///
-    /// - Parameter GetVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorStreamingConfigurationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorStreamingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3813,9 +3813,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the termination setting details for the specified Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorTerminationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorTerminationInput`)
     ///
-    /// - Returns: `GetVoiceConnectorTerminationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorTerminationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3883,9 +3883,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter GetVoiceConnectorTerminationHealthInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceConnectorTerminationHealthInput`)
     ///
-    /// - Returns: `GetVoiceConnectorTerminationHealthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceConnectorTerminationHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3953,9 +3953,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of the specified voice profile.
     ///
-    /// - Parameter GetVoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceProfileInput`)
     ///
-    /// - Returns: `GetVoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4024,9 +4024,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of the specified voice profile domain.
     ///
-    /// - Parameter GetVoiceProfileDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceProfileDomainInput`)
     ///
-    /// - Returns: `GetVoiceProfileDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceProfileDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4095,9 +4095,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Retrieves the details of a voice tone analysis task.
     ///
-    /// - Parameter GetVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `GetVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4168,9 +4168,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter ListAvailableVoiceConnectorRegionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableVoiceConnectorRegionsInput`)
     ///
-    /// - Returns: `ListAvailableVoiceConnectorRegionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailableVoiceConnectorRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4237,9 +4237,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the phone numbers for an administrator's Amazon Chime SDK account.
     ///
-    /// - Parameter ListPhoneNumberOrdersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumberOrdersInput`)
     ///
-    /// - Returns: `ListPhoneNumberOrdersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumberOrdersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4307,9 +4307,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the phone numbers for the specified Amazon Chime SDK account, Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice Connector group.
     ///
-    /// - Parameter ListPhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumbersInput`)
     ///
-    /// - Returns: `ListPhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4378,9 +4378,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter ListProxySessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProxySessionsInput`)
     ///
-    /// - Returns: `ListProxySessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProxySessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4449,9 +4449,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the SIP media applications under the administrator's AWS account.
     ///
-    /// - Parameter ListSipMediaApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSipMediaApplicationsInput`)
     ///
-    /// - Returns: `ListSipMediaApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSipMediaApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4519,9 +4519,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the SIP rules under the administrator's AWS account.
     ///
-    /// - Parameter ListSipRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSipRulesInput`)
     ///
-    /// - Returns: `ListSipRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSipRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4589,9 +4589,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the countries that you can order phone numbers from.
     ///
-    /// - Parameter ListSupportedPhoneNumberCountriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupportedPhoneNumberCountriesInput`)
     ///
-    /// - Returns: `ListSupportedPhoneNumberCountriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupportedPhoneNumberCountriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4660,9 +4660,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Returns a list of the tags in a given resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4730,9 +4730,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS account.
     ///
-    /// - Parameter ListVoiceConnectorGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceConnectorGroupsInput`)
     ///
-    /// - Returns: `ListVoiceConnectorGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceConnectorGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4800,9 +4800,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter ListVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceConnectorTerminationCredentialsInput`)
     ///
-    /// - Returns: `ListVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceConnectorTerminationCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4870,9 +4870,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS account.
     ///
-    /// - Parameter ListVoiceConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceConnectorsInput`)
     ///
-    /// - Returns: `ListVoiceConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4940,9 +4940,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the specified voice profile domains in the administrator's AWS account.
     ///
-    /// - Parameter ListVoiceProfileDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceProfileDomainsInput`)
     ///
-    /// - Returns: `ListVoiceProfileDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceProfileDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5011,9 +5011,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Lists the voice profiles in a voice profile domain.
     ///
-    /// - Parameter ListVoiceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVoiceProfilesInput`)
     ///
-    /// - Returns: `ListVoiceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVoiceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5083,9 +5083,9 @@ extension ChimeSDKVoiceClient {
     /// Updates the Alexa Skill configuration for the SIP media application. Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the [Alexa Smart Properties](https://developer.amazon.com/en-US/alexa/alexasmartproperties) page.
     @available(*, deprecated, message: "Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).")
     ///
-    /// - Parameter PutSipMediaApplicationAlexaSkillConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSipMediaApplicationAlexaSkillConfigurationInput`)
     ///
-    /// - Returns: `PutSipMediaApplicationAlexaSkillConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSipMediaApplicationAlexaSkillConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5156,9 +5156,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the logging configuration for the specified SIP media application.
     ///
-    /// - Parameter PutSipMediaApplicationLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSipMediaApplicationLoggingConfigurationInput`)
     ///
-    /// - Returns: `PutSipMediaApplicationLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSipMediaApplicationLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5229,9 +5229,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's emergency calling configuration.
     ///
-    /// - Parameter PutVoiceConnectorEmergencyCallingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorEmergencyCallingConfigurationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorEmergencyCallingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorEmergencyCallingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5302,9 +5302,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Adds an external systems configuration to a Voice Connector.
     ///
-    /// - Parameter PutVoiceConnectorExternalSystemsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorExternalSystemsConfigurationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorExternalSystemsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorExternalSystemsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5376,9 +5376,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's logging configuration.
     ///
-    /// - Parameter PutVoiceConnectorLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorLoggingConfigurationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5449,9 +5449,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's origination settings.
     ///
-    /// - Parameter PutVoiceConnectorOriginationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorOriginationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorOriginationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorOriginationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5522,9 +5522,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter PutVoiceConnectorProxyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorProxyInput`)
     ///
-    /// - Returns: `PutVoiceConnectorProxyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorProxyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5596,9 +5596,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's streaming configuration settings.
     ///
-    /// - Parameter PutVoiceConnectorStreamingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorStreamingConfigurationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorStreamingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorStreamingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5669,9 +5669,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's termination settings.
     ///
-    /// - Parameter PutVoiceConnectorTerminationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorTerminationInput`)
     ///
-    /// - Returns: `PutVoiceConnectorTerminationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorTerminationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5743,9 +5743,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates a Voice Connector's termination credentials.
     ///
-    /// - Parameter PutVoiceConnectorTerminationCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVoiceConnectorTerminationCredentialsInput`)
     ///
-    /// - Returns: `PutVoiceConnectorTerminationCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVoiceConnectorTerminationCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5817,9 +5817,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Restores a deleted phone number.
     ///
-    /// - Parameter RestorePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestorePhoneNumberInput`)
     ///
-    /// - Returns: `RestorePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestorePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5889,9 +5889,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Searches the provisioned phone numbers in an organization.
     ///
-    /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAvailablePhoneNumbersInput`)
     ///
-    /// - Returns: `SearchAvailablePhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAvailablePhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5960,9 +5960,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
-    /// - Parameter StartSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `StartSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6038,9 +6038,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
-    /// - Parameter StartVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `StartVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6116,9 +6116,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Stops a speaker search task.
     ///
-    /// - Parameter StopSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `StopSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6190,9 +6190,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Stops a voice tone analysis task.
     ///
-    /// - Parameter StopVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `StopVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6264,9 +6264,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Adds a tag to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6338,9 +6338,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6411,9 +6411,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
     ///
-    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalSettingsInput`)
     ///
-    /// - Returns: `UpdateGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6483,9 +6483,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
-    /// - Parameter UpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6557,9 +6557,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
-    /// - Parameter UpdatePhoneNumberSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberSettingsInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6629,9 +6629,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the specified proxy session details, such as voice or SMS capabilities.
     ///
-    /// - Parameter UpdateProxySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProxySessionInput`)
     ///
-    /// - Returns: `UpdateProxySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProxySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6702,9 +6702,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the details of the specified SIP media application.
     ///
-    /// - Parameter UpdateSipMediaApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSipMediaApplicationInput`)
     ///
-    /// - Returns: `UpdateSipMediaApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSipMediaApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6776,9 +6776,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions.
     ///
-    /// - Parameter UpdateSipMediaApplicationCallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSipMediaApplicationCallInput`)
     ///
-    /// - Returns: `UpdateSipMediaApplicationCallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSipMediaApplicationCallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6850,9 +6850,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the details of the specified SIP rule.
     ///
-    /// - Parameter UpdateSipRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSipRuleInput`)
     ///
-    /// - Returns: `UpdateSipRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSipRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6925,9 +6925,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the details for the specified Amazon Chime SDK Voice Connector.
     ///
-    /// - Parameter UpdateVoiceConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceConnectorInput`)
     ///
-    /// - Returns: `UpdateVoiceConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6998,9 +6998,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group.
     ///
-    /// - Parameter UpdateVoiceConnectorGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceConnectorGroupInput`)
     ///
-    /// - Returns: `UpdateVoiceConnectorGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceConnectorGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7072,9 +7072,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the specified voice profile’s voice print and refreshes its expiration timestamp. As a condition of using this feature, you acknowledge that the collection, use, storage, and retention of your caller’s biometric identifiers and biometric information (“biometric data”) in the form of a digital voiceprint requires the caller’s informed consent via a written release. Such consent is required under various state laws, including biometrics laws in Illinois, Texas, Washington and other state privacy laws. You must provide a written release to each caller through a process that clearly reflects each caller’s informed consent before using Amazon Chime SDK Voice Insights service, as required under the terms of your agreement with AWS governing your use of the service.
     ///
-    /// - Parameter UpdateVoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceProfileInput`)
     ///
-    /// - Returns: `UpdateVoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7148,9 +7148,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Updates the settings for the specified voice profile domain.
     ///
-    /// - Parameter UpdateVoiceProfileDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVoiceProfileDomainInput`)
     ///
-    /// - Returns: `UpdateVoiceProfileDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVoiceProfileDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7222,9 +7222,9 @@ extension ChimeSDKVoiceClient {
     ///
     /// Validates an address to be used for 911 calls made with Amazon Chime SDK Voice Connectors. You can use validated addresses in a Presence Information Data Format Location Object file that you include in SIP requests. That helps ensure that addresses are routed to the appropriate Public Safety Answering Point.
     ///
-    /// - Parameter ValidateE911AddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateE911AddressInput`)
     ///
-    /// - Returns: `ValidateE911AddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateE911AddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppIntegrationsClient: ClientRuntime.Client {
     public static let clientName = "AppIntegrationsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppIntegrationsClient.AppIntegrationsClientConfiguration
     let serviceName = "AppIntegrations"
@@ -374,9 +374,9 @@ extension AppIntegrationsClient {
     ///
     /// Creates and persists an Application resource.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension AppIntegrationsClient {
     ///
     /// Creates and persists a DataIntegration resource. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
     ///
-    /// - Parameter CreateDataIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataIntegrationInput`)
     ///
-    /// - Returns: `CreateDataIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension AppIntegrationsClient {
     ///
     /// Creates and persists a DataIntegrationAssociation resource.
     ///
-    /// - Parameter CreateDataIntegrationAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataIntegrationAssociationInput`)
     ///
-    /// - Returns: `CreateDataIntegrationAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataIntegrationAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,9 +594,9 @@ extension AppIntegrationsClient {
     ///
     /// Creates an EventIntegration, given a specified name, description, and a reference to an Amazon EventBridge bus in your account and a partner event source that pushes events to that bus. No objects are created in the your account, only metadata that is persisted on the EventIntegration control plane.
     ///
-    /// - Parameter CreateEventIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventIntegrationInput`)
     ///
-    /// - Returns: `CreateEventIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension AppIntegrationsClient {
     ///
     /// Deletes the Application. Only Applications that don't have any Application Associations can be deleted.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,9 +735,9 @@ extension AppIntegrationsClient {
     ///
     /// Deletes the DataIntegration. Only DataIntegrations that don't have any DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the underlying Amazon AppFlow flow and service linked role. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter DeleteDataIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataIntegrationInput`)
     ///
-    /// - Returns: `DeleteDataIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,9 +803,9 @@ extension AppIntegrationsClient {
     ///
     /// Deletes the specified existing event integration. If the event integration is associated with clients, the request is rejected.
     ///
-    /// - Parameter DeleteEventIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventIntegrationInput`)
     ///
-    /// - Returns: `DeleteEventIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension AppIntegrationsClient {
     ///
     /// Get an Application resource.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -939,9 +939,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns information about the DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter GetDataIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataIntegrationInput`)
     ///
-    /// - Returns: `GetDataIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1007,9 +1007,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns information about the event integration.
     ///
-    /// - Parameter GetEventIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventIntegrationInput`)
     ///
-    /// - Returns: `GetEventIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of application associations for an application.
     ///
-    /// - Parameter ListApplicationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAssociationsInput`)
     ///
-    /// - Returns: `ListApplicationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1144,9 +1144,9 @@ extension AppIntegrationsClient {
     ///
     /// Lists applications in the account.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,9 +1212,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of DataIntegration associations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter ListDataIntegrationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataIntegrationAssociationsInput`)
     ///
-    /// - Returns: `ListDataIntegrationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataIntegrationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,9 +1281,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of DataIntegrations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter ListDataIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataIntegrationsInput`)
     ///
-    /// - Returns: `ListDataIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1349,9 +1349,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of event integration associations in the account.
     ///
-    /// - Parameter ListEventIntegrationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventIntegrationAssociationsInput`)
     ///
-    /// - Returns: `ListEventIntegrationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventIntegrationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1418,9 +1418,9 @@ extension AppIntegrationsClient {
     ///
     /// Returns a paginated list of event integrations in the account.
     ///
-    /// - Parameter ListEventIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventIntegrationsInput`)
     ///
-    /// - Returns: `ListEventIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1486,9 +1486,9 @@ extension AppIntegrationsClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1553,9 +1553,9 @@ extension AppIntegrationsClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1623,9 +1623,9 @@ extension AppIntegrationsClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,9 +1691,9 @@ extension AppIntegrationsClient {
     ///
     /// Updates and persists an Application resource.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1763,9 +1763,9 @@ extension AppIntegrationsClient {
     ///
     /// Updates the description of a DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
-    /// - Parameter UpdateDataIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataIntegrationInput`)
     ///
-    /// - Returns: `UpdateDataIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1834,9 +1834,9 @@ extension AppIntegrationsClient {
     ///
     /// Updates and persists a DataIntegrationAssociation resource. Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
     ///
-    /// - Parameter UpdateDataIntegrationAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataIntegrationAssociationInput`)
     ///
-    /// - Returns: `UpdateDataIntegrationAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataIntegrationAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1905,9 +1905,9 @@ extension AppIntegrationsClient {
     ///
     /// Updates the description of an event integration.
     ///
-    /// - Parameter UpdateEventIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventIntegrationInput`)
     ///
-    /// - Returns: `UpdateEventIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

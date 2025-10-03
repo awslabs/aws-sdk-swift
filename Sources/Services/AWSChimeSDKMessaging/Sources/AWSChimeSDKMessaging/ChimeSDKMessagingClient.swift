@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKMessagingClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKMessagingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMessagingClient.ChimeSDKMessagingClientConfiguration
     let serviceName = "Chime SDK Messaging"
@@ -375,9 +375,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Associates a channel flow with a channel. Once associated, all messages to that channel go through channel flow processors. To stop processing, use the DisassociateChannelFlow API. Only administrators or channel moderators can associate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter AssociateChannelFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateChannelFlowInput`)
     ///
-    /// - Returns: `AssociateChannelFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateChannelFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -450,9 +450,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Adds a specified number of users and bots to a channel.
     ///
-    /// - Parameter BatchCreateChannelMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateChannelMembershipInput`)
     ///
-    /// - Returns: `BatchCreateChannelMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateChannelMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -532,9 +532,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// * Make no changes to the message
     ///
-    /// - Parameter ChannelFlowCallbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ChannelFlowCallbackInput`)
     ///
-    /// - Returns: `ChannelFlowCallbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ChannelFlowCallbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -607,9 +607,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Creates a channel to which you can add users and send messages. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,9 +683,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter CreateChannelBanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelBanInput`)
     ///
-    /// - Returns: `CreateChannelBanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelBanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,9 +767,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK messaging, refer to [Message types](https://docs.aws.amazon.com/chime-sdk/latest/dg/using-the-messaging-sdk.html#msg-types) in the Amazon Chime developer guide.
     ///
-    /// - Parameter CreateChannelFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelFlowInput`)
     ///
-    /// - Returns: `CreateChannelFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -862,9 +862,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUserArn or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter CreateChannelMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelMembershipInput`)
     ///
-    /// - Returns: `CreateChannelMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -951,9 +951,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBotof the user that makes the API call as the value in the header.
     ///
-    /// - Parameter CreateChannelModeratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelModeratorInput`)
     ///
-    /// - Returns: `CreateChannelModeratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelModeratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1026,9 +1026,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUserArn or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1097,9 +1097,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Removes a member from a channel's ban list. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DeleteChannelBanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelBanInput`)
     ///
-    /// - Returns: `DeleteChannelBanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelBanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,9 +1167,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Deletes a channel flow, an irreversible process. This is a developer API. This API works only when the channel flow is not associated with any channel. To get a list of all channels that a channel flow is associated with, use the ListChannelsAssociatedWithChannelFlow API. Use the DisassociateChannelFlow API to disassociate a channel flow from all channels.
     ///
-    /// - Parameter DeleteChannelFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelFlowInput`)
     ///
-    /// - Returns: `DeleteChannelFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1237,9 +1237,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Removes a member from a channel. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     ///
-    /// - Parameter DeleteChannelMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelMembershipInput`)
     ///
-    /// - Returns: `DeleteChannelMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1309,9 +1309,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DeleteChannelMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelMessageInput`)
     ///
-    /// - Returns: `DeleteChannelMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1380,9 +1380,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Deletes a channel moderator. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DeleteChannelModeratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelModeratorInput`)
     ///
-    /// - Returns: `DeleteChannelModeratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelModeratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1450,9 +1450,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Deletes the streaming configurations for an AppInstance. For more information, see [Streaming messaging data](https://docs.aws.amazon.com/chime-sdk/latest/dg/streaming-export.html) in the Amazon Chime SDK Developer Guide.
     ///
-    /// - Parameter DeleteMessagingStreamingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMessagingStreamingConfigurationsInput`)
     ///
-    /// - Returns: `DeleteMessagingStreamingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMessagingStreamingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,9 +1519,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Returns the full details of a channel in an Amazon Chime AppInstance. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DescribeChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelInput`)
     ///
-    /// - Returns: `DescribeChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1589,9 +1589,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Returns the full details of a channel ban. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DescribeChannelBanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelBanInput`)
     ///
-    /// - Returns: `DescribeChannelBanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelBanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1660,9 +1660,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Returns the full details of a channel flow in an Amazon Chime AppInstance. This is a developer API.
     ///
-    /// - Parameter DescribeChannelFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelFlowInput`)
     ///
-    /// - Returns: `DescribeChannelFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1729,9 +1729,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Returns the full details of a user's channel membership. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DescribeChannelMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelMembershipInput`)
     ///
-    /// - Returns: `DescribeChannelMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1801,9 +1801,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Returns the details of a channel based on the membership of the specified AppInstanceUser or AppInstanceBot. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DescribeChannelMembershipForAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelMembershipForAppInstanceUserInput`)
     ///
-    /// - Returns: `DescribeChannelMembershipForAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelMembershipForAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,9 +1872,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Returns the full details of a channel moderated by the specified AppInstanceUser or AppInstanceBot. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DescribeChannelModeratedByAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelModeratedByAppInstanceUserInput`)
     ///
-    /// - Returns: `DescribeChannelModeratedByAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelModeratedByAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1943,9 +1943,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Returns the full details of a single ChannelModerator. The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     ///
-    /// - Parameter DescribeChannelModeratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelModeratorInput`)
     ///
-    /// - Returns: `DescribeChannelModeratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelModeratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2014,9 +2014,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Disassociates a channel flow from all its channels. Once disassociated, all messages to that channel stop going through the channel flow processor. Only administrators or channel moderators can disassociate a channel flow. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter DisassociateChannelFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateChannelFlowInput`)
     ///
-    /// - Returns: `DisassociateChannelFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateChannelFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2086,9 +2086,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Gets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. A user or a bot must be a member of the channel and own the membership in order to retrieve membership preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't retrieve preferences for other users or bots. Banned users or bots can't retrieve membership preferences for the channel from which they are banned. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter GetChannelMembershipPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelMembershipPreferencesInput`)
     ///
-    /// - Returns: `GetChannelMembershipPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelMembershipPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2156,9 +2156,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Gets the full details of a channel message. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter GetChannelMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelMessageInput`)
     ///
-    /// - Returns: `GetChannelMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2234,9 +2234,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// * The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter GetChannelMessageStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelMessageStatusInput`)
     ///
-    /// - Returns: `GetChannelMessageStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelMessageStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2305,9 +2305,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// The details of the endpoint for the messaging session.
     ///
-    /// - Parameter GetMessagingSessionEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMessagingSessionEndpointInput`)
     ///
-    /// - Returns: `GetMessagingSessionEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMessagingSessionEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2374,9 +2374,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Retrieves the data streaming configuration for an AppInstance. For more information, see [Streaming messaging data](https://docs.aws.amazon.com/chime-sdk/latest/dg/streaming-export.html) in the Amazon Chime SDK Developer Guide.
     ///
-    /// - Parameter GetMessagingStreamingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMessagingStreamingConfigurationsInput`)
     ///
-    /// - Returns: `GetMessagingStreamingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMessagingStreamingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2444,9 +2444,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Lists all the users and bots banned from a particular channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter ListChannelBansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelBansInput`)
     ///
-    /// - Returns: `ListChannelBansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelBansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2515,9 +2515,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Returns a paginated lists of all the channel flows created under a single Chime. This is a developer API.
     ///
-    /// - Parameter ListChannelFlowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelFlowsInput`)
     ///
-    /// - Returns: `ListChannelFlowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2585,9 +2585,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Lists all channel memberships in a channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. If you want to list the channels to which a specific app instance user belongs, see the [ListChannelMembershipsForAppInstanceUser](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html) API.
     ///
-    /// - Parameter ListChannelMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelMembershipsInput`)
     ///
-    /// - Returns: `ListChannelMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2656,9 +2656,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Lists all channels that an AppInstanceUser or AppInstanceBot is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter ListChannelMembershipsForAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelMembershipsForAppInstanceUserInput`)
     ///
-    /// - Returns: `ListChannelMembershipsForAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelMembershipsForAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2727,9 +2727,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order. Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter ListChannelMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelMessagesInput`)
     ///
-    /// - Returns: `ListChannelMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2798,9 +2798,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Lists all the moderators for a channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter ListChannelModeratorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelModeratorsInput`)
     ///
-    /// - Returns: `ListChannelModeratorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelModeratorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2876,9 +2876,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2947,9 +2947,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only associate a channel with one channel flow. This is a developer API.
     ///
-    /// - Parameter ListChannelsAssociatedWithChannelFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsAssociatedWithChannelFlowInput`)
     ///
-    /// - Returns: `ListChannelsAssociatedWithChannelFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsAssociatedWithChannelFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3017,9 +3017,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// A list of the channels moderated by an AppInstanceUser. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter ListChannelsModeratedByAppInstanceUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsModeratedByAppInstanceUserInput`)
     ///
-    /// - Returns: `ListChannelsModeratedByAppInstanceUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsModeratedByAppInstanceUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3088,9 +3088,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
     ///
-    /// - Parameter ListSubChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubChannelsInput`)
     ///
-    /// - Returns: `ListSubChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3159,9 +3159,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Lists the tags applied to an Amazon Chime SDK messaging resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3235,9 +3235,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// * The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter PutChannelExpirationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutChannelExpirationSettingsInput`)
     ///
-    /// - Returns: `PutChannelExpirationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutChannelExpirationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3309,9 +3309,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Sets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified channel. The user or bot must be a member of the channel. Only the user or bot who owns the membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator roles can't set preferences for other users. Banned users or bots can't set membership preferences for the channel from which they are banned. The x-amz-chime-bearer request header is mandatory. Use the ARN of an AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter PutChannelMembershipPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutChannelMembershipPreferencesInput`)
     ///
-    /// - Returns: `PutChannelMembershipPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutChannelMembershipPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3383,9 +3383,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Sets the data streaming configuration for an AppInstance. For more information, see [Streaming messaging data](https://docs.aws.amazon.com/chime-sdk/latest/dg/streaming-export.html) in the Amazon Chime SDK Developer Guide.
     ///
-    /// - Parameter PutMessagingStreamingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMessagingStreamingConfigurationsInput`)
     ///
-    /// - Returns: `PutMessagingStreamingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMessagingStreamingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3457,9 +3457,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Redacts message content and metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter RedactChannelMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RedactChannelMessageInput`)
     ///
-    /// - Returns: `RedactChannelMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RedactChannelMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3532,9 +3532,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Allows the ChimeBearer to search channels by channel members. Users or bots can search across the channels that they belong to. Users in the AppInstanceAdmin role can search across all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. This operation isn't supported for AppInstanceUsers with a large number of memberships.
     ///
-    /// - Parameter SearchChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchChannelsInput`)
     ///
-    /// - Returns: `SearchChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3606,9 +3606,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Sends a message to a particular channel that the member is a part of. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways, such as containing a link to an attachment. CONTROL messages are limited to 30 bytes and do not contain metadata.
     ///
-    /// - Parameter SendChannelMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendChannelMessageInput`)
     ///
-    /// - Returns: `SendChannelMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendChannelMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3681,9 +3681,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Applies the specified tags to the specified Amazon Chime SDK messaging resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3755,9 +3755,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Removes the specified tags from the specified Amazon Chime SDK messaging resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3828,9 +3828,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Update a channel's attributes. Restriction: You can't change a channel's privacy. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3902,9 +3902,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Updates channel flow attributes. This is a developer API.
     ///
-    /// - Parameter UpdateChannelFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelFlowInput`)
     ///
-    /// - Returns: `UpdateChannelFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3975,9 +3975,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// Updates the content of a message. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter UpdateChannelMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelMessageInput`)
     ///
-    /// - Returns: `UpdateChannelMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4049,9 +4049,9 @@ extension ChimeSDKMessagingClient {
     ///
     /// The details of the time when a user last read messages in a channel. The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
     ///
-    /// - Parameter UpdateChannelReadMarkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelReadMarkerInput`)
     ///
-    /// - Returns: `UpdateChannelReadMarkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelReadMarkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

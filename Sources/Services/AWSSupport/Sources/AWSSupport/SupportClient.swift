@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SupportClient: ClientRuntime.Client {
     public static let clientName = "SupportClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SupportClient.SupportClientConfiguration
     let serviceName = "Support"
@@ -376,9 +376,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter AddAttachmentsToSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddAttachmentsToSetInput`)
     ///
-    /// - Returns: `AddAttachmentsToSetOutput` : The ID and expiry time of the attachment set returned by the [AddAttachmentsToSet] operation.
+    /// - Returns: The ID and expiry time of the attachment set returned by the [AddAttachmentsToSet] operation. (Type: `AddAttachmentsToSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -452,9 +452,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter AddCommunicationToCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddCommunicationToCaseInput`)
     ///
-    /// - Returns: `AddCommunicationToCaseOutput` : The result of the [AddCommunicationToCase] operation.
+    /// - Returns: The result of the [AddCommunicationToCase] operation. (Type: `AddCommunicationToCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -534,9 +534,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter CreateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseInput`)
     ///
-    /// - Returns: `CreateCaseOutput` : The support case ID returned by a successful completion of the [CreateCase] operation.
+    /// - Returns: The support case ID returned by a successful completion of the [CreateCase] operation. (Type: `CreateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -609,9 +609,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter DescribeAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAttachmentInput`)
     ///
-    /// - Returns: `DescribeAttachmentOutput` : The content and file name of the attachment returned by the [DescribeAttachment] operation.
+    /// - Returns: The content and file name of the attachment returned by the [DescribeAttachment] operation. (Type: `DescribeAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -690,9 +690,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter DescribeCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCasesInput`)
     ///
-    /// - Returns: `DescribeCasesOutput` : Returns an array of [CaseDetails](https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html) objects and a nextToken that defines a point for pagination in the result set.
+    /// - Returns: Returns an array of [CaseDetails](https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html) objects and a nextToken that defines a point for pagination in the result set. (Type: `DescribeCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,9 +763,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter DescribeCommunicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCommunicationsInput`)
     ///
-    /// - Returns: `DescribeCommunicationsOutput` : The communications returned by the [DescribeCommunications] operation.
+    /// - Returns: The communications returned by the [DescribeCommunications] operation. (Type: `DescribeCommunicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,9 +836,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter DescribeCreateCaseOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCreateCaseOptionsInput`)
     ///
-    /// - Returns: `DescribeCreateCaseOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCreateCaseOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,9 +909,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter DescribeServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServicesInput`)
     ///
-    /// - Returns: `DescribeServicesOutput` : The list of Amazon Web Services services returned by the [DescribeServices] operation.
+    /// - Returns: The list of Amazon Web Services services returned by the [DescribeServices] operation. (Type: `DescribeServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -981,9 +981,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter DescribeSeverityLevelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSeverityLevelsInput`)
     ///
-    /// - Returns: `DescribeSeverityLevelsOutput` : The list of severity levels returned by the [DescribeSeverityLevels] operation.
+    /// - Returns: The list of severity levels returned by the [DescribeSeverityLevels] operation. (Type: `DescribeSeverityLevelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1053,9 +1053,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter DescribeSupportedLanguagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSupportedLanguagesInput`)
     ///
-    /// - Returns: `DescribeSupportedLanguagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSupportedLanguagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1129,9 +1129,9 @@ extension SupportClient {
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     ///
-    /// - Parameter DescribeTrustedAdvisorCheckRefreshStatusesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrustedAdvisorCheckRefreshStatusesInput`)
     ///
-    /// - Returns: `DescribeTrustedAdvisorCheckRefreshStatusesOutput` : The statuses of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckRefreshStatuses] operation.
+    /// - Returns: The statuses of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckRefreshStatuses] operation. (Type: `DescribeTrustedAdvisorCheckRefreshStatusesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1223,9 +1223,9 @@ extension SupportClient {
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     ///
-    /// - Parameter DescribeTrustedAdvisorCheckResultInput :
+    /// - Parameter input: (Type: `DescribeTrustedAdvisorCheckResultInput`)
     ///
-    /// - Returns: `DescribeTrustedAdvisorCheckResultOutput` : The result of the Trusted Advisor check returned by the [DescribeTrustedAdvisorCheckResult] operation.
+    /// - Returns: The result of the Trusted Advisor check returned by the [DescribeTrustedAdvisorCheckResult] operation. (Type: `DescribeTrustedAdvisorCheckResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1299,9 +1299,9 @@ extension SupportClient {
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     ///
-    /// - Parameter DescribeTrustedAdvisorCheckSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrustedAdvisorCheckSummariesInput`)
     ///
-    /// - Returns: `DescribeTrustedAdvisorCheckSummariesOutput` : The summaries of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckSummaries] operation.
+    /// - Returns: The summaries of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckSummaries] operation. (Type: `DescribeTrustedAdvisorCheckSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1377,9 +1377,9 @@ extension SupportClient {
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     ///
-    /// - Parameter DescribeTrustedAdvisorChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrustedAdvisorChecksInput`)
     ///
-    /// - Returns: `DescribeTrustedAdvisorChecksOutput` : Information about the Trusted Advisor checks returned by the [DescribeTrustedAdvisorChecks] operation.
+    /// - Returns: Information about the Trusted Advisor checks returned by the [DescribeTrustedAdvisorChecks] operation. (Type: `DescribeTrustedAdvisorChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1453,9 +1453,9 @@ extension SupportClient {
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
     ///
-    /// - Parameter RefreshTrustedAdvisorCheckInput :
+    /// - Parameter input: (Type: `RefreshTrustedAdvisorCheckInput`)
     ///
-    /// - Returns: `RefreshTrustedAdvisorCheckOutput` : The current refresh status of a Trusted Advisor check.
+    /// - Returns: The current refresh status of a Trusted Advisor check. (Type: `RefreshTrustedAdvisorCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1525,9 +1525,9 @@ extension SupportClient {
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
     ///
-    /// - Parameter ResolveCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResolveCaseInput`)
     ///
-    /// - Returns: `ResolveCaseOutput` : The status of the case returned by the [ResolveCase] operation.
+    /// - Returns: The status of the case returned by the [ResolveCase] operation. (Type: `ResolveCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

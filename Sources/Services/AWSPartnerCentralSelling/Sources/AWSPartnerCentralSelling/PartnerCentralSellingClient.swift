@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PartnerCentralSellingClient: ClientRuntime.Client {
     public static let clientName = "PartnerCentralSellingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PartnerCentralSellingClient.PartnerCentralSellingClientConfiguration
     let serviceName = "PartnerCentral Selling"
@@ -374,9 +374,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data.
     ///
-    /// - Parameter AcceptEngagementInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptEngagementInvitationInput`)
     ///
-    /// - Returns: `AcceptEngagementInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
     ///
-    /// - Parameter AssignOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssignOpportunityInput`)
     ///
-    /// - Returns: `AssignOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssignOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -534,9 +534,9 @@ extension PartnerCentralSellingClient {
     ///
     /// * Amazon Web Services Marketplace private offer: Use the [Using the Amazon Web Services Marketplace Catalog API](https://docs.aws.amazon.com/marketplace/latest/APIReference/catalog-apis.html) to list entities. Specifically, use the ListEntities operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see [ListEntities](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_ListEntities.html).
     ///
-    /// - Parameter AssociateOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateOpportunityInput`)
     ///
-    /// - Returns: `AssociateOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -606,9 +606,9 @@ extension PartnerCentralSellingClient {
     ///
     /// The CreateEngagement action allows you to create an Engagement, which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers. This action automatically adds the caller's AWS account as an active member of the newly created Engagement.
     ///
-    /// - Parameter CreateEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEngagementInput`)
     ///
-    /// - Returns: `CreateEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -680,9 +680,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action creates an invitation from a sender to a single receiver to join an engagement.
     ///
-    /// - Parameter CreateEngagementInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEngagementInvitationInput`)
     ///
-    /// - Returns: `CreateEngagementInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,9 +763,9 @@ extension PartnerCentralSellingClient {
     ///
     /// After submission, you can't edit the opportunity until the review is complete. But opportunities in the Pending Submission state must have complete details. You can update the opportunity while it's in the Pending Submission state. There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
     ///
-    /// - Parameter CreateOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOpportunityInput`)
     ///
-    /// - Returns: `CreateOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,9 +837,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action allows you to create an immutable snapshot of a specific resource, such as an opportunity, within the context of an engagement. The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
     ///
-    /// - Parameter CreateResourceSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceSnapshotInput`)
     ///
-    /// - Returns: `CreateResourceSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,9 +911,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
     ///
-    /// - Parameter CreateResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceSnapshotJobInput`)
     ///
-    /// - Returns: `CreateResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,9 +985,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
     ///
-    /// - Parameter DeleteResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceSnapshotJobInput`)
     ///
-    /// - Returns: `DeleteResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,9 +1057,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity, and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
     ///
-    /// - Parameter DisassociateOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateOpportunityInput`)
     ///
-    /// - Returns: `DisassociateOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1129,9 +1129,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
     ///
-    /// - Parameter GetAwsOpportunitySummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAwsOpportunitySummaryInput`)
     ///
-    /// - Returns: `GetAwsOpportunitySummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAwsOpportunitySummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1201,9 +1201,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to retrieve the engagement record for a given EngagementIdentifier.
     ///
-    /// - Parameter GetEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEngagementInput`)
     ///
-    /// - Returns: `GetEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1272,9 +1272,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitation’s Payload.Project.Title with opportunity Project.Title.
     ///
-    /// - Parameter GetEngagementInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEngagementInvitationInput`)
     ///
-    /// - Returns: `GetEngagementInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1344,9 +1344,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Fetches the Opportunity record from Partner Central by a given Identifier. Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier.
     ///
-    /// - Parameter GetOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOpportunityInput`)
     ///
-    /// - Returns: `GetOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1416,9 +1416,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to retrieve a specific snapshot record.
     ///
-    /// - Parameter GetResourceSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSnapshotInput`)
     ///
-    /// - Returns: `GetResourceSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1487,9 +1487,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to retrieves information about a specific resource snapshot job.
     ///
-    /// - Parameter GetResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSnapshotJobInput`)
     ///
-    /// - Returns: `GetResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1558,9 +1558,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
     ///
-    /// - Parameter GetSellingSystemSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSellingSystemSettingsInput`)
     ///
-    /// - Returns: `GetSellingSystemSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSellingSystemSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1629,9 +1629,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
     ///
-    /// - Parameter ListEngagementByAcceptingInvitationTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementByAcceptingInvitationTasksInput`)
     ///
-    /// - Returns: `ListEngagementByAcceptingInvitationTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementByAcceptingInvitationTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1700,9 +1700,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account.
     ///
-    /// - Parameter ListEngagementFromOpportunityTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementFromOpportunityTasksInput`)
     ///
-    /// - Returns: `ListEngagementFromOpportunityTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementFromOpportunityTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1771,9 +1771,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS.
     ///
-    /// - Parameter ListEngagementInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementInvitationsInput`)
     ///
-    /// - Returns: `ListEngagementInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1843,9 +1843,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried.
     ///
-    /// - Parameter ListEngagementMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementMembersInput`)
     ///
-    /// - Returns: `ListEngagementMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1914,9 +1914,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
     ///
-    /// - Parameter ListEngagementResourceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementResourceAssociationsInput`)
     ///
-    /// - Returns: `ListEngagementResourceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementResourceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1985,9 +1985,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
     ///
-    /// - Parameter ListEngagementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementsInput`)
     ///
-    /// - Returns: `ListEngagementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2062,9 +2062,9 @@ extension PartnerCentralSellingClient {
     ///
     /// * Amazon Web Services only returns opportunities created or updated on or after that date and time. Use NextToken to iterate over all pages.
     ///
-    /// - Parameter ListOpportunitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpportunitiesInput`)
     ///
-    /// - Returns: `ListOpportunitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOpportunitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2134,9 +2134,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
     ///
-    /// - Parameter ListResourceSnapshotJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSnapshotJobsInput`)
     ///
-    /// - Returns: `ListResourceSnapshotJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSnapshotJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2215,9 +2215,9 @@ extension PartnerCentralSellingClient {
     ///
     /// * Filtering snapshots by resource owner.
     ///
-    /// - Parameter ListResourceSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSnapshotsInput`)
     ///
-    /// - Returns: `ListResourceSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2286,9 +2286,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
     ///
-    /// - Parameter ListSolutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolutionsInput`)
     ///
-    /// - Returns: `ListSolutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2357,9 +2357,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2429,9 +2429,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
     ///
-    /// - Parameter PutSellingSystemSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSellingSystemSettingsInput`)
     ///
-    /// - Returns: `PutSellingSystemSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSellingSystemSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,9 +2500,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter.
     ///
-    /// - Parameter RejectEngagementInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectEngagementInvitationInput`)
     ///
-    /// - Returns: `RejectEngagementInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2573,9 +2573,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action starts the engagement by accepting an EngagementInvitation. The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partner’s account from the AWS opportunity, and copying details for tracking. When completed, an Opportunity Created event is generated, indicating that the opportunity has been successfully created in the partner's account.
     ///
-    /// - Parameter StartEngagementByAcceptingInvitationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEngagementByAcceptingInvitationTaskInput`)
     ///
-    /// - Returns: `StartEngagementByAcceptingInvitationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEngagementByAcceptingInvitationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2648,9 +2648,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Similar to StartEngagementByAcceptingInvitationTask, this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including GetOpportunity, CreateEngagement (if it doesn't exist), CreateResourceSnapshot, CreateResourceSnapshotJob, CreateEngagementInvitation (if not already invited/accepted), and SubmitOpportunity.
     ///
-    /// - Parameter StartEngagementFromOpportunityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEngagementFromOpportunityTaskInput`)
     ///
-    /// - Returns: `StartEngagementFromOpportunityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEngagementFromOpportunityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2723,9 +2723,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Starts a resource snapshot job that has been previously created.
     ///
-    /// - Parameter StartResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartResourceSnapshotJobInput`)
     ///
-    /// - Returns: `StartResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2794,9 +2794,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Stops a resource snapshot job. The job must be started prior to being stopped.
     ///
-    /// - Parameter StopResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopResourceSnapshotJobInput`)
     ///
-    /// - Returns: `StopResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2865,9 +2865,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has  LifeCycle.ReviewStatus  as either Approved or Action Required.
     ///
-    /// - Parameter SubmitOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitOpportunityInput`)
     ///
-    /// - Returns: `SubmitOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2937,9 +2937,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3010,9 +3010,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3083,9 +3083,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
     ///
-    /// - Parameter UpdateOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOpportunityInput`)
     ///
-    /// - Returns: `UpdateOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

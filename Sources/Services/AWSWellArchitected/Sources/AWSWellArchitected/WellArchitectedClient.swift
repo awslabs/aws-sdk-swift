@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WellArchitectedClient: ClientRuntime.Client {
     public static let clientName = "WellArchitectedClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: WellArchitectedClient.WellArchitectedClientConfiguration
     let serviceName = "WellArchitected"
@@ -373,9 +373,9 @@ extension WellArchitectedClient {
     ///
     /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload. Disclaimer By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
     ///
-    /// - Parameter AssociateLensesInput : Input to associate lens reviews.
+    /// - Parameter input: Input to associate lens reviews. (Type: `AssociateLensesInput`)
     ///
-    /// - Returns: `AssociateLensesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateLensesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension WellArchitectedClient {
     ///
     /// Associate a profile with a workload.
     ///
-    /// - Parameter AssociateProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateProfilesInput`)
     ///
-    /// - Returns: `AssociateProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension WellArchitectedClient {
     ///
     /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html) in the Well-Architected Tool User Guide. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
-    /// - Parameter CreateLensShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLensShareInput`)
     ///
-    /// - Returns: `CreateLensShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLensShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension WellArchitectedClient {
     ///
     /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
     ///
-    /// - Parameter CreateLensVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLensVersionInput`)
     ///
-    /// - Returns: `CreateLensVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLensVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension WellArchitectedClient {
     ///
     /// Create a milestone for an existing workload.
     ///
-    /// - Parameter CreateMilestoneInput : Input for milestone creation.
+    /// - Parameter input: Input for milestone creation. (Type: `CreateMilestoneInput`)
     ///
-    /// - Returns: `CreateMilestoneOutput` : Output of a create milestone call.
+    /// - Returns: Output of a create milestone call. (Type: `CreateMilestoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,9 +739,9 @@ extension WellArchitectedClient {
     ///
     /// Create a profile.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,9 +812,9 @@ extension WellArchitectedClient {
     ///
     /// Create a profile share.
     ///
-    /// - Parameter CreateProfileShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileShareInput`)
     ///
-    /// - Returns: `CreateProfileShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,9 +886,9 @@ extension WellArchitectedClient {
     ///
     /// Create a review template. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your review templates. If your review template or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
-    /// - Parameter CreateReviewTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReviewTemplateInput`)
     ///
-    /// - Returns: `CreateReviewTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReviewTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,9 +960,9 @@ extension WellArchitectedClient {
     ///
     /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template. Disclaimer By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
     ///
-    /// - Parameter CreateTemplateShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateShareInput`)
     ///
-    /// - Returns: `CreateTemplateShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,9 +1042,9 @@ extension WellArchitectedClient {
     ///
     /// * wellarchitected:GetReviewTemplateLensReview
     ///
-    /// - Parameter CreateWorkloadInput : Input for workload creation.
+    /// - Parameter input: Input for workload creation. (Type: `CreateWorkloadInput`)
     ///
-    /// - Returns: `CreateWorkloadOutput` : Output of a create workload call.
+    /// - Returns: Output of a create workload call. (Type: `CreateWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,9 +1116,9 @@ extension WellArchitectedClient {
     ///
     /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see [Sharing a workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the Well-Architected Tool User Guide.
     ///
-    /// - Parameter CreateWorkloadShareInput : Input for Create Workload Share
+    /// - Parameter input: Input for Create Workload Share (Type: `CreateWorkloadShareInput`)
     ///
-    /// - Returns: `CreateWorkloadShareOutput` : Input for Create Workload Share
+    /// - Returns: Input for Create Workload Share (Type: `CreateWorkloadShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1190,9 +1190,9 @@ extension WellArchitectedClient {
     ///
     /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
-    /// - Parameter DeleteLensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLensInput`)
     ///
-    /// - Returns: `DeleteLensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1261,9 +1261,9 @@ extension WellArchitectedClient {
     ///
     /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
-    /// - Parameter DeleteLensShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLensShareInput`)
     ///
-    /// - Returns: `DeleteLensShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLensShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,9 +1332,9 @@ extension WellArchitectedClient {
     ///
     /// Delete a profile. Disclaimer By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1403,9 +1403,9 @@ extension WellArchitectedClient {
     ///
     /// Delete a profile share.
     ///
-    /// - Parameter DeleteProfileShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileShareInput`)
     ///
-    /// - Returns: `DeleteProfileShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1474,9 +1474,9 @@ extension WellArchitectedClient {
     ///
     /// Delete a review template. Only the owner of a review template can delete it. After the review template is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
     ///
-    /// - Parameter DeleteReviewTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReviewTemplateInput`)
     ///
-    /// - Returns: `DeleteReviewTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReviewTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1545,9 +1545,9 @@ extension WellArchitectedClient {
     ///
     /// Delete a review template share. After the review template share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the review template with will no longer be able to apply it to new workloads.
     ///
-    /// - Parameter DeleteTemplateShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateShareInput`)
     ///
-    /// - Returns: `DeleteTemplateShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1616,9 +1616,9 @@ extension WellArchitectedClient {
     ///
     /// Delete an existing workload.
     ///
-    /// - Parameter DeleteWorkloadInput : Input for workload deletion.
+    /// - Parameter input: Input for workload deletion. (Type: `DeleteWorkloadInput`)
     ///
-    /// - Returns: `DeleteWorkloadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1687,9 +1687,9 @@ extension WellArchitectedClient {
     ///
     /// Delete a workload share.
     ///
-    /// - Parameter DeleteWorkloadShareInput : Input for Delete Workload Share
+    /// - Parameter input: Input for Delete Workload Share (Type: `DeleteWorkloadShareInput`)
     ///
-    /// - Returns: `DeleteWorkloadShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkloadShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1758,9 +1758,9 @@ extension WellArchitectedClient {
     ///
     /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation. The Amazon Web Services Well-Architected Framework lens (wellarchitected) cannot be removed from a workload.
     ///
-    /// - Parameter DisassociateLensesInput : Input to disassociate lens reviews.
+    /// - Parameter input: Input to disassociate lens reviews. (Type: `DisassociateLensesInput`)
     ///
-    /// - Returns: `DisassociateLensesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateLensesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1830,9 +1830,9 @@ extension WellArchitectedClient {
     ///
     /// Disassociate a profile from a workload.
     ///
-    /// - Parameter DisassociateProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateProfilesInput`)
     ///
-    /// - Returns: `DisassociateProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1902,9 +1902,9 @@ extension WellArchitectedClient {
     ///
     /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
-    /// - Parameter ExportLensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportLensInput`)
     ///
-    /// - Returns: `ExportLensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportLensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1971,9 +1971,9 @@ extension WellArchitectedClient {
     ///
     /// Get the answer to a specific question in a workload review.
     ///
-    /// - Parameter GetAnswerInput : Input to get answer.
+    /// - Parameter input: Input to get answer. (Type: `GetAnswerInput`)
     ///
-    /// - Returns: `GetAnswerOutput` : Output of a get answer call.
+    /// - Returns: Output of a get answer call. (Type: `GetAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2040,9 +2040,9 @@ extension WellArchitectedClient {
     ///
     /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
     ///
-    /// - Parameter GetConsolidatedReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConsolidatedReportInput`)
     ///
-    /// - Returns: `GetConsolidatedReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConsolidatedReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2109,9 +2109,9 @@ extension WellArchitectedClient {
     ///
     /// Global settings for all workloads.
     ///
-    /// - Parameter GetGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlobalSettingsInput`)
     ///
-    /// - Returns: `GetGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2176,9 +2176,9 @@ extension WellArchitectedClient {
     ///
     /// Get an existing lens.
     ///
-    /// - Parameter GetLensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLensInput`)
     ///
-    /// - Returns: `GetLensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2245,9 +2245,9 @@ extension WellArchitectedClient {
     ///
     /// Get lens review.
     ///
-    /// - Parameter GetLensReviewInput : Input to get lens review.
+    /// - Parameter input: Input to get lens review. (Type: `GetLensReviewInput`)
     ///
-    /// - Returns: `GetLensReviewOutput` : Output of a get lens review call.
+    /// - Returns: Output of a get lens review call. (Type: `GetLensReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2314,9 +2314,9 @@ extension WellArchitectedClient {
     ///
     /// Get lens review report.
     ///
-    /// - Parameter GetLensReviewReportInput : Input to get lens review report.
+    /// - Parameter input: Input to get lens review report. (Type: `GetLensReviewReportInput`)
     ///
-    /// - Returns: `GetLensReviewReportOutput` : Output of a get lens review report call.
+    /// - Returns: Output of a get lens review report call. (Type: `GetLensReviewReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2383,9 +2383,9 @@ extension WellArchitectedClient {
     ///
     /// Get lens version differences.
     ///
-    /// - Parameter GetLensVersionDifferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLensVersionDifferenceInput`)
     ///
-    /// - Returns: `GetLensVersionDifferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLensVersionDifferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,9 +2452,9 @@ extension WellArchitectedClient {
     ///
     /// Get a milestone for an existing workload.
     ///
-    /// - Parameter GetMilestoneInput : Input to get a milestone.
+    /// - Parameter input: Input to get a milestone. (Type: `GetMilestoneInput`)
     ///
-    /// - Returns: `GetMilestoneOutput` : Output of a get milestone call.
+    /// - Returns: Output of a get milestone call. (Type: `GetMilestoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2520,9 +2520,9 @@ extension WellArchitectedClient {
     ///
     /// Get profile information.
     ///
-    /// - Parameter GetProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileInput`)
     ///
-    /// - Returns: `GetProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2589,9 +2589,9 @@ extension WellArchitectedClient {
     ///
     /// Get profile template.
     ///
-    /// - Parameter GetProfileTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileTemplateInput`)
     ///
-    /// - Returns: `GetProfileTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2657,9 +2657,9 @@ extension WellArchitectedClient {
     ///
     /// Get review template.
     ///
-    /// - Parameter GetReviewTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReviewTemplateInput`)
     ///
-    /// - Returns: `GetReviewTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReviewTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2725,9 +2725,9 @@ extension WellArchitectedClient {
     ///
     /// Get review template answer.
     ///
-    /// - Parameter GetReviewTemplateAnswerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReviewTemplateAnswerInput`)
     ///
-    /// - Returns: `GetReviewTemplateAnswerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReviewTemplateAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2793,9 +2793,9 @@ extension WellArchitectedClient {
     ///
     /// Get a lens review associated with a review template.
     ///
-    /// - Parameter GetReviewTemplateLensReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReviewTemplateLensReviewInput`)
     ///
-    /// - Returns: `GetReviewTemplateLensReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReviewTemplateLensReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2861,9 +2861,9 @@ extension WellArchitectedClient {
     ///
     /// Get an existing workload.
     ///
-    /// - Parameter GetWorkloadInput : Input to get a workload.
+    /// - Parameter input: Input to get a workload. (Type: `GetWorkloadInput`)
     ///
-    /// - Returns: `GetWorkloadOutput` : Output of a get workload call.
+    /// - Returns: Output of a get workload call. (Type: `GetWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2929,9 +2929,9 @@ extension WellArchitectedClient {
     ///
     /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with [CreateLensVersion]. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
-    /// - Parameter ImportLensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportLensInput`)
     ///
-    /// - Returns: `ImportLensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportLensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3003,9 +3003,9 @@ extension WellArchitectedClient {
     ///
     /// List of answers for a particular workload and lens.
     ///
-    /// - Parameter ListAnswersInput : Input to list answers.
+    /// - Parameter input: Input to list answers. (Type: `ListAnswersInput`)
     ///
-    /// - Returns: `ListAnswersOutput` : Output of a list answers call.
+    /// - Returns: Output of a list answers call. (Type: `ListAnswersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3072,9 +3072,9 @@ extension WellArchitectedClient {
     ///
     /// List of Trusted Advisor check details by account related to the workload.
     ///
-    /// - Parameter ListCheckDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCheckDetailsInput`)
     ///
-    /// - Returns: `ListCheckDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCheckDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3143,9 +3143,9 @@ extension WellArchitectedClient {
     ///
     /// List of Trusted Advisor checks summarized for all accounts related to the workload.
     ///
-    /// - Parameter ListCheckSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCheckSummariesInput`)
     ///
-    /// - Returns: `ListCheckSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCheckSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3214,9 +3214,9 @@ extension WellArchitectedClient {
     ///
     /// List the improvements of a particular lens review.
     ///
-    /// - Parameter ListLensReviewImprovementsInput : Input to list lens review improvements.
+    /// - Parameter input: Input to list lens review improvements. (Type: `ListLensReviewImprovementsInput`)
     ///
-    /// - Returns: `ListLensReviewImprovementsOutput` : Output of a list lens review improvements call.
+    /// - Returns: Output of a list lens review improvements call. (Type: `ListLensReviewImprovementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3283,9 +3283,9 @@ extension WellArchitectedClient {
     ///
     /// List lens reviews for a particular workload.
     ///
-    /// - Parameter ListLensReviewsInput : Input to list lens reviews.
+    /// - Parameter input: Input to list lens reviews. (Type: `ListLensReviewsInput`)
     ///
-    /// - Returns: `ListLensReviewsOutput` : Output of a list lens reviews call.
+    /// - Returns: Output of a list lens reviews call. (Type: `ListLensReviewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3352,9 +3352,9 @@ extension WellArchitectedClient {
     ///
     /// List the lens shares associated with the lens.
     ///
-    /// - Parameter ListLensSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLensSharesInput`)
     ///
-    /// - Returns: `ListLensSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLensSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3421,9 +3421,9 @@ extension WellArchitectedClient {
     ///
     /// List the available lenses.
     ///
-    /// - Parameter ListLensesInput : Input to list lenses.
+    /// - Parameter input: Input to list lenses. (Type: `ListLensesInput`)
     ///
-    /// - Returns: `ListLensesOutput` : Output of a list lenses call.
+    /// - Returns: Output of a list lenses call. (Type: `ListLensesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3489,9 +3489,9 @@ extension WellArchitectedClient {
     ///
     /// List all milestones for an existing workload.
     ///
-    /// - Parameter ListMilestonesInput : Input to list all milestones for a workload.
+    /// - Parameter input: Input to list all milestones for a workload. (Type: `ListMilestonesInput`)
     ///
-    /// - Returns: `ListMilestonesOutput` : Output of a list milestones call.
+    /// - Returns: Output of a list milestones call. (Type: `ListMilestonesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3560,9 +3560,9 @@ extension WellArchitectedClient {
     ///
     /// List lens notifications.
     ///
-    /// - Parameter ListNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationsInput`)
     ///
-    /// - Returns: `ListNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3630,9 +3630,9 @@ extension WellArchitectedClient {
     ///
     /// List profile notifications.
     ///
-    /// - Parameter ListProfileNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileNotificationsInput`)
     ///
-    /// - Returns: `ListProfileNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3698,9 +3698,9 @@ extension WellArchitectedClient {
     ///
     /// List profile shares.
     ///
-    /// - Parameter ListProfileSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileSharesInput`)
     ///
-    /// - Returns: `ListProfileSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3767,9 +3767,9 @@ extension WellArchitectedClient {
     ///
     /// List profiles.
     ///
-    /// - Parameter ListProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfilesInput`)
     ///
-    /// - Returns: `ListProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3835,9 +3835,9 @@ extension WellArchitectedClient {
     ///
     /// List the answers of a review template.
     ///
-    /// - Parameter ListReviewTemplateAnswersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReviewTemplateAnswersInput`)
     ///
-    /// - Returns: `ListReviewTemplateAnswersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReviewTemplateAnswersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3904,9 +3904,9 @@ extension WellArchitectedClient {
     ///
     /// List review templates.
     ///
-    /// - Parameter ListReviewTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReviewTemplatesInput`)
     ///
-    /// - Returns: `ListReviewTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReviewTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3972,9 +3972,9 @@ extension WellArchitectedClient {
     ///
     /// List the share invitations. WorkloadNamePrefix, LensNamePrefix, ProfileNamePrefix, and TemplateNamePrefix are mutually exclusive. Use the parameter that matches your ShareResourceType.
     ///
-    /// - Parameter ListShareInvitationsInput : Input for List Share Invitations
+    /// - Parameter input: Input for List Share Invitations (Type: `ListShareInvitationsInput`)
     ///
-    /// - Returns: `ListShareInvitationsOutput` : Input for List Share Invitations
+    /// - Returns: Input for List Share Invitations (Type: `ListShareInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4040,9 +4040,9 @@ extension WellArchitectedClient {
     ///
     /// List the tags for a resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4105,9 +4105,9 @@ extension WellArchitectedClient {
     ///
     /// List review template shares.
     ///
-    /// - Parameter ListTemplateSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateSharesInput`)
     ///
-    /// - Returns: `ListTemplateSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4174,9 +4174,9 @@ extension WellArchitectedClient {
     ///
     /// List the workload shares associated with the workload.
     ///
-    /// - Parameter ListWorkloadSharesInput : Input for List Workload Share
+    /// - Parameter input: Input for List Workload Share (Type: `ListWorkloadSharesInput`)
     ///
-    /// - Returns: `ListWorkloadSharesOutput` : Input for List Workload Share
+    /// - Returns: Input for List Workload Share (Type: `ListWorkloadSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4243,9 +4243,9 @@ extension WellArchitectedClient {
     ///
     /// Paginated list of workloads.
     ///
-    /// - Parameter ListWorkloadsInput : Input to list all workloads.
+    /// - Parameter input: Input to list all workloads. (Type: `ListWorkloadsInput`)
     ///
-    /// - Returns: `ListWorkloadsOutput` : Output of a list workloads call.
+    /// - Returns: Output of a list workloads call. (Type: `ListWorkloadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4313,9 +4313,9 @@ extension WellArchitectedClient {
     ///
     /// Adds one or more tags to the specified resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4381,9 +4381,9 @@ extension WellArchitectedClient {
     ///
     /// Deletes specified tags from a resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN. To specify multiple tags, use separate tagKeys parameters, for example: DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4447,9 +4447,9 @@ extension WellArchitectedClient {
     ///
     /// Update the answer to a specific question in a workload review.
     ///
-    /// - Parameter UpdateAnswerInput : Input to update answer.
+    /// - Parameter input: Input to update answer. (Type: `UpdateAnswerInput`)
     ///
-    /// - Returns: `UpdateAnswerOutput` : Output of a update answer call.
+    /// - Returns: Output of a update answer call. (Type: `UpdateAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4519,9 +4519,9 @@ extension WellArchitectedClient {
     ///
     /// Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
     ///
-    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalSettingsInput`)
     ///
-    /// - Returns: `UpdateGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4590,9 +4590,9 @@ extension WellArchitectedClient {
     ///
     /// Update integration features.
     ///
-    /// - Parameter UpdateIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIntegrationInput`)
     ///
-    /// - Returns: `UpdateIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4663,9 +4663,9 @@ extension WellArchitectedClient {
     ///
     /// Update lens review for a particular workload.
     ///
-    /// - Parameter UpdateLensReviewInput : Input for update lens review.
+    /// - Parameter input: Input for update lens review. (Type: `UpdateLensReviewInput`)
     ///
-    /// - Returns: `UpdateLensReviewOutput` : Output of a update lens review call.
+    /// - Returns: Output of a update lens review call. (Type: `UpdateLensReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4735,9 +4735,9 @@ extension WellArchitectedClient {
     ///
     /// Update a profile.
     ///
-    /// - Parameter UpdateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileInput`)
     ///
-    /// - Returns: `UpdateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4807,9 +4807,9 @@ extension WellArchitectedClient {
     ///
     /// Update a review template.
     ///
-    /// - Parameter UpdateReviewTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReviewTemplateInput`)
     ///
-    /// - Returns: `UpdateReviewTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReviewTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4879,9 +4879,9 @@ extension WellArchitectedClient {
     ///
     /// Update a review template answer.
     ///
-    /// - Parameter UpdateReviewTemplateAnswerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReviewTemplateAnswerInput`)
     ///
-    /// - Returns: `UpdateReviewTemplateAnswerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReviewTemplateAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4951,9 +4951,9 @@ extension WellArchitectedClient {
     ///
     /// Update a lens review associated with a review template.
     ///
-    /// - Parameter UpdateReviewTemplateLensReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReviewTemplateLensReviewInput`)
     ///
-    /// - Returns: `UpdateReviewTemplateLensReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReviewTemplateLensReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5023,9 +5023,9 @@ extension WellArchitectedClient {
     ///
     /// Update a workload or custom lens share invitation. This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
     ///
-    /// - Parameter UpdateShareInvitationInput : Input for Update Share Invitation
+    /// - Parameter input: Input for Update Share Invitation (Type: `UpdateShareInvitationInput`)
     ///
-    /// - Returns: `UpdateShareInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateShareInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5095,9 +5095,9 @@ extension WellArchitectedClient {
     ///
     /// Update an existing workload.
     ///
-    /// - Parameter UpdateWorkloadInput : Input to update a workload.
+    /// - Parameter input: Input to update a workload. (Type: `UpdateWorkloadInput`)
     ///
-    /// - Returns: `UpdateWorkloadOutput` : Output of an update workload call.
+    /// - Returns: Output of an update workload call. (Type: `UpdateWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5167,9 +5167,9 @@ extension WellArchitectedClient {
     ///
     /// Update a workload share.
     ///
-    /// - Parameter UpdateWorkloadShareInput : Input for Update Workload Share
+    /// - Parameter input: Input for Update Workload Share (Type: `UpdateWorkloadShareInput`)
     ///
-    /// - Returns: `UpdateWorkloadShareOutput` : Input for Update Workload Share
+    /// - Returns: Input for Update Workload Share (Type: `UpdateWorkloadShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5239,9 +5239,9 @@ extension WellArchitectedClient {
     ///
     /// Upgrade lens review for a particular workload.
     ///
-    /// - Parameter UpgradeLensReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradeLensReviewInput`)
     ///
-    /// - Returns: `UpgradeLensReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradeLensReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5312,9 +5312,9 @@ extension WellArchitectedClient {
     ///
     /// Upgrade a profile.
     ///
-    /// - Parameter UpgradeProfileVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradeProfileVersionInput`)
     ///
-    /// - Returns: `UpgradeProfileVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradeProfileVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5386,9 +5386,9 @@ extension WellArchitectedClient {
     ///
     /// Upgrade the lens review of a review template.
     ///
-    /// - Parameter UpgradeReviewTemplateLensReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradeReviewTemplateLensReviewInput`)
     ///
-    /// - Returns: `UpgradeReviewTemplateLensReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradeReviewTemplateLensReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

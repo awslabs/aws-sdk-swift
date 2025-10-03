@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SFNClient: ClientRuntime.Client {
     public static let clientName = "SFNClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SFNClient.SFNClientConfiguration
     let serviceName = "SFN"
@@ -374,9 +374,9 @@ extension SFNClient {
     ///
     /// Creates an activity. An activity is a task that you write in any programming language and host on any machine that has access to Step Functions. Activities must poll Step Functions using the GetActivityTask API action and respond using SendTask* API actions. This function lets Step Functions know the existence of your activity and returns an identifier for use in a state machine and when polling from the activity. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateActivity is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateActivity's idempotency check is based on the activity name. If a following request has different tags values, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
-    /// - Parameter CreateActivityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateActivityInput`)
     ///
-    /// - Returns: `CreateActivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateActivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension SFNClient {
     ///
     /// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see [Amazon States Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html) in the Step Functions User Guide. If you set the publish parameter of this API action to true, it publishes version 1 as the first revision of the state machine. For additional control over security, you can encrypt your data using a customer-managed key for Step Functions state machines. You can configure a symmetric KMS key and data key reuse period when creating or updating a State Machine. The execution history and state machine definition will be encrypted with the key applied to the State Machine. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name, definition, type, LoggingConfiguration, TracingConfiguration, and EncryptionConfiguration The check is also based on the publish and versionDescription parameters. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different.
     ///
-    /// - Parameter CreateStateMachineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStateMachineInput`)
     ///
-    /// - Returns: `CreateStateMachineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStateMachineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -538,9 +538,9 @@ extension SFNClient {
     ///
     /// * [DeleteStateMachineAlias]
     ///
-    /// - Parameter CreateStateMachineAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStateMachineAliasInput`)
     ///
-    /// - Returns: `CreateStateMachineAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStateMachineAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -612,9 +612,9 @@ extension SFNClient {
     ///
     /// Deletes an activity.
     ///
-    /// - Parameter DeleteActivityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteActivityInput`)
     ///
-    /// - Returns: `DeleteActivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteActivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,9 +687,9 @@ extension SFNClient {
     ///
     /// This API action also deletes all [versions](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html) and [aliases](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) associated with a state machine. For EXPRESS state machines, the deletion happens eventually (usually in less than a minute). Running executions may emit logs after DeleteStateMachine API is called.
     ///
-    /// - Parameter DeleteStateMachineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStateMachineInput`)
     ///
-    /// - Returns: `DeleteStateMachineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStateMachineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -764,9 +764,9 @@ extension SFNClient {
     ///
     /// * [UpdateStateMachineAlias]
     ///
-    /// - Parameter DeleteStateMachineAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStateMachineAliasInput`)
     ///
-    /// - Returns: `DeleteStateMachineAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStateMachineAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,9 +839,9 @@ extension SFNClient {
     ///
     /// * [ListStateMachineVersions]
     ///
-    /// - Parameter DeleteStateMachineVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStateMachineVersionInput`)
     ///
-    /// - Returns: `DeleteStateMachineVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStateMachineVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,9 +909,9 @@ extension SFNClient {
     ///
     /// Describes an activity. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
-    /// - Parameter DescribeActivityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActivityInput`)
     ///
-    /// - Returns: `DescribeActivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,9 +978,9 @@ extension SFNClient {
     ///
     /// Provides information about a state machine execution, such as the state machine associated with the execution, the execution input and output, and relevant execution metadata. If you've [redriven](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html) an execution, you can use this API action to return information about the redrives of that execution. In addition, you can use this API action to return the Map Run Amazon Resource Name (ARN) if the execution was dispatched by a Map Run. If you specify a version or alias ARN when you call the [StartExecution] API action, DescribeExecution returns that ARN. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. Executions of an EXPRESS state machine aren't supported by DescribeExecution unless a Map Run dispatched them.
     ///
-    /// - Parameter DescribeExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExecutionInput`)
     ///
-    /// - Returns: `DescribeExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1050,9 +1050,9 @@ extension SFNClient {
     ///
     /// Provides information about a Map Run's configuration, progress, and results. If you've [redriven](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html) a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see [Examining Map Run](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html) in the Step Functions Developer Guide.
     ///
-    /// - Parameter DescribeMapRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMapRunInput`)
     ///
-    /// - Returns: `DescribeMapRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMapRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1128,9 +1128,9 @@ extension SFNClient {
     ///
     /// This API action returns the details for a state machine version if the stateMachineArn you specify is a state machine version ARN. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
-    /// - Parameter DescribeStateMachineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStateMachineInput`)
     ///
-    /// - Returns: `DescribeStateMachineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStateMachineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,9 +1208,9 @@ extension SFNClient {
     ///
     /// * [DeleteStateMachineAlias]
     ///
-    /// - Parameter DescribeStateMachineAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStateMachineAliasInput`)
     ///
-    /// - Returns: `DescribeStateMachineAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStateMachineAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,9 +1278,9 @@ extension SFNClient {
     ///
     /// Provides information about a state machine's definition, its execution role ARN, and configuration. If a Map Run dispatched the execution, this action returns the Map Run Amazon Resource Name (ARN) in the response. The state machine returned is the state machine associated with the Map Run. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. This API action is not supported by EXPRESS state machines.
     ///
-    /// - Parameter DescribeStateMachineForExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStateMachineForExecutionInput`)
     ///
-    /// - Returns: `DescribeStateMachineForExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStateMachineForExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,9 +1350,9 @@ extension SFNClient {
     ///
     /// Used by workers to retrieve a task (with the specified activity ARN) which has been scheduled for execution by a running state machine. This initiates a long poll, where the service holds the HTTP connection open and responds as soon as a task becomes available (i.e. an execution of a task of this type is needed.) The maximum time the service holds on to the request before responding is 60 seconds. If no task is available within 60 seconds, the poll returns a taskToken with a null string. This API action isn't logged in CloudTrail. Workers should set their client side socket timeout to at least 65 seconds (5 seconds higher than the maximum time the service may hold the poll request). Polling with GetActivityTask can cause latency in some implementations. See [Avoid Latency When Polling for Activity Tasks](https://docs.aws.amazon.com/step-functions/latest/dg/bp-activity-pollers.html) in the Step Functions Developer Guide.
     ///
-    /// - Parameter GetActivityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetActivityTaskInput`)
     ///
-    /// - Returns: `GetActivityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetActivityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,9 +1423,9 @@ extension SFNClient {
     ///
     /// Returns the history of the specified execution as a list of events. By default, the results are returned in ascending order of the timeStamp of the events. Use the reverseOrder parameter to get the latest events first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This API action is not supported by EXPRESS state machines.
     ///
-    /// - Parameter GetExecutionHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExecutionHistoryInput`)
     ///
-    /// - Returns: `GetExecutionHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExecutionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1496,9 +1496,9 @@ extension SFNClient {
     ///
     /// Lists the existing activities. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
-    /// - Parameter ListActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActivitiesInput`)
     ///
-    /// - Returns: `ListActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1564,9 +1564,9 @@ extension SFNClient {
     ///
     /// Lists all executions of a state machine or a Map Run. You can list all executions related to a state machine by specifying a state machine Amazon Resource Name (ARN), or those related to a Map Run by specifying a Map Run ARN. Using this API action, you can also list all [redriven](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html) executions. You can also provide a state machine [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) ARN or [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html) ARN to list the executions associated with a specific alias or version. Results are sorted by time, with the most recent execution first. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes. This API action is not supported by EXPRESS state machines.
     ///
-    /// - Parameter ListExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExecutionsInput`)
     ///
-    /// - Returns: `ListExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1637,9 +1637,9 @@ extension SFNClient {
     ///
     /// Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call DescribeMapRun to obtain more information, if needed.
     ///
-    /// - Parameter ListMapRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMapRunsInput`)
     ///
-    /// - Returns: `ListMapRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMapRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1715,9 +1715,9 @@ extension SFNClient {
     ///
     /// * [DeleteStateMachineAlias]
     ///
-    /// - Parameter ListStateMachineAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStateMachineAliasesInput`)
     ///
-    /// - Returns: `ListStateMachineAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStateMachineAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1791,9 +1791,9 @@ extension SFNClient {
     ///
     /// * [DeleteStateMachineVersion]
     ///
-    /// - Parameter ListStateMachineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStateMachineVersionsInput`)
     ///
-    /// - Returns: `ListStateMachineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStateMachineVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1861,9 +1861,9 @@ extension SFNClient {
     ///
     /// Lists the existing state machines. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
-    /// - Parameter ListStateMachinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStateMachinesInput`)
     ///
-    /// - Returns: `ListStateMachinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStateMachinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1929,9 +1929,9 @@ extension SFNClient {
     ///
     /// List tags for a given resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2002,9 +2002,9 @@ extension SFNClient {
     ///
     /// * [ListStateMachineVersions]
     ///
-    /// - Parameter PublishStateMachineVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishStateMachineVersionInput`)
     ///
-    /// - Returns: `PublishStateMachineVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishStateMachineVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2083,9 +2083,9 @@ extension SFNClient {
     ///
     /// * The execution event history count is less than 24,999. Redriven executions append their event history to the existing event history. Make sure your workflow execution contains less than 24,999 events to accommodate the ExecutionRedriven history event and at least one other history event.
     ///
-    /// - Parameter RedriveExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RedriveExecutionInput`)
     ///
-    /// - Returns: `RedriveExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RedriveExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2156,9 +2156,9 @@ extension SFNClient {
     ///
     /// Used by activity workers, Task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern, and optionally Task states using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync) pattern to report that the task identified by the taskToken failed. For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role. A caller can mark a task as fail without using any KMS permissions in the execution role if the caller provides a null value for both error and cause fields because no data needs to be encrypted.
     ///
-    /// - Parameter SendTaskFailureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendTaskFailureInput`)
     ///
-    /// - Returns: `SendTaskFailureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendTaskFailureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2229,9 +2229,9 @@ extension SFNClient {
     ///
     /// Used by activity workers and Task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern, and optionally Task states using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync) pattern to report to Step Functions that the task represented by the specified taskToken is still making progress. This action resets the Heartbeat clock. The Heartbeat threshold is specified in the state machine's Amazon States Language definition (HeartbeatSeconds). This action does not in itself create an event in the execution history. However, if the task times out, the execution history contains an ActivityTimedOut entry for activities, or a TaskTimedOut entry for tasks using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync) or [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern. The Timeout of a task, defined in the state machine's Amazon States Language definition, is its maximum allowed duration, regardless of the number of [SendTaskHeartbeat] requests received. Use HeartbeatSeconds to configure the timeout interval for heartbeats.
     ///
-    /// - Parameter SendTaskHeartbeatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendTaskHeartbeatInput`)
     ///
-    /// - Returns: `SendTaskHeartbeatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendTaskHeartbeatOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2299,9 +2299,9 @@ extension SFNClient {
     ///
     /// Used by activity workers, Task states using the [callback](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-wait-token) pattern, and optionally Task states using the [job run](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html#connect-sync) pattern to report that the task identified by the taskToken completed successfully.
     ///
-    /// - Parameter SendTaskSuccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendTaskSuccessInput`)
     ///
-    /// - Returns: `SendTaskSuccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendTaskSuccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2382,9 +2382,9 @@ extension SFNClient {
     ///
     /// If you start an execution with an unqualified state machine ARN, Step Functions uses the latest revision of the state machine for the execution. To start executions of a state machine [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html), call StartExecution and provide the version ARN or the ARN of an [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) that points to the version. StartExecution is idempotent for STANDARD workflows. For a STANDARD workflow, if you call StartExecution with the same name and input as a running execution, the call succeeds and return the same response as the original request. If the execution is closed or if the input is different, it returns a 400 ExecutionAlreadyExists error. You can reuse names after 90 days. StartExecution isn't idempotent for EXPRESS workflows.
     ///
-    /// - Parameter StartExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExecutionInput`)
     ///
-    /// - Returns: `StartExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2460,9 +2460,9 @@ extension SFNClient {
     ///
     /// Starts a Synchronous Express state machine execution. StartSyncExecution is not available for STANDARD workflows. StartSyncExecution will return a 200 OK response, even if your execution fails, because the status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your execution from running, such as permissions errors, limit errors, or issues with your state machine code and configuration. This API action isn't logged in CloudTrail.
     ///
-    /// - Parameter StartSyncExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSyncExecutionInput`)
     ///
-    /// - Returns: `StartSyncExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSyncExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2536,9 +2536,9 @@ extension SFNClient {
     ///
     /// Stops an execution. This API action is not supported by EXPRESS state machines. For an execution with encryption enabled, Step Functions will encrypt the error and cause fields using the KMS key for the execution role. A caller can stop an execution without using any KMS permissions in the execution role if the caller provides a null value for both error and cause fields because no data needs to be encrypted.
     ///
-    /// - Parameter StopExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopExecutionInput`)
     ///
-    /// - Returns: `StopExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2609,9 +2609,9 @@ extension SFNClient {
     ///
     /// Add a tag to a Step Functions resource. An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide, and [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html). Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2703,9 +2703,9 @@ extension SFNClient {
     ///
     /// The TestState API assumes an IAM role which must contain the required IAM permissions for the resources your state is accessing. For information about the permissions a state might need, see [IAM permissions to test a state](https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions). The TestState API can run for up to five minutes. If the execution of a state exceeds this duration, it fails with the States.Timeout error. TestState doesn't support [Activity tasks](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-activities.html), .sync or .waitForTaskToken[service integration patterns](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html), [Parallel](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html), or [Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html) states.
     ///
-    /// - Parameter TestStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestStateInput`)
     ///
-    /// - Returns: `TestStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2774,9 +2774,9 @@ extension SFNClient {
     ///
     /// Remove a tag from a Step Functions resource
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2843,9 +2843,9 @@ extension SFNClient {
     ///
     /// Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
     ///
-    /// - Parameter UpdateMapRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMapRunInput`)
     ///
-    /// - Returns: `UpdateMapRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMapRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2922,9 +2922,9 @@ extension SFNClient {
     ///
     /// After you update your state machine, you can set the publish parameter to true in the same action to publish a new [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html). This way, you can opt-in to strict versioning of your state machine. Step Functions assigns monotonically increasing integers for state machine versions, starting at version number 1. All StartExecution calls within a few seconds use the updated definition and roleArn. Executions started immediately after you call UpdateStateMachine may use the previous state machine definition and roleArn.
     ///
-    /// - Parameter UpdateStateMachineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStateMachineInput`)
     ///
-    /// - Returns: `UpdateStateMachineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStateMachineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3010,9 +3010,9 @@ extension SFNClient {
     ///
     /// * [DeleteStateMachineAlias]
     ///
-    /// - Parameter UpdateStateMachineAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStateMachineAliasInput`)
     ///
-    /// - Returns: `UpdateStateMachineAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStateMachineAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3089,9 +3089,9 @@ extension SFNClient {
     ///
     /// Validation will look for problems in your state machine definition and return a result and a list of diagnostic elements. The result value will be OK when your workflow definition can be successfully created or updated. Note the result can be OK even when diagnostic warnings are present in the response. The result value will be FAIL when the workflow definition contains errors that would prevent you from creating or updating your state machine. The list of [ValidateStateMachineDefinitionDiagnostic](https://docs.aws.amazon.com/step-functions/latest/apireference/API_ValidateStateMachineDefinitionDiagnostic.html) data elements can contain zero or more WARNING and/or ERROR elements. The ValidateStateMachineDefinition API might add new diagnostics in the future, adjust diagnostic codes, or change the message wording. Your automated processes should only rely on the value of the result field value (OK, FAIL). Do not rely on the exact order, count, or wording of diagnostic messages.
     ///
-    /// - Parameter ValidateStateMachineDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateStateMachineDefinitionInput`)
     ///
-    /// - Returns: `ValidateStateMachineDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateStateMachineDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

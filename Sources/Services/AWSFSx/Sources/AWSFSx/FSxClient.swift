@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FSxClient: ClientRuntime.Client {
     public static let clientName = "FSxClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: FSxClient.FSxClientConfiguration
     let serviceName = "FSx"
@@ -373,9 +373,9 @@ extension FSxClient {
     ///
     /// Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system. A file system can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see [Working with DNS Aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html) and [Walkthrough 5: Using DNS aliases to access your file system](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/walkthrough05-file-system-custom-CNAME.html), including additional steps you must take to be able to access your file system using a DNS alias. The system response shows the DNS aliases that Amazon FSx is attempting to associate with the file system. Use the API operation to monitor the status of the aliases Amazon FSx is associating with the file system.
     ///
-    /// - Parameter AssociateFileSystemAliasesInput : The request object specifying one or more DNS alias names to associate with an Amazon FSx for Windows File Server file system.
+    /// - Parameter input: The request object specifying one or more DNS alias names to associate with an Amazon FSx for Windows File Server file system. (Type: `AssociateFileSystemAliasesInput`)
     ///
-    /// - Returns: `AssociateFileSystemAliasesOutput` : The system generated response showing the DNS aliases that Amazon FSx is attempting to associate with the file system. Use the API operation to monitor the status of the aliases Amazon FSx is associating with the file system. It can take up to 2.5 minutes for the alias status to change from CREATING to AVAILABLE.
+    /// - Returns: The system generated response showing the DNS aliases that Amazon FSx is attempting to associate with the file system. Use the API operation to monitor the status of the aliases Amazon FSx is associating with the file system. It can take up to 2.5 minutes for the alias status to change from CREATING to AVAILABLE. (Type: `AssociateFileSystemAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,9 +453,9 @@ extension FSxClient {
     ///
     /// For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that have already been released will remain in the released state.
     ///
-    /// - Parameter CancelDataRepositoryTaskInput : Cancels a data repository task.
+    /// - Parameter input: Cancels a data repository task. (Type: `CancelDataRepositoryTaskInput`)
     ///
-    /// - Returns: `CancelDataRepositoryTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelDataRepositoryTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,9 +525,9 @@ extension FSxClient {
     ///
     /// Copies an existing backup within the same Amazon Web Services account to another Amazon Web Services Region (cross-Region copy) or within the same Amazon Web Services Region (in-Region copy). You can have up to five backup copy requests in progress to a single destination Region per account. You can use cross-Region backup copies for cross-Region disaster recovery. You can periodically take backups and copy them to another Region so that in the event of a disaster in the primary Region, you can restore from backup and recover availability quickly in the other Region. You can make cross-Region copies only within your Amazon Web Services partition. A partition is a grouping of Regions. Amazon Web Services currently has three partitions: aws (Standard Regions), aws-cn (China Regions), and aws-us-gov (Amazon Web Services GovCloud [US] Regions). You can also use backup copies to clone your file dataset to another Region or within the same Region. You can use the SourceRegion parameter to specify the Amazon Web Services Region from which the backup will be copied. For example, if you make the call from the us-west-1 Region and want to copy a backup from the us-east-2 Region, you specify us-east-2 in the SourceRegion parameter to make a cross-Region copy. If you don't specify a Region, the backup copy is created in the same Region where the request is sent from (in-Region copy). For more information about creating backup copies, see [ Copying backups](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html#copy-backups) in the Amazon FSx for Windows User Guide, [Copying backups](https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-backups-fsx.html#copy-backups) in the Amazon FSx for Lustre User Guide, and [Copying backups](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/using-backups.html#copy-backups) in the Amazon FSx for OpenZFS User Guide.
     ///
-    /// - Parameter CopyBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyBackupInput`)
     ///
-    /// - Returns: `CopyBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -604,9 +604,9 @@ extension FSxClient {
     ///
     /// Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file system. For more information, see [on-demand data replication](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/on-demand-replication.html) in the Amazon FSx for OpenZFS User Guide.
     ///
-    /// - Parameter CopySnapshotAndUpdateVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopySnapshotAndUpdateVolumeInput`)
     ///
-    /// - Returns: `CopySnapshotAndUpdateVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopySnapshotAndUpdateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,9 +693,9 @@ extension FSxClient {
     ///
     /// * [DetachAndDeleteS3AccessPoint]
     ///
-    /// - Parameter CreateAndAttachS3AccessPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAndAttachS3AccessPointInput`)
     ///
-    /// - Returns: `CreateAndAttachS3AccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAndAttachS3AccessPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -795,9 +795,9 @@ extension FSxClient {
     ///
     /// By using the idempotent operation, you can retry a CreateBackup operation without the risk of creating an extra backup. This approach can be useful when an initial call fails in a way that makes it unclear whether a backup was created. If you use the same client request token and the initial call created a backup, the operation returns a successful result because all the parameters are the same. The CreateBackup operation returns while the backup's lifecycle state is still CREATING. You can check the backup creation status by calling the [DescribeBackups](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DescribeBackups.html) operation, which returns the backup state along with other information.
     ///
-    /// - Parameter CreateBackupInput : The request object for the CreateBackup operation.
+    /// - Parameter input: The request object for the CreateBackup operation. (Type: `CreateBackupInput`)
     ///
-    /// - Returns: `CreateBackupOutput` : The response object for the CreateBackup operation.
+    /// - Returns: The response object for the CreateBackup operation. (Type: `CreateBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension FSxClient {
     ///
     /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or prefix associated with it. You can configure a data repository association for automatic import only, for automatic export only, or for both. To learn more about linking a data repository to your file system, see [Linking your file system to an S3 bucket](https://docs.aws.amazon.com/fsx/latest/LustreGuide/create-dra-linked-data-repo.html). CreateDataRepositoryAssociation isn't supported on Amazon File Cache resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
     ///
-    /// - Parameter CreateDataRepositoryAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataRepositoryAssociationInput`)
     ///
-    /// - Returns: `CreateDataRepositoryAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataRepositoryAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -945,9 +945,9 @@ extension FSxClient {
     ///
     /// Creates an Amazon FSx for Lustre data repository task. A CreateDataRepositoryTask operation will fail if a data repository is not linked to the FSx file system. You use import and export data repository tasks to perform bulk operations between your FSx for Lustre file system and its linked data repositories. An example of a data repository task is exporting any data and metadata changes, including POSIX metadata, to files, directories, and symbolic links (symlinks) from your FSx file system to a linked data repository. You use release data repository tasks to release data from your file system for files that are exported to S3. The metadata of released files remains on the file system so users or applications can still access released files by reading the files again, which will restore data from Amazon S3 to the FSx for Lustre file system. To learn more about data repository tasks, see [Data Repository Tasks](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html). To learn more about linking a data repository to your file system, see [Linking your file system to an S3 bucket](https://docs.aws.amazon.com/fsx/latest/LustreGuide/create-dra-linked-data-repo.html).
     ///
-    /// - Parameter CreateDataRepositoryTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataRepositoryTaskInput`)
     ///
-    /// - Returns: `CreateDataRepositoryTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataRepositoryTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1030,9 +1030,9 @@ extension FSxClient {
     ///
     /// The CreateFileCache call returns while the cache's lifecycle state is still CREATING. You can check the cache creation status by calling the [DescribeFileCaches](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DescribeFileCaches.html) operation, which returns the cache state along with other information.
     ///
-    /// - Parameter CreateFileCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFileCacheInput`)
     ///
-    /// - Returns: `CreateFileCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFileCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1123,9 +1123,9 @@ extension FSxClient {
     ///
     /// The CreateFileSystem call returns while the file system's lifecycle state is still CREATING. You can check the file-system creation status by calling the [DescribeFileSystems](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DescribeFileSystems.html) operation, which returns the file system state along with other information.
     ///
-    /// - Parameter CreateFileSystemInput : The request object used to create a new Amazon FSx file system.
+    /// - Parameter input: The request object used to create a new Amazon FSx file system. (Type: `CreateFileSystemInput`)
     ///
-    /// - Returns: `CreateFileSystemOutput` : The response object returned after the file system is created.
+    /// - Returns: The response object returned after the file system is created. (Type: `CreateFileSystemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,9 +1208,9 @@ extension FSxClient {
     ///
     /// Parameters like the Active Directory, default share name, automatic backup, and backup settings default to the parameters of the file system that was backed up, unless overridden. You can explicitly supply other settings. By using the idempotent operation, you can retry a CreateFileSystemFromBackup call without the risk of creating an extra file system. This approach can be useful when an initial call fails in a way that makes it unclear whether a file system was created. Examples are if a transport level timeout occurred, or your connection was reset. If you use the same client request token and the initial call created a file system, the client receives a success message as long as the parameters are the same. The CreateFileSystemFromBackup call returns while the file system's lifecycle state is still CREATING. You can check the file-system creation status by calling the [ DescribeFileSystems](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DescribeFileSystems.html) operation, which returns the file system state along with other information.
     ///
-    /// - Parameter CreateFileSystemFromBackupInput : The request object for the CreateFileSystemFromBackup operation.
+    /// - Parameter input: The request object for the CreateFileSystemFromBackup operation. (Type: `CreateFileSystemFromBackupInput`)
     ///
-    /// - Returns: `CreateFileSystemFromBackupOutput` : The response object for the CreateFileSystemFromBackup operation.
+    /// - Returns: The response object for the CreateFileSystemFromBackup operation. (Type: `CreateFileSystemFromBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1292,9 +1292,9 @@ extension FSxClient {
     ///
     /// By using the idempotent operation, you can retry a CreateSnapshot operation without the risk of creating an extra snapshot. This approach can be useful when an initial call fails in a way that makes it unclear whether a snapshot was created. If you use the same client request token and the initial call created a snapshot, the operation returns a successful result because all the parameters are the same. The CreateSnapshot operation returns while the snapshot's lifecycle state is still CREATING. You can check the snapshot creation status by calling the [DescribeSnapshots](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DescribeSnapshots.html) operation, which returns the snapshot state along with other information.
     ///
-    /// - Parameter CreateSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotInput`)
     ///
-    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1364,9 +1364,9 @@ extension FSxClient {
     ///
     /// Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
     ///
-    /// - Parameter CreateStorageVirtualMachineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStorageVirtualMachineInput`)
     ///
-    /// - Returns: `CreateStorageVirtualMachineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStorageVirtualMachineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,9 +1439,9 @@ extension FSxClient {
     ///
     /// Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
     ///
-    /// - Parameter CreateVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVolumeInput`)
     ///
-    /// - Returns: `CreateVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1515,9 +1515,9 @@ extension FSxClient {
     ///
     /// Creates a new Amazon FSx for NetApp ONTAP volume from an existing Amazon FSx volume backup.
     ///
-    /// - Parameter CreateVolumeFromBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVolumeFromBackupInput`)
     ///
-    /// - Returns: `CreateVolumeFromBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVolumeFromBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1591,9 +1591,9 @@ extension FSxClient {
     ///
     /// Deletes an Amazon FSx backup. After deletion, the backup no longer exists, and its data is gone. The DeleteBackup call returns instantly. The backup won't show up in later DescribeBackups calls. The data in a deleted backup is also deleted and can't be recovered by any means.
     ///
-    /// - Parameter DeleteBackupInput : The request object for the DeleteBackup operation.
+    /// - Parameter input: The request object for the DeleteBackup operation. (Type: `DeleteBackupInput`)
     ///
-    /// - Returns: `DeleteBackupOutput` : The response object for the DeleteBackup operation.
+    /// - Returns: The response object for the DeleteBackup operation. (Type: `DeleteBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1666,9 +1666,9 @@ extension FSxClient {
     ///
     /// Deletes a data repository association on an Amazon FSx for Lustre file system. Deleting the data repository association unlinks the file system from the Amazon S3 bucket. When deleting a data repository association, you have the option of deleting the data in the file system that corresponds to the data repository association. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type.
     ///
-    /// - Parameter DeleteDataRepositoryAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataRepositoryAssociationInput`)
     ///
-    /// - Returns: `DeleteDataRepositoryAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataRepositoryAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1739,9 +1739,9 @@ extension FSxClient {
     ///
     /// Deletes an Amazon File Cache resource. After deletion, the cache no longer exists, and its data is gone. The DeleteFileCache operation returns while the cache has the DELETING status. You can check the cache deletion status by calling the [DescribeFileCaches](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DescribeFileCaches.html) operation, which returns a list of caches in your account. If you pass the cache ID for a deleted cache, the DescribeFileCaches operation returns a FileCacheNotFound error. The data in a deleted cache is also deleted and can't be recovered by any means.
     ///
-    /// - Parameter DeleteFileCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFileCacheInput`)
     ///
-    /// - Returns: `DeleteFileCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFileCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1812,9 +1812,9 @@ extension FSxClient {
     ///
     /// Deletes a file system. After deletion, the file system no longer exists, and its data is gone. Any existing automatic backups and snapshots are also deleted. To delete an Amazon FSx for NetApp ONTAP file system, first delete all the volumes and storage virtual machines (SVMs) on the file system. Then provide a FileSystemId value to the DeleteFileSystem operation. Before deleting an Amazon FSx for OpenZFS file system, make sure that there aren't any Amazon S3 access points attached to any volume. For more information on how to list S3 access points that are attached to volumes, see [Listing S3 access point attachments](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/access-points-list.html). For more information on how to delete S3 access points, see [Deleting an S3 access point attachment](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/delete-access-point.html). By default, when you delete an Amazon FSx for Windows File Server file system, a final backup is created upon deletion. This final backup isn't subject to the file system's retention policy, and must be manually deleted. To delete an Amazon FSx for Lustre file system, first [unmount](https://docs.aws.amazon.com/fsx/latest/LustreGuide/unmounting-fs.html) it from every connected Amazon EC2 instance, then provide a FileSystemId value to the DeleteFileSystem operation. By default, Amazon FSx will not take a final backup when the DeleteFileSystem operation is invoked. On file systems not linked to an Amazon S3 bucket, set SkipFinalBackup to false to take a final backup of the file system you are deleting. Backups cannot be enabled on S3-linked file systems. To ensure all of your data is written back to S3 before deleting your file system, you can either monitor for the [AgeOfOldestQueuedMessage](https://docs.aws.amazon.com/fsx/latest/LustreGuide/monitoring-cloudwatch.html#auto-import-export-metrics) metric to be zero (if using automatic export) or you can run an [export data repository task](https://docs.aws.amazon.com/fsx/latest/LustreGuide/export-data-repo-task-dra.html). If you have automatic export enabled and want to use an export data repository task, you have to disable automatic export before executing the export data repository task. The DeleteFileSystem operation returns while the file system has the DELETING status. You can check the file system deletion status by calling the [DescribeFileSystems](https://docs.aws.amazon.com/fsx/latest/APIReference/API_DescribeFileSystems.html) operation, which returns a list of file systems in your account. If you pass the file system ID for a deleted file system, the DescribeFileSystems operation returns a FileSystemNotFound error. If a data repository task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will fail with an HTTP status code 400 (Bad Request). The data in a deleted file system is also deleted and can't be recovered by any means.
     ///
-    /// - Parameter DeleteFileSystemInput : The request object for DeleteFileSystem operation.
+    /// - Parameter input: The request object for DeleteFileSystem operation. (Type: `DeleteFileSystemInput`)
     ///
-    /// - Returns: `DeleteFileSystemOutput` : The response object for the DeleteFileSystem operation.
+    /// - Returns: The response object for the DeleteFileSystem operation. (Type: `DeleteFileSystemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1885,9 +1885,9 @@ extension FSxClient {
     ///
     /// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot no longer exists, and its data is gone. Deleting a snapshot doesn't affect snapshots stored in a file system backup. The DeleteSnapshot operation returns instantly. The snapshot appears with the lifecycle status of DELETING until the deletion is complete.
     ///
-    /// - Parameter DeleteSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotInput`)
     ///
-    /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1956,9 +1956,9 @@ extension FSxClient {
     ///
     /// Deletes an existing Amazon FSx for ONTAP storage virtual machine (SVM). Prior to deleting an SVM, you must delete all non-root volumes in the SVM, otherwise the operation will fail.
     ///
-    /// - Parameter DeleteStorageVirtualMachineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageVirtualMachineInput`)
     ///
-    /// - Returns: `DeleteStorageVirtualMachineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageVirtualMachineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2028,9 +2028,9 @@ extension FSxClient {
     ///
     /// Deletes an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
     ///
-    /// - Parameter DeleteVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVolumeInput`)
     ///
-    /// - Returns: `DeleteVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2105,9 +2105,9 @@ extension FSxClient {
     ///
     /// * The order of the backups returned in the response of one DescribeBackups call and the order of the backups returned across the responses of a multi-call iteration is unspecified.
     ///
-    /// - Parameter DescribeBackupsInput : The request object for the DescribeBackups operation.
+    /// - Parameter input: The request object for the DescribeBackups operation. (Type: `DescribeBackupsInput`)
     ///
-    /// - Returns: `DescribeBackupsOutput` : Response object for the DescribeBackups operation.
+    /// - Returns: Response object for the DescribeBackups operation. (Type: `DescribeBackupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2177,9 +2177,9 @@ extension FSxClient {
     ///
     /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository associations, if one or more AssociationIds values are provided in the request, or if filters are used in the request. Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2,15 file systems, excluding scratch_1 deployment type. You can use filters to narrow the response to include just data repository associations for specific file systems (use the file-system-id filter with the ID of the file system) or caches (use the file-cache-id filter with the ID of the cache), or data repository associations for a specific repository type (use the data-repository-type filter with a value of S3 or NFS). If you don't use filters, the response returns all data repository associations owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all data repository associations, you can paginate the response by using the optional MaxResults parameter to limit the number of data repository associations returned in a response. If more data repository associations remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
     ///
-    /// - Parameter DescribeDataRepositoryAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataRepositoryAssociationsInput`)
     ///
-    /// - Returns: `DescribeDataRepositoryAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataRepositoryAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2249,9 +2249,9 @@ extension FSxClient {
     ///
     /// Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data repository tasks, if one or more TaskIds values are provided in the request, or if filters are used in the request. You can use filters to narrow the response to include just tasks for specific file systems or caches, or tasks in a specific lifecycle state. Otherwise, it returns all data repository tasks owned by your Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all tasks, you can paginate the response by using the optional MaxResults parameter to limit the number of tasks returned in a response. If more tasks remain, a NextToken value is returned in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response.
     ///
-    /// - Parameter DescribeDataRepositoryTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataRepositoryTasksInput`)
     ///
-    /// - Returns: `DescribeDataRepositoryTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataRepositoryTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2324,9 +2324,9 @@ extension FSxClient {
     ///
     /// * The order of caches returned in the response of one DescribeFileCaches call and the order of caches returned across the responses of a multicall iteration is unspecified.
     ///
-    /// - Parameter DescribeFileCachesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFileCachesInput`)
     ///
-    /// - Returns: `DescribeFileCachesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFileCachesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2394,9 +2394,9 @@ extension FSxClient {
     ///
     /// Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of all DNS aliases that have been associated with and disassociated from the file system is available in the list of [AdministrativeAction] provided in the [DescribeFileSystems] operation response.
     ///
-    /// - Parameter DescribeFileSystemAliasesInput : The request object for DescribeFileSystemAliases operation.
+    /// - Parameter input: The request object for DescribeFileSystemAliases operation. (Type: `DescribeFileSystemAliasesInput`)
     ///
-    /// - Returns: `DescribeFileSystemAliasesOutput` : The response object for DescribeFileSystemAliases operation.
+    /// - Returns: The response object for DescribeFileSystemAliases operation. (Type: `DescribeFileSystemAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2469,9 +2469,9 @@ extension FSxClient {
     ///
     /// * The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multicall iteration is unspecified.
     ///
-    /// - Parameter DescribeFileSystemsInput : The request object for DescribeFileSystems operation.
+    /// - Parameter input: The request object for DescribeFileSystems operation. (Type: `DescribeFileSystemsInput`)
     ///
-    /// - Returns: `DescribeFileSystemsOutput` : The response object for DescribeFileSystems operation.
+    /// - Returns: The response object for DescribeFileSystems operation. (Type: `DescribeFileSystemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2541,9 +2541,9 @@ extension FSxClient {
     ///
     /// * fsx:DescribeS3AccessPointAttachments
     ///
-    /// - Parameter DescribeS3AccessPointAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeS3AccessPointAttachmentsInput`)
     ///
-    /// - Returns: `DescribeS3AccessPointAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeS3AccessPointAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2612,9 +2612,9 @@ extension FSxClient {
     ///
     /// Indicates whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see [Creating FSx for ONTAP file systems in shared subnets](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/creating-file-systems.html#fsxn-vpc-shared-subnets).
     ///
-    /// - Parameter DescribeSharedVpcConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSharedVpcConfigurationInput`)
     ///
-    /// - Returns: `DescribeSharedVpcConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSharedVpcConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2685,9 +2685,9 @@ extension FSxClient {
     ///
     /// * The order of snapshots returned in the response of one DescribeSnapshots call and the order of backups returned across the responses of a multi-call iteration is unspecified.
     ///
-    /// - Parameter DescribeSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotsInput`)
     ///
-    /// - Returns: `DescribeSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2755,9 +2755,9 @@ extension FSxClient {
     ///
     /// Describes one or more Amazon FSx for NetApp ONTAP storage virtual machines (SVMs).
     ///
-    /// - Parameter DescribeStorageVirtualMachinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStorageVirtualMachinesInput`)
     ///
-    /// - Returns: `DescribeStorageVirtualMachinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStorageVirtualMachinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2825,9 +2825,9 @@ extension FSxClient {
     ///
     /// Describes one or more Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volumes.
     ///
-    /// - Parameter DescribeVolumesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVolumesInput`)
     ///
-    /// - Returns: `DescribeVolumesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVolumesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2899,9 +2899,9 @@ extension FSxClient {
     ///
     /// * s3:DeleteAccessPoint
     ///
-    /// - Parameter DetachAndDeleteS3AccessPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachAndDeleteS3AccessPointInput`)
     ///
-    /// - Returns: `DetachAndDeleteS3AccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachAndDeleteS3AccessPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2972,9 +2972,9 @@ extension FSxClient {
     ///
     /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see [Working with DNS Aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html). The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to monitor the status of the aliases Amazon FSx is disassociating with the file system.
     ///
-    /// - Parameter DisassociateFileSystemAliasesInput : The request object of DNS aliases to disassociate from an Amazon FSx for Windows File Server file system.
+    /// - Parameter input: The request object of DNS aliases to disassociate from an Amazon FSx for Windows File Server file system. (Type: `DisassociateFileSystemAliasesInput`)
     ///
-    /// - Returns: `DisassociateFileSystemAliasesOutput` : The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to monitor the status of the aliases Amazon FSx is removing from the file system.
+    /// - Returns: The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to monitor the status of the aliases Amazon FSx is removing from the file system. (Type: `DisassociateFileSystemAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3047,9 +3047,9 @@ extension FSxClient {
     ///
     /// * The order of tags returned in the response of one ListTagsForResource call and the order of tags returned across the responses of a multi-call iteration is unspecified.
     ///
-    /// - Parameter ListTagsForResourceInput : The request object for ListTagsForResource operation.
+    /// - Parameter input: The request object for ListTagsForResource operation. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : The response object for ListTagsForResource operation.
+    /// - Returns: The response object for ListTagsForResource operation. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3119,9 +3119,9 @@ extension FSxClient {
     ///
     /// Releases the file system lock from an Amazon FSx for OpenZFS file system.
     ///
-    /// - Parameter ReleaseFileSystemNfsV3LocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReleaseFileSystemNfsV3LocksInput`)
     ///
-    /// - Returns: `ReleaseFileSystemNfsV3LocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReleaseFileSystemNfsV3LocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3192,9 +3192,9 @@ extension FSxClient {
     ///
     /// Returns an Amazon FSx for OpenZFS volume to the state saved by the specified snapshot.
     ///
-    /// - Parameter RestoreVolumeFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreVolumeFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreVolumeFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreVolumeFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3263,9 +3263,9 @@ extension FSxClient {
     ///
     /// After performing steps to repair the Active Directory configuration of an FSx for Windows File Server file system, use this action to initiate the process of Amazon FSx attempting to reconnect to the file system.
     ///
-    /// - Parameter StartMisconfiguredStateRecoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMisconfiguredStateRecoveryInput`)
     ///
-    /// - Returns: `StartMisconfiguredStateRecoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMisconfiguredStateRecoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3334,9 +3334,9 @@ extension FSxClient {
     ///
     /// Tags an Amazon FSx resource.
     ///
-    /// - Parameter TagResourceInput : The request object for the TagResource operation.
+    /// - Parameter input: The request object for the TagResource operation. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : The response object for the TagResource operation.
+    /// - Returns: The response object for the TagResource operation. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3406,9 +3406,9 @@ extension FSxClient {
     ///
     /// This action removes a tag from an Amazon FSx resource.
     ///
-    /// - Parameter UntagResourceInput : The request object for UntagResource action.
+    /// - Parameter input: The request object for UntagResource action. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : The response object for UntagResource action.
+    /// - Returns: The response object for UntagResource action. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3478,9 +3478,9 @@ extension FSxClient {
     ///
     /// Updates the configuration of an existing data repository association on an Amazon FSx for Lustre file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type.
     ///
-    /// - Parameter UpdateDataRepositoryAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataRepositoryAssociationInput`)
     ///
-    /// - Returns: `UpdateDataRepositoryAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataRepositoryAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3551,9 +3551,9 @@ extension FSxClient {
     ///
     /// Updates the configuration of an existing Amazon File Cache resource. You can update multiple properties in a single request.
     ///
-    /// - Parameter UpdateFileCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFileCacheInput`)
     ///
-    /// - Returns: `UpdateFileCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFileCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3727,9 +3727,9 @@ extension FSxClient {
     ///
     /// * WeeklyMaintenanceStartTime
     ///
-    /// - Parameter UpdateFileSystemInput : The request object for the UpdateFileSystem operation.
+    /// - Parameter input: The request object for the UpdateFileSystem operation. (Type: `UpdateFileSystemInput`)
     ///
-    /// - Returns: `UpdateFileSystemOutput` : The response object for the UpdateFileSystem operation.
+    /// - Returns: The response object for the UpdateFileSystem operation. (Type: `UpdateFileSystemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3803,9 +3803,9 @@ extension FSxClient {
     ///
     /// Configures whether participant accounts in your organization can create Amazon FSx for NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud (VPC) owner. For more information, see the [Amazon FSx for NetApp ONTAP User Guide](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/maz-shared-vpc.html). We strongly recommend that participant-created Multi-AZ file systems in the shared VPC are deleted before you disable this feature. Once the feature is disabled, these file systems will enter a MISCONFIGURED state and behave like Single-AZ file systems. For more information, see [Important considerations before disabling shared VPC support for Multi-AZ file systems](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/maz-shared-vpc.html#disabling-maz-vpc-sharing).
     ///
-    /// - Parameter UpdateSharedVpcConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSharedVpcConfigurationInput`)
     ///
-    /// - Returns: `UpdateSharedVpcConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSharedVpcConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3874,9 +3874,9 @@ extension FSxClient {
     ///
     /// Updates the name of an Amazon FSx for OpenZFS snapshot.
     ///
-    /// - Parameter UpdateSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSnapshotInput`)
     ///
-    /// - Returns: `UpdateSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3945,9 +3945,9 @@ extension FSxClient {
     ///
     /// Updates an FSx for ONTAP storage virtual machine (SVM).
     ///
-    /// - Parameter UpdateStorageVirtualMachineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStorageVirtualMachineInput`)
     ///
-    /// - Returns: `UpdateStorageVirtualMachineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStorageVirtualMachineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4018,9 +4018,9 @@ extension FSxClient {
     ///
     /// Updates the configuration of an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volume.
     ///
-    /// - Parameter UpdateVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVolumeInput`)
     ///
-    /// - Returns: `UpdateVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

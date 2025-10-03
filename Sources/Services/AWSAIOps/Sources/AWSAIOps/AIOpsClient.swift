@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AIOpsClient: ClientRuntime.Client {
     public static let clientName = "AIOpsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AIOpsClient.AIOpsClientConfiguration
     let serviceName = "AIOps"
@@ -381,9 +381,9 @@ extension AIOpsClient {
     ///
     /// Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region To create an investigation group and set up CloudWatch investigations, you must be signed in to an IAM principal that has either the AIOpsConsoleAdminPolicy or the AdministratorAccess IAM policy attached, or to an account that has similar permissions. You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with CreateInvestigationGroup and you want to enable alarms to do this, you must use PutInvestigationGroupPolicy to create a resource policy that grants this permission to CloudWatch alarms. For more information about configuring CloudWatch alarms, see [Using Amazon CloudWatch alarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html)
     ///
-    /// - Parameter CreateInvestigationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvestigationGroupInput`)
     ///
-    /// - Returns: `CreateInvestigationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvestigationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,9 +455,9 @@ extension AIOpsClient {
     ///
     /// Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
     ///
-    /// - Parameter DeleteInvestigationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvestigationGroupInput`)
     ///
-    /// - Returns: `DeleteInvestigationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvestigationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,9 +525,9 @@ extension AIOpsClient {
     ///
     /// Removes the IAM resource policy from being associated with the investigation group that you specify.
     ///
-    /// - Parameter DeleteInvestigationGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvestigationGroupPolicyInput`)
     ///
-    /// - Returns: `DeleteInvestigationGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvestigationGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -595,9 +595,9 @@ extension AIOpsClient {
     ///
     /// Returns the configuration information for the specified investigation group.
     ///
-    /// - Parameter GetInvestigationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvestigationGroupInput`)
     ///
-    /// - Returns: `GetInvestigationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvestigationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension AIOpsClient {
     ///
     /// Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, {\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}.
     ///
-    /// - Parameter GetInvestigationGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvestigationGroupPolicyInput`)
     ///
-    /// - Returns: `GetInvestigationGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvestigationGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,9 +735,9 @@ extension AIOpsClient {
     ///
     /// Returns the ARN and name of each investigation group in the account.
     ///
-    /// - Parameter ListInvestigationGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvestigationGroupsInput`)
     ///
-    /// - Returns: `ListInvestigationGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvestigationGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,9 +806,9 @@ extension AIOpsClient {
     ///
     /// Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -876,9 +876,9 @@ extension AIOpsClient {
     ///
     /// Creates an IAM resource policy and assigns it to the specified investigation group. If you create your investigation group with CreateInvestigationGroup and you want to enable CloudWatch alarms to create investigations and add events to investigations, you must use this operation to create a policy similar to this example.  { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent" ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount": "account-id" }, "ArnLike": { "aws:SourceArn": "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] }
     ///
-    /// - Parameter PutInvestigationGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInvestigationGroupPolicyInput`)
     ///
-    /// - Returns: `PutInvestigationGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInvestigationGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -949,9 +949,9 @@ extension AIOpsClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,9 +1022,9 @@ extension AIOpsClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,9 +1093,9 @@ extension AIOpsClient {
     ///
     /// Updates the configuration of the specified investigation group.
     ///
-    /// - Parameter UpdateInvestigationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInvestigationGroupInput`)
     ///
-    /// - Returns: `UpdateInvestigationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInvestigationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

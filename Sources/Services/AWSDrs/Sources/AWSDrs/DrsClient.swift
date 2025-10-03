@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DrsClient: ClientRuntime.Client {
     public static let clientName = "DrsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DrsClient.DrsClientConfiguration
     let serviceName = "drs"
@@ -372,9 +372,9 @@ extension DrsClient {
     ///
     /// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
     ///
-    /// - Parameter AssociateSourceNetworkStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceNetworkStackInput`)
     ///
-    /// - Returns: `AssociateSourceNetworkStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSourceNetworkStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension DrsClient {
     ///
     /// Create an extended source server in the target Account based on the source server in staging account.
     ///
-    /// - Parameter CreateExtendedSourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExtendedSourceServerInput`)
     ///
-    /// - Returns: `CreateExtendedSourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExtendedSourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension DrsClient {
     ///
     /// Creates a new Launch Configuration Template.
     ///
-    /// - Parameter CreateLaunchConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLaunchConfigurationTemplateInput`)
     ///
-    /// - Returns: `CreateLaunchConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLaunchConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension DrsClient {
     ///
     /// Creates a new ReplicationConfigurationTemplate.
     ///
-    /// - Parameter CreateReplicationConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReplicationConfigurationTemplateInput`)
     ///
-    /// - Returns: `CreateReplicationConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReplicationConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension DrsClient {
     ///
     /// Create a new Source Network resource for a provided VPC ID.
     ///
-    /// - Parameter CreateSourceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSourceNetworkInput`)
     ///
-    /// - Returns: `CreateSourceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSourceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,9 +735,9 @@ extension DrsClient {
     ///
     /// Deletes a single Job by ID.
     ///
-    /// - Parameter DeleteJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobInput`)
     ///
-    /// - Returns: `DeleteJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,9 +806,9 @@ extension DrsClient {
     ///
     /// Deletes a resource launch action.
     ///
-    /// - Parameter DeleteLaunchActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLaunchActionInput`)
     ///
-    /// - Returns: `DeleteLaunchActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLaunchActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,9 +877,9 @@ extension DrsClient {
     ///
     /// Deletes a single Launch Configuration Template by ID.
     ///
-    /// - Parameter DeleteLaunchConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLaunchConfigurationTemplateInput`)
     ///
-    /// - Returns: `DeleteLaunchConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLaunchConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension DrsClient {
     ///
     /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
     ///
-    /// - Parameter DeleteRecoveryInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecoveryInstanceInput`)
     ///
-    /// - Returns: `DeleteRecoveryInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecoveryInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,9 +1019,9 @@ extension DrsClient {
     ///
     /// Deletes a single Replication Configuration Template by ID
     ///
-    /// - Parameter DeleteReplicationConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReplicationConfigurationTemplateInput`)
     ///
-    /// - Returns: `DeleteReplicationConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReplicationConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1090,9 +1090,9 @@ extension DrsClient {
     ///
     /// Delete Source Network resource.
     ///
-    /// - Parameter DeleteSourceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceNetworkInput`)
     ///
-    /// - Returns: `DeleteSourceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1161,9 +1161,9 @@ extension DrsClient {
     ///
     /// Deletes a single Source Server by ID. The Source Server must be disconnected first.
     ///
-    /// - Parameter DeleteSourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceServerInput`)
     ///
-    /// - Returns: `DeleteSourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1232,9 +1232,9 @@ extension DrsClient {
     ///
     /// Retrieves a detailed Job log with pagination.
     ///
-    /// - Parameter DescribeJobLogItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobLogItemsInput`)
     ///
-    /// - Returns: `DescribeJobLogItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobLogItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1302,9 +1302,9 @@ extension DrsClient {
     ///
     /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
-    /// - Parameter DescribeJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobsInput`)
     ///
-    /// - Returns: `DescribeJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,9 +1372,9 @@ extension DrsClient {
     ///
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     ///
-    /// - Parameter DescribeLaunchConfigurationTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLaunchConfigurationTemplatesInput`)
     ///
-    /// - Returns: `DescribeLaunchConfigurationTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLaunchConfigurationTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1443,9 +1443,9 @@ extension DrsClient {
     ///
     /// Lists all Recovery Instances or multiple Recovery Instances by ID.
     ///
-    /// - Parameter DescribeRecoveryInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecoveryInstancesInput`)
     ///
-    /// - Returns: `DescribeRecoveryInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecoveryInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1513,9 +1513,9 @@ extension DrsClient {
     ///
     /// Lists all Recovery Snapshots for a single Source Server.
     ///
-    /// - Parameter DescribeRecoverySnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecoverySnapshotsInput`)
     ///
-    /// - Returns: `DescribeRecoverySnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecoverySnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1584,9 +1584,9 @@ extension DrsClient {
     ///
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     ///
-    /// - Parameter DescribeReplicationConfigurationTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReplicationConfigurationTemplatesInput`)
     ///
-    /// - Returns: `DescribeReplicationConfigurationTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReplicationConfigurationTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1655,9 +1655,9 @@ extension DrsClient {
     ///
     /// Lists all Source Networks or multiple Source Networks filtered by ID.
     ///
-    /// - Parameter DescribeSourceNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSourceNetworksInput`)
     ///
-    /// - Returns: `DescribeSourceNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSourceNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1725,9 +1725,9 @@ extension DrsClient {
     ///
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
     ///
-    /// - Parameter DescribeSourceServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSourceServersInput`)
     ///
-    /// - Returns: `DescribeSourceServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSourceServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1795,9 +1795,9 @@ extension DrsClient {
     ///
     /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
-    /// - Parameter DisconnectRecoveryInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisconnectRecoveryInstanceInput`)
     ///
-    /// - Returns: `DisconnectRecoveryInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisconnectRecoveryInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1867,9 +1867,9 @@ extension DrsClient {
     ///
     /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
-    /// - Parameter DisconnectSourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisconnectSourceServerInput`)
     ///
-    /// - Returns: `DisconnectSourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisconnectSourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1938,9 +1938,9 @@ extension DrsClient {
     ///
     /// Export the Source Network CloudFormation template to an S3 bucket.
     ///
-    /// - Parameter ExportSourceNetworkCfnTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportSourceNetworkCfnTemplateInput`)
     ///
-    /// - Returns: `ExportSourceNetworkCfnTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportSourceNetworkCfnTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2010,9 +2010,9 @@ extension DrsClient {
     ///
     /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
     ///
-    /// - Parameter GetFailbackReplicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFailbackReplicationConfigurationInput`)
     ///
-    /// - Returns: `GetFailbackReplicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFailbackReplicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2080,9 +2080,9 @@ extension DrsClient {
     ///
     /// Gets a LaunchConfiguration, filtered by Source Server IDs.
     ///
-    /// - Parameter GetLaunchConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLaunchConfigurationInput`)
     ///
-    /// - Returns: `GetLaunchConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLaunchConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2150,9 +2150,9 @@ extension DrsClient {
     ///
     /// Gets a ReplicationConfiguration, filtered by Source Server ID.
     ///
-    /// - Parameter GetReplicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReplicationConfigurationInput`)
     ///
-    /// - Returns: `GetReplicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReplicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2221,9 +2221,9 @@ extension DrsClient {
     ///
     /// Initialize Elastic Disaster Recovery.
     ///
-    /// - Parameter InitializeServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitializeServiceInput`)
     ///
-    /// - Returns: `InitializeServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitializeServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2288,9 +2288,9 @@ extension DrsClient {
     ///
     /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
     ///
-    /// - Parameter ListExtensibleSourceServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExtensibleSourceServersInput`)
     ///
-    /// - Returns: `ListExtensibleSourceServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExtensibleSourceServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2359,9 +2359,9 @@ extension DrsClient {
     ///
     /// Lists resource launch actions.
     ///
-    /// - Parameter ListLaunchActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLaunchActionsInput`)
     ///
-    /// - Returns: `ListLaunchActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLaunchActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2430,9 +2430,9 @@ extension DrsClient {
     ///
     /// Returns an array of staging accounts for existing extended source servers.
     ///
-    /// - Parameter ListStagingAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStagingAccountsInput`)
     ///
-    /// - Returns: `ListStagingAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStagingAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2499,9 +2499,9 @@ extension DrsClient {
     ///
     /// List all tags for your Elastic Disaster Recovery resources.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2567,9 +2567,9 @@ extension DrsClient {
     ///
     /// Puts a resource launch action.
     ///
-    /// - Parameter PutLaunchActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLaunchActionInput`)
     ///
-    /// - Returns: `PutLaunchActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLaunchActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2640,9 +2640,9 @@ extension DrsClient {
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
     @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
     ///
-    /// - Parameter RetryDataReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryDataReplicationInput`)
     ///
-    /// - Returns: `RetryDataReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryDataReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2711,9 +2711,9 @@ extension DrsClient {
     ///
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
     ///
-    /// - Parameter ReverseReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReverseReplicationInput`)
     ///
-    /// - Returns: `ReverseReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReverseReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2784,9 +2784,9 @@ extension DrsClient {
     ///
     /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
     ///
-    /// - Parameter StartFailbackLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFailbackLaunchInput`)
     ///
-    /// - Returns: `StartFailbackLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFailbackLaunchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2856,9 +2856,9 @@ extension DrsClient {
     ///
     /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
     ///
-    /// - Parameter StartRecoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRecoveryInput`)
     ///
-    /// - Returns: `StartRecoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRecoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2927,9 +2927,9 @@ extension DrsClient {
     ///
     /// Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
     ///
-    /// - Parameter StartReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReplicationInput`)
     ///
-    /// - Returns: `StartReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2998,9 +2998,9 @@ extension DrsClient {
     ///
     /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
     ///
-    /// - Parameter StartSourceNetworkRecoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSourceNetworkRecoveryInput`)
     ///
-    /// - Returns: `StartSourceNetworkRecoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSourceNetworkRecoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3070,9 +3070,9 @@ extension DrsClient {
     ///
     /// Starts replication for a Source Network. This action would make the Source Network protected.
     ///
-    /// - Parameter StartSourceNetworkReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSourceNetworkReplicationInput`)
     ///
-    /// - Returns: `StartSourceNetworkReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSourceNetworkReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3141,9 +3141,9 @@ extension DrsClient {
     ///
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
     ///
-    /// - Parameter StopFailbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopFailbackInput`)
     ///
-    /// - Returns: `StopFailbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopFailbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3211,9 +3211,9 @@ extension DrsClient {
     ///
     /// Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
     ///
-    /// - Parameter StopReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopReplicationInput`)
     ///
-    /// - Returns: `StopReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3282,9 +3282,9 @@ extension DrsClient {
     ///
     /// Stops replication for a Source Network. This action would make the Source Network unprotected.
     ///
-    /// - Parameter StopSourceNetworkReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSourceNetworkReplicationInput`)
     ///
-    /// - Returns: `StopSourceNetworkReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSourceNetworkReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3354,9 +3354,9 @@ extension DrsClient {
     ///
     /// Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3425,9 +3425,9 @@ extension DrsClient {
     ///
     /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
     ///
-    /// - Parameter TerminateRecoveryInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateRecoveryInstancesInput`)
     ///
-    /// - Returns: `TerminateRecoveryInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateRecoveryInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3496,9 +3496,9 @@ extension DrsClient {
     ///
     /// Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3565,9 +3565,9 @@ extension DrsClient {
     ///
     /// Allows you to update the failback replication configuration of a Recovery Instance by ID.
     ///
-    /// - Parameter UpdateFailbackReplicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFailbackReplicationConfigurationInput`)
     ///
-    /// - Returns: `UpdateFailbackReplicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFailbackReplicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3636,9 +3636,9 @@ extension DrsClient {
     ///
     /// Updates a LaunchConfiguration by Source Server ID.
     ///
-    /// - Parameter UpdateLaunchConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLaunchConfigurationInput`)
     ///
-    /// - Returns: `UpdateLaunchConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLaunchConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3708,9 +3708,9 @@ extension DrsClient {
     ///
     /// Updates an existing Launch Configuration Template by ID.
     ///
-    /// - Parameter UpdateLaunchConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLaunchConfigurationTemplateInput`)
     ///
-    /// - Returns: `UpdateLaunchConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLaunchConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3780,9 +3780,9 @@ extension DrsClient {
     ///
     /// Allows you to update a ReplicationConfiguration by Source Server ID.
     ///
-    /// - Parameter UpdateReplicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReplicationConfigurationInput`)
     ///
-    /// - Returns: `UpdateReplicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReplicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3853,9 +3853,9 @@ extension DrsClient {
     ///
     /// Updates a ReplicationConfigurationTemplate by ID.
     ///
-    /// - Parameter UpdateReplicationConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReplicationConfigurationTemplateInput`)
     ///
-    /// - Returns: `UpdateReplicationConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReplicationConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageClient: ClientRuntime.Client {
     public static let clientName = "MediaPackageClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageClient.MediaPackageClientConfiguration
     let serviceName = "MediaPackage"
@@ -372,9 +372,9 @@ extension MediaPackageClient {
     ///
     /// Changes the Channel's properities to configure log subscription
     ///
-    /// - Parameter ConfigureLogsInput : the option to configure log subscription.
+    /// - Parameter input: the option to configure log subscription. (Type: `ConfigureLogsInput`)
     ///
-    /// - Returns: `ConfigureLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfigureLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension MediaPackageClient {
     ///
     /// Creates a new Channel.
     ///
-    /// - Parameter CreateChannelInput : A new Channel configuration.
+    /// - Parameter input: A new Channel configuration. (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension MediaPackageClient {
     ///
     /// Creates a new HarvestJob record.
     ///
-    /// - Parameter CreateHarvestJobInput : Configuration parameters used to create a new HarvestJob.
+    /// - Parameter input: Configuration parameters used to create a new HarvestJob. (Type: `CreateHarvestJobInput`)
     ///
-    /// - Returns: `CreateHarvestJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHarvestJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension MediaPackageClient {
     ///
     /// Creates a new OriginEndpoint record.
     ///
-    /// - Parameter CreateOriginEndpointInput : Configuration parameters used to create a new OriginEndpoint.
+    /// - Parameter input: Configuration parameters used to create a new OriginEndpoint. (Type: `CreateOriginEndpointInput`)
     ///
-    /// - Returns: `CreateOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,9 +660,9 @@ extension MediaPackageClient {
     ///
     /// Deletes an existing Channel.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension MediaPackageClient {
     ///
     /// Deletes an existing OriginEndpoint.
     ///
-    /// - Parameter DeleteOriginEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOriginEndpointInput`)
     ///
-    /// - Returns: `DeleteOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -798,9 +798,9 @@ extension MediaPackageClient {
     ///
     /// Gets details about a Channel.
     ///
-    /// - Parameter DescribeChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelInput`)
     ///
-    /// - Returns: `DescribeChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -867,9 +867,9 @@ extension MediaPackageClient {
     ///
     /// Gets details about an existing HarvestJob.
     ///
-    /// - Parameter DescribeHarvestJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHarvestJobInput`)
     ///
-    /// - Returns: `DescribeHarvestJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHarvestJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -936,9 +936,9 @@ extension MediaPackageClient {
     ///
     /// Gets details about an existing OriginEndpoint.
     ///
-    /// - Parameter DescribeOriginEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOriginEndpointInput`)
     ///
-    /// - Returns: `DescribeOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1005,9 +1005,9 @@ extension MediaPackageClient {
     ///
     /// Returns a collection of Channels.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension MediaPackageClient {
     ///
     /// Returns a collection of HarvestJob records.
     ///
-    /// - Parameter ListHarvestJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHarvestJobsInput`)
     ///
-    /// - Returns: `ListHarvestJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHarvestJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,9 +1145,9 @@ extension MediaPackageClient {
     ///
     /// Returns a collection of OriginEndpoint records.
     ///
-    /// - Parameter ListOriginEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOriginEndpointsInput`)
     ///
-    /// - Returns: `ListOriginEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOriginEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,9 +1214,9 @@ extension MediaPackageClient {
     /// Performs the `ListTagsForResource` operation on the `MediaPackage` service.
     ///
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1274,9 +1274,9 @@ extension MediaPackageClient {
     /// Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
     @available(*, deprecated, message: "This API is deprecated. Please use RotateIngestEndpointCredentials instead")
     ///
-    /// - Parameter RotateChannelCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RotateChannelCredentialsInput`)
     ///
-    /// - Returns: `RotateChannelCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RotateChannelCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,9 +1343,9 @@ extension MediaPackageClient {
     ///
     /// Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
     ///
-    /// - Parameter RotateIngestEndpointCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RotateIngestEndpointCredentialsInput`)
     ///
-    /// - Returns: `RotateIngestEndpointCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RotateIngestEndpointCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,9 +1411,9 @@ extension MediaPackageClient {
     /// Performs the `TagResource` operation on the `MediaPackage` service.
     ///
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1472,9 +1472,9 @@ extension MediaPackageClient {
     /// Performs the `UntagResource` operation on the `MediaPackage` service.
     ///
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1532,9 +1532,9 @@ extension MediaPackageClient {
     ///
     /// Updates an existing Channel.
     ///
-    /// - Parameter UpdateChannelInput : Configuration parameters used to update the Channel.
+    /// - Parameter input: Configuration parameters used to update the Channel. (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1604,9 +1604,9 @@ extension MediaPackageClient {
     ///
     /// Updates an existing OriginEndpoint.
     ///
-    /// - Parameter UpdateOriginEndpointInput : Configuration parameters used to update an existing OriginEndpoint.
+    /// - Parameter input: Configuration parameters used to update an existing OriginEndpoint. (Type: `UpdateOriginEndpointInput`)
     ///
-    /// - Returns: `UpdateOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

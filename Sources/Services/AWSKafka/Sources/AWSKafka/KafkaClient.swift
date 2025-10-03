@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KafkaClient: ClientRuntime.Client {
     public static let clientName = "KafkaClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: KafkaClient.KafkaClientConfiguration
     let serviceName = "Kafka"
@@ -373,9 +373,9 @@ extension KafkaClient {
     ///
     /// Associates one or more Scram Secrets with an Amazon MSK cluster.
     ///
-    /// - Parameter BatchAssociateScramSecretInput : Associates sasl scram secrets to cluster.
+    /// - Parameter input: Associates sasl scram secrets to cluster. (Type: `BatchAssociateScramSecretInput`)
     ///
-    /// - Returns: `BatchAssociateScramSecretOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateScramSecretOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension KafkaClient {
     ///
     /// Disassociates one or more Scram Secrets from an Amazon MSK cluster.
     ///
-    /// - Parameter BatchDisassociateScramSecretInput : Disassociates sasl scram secrets to cluster.
+    /// - Parameter input: Disassociates sasl scram secrets to cluster. (Type: `BatchDisassociateScramSecretInput`)
     ///
-    /// - Returns: `BatchDisassociateScramSecretOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateScramSecretOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension KafkaClient {
     ///
     /// Creates a new MSK cluster.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension KafkaClient {
     ///
     /// Creates a new MSK cluster.
     ///
-    /// - Parameter CreateClusterV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterV2Input`)
     ///
-    /// - Returns: `CreateClusterV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension KafkaClient {
     ///
     /// Creates a new MSK configuration.
     ///
-    /// - Parameter CreateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationInput`)
     ///
-    /// - Returns: `CreateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,9 +738,9 @@ extension KafkaClient {
     ///
     /// Creates the replicator.
     ///
-    /// - Parameter CreateReplicatorInput : Creates a replicator using the specified configuration.
+    /// - Parameter input: Creates a replicator using the specified configuration. (Type: `CreateReplicatorInput`)
     ///
-    /// - Returns: `CreateReplicatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReplicatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,9 +812,9 @@ extension KafkaClient {
     ///
     /// Creates a new MSK VPC connection.
     ///
-    /// - Parameter CreateVpcConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcConnectionInput`)
     ///
-    /// - Returns: `CreateVpcConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -884,9 +884,9 @@ extension KafkaClient {
     ///
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -952,9 +952,9 @@ extension KafkaClient {
     ///
     /// Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
     ///
-    /// - Parameter DeleteClusterPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterPolicyInput`)
     ///
-    /// - Returns: `DeleteClusterPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,9 +1019,9 @@ extension KafkaClient {
     ///
     /// Deletes an MSK Configuration.
     ///
-    /// - Parameter DeleteConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationInput`)
     ///
-    /// - Returns: `DeleteConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,9 +1086,9 @@ extension KafkaClient {
     ///
     /// Deletes a replicator.
     ///
-    /// - Parameter DeleteReplicatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReplicatorInput`)
     ///
-    /// - Returns: `DeleteReplicatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReplicatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1157,9 +1157,9 @@ extension KafkaClient {
     ///
     /// Deletes a MSK VPC connection.
     ///
-    /// - Parameter DeleteVpcConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcConnectionInput`)
     ///
-    /// - Returns: `DeleteVpcConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,9 +1224,9 @@ extension KafkaClient {
     ///
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     ///
-    /// - Parameter DescribeClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterInput`)
     ///
-    /// - Returns: `DescribeClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1292,9 +1292,9 @@ extension KafkaClient {
     ///
     /// Returns a description of the cluster operation specified by the ARN.
     ///
-    /// - Parameter DescribeClusterOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterOperationInput`)
     ///
-    /// - Returns: `DescribeClusterOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,9 +1360,9 @@ extension KafkaClient {
     ///
     /// Returns a description of the cluster operation specified by the ARN.
     ///
-    /// - Parameter DescribeClusterOperationV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterOperationV2Input`)
     ///
-    /// - Returns: `DescribeClusterOperationV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOperationV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1430,9 +1430,9 @@ extension KafkaClient {
     ///
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     ///
-    /// - Parameter DescribeClusterV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterV2Input`)
     ///
-    /// - Returns: `DescribeClusterV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1498,9 +1498,9 @@ extension KafkaClient {
     ///
     /// Returns a description of this MSK configuration.
     ///
-    /// - Parameter DescribeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationInput`)
     ///
-    /// - Returns: `DescribeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1567,9 +1567,9 @@ extension KafkaClient {
     ///
     /// Returns a description of this revision of the configuration.
     ///
-    /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationRevisionInput`)
     ///
-    /// - Returns: `DescribeConfigurationRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1636,9 +1636,9 @@ extension KafkaClient {
     ///
     /// Describes a replicator.
     ///
-    /// - Parameter DescribeReplicatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReplicatorInput`)
     ///
-    /// - Returns: `DescribeReplicatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReplicatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1706,9 +1706,9 @@ extension KafkaClient {
     ///
     /// Returns a description of this MSK VPC connection.
     ///
-    /// - Parameter DescribeVpcConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcConnectionInput`)
     ///
-    /// - Returns: `DescribeVpcConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1775,9 +1775,9 @@ extension KafkaClient {
     ///
     /// A list of brokers that a client application can use to bootstrap. This list doesn't necessarily include all of the brokers in the cluster. The following Python 3.6 example shows how you can use the Amazon Resource Name (ARN) of a cluster to get its bootstrap brokers. If you don't know the ARN of your cluster, you can use the ListClusters operation to get the ARNs of all the clusters in this account and Region.
     ///
-    /// - Parameter GetBootstrapBrokersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBootstrapBrokersInput`)
     ///
-    /// - Returns: `GetBootstrapBrokersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBootstrapBrokersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1843,9 +1843,9 @@ extension KafkaClient {
     ///
     /// Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
     ///
-    /// - Parameter GetClusterPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterPolicyInput`)
     ///
-    /// - Returns: `GetClusterPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,9 +1910,9 @@ extension KafkaClient {
     ///
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
     ///
-    /// - Parameter GetCompatibleKafkaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCompatibleKafkaVersionsInput`)
     ///
-    /// - Returns: `GetCompatibleKafkaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCompatibleKafkaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,9 +1981,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the VPC connections in this Region.
     ///
-    /// - Parameter ListClientVpcConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClientVpcConnectionsInput`)
     ///
-    /// - Returns: `ListClientVpcConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClientVpcConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2050,9 +2050,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///
-    /// - Parameter ListClusterOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterOperationsInput`)
     ///
-    /// - Returns: `ListClusterOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2118,9 +2118,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///
-    /// - Parameter ListClusterOperationsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterOperationsV2Input`)
     ///
-    /// - Returns: `ListClusterOperationsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterOperationsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,9 +2189,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the MSK clusters in the current Region.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2257,9 +2257,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the MSK clusters in the current Region.
     ///
-    /// - Parameter ListClustersV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersV2Input`)
     ///
-    /// - Returns: `ListClustersV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2325,9 +2325,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the MSK configurations in this Region.
     ///
-    /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationRevisionsInput`)
     ///
-    /// - Returns: `ListConfigurationRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2395,9 +2395,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the MSK configurations in this Region.
     ///
-    /// - Parameter ListConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
     ///
-    /// - Returns: `ListConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2464,9 +2464,9 @@ extension KafkaClient {
     ///
     /// Returns a list of Apache Kafka versions.
     ///
-    /// - Parameter ListKafkaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKafkaVersionsInput`)
     ///
-    /// - Returns: `ListKafkaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKafkaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2532,9 +2532,9 @@ extension KafkaClient {
     ///
     /// Returns a list of the broker nodes in the cluster.
     ///
-    /// - Parameter ListNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodesInput`)
     ///
-    /// - Returns: `ListNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2600,9 +2600,9 @@ extension KafkaClient {
     ///
     /// Lists the replicators.
     ///
-    /// - Parameter ListReplicatorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReplicatorsInput`)
     ///
-    /// - Returns: `ListReplicatorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReplicatorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2671,9 +2671,9 @@ extension KafkaClient {
     ///
     /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
     ///
-    /// - Parameter ListScramSecretsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScramSecretsInput`)
     ///
-    /// - Returns: `ListScramSecretsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScramSecretsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2742,9 +2742,9 @@ extension KafkaClient {
     ///
     /// Returns a list of the tags associated with the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2808,9 +2808,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the VPC connections in this Region.
     ///
-    /// - Parameter ListVpcConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcConnectionsInput`)
     ///
-    /// - Returns: `ListVpcConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2877,9 +2877,9 @@ extension KafkaClient {
     ///
     /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
     ///
-    /// - Parameter PutClusterPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutClusterPolicyInput`)
     ///
-    /// - Returns: `PutClusterPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutClusterPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2946,9 +2946,9 @@ extension KafkaClient {
     ///
     /// Reboots brokers.
     ///
-    /// - Parameter RebootBrokerInput : Reboots a node.
+    /// - Parameter input: Reboots a node. (Type: `RebootBrokerInput`)
     ///
-    /// - Returns: `RebootBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3019,9 +3019,9 @@ extension KafkaClient {
     ///
     /// Returns empty response.
     ///
-    /// - Parameter RejectClientVpcConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectClientVpcConnectionInput`)
     ///
-    /// - Returns: `RejectClientVpcConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectClientVpcConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3090,9 +3090,9 @@ extension KafkaClient {
     ///
     /// Adds tags to the specified MSK resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3159,9 +3159,9 @@ extension KafkaClient {
     ///
     /// Removes the tags associated with the keys that are provided in the query.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3226,9 +3226,9 @@ extension KafkaClient {
     ///
     /// Updates the number of broker nodes in the cluster.
     ///
-    /// - Parameter UpdateBrokerCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrokerCountInput`)
     ///
-    /// - Returns: `UpdateBrokerCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrokerCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3297,9 +3297,9 @@ extension KafkaClient {
     ///
     /// Updates the EBS storage associated with MSK brokers.
     ///
-    /// - Parameter UpdateBrokerStorageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrokerStorageInput`)
     ///
-    /// - Returns: `UpdateBrokerStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrokerStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3368,9 +3368,9 @@ extension KafkaClient {
     ///
     /// Updates EC2 instance type.
     ///
-    /// - Parameter UpdateBrokerTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrokerTypeInput`)
     ///
-    /// - Returns: `UpdateBrokerTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrokerTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3441,9 +3441,9 @@ extension KafkaClient {
     ///
     /// Updates the cluster with the configuration that is specified in the request body.
     ///
-    /// - Parameter UpdateClusterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterConfigurationInput`)
     ///
-    /// - Returns: `UpdateClusterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3513,9 +3513,9 @@ extension KafkaClient {
     ///
     /// Updates the Apache Kafka version for the cluster.
     ///
-    /// - Parameter UpdateClusterKafkaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterKafkaVersionInput`)
     ///
-    /// - Returns: `UpdateClusterKafkaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterKafkaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3586,9 +3586,9 @@ extension KafkaClient {
     ///
     /// Updates an MSK configuration.
     ///
-    /// - Parameter UpdateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationInput`)
     ///
-    /// - Returns: `UpdateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3658,9 +3658,9 @@ extension KafkaClient {
     ///
     /// Updates the cluster's connectivity configuration.
     ///
-    /// - Parameter UpdateConnectivityInput : Request body for UpdateConnectivity.
+    /// - Parameter input: Request body for UpdateConnectivity. (Type: `UpdateConnectivityInput`)
     ///
-    /// - Returns: `UpdateConnectivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3730,9 +3730,9 @@ extension KafkaClient {
     ///
     /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
     ///
-    /// - Parameter UpdateMonitoringInput : Request body for UpdateMonitoring.
+    /// - Parameter input: Request body for UpdateMonitoring. (Type: `UpdateMonitoringInput`)
     ///
-    /// - Returns: `UpdateMonitoringOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitoringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3801,9 +3801,9 @@ extension KafkaClient {
     ///
     /// Updates replication info of a replicator.
     ///
-    /// - Parameter UpdateReplicationInfoInput : Update information relating to replication between a given source and target Kafka cluster.
+    /// - Parameter input: Update information relating to replication between a given source and target Kafka cluster. (Type: `UpdateReplicationInfoInput`)
     ///
-    /// - Returns: `UpdateReplicationInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReplicationInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3874,9 +3874,9 @@ extension KafkaClient {
     ///
     /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
     ///
-    /// - Parameter UpdateSecurityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityInput`)
     ///
-    /// - Returns: `UpdateSecurityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3947,9 +3947,9 @@ extension KafkaClient {
     ///
     /// Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
     ///
-    /// - Parameter UpdateStorageInput : Request object for UpdateStorage api. Its used to update the storage attributes for the cluster.
+    /// - Parameter input: Request object for UpdateStorage api. Its used to update the storage attributes for the cluster. (Type: `UpdateStorageInput`)
     ///
-    /// - Returns: `UpdateStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

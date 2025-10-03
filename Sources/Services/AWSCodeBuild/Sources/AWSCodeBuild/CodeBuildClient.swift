@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeBuildClient: ClientRuntime.Client {
     public static let clientName = "CodeBuildClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeBuildClient.CodeBuildClientConfiguration
     let serviceName = "CodeBuild"
@@ -372,9 +372,9 @@ extension CodeBuildClient {
     ///
     /// Deletes one or more builds.
     ///
-    /// - Parameter BatchDeleteBuildsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteBuildsInput`)
     ///
-    /// - Returns: `BatchDeleteBuildsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteBuildsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,9 +440,9 @@ extension CodeBuildClient {
     ///
     /// Retrieves information about one or more batch builds.
     ///
-    /// - Parameter BatchGetBuildBatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetBuildBatchesInput`)
     ///
-    /// - Returns: `BatchGetBuildBatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetBuildBatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -508,9 +508,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about one or more builds.
     ///
-    /// - Parameter BatchGetBuildsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetBuildsInput`)
     ///
-    /// - Returns: `BatchGetBuildsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetBuildsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -576,9 +576,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about the command executions.
     ///
-    /// - Parameter BatchGetCommandExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCommandExecutionsInput`)
     ///
-    /// - Returns: `BatchGetCommandExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCommandExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -644,9 +644,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about one or more compute fleets.
     ///
-    /// - Parameter BatchGetFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetFleetsInput`)
     ///
-    /// - Returns: `BatchGetFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -712,9 +712,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about one or more build projects.
     ///
-    /// - Parameter BatchGetProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetProjectsInput`)
     ///
-    /// - Returns: `BatchGetProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -780,9 +780,9 @@ extension CodeBuildClient {
     ///
     /// Returns an array of report groups.
     ///
-    /// - Parameter BatchGetReportGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetReportGroupsInput`)
     ///
-    /// - Returns: `BatchGetReportGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetReportGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,9 +848,9 @@ extension CodeBuildClient {
     ///
     /// Returns an array of reports.
     ///
-    /// - Parameter BatchGetReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetReportsInput`)
     ///
-    /// - Returns: `BatchGetReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -916,9 +916,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about the sandbox status.
     ///
-    /// - Parameter BatchGetSandboxesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSandboxesInput`)
     ///
-    /// - Returns: `BatchGetSandboxesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetSandboxesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,9 +984,9 @@ extension CodeBuildClient {
     ///
     /// Creates a compute fleet.
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,9 +1054,9 @@ extension CodeBuildClient {
     ///
     /// Creates a build project.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1124,9 +1124,9 @@ extension CodeBuildClient {
     ///
     /// Creates a report group. A report group contains a collection of reports.
     ///
-    /// - Parameter CreateReportGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReportGroupInput`)
     ///
-    /// - Returns: `CreateReportGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReportGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1194,9 +1194,9 @@ extension CodeBuildClient {
     ///
     /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a code change is pushed to the repository. If you enable webhooks for an CodeBuild project, and the project is used as a build step in CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through CodePipeline. Because billing is on a per-build basis, you are billed for both builds. Therefore, if you are using CodePipeline, we recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the Webhook box. For more information, see step 5 in [Change a Build Project's Settings](https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console).
     ///
-    /// - Parameter CreateWebhookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWebhookInput`)
     ///
-    /// - Returns: `CreateWebhookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,9 +1265,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a batch build.
     ///
-    /// - Parameter DeleteBuildBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBuildBatchInput`)
     ///
-    /// - Returns: `DeleteBuildBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBuildBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1333,9 +1333,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
     ///
-    /// - Parameter DeleteFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetInput`)
     ///
-    /// - Returns: `DeleteFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1401,9 +1401,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a build project. When you delete a project, its builds are not deleted.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1469,9 +1469,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a report.
     ///
-    /// - Parameter DeleteReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReportInput`)
     ///
-    /// - Returns: `DeleteReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1537,9 +1537,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a report group. Before you delete a report group, you must delete its reports.
     ///
-    /// - Parameter DeleteReportGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReportGroupInput`)
     ///
-    /// - Returns: `DeleteReportGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReportGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1605,9 +1605,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a resource policy that is identified by its resource ARN.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1673,9 +1673,9 @@ extension CodeBuildClient {
     ///
     /// Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
     ///
-    /// - Parameter DeleteSourceCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceCredentialsInput`)
     ///
-    /// - Returns: `DeleteSourceCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1742,9 +1742,9 @@ extension CodeBuildClient {
     ///
     /// For an existing CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
     ///
-    /// - Parameter DeleteWebhookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebhookInput`)
     ///
-    /// - Returns: `DeleteWebhookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1812,9 +1812,9 @@ extension CodeBuildClient {
     ///
     /// Retrieves one or more code coverage reports.
     ///
-    /// - Parameter DescribeCodeCoveragesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCodeCoveragesInput`)
     ///
-    /// - Returns: `DescribeCodeCoveragesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCodeCoveragesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1880,9 +1880,9 @@ extension CodeBuildClient {
     ///
     /// Returns a list of details about test cases for a report.
     ///
-    /// - Parameter DescribeTestCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTestCasesInput`)
     ///
-    /// - Returns: `DescribeTestCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTestCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1949,9 +1949,9 @@ extension CodeBuildClient {
     ///
     /// Analyzes and accumulates test report values for the specified test reports.
     ///
-    /// - Parameter GetReportGroupTrendInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReportGroupTrendInput`)
     ///
-    /// - Returns: `GetReportGroupTrendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReportGroupTrendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2018,9 +2018,9 @@ extension CodeBuildClient {
     ///
     /// Gets a resource policy that is identified by its resource ARN.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,9 +2087,9 @@ extension CodeBuildClient {
     ///
     /// Imports the source repository credentials for an CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
     ///
-    /// - Parameter ImportSourceCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportSourceCredentialsInput`)
     ///
-    /// - Returns: `ImportSourceCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportSourceCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2157,9 +2157,9 @@ extension CodeBuildClient {
     ///
     /// Resets the cache for a project.
     ///
-    /// - Parameter InvalidateProjectCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvalidateProjectCacheInput`)
     ///
-    /// - Returns: `InvalidateProjectCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvalidateProjectCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2226,9 +2226,9 @@ extension CodeBuildClient {
     ///
     /// Retrieves the identifiers of your build batches in the current region.
     ///
-    /// - Parameter ListBuildBatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuildBatchesInput`)
     ///
-    /// - Returns: `ListBuildBatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuildBatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2294,9 +2294,9 @@ extension CodeBuildClient {
     ///
     /// Retrieves the identifiers of the build batches for a specific project.
     ///
-    /// - Parameter ListBuildBatchesForProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuildBatchesForProjectInput`)
     ///
-    /// - Returns: `ListBuildBatchesForProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuildBatchesForProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2363,9 +2363,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of build IDs, with each build ID representing a single build.
     ///
-    /// - Parameter ListBuildsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuildsInput`)
     ///
-    /// - Returns: `ListBuildsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuildsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2431,9 +2431,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of build identifiers for the specified build project, with each build identifier representing a single build.
     ///
-    /// - Parameter ListBuildsForProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuildsForProjectInput`)
     ///
-    /// - Returns: `ListBuildsForProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuildsForProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,9 +2500,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of command executions for a sandbox.
     ///
-    /// - Parameter ListCommandExecutionsForSandboxInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommandExecutionsForSandboxInput`)
     ///
-    /// - Returns: `ListCommandExecutionsForSandboxOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommandExecutionsForSandboxOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2569,9 +2569,9 @@ extension CodeBuildClient {
     ///
     /// Gets information about Docker images that are managed by CodeBuild.
     ///
-    /// - Parameter ListCuratedEnvironmentImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCuratedEnvironmentImagesInput`)
     ///
-    /// - Returns: `ListCuratedEnvironmentImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCuratedEnvironmentImagesOutput`)
     public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput) async throws -> ListCuratedEnvironmentImagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2632,9 +2632,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
     ///
-    /// - Parameter ListFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetsInput`)
     ///
-    /// - Returns: `ListFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2700,9 +2700,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of build project names, with each build project name representing a single build project.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2768,9 +2768,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list ARNs for the report groups in the current Amazon Web Services account.
     ///
-    /// - Parameter ListReportGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportGroupsInput`)
     ///
-    /// - Returns: `ListReportGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2836,9 +2836,9 @@ extension CodeBuildClient {
     ///
     /// Returns a list of ARNs for the reports in the current Amazon Web Services account.
     ///
-    /// - Parameter ListReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportsInput`)
     ///
-    /// - Returns: `ListReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2904,9 +2904,9 @@ extension CodeBuildClient {
     ///
     /// Returns a list of ARNs for the reports that belong to a ReportGroup.
     ///
-    /// - Parameter ListReportsForReportGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportsForReportGroupInput`)
     ///
-    /// - Returns: `ListReportsForReportGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportsForReportGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2973,9 +2973,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of sandboxes.
     ///
-    /// - Parameter ListSandboxesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSandboxesInput`)
     ///
-    /// - Returns: `ListSandboxesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSandboxesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3041,9 +3041,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of sandboxes for a given project.
     ///
-    /// - Parameter ListSandboxesForProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSandboxesForProjectInput`)
     ///
-    /// - Returns: `ListSandboxesForProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSandboxesForProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3110,9 +3110,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of projects that are shared with other Amazon Web Services accounts or users.
     ///
-    /// - Parameter ListSharedProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSharedProjectsInput`)
     ///
-    /// - Returns: `ListSharedProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSharedProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3178,9 +3178,9 @@ extension CodeBuildClient {
     ///
     /// Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
     ///
-    /// - Parameter ListSharedReportGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSharedReportGroupsInput`)
     ///
-    /// - Returns: `ListSharedReportGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSharedReportGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3246,9 +3246,9 @@ extension CodeBuildClient {
     ///
     /// Returns a list of SourceCredentialsInfo objects.
     ///
-    /// - Parameter ListSourceCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceCredentialsInput`)
     ///
-    /// - Returns: `ListSourceCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3314,9 +3314,9 @@ extension CodeBuildClient {
     ///
     /// Stores a resource policy for the ARN of a Project or ReportGroup object.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3383,9 +3383,9 @@ extension CodeBuildClient {
     ///
     /// Restarts a build.
     ///
-    /// - Parameter RetryBuildInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryBuildInput`)
     ///
-    /// - Returns: `RetryBuildOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryBuildOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3453,9 +3453,9 @@ extension CodeBuildClient {
     ///
     /// Restarts a failed batch build. Only batch builds that have failed can be retried.
     ///
-    /// - Parameter RetryBuildBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryBuildBatchInput`)
     ///
-    /// - Returns: `RetryBuildBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryBuildBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3522,9 +3522,9 @@ extension CodeBuildClient {
     ///
     /// Starts running a build with the settings defined in the project. These setting include: how to run a build, where to get the source code, which build environment to use, which build commands to run, and where to store the build output. You can also start a build run by overriding some of the build settings in the project. The overrides only apply for that specific start build request. The settings in the project are unaltered.
     ///
-    /// - Parameter StartBuildInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBuildInput`)
     ///
-    /// - Returns: `StartBuildOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBuildOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3592,9 +3592,9 @@ extension CodeBuildClient {
     ///
     /// Starts a batch build for a project.
     ///
-    /// - Parameter StartBuildBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBuildBatchInput`)
     ///
-    /// - Returns: `StartBuildBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBuildBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3661,9 +3661,9 @@ extension CodeBuildClient {
     ///
     /// Starts a command execution.
     ///
-    /// - Parameter StartCommandExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCommandExecutionInput`)
     ///
-    /// - Returns: `StartCommandExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCommandExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3730,9 +3730,9 @@ extension CodeBuildClient {
     ///
     /// Starts a sandbox.
     ///
-    /// - Parameter StartSandboxInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSandboxInput`)
     ///
-    /// - Returns: `StartSandboxOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSandboxOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3800,9 +3800,9 @@ extension CodeBuildClient {
     ///
     /// Starts a sandbox connection.
     ///
-    /// - Parameter StartSandboxConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSandboxConnectionInput`)
     ///
-    /// - Returns: `StartSandboxConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSandboxConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3869,9 +3869,9 @@ extension CodeBuildClient {
     ///
     /// Attempts to stop running a build.
     ///
-    /// - Parameter StopBuildInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBuildInput`)
     ///
-    /// - Returns: `StopBuildOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBuildOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3938,9 +3938,9 @@ extension CodeBuildClient {
     ///
     /// Stops a running batch build.
     ///
-    /// - Parameter StopBuildBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBuildBatchInput`)
     ///
-    /// - Returns: `StopBuildBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBuildBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4007,9 +4007,9 @@ extension CodeBuildClient {
     ///
     /// Stops a sandbox.
     ///
-    /// - Parameter StopSandboxInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSandboxInput`)
     ///
-    /// - Returns: `StopSandboxOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSandboxOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4076,9 +4076,9 @@ extension CodeBuildClient {
     ///
     /// Updates a compute fleet.
     ///
-    /// - Parameter UpdateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFleetInput`)
     ///
-    /// - Returns: `UpdateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4146,9 +4146,9 @@ extension CodeBuildClient {
     ///
     /// Changes the settings of a build project.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4228,9 +4228,9 @@ extension CodeBuildClient {
     ///
     /// * A malicious user can use public builds to distribute malicious artifacts. We recommend that you review all pull requests to verify that the pull request is a legitimate change. We also recommend that you validate any artifacts with their checksums to make sure that the correct artifacts are being downloaded.
     ///
-    /// - Parameter UpdateProjectVisibilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectVisibilityInput`)
     ///
-    /// - Returns: `UpdateProjectVisibilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectVisibilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4297,9 +4297,9 @@ extension CodeBuildClient {
     ///
     /// Updates a report group.
     ///
-    /// - Parameter UpdateReportGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReportGroupInput`)
     ///
-    /// - Returns: `UpdateReportGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReportGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4366,9 +4366,9 @@ extension CodeBuildClient {
     ///
     /// Updates the webhook associated with an CodeBuild build project. If you use Bitbucket for your repository, rotateSecret is ignored.
     ///
-    /// - Parameter UpdateWebhookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebhookInput`)
     ///
-    /// - Returns: `UpdateWebhookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

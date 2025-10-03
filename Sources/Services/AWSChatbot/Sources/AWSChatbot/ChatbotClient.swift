@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChatbotClient: ClientRuntime.Client {
     public static let clientName = "ChatbotClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ChatbotClient.ChatbotClientConfiguration
     let serviceName = "chatbot"
@@ -372,9 +372,9 @@ extension ChatbotClient {
     ///
     /// Links a resource (for example, a custom action) to a channel configuration.
     ///
-    /// - Parameter AssociateToConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateToConfigurationInput`)
     ///
-    /// - Returns: `AssociateToConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateToConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,9 +441,9 @@ extension ChatbotClient {
     ///
     /// Creates an AWS Chatbot configuration for Amazon Chime.
     ///
-    /// - Parameter CreateChimeWebhookConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChimeWebhookConfigurationInput`)
     ///
-    /// - Returns: `CreateChimeWebhookConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChimeWebhookConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension ChatbotClient {
     ///
     /// Creates a custom action that can be invoked as an alias or as a button on a notification.
     ///
-    /// - Parameter CreateCustomActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomActionInput`)
     ///
-    /// - Returns: `CreateCustomActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension ChatbotClient {
     ///
     /// Creates an AWS Chatbot configuration for Microsoft Teams.
     ///
-    /// - Parameter CreateMicrosoftTeamsChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMicrosoftTeamsChannelConfigurationInput`)
     ///
-    /// - Returns: `CreateMicrosoftTeamsChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMicrosoftTeamsChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,9 +655,9 @@ extension ChatbotClient {
     ///
     /// Creates an AWS Chatbot confugration for Slack.
     ///
-    /// - Parameter CreateSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `CreateSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -726,9 +726,9 @@ extension ChatbotClient {
     ///
     /// Deletes a Amazon Chime webhook configuration for AWS Chatbot.
     ///
-    /// - Parameter DeleteChimeWebhookConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChimeWebhookConfigurationInput`)
     ///
-    /// - Returns: `DeleteChimeWebhookConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChimeWebhookConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -796,9 +796,9 @@ extension ChatbotClient {
     ///
     /// Deletes a custom action.
     ///
-    /// - Parameter DeleteCustomActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomActionInput`)
     ///
-    /// - Returns: `DeleteCustomActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -866,9 +866,9 @@ extension ChatbotClient {
     ///
     /// Deletes a Microsoft Teams channel configuration for AWS Chatbot
     ///
-    /// - Parameter DeleteMicrosoftTeamsChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMicrosoftTeamsChannelConfigurationInput`)
     ///
-    /// - Returns: `DeleteMicrosoftTeamsChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMicrosoftTeamsChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -936,9 +936,9 @@ extension ChatbotClient {
     ///
     /// Deletes the Microsoft Teams team authorization allowing for channels to be configured in that Microsoft Teams team. Note that the Microsoft Teams team must have no channels configured to remove it.
     ///
-    /// - Parameter DeleteMicrosoftTeamsConfiguredTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMicrosoftTeamsConfiguredTeamInput`)
     ///
-    /// - Returns: `DeleteMicrosoftTeamsConfiguredTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMicrosoftTeamsConfiguredTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,9 +1004,9 @@ extension ChatbotClient {
     ///
     /// Identifes a user level permission for a channel configuration.
     ///
-    /// - Parameter DeleteMicrosoftTeamsUserIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMicrosoftTeamsUserIdentityInput`)
     ///
-    /// - Returns: `DeleteMicrosoftTeamsUserIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMicrosoftTeamsUserIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,9 +1073,9 @@ extension ChatbotClient {
     ///
     /// Deletes a Slack channel configuration for AWS Chatbot
     ///
-    /// - Parameter DeleteSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `DeleteSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,9 +1143,9 @@ extension ChatbotClient {
     ///
     /// Deletes a user level permission for a Slack channel configuration.
     ///
-    /// - Parameter DeleteSlackUserIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackUserIdentityInput`)
     ///
-    /// - Returns: `DeleteSlackUserIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackUserIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,9 +1212,9 @@ extension ChatbotClient {
     ///
     /// Deletes the Slack workspace authorization that allows channels to be configured in that workspace. This requires all configured channels in the workspace to be deleted.
     ///
-    /// - Parameter DeleteSlackWorkspaceAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackWorkspaceAuthorizationInput`)
     ///
-    /// - Returns: `DeleteSlackWorkspaceAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackWorkspaceAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1280,9 +1280,9 @@ extension ChatbotClient {
     ///
     /// Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn
     ///
-    /// - Parameter DescribeChimeWebhookConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChimeWebhookConfigurationsInput`)
     ///
-    /// - Returns: `DescribeChimeWebhookConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChimeWebhookConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1349,9 +1349,9 @@ extension ChatbotClient {
     ///
     /// Lists Slack channel configurations optionally filtered by ChatConfigurationArn
     ///
-    /// - Parameter DescribeSlackChannelConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSlackChannelConfigurationsInput`)
     ///
-    /// - Returns: `DescribeSlackChannelConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSlackChannelConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1418,9 +1418,9 @@ extension ChatbotClient {
     ///
     /// Lists all Slack user identities with a mapped role.
     ///
-    /// - Parameter DescribeSlackUserIdentitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSlackUserIdentitiesInput`)
     ///
-    /// - Returns: `DescribeSlackUserIdentitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSlackUserIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1487,9 +1487,9 @@ extension ChatbotClient {
     ///
     /// List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot.
     ///
-    /// - Parameter DescribeSlackWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSlackWorkspacesInput`)
     ///
-    /// - Returns: `DescribeSlackWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSlackWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1556,9 +1556,9 @@ extension ChatbotClient {
     ///
     /// Unlink a resource, for example a custom action, from a channel configuration.
     ///
-    /// - Parameter DisassociateFromConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromConfigurationInput`)
     ///
-    /// - Returns: `DisassociateFromConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,9 +1625,9 @@ extension ChatbotClient {
     ///
     /// Returns AWS Chatbot account preferences.
     ///
-    /// - Parameter GetAccountPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountPreferencesInput`)
     ///
-    /// - Returns: `GetAccountPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1690,9 +1690,9 @@ extension ChatbotClient {
     ///
     /// Returns a custom action.
     ///
-    /// - Parameter GetCustomActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomActionInput`)
     ///
-    /// - Returns: `GetCustomActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1760,9 +1760,9 @@ extension ChatbotClient {
     ///
     /// Returns a Microsoft Teams channel configuration in an AWS account.
     ///
-    /// - Parameter GetMicrosoftTeamsChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMicrosoftTeamsChannelConfigurationInput`)
     ///
-    /// - Returns: `GetMicrosoftTeamsChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMicrosoftTeamsChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1829,9 +1829,9 @@ extension ChatbotClient {
     ///
     /// Lists resources associated with a channel configuration.
     ///
-    /// - Parameter ListAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociationsInput`)
     ///
-    /// - Returns: `ListAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociationsOutput`)
     public func listAssociations(input: ListAssociationsInput) async throws -> ListAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1891,9 +1891,9 @@ extension ChatbotClient {
     ///
     /// Lists custom actions defined in this account.
     ///
-    /// - Parameter ListCustomActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomActionsInput`)
     ///
-    /// - Returns: `ListCustomActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1960,9 +1960,9 @@ extension ChatbotClient {
     ///
     /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account.
     ///
-    /// - Parameter ListMicrosoftTeamsChannelConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMicrosoftTeamsChannelConfigurationsInput`)
     ///
-    /// - Returns: `ListMicrosoftTeamsChannelConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMicrosoftTeamsChannelConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2029,9 +2029,9 @@ extension ChatbotClient {
     ///
     /// Lists all authorized Microsoft Teams for an AWS Account
     ///
-    /// - Parameter ListMicrosoftTeamsConfiguredTeamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMicrosoftTeamsConfiguredTeamsInput`)
     ///
-    /// - Returns: `ListMicrosoftTeamsConfiguredTeamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMicrosoftTeamsConfiguredTeamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2098,9 +2098,9 @@ extension ChatbotClient {
     ///
     /// A list all Microsoft Teams user identities with a mapped role.
     ///
-    /// - Parameter ListMicrosoftTeamsUserIdentitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMicrosoftTeamsUserIdentitiesInput`)
     ///
-    /// - Returns: `ListMicrosoftTeamsUserIdentitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMicrosoftTeamsUserIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2167,9 +2167,9 @@ extension ChatbotClient {
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2236,9 +2236,9 @@ extension ChatbotClient {
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,9 +2306,9 @@ extension ChatbotClient {
     ///
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2375,9 +2375,9 @@ extension ChatbotClient {
     ///
     /// Updates AWS Chatbot account preferences.
     ///
-    /// - Parameter UpdateAccountPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountPreferencesInput`)
     ///
-    /// - Returns: `UpdateAccountPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2444,9 +2444,9 @@ extension ChatbotClient {
     ///
     /// Updates a Amazon Chime webhook configuration.
     ///
-    /// - Parameter UpdateChimeWebhookConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChimeWebhookConfigurationInput`)
     ///
-    /// - Returns: `UpdateChimeWebhookConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChimeWebhookConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2514,9 +2514,9 @@ extension ChatbotClient {
     ///
     /// Updates a custom action.
     ///
-    /// - Parameter UpdateCustomActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomActionInput`)
     ///
-    /// - Returns: `UpdateCustomActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2584,9 +2584,9 @@ extension ChatbotClient {
     ///
     /// Updates an Microsoft Teams channel configuration.
     ///
-    /// - Parameter UpdateMicrosoftTeamsChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMicrosoftTeamsChannelConfigurationInput`)
     ///
-    /// - Returns: `UpdateMicrosoftTeamsChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMicrosoftTeamsChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2654,9 +2654,9 @@ extension ChatbotClient {
     ///
     /// Updates a Slack channel configuration.
     ///
-    /// - Parameter UpdateSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `UpdateSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

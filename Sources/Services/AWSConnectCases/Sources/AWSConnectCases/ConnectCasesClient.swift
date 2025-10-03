@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCasesClient: ClientRuntime.Client {
     public static let clientName = "ConnectCasesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCasesClient.ConnectCasesClientConfiguration
     let serviceName = "ConnectCases"
@@ -374,9 +374,9 @@ extension ConnectCasesClient {
     ///
     /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter BatchGetCaseRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCaseRuleInput`)
     ///
-    /// - Returns: `BatchGetCaseRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCaseRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension ConnectCasesClient {
     ///
     /// Returns the description for the list of fields in the request parameters.
     ///
-    /// - Parameter BatchGetFieldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetFieldInput`)
     ///
-    /// - Returns: `BatchGetFieldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension ConnectCasesClient {
     ///
     /// Creates and updates a set of field options for a single select field in a Cases domain.
     ///
-    /// - Parameter BatchPutFieldOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutFieldOptionsInput`)
     ///
-    /// - Returns: `BatchPutFieldOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutFieldOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension ConnectCasesClient {
     ///
     /// * title
     ///
-    /// - Parameter CreateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseInput`)
     ///
-    /// - Returns: `CreateCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension ConnectCasesClient {
     ///
     /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter CreateCaseRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseRuleInput`)
     ///
-    /// - Returns: `CreateCaseRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCaseRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,9 +738,9 @@ extension ConnectCasesClient {
     ///
     /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -810,9 +810,9 @@ extension ConnectCasesClient {
     ///
     /// Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
     ///
-    /// - Parameter CreateFieldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFieldInput`)
     ///
-    /// - Returns: `CreateFieldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,9 +890,9 @@ extension ConnectCasesClient {
     ///
     /// Title and Status fields cannot be part of layouts since they are not configurable.
     ///
-    /// - Parameter CreateLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLayoutInput`)
     ///
-    /// - Returns: `CreateLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -969,9 +969,9 @@ extension ConnectCasesClient {
     ///
     /// * The type field is reserved for internal use only.
     ///
-    /// - Parameter CreateRelatedItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRelatedItemInput`)
     ///
-    /// - Returns: `CreateRelatedItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRelatedItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1049,9 +1049,9 @@ extension ConnectCasesClient {
     ///
     /// * [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
     ///
-    /// - Parameter CreateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,9 +1131,9 @@ extension ConnectCasesClient {
     ///
     /// This action is irreversible. After you delete a case, you cannot recover its data.
     ///
-    /// - Parameter DeleteCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCaseInput`)
     ///
-    /// - Returns: `DeleteCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1199,9 +1199,9 @@ extension ConnectCasesClient {
     ///
     /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter DeleteCaseRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCaseRuleInput`)
     ///
-    /// - Returns: `DeleteCaseRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCaseRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1267,9 +1267,9 @@ extension ConnectCasesClient {
     ///
     /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,9 +1360,9 @@ extension ConnectCasesClient {
     ///
     /// * Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
     ///
-    /// - Parameter DeleteFieldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFieldInput`)
     ///
-    /// - Returns: `DeleteFieldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1436,9 +1436,9 @@ extension ConnectCasesClient {
     ///
     /// * Deleted layouts are not included in the ListLayouts response.
     ///
-    /// - Parameter DeleteLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLayoutInput`)
     ///
-    /// - Returns: `DeleteLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1505,9 +1505,9 @@ extension ConnectCasesClient {
     ///
     /// Deletes the related item resource under a case. This API cannot be used on a FILE type related attachment. To delete this type of file, use the [DeleteAttachedFile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteAttachedFile.html) API
     ///
-    /// - Parameter DeleteRelatedItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRelatedItemInput`)
     ///
-    /// - Returns: `DeleteRelatedItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRelatedItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1581,9 +1581,9 @@ extension ConnectCasesClient {
     ///
     /// * Deleted templates are not included in the ListTemplates response.
     ///
-    /// - Parameter DeleteTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1650,9 +1650,9 @@ extension ConnectCasesClient {
     ///
     /// Returns information about a specific case if it exists.
     ///
-    /// - Parameter GetCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseInput`)
     ///
-    /// - Returns: `GetCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,9 +1721,9 @@ extension ConnectCasesClient {
     ///
     /// Returns the audit history about a specific case if it exists.
     ///
-    /// - Parameter GetCaseAuditEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseAuditEventsInput`)
     ///
-    /// - Returns: `GetCaseAuditEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseAuditEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1792,9 +1792,9 @@ extension ConnectCasesClient {
     ///
     /// Returns the case event publishing configuration.
     ///
-    /// - Parameter GetCaseEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseEventConfigurationInput`)
     ///
-    /// - Returns: `GetCaseEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,9 +1860,9 @@ extension ConnectCasesClient {
     ///
     /// Returns information about a specific domain if it exists.
     ///
-    /// - Parameter GetDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainInput`)
     ///
-    /// - Returns: `GetDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1928,9 +1928,9 @@ extension ConnectCasesClient {
     ///
     /// Returns the details for the requested layout.
     ///
-    /// - Parameter GetLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLayoutInput`)
     ///
-    /// - Returns: `GetLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2004,9 +2004,9 @@ extension ConnectCasesClient {
     ///
     /// * [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
     ///
-    /// - Parameter GetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateInput`)
     ///
-    /// - Returns: `GetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2072,9 +2072,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter ListCaseRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCaseRulesInput`)
     ///
-    /// - Returns: `ListCaseRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCaseRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2141,9 +2141,9 @@ extension ConnectCasesClient {
     ///
     /// Lists cases for a given contact.
     ///
-    /// - Parameter ListCasesForContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCasesForContactInput`)
     ///
-    /// - Returns: `ListCasesForContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCasesForContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,9 +2212,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2280,9 +2280,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all of the field options for a field identifier in the domain.
     ///
-    /// - Parameter ListFieldOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFieldOptionsInput`)
     ///
-    /// - Returns: `ListFieldOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFieldOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2349,9 +2349,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all fields in a Cases domain.
     ///
-    /// - Parameter ListFieldsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFieldsInput`)
     ///
-    /// - Returns: `ListFieldsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFieldsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2418,9 +2418,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
     ///
-    /// - Parameter ListLayoutsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLayoutsInput`)
     ///
-    /// - Returns: `ListLayoutsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLayoutsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2487,9 +2487,9 @@ extension ConnectCasesClient {
     ///
     /// Lists tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2563,9 +2563,9 @@ extension ConnectCasesClient {
     ///
     /// * [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2632,9 +2632,9 @@ extension ConnectCasesClient {
     ///
     /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see [Create case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html) in the Amazon Connect Administrator Guide
     ///
-    /// - Parameter PutCaseEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutCaseEventConfigurationInput`)
     ///
-    /// - Returns: `PutCaseEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutCaseEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2720,9 +2720,9 @@ extension ConnectCasesClient {
     ///
     /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
-    /// - Parameter SearchAllRelatedItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAllRelatedItemsInput`)
     ///
-    /// - Returns: `SearchAllRelatedItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAllRelatedItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2791,9 +2791,9 @@ extension ConnectCasesClient {
     ///
     /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents. For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     ///
-    /// - Parameter SearchCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchCasesInput`)
     ///
-    /// - Returns: `SearchCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2862,9 +2862,9 @@ extension ConnectCasesClient {
     ///
     /// Searches for related items that are associated with a case. If no filters are provided, this returns all related items associated with a case.
     ///
-    /// - Parameter SearchRelatedItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchRelatedItemsInput`)
     ///
-    /// - Returns: `SearchRelatedItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchRelatedItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2933,9 +2933,9 @@ extension ConnectCasesClient {
     ///
     /// Adds tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3004,9 +3004,9 @@ extension ConnectCasesClient {
     ///
     /// Untags a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3073,9 +3073,9 @@ extension ConnectCasesClient {
     ///
     /// If you provide a value for PerformedBy.UserArn you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
-    /// - Parameter UpdateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseInput`)
     ///
-    /// - Returns: `UpdateCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3144,9 +3144,9 @@ extension ConnectCasesClient {
     ///
     /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter UpdateCaseRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseRuleInput`)
     ///
-    /// - Returns: `UpdateCaseRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3216,9 +3216,9 @@ extension ConnectCasesClient {
     ///
     /// Updates the properties of an existing field.
     ///
-    /// - Parameter UpdateFieldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFieldInput`)
     ///
-    /// - Returns: `UpdateFieldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3288,9 +3288,9 @@ extension ConnectCasesClient {
     ///
     /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. Title and Status fields cannot be part of layouts because they are not configurable.
     ///
-    /// - Parameter UpdateLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLayoutInput`)
     ///
-    /// - Returns: `UpdateLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3369,9 +3369,9 @@ extension ConnectCasesClient {
     ///
     /// * [ListTemplates](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_ListTemplates.html)
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

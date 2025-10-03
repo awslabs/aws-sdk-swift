@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MemoryDBClient: ClientRuntime.Client {
     public static let clientName = "MemoryDBClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MemoryDBClient.MemoryDBClientConfiguration
     let serviceName = "MemoryDB"
@@ -373,9 +373,9 @@ extension MemoryDBClient {
     ///
     /// Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see [Applying the service updates](https://docs.aws.amazon.com/MemoryDB/latest/devguide/managing-updates.html#applying-updates).
     ///
-    /// - Parameter BatchUpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateClusterInput`)
     ///
-    /// - Returns: `BatchUpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension MemoryDBClient {
     ///
     /// Makes a copy of an existing snapshot.
     ///
-    /// - Parameter CopySnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopySnapshotInput`)
     ///
-    /// - Returns: `CopySnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopySnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension MemoryDBClient {
     ///
     /// Creates an Access Control List. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
-    /// - Parameter CreateACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateACLInput`)
     ///
-    /// - Returns: `CreateACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension MemoryDBClient {
     ///
     /// Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -676,9 +676,9 @@ extension MemoryDBClient {
     ///
     /// Creates a new multi-Region cluster.
     ///
-    /// - Parameter CreateMultiRegionClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMultiRegionClusterInput`)
     ///
-    /// - Returns: `CreateMultiRegionClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMultiRegionClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,9 +749,9 @@ extension MemoryDBClient {
     ///
     /// Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For more information, see [Configuring engine parameters using parameter groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/parametergroups.html).
     ///
-    /// - Parameter CreateParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateParameterGroupInput`)
     ///
-    /// - Returns: `CreateParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -823,9 +823,9 @@ extension MemoryDBClient {
     ///
     /// Creates a copy of an entire cluster at a specific moment in time.
     ///
-    /// - Parameter CreateSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotInput`)
     ///
-    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,9 +898,9 @@ extension MemoryDBClient {
     ///
     /// Creates a subnet group. A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment. When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes. For more information, see [Subnets and subnet groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/subnetgroups.html).
     ///
-    /// - Parameter CreateSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubnetGroupInput`)
     ///
-    /// - Returns: `CreateSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,9 +972,9 @@ extension MemoryDBClient {
     ///
     /// Creates a MemoryDB user. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,9 +1045,9 @@ extension MemoryDBClient {
     ///
     /// Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
     ///
-    /// - Parameter DeleteACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteACLInput`)
     ///
-    /// - Returns: `DeleteACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1115,9 +1115,9 @@ extension MemoryDBClient {
     ///
     /// Deletes a cluster. It also deletes all associated nodes and node endpoints. CreateSnapshot permission is required to create a final snapshot. Without this permission, the API call will fail with an Access Denied exception.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,9 +1188,9 @@ extension MemoryDBClient {
     ///
     /// Deletes an existing multi-Region cluster.
     ///
-    /// - Parameter DeleteMultiRegionClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMultiRegionClusterInput`)
     ///
-    /// - Returns: `DeleteMultiRegionClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMultiRegionClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1258,9 +1258,9 @@ extension MemoryDBClient {
     ///
     /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters. You cannot delete the default parameter groups in your account.
     ///
-    /// - Parameter DeleteParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteParameterGroupInput`)
     ///
-    /// - Returns: `DeleteParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1330,9 +1330,9 @@ extension MemoryDBClient {
     ///
     /// Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
     ///
-    /// - Parameter DeleteSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotInput`)
     ///
-    /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1402,9 +1402,9 @@ extension MemoryDBClient {
     ///
     /// Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
     ///
-    /// - Parameter DeleteSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,9 +1472,9 @@ extension MemoryDBClient {
     ///
     /// Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1542,9 +1542,9 @@ extension MemoryDBClient {
     ///
     /// Returns a list of ACLs.
     ///
-    /// - Parameter DescribeACLsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeACLsInput`)
     ///
-    /// - Returns: `DescribeACLsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeACLsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1611,9 +1611,9 @@ extension MemoryDBClient {
     ///
     /// Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
     ///
-    /// - Parameter DescribeClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClustersInput`)
     ///
-    /// - Returns: `DescribeClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1682,9 +1682,9 @@ extension MemoryDBClient {
     ///
     /// Returns a list of the available Redis OSS engine versions.
     ///
-    /// - Parameter DescribeEngineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeEngineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,9 +1752,9 @@ extension MemoryDBClient {
     ///
     /// Returns events related to clusters, security groups, and parameter groups. You can obtain events specific to a particular cluster, security group, or parameter group by providing the name as a parameter. By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
-    /// - Parameter DescribeEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1822,9 +1822,9 @@ extension MemoryDBClient {
     ///
     /// Returns details about one or more multi-Region clusters.
     ///
-    /// - Parameter DescribeMultiRegionClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMultiRegionClustersInput`)
     ///
-    /// - Returns: `DescribeMultiRegionClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMultiRegionClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1893,9 +1893,9 @@ extension MemoryDBClient {
     ///
     /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
     ///
-    /// - Parameter DescribeParameterGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeParameterGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1964,9 +1964,9 @@ extension MemoryDBClient {
     ///
     /// Returns the detailed parameter list for a particular parameter group.
     ///
-    /// - Parameter DescribeParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeParametersInput`)
     ///
-    /// - Returns: `DescribeParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2035,9 +2035,9 @@ extension MemoryDBClient {
     ///
     /// Returns information about reserved nodes for this account, or about a specified reserved node.
     ///
-    /// - Parameter DescribeReservedNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservedNodesInput`)
     ///
-    /// - Returns: `DescribeReservedNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservedNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2106,9 +2106,9 @@ extension MemoryDBClient {
     ///
     /// Lists available reserved node offerings.
     ///
-    /// - Parameter DescribeReservedNodesOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservedNodesOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedNodesOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservedNodesOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2177,9 +2177,9 @@ extension MemoryDBClient {
     ///
     /// Returns details of the service updates.
     ///
-    /// - Parameter DescribeServiceUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceUpdatesInput`)
     ///
-    /// - Returns: `DescribeServiceUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2246,9 +2246,9 @@ extension MemoryDBClient {
     ///
     /// Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cluster.
     ///
-    /// - Parameter DescribeSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotsInput`)
     ///
-    /// - Returns: `DescribeSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2317,9 +2317,9 @@ extension MemoryDBClient {
     ///
     /// Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
     ///
-    /// - Parameter DescribeSubnetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeSubnetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2386,9 +2386,9 @@ extension MemoryDBClient {
     ///
     /// Returns a list of users.
     ///
-    /// - Parameter DescribeUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsersInput`)
     ///
-    /// - Returns: `DescribeUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2455,9 +2455,9 @@ extension MemoryDBClient {
     ///
     /// Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
     ///
-    /// - Parameter FailoverShardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverShardInput`)
     ///
-    /// - Returns: `FailoverShardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverShardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2530,9 +2530,9 @@ extension MemoryDBClient {
     ///
     /// Lists the allowed updates for a multi-Region cluster.
     ///
-    /// - Parameter ListAllowedMultiRegionClusterUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAllowedMultiRegionClusterUpdatesInput`)
     ///
-    /// - Returns: `ListAllowedMultiRegionClusterUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAllowedMultiRegionClusterUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2600,9 +2600,9 @@ extension MemoryDBClient {
     ///
     /// Lists all available node types that you can scale to from your cluster's current node type. When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
     ///
-    /// - Parameter ListAllowedNodeTypeUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAllowedNodeTypeUpdatesInput`)
     ///
-    /// - Returns: `ListAllowedNodeTypeUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAllowedNodeTypeUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2671,9 +2671,9 @@ extension MemoryDBClient {
     ///
     /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html).
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2749,9 +2749,9 @@ extension MemoryDBClient {
     ///
     /// Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
     ///
-    /// - Parameter PurchaseReservedNodesOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseReservedNodesOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedNodesOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseReservedNodesOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2823,9 +2823,9 @@ extension MemoryDBClient {
     ///
     /// Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
     ///
-    /// - Parameter ResetParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetParameterGroupInput`)
     ///
-    /// - Returns: `ResetParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2895,9 +2895,9 @@ extension MemoryDBClient {
     ///
     /// Use this operation to add tags to a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). When you add tags to multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2975,9 +2975,9 @@ extension MemoryDBClient {
     ///
     /// Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). When you remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html). You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3055,9 +3055,9 @@ extension MemoryDBClient {
     ///
     /// Changes the list of users that belong to the Access Control List.
     ///
-    /// - Parameter UpdateACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateACLInput`)
     ///
-    /// - Returns: `UpdateACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3129,9 +3129,9 @@ extension MemoryDBClient {
     ///
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3212,9 +3212,9 @@ extension MemoryDBClient {
     ///
     /// Updates the configuration of an existing multi-Region cluster.
     ///
-    /// - Parameter UpdateMultiRegionClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMultiRegionClusterInput`)
     ///
-    /// - Returns: `UpdateMultiRegionClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMultiRegionClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3284,9 +3284,9 @@ extension MemoryDBClient {
     ///
     /// Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     ///
-    /// - Parameter UpdateParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateParameterGroupInput`)
     ///
-    /// - Returns: `UpdateParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3356,9 +3356,9 @@ extension MemoryDBClient {
     ///
     /// Updates a subnet group. For more information, see [Updating a subnet group](https://docs.aws.amazon.com/MemoryDB/latest/devguide/ubnetGroups.Modifying.html)
     ///
-    /// - Parameter UpdateSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubnetGroupInput`)
     ///
-    /// - Returns: `UpdateSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3429,9 +3429,9 @@ extension MemoryDBClient {
     ///
     /// Changes user password(s) and/or access string.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

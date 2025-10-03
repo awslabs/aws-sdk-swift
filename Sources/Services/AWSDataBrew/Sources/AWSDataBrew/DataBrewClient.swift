@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataBrewClient: ClientRuntime.Client {
     public static let clientName = "DataBrewClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DataBrewClient.DataBrewClientConfiguration
     let serviceName = "DataBrew"
@@ -397,9 +397,9 @@ extension DataBrewClient {
     ///
     /// The LATEST_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST_WORKING while other versions exist (or if they can't be deleted), then LATEST_WORKING will be listed as partial failure in the response.
     ///
-    /// - Parameter BatchDeleteRecipeVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteRecipeVersionInput`)
     ///
-    /// - Returns: `BatchDeleteRecipeVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteRecipeVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -466,9 +466,9 @@ extension DataBrewClient {
     ///
     /// Creates a new DataBrew dataset.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -536,9 +536,9 @@ extension DataBrewClient {
     ///
     /// Creates a new job to analyze a dataset and create its data profile.
     ///
-    /// - Parameter CreateProfileJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileJobInput`)
     ///
-    /// - Returns: `CreateProfileJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -607,9 +607,9 @@ extension DataBrewClient {
     ///
     /// Creates a new DataBrew project.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -677,9 +677,9 @@ extension DataBrewClient {
     ///
     /// Creates a new DataBrew recipe.
     ///
-    /// - Parameter CreateRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecipeInput`)
     ///
-    /// - Returns: `CreateRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -746,9 +746,9 @@ extension DataBrewClient {
     ///
     /// Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
     ///
-    /// - Parameter CreateRecipeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecipeJobInput`)
     ///
-    /// - Returns: `CreateRecipeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecipeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -817,9 +817,9 @@ extension DataBrewClient {
     ///
     /// Creates a new ruleset that can be used in a profile job to validate the data quality of a dataset.
     ///
-    /// - Parameter CreateRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRulesetInput`)
     ///
-    /// - Returns: `CreateRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,9 +886,9 @@ extension DataBrewClient {
     ///
     /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
     ///
-    /// - Parameter CreateScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduleInput`)
     ///
-    /// - Returns: `CreateScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -955,9 +955,9 @@ extension DataBrewClient {
     ///
     /// Deletes a dataset from DataBrew.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,9 +1021,9 @@ extension DataBrewClient {
     ///
     /// Deletes the specified DataBrew job.
     ///
-    /// - Parameter DeleteJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobInput`)
     ///
-    /// - Returns: `DeleteJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1087,9 +1087,9 @@ extension DataBrewClient {
     ///
     /// Deletes an existing DataBrew project.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1153,9 +1153,9 @@ extension DataBrewClient {
     ///
     /// Deletes a single version of a DataBrew recipe.
     ///
-    /// - Parameter DeleteRecipeVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecipeVersionInput`)
     ///
-    /// - Returns: `DeleteRecipeVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecipeVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,9 +1219,9 @@ extension DataBrewClient {
     ///
     /// Deletes a ruleset.
     ///
-    /// - Parameter DeleteRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRulesetInput`)
     ///
-    /// - Returns: `DeleteRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1285,9 +1285,9 @@ extension DataBrewClient {
     ///
     /// Deletes the specified DataBrew schedule.
     ///
-    /// - Parameter DeleteScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduleInput`)
     ///
-    /// - Returns: `DeleteScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,9 +1350,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew dataset.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1415,9 +1415,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew job.
     ///
-    /// - Parameter DescribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobInput`)
     ///
-    /// - Returns: `DescribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,9 +1480,9 @@ extension DataBrewClient {
     ///
     /// Represents one run of a DataBrew job.
     ///
-    /// - Parameter DescribeJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobRunInput`)
     ///
-    /// - Returns: `DescribeJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1545,9 +1545,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew project.
     ///
-    /// - Parameter DescribeProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProjectInput`)
     ///
-    /// - Returns: `DescribeProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,9 +1610,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew recipe corresponding to a particular version.
     ///
-    /// - Parameter DescribeRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecipeInput`)
     ///
-    /// - Returns: `DescribeRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1676,9 +1676,9 @@ extension DataBrewClient {
     ///
     /// Retrieves detailed information about the ruleset.
     ///
-    /// - Parameter DescribeRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRulesetInput`)
     ///
-    /// - Returns: `DescribeRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1741,9 +1741,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew schedule.
     ///
-    /// - Parameter DescribeScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScheduleInput`)
     ///
-    /// - Returns: `DescribeScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1806,9 +1806,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the DataBrew datasets.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1871,9 +1871,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the previous runs of a particular DataBrew job.
     ///
-    /// - Parameter ListJobRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobRunsInput`)
     ///
-    /// - Returns: `ListJobRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1937,9 +1937,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the DataBrew jobs that are defined.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2002,9 +2002,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the DataBrew projects that are defined.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2067,9 +2067,9 @@ extension DataBrewClient {
     ///
     /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
     ///
-    /// - Parameter ListRecipeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecipeVersionsInput`)
     ///
-    /// - Returns: `ListRecipeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecipeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2132,9 +2132,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the DataBrew recipes that are defined.
     ///
-    /// - Parameter ListRecipesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecipesInput`)
     ///
-    /// - Returns: `ListRecipesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecipesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2197,9 +2197,9 @@ extension DataBrewClient {
     ///
     /// List all rulesets available in the current account or rulesets associated with a specific resource (dataset).
     ///
-    /// - Parameter ListRulesetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesetsInput`)
     ///
-    /// - Returns: `ListRulesetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2263,9 +2263,9 @@ extension DataBrewClient {
     ///
     /// Lists the DataBrew schedules that are defined.
     ///
-    /// - Parameter ListSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchedulesInput`)
     ///
-    /// - Returns: `ListSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchedulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2328,9 +2328,9 @@ extension DataBrewClient {
     ///
     /// Lists all the tags for a DataBrew resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2394,9 +2394,9 @@ extension DataBrewClient {
     ///
     /// Publishes a new version of a DataBrew recipe.
     ///
-    /// - Parameter PublishRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishRecipeInput`)
     ///
-    /// - Returns: `PublishRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2463,9 +2463,9 @@ extension DataBrewClient {
     ///
     /// Performs a recipe step within an interactive DataBrew session that's currently open.
     ///
-    /// - Parameter SendProjectSessionActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendProjectSessionActionInput`)
     ///
-    /// - Returns: `SendProjectSessionActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendProjectSessionActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2532,9 +2532,9 @@ extension DataBrewClient {
     ///
     /// Runs a DataBrew job.
     ///
-    /// - Parameter StartJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartJobRunInput`)
     ///
-    /// - Returns: `StartJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2599,9 +2599,9 @@ extension DataBrewClient {
     ///
     /// Creates an interactive session, enabling you to manipulate data in a DataBrew project.
     ///
-    /// - Parameter StartProjectSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartProjectSessionInput`)
     ///
-    /// - Returns: `StartProjectSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartProjectSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2669,9 +2669,9 @@ extension DataBrewClient {
     ///
     /// Stops a particular run of a job.
     ///
-    /// - Parameter StopJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopJobRunInput`)
     ///
-    /// - Returns: `StopJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2734,9 +2734,9 @@ extension DataBrewClient {
     ///
     /// Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2803,9 +2803,9 @@ extension DataBrewClient {
     ///
     /// Removes metadata tags from a DataBrew resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2870,9 +2870,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing DataBrew dataset.
     ///
-    /// - Parameter UpdateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetInput`)
     ///
-    /// - Returns: `UpdateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2939,9 +2939,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing profile job.
     ///
-    /// - Parameter UpdateProfileJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileJobInput`)
     ///
-    /// - Returns: `UpdateProfileJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3008,9 +3008,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing DataBrew project.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3076,9 +3076,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
     ///
-    /// - Parameter UpdateRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecipeInput`)
     ///
-    /// - Returns: `UpdateRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3144,9 +3144,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing DataBrew recipe job.
     ///
-    /// - Parameter UpdateRecipeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecipeJobInput`)
     ///
-    /// - Returns: `UpdateRecipeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecipeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3213,9 +3213,9 @@ extension DataBrewClient {
     ///
     /// Updates specified ruleset.
     ///
-    /// - Parameter UpdateRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRulesetInput`)
     ///
-    /// - Returns: `UpdateRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3281,9 +3281,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing DataBrew schedule.
     ///
-    /// - Parameter UpdateScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduleInput`)
     ///
-    /// - Returns: `UpdateScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

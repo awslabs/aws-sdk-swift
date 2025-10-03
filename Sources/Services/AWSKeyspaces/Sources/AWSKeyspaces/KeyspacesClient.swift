@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KeyspacesClient: ClientRuntime.Client {
     public static let clientName = "KeyspacesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: KeyspacesClient.KeyspacesClientConfiguration
     let serviceName = "Keyspaces"
@@ -373,9 +373,9 @@ extension KeyspacesClient {
     ///
     /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region. CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace operation. For more information, see [Create a keyspace](https://docs.aws.amazon.com/keyspaces/latest/devguide/getting-started.keyspaces.html) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter CreateKeyspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyspaceInput`)
     ///
-    /// - Returns: `CreateKeyspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension KeyspacesClient {
     ///
     /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique. CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see [Create a table](https://docs.aws.amazon.com/keyspaces/latest/devguide/getting-started.tables.html) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter CreateTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTableInput`)
     ///
-    /// - Returns: `CreateTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension KeyspacesClient {
     ///
     /// The CreateType operation creates a new user-defined type in the specified keyspace. To configure the required permissions, see [Permissions to create a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-create) in the Amazon Keyspaces Developer Guide. For more information, see [User-defined types (UDTs)](https://docs.aws.amazon.com/keyspaces/latest/devguide/udts.html) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter CreateTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTypeInput`)
     ///
-    /// - Returns: `CreateTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension KeyspacesClient {
     ///
     /// The DeleteKeyspace operation deletes a keyspace and all of its tables.
     ///
-    /// - Parameter DeleteKeyspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyspaceInput`)
     ///
-    /// - Returns: `DeleteKeyspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension KeyspacesClient {
     ///
     /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then Amazon Keyspaces returns a ResourceInUseException. If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException. If the table is already in the DELETING state, no error is returned.
     ///
-    /// - Parameter DeleteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableInput`)
     ///
-    /// - Returns: `DeleteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension KeyspacesClient {
     ///
     /// The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT. To configure the required permissions, see [Permissions to delete a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-drop) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter DeleteTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTypeInput`)
     ///
-    /// - Returns: `DeleteTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -810,9 +810,9 @@ extension KeyspacesClient {
     ///
     /// Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an UpdateKeyspace operation.
     ///
-    /// - Parameter GetKeyspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyspaceInput`)
     ///
-    /// - Returns: `GetKeyspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,9 +882,9 @@ extension KeyspacesClient {
     ///
     /// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and metadata. To read table metadata using GetTable, the IAM principal needs Select action permissions for the table and the system keyspace.
     ///
-    /// - Parameter GetTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableInput`)
     ///
-    /// - Returns: `GetTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -958,9 +958,9 @@ extension KeyspacesClient {
     ///
     /// * application-autoscaling:DescribeScalingPolicies
     ///
-    /// - Parameter GetTableAutoScalingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableAutoScalingSettingsInput`)
     ///
-    /// - Returns: `GetTableAutoScalingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableAutoScalingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1030,9 +1030,9 @@ extension KeyspacesClient {
     ///
     /// The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables. To read keyspace metadata using GetType, the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see [Permissions to view a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-view) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter GetTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTypeInput`)
     ///
-    /// - Returns: `GetTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1102,9 +1102,9 @@ extension KeyspacesClient {
     ///
     /// The ListKeyspaces operation returns a list of keyspaces.
     ///
-    /// - Parameter ListKeyspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyspacesInput`)
     ///
-    /// - Returns: `ListKeyspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1174,9 +1174,9 @@ extension KeyspacesClient {
     ///
     /// The ListTables operation returns a list of tables for a specified keyspace. To read keyspace metadata using ListTables, the IAM principal needs Select action permissions for the system keyspace.
     ///
-    /// - Parameter ListTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTablesInput`)
     ///
-    /// - Returns: `ListTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1246,9 +1246,9 @@ extension KeyspacesClient {
     ///
     /// Returns a list of all tags associated with the specified Amazon Keyspaces resource. To read keyspace metadata using ListTagsForResource, the IAM principal needs Select action permissions for the specified resource and the system keyspace.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1318,9 +1318,9 @@ extension KeyspacesClient {
     ///
     /// The ListTypes operation returns a list of types for a specified keyspace. To read keyspace metadata using ListTypes, the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see [Permissions to view a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-view) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter ListTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypesInput`)
     ///
-    /// - Returns: `ListTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1407,9 +1407,9 @@ extension KeyspacesClient {
     ///
     /// * Amazon CloudWatch metrics and alarms
     ///
-    /// - Parameter RestoreTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreTableInput`)
     ///
-    /// - Returns: `RestoreTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,9 +1480,9 @@ extension KeyspacesClient {
     ///
     /// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide. For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see [Amazon Keyspaces resource access based on tags](https://docs.aws.amazon.com/keyspaces/latest/devguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-tags) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1553,9 +1553,9 @@ extension KeyspacesClient {
     ///
     /// Removes the association of tags from a Amazon Keyspaces resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1667,9 +1667,9 @@ extension KeyspacesClient {
     ///
     /// For more information, see [Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace](https://docs.aws.amazon.com/keyspaces/latest/devguide/howitworks_replication_permissions_addReplica.html) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter UpdateKeyspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyspaceInput`)
     ///
-    /// - Returns: `UpdateKeyspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1740,9 +1740,9 @@ extension KeyspacesClient {
     ///
     /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
     ///
-    /// - Parameter UpdateTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableInput`)
     ///
-    /// - Returns: `UpdateTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PIClient: ClientRuntime.Client {
     public static let clientName = "PIClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PIClient.PIClientConfiguration
     let serviceName = "PI"
@@ -373,9 +373,9 @@ extension PIClient {
     ///
     /// Creates a new performance analysis report for a specific time period for the DB instance.
     ///
-    /// - Parameter CreatePerformanceAnalysisReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePerformanceAnalysisReportInput`)
     ///
-    /// - Returns: `CreatePerformanceAnalysisReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePerformanceAnalysisReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension PIClient {
     ///
     /// Deletes a performance analysis report.
     ///
-    /// - Parameter DeletePerformanceAnalysisReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePerformanceAnalysisReportInput`)
     ///
-    /// - Returns: `DeletePerformanceAnalysisReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePerformanceAnalysisReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension PIClient {
     ///
     /// For a specific time period, retrieve the top N dimension keys for a metric. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
     ///
-    /// - Parameter DescribeDimensionKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDimensionKeysInput`)
     ///
-    /// - Returns: `DescribeDimensionKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDimensionKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension PIClient {
     ///
     /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans.
     ///
-    /// - Parameter GetDimensionKeyDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDimensionKeyDetailsInput`)
     ///
-    /// - Returns: `GetDimensionKeyDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDimensionKeyDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,9 +653,9 @@ extension PIClient {
     ///
     /// Retrieves the report including the report ID, status, time details, and the insights with recommendations. The report status can be RUNNING, SUCCEEDED, or FAILED. The insights include the description and recommendation fields.
     ///
-    /// - Parameter GetPerformanceAnalysisReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPerformanceAnalysisReportInput`)
     ///
-    /// - Returns: `GetPerformanceAnalysisReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPerformanceAnalysisReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,9 +723,9 @@ extension PIClient {
     ///
     /// Retrieve the metadata for different features. For example, the metadata might indicate that a feature is turned on or off on a specific DB instance.
     ///
-    /// - Parameter GetResourceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceMetadataInput`)
     ///
-    /// - Returns: `GetResourceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -793,9 +793,9 @@ extension PIClient {
     ///
     /// Retrieve Performance Insights metrics for a set of data sources over a time period. You can provide specific dimension groups and dimensions, and provide filtering criteria for each group. You must specify an aggregate function for each metric. Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first 500 bytes are returned.
     ///
-    /// - Parameter GetResourceMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceMetricsInput`)
     ///
-    /// - Returns: `GetResourceMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,9 +863,9 @@ extension PIClient {
     ///
     /// Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
     ///
-    /// - Parameter ListAvailableResourceDimensionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableResourceDimensionsInput`)
     ///
-    /// - Returns: `ListAvailableResourceDimensionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailableResourceDimensionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,9 +933,9 @@ extension PIClient {
     ///
     /// Retrieve metrics of the specified types that can be queried for a specified DB instance.
     ///
-    /// - Parameter ListAvailableResourceMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableResourceMetricsInput`)
     ///
-    /// - Returns: `ListAvailableResourceMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailableResourceMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,9 +1003,9 @@ extension PIClient {
     ///
     /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
     ///
-    /// - Parameter ListPerformanceAnalysisReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPerformanceAnalysisReportsInput`)
     ///
-    /// - Returns: `ListPerformanceAnalysisReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPerformanceAnalysisReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,9 +1073,9 @@ extension PIClient {
     ///
     /// Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,9 +1143,9 @@ extension PIClient {
     ///
     /// Adds metadata tags to the Amazon RDS Performance Insights resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1213,9 +1213,9 @@ extension PIClient {
     ///
     /// Deletes the metadata tags from the Amazon RDS Performance Insights resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

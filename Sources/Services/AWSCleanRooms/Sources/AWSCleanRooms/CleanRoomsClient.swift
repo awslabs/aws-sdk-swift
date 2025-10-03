@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsClient.CleanRoomsClientConfiguration
     let serviceName = "CleanRooms"
@@ -372,9 +372,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
     ///
-    /// - Parameter BatchGetCollaborationAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCollaborationAnalysisTemplateInput`)
     ///
-    /// - Returns: `BatchGetCollaborationAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCollaborationAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves multiple schemas by their identifiers.
     ///
-    /// - Parameter BatchGetSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSchemaInput`)
     ///
-    /// - Returns: `BatchGetSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves multiple analysis rule schemas.
     ///
-    /// - Parameter BatchGetSchemaAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSchemaAnalysisRuleInput`)
     ///
-    /// - Returns: `BatchGetSchemaAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetSchemaAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -585,9 +585,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new analysis template.
     ///
-    /// - Parameter CreateAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnalysisTemplateInput`)
     ///
-    /// - Returns: `CreateAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,9 +658,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new collaboration.
     ///
-    /// - Parameter CreateCollaborationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCollaborationInput`)
     ///
-    /// - Returns: `CreateCollaborationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCollaborationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
     ///
-    /// - Parameter CreateCollaborationChangeRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCollaborationChangeRequestInput`)
     ///
-    /// - Returns: `CreateCollaborationChangeRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCollaborationChangeRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension CleanRoomsClient {
     ///
     /// Provides the details necessary to create a configured audience model association.
     ///
-    /// - Parameter CreateConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `CreateConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -875,9 +875,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new configured table resource.
     ///
-    /// - Parameter CreateConfiguredTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredTableInput`)
     ///
-    /// - Returns: `CreateConfiguredTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
     ///
-    /// - Parameter CreateConfiguredTableAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredTableAnalysisRuleInput`)
     ///
-    /// - Returns: `CreateConfiguredTableAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredTableAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,9 +1021,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a configured table association. A configured table association links a configured table with a collaboration.
     ///
-    /// - Parameter CreateConfiguredTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredTableAssociationInput`)
     ///
-    /// - Returns: `CreateConfiguredTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredTableAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1094,9 +1094,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new analysis rule for an associated configured table.
     ///
-    /// - Parameter CreateConfiguredTableAssociationAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredTableAssociationAnalysisRuleInput`)
     ///
-    /// - Returns: `CreateConfiguredTableAssociationAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredTableAssociationAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1166,9 +1166,9 @@ extension CleanRoomsClient {
     ///
     /// Creates an ID mapping table.
     ///
-    /// - Parameter CreateIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdMappingTableInput`)
     ///
-    /// - Returns: `CreateIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,9 +1239,9 @@ extension CleanRoomsClient {
     ///
     /// Creates an ID namespace association.
     ///
-    /// - Parameter CreateIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `CreateIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1312,9 +1312,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     ///
-    /// - Parameter CreateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembershipInput`)
     ///
-    /// - Returns: `CreateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1385,9 +1385,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the [UpdatePrivacyBudgetTemplate] operation.
     ///
-    /// - Parameter CreatePrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `CreatePrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1458,9 +1458,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes an analysis template.
     ///
-    /// - Parameter DeleteAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnalysisTemplateInput`)
     ///
-    /// - Returns: `DeleteAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1526,9 +1526,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a collaboration. It can only be called by the collaboration owner.
     ///
-    /// - Parameter DeleteCollaborationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCollaborationInput`)
     ///
-    /// - Returns: `DeleteCollaborationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCollaborationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1593,9 +1593,9 @@ extension CleanRoomsClient {
     ///
     /// Provides the information necessary to delete a configured audience model association.
     ///
-    /// - Parameter DeleteConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `DeleteConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1661,9 +1661,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a configured table.
     ///
-    /// - Parameter DeleteConfiguredTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredTableInput`)
     ///
-    /// - Returns: `DeleteConfiguredTableOutput` : The empty output for a successful deletion.
+    /// - Returns: The empty output for a successful deletion. (Type: `DeleteConfiguredTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,9 +1730,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a configured table analysis rule.
     ///
-    /// - Parameter DeleteConfiguredTableAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredTableAnalysisRuleInput`)
     ///
-    /// - Returns: `DeleteConfiguredTableAnalysisRuleOutput` : An empty response that indicates a successful delete.
+    /// - Returns: An empty response that indicates a successful delete. (Type: `DeleteConfiguredTableAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,9 +1799,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a configured table association.
     ///
-    /// - Parameter DeleteConfiguredTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredTableAssociationInput`)
     ///
-    /// - Returns: `DeleteConfiguredTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredTableAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1868,9 +1868,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes an analysis rule for a configured table association.
     ///
-    /// - Parameter DeleteConfiguredTableAssociationAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredTableAssociationAnalysisRuleInput`)
     ///
-    /// - Returns: `DeleteConfiguredTableAssociationAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredTableAssociationAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1937,9 +1937,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes an ID mapping table.
     ///
-    /// - Parameter DeleteIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdMappingTableInput`)
     ///
-    /// - Returns: `DeleteIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2005,9 +2005,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes an ID namespace association.
     ///
-    /// - Parameter DeleteIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `DeleteIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2073,9 +2073,9 @@ extension CleanRoomsClient {
     ///
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
     ///
-    /// - Parameter DeleteMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemberInput`)
     ///
-    /// - Returns: `DeleteMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2142,9 +2142,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a specified membership. All resources under a membership must be deleted.
     ///
-    /// - Parameter DeleteMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMembershipInput`)
     ///
-    /// - Returns: `DeleteMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2211,9 +2211,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a privacy budget template for a specified collaboration.
     ///
-    /// - Parameter DeletePrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `DeletePrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2279,9 +2279,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an analysis template.
     ///
-    /// - Parameter GetAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnalysisTemplateInput`)
     ///
-    /// - Returns: `GetAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2347,9 +2347,9 @@ extension CleanRoomsClient {
     ///
     /// Returns metadata about a collaboration.
     ///
-    /// - Parameter GetCollaborationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationInput`)
     ///
-    /// - Returns: `GetCollaborationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2414,9 +2414,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an analysis template within a collaboration.
     ///
-    /// - Parameter GetCollaborationAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationAnalysisTemplateInput`)
     ///
-    /// - Returns: `GetCollaborationAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2482,9 +2482,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves detailed information about a specific collaboration change request.
     ///
-    /// - Parameter GetCollaborationChangeRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationChangeRequestInput`)
     ///
-    /// - Returns: `GetCollaborationChangeRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationChangeRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2550,9 +2550,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a configured audience model association within a collaboration.
     ///
-    /// - Parameter GetCollaborationConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `GetCollaborationConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2618,9 +2618,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an ID namespace association from a specific collaboration.
     ///
-    /// - Parameter GetCollaborationIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `GetCollaborationIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2686,9 +2686,9 @@ extension CleanRoomsClient {
     ///
     /// Returns details about a specified privacy budget template.
     ///
-    /// - Parameter GetCollaborationPrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationPrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `GetCollaborationPrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationPrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2754,9 +2754,9 @@ extension CleanRoomsClient {
     ///
     /// Returns information about a configured audience model association.
     ///
-    /// - Parameter GetConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `GetConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2822,9 +2822,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a configured table.
     ///
-    /// - Parameter GetConfiguredTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredTableInput`)
     ///
-    /// - Returns: `GetConfiguredTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2890,9 +2890,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a configured table analysis rule.
     ///
-    /// - Parameter GetConfiguredTableAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredTableAnalysisRuleInput`)
     ///
-    /// - Returns: `GetConfiguredTableAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredTableAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2958,9 +2958,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a configured table association.
     ///
-    /// - Parameter GetConfiguredTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredTableAssociationInput`)
     ///
-    /// - Returns: `GetConfiguredTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredTableAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3026,9 +3026,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves the analysis rule for a configured table association.
     ///
-    /// - Parameter GetConfiguredTableAssociationAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredTableAssociationAnalysisRuleInput`)
     ///
-    /// - Returns: `GetConfiguredTableAssociationAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredTableAssociationAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3094,9 +3094,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an ID mapping table.
     ///
-    /// - Parameter GetIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdMappingTableInput`)
     ///
-    /// - Returns: `GetIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3162,9 +3162,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an ID namespace association.
     ///
-    /// - Parameter GetIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `GetIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3230,9 +3230,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a specified membership for an identifier.
     ///
-    /// - Parameter GetMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembershipInput`)
     ///
-    /// - Returns: `GetMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3298,9 +3298,9 @@ extension CleanRoomsClient {
     ///
     /// Returns details for a specified privacy budget template.
     ///
-    /// - Parameter GetPrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `GetPrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3366,9 +3366,9 @@ extension CleanRoomsClient {
     ///
     /// Returns job processing metadata.
     ///
-    /// - Parameter GetProtectedJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProtectedJobInput`)
     ///
-    /// - Returns: `GetProtectedJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProtectedJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3434,9 +3434,9 @@ extension CleanRoomsClient {
     ///
     /// Returns query processing metadata.
     ///
-    /// - Parameter GetProtectedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProtectedQueryInput`)
     ///
-    /// - Returns: `GetProtectedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProtectedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3502,9 +3502,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves the schema for a relation within a collaboration.
     ///
-    /// - Parameter GetSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaInput`)
     ///
-    /// - Returns: `GetSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3570,9 +3570,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a schema analysis rule.
     ///
-    /// - Parameter GetSchemaAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaAnalysisRuleInput`)
     ///
-    /// - Returns: `GetSchemaAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3638,9 +3638,9 @@ extension CleanRoomsClient {
     ///
     /// Lists analysis templates that the caller owns.
     ///
-    /// - Parameter ListAnalysisTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnalysisTemplatesInput`)
     ///
-    /// - Returns: `ListAnalysisTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnalysisTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3707,9 +3707,9 @@ extension CleanRoomsClient {
     ///
     /// Lists analysis templates within a collaboration.
     ///
-    /// - Parameter ListCollaborationAnalysisTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationAnalysisTemplatesInput`)
     ///
-    /// - Returns: `ListCollaborationAnalysisTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationAnalysisTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3776,9 +3776,9 @@ extension CleanRoomsClient {
     ///
     /// Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
     ///
-    /// - Parameter ListCollaborationChangeRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationChangeRequestsInput`)
     ///
-    /// - Returns: `ListCollaborationChangeRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationChangeRequestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3845,9 +3845,9 @@ extension CleanRoomsClient {
     ///
     /// Lists configured audience model associations within a collaboration.
     ///
-    /// - Parameter ListCollaborationConfiguredAudienceModelAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationConfiguredAudienceModelAssociationsInput`)
     ///
-    /// - Returns: `ListCollaborationConfiguredAudienceModelAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationConfiguredAudienceModelAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3914,9 +3914,9 @@ extension CleanRoomsClient {
     ///
     /// Returns a list of the ID namespace associations in a collaboration.
     ///
-    /// - Parameter ListCollaborationIdNamespaceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationIdNamespaceAssociationsInput`)
     ///
-    /// - Returns: `ListCollaborationIdNamespaceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationIdNamespaceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3983,9 +3983,9 @@ extension CleanRoomsClient {
     ///
     /// Returns an array that summarizes each privacy budget template in a specified collaboration.
     ///
-    /// - Parameter ListCollaborationPrivacyBudgetTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationPrivacyBudgetTemplatesInput`)
     ///
-    /// - Returns: `ListCollaborationPrivacyBudgetTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationPrivacyBudgetTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4052,9 +4052,9 @@ extension CleanRoomsClient {
     ///
     /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
     ///
-    /// - Parameter ListCollaborationPrivacyBudgetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationPrivacyBudgetsInput`)
     ///
-    /// - Returns: `ListCollaborationPrivacyBudgetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationPrivacyBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4121,9 +4121,9 @@ extension CleanRoomsClient {
     ///
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     ///
-    /// - Parameter ListCollaborationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationsInput`)
     ///
-    /// - Returns: `ListCollaborationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4189,9 +4189,9 @@ extension CleanRoomsClient {
     ///
     /// Lists information about requested configured audience model associations.
     ///
-    /// - Parameter ListConfiguredAudienceModelAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredAudienceModelAssociationsInput`)
     ///
-    /// - Returns: `ListConfiguredAudienceModelAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredAudienceModelAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4258,9 +4258,9 @@ extension CleanRoomsClient {
     ///
     /// Lists configured table associations for a membership.
     ///
-    /// - Parameter ListConfiguredTableAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredTableAssociationsInput`)
     ///
-    /// - Returns: `ListConfiguredTableAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredTableAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4327,9 +4327,9 @@ extension CleanRoomsClient {
     ///
     /// Lists configured tables.
     ///
-    /// - Parameter ListConfiguredTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredTablesInput`)
     ///
-    /// - Returns: `ListConfiguredTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4395,9 +4395,9 @@ extension CleanRoomsClient {
     ///
     /// Returns a list of ID mapping tables.
     ///
-    /// - Parameter ListIdMappingTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdMappingTablesInput`)
     ///
-    /// - Returns: `ListIdMappingTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdMappingTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4464,9 +4464,9 @@ extension CleanRoomsClient {
     ///
     /// Returns a list of ID namespace associations.
     ///
-    /// - Parameter ListIdNamespaceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdNamespaceAssociationsInput`)
     ///
-    /// - Returns: `ListIdNamespaceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdNamespaceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4533,9 +4533,9 @@ extension CleanRoomsClient {
     ///
     /// Lists all members within a collaboration.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4602,9 +4602,9 @@ extension CleanRoomsClient {
     ///
     /// Lists all memberships resources within the caller's account.
     ///
-    /// - Parameter ListMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembershipsInput`)
     ///
-    /// - Returns: `ListMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4670,9 +4670,9 @@ extension CleanRoomsClient {
     ///
     /// Returns detailed information about the privacy budget templates in a specified membership.
     ///
-    /// - Parameter ListPrivacyBudgetTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrivacyBudgetTemplatesInput`)
     ///
-    /// - Returns: `ListPrivacyBudgetTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrivacyBudgetTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4739,9 +4739,9 @@ extension CleanRoomsClient {
     ///
     /// Returns detailed information about the privacy budgets in a specified membership.
     ///
-    /// - Parameter ListPrivacyBudgetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrivacyBudgetsInput`)
     ///
-    /// - Returns: `ListPrivacyBudgetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrivacyBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4808,9 +4808,9 @@ extension CleanRoomsClient {
     ///
     /// Lists protected jobs, sorted by most recent job.
     ///
-    /// - Parameter ListProtectedJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProtectedJobsInput`)
     ///
-    /// - Returns: `ListProtectedJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProtectedJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4877,9 +4877,9 @@ extension CleanRoomsClient {
     ///
     /// Lists protected queries, sorted by the most recent query.
     ///
-    /// - Parameter ListProtectedQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProtectedQueriesInput`)
     ///
-    /// - Returns: `ListProtectedQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProtectedQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4946,9 +4946,9 @@ extension CleanRoomsClient {
     ///
     /// Lists the schemas for relations within a collaboration.
     ///
-    /// - Parameter ListSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemasInput`)
     ///
-    /// - Returns: `ListSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5015,9 +5015,9 @@ extension CleanRoomsClient {
     ///
     /// Lists all of the tags that have been added to a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5080,9 +5080,9 @@ extension CleanRoomsClient {
     ///
     /// Defines the information that's necessary to populate an ID mapping table.
     ///
-    /// - Parameter PopulateIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PopulateIdMappingTableInput`)
     ///
-    /// - Returns: `PopulateIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PopulateIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5153,9 +5153,9 @@ extension CleanRoomsClient {
     ///
     /// An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
     ///
-    /// - Parameter PreviewPrivacyImpactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PreviewPrivacyImpactInput`)
     ///
-    /// - Returns: `PreviewPrivacyImpactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PreviewPrivacyImpactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5224,9 +5224,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a protected job that is started by Clean Rooms.
     ///
-    /// - Parameter StartProtectedJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartProtectedJobInput`)
     ///
-    /// - Returns: `StartProtectedJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartProtectedJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5296,9 +5296,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a protected query that is started by Clean Rooms.
     ///
-    /// - Parameter StartProtectedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartProtectedQueryInput`)
     ///
-    /// - Returns: `StartProtectedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartProtectedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5368,9 +5368,9 @@ extension CleanRoomsClient {
     ///
     /// Tags a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5436,9 +5436,9 @@ extension CleanRoomsClient {
     ///
     /// Removes a tag or list of tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5502,9 +5502,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the analysis template metadata.
     ///
-    /// - Parameter UpdateAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnalysisTemplateInput`)
     ///
-    /// - Returns: `UpdateAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5573,9 +5573,9 @@ extension CleanRoomsClient {
     ///
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     ///
-    /// - Parameter UpdateCollaborationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCollaborationInput`)
     ///
-    /// - Returns: `UpdateCollaborationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCollaborationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5643,9 +5643,9 @@ extension CleanRoomsClient {
     ///
     /// Provides the details necessary to update a configured audience model association.
     ///
-    /// - Parameter UpdateConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `UpdateConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5714,9 +5714,9 @@ extension CleanRoomsClient {
     ///
     /// Updates a configured table.
     ///
-    /// - Parameter UpdateConfiguredTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredTableInput`)
     ///
-    /// - Returns: `UpdateConfiguredTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5787,9 +5787,9 @@ extension CleanRoomsClient {
     ///
     /// Updates a configured table analysis rule.
     ///
-    /// - Parameter UpdateConfiguredTableAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredTableAnalysisRuleInput`)
     ///
-    /// - Returns: `UpdateConfiguredTableAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredTableAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5859,9 +5859,9 @@ extension CleanRoomsClient {
     ///
     /// Updates a configured table association.
     ///
-    /// - Parameter UpdateConfiguredTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredTableAssociationInput`)
     ///
-    /// - Returns: `UpdateConfiguredTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredTableAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5931,9 +5931,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the analysis rule for a configured table association.
     ///
-    /// - Parameter UpdateConfiguredTableAssociationAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredTableAssociationAnalysisRuleInput`)
     ///
-    /// - Returns: `UpdateConfiguredTableAssociationAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredTableAssociationAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6003,9 +6003,9 @@ extension CleanRoomsClient {
     ///
     /// Provides the details that are necessary to update an ID mapping table.
     ///
-    /// - Parameter UpdateIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdMappingTableInput`)
     ///
-    /// - Returns: `UpdateIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6074,9 +6074,9 @@ extension CleanRoomsClient {
     ///
     /// Provides the details that are necessary to update an ID namespace association.
     ///
-    /// - Parameter UpdateIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `UpdateIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6145,9 +6145,9 @@ extension CleanRoomsClient {
     ///
     /// Updates a membership.
     ///
-    /// - Parameter UpdateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMembershipInput`)
     ///
-    /// - Returns: `UpdateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6217,9 +6217,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the privacy budget template for the specified collaboration.
     ///
-    /// - Parameter UpdatePrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `UpdatePrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6289,9 +6289,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the processing of a currently running job.
     ///
-    /// - Parameter UpdateProtectedJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProtectedJobInput`)
     ///
-    /// - Returns: `UpdateProtectedJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProtectedJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6361,9 +6361,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the processing of a currently running query.
     ///
-    /// - Parameter UpdateProtectedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProtectedQueryInput`)
     ///
-    /// - Returns: `UpdateProtectedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProtectedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

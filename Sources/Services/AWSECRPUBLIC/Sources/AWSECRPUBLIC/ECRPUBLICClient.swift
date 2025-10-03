@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECRPUBLICClient: ClientRuntime.Client {
     public static let clientName = "ECRPUBLICClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ECRPUBLICClient.ECRPUBLICClientConfiguration
     let serviceName = "ECR PUBLIC"
@@ -373,9 +373,9 @@ extension ECRPUBLICClient {
     ///
     /// Checks the availability of one or more image layers that are within a repository in a public registry. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter BatchCheckLayerAvailabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCheckLayerAvailabilityInput`)
     ///
-    /// - Returns: `BatchCheckLayerAvailabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCheckLayerAvailabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension ECRPUBLICClient {
     ///
     /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request.
     ///
-    /// - Parameter BatchDeleteImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteImageInput`)
     ///
-    /// - Returns: `BatchDeleteImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension ECRPUBLICClient {
     ///
     /// Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter CompleteLayerUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteLayerUploadInput`)
     ///
-    /// - Returns: `CompleteLayerUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteLayerUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension ECRPUBLICClient {
     ///
     /// Creates a repository in a public registry. For more information, see [Amazon ECR repositories](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter CreateRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRepositoryInput`)
     ///
-    /// - Returns: `CreateRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension ECRPUBLICClient {
     ///
     /// Deletes a repository in a public registry. If the repository contains images, you must either manually delete all images in the repository or use the force option. This option deletes all images on your behalf before deleting the repository.
     ///
-    /// - Parameter DeleteRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryInput`)
     ///
-    /// - Returns: `DeleteRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,9 +739,9 @@ extension ECRPUBLICClient {
     ///
     /// Deletes the repository policy that's associated with the specified repository.
     ///
-    /// - Parameter DeleteRepositoryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryPolicyInput`)
     ///
-    /// - Returns: `DeleteRepositoryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -811,9 +811,9 @@ extension ECRPUBLICClient {
     ///
     /// Returns the image tag details for a repository in a public registry.
     ///
-    /// - Parameter DescribeImageTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageTagsInput`)
     ///
-    /// - Returns: `DescribeImageTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,9 +882,9 @@ extension ECRPUBLICClient {
     ///
     /// Returns metadata that's related to the images in a repository in a public registry. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by [DescribeImages].
     ///
-    /// - Parameter DescribeImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImagesInput`)
     ///
-    /// - Returns: `DescribeImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,9 +954,9 @@ extension ECRPUBLICClient {
     ///
     /// Returns details for a public registry.
     ///
-    /// - Parameter DescribeRegistriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegistriesInput`)
     ///
-    /// - Returns: `DescribeRegistriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegistriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1024,9 +1024,9 @@ extension ECRPUBLICClient {
     ///
     /// Describes repositories that are in a public registry.
     ///
-    /// - Parameter DescribeRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRepositoriesInput`)
     ///
-    /// - Returns: `DescribeRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1095,9 +1095,9 @@ extension ECRPUBLICClient {
     ///
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
     ///
-    /// - Parameter GetAuthorizationTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthorizationTokenInput`)
     ///
-    /// - Returns: `GetAuthorizationTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthorizationTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1165,9 +1165,9 @@ extension ECRPUBLICClient {
     ///
     /// Retrieves catalog metadata for a public registry.
     ///
-    /// - Parameter GetRegistryCatalogDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegistryCatalogDataInput`)
     ///
-    /// - Returns: `GetRegistryCatalogDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegistryCatalogDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1234,9 +1234,9 @@ extension ECRPUBLICClient {
     ///
     /// Retrieve catalog metadata for a repository in a public registry. This metadata is displayed publicly in the Amazon ECR Public Gallery.
     ///
-    /// - Parameter GetRepositoryCatalogDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositoryCatalogDataInput`)
     ///
-    /// - Returns: `GetRepositoryCatalogDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositoryCatalogDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1306,9 +1306,9 @@ extension ECRPUBLICClient {
     ///
     /// Retrieves the repository policy for the specified repository.
     ///
-    /// - Parameter GetRepositoryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositoryPolicyInput`)
     ///
-    /// - Returns: `GetRepositoryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositoryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1378,9 +1378,9 @@ extension ECRPUBLICClient {
     ///
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once for each image layer that hasn't already been uploaded. Whether an image layer uploads is determined by the BatchCheckLayerAvailability API action. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter InitiateLayerUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitiateLayerUploadInput`)
     ///
-    /// - Returns: `InitiateLayerUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitiateLayerUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1450,9 +1450,9 @@ extension ECRPUBLICClient {
     ///
     /// List the tags for an Amazon ECR Public resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1521,9 +1521,9 @@ extension ECRPUBLICClient {
     ///
     /// Creates or updates the image manifest and tags that are associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags that are associated with the image. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter PutImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutImageInput`)
     ///
-    /// - Returns: `PutImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1599,9 +1599,9 @@ extension ECRPUBLICClient {
     ///
     /// Create or update the catalog data for a public registry.
     ///
-    /// - Parameter PutRegistryCatalogDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRegistryCatalogDataInput`)
     ///
-    /// - Returns: `PutRegistryCatalogDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRegistryCatalogDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1669,9 +1669,9 @@ extension ECRPUBLICClient {
     ///
     /// Creates or updates the catalog data for a repository in a public registry.
     ///
-    /// - Parameter PutRepositoryCatalogDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRepositoryCatalogDataInput`)
     ///
-    /// - Returns: `PutRepositoryCatalogDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRepositoryCatalogDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1740,9 +1740,9 @@ extension ECRPUBLICClient {
     ///
     /// Applies a repository policy to the specified public repository to control access permissions. For more information, see [Amazon ECR Repository Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) in the Amazon Elastic Container Registry User Guide.
     ///
-    /// - Parameter SetRepositoryPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetRepositoryPolicyInput`)
     ///
-    /// - Returns: `SetRepositoryPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetRepositoryPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1811,9 +1811,9 @@ extension ECRPUBLICClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1884,9 +1884,9 @@ extension ECRPUBLICClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1957,9 +1957,9 @@ extension ECRPUBLICClient {
     ///
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (about 20MB). The UploadLayerPart API is called once for each new image layer part. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     ///
-    /// - Parameter UploadLayerPartInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadLayerPartInput`)
     ///
-    /// - Returns: `UploadLayerPartOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadLayerPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

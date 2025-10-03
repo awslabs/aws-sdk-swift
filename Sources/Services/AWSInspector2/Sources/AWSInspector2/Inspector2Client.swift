@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Inspector2Client: ClientRuntime.Client {
     public static let clientName = "Inspector2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: Inspector2Client.Inspector2ClientConfiguration
     let serviceName = "Inspector2"
@@ -374,9 +374,9 @@ extension Inspector2Client {
     ///
     /// Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesn’t indicate whether it was completed. You can check if the association completed by using [ListMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_ListMembers.html) for multiple accounts or [GetMembers](https://docs.aws.amazon.com/inspector/v2/APIReference/API_GetMember.html) for a single account.
     ///
-    /// - Parameter AssociateMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMemberInput`)
     ///
-    /// - Returns: `AssociateMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension Inspector2Client {
     ///
     /// Associates multiple code repositories with an Amazon Inspector code security scan configuration.
     ///
-    /// - Parameter BatchAssociateCodeSecurityScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateCodeSecurityScanConfigurationInput`)
     ///
-    /// - Returns: `BatchAssociateCodeSecurityScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateCodeSecurityScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension Inspector2Client {
     ///
     /// Disassociates multiple code repositories from an Amazon Inspector code security scan configuration.
     ///
-    /// - Parameter BatchDisassociateCodeSecurityScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateCodeSecurityScanConfigurationInput`)
     ///
-    /// - Returns: `BatchDisassociateCodeSecurityScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateCodeSecurityScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension Inspector2Client {
     ///
     /// Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
     ///
-    /// - Parameter BatchGetAccountStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetAccountStatusInput`)
     ///
-    /// - Returns: `BatchGetAccountStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetAccountStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,9 +660,9 @@ extension Inspector2Client {
     ///
     /// Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
     ///
-    /// - Parameter BatchGetCodeSnippetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCodeSnippetInput`)
     ///
-    /// - Returns: `BatchGetCodeSnippetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCodeSnippetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension Inspector2Client {
     ///
     /// Gets vulnerability details for findings.
     ///
-    /// - Parameter BatchGetFindingDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetFindingDetailsInput`)
     ///
-    /// - Returns: `BatchGetFindingDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetFindingDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,9 +800,9 @@ extension Inspector2Client {
     ///
     /// Gets free trial status for multiple Amazon Web Services accounts.
     ///
-    /// - Parameter BatchGetFreeTrialInfoInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetFreeTrialInfoInput`)
     ///
-    /// - Returns: `BatchGetFreeTrialInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetFreeTrialInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,9 +870,9 @@ extension Inspector2Client {
     ///
     /// Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
     ///
-    /// - Parameter BatchGetMemberEc2DeepInspectionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetMemberEc2DeepInspectionStatusInput`)
     ///
-    /// - Returns: `BatchGetMemberEc2DeepInspectionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetMemberEc2DeepInspectionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -940,9 +940,9 @@ extension Inspector2Client {
     ///
     /// Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
     ///
-    /// - Parameter BatchUpdateMemberEc2DeepInspectionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateMemberEc2DeepInspectionStatusInput`)
     ///
-    /// - Returns: `BatchUpdateMemberEc2DeepInspectionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateMemberEc2DeepInspectionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,9 +1010,9 @@ extension Inspector2Client {
     ///
     /// Cancels the given findings report.
     ///
-    /// - Parameter CancelFindingsReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelFindingsReportInput`)
     ///
-    /// - Returns: `CancelFindingsReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelFindingsReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,9 +1081,9 @@ extension Inspector2Client {
     ///
     /// Cancels a software bill of materials (SBOM) report.
     ///
-    /// - Parameter CancelSbomExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSbomExportInput`)
     ///
-    /// - Returns: `CancelSbomExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSbomExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,9 +1152,9 @@ extension Inspector2Client {
     ///
     /// Creates a CIS scan configuration.
     ///
-    /// - Parameter CreateCisScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCisScanConfigurationInput`)
     ///
-    /// - Returns: `CreateCisScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCisScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1222,9 +1222,9 @@ extension Inspector2Client {
     ///
     /// Creates a code security integration with a source code repository provider. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup
     ///
-    /// - Parameter CreateCodeSecurityIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCodeSecurityIntegrationInput`)
     ///
-    /// - Returns: `CreateCodeSecurityIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCodeSecurityIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,9 +1294,9 @@ extension Inspector2Client {
     ///
     /// Creates a scan configuration for code security scanning.
     ///
-    /// - Parameter CreateCodeSecurityScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCodeSecurityScanConfigurationInput`)
     ///
-    /// - Returns: `CreateCodeSecurityScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCodeSecurityScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1366,9 +1366,9 @@ extension Inspector2Client {
     ///
     /// Creates a filter resource using specified filter criteria. When the filter action is set to SUPPRESS this action creates a suppression rule.
     ///
-    /// - Parameter CreateFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFilterInput`)
     ///
-    /// - Returns: `CreateFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1438,9 +1438,9 @@ extension Inspector2Client {
     ///
     /// Creates a finding report. By default only ACTIVE findings are returned in the report. To see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter criteria.
     ///
-    /// - Parameter CreateFindingsReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFindingsReportInput`)
     ///
-    /// - Returns: `CreateFindingsReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFindingsReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1509,9 +1509,9 @@ extension Inspector2Client {
     ///
     /// Creates a software bill of materials (SBOM) report.
     ///
-    /// - Parameter CreateSbomExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSbomExportInput`)
     ///
-    /// - Returns: `CreateSbomExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSbomExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1580,9 +1580,9 @@ extension Inspector2Client {
     ///
     /// Deletes a CIS scan configuration.
     ///
-    /// - Parameter DeleteCisScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCisScanConfigurationInput`)
     ///
-    /// - Returns: `DeleteCisScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCisScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1651,9 +1651,9 @@ extension Inspector2Client {
     ///
     /// Deletes a code security integration.
     ///
-    /// - Parameter DeleteCodeSecurityIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCodeSecurityIntegrationInput`)
     ///
-    /// - Returns: `DeleteCodeSecurityIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCodeSecurityIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1722,9 +1722,9 @@ extension Inspector2Client {
     ///
     /// Deletes a code security scan configuration.
     ///
-    /// - Parameter DeleteCodeSecurityScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCodeSecurityScanConfigurationInput`)
     ///
-    /// - Returns: `DeleteCodeSecurityScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCodeSecurityScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1793,9 +1793,9 @@ extension Inspector2Client {
     ///
     /// Deletes a filter resource.
     ///
-    /// - Parameter DeleteFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFilterInput`)
     ///
-    /// - Returns: `DeleteFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1864,9 +1864,9 @@ extension Inspector2Client {
     ///
     /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
     ///
-    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1931,9 +1931,9 @@ extension Inspector2Client {
     ///
     /// Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account disables the Amazon Inspector service.
     ///
-    /// - Parameter DisableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableInput`)
     ///
-    /// - Returns: `DisableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2002,9 +2002,9 @@ extension Inspector2Client {
     ///
     /// Disables the Amazon Inspector delegated administrator for your organization.
     ///
-    /// - Parameter DisableDelegatedAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableDelegatedAdminAccountInput`)
     ///
-    /// - Returns: `DisableDelegatedAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableDelegatedAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2074,9 +2074,9 @@ extension Inspector2Client {
     ///
     /// Disassociates a member account from an Amazon Inspector delegated administrator.
     ///
-    /// - Parameter DisassociateMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMemberInput`)
     ///
-    /// - Returns: `DisassociateMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2144,9 +2144,9 @@ extension Inspector2Client {
     ///
     /// Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
     ///
-    /// - Parameter EnableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableInput`)
     ///
-    /// - Returns: `EnableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2216,9 +2216,9 @@ extension Inspector2Client {
     ///
     /// Enables the Amazon Inspector delegated administrator for your Organizations organization.
     ///
-    /// - Parameter EnableDelegatedAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableDelegatedAdminAccountInput`)
     ///
-    /// - Returns: `EnableDelegatedAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableDelegatedAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2289,9 +2289,9 @@ extension Inspector2Client {
     ///
     /// Retrieves a CIS scan report.
     ///
-    /// - Parameter GetCisScanReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCisScanReportInput`)
     ///
-    /// - Returns: `GetCisScanReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCisScanReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,9 +2360,9 @@ extension Inspector2Client {
     ///
     /// Retrieves CIS scan result details.
     ///
-    /// - Parameter GetCisScanResultDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCisScanResultDetailsInput`)
     ///
-    /// - Returns: `GetCisScanResultDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCisScanResultDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2430,9 +2430,9 @@ extension Inspector2Client {
     ///
     /// Returns a list of clusters and metadata associated with an image.
     ///
-    /// - Parameter GetClustersForImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClustersForImageInput`)
     ///
-    /// - Returns: `GetClustersForImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClustersForImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,9 +2500,9 @@ extension Inspector2Client {
     ///
     /// Retrieves information about a code security integration.
     ///
-    /// - Parameter GetCodeSecurityIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeSecurityIntegrationInput`)
     ///
-    /// - Returns: `GetCodeSecurityIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeSecurityIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2571,9 +2571,9 @@ extension Inspector2Client {
     ///
     /// Retrieves information about a specific code security scan.
     ///
-    /// - Parameter GetCodeSecurityScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeSecurityScanInput`)
     ///
-    /// - Returns: `GetCodeSecurityScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeSecurityScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2643,9 +2643,9 @@ extension Inspector2Client {
     ///
     /// Retrieves information about a code security scan configuration.
     ///
-    /// - Parameter GetCodeSecurityScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeSecurityScanConfigurationInput`)
     ///
-    /// - Returns: `GetCodeSecurityScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeSecurityScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2714,9 +2714,9 @@ extension Inspector2Client {
     ///
     /// Retrieves setting configurations for Inspector scans.
     ///
-    /// - Parameter GetConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationInput`)
     ///
-    /// - Returns: `GetConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2780,9 +2780,9 @@ extension Inspector2Client {
     ///
     /// Retrieves information about the Amazon Inspector delegated administrator for your organization.
     ///
-    /// - Parameter GetDelegatedAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDelegatedAdminAccountInput`)
     ///
-    /// - Returns: `GetDelegatedAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDelegatedAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2848,9 +2848,9 @@ extension Inspector2Client {
     ///
     /// Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
     ///
-    /// - Parameter GetEc2DeepInspectionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEc2DeepInspectionConfigurationInput`)
     ///
-    /// - Returns: `GetEc2DeepInspectionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEc2DeepInspectionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2915,9 +2915,9 @@ extension Inspector2Client {
     ///
     /// Gets an encryption key.
     ///
-    /// - Parameter GetEncryptionKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEncryptionKeyInput`)
     ///
-    /// - Returns: `GetEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2984,9 +2984,9 @@ extension Inspector2Client {
     ///
     /// Gets the status of a findings report.
     ///
-    /// - Parameter GetFindingsReportStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsReportStatusInput`)
     ///
-    /// - Returns: `GetFindingsReportStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsReportStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3055,9 +3055,9 @@ extension Inspector2Client {
     ///
     /// Gets member information for your organization.
     ///
-    /// - Parameter GetMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemberInput`)
     ///
-    /// - Returns: `GetMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3126,9 +3126,9 @@ extension Inspector2Client {
     ///
     /// Gets details of a software bill of materials (SBOM) report.
     ///
-    /// - Parameter GetSbomExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSbomExportInput`)
     ///
-    /// - Returns: `GetSbomExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSbomExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3197,9 +3197,9 @@ extension Inspector2Client {
     ///
     /// Lists the permissions an account has to configure Amazon Inspector.
     ///
-    /// - Parameter ListAccountPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountPermissionsInput`)
     ///
-    /// - Returns: `ListAccountPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3267,9 +3267,9 @@ extension Inspector2Client {
     ///
     /// Lists CIS scan configurations.
     ///
-    /// - Parameter ListCisScanConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCisScanConfigurationsInput`)
     ///
-    /// - Returns: `ListCisScanConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCisScanConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3337,9 +3337,9 @@ extension Inspector2Client {
     ///
     /// Lists scan results aggregated by checks.
     ///
-    /// - Parameter ListCisScanResultsAggregatedByChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCisScanResultsAggregatedByChecksInput`)
     ///
-    /// - Returns: `ListCisScanResultsAggregatedByChecksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCisScanResultsAggregatedByChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3407,9 +3407,9 @@ extension Inspector2Client {
     ///
     /// Lists scan results aggregated by a target resource.
     ///
-    /// - Parameter ListCisScanResultsAggregatedByTargetResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCisScanResultsAggregatedByTargetResourceInput`)
     ///
-    /// - Returns: `ListCisScanResultsAggregatedByTargetResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCisScanResultsAggregatedByTargetResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3477,9 +3477,9 @@ extension Inspector2Client {
     ///
     /// Returns a CIS scan list.
     ///
-    /// - Parameter ListCisScansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCisScansInput`)
     ///
-    /// - Returns: `ListCisScansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCisScansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3547,9 +3547,9 @@ extension Inspector2Client {
     ///
     /// Lists all code security integrations in your account.
     ///
-    /// - Parameter ListCodeSecurityIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeSecurityIntegrationsInput`)
     ///
-    /// - Returns: `ListCodeSecurityIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeSecurityIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3615,9 +3615,9 @@ extension Inspector2Client {
     ///
     /// Lists the associations between code repositories and Amazon Inspector code security scan configurations.
     ///
-    /// - Parameter ListCodeSecurityScanConfigurationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeSecurityScanConfigurationAssociationsInput`)
     ///
-    /// - Returns: `ListCodeSecurityScanConfigurationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeSecurityScanConfigurationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3687,9 +3687,9 @@ extension Inspector2Client {
     ///
     /// Lists all code security scan configurations in your account.
     ///
-    /// - Parameter ListCodeSecurityScanConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeSecurityScanConfigurationsInput`)
     ///
-    /// - Returns: `ListCodeSecurityScanConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeSecurityScanConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3756,9 +3756,9 @@ extension Inspector2Client {
     ///
     /// Lists coverage details for your environment.
     ///
-    /// - Parameter ListCoverageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoverageInput`)
     ///
-    /// - Returns: `ListCoverageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoverageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3825,9 +3825,9 @@ extension Inspector2Client {
     ///
     /// Lists Amazon Inspector coverage statistics for your environment.
     ///
-    /// - Parameter ListCoverageStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoverageStatisticsInput`)
     ///
-    /// - Returns: `ListCoverageStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoverageStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3894,9 +3894,9 @@ extension Inspector2Client {
     ///
     /// Lists information about the Amazon Inspector delegated administrator of your organization.
     ///
-    /// - Parameter ListDelegatedAdminAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDelegatedAdminAccountsInput`)
     ///
-    /// - Returns: `ListDelegatedAdminAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDelegatedAdminAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3964,9 +3964,9 @@ extension Inspector2Client {
     ///
     /// Lists the filters associated with your account.
     ///
-    /// - Parameter ListFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFiltersInput`)
     ///
-    /// - Returns: `ListFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4034,9 +4034,9 @@ extension Inspector2Client {
     ///
     /// Lists aggregated finding data for your environment based on specific criteria.
     ///
-    /// - Parameter ListFindingAggregationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingAggregationsInput`)
     ///
-    /// - Returns: `ListFindingAggregationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingAggregationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4103,9 +4103,9 @@ extension Inspector2Client {
     ///
     /// Lists findings for your environment.
     ///
-    /// - Parameter ListFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsInput`)
     ///
-    /// - Returns: `ListFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4172,9 +4172,9 @@ extension Inspector2Client {
     ///
     /// List members associated with the Amazon Inspector delegated administrator for your organization.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4242,9 +4242,9 @@ extension Inspector2Client {
     ///
     /// Lists all tags attached to a given resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4309,9 +4309,9 @@ extension Inspector2Client {
     ///
     /// Lists the Amazon Inspector usage totals over the last 30 days.
     ///
-    /// - Parameter ListUsageTotalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsageTotalsInput`)
     ///
-    /// - Returns: `ListUsageTotalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsageTotalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4379,9 +4379,9 @@ extension Inspector2Client {
     ///
     /// Resets an encryption key. After the key is reset your resources will be encrypted by an Amazon Web Services owned key.
     ///
-    /// - Parameter ResetEncryptionKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetEncryptionKeyInput`)
     ///
-    /// - Returns: `ResetEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4450,9 +4450,9 @@ extension Inspector2Client {
     ///
     /// Lists Amazon Inspector coverage details for a specific vulnerability.
     ///
-    /// - Parameter SearchVulnerabilitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchVulnerabilitiesInput`)
     ///
-    /// - Returns: `SearchVulnerabilitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchVulnerabilitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4520,9 +4520,9 @@ extension Inspector2Client {
     ///
     /// Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     ///
-    /// - Parameter SendCisSessionHealthInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendCisSessionHealthInput`)
     ///
-    /// - Returns: `SendCisSessionHealthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendCisSessionHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4591,9 +4591,9 @@ extension Inspector2Client {
     ///
     /// Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     ///
-    /// - Parameter SendCisSessionTelemetryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendCisSessionTelemetryInput`)
     ///
-    /// - Returns: `SendCisSessionTelemetryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendCisSessionTelemetryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4662,9 +4662,9 @@ extension Inspector2Client {
     ///
     /// Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
     ///
-    /// - Parameter StartCisSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCisSessionInput`)
     ///
-    /// - Returns: `StartCisSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCisSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4733,9 +4733,9 @@ extension Inspector2Client {
     ///
     /// Initiates a code security scan on a specified repository.
     ///
-    /// - Parameter StartCodeSecurityScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCodeSecurityScanInput`)
     ///
-    /// - Returns: `StartCodeSecurityScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCodeSecurityScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4806,9 +4806,9 @@ extension Inspector2Client {
     ///
     /// Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
     ///
-    /// - Parameter StopCisSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCisSessionInput`)
     ///
-    /// - Returns: `StopCisSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCisSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4877,9 +4877,9 @@ extension Inspector2Client {
     ///
     /// Adds tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4948,9 +4948,9 @@ extension Inspector2Client {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5016,9 +5016,9 @@ extension Inspector2Client {
     ///
     /// Updates a CIS scan configuration.
     ///
-    /// - Parameter UpdateCisScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCisScanConfigurationInput`)
     ///
-    /// - Returns: `UpdateCisScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCisScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5087,9 +5087,9 @@ extension Inspector2Client {
     ///
     /// Updates an existing code security integration. After calling the CreateCodeSecurityIntegration operation, you complete authentication and authorization with your provider. Next you call the UpdateCodeSecurityIntegration operation to provide the details to complete the integration setup
     ///
-    /// - Parameter UpdateCodeSecurityIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCodeSecurityIntegrationInput`)
     ///
-    /// - Returns: `UpdateCodeSecurityIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCodeSecurityIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5159,9 +5159,9 @@ extension Inspector2Client {
     ///
     /// Updates an existing code security scan configuration.
     ///
-    /// - Parameter UpdateCodeSecurityScanConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCodeSecurityScanConfigurationInput`)
     ///
-    /// - Returns: `UpdateCodeSecurityScanConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCodeSecurityScanConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5231,9 +5231,9 @@ extension Inspector2Client {
     ///
     /// Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.
     ///
-    /// - Parameter UpdateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationInput`)
     ///
-    /// - Returns: `UpdateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5301,9 +5301,9 @@ extension Inspector2Client {
     ///
     /// Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
     ///
-    /// - Parameter UpdateEc2DeepInspectionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEc2DeepInspectionConfigurationInput`)
     ///
-    /// - Returns: `UpdateEc2DeepInspectionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEc2DeepInspectionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5371,9 +5371,9 @@ extension Inspector2Client {
     ///
     /// Updates an encryption key. A ResourceNotFoundException means that an Amazon Web Services owned key is being used for encryption.
     ///
-    /// - Parameter UpdateEncryptionKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEncryptionKeyInput`)
     ///
-    /// - Returns: `UpdateEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5442,9 +5442,9 @@ extension Inspector2Client {
     ///
     /// Specifies the action that is to be applied to the findings that match the filter.
     ///
-    /// - Parameter UpdateFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFilterInput`)
     ///
-    /// - Returns: `UpdateFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5513,9 +5513,9 @@ extension Inspector2Client {
     ///
     /// Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API.
     ///
-    /// - Parameter UpdateOrgEc2DeepInspectionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrgEc2DeepInspectionConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrgEc2DeepInspectionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrgEc2DeepInspectionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5583,9 +5583,9 @@ extension Inspector2Client {
     ///
     /// Updates the configurations for your Amazon Inspector organization.
     ///
-    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

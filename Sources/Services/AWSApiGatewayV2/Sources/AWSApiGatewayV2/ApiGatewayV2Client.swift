@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApiGatewayV2Client: ClientRuntime.Client {
     public static let clientName = "ApiGatewayV2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ApiGatewayV2Client.ApiGatewayV2ClientConfiguration
     let serviceName = "ApiGatewayV2"
@@ -373,9 +373,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an Api resource.
     ///
-    /// - Parameter CreateApiInput : Creates a new Api resource to represent an API.
+    /// - Parameter input: Creates a new Api resource to represent an API. (Type: `CreateApiInput`)
     ///
-    /// - Returns: `CreateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an API mapping.
     ///
-    /// - Parameter CreateApiMappingInput : Creates a new ApiMapping resource to represent an API mapping.
+    /// - Parameter input: Creates a new ApiMapping resource to represent an API mapping. (Type: `CreateApiMappingInput`)
     ///
-    /// - Returns: `CreateApiMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an Authorizer for an API.
     ///
-    /// - Parameter CreateAuthorizerInput : Creates a new Authorizer resource to represent an authorizer.
+    /// - Parameter input: Creates a new Authorizer resource to represent an authorizer. (Type: `CreateAuthorizerInput`)
     ///
-    /// - Returns: `CreateAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a Deployment for an API.
     ///
-    /// - Parameter CreateDeploymentInput : Creates a new Deployment resource to represent a deployment.
+    /// - Parameter input: Creates a new Deployment resource to represent a deployment. (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,9 +653,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a domain name.
     ///
-    /// - Parameter CreateDomainNameInput : Creates a new DomainName resource to represent a domain name.
+    /// - Parameter input: Creates a new DomainName resource to represent a domain name. (Type: `CreateDomainNameInput`)
     ///
-    /// - Returns: `CreateDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an Integration.
     ///
-    /// - Parameter CreateIntegrationInput : Creates a new Integration resource to represent an integration.
+    /// - Parameter input: Creates a new Integration resource to represent an integration. (Type: `CreateIntegrationInput`)
     ///
-    /// - Returns: `CreateIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -794,9 +794,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an IntegrationResponses.
     ///
-    /// - Parameter CreateIntegrationResponseInput : Creates a new IntegrationResponse resource to represent an integration response.
+    /// - Parameter input: Creates a new IntegrationResponse resource to represent an integration response. (Type: `CreateIntegrationResponseInput`)
     ///
-    /// - Returns: `CreateIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -864,9 +864,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a Model for an API.
     ///
-    /// - Parameter CreateModelInput : Creates a new Model.
+    /// - Parameter input: Creates a new Model. (Type: `CreateModelInput`)
     ///
-    /// - Returns: `CreateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,9 +934,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a Route for an API.
     ///
-    /// - Parameter CreateRouteInput : Creates a new Route resource to represent a route.
+    /// - Parameter input: Creates a new Route resource to represent a route. (Type: `CreateRouteInput`)
     ///
-    /// - Returns: `CreateRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,9 +1004,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a RouteResponse for a Route.
     ///
-    /// - Parameter CreateRouteResponseInput : Creates a new RouteResponse resource to represent a route response.
+    /// - Parameter input: Creates a new RouteResponse resource to represent a route response. (Type: `CreateRouteResponseInput`)
     ///
-    /// - Returns: `CreateRouteResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,9 +1074,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a RoutingRule.
     ///
-    /// - Parameter CreateRoutingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoutingRuleInput`)
     ///
-    /// - Returns: `CreateRoutingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoutingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,9 +1145,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a Stage for an API.
     ///
-    /// - Parameter CreateStageInput : Creates a new Stage resource to represent a stage.
+    /// - Parameter input: Creates a new Stage resource to represent a stage. (Type: `CreateStageInput`)
     ///
-    /// - Returns: `CreateStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,9 +1215,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a VPC link.
     ///
-    /// - Parameter CreateVpcLinkInput : Creates a VPC link
+    /// - Parameter input: Creates a VPC link (Type: `CreateVpcLinkInput`)
     ///
-    /// - Returns: `CreateVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1283,9 +1283,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
     ///
-    /// - Parameter DeleteAccessLogSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessLogSettingsInput`)
     ///
-    /// - Returns: `DeleteAccessLogSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessLogSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1348,9 +1348,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an Api resource.
     ///
-    /// - Parameter DeleteApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiInput`)
     ///
-    /// - Returns: `DeleteApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,9 +1413,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an API mapping.
     ///
-    /// - Parameter DeleteApiMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiMappingInput`)
     ///
-    /// - Returns: `DeleteApiMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1479,9 +1479,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an Authorizer.
     ///
-    /// - Parameter DeleteAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAuthorizerInput`)
     ///
-    /// - Returns: `DeleteAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1544,9 +1544,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a CORS configuration.
     ///
-    /// - Parameter DeleteCorsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCorsConfigurationInput`)
     ///
-    /// - Returns: `DeleteCorsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCorsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1609,9 +1609,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Deployment.
     ///
-    /// - Parameter DeleteDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentInput`)
     ///
-    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1674,9 +1674,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a domain name.
     ///
-    /// - Parameter DeleteDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainNameInput`)
     ///
-    /// - Returns: `DeleteDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1739,9 +1739,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an Integration.
     ///
-    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,9 +1804,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an IntegrationResponses.
     ///
-    /// - Parameter DeleteIntegrationResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationResponseInput`)
     ///
-    /// - Returns: `DeleteIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1869,9 +1869,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Model.
     ///
-    /// - Parameter DeleteModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelInput`)
     ///
-    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1934,9 +1934,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Route.
     ///
-    /// - Parameter DeleteRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteInput`)
     ///
-    /// - Returns: `DeleteRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1999,9 +1999,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a route request parameter. Supported only for WebSocket APIs.
     ///
-    /// - Parameter DeleteRouteRequestParameterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteRequestParameterInput`)
     ///
-    /// - Returns: `DeleteRouteRequestParameterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteRequestParameterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2064,9 +2064,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a RouteResponse.
     ///
-    /// - Parameter DeleteRouteResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteResponseInput`)
     ///
-    /// - Returns: `DeleteRouteResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2129,9 +2129,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes the RouteSettings for a stage.
     ///
-    /// - Parameter DeleteRouteSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteSettingsInput`)
     ///
-    /// - Returns: `DeleteRouteSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2194,9 +2194,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a routing rule.
     ///
-    /// - Parameter DeleteRoutingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoutingRuleInput`)
     ///
-    /// - Returns: `DeleteRoutingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoutingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2261,9 +2261,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Stage.
     ///
-    /// - Parameter DeleteStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStageInput`)
     ///
-    /// - Returns: `DeleteStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2326,9 +2326,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a VPC link.
     ///
-    /// - Parameter DeleteVpcLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcLinkInput`)
     ///
-    /// - Returns: `DeleteVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2390,9 +2390,9 @@ extension ApiGatewayV2Client {
     /// Performs the `ExportApi` operation on the `ApiGatewayV2` service.
     ///
     ///
-    /// - Parameter ExportApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportApiInput`)
     ///
-    /// - Returns: `ExportApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2457,9 +2457,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an Api resource.
     ///
-    /// - Parameter GetApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiInput`)
     ///
-    /// - Returns: `GetApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2522,9 +2522,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an API mapping.
     ///
-    /// - Parameter GetApiMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiMappingInput`)
     ///
-    /// - Returns: `GetApiMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2588,9 +2588,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets API mappings.
     ///
-    /// - Parameter GetApiMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiMappingsInput`)
     ///
-    /// - Returns: `GetApiMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2655,9 +2655,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a collection of Api resources.
     ///
-    /// - Parameter GetApisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApisInput`)
     ///
-    /// - Returns: `GetApisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2722,9 +2722,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an Authorizer.
     ///
-    /// - Parameter GetAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthorizerInput`)
     ///
-    /// - Returns: `GetAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2787,9 +2787,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Authorizers for an API.
     ///
-    /// - Parameter GetAuthorizersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthorizersInput`)
     ///
-    /// - Returns: `GetAuthorizersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthorizersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2854,9 +2854,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a Deployment.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2919,9 +2919,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Deployments for an API.
     ///
-    /// - Parameter GetDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentsInput`)
     ///
-    /// - Returns: `GetDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2986,9 +2986,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a domain name.
     ///
-    /// - Parameter GetDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainNameInput`)
     ///
-    /// - Returns: `GetDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3051,9 +3051,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the domain names for an AWS account.
     ///
-    /// - Parameter GetDomainNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainNamesInput`)
     ///
-    /// - Returns: `GetDomainNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3118,9 +3118,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an Integration.
     ///
-    /// - Parameter GetIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationInput`)
     ///
-    /// - Returns: `GetIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3183,9 +3183,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an IntegrationResponses.
     ///
-    /// - Parameter GetIntegrationResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationResponseInput`)
     ///
-    /// - Returns: `GetIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3248,9 +3248,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the IntegrationResponses for an Integration.
     ///
-    /// - Parameter GetIntegrationResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationResponsesInput`)
     ///
-    /// - Returns: `GetIntegrationResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3315,9 +3315,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Integrations for an API.
     ///
-    /// - Parameter GetIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationsInput`)
     ///
-    /// - Returns: `GetIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3382,9 +3382,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a Model.
     ///
-    /// - Parameter GetModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelInput`)
     ///
-    /// - Returns: `GetModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3447,9 +3447,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a model template.
     ///
-    /// - Parameter GetModelTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelTemplateInput`)
     ///
-    /// - Returns: `GetModelTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3512,9 +3512,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Models for an API.
     ///
-    /// - Parameter GetModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelsInput`)
     ///
-    /// - Returns: `GetModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3579,9 +3579,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a Route.
     ///
-    /// - Parameter GetRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteInput`)
     ///
-    /// - Returns: `GetRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3644,9 +3644,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a RouteResponse.
     ///
-    /// - Parameter GetRouteResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteResponseInput`)
     ///
-    /// - Returns: `GetRouteResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3709,9 +3709,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the RouteResponses for a Route.
     ///
-    /// - Parameter GetRouteResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteResponsesInput`)
     ///
-    /// - Returns: `GetRouteResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3776,9 +3776,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Routes for an API.
     ///
-    /// - Parameter GetRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoutesInput`)
     ///
-    /// - Returns: `GetRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3843,9 +3843,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a routing rule.
     ///
-    /// - Parameter GetRoutingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoutingRuleInput`)
     ///
-    /// - Returns: `GetRoutingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoutingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3910,9 +3910,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a Stage.
     ///
-    /// - Parameter GetStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStageInput`)
     ///
-    /// - Returns: `GetStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3975,9 +3975,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Stages for an API.
     ///
-    /// - Parameter GetStagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStagesInput`)
     ///
-    /// - Returns: `GetStagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4042,9 +4042,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a collection of Tag resources.
     ///
-    /// - Parameter GetTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagsInput`)
     ///
-    /// - Returns: `GetTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4109,9 +4109,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a VPC link.
     ///
-    /// - Parameter GetVpcLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpcLinkInput`)
     ///
-    /// - Returns: `GetVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4174,9 +4174,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a collection of VPC links.
     ///
-    /// - Parameter GetVpcLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpcLinksInput`)
     ///
-    /// - Returns: `GetVpcLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpcLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4240,9 +4240,9 @@ extension ApiGatewayV2Client {
     ///
     /// Imports an API.
     ///
-    /// - Parameter ImportApiInput :
+    /// - Parameter input: (Type: `ImportApiInput`)
     ///
-    /// - Returns: `ImportApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4311,9 +4311,9 @@ extension ApiGatewayV2Client {
     ///
     /// Lists routing rules.
     ///
-    /// - Parameter ListRoutingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoutingRulesInput`)
     ///
-    /// - Returns: `ListRoutingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoutingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4378,9 +4378,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a routing rule.
     ///
-    /// - Parameter PutRoutingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRoutingRuleInput`)
     ///
-    /// - Returns: `PutRoutingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRoutingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4449,9 +4449,9 @@ extension ApiGatewayV2Client {
     ///
     /// Puts an Api resource.
     ///
-    /// - Parameter ReimportApiInput :
+    /// - Parameter input: (Type: `ReimportApiInput`)
     ///
-    /// - Returns: `ReimportApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReimportApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4520,9 +4520,9 @@ extension ApiGatewayV2Client {
     ///
     /// Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
     ///
-    /// - Parameter ResetAuthorizersCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetAuthorizersCacheInput`)
     ///
-    /// - Returns: `ResetAuthorizersCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetAuthorizersCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4585,9 +4585,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a new Tag resource to represent a tag.
     ///
-    /// - Parameter TagResourceInput : Creates a new Tag resource to represent a tag.
+    /// - Parameter input: Creates a new Tag resource to represent a tag. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4655,9 +4655,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Tag.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4723,9 +4723,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates an Api resource.
     ///
-    /// - Parameter UpdateApiInput : Updates an Api.
+    /// - Parameter input: Updates an Api. (Type: `UpdateApiInput`)
     ///
-    /// - Returns: `UpdateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4793,9 +4793,9 @@ extension ApiGatewayV2Client {
     ///
     /// The API mapping.
     ///
-    /// - Parameter UpdateApiMappingInput : Updates an ApiMapping.
+    /// - Parameter input: Updates an ApiMapping. (Type: `UpdateApiMappingInput`)
     ///
-    /// - Returns: `UpdateApiMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4863,9 +4863,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates an Authorizer.
     ///
-    /// - Parameter UpdateAuthorizerInput : Updates an Authorizer.
+    /// - Parameter input: Updates an Authorizer. (Type: `UpdateAuthorizerInput`)
     ///
-    /// - Returns: `UpdateAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4933,9 +4933,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a Deployment.
     ///
-    /// - Parameter UpdateDeploymentInput : Updates a Deployment.
+    /// - Parameter input: Updates a Deployment. (Type: `UpdateDeploymentInput`)
     ///
-    /// - Returns: `UpdateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5003,9 +5003,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a domain name.
     ///
-    /// - Parameter UpdateDomainNameInput : Updates a DomainName.
+    /// - Parameter input: Updates a DomainName. (Type: `UpdateDomainNameInput`)
     ///
-    /// - Returns: `UpdateDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5073,9 +5073,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates an Integration.
     ///
-    /// - Parameter UpdateIntegrationInput : Updates an Integration.
+    /// - Parameter input: Updates an Integration. (Type: `UpdateIntegrationInput`)
     ///
-    /// - Returns: `UpdateIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5143,9 +5143,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates an IntegrationResponses.
     ///
-    /// - Parameter UpdateIntegrationResponseInput : Updates an IntegrationResponses.
+    /// - Parameter input: Updates an IntegrationResponses. (Type: `UpdateIntegrationResponseInput`)
     ///
-    /// - Returns: `UpdateIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5213,9 +5213,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a Model.
     ///
-    /// - Parameter UpdateModelInput : Updates a Model.
+    /// - Parameter input: Updates a Model. (Type: `UpdateModelInput`)
     ///
-    /// - Returns: `UpdateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5283,9 +5283,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a Route.
     ///
-    /// - Parameter UpdateRouteInput : Updates a Route.
+    /// - Parameter input: Updates a Route. (Type: `UpdateRouteInput`)
     ///
-    /// - Returns: `UpdateRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5353,9 +5353,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a RouteResponse.
     ///
-    /// - Parameter UpdateRouteResponseInput : Updates a RouteResponse.
+    /// - Parameter input: Updates a RouteResponse. (Type: `UpdateRouteResponseInput`)
     ///
-    /// - Returns: `UpdateRouteResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRouteResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5423,9 +5423,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a Stage.
     ///
-    /// - Parameter UpdateStageInput : Updates a Stage.
+    /// - Parameter input: Updates a Stage. (Type: `UpdateStageInput`)
     ///
-    /// - Returns: `UpdateStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5493,9 +5493,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a VPC link.
     ///
-    /// - Parameter UpdateVpcLinkInput : Updates a VPC link.
+    /// - Parameter input: Updates a VPC link. (Type: `UpdateVpcLinkInput`)
     ///
-    /// - Returns: `UpdateVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

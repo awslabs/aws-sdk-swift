@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GameLiftStreamsClient: ClientRuntime.Client {
     public static let clientName = "GameLiftStreamsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: GameLiftStreamsClient.GameLiftStreamsClientConfiguration
     let serviceName = "GameLiftStreams"
@@ -374,9 +374,9 @@ extension GameLiftStreamsClient {
     ///
     /// Add locations that can host stream sessions. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality. This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
     ///
-    /// - Parameter AddStreamGroupLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddStreamGroupLocationsInput`)
     ///
-    /// - Returns: `AddStreamGroupLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddStreamGroupLocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension GameLiftStreamsClient {
     ///
     /// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using [DisassociateApplications](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_DisassociateApplications.html). If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in ApplicationIdentifiers as the default.
     ///
-    /// - Parameter AssociateApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApplicationsInput`)
     ///
-    /// - Returns: `AssociateApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension GameLiftStreamsClient {
     ///
     /// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide. Make sure that your files in the Amazon S3 bucket are the correct version you want to use. If you change the files at a later time, you will need to create a new Amazon GameLift Streams application. If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to INITIALIZED. When an application reaches READY status, you can use the application to set up stream groups and start streams. To track application status, call [GetApplication](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetApplication.html).
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,9 +598,9 @@ extension GameLiftStreamsClient {
     ///
     /// To adjust the capacity of any ACTIVE stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). If the request is successful, Amazon GameLift Streams begins creating the stream group. Amazon GameLift Streams assigns a unique ID to the stream group resource and sets the status to ACTIVATING. When the stream group reaches ACTIVE status, you can start stream sessions by using [StartStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_StartStreamSession.html). To check the stream group's status, call [GetStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamGroup.html).
     ///
-    /// - Parameter CreateStreamGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamGroupInput`)
     ///
-    /// - Returns: `CreateStreamGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,9 +706,9 @@ extension GameLiftStreamsClient {
     ///
     /// For more information about the stream session lifecycle, see [Stream sessions](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/stream-sessions.html) in the Amazon GameLift Streams Developer Guide. To begin re-connecting to an existing stream session, specify the stream group ID and stream session ID that you want to reconnect to, and the signal request to use with the stream.
     ///
-    /// - Parameter CreateStreamSessionConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamSessionConnectionInput`)
     ///
-    /// - Returns: `CreateStreamSessionConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamSessionConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -790,9 +790,9 @@ extension GameLiftStreamsClient {
     ///
     /// If any active stream groups exist for this application, this request returns a ValidationException.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,9 +859,9 @@ extension GameLiftStreamsClient {
     ///
     /// Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is DELETING. This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call [ListStreamSessions](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_ListStreamSessions.html) to check for streams in progress and take action to stop them. When you delete a stream group, any application associations referring to that stream group are automatically removed.
     ///
-    /// - Parameter DeleteStreamGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStreamGroupInput`)
     ///
-    /// - Returns: `DeleteStreamGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -928,9 +928,9 @@ extension GameLiftStreamsClient {
     ///
     /// When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams in the stream group using the disassociated application. The disassociate action does not affect the stream capacity of a stream group. If you disassociate the default application, Amazon GameLift Streams will automatically choose a new default application from the remaining associated applications. To change which application is the default application, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html) and specify a new DefaultApplicationIdentifier.
     ///
-    /// - Parameter DisassociateApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApplicationsInput`)
     ///
-    /// - Returns: `DisassociateApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,9 +1011,9 @@ extension GameLiftStreamsClient {
     ///
     /// To verify the status of the exported files, use GetStreamSession. To delete the files, delete the object in the S3 bucket.
     ///
-    /// - Parameter ExportStreamSessionFilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportStreamSessionFilesInput`)
     ///
-    /// - Returns: `ExportStreamSessionFilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportStreamSessionFilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,9 +1082,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves properties for an Amazon GameLift Streams application resource. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,9 +1150,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves properties for a Amazon GameLift Streams stream group resource. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group.
     ///
-    /// - Parameter GetStreamGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamGroupInput`)
     ///
-    /// - Returns: `GetStreamGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1218,9 +1218,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource.
     ///
-    /// - Parameter GetStreamSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamSessionInput`)
     ///
-    /// - Returns: `GetStreamSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,9 +1286,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves a list of all Amazon GameLift Streams applications that are associated with the Amazon Web Services account in use. This operation returns applications in all statuses, in no particular order. You can paginate the results as needed.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1354,9 +1354,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves a list of all Amazon GameLift Streams stream groups that are associated with the Amazon Web Services account in use. This operation returns stream groups in all statuses, in no particular order. You can paginate the results as needed.
     ///
-    /// - Parameter ListStreamGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamGroupsInput`)
     ///
-    /// - Returns: `ListStreamGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1422,9 +1422,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting. To retrieve stream sessions, specify the stream group, and optionally filter by stream session status. You can paginate the results as needed. This operation returns the requested stream sessions in no particular order.
     ///
-    /// - Parameter ListStreamSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamSessionsInput`)
     ///
-    /// - Returns: `ListStreamSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1491,9 +1491,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to. In the returned list of stream sessions, the ExportFilesMetadata property only shows the Status value. To get the OutpurUri and StatusReason values, use [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html). We don't recommend using this operation to regularly check stream session statuses because it's costly. Instead, to check status updates for a specific stream session, use [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html).
     ///
-    /// - Parameter ListStreamSessionsByAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamSessionsByAccountInput`)
     ///
-    /// - Returns: `ListStreamSessionsByAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamSessionsByAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1559,9 +1559,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource. Learn more [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference [ Amazon Web Services Tagging Strategies](http://aws.amazon.com/answers/account-management/aws-tagging-strategies/)
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,9 +1626,9 @@ extension GameLiftStreamsClient {
     ///
     /// Removes a set of remote locations from this stream group. Amazon GameLift Streams works to release allocated compute resources in these location. Thus, stream sessions can no longer start from these locations by using this stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal S3 bucket at this location. You cannot remove the region where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero.
     ///
-    /// - Parameter RemoveStreamGroupLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveStreamGroupLocationsInput`)
     ///
-    /// - Returns: `RemoveStreamGroupLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveStreamGroupLocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1765,9 +1765,9 @@ extension GameLiftStreamsClient {
     ///
     /// To start a new stream session, specify a stream group ID and application ID, along with the transport protocol and signal request to use with the stream session. For stream groups that have multiple locations, provide a set of locations ordered by priority using a Locations parameter. Amazon GameLift Streams will start a single stream session in the next available location. An application must be finished replicating to a remote location before the remote location can host a stream. To reconnect to a stream session after a client disconnects or loses connection, use [CreateStreamSessionConnection](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_CreateStreamSessionConnection.html).
     ///
-    /// - Parameter StartStreamSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartStreamSessionInput`)
     ///
-    /// - Returns: `StartStreamSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartStreamSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1845,9 +1845,9 @@ extension GameLiftStreamsClient {
     ///
     /// Learn more [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference [ Amazon Web Services Tagging Strategies](http://aws.amazon.com/answers/account-management/aws-tagging-strategies/)
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1915,9 +1915,9 @@ extension GameLiftStreamsClient {
     ///
     /// Permanently terminates an active stream session. When called, the stream session status changes to TERMINATING. You can terminate a stream session in any status except ACTIVATING. If the stream session is in ACTIVATING status, an exception is thrown.
     ///
-    /// - Parameter TerminateStreamSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateStreamSessionInput`)
     ///
-    /// - Returns: `TerminateStreamSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateStreamSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1983,9 +1983,9 @@ extension GameLiftStreamsClient {
     ///
     /// Removes one or more tags from a Amazon GameLift Streams resource. To remove tags, specify the Amazon GameLift Streams resource and a list of one or more tags to remove.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension GameLiftStreamsClient {
     ///
     /// Updates the mutable configuration settings for a Amazon GameLift Streams application resource. You can change the Description, ApplicationLogOutputUri, and ApplicationLogPaths. To update application settings, specify the application ID and provide the new values. If the operation is successful, it returns the complete updated set of settings for the application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2129,9 +2129,9 @@ extension GameLiftStreamsClient {
     ///
     /// To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group.
     ///
-    /// - Parameter UpdateStreamGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamGroupInput`)
     ///
-    /// - Returns: `UpdateStreamGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStreamGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

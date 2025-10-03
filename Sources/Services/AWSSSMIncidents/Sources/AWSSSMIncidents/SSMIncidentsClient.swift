@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMIncidentsClient: ClientRuntime.Client {
     public static let clientName = "SSMIncidentsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMIncidentsClient.SSMIncidentsClientConfiguration
     let serviceName = "SSM Incidents"
@@ -374,9 +374,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves details about all specified findings for an incident, including descriptive details about each finding. A finding represents a recent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident.
     ///
-    /// - Parameter BatchGetIncidentFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetIncidentFindingsInput`)
     ///
-    /// - Returns: `BatchGetIncidentFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetIncidentFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension SSMIncidentsClient {
     ///
     /// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key.
     ///
-    /// - Parameter CreateReplicationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReplicationSetInput`)
     ///
-    /// - Returns: `CreateReplicationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReplicationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension SSMIncidentsClient {
     ///
     /// Creates a response plan that automates the initial response to incidents. A response plan engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning of an incident.
     ///
-    /// - Parameter CreateResponsePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResponsePlanInput`)
     ///
-    /// - Returns: `CreateResponsePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResponsePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension SSMIncidentsClient {
     ///
     /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically.
     ///
-    /// - Parameter CreateTimelineEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTimelineEventInput`)
     ///
-    /// - Returns: `CreateTimelineEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTimelineEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension SSMIncidentsClient {
     ///
     /// Delete an incident record from Incident Manager.
     ///
-    /// - Parameter DeleteIncidentRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIncidentRecordInput`)
     ///
-    /// - Returns: `DeleteIncidentRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIncidentRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -734,9 +734,9 @@ extension SSMIncidentsClient {
     ///
     /// Deletes all Regions in your replication set. Deleting the replication set deletes all Incident Manager data.
     ///
-    /// - Parameter DeleteReplicationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReplicationSetInput`)
     ///
-    /// - Returns: `DeleteReplicationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReplicationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,9 +803,9 @@ extension SSMIncidentsClient {
     ///
     /// Deletes the resource policy that Resource Access Manager uses to share your Incident Manager resource.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,9 +874,9 @@ extension SSMIncidentsClient {
     ///
     /// Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response plan.
     ///
-    /// - Parameter DeleteResponsePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResponsePlanInput`)
     ///
-    /// - Returns: `DeleteResponsePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResponsePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,9 +944,9 @@ extension SSMIncidentsClient {
     ///
     /// Deletes a timeline event from an incident.
     ///
-    /// - Parameter DeleteTimelineEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTimelineEventInput`)
     ///
-    /// - Returns: `DeleteTimelineEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTimelineEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1014,9 +1014,9 @@ extension SSMIncidentsClient {
     ///
     /// Returns the details for the specified incident record.
     ///
-    /// - Parameter GetIncidentRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIncidentRecordInput`)
     ///
-    /// - Returns: `GetIncidentRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIncidentRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1083,9 +1083,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieve your Incident Manager replication set.
     ///
-    /// - Parameter GetReplicationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReplicationSetInput`)
     ///
-    /// - Returns: `GetReplicationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReplicationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,9 +1152,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves the resource policies attached to the specified response plan.
     ///
-    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePoliciesInput`)
     ///
-    /// - Returns: `GetResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,9 +1224,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves the details of the specified response plan.
     ///
-    /// - Parameter GetResponsePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResponsePlanInput`)
     ///
-    /// - Returns: `GetResponsePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResponsePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1293,9 +1293,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves a timeline event based on its ID and incident record.
     ///
-    /// - Parameter GetTimelineEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTimelineEventInput`)
     ///
-    /// - Returns: `GetTimelineEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTimelineEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1362,9 +1362,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves a list of the IDs of findings, plus their last modified times, that have been identified for a specified incident. A finding represents a recent application environment change made by an CloudFormation stack creation or update or an CodeDeploy deployment that can be investigated as a potential cause of the incident.
     ///
-    /// - Parameter ListIncidentFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIncidentFindingsInput`)
     ///
-    /// - Returns: `ListIncidentFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIncidentFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,9 +1433,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
     ///
-    /// - Parameter ListIncidentRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIncidentRecordsInput`)
     ///
-    /// - Returns: `ListIncidentRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIncidentRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,9 +1503,9 @@ extension SSMIncidentsClient {
     ///
     /// List all related items for an incident record.
     ///
-    /// - Parameter ListRelatedItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRelatedItemsInput`)
     ///
-    /// - Returns: `ListRelatedItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRelatedItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1573,9 +1573,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists details about the replication set configured in your account.
     ///
-    /// - Parameter ListReplicationSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReplicationSetsInput`)
     ///
-    /// - Returns: `ListReplicationSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReplicationSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1643,9 +1643,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists all response plans in your account.
     ///
-    /// - Parameter ListResponsePlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResponsePlansInput`)
     ///
-    /// - Returns: `ListResponsePlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResponsePlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,9 +1713,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists the tags that are attached to the specified response plan or incident.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1781,9 +1781,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists timeline events for the specified incident record.
     ///
-    /// - Parameter ListTimelineEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTimelineEventsInput`)
     ///
-    /// - Returns: `ListTimelineEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTimelineEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1851,9 +1851,9 @@ extension SSMIncidentsClient {
     ///
     /// Adds a resource policy to the specified response plan. The resource policy is used to share the response plan using Resource Access Manager (RAM). For more information about cross-account sharing, see [Cross-Region and cross-account incident management](https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-manager-cross-account-cross-region.html).
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1922,9 +1922,9 @@ extension SSMIncidentsClient {
     ///
     /// Used to start an incident from CloudWatch alarms, EventBridge events, or manually.
     ///
-    /// - Parameter StartIncidentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartIncidentInput`)
     ///
-    /// - Returns: `StartIncidentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartIncidentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1995,9 +1995,9 @@ extension SSMIncidentsClient {
     ///
     /// Adds a tag to a response plan.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2068,9 +2068,9 @@ extension SSMIncidentsClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2138,9 +2138,9 @@ extension SSMIncidentsClient {
     ///
     /// Update deletion protection to either allow or deny deletion of the final Region in a replication set.
     ///
-    /// - Parameter UpdateDeletionProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeletionProtectionInput`)
     ///
-    /// - Returns: `UpdateDeletionProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeletionProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2210,9 +2210,9 @@ extension SSMIncidentsClient {
     ///
     /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see [Interacting through chat](https://docs.aws.amazon.com/incident-manager/latest/userguide/chat.html#chat-interact).
     ///
-    /// - Parameter UpdateIncidentRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIncidentRecordInput`)
     ///
-    /// - Returns: `UpdateIncidentRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIncidentRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2283,9 +2283,9 @@ extension SSMIncidentsClient {
     ///
     /// Add or remove related items from the related items tab of an incident record.
     ///
-    /// - Parameter UpdateRelatedItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRelatedItemsInput`)
     ///
-    /// - Returns: `UpdateRelatedItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRelatedItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2356,9 +2356,9 @@ extension SSMIncidentsClient {
     ///
     /// Add or delete Regions from your replication set.
     ///
-    /// - Parameter UpdateReplicationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReplicationSetInput`)
     ///
-    /// - Returns: `UpdateReplicationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReplicationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2429,9 +2429,9 @@ extension SSMIncidentsClient {
     ///
     /// Updates the specified response plan.
     ///
-    /// - Parameter UpdateResponsePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResponsePlanInput`)
     ///
-    /// - Returns: `UpdateResponsePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResponsePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2502,9 +2502,9 @@ extension SSMIncidentsClient {
     ///
     /// Updates a timeline event. You can update events of type Custom Event.
     ///
-    /// - Parameter UpdateTimelineEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTimelineEventInput`)
     ///
-    /// - Returns: `UpdateTimelineEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTimelineEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

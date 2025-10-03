@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SimSpaceWeaverClient: ClientRuntime.Client {
     public static let clientName = "SimSpaceWeaverClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SimSpaceWeaverClient.SimSpaceWeaverClientConfiguration
     let serviceName = "SimSpaceWeaver"
@@ -386,9 +386,9 @@ extension SimSpaceWeaverClient {
     ///
     /// * ss  is the 2-digit seconds
     ///
-    /// - Parameter CreateSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotInput`)
     ///
-    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -457,9 +457,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Deletes the instance of the given custom app.
     ///
-    /// - Parameter DeleteAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInput`)
     ///
-    /// - Returns: `DeleteAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -526,9 +526,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Deletes all SimSpace Weaver resources assigned to the given simulation. Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete resources in other Amazon Web Services.
     ///
-    /// - Parameter DeleteSimulationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSimulationInput`)
     ///
-    /// - Returns: `DeleteSimulationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSimulationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -595,9 +595,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Returns the state of the given custom app.
     ///
-    /// - Parameter DescribeAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInput`)
     ///
-    /// - Returns: `DescribeAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,9 +663,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Returns the current state of the given simulation.
     ///
-    /// - Parameter DescribeSimulationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSimulationInput`)
     ///
-    /// - Returns: `DescribeSimulationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSimulationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Lists all custom apps or service apps for the given simulation and domain.
     ///
-    /// - Parameter ListAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppsInput`)
     ///
-    /// - Returns: `ListAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
     ///
-    /// - Parameter ListSimulationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSimulationsInput`)
     ///
-    /// - Returns: `ListSimulationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSimulationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -866,9 +866,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Lists all tags on a SimSpace Weaver resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -931,9 +931,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Starts a custom app with the configuration specified in the simulation schema.
     ///
-    /// - Parameter StartAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAppInput`)
     ///
-    /// - Returns: `StartAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,9 +1003,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Starts the simulation clock.
     ///
-    /// - Parameter StartClockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartClockInput`)
     ///
-    /// - Returns: `StartClockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartClockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,9 +1074,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Starts a simulation with the given name. You must choose to start your simulation from a schema or from a snapshot. For more information about the schema, see the [schema reference](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/schema-reference.html) in the SimSpace Weaver User Guide. For more information about snapshots, see [Snapshots](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html) in the SimSpace Weaver User Guide.
     ///
-    /// - Parameter StartSimulationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSimulationInput`)
     ///
-    /// - Returns: `StartSimulationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSimulationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1146,9 +1146,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Stops the given custom app and shuts down all of its allocated compute resources.
     ///
-    /// - Parameter StopAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAppInput`)
     ///
-    /// - Returns: `StopAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1217,9 +1217,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Stops the simulation clock.
     ///
-    /// - Parameter StopClockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopClockInput`)
     ///
-    /// - Returns: `StopClockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopClockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1288,9 +1288,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Stops the given simulation. You can't restart a simulation after you stop it. If you want to restart a simulation, then you must stop it, delete it, and start a new instance of it.
     ///
-    /// - Parameter StopSimulationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSimulationInput`)
     ///
-    /// - Returns: `StopSimulationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSimulationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,9 +1359,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Adds tags to a SimSpace Weaver resource. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1428,9 +1428,9 @@ extension SimSpaceWeaverClient {
     ///
     /// Removes tags from a SimSpace Weaver resource. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

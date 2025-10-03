@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeClient: ClientRuntime.Client {
     public static let clientName = "ChimeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeClient.ChimeClientConfiguration
     let serviceName = "Chime"
@@ -374,9 +374,9 @@ extension ChimeClient {
     ///
     /// Associates a phone number with the specified Amazon Chime user.
     ///
-    /// - Parameter AssociatePhoneNumberWithUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePhoneNumberWithUserInput`)
     ///
-    /// - Returns: `AssociatePhoneNumberWithUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePhoneNumberWithUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension ChimeClient {
     ///
     /// Associates the specified sign-in delegate groups with the specified Amazon Chime account.
     ///
-    /// - Parameter AssociateSigninDelegateGroupsWithAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSigninDelegateGroupsWithAccountInput`)
     ///
-    /// - Returns: `AssociateSigninDelegateGroupsWithAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSigninDelegateGroupsWithAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,9 +523,9 @@ extension ChimeClient {
     ///
     /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
-    /// - Parameter BatchCreateRoomMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateRoomMembershipInput`)
     ///
-    /// - Returns: `BatchCreateRoomMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateRoomMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension ChimeClient {
     ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
-    /// - Parameter BatchDeletePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeletePhoneNumberInput`)
     ///
-    /// - Returns: `BatchDeletePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeletePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension ChimeClient {
     ///
     /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the [InviteUsers] action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the [BatchUnsuspendUser] action. To sign out users without suspending them, use the [LogoutUser] action.
     ///
-    /// - Parameter BatchSuspendUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchSuspendUserInput`)
     ///
-    /// - Returns: `BatchSuspendUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchSuspendUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension ChimeClient {
     ///
     /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see [ Managing Your Amazon Chime Accounts ](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the account types, in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
     ///
-    /// - Parameter BatchUnsuspendUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUnsuspendUserInput`)
     ///
-    /// - Returns: `BatchUnsuspendUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUnsuspendUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,9 +819,9 @@ extension ChimeClient {
     ///
     /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
-    /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdatePhoneNumberInput`)
     ///
-    /// - Returns: `BatchUpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,9 +893,9 @@ extension ChimeClient {
     ///
     /// Updates user details within the [UpdateUserRequestItem] object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
     ///
-    /// - Parameter BatchUpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateUserInput`)
     ///
-    /// - Returns: `BatchUpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -966,9 +966,9 @@ extension ChimeClient {
     ///
     /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter CreateAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountInput`)
     ///
-    /// - Returns: `CreateAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1039,9 +1039,9 @@ extension ChimeClient {
     ///
     /// Creates a bot for an Amazon Chime Enterprise account.
     ///
-    /// - Parameter CreateBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBotInput`)
     ///
-    /// - Returns: `CreateBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,9 +1113,9 @@ extension ChimeClient {
     ///
     /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. This API is not available in a dedicated namespace.
     ///
-    /// - Parameter CreateMeetingDialOutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMeetingDialOutInput`)
     ///
-    /// - Returns: `CreateMeetingDialOutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMeetingDialOutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1187,9 +1187,9 @@ extension ChimeClient {
     ///
     /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
     ///
-    /// - Parameter CreatePhoneNumberOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePhoneNumberOrderInput`)
     ///
-    /// - Returns: `CreatePhoneNumberOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePhoneNumberOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1261,9 +1261,9 @@ extension ChimeClient {
     ///
     /// Creates a chat room for the specified Amazon Chime Enterprise account.
     ///
-    /// - Parameter CreateRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoomInput`)
     ///
-    /// - Returns: `CreateRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1336,9 +1336,9 @@ extension ChimeClient {
     ///
     /// Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
-    /// - Parameter CreateRoomMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoomMembershipInput`)
     ///
-    /// - Returns: `CreateRoomMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoomMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,9 +1411,9 @@ extension ChimeClient {
     ///
     /// Creates a user under the specified Amazon Chime account.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1486,9 +1486,9 @@ extension ChimeClient {
     ///
     /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the [BatchSuspendUser] action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
     ///
-    /// - Parameter DeleteAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountInput`)
     ///
-    /// - Returns: `DeleteAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1557,9 +1557,9 @@ extension ChimeClient {
     ///
     /// Deletes the events configuration that allows a bot to receive outgoing events.
     ///
-    /// - Parameter DeleteEventsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventsConfigurationInput`)
     ///
-    /// - Returns: `DeleteEventsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,9 +1626,9 @@ extension ChimeClient {
     ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
-    /// - Parameter DeletePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePhoneNumberInput`)
     ///
-    /// - Returns: `DeletePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1696,9 +1696,9 @@ extension ChimeClient {
     ///
     /// Deletes a chat room in an Amazon Chime Enterprise account.
     ///
-    /// - Parameter DeleteRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoomInput`)
     ///
-    /// - Returns: `DeleteRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1766,9 +1766,9 @@ extension ChimeClient {
     ///
     /// Removes a member from a chat room in an Amazon Chime Enterprise account.
     ///
-    /// - Parameter DeleteRoomMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoomMembershipInput`)
     ///
-    /// - Returns: `DeleteRoomMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoomMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1836,9 +1836,9 @@ extension ChimeClient {
     ///
     /// Disassociates the primary provisioned phone number from the specified Amazon Chime user.
     ///
-    /// - Parameter DisassociatePhoneNumberFromUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePhoneNumberFromUserInput`)
     ///
-    /// - Returns: `DisassociatePhoneNumberFromUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePhoneNumberFromUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1907,9 +1907,9 @@ extension ChimeClient {
     ///
     /// Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
     ///
-    /// - Parameter DisassociateSigninDelegateGroupsFromAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSigninDelegateGroupsFromAccountInput`)
     ///
-    /// - Returns: `DisassociateSigninDelegateGroupsFromAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSigninDelegateGroupsFromAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,9 +1981,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
     ///
-    /// - Parameter GetAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountInput`)
     ///
-    /// - Returns: `GetAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension ChimeClient {
     ///
     /// Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2121,9 +2121,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
     ///
-    /// - Parameter GetBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotInput`)
     ///
-    /// - Returns: `GetBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2191,9 +2191,9 @@ extension ChimeClient {
     ///
     /// Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
     ///
-    /// - Parameter GetEventsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventsConfigurationInput`)
     ///
-    /// - Returns: `GetEventsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2261,9 +2261,9 @@ extension ChimeClient {
     ///
     /// Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
-    /// - Parameter GetGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlobalSettingsInput`)
     ///
-    /// - Returns: `GetGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2330,9 +2330,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
-    /// - Parameter GetPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberInput`)
     ///
-    /// - Returns: `GetPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2400,9 +2400,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
-    /// - Parameter GetPhoneNumberOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberOrderInput`)
     ///
-    /// - Returns: `GetPhoneNumberOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2470,9 +2470,9 @@ extension ChimeClient {
     ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
-    /// - Parameter GetPhoneNumberSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberSettingsInput`)
     ///
-    /// - Returns: `GetPhoneNumberSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2539,9 +2539,9 @@ extension ChimeClient {
     ///
     /// Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter GetRetentionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRetentionSettingsInput`)
     ///
-    /// - Returns: `GetRetentionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRetentionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2609,9 +2609,9 @@ extension ChimeClient {
     ///
     /// Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
-    /// - Parameter GetRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoomInput`)
     ///
-    /// - Returns: `GetRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2679,9 +2679,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the [ListUsers] action, and then filter by email address.
     ///
-    /// - Parameter GetUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserInput`)
     ///
-    /// - Returns: `GetUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2749,9 +2749,9 @@ extension ChimeClient {
     ///
     /// Retrieves settings for the specified user ID, such as any associated phone number settings.
     ///
-    /// - Parameter GetUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserSettingsInput`)
     ///
-    /// - Returns: `GetUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2819,9 +2819,9 @@ extension ChimeClient {
     ///
     /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action.
     ///
-    /// - Parameter InviteUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InviteUsersInput`)
     ///
-    /// - Returns: `InviteUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InviteUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2893,9 +2893,9 @@ extension ChimeClient {
     ///
     /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     ///
-    /// - Parameter ListAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountsInput`)
     ///
-    /// - Returns: `ListAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2964,9 +2964,9 @@ extension ChimeClient {
     ///
     /// Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
     ///
-    /// - Parameter ListBotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotsInput`)
     ///
-    /// - Returns: `ListBotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3035,9 +3035,9 @@ extension ChimeClient {
     ///
     /// Lists the phone number orders for the administrator's Amazon Chime account.
     ///
-    /// - Parameter ListPhoneNumberOrdersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumberOrdersInput`)
     ///
-    /// - Returns: `ListPhoneNumberOrdersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumberOrdersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3105,9 +3105,9 @@ extension ChimeClient {
     ///
     /// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
     ///
-    /// - Parameter ListPhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumbersInput`)
     ///
-    /// - Returns: `ListPhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3176,9 +3176,9 @@ extension ChimeClient {
     ///
     /// Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     ///
-    /// - Parameter ListRoomMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoomMembershipsInput`)
     ///
-    /// - Returns: `ListRoomMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoomMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3247,9 +3247,9 @@ extension ChimeClient {
     ///
     /// Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     ///
-    /// - Parameter ListRoomsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoomsInput`)
     ///
-    /// - Returns: `ListRoomsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoomsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3318,9 +3318,9 @@ extension ChimeClient {
     ///
     /// Lists supported phone number countries.
     ///
-    /// - Parameter ListSupportedPhoneNumberCountriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupportedPhoneNumberCountriesInput`)
     ///
-    /// - Returns: `ListSupportedPhoneNumberCountriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupportedPhoneNumberCountriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3389,9 +3389,9 @@ extension ChimeClient {
     ///
     /// Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3460,9 +3460,9 @@ extension ChimeClient {
     ///
     /// Logs out the specified user from all of the devices they are currently logged into.
     ///
-    /// - Parameter LogoutUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `LogoutUserInput`)
     ///
-    /// - Returns: `LogoutUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `LogoutUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3531,9 +3531,9 @@ extension ChimeClient {
     ///
     /// Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see [Bot].
     ///
-    /// - Parameter PutEventsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventsConfigurationInput`)
     ///
-    /// - Returns: `PutEventsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3604,9 +3604,9 @@ extension ChimeClient {
     ///
     /// Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see [Logging Amazon Chime API Calls with AWS CloudTrail](https://docs.aws.amazon.com/chime/latest/ag/cloudtrail.html) in the Amazon Chime Administration Guide. To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter PutRetentionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRetentionSettingsInput`)
     ///
-    /// - Returns: `PutRetentionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRetentionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3678,9 +3678,9 @@ extension ChimeClient {
     ///
     /// Redacts the specified message from the specified Amazon Chime conversation.
     ///
-    /// - Parameter RedactConversationMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RedactConversationMessageInput`)
     ///
-    /// - Returns: `RedactConversationMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RedactConversationMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3749,9 +3749,9 @@ extension ChimeClient {
     ///
     /// Redacts the specified message from the specified Amazon Chime channel.
     ///
-    /// - Parameter RedactRoomMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RedactRoomMessageInput`)
     ///
-    /// - Returns: `RedactRoomMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RedactRoomMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3820,9 +3820,9 @@ extension ChimeClient {
     ///
     /// Regenerates the security token for a bot.
     ///
-    /// - Parameter RegenerateSecurityTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegenerateSecurityTokenInput`)
     ///
-    /// - Returns: `RegenerateSecurityTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegenerateSecurityTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3891,9 +3891,9 @@ extension ChimeClient {
     ///
     /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the [User] object with the updated personal meeting PIN.
     ///
-    /// - Parameter ResetPersonalPINInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetPersonalPINInput`)
     ///
-    /// - Returns: `ResetPersonalPINOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetPersonalPINOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3962,9 +3962,9 @@ extension ChimeClient {
     ///
     /// Moves a phone number from the Deletion queue back into the phone number Inventory.
     ///
-    /// - Parameter RestorePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestorePhoneNumberInput`)
     ///
-    /// - Returns: `RestorePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestorePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4034,9 +4034,9 @@ extension ChimeClient {
     ///
     /// Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
     ///
-    /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAvailablePhoneNumbersInput`)
     ///
-    /// - Returns: `SearchAvailablePhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAvailablePhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4105,9 +4105,9 @@ extension ChimeClient {
     ///
     /// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
     ///
-    /// - Parameter UpdateAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountInput`)
     ///
-    /// - Returns: `UpdateAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4178,9 +4178,9 @@ extension ChimeClient {
     ///
     /// Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4252,9 +4252,9 @@ extension ChimeClient {
     ///
     /// Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
     ///
-    /// - Parameter UpdateBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBotInput`)
     ///
-    /// - Returns: `UpdateBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4325,9 +4325,9 @@ extension ChimeClient {
     ///
     /// Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
-    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalSettingsInput`)
     ///
-    /// - Returns: `UpdateGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4397,9 +4397,9 @@ extension ChimeClient {
     ///
     /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
-    /// - Parameter UpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4471,9 +4471,9 @@ extension ChimeClient {
     ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
-    /// - Parameter UpdatePhoneNumberSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberSettingsInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4543,9 +4543,9 @@ extension ChimeClient {
     ///
     /// Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
-    /// - Parameter UpdateRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoomInput`)
     ///
-    /// - Returns: `UpdateRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4616,9 +4616,9 @@ extension ChimeClient {
     ///
     /// Updates room membership details, such as the member role, for a room in an Amazon Chime Enterprise account. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
     ///
-    /// - Parameter UpdateRoomMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoomMembershipInput`)
     ///
-    /// - Returns: `UpdateRoomMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoomMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4689,9 +4689,9 @@ extension ChimeClient {
     ///
     /// Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4762,9 +4762,9 @@ extension ChimeClient {
     ///
     /// Updates the settings for the specified user, such as phone number settings.
     ///
-    /// - Parameter UpdateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserSettingsInput`)
     ///
-    /// - Returns: `UpdateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

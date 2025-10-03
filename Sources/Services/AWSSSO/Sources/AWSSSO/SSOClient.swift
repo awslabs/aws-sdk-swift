@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOClient: ClientRuntime.Client {
     public static let clientName = "SSOClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOClient.SSOClientConfiguration
     let serviceName = "SSO"
@@ -368,9 +368,9 @@ extension SSOClient {
     ///
     /// Returns the STS short-term credentials for a given role name that is assigned to the user.
     ///
-    /// - Parameter GetRoleCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoleCredentialsInput`)
     ///
-    /// - Returns: `GetRoleCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoleCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,9 +435,9 @@ extension SSOClient {
     ///
     /// Lists all roles that are assigned to the user for a given AWS account.
     ///
-    /// - Parameter ListAccountRolesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountRolesInput`)
     ///
-    /// - Returns: `ListAccountRolesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountRolesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,9 +502,9 @@ extension SSOClient {
     ///
     /// Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the administrator of the account. For more information, see [Assign User Access](https://docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers) in the IAM Identity Center User Guide. This operation returns a paginated response.
     ///
-    /// - Parameter ListAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountsInput`)
     ///
-    /// - Returns: `ListAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,9 +569,9 @@ extension SSOClient {
     ///
     /// Removes the locally stored SSO tokens from the client-side cache and sends an API call to the IAM Identity Center service to invalidate the corresponding server-side IAM Identity Center sign in session. If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity Center sign in session is used to obtain an IAM session, as specified in the corresponding IAM Identity Center permission set. More specifically, IAM Identity Center assumes an IAM role in the target account on behalf of the user, and the corresponding temporary AWS credentials are returned to the client. After user logout, any existing IAM role sessions that were created by using IAM Identity Center permission sets continue based on the duration configured in the permission set. For more information, see [User authentications](https://docs.aws.amazon.com/singlesignon/latest/userguide/authconcept.html) in the IAM Identity Center User Guide.
     ///
-    /// - Parameter LogoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `LogoutInput`)
     ///
-    /// - Returns: `LogoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `LogoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

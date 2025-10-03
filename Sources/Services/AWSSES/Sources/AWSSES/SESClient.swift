@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SESClient: ClientRuntime.Client {
     public static let clientName = "SESClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SESClient.SESClientConfiguration
     let serviceName = "SES"
@@ -371,9 +371,9 @@ extension SESClient {
     ///
     /// Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set. For information about setting up rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CloneReceiptRuleSetInput : Represents a request to create a receipt rule set by cloning an existing one. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to create a receipt rule set by cloning an existing one. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `CloneReceiptRuleSetInput`)
     ///
-    /// - Returns: `CloneReceiptRuleSetOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `CloneReceiptRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,9 +440,9 @@ extension SESClient {
     ///
     /// Creates a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateConfigurationSetInput : Represents a request to create a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Parameter input: Represents a request to create a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `CreateConfigurationSetInput`)
     ///
-    /// - Returns: `CreateConfigurationSetOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `CreateConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,9 +509,9 @@ extension SESClient {
     ///
     /// Creates a configuration set event destination. When you create or update an event destination, you must provide one, and only one, destination. The destination can be CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). An event destination is the Amazon Web Services service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateConfigurationSetEventDestinationInput : Represents a request to create a configuration set event destination. A configuration set event destination, which can be either Amazon CloudWatch or Amazon Kinesis Firehose, describes an Amazon Web Services service in which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Parameter input: Represents a request to create a configuration set event destination. A configuration set event destination, which can be either Amazon CloudWatch or Amazon Kinesis Firehose, describes an Amazon Web Services service in which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `CreateConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `CreateConfigurationSetEventDestinationOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `CreateConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,9 +581,9 @@ extension SESClient {
     ///
     /// Creates an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html).
     ///
-    /// - Parameter CreateConfigurationSetTrackingOptionsInput : Represents a request to create an open and click tracking option object in a configuration set.
+    /// - Parameter input: Represents a request to create an open and click tracking option object in a configuration set. (Type: `CreateConfigurationSetTrackingOptionsInput`)
     ///
-    /// - Returns: `CreateConfigurationSetTrackingOptionsOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `CreateConfigurationSetTrackingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,9 +654,9 @@ extension SESClient {
     ///
     /// Creates a new custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateCustomVerificationEmailTemplateInput : Represents a request to create a custom verification email template.
+    /// - Parameter input: Represents a request to create a custom verification email template. (Type: `CreateCustomVerificationEmailTemplateInput`)
     ///
-    /// - Returns: `CreateCustomVerificationEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomVerificationEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension SESClient {
     ///
     /// Creates a new IP address filter. For information about setting up IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateReceiptFilterInput : Represents a request to create a new IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to create a new IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `CreateReceiptFilterInput`)
     ///
-    /// - Returns: `CreateReceiptFilterOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `CreateReceiptFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,9 +792,9 @@ extension SESClient {
     ///
     /// Creates a receipt rule. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateReceiptRuleInput : Represents a request to create a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to create a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `CreateReceiptRuleInput`)
     ///
-    /// - Returns: `CreateReceiptRuleOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `CreateReceiptRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,9 +865,9 @@ extension SESClient {
     ///
     /// Creates an empty receipt rule set. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateReceiptRuleSetInput : Represents a request to create an empty receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to create an empty receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `CreateReceiptRuleSetInput`)
     ///
-    /// - Returns: `CreateReceiptRuleSetOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `CreateReceiptRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,9 +933,9 @@ extension SESClient {
     ///
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter CreateTemplateInput : Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,9 +1002,9 @@ extension SESClient {
     ///
     /// Deletes a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteConfigurationSetInput : Represents a request to delete a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Parameter input: Represents a request to delete a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `DeleteConfigurationSetInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `DeleteConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,9 +1069,9 @@ extension SESClient {
     ///
     /// Deletes a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteConfigurationSetEventDestinationInput : Represents a request to delete a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Parameter input: Represents a request to delete a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `DeleteConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetEventDestinationOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `DeleteConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1137,9 +1137,9 @@ extension SESClient {
     ///
     /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html). Deleting this kind of association results in emails sent using the specified configuration set to capture open and click events using the standard, Amazon SES-operated domains.
     ///
-    /// - Parameter DeleteConfigurationSetTrackingOptionsInput : Represents a request to delete open and click tracking options in a configuration set.
+    /// - Parameter input: Represents a request to delete open and click tracking options in a configuration set. (Type: `DeleteConfigurationSetTrackingOptionsInput`)
     ///
-    /// - Returns: `DeleteConfigurationSetTrackingOptionsOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `DeleteConfigurationSetTrackingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1205,9 +1205,9 @@ extension SESClient {
     ///
     /// Deletes an existing custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteCustomVerificationEmailTemplateInput : Represents a request to delete an existing custom verification email template.
+    /// - Parameter input: Represents a request to delete an existing custom verification email template. (Type: `DeleteCustomVerificationEmailTemplateInput`)
     ///
-    /// - Returns: `DeleteCustomVerificationEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomVerificationEmailTemplateOutput`)
     public func deleteCustomVerificationEmailTemplate(input: DeleteCustomVerificationEmailTemplateInput) async throws -> DeleteCustomVerificationEmailTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1267,9 +1267,9 @@ extension SESClient {
     ///
     /// Deletes the specified identity (an email address or a domain) from the list of verified identities. You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteIdentityInput : Represents a request to delete one of your Amazon SES identities (an email address or domain).
+    /// - Parameter input: Represents a request to delete one of your Amazon SES identities (an email address or domain). (Type: `DeleteIdentityInput`)
     ///
-    /// - Returns: `DeleteIdentityOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `DeleteIdentityOutput`)
     public func deleteIdentity(input: DeleteIdentityInput) async throws -> DeleteIdentityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1329,9 +1329,9 @@ extension SESClient {
     ///
     /// Deletes the specified sending authorization policy for the given identity (an email address or a domain). This operation returns successfully even if a policy with the specified name does not exist. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteIdentityPolicyInput : Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
+    /// - Parameter input: Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). (Type: `DeleteIdentityPolicyInput`)
     ///
-    /// - Returns: `DeleteIdentityPolicyOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `DeleteIdentityPolicyOutput`)
     public func deleteIdentityPolicy(input: DeleteIdentityPolicyInput) async throws -> DeleteIdentityPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1391,9 +1391,9 @@ extension SESClient {
     ///
     /// Deletes the specified IP address filter. For information about managing IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteReceiptFilterInput : Represents a request to delete an IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to delete an IP address filter. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `DeleteReceiptFilterInput`)
     ///
-    /// - Returns: `DeleteReceiptFilterOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `DeleteReceiptFilterOutput`)
     public func deleteReceiptFilter(input: DeleteReceiptFilterInput) async throws -> DeleteReceiptFilterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1453,9 +1453,9 @@ extension SESClient {
     ///
     /// Deletes the specified receipt rule. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteReceiptRuleInput : Represents a request to delete a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to delete a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `DeleteReceiptRuleInput`)
     ///
-    /// - Returns: `DeleteReceiptRuleOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `DeleteReceiptRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1520,9 +1520,9 @@ extension SESClient {
     ///
     /// Deletes the specified receipt rule set and all of the receipt rules it contains. The currently active rule set cannot be deleted. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteReceiptRuleSetInput : Represents a request to delete a receipt rule set and all of the receipt rules it contains. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to delete a receipt rule set and all of the receipt rules it contains. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `DeleteReceiptRuleSetInput`)
     ///
-    /// - Returns: `DeleteReceiptRuleSetOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `DeleteReceiptRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1587,9 +1587,9 @@ extension SESClient {
     ///
     /// Deletes an email template. You can execute this operation no more than once per second.
     ///
-    /// - Parameter DeleteTemplateInput : Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1649,9 +1649,9 @@ extension SESClient {
     ///
     /// Deprecated. Use the DeleteIdentity operation to delete email addresses and domains.
     ///
-    /// - Parameter DeleteVerifiedEmailAddressInput : Represents a request to delete an email address from the list of email addresses you have attempted to verify under your Amazon Web Services account.
+    /// - Parameter input: Represents a request to delete an email address from the list of email addresses you have attempted to verify under your Amazon Web Services account. (Type: `DeleteVerifiedEmailAddressInput`)
     ///
-    /// - Returns: `DeleteVerifiedEmailAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVerifiedEmailAddressOutput`)
     public func deleteVerifiedEmailAddress(input: DeleteVerifiedEmailAddressInput) async throws -> DeleteVerifiedEmailAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1711,9 +1711,9 @@ extension SESClient {
     ///
     /// Returns the metadata and receipt rules for the receipt rule set that is currently active. For information about setting up receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DescribeActiveReceiptRuleSetInput : Represents a request to return the metadata and receipt rules for the receipt rule set that is currently active. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to return the metadata and receipt rules for the receipt rule set that is currently active. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `DescribeActiveReceiptRuleSetInput`)
     ///
-    /// - Returns: `DescribeActiveReceiptRuleSetOutput` : Represents the metadata and receipt rules for the receipt rule set that is currently active.
+    /// - Returns: Represents the metadata and receipt rules for the receipt rule set that is currently active. (Type: `DescribeActiveReceiptRuleSetOutput`)
     public func describeActiveReceiptRuleSet(input: DescribeActiveReceiptRuleSetInput) async throws -> DescribeActiveReceiptRuleSetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1773,9 +1773,9 @@ extension SESClient {
     ///
     /// Returns the details of the specified configuration set. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DescribeConfigurationSetInput : Represents a request to return the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Parameter input: Represents a request to return the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `DescribeConfigurationSetInput`)
     ///
-    /// - Returns: `DescribeConfigurationSetOutput` : Represents the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Returns: Represents the details of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `DescribeConfigurationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1840,9 +1840,9 @@ extension SESClient {
     ///
     /// Returns the details of the specified receipt rule. For information about setting up receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DescribeReceiptRuleInput : Represents a request to return the details of a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to return the details of a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `DescribeReceiptRuleInput`)
     ///
-    /// - Returns: `DescribeReceiptRuleOutput` : Represents the details of a receipt rule.
+    /// - Returns: Represents the details of a receipt rule. (Type: `DescribeReceiptRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1908,9 +1908,9 @@ extension SESClient {
     ///
     /// Returns the details of the specified receipt rule set. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter DescribeReceiptRuleSetInput : Represents a request to return the details of a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to return the details of a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `DescribeReceiptRuleSetInput`)
     ///
-    /// - Returns: `DescribeReceiptRuleSetOutput` : Represents the details of the specified receipt rule set.
+    /// - Returns: Represents the details of the specified receipt rule set. (Type: `DescribeReceiptRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1975,9 +1975,9 @@ extension SESClient {
     ///
     /// Returns the email sending status of the Amazon SES account for the current Region. You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetAccountSendingEnabledInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSendingEnabledInput`)
     ///
-    /// - Returns: `GetAccountSendingEnabledOutput` : Represents a request to return the email sending status for your Amazon SES account in the current Amazon Web Services Region.
+    /// - Returns: Represents a request to return the email sending status for your Amazon SES account in the current Amazon Web Services Region. (Type: `GetAccountSendingEnabledOutput`)
     public func getAccountSendingEnabled(input: GetAccountSendingEnabledInput) async throws -> GetAccountSendingEnabledOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2037,9 +2037,9 @@ extension SESClient {
     ///
     /// Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetCustomVerificationEmailTemplateInput : Represents a request to retrieve an existing custom verification email template.
+    /// - Parameter input: Represents a request to retrieve an existing custom verification email template. (Type: `GetCustomVerificationEmailTemplateInput`)
     ///
-    /// - Returns: `GetCustomVerificationEmailTemplateOutput` : The content of the custom verification email template.
+    /// - Returns: The content of the custom verification email template. (Type: `GetCustomVerificationEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2113,9 +2113,9 @@ extension SESClient {
     ///
     /// This operation is throttled at one request per second and can only get DKIM attributes for up to 100 identities at a time. For more information about creating DNS records using DKIM tokens, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy-managing.html).
     ///
-    /// - Parameter GetIdentityDkimAttributesInput : Represents a request for the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this request also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published. For more information about Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
+    /// - Parameter input: Represents a request for the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this request also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published. For more information about Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html). (Type: `GetIdentityDkimAttributesInput`)
     ///
-    /// - Returns: `GetIdentityDkimAttributesOutput` : Represents the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this response also contains the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published.
+    /// - Returns: Represents the status of Amazon SES Easy DKIM signing for an identity. For domain identities, this response also contains the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES successfully verified that these tokens were published. (Type: `GetIdentityDkimAttributesOutput`)
     public func getIdentityDkimAttributes(input: GetIdentityDkimAttributesInput) async throws -> GetIdentityDkimAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2175,9 +2175,9 @@ extension SESClient {
     ///
     /// Returns the custom MAIL FROM attributes for a list of identities (email addresses : domains). This operation is throttled at one request per second and can only get custom MAIL FROM attributes for up to 100 identities at a time.
     ///
-    /// - Parameter GetIdentityMailFromDomainAttributesInput : Represents a request to return the Amazon SES custom MAIL FROM attributes for a list of identities. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
+    /// - Parameter input: Represents a request to return the Amazon SES custom MAIL FROM attributes for a list of identities. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html). (Type: `GetIdentityMailFromDomainAttributesInput`)
     ///
-    /// - Returns: `GetIdentityMailFromDomainAttributesOutput` : Represents the custom MAIL FROM attributes for a list of identities.
+    /// - Returns: Represents the custom MAIL FROM attributes for a list of identities. (Type: `GetIdentityMailFromDomainAttributesOutput`)
     public func getIdentityMailFromDomainAttributes(input: GetIdentityMailFromDomainAttributesInput) async throws -> GetIdentityMailFromDomainAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2237,9 +2237,9 @@ extension SESClient {
     ///
     /// Given a list of verified identities (email addresses and/or domains), returns a structure describing identity notification attributes. This operation is throttled at one request per second and can only get notification attributes for up to 100 identities at a time. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
-    /// - Parameter GetIdentityNotificationAttributesInput : Represents a request to return the notification attributes for a list of identities you verified with Amazon SES. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
+    /// - Parameter input: Represents a request to return the notification attributes for a list of identities you verified with Amazon SES. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html). (Type: `GetIdentityNotificationAttributesInput`)
     ///
-    /// - Returns: `GetIdentityNotificationAttributesOutput` : Represents the notification attributes for a list of identities.
+    /// - Returns: Represents the notification attributes for a list of identities. (Type: `GetIdentityNotificationAttributesOutput`)
     public func getIdentityNotificationAttributes(input: GetIdentityNotificationAttributesInput) async throws -> GetIdentityNotificationAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2299,9 +2299,9 @@ extension SESClient {
     ///
     /// Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetIdentityPoliciesInput : Represents a request to return the requested sending authorization policies for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
+    /// - Parameter input: Represents a request to return the requested sending authorization policies for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). (Type: `GetIdentityPoliciesInput`)
     ///
-    /// - Returns: `GetIdentityPoliciesOutput` : Represents the requested sending authorization policies.
+    /// - Returns: Represents the requested sending authorization policies. (Type: `GetIdentityPoliciesOutput`)
     public func getIdentityPolicies(input: GetIdentityPoliciesInput) async throws -> GetIdentityPoliciesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2361,9 +2361,9 @@ extension SESClient {
     ///
     /// Given a list of identities (email addresses and/or domains), returns the verification status and (for domain identities) the verification token for each identity. The verification status of an email address is "Pending" until the email address owner clicks the link within the verification email that Amazon SES sent to that address. If the email address owner clicks the link within 24 hours, the verification status of the email address changes to "Success". If the link is not clicked within 24 hours, the verification status changes to "Failed." In that case, to verify the email address, you must restart the verification process from the beginning. For domain identities, the domain's verification status is "Pending" as Amazon SES searches for the required TXT record in the DNS settings of the domain. When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, to verify the domain, you must restart the verification process from the beginning. This operation is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
     ///
-    /// - Parameter GetIdentityVerificationAttributesInput : Represents a request to return the Amazon SES verification status of a list of identities. For domain identities, this request also returns the verification token. For information about verifying identities with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html).
+    /// - Parameter input: Represents a request to return the Amazon SES verification status of a list of identities. For domain identities, this request also returns the verification token. For information about verifying identities with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html). (Type: `GetIdentityVerificationAttributesInput`)
     ///
-    /// - Returns: `GetIdentityVerificationAttributesOutput` : The Amazon SES verification status of a list of identities. For domain identities, this response also contains the verification token.
+    /// - Returns: The Amazon SES verification status of a list of identities. For domain identities, this response also contains the verification token. (Type: `GetIdentityVerificationAttributesOutput`)
     public func getIdentityVerificationAttributes(input: GetIdentityVerificationAttributesInput) async throws -> GetIdentityVerificationAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2423,9 +2423,9 @@ extension SESClient {
     ///
     /// Provides the sending limits for the Amazon SES account. You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetSendQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSendQuotaInput`)
     ///
-    /// - Returns: `GetSendQuotaOutput` : Represents your Amazon SES daily sending quota, maximum send rate, and the number of emails you have sent in the last 24 hours.
+    /// - Returns: Represents your Amazon SES daily sending quota, maximum send rate, and the number of emails you have sent in the last 24 hours. (Type: `GetSendQuotaOutput`)
     public func getSendQuota(input: GetSendQuotaInput) async throws -> GetSendQuotaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2485,9 +2485,9 @@ extension SESClient {
     ///
     /// Provides sending statistics for the current Amazon Web Services Region. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time. You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetSendStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSendStatisticsInput`)
     ///
-    /// - Returns: `GetSendStatisticsOutput` : Represents a list of data points. This list contains aggregated data from the previous two weeks of your sending activity with Amazon SES.
+    /// - Returns: Represents a list of data points. This list contains aggregated data from the previous two weeks of your sending activity with Amazon SES. (Type: `GetSendStatisticsOutput`)
     public func getSendStatistics(input: GetSendStatisticsInput) async throws -> GetSendStatisticsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2547,9 +2547,9 @@ extension SESClient {
     ///
     /// Displays the template object (which includes the Subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
     ///
-    /// - Parameter GetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateInput`)
     ///
-    /// - Returns: `GetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2614,9 +2614,9 @@ extension SESClient {
     ///
     /// Provides a list of the configuration sets associated with your Amazon SES account in the current Amazon Web Services Region. For information about using configuration sets, see [Monitoring Your Amazon SES Sending Activity](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second. This operation returns up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation also returns NextToken. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
     ///
-    /// - Parameter ListConfigurationSetsInput : Represents a request to list the configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Parameter input: Represents a request to list the configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `ListConfigurationSetsInput`)
     ///
-    /// - Returns: `ListConfigurationSetsOutput` : A list of configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Returns: A list of configuration sets associated with your Amazon Web Services account. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `ListConfigurationSetsOutput`)
     public func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2676,9 +2676,9 @@ extension SESClient {
     ///
     /// Lists the existing custom verification email templates for your account in the current Amazon Web Services Region. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter ListCustomVerificationEmailTemplatesInput : Represents a request to list the existing custom verification email templates for your account. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide.
+    /// - Parameter input: Represents a request to list the existing custom verification email templates for your account. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. (Type: `ListCustomVerificationEmailTemplatesInput`)
     ///
-    /// - Returns: `ListCustomVerificationEmailTemplatesOutput` : A paginated list of custom verification email templates.
+    /// - Returns: A paginated list of custom verification email templates. (Type: `ListCustomVerificationEmailTemplatesOutput`)
     public func listCustomVerificationEmailTemplates(input: ListCustomVerificationEmailTemplatesInput) async throws -> ListCustomVerificationEmailTemplatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2738,9 +2738,9 @@ extension SESClient {
     ///
     /// Returns a list containing all of the identities (email addresses and domains) for your Amazon Web Services account in the current Amazon Web Services Region, regardless of verification status. You can execute this operation no more than once per second. It's recommended that for successive pagination calls of this API, you continue to the use the same parameter/value pairs as used in the original call, e.g., if you used IdentityType=Domain in the the original call and received a NextToken in the response, you should continue providing the IdentityType=Domain parameter for further NextToken calls; however, if you didn't provide the IdentityType parameter in the original call, then continue to not provide it for successive pagination calls. Using this protocol will ensure consistent results.
     ///
-    /// - Parameter ListIdentitiesInput : Represents a request to return a list of all identities (email addresses and domains) that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
+    /// - Parameter input: Represents a request to return a list of all identities (email addresses and domains) that you have attempted to verify under your Amazon Web Services account, regardless of verification status. (Type: `ListIdentitiesInput`)
     ///
-    /// - Returns: `ListIdentitiesOutput` : A list of all identities that you have attempted to verify under your Amazon Web Services account, regardless of verification status.
+    /// - Returns: A list of all identities that you have attempted to verify under your Amazon Web Services account, regardless of verification status. (Type: `ListIdentitiesOutput`)
     public func listIdentities(input: ListIdentitiesInput) async throws -> ListIdentitiesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2800,9 +2800,9 @@ extension SESClient {
     ///
     /// Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This operation returns only a list. To get the actual policy content, use GetIdentityPolicies. This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter ListIdentityPoliciesInput : Represents a request to return a list of sending authorization policies that are attached to an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
+    /// - Parameter input: Represents a request to return a list of sending authorization policies that are attached to an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). (Type: `ListIdentityPoliciesInput`)
     ///
-    /// - Returns: `ListIdentityPoliciesOutput` : A list of names of sending authorization policies that apply to an identity.
+    /// - Returns: A list of names of sending authorization policies that apply to an identity. (Type: `ListIdentityPoliciesOutput`)
     public func listIdentityPolicies(input: ListIdentityPoliciesInput) async throws -> ListIdentityPoliciesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2862,9 +2862,9 @@ extension SESClient {
     ///
     /// Lists the IP address filters associated with your Amazon Web Services account in the current Amazon Web Services Region. For information about managing IP address filters, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter ListReceiptFiltersInput : Represents a request to list the IP address filters that exist under your Amazon Web Services account. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to list the IP address filters that exist under your Amazon Web Services account. You use IP address filters when you receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `ListReceiptFiltersInput`)
     ///
-    /// - Returns: `ListReceiptFiltersOutput` : A list of IP address filters that exist under your Amazon Web Services account.
+    /// - Returns: A list of IP address filters that exist under your Amazon Web Services account. (Type: `ListReceiptFiltersOutput`)
     public func listReceiptFilters(input: ListReceiptFiltersInput) async throws -> ListReceiptFiltersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2924,9 +2924,9 @@ extension SESClient {
     ///
     /// Lists the receipt rule sets that exist under your Amazon Web Services account in the current Amazon Web Services Region. If there are additional receipt rule sets to be retrieved, you receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter ListReceiptRuleSetsInput : Represents a request to list the receipt rule sets that exist under your Amazon Web Services account. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to list the receipt rule sets that exist under your Amazon Web Services account. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `ListReceiptRuleSetsInput`)
     ///
-    /// - Returns: `ListReceiptRuleSetsOutput` : A list of receipt rule sets that exist under your Amazon Web Services account.
+    /// - Returns: A list of receipt rule sets that exist under your Amazon Web Services account. (Type: `ListReceiptRuleSetsOutput`)
     public func listReceiptRuleSets(input: ListReceiptRuleSetsInput) async throws -> ListReceiptRuleSetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2986,9 +2986,9 @@ extension SESClient {
     ///
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3048,9 +3048,9 @@ extension SESClient {
     ///
     /// Deprecated. Use the ListIdentities operation to list the email addresses and domains associated with your account.
     ///
-    /// - Parameter ListVerifiedEmailAddressesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVerifiedEmailAddressesInput`)
     ///
-    /// - Returns: `ListVerifiedEmailAddressesOutput` : A list of email addresses that you have verified with Amazon SES under your Amazon Web Services account.
+    /// - Returns: A list of email addresses that you have verified with Amazon SES under your Amazon Web Services account. (Type: `ListVerifiedEmailAddressesOutput`)
     public func listVerifiedEmailAddresses(input: ListVerifiedEmailAddressesInput) async throws -> ListVerifiedEmailAddressesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3110,9 +3110,9 @@ extension SESClient {
     ///
     /// Adds or updates the delivery options for a configuration set.
     ///
-    /// - Parameter PutConfigurationSetDeliveryOptionsInput : A request to modify the delivery options for a configuration set.
+    /// - Parameter input: A request to modify the delivery options for a configuration set. (Type: `PutConfigurationSetDeliveryOptionsInput`)
     ///
-    /// - Returns: `PutConfigurationSetDeliveryOptionsOutput` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    /// - Returns: An HTTP 200 response if the request succeeds, or an error message if the request fails. (Type: `PutConfigurationSetDeliveryOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3178,9 +3178,9 @@ extension SESClient {
     ///
     /// Adds or updates a sending authorization policy for the specified identity (an email address or a domain). This operation is for the identity owner only. If you have not verified the identity, it returns an error. Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter PutIdentityPolicyInput : Represents a request to add or update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
+    /// - Parameter input: Represents a request to add or update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html). (Type: `PutIdentityPolicyInput`)
     ///
-    /// - Returns: `PutIdentityPolicyOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `PutIdentityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3245,9 +3245,9 @@ extension SESClient {
     ///
     /// Reorders the receipt rules within a receipt rule set. All of the rules in the rule set must be represented in this request. That is, it is error if the reorder request doesn't explicitly position all of the rules. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter ReorderReceiptRuleSetInput : Represents a request to reorder the receipt rules within a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to reorder the receipt rules within a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `ReorderReceiptRuleSetInput`)
     ///
-    /// - Returns: `ReorderReceiptRuleSetOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `ReorderReceiptRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3313,9 +3313,9 @@ extension SESClient {
     ///
     /// Generates and sends a bounce message to the sender of an email you received through Amazon SES. You can only use this operation on an email up to 24 hours after you receive it. You cannot use this operation to send generic bounces for mail that was not received by Amazon SES. For information about receiving email through Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter SendBounceInput : Represents a request to send a bounce message to the sender of an email you received through Amazon SES.
+    /// - Parameter input: Represents a request to send a bounce message to the sender of an email you received through Amazon SES. (Type: `SendBounceInput`)
     ///
-    /// - Returns: `SendBounceOutput` : Represents a unique message ID.
+    /// - Returns: Represents a unique message ID. (Type: `SendBounceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3394,9 +3394,9 @@ extension SESClient {
     ///
     /// * The number of destinations you can contact in a single call can be limited by your account's maximum sending rate.
     ///
-    /// - Parameter SendBulkTemplatedEmailInput : Represents a request to send a templated email to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to send a templated email to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). (Type: `SendBulkTemplatedEmailInput`)
     ///
-    /// - Returns: `SendBulkTemplatedEmailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendBulkTemplatedEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3466,9 +3466,9 @@ extension SESClient {
     ///
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter SendCustomVerificationEmailInput : Represents a request to send a custom verification email to a specified recipient.
+    /// - Parameter input: Represents a request to send a custom verification email to a specified recipient. (Type: `SendCustomVerificationEmailInput`)
     ///
-    /// - Returns: `SendCustomVerificationEmailOutput` : The response received when attempting to send the custom verification email.
+    /// - Returns: The response received when attempting to send the custom verification email. (Type: `SendCustomVerificationEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3550,9 +3550,9 @@ extension SESClient {
     ///
     /// For every message that you send, the total number of recipients (including each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of emails you can send in a 24-hour period (your sending quota). For more information about sending quotas in Amazon SES, see [Managing Your Amazon SES Sending Limits](https://docs.aws.amazon.com/ses/latest/dg/manage-sending-quotas.html) in the Amazon SES Developer Guide.
     ///
-    /// - Parameter SendEmailInput : Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-formatted.html).
+    /// - Parameter input: Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-formatted.html). (Type: `SendEmailInput`)
     ///
-    /// - Returns: `SendEmailOutput` : Represents a unique message ID.
+    /// - Returns: Represents a unique message ID. (Type: `SendEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3653,9 +3653,9 @@ extension SESClient {
     ///
     /// * For every message that you send, the total number of recipients (including each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of emails you can send in a 24-hour period (your sending quota). For more information about sending quotas in Amazon SES, see [Managing Your Amazon SES Sending Limits](https://docs.aws.amazon.com/ses/latest/dg/manage-sending-quotas.html) in the Amazon SES Developer Guide.
     ///
-    /// - Parameter SendRawEmailInput : Represents a request to send a single raw email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html).
+    /// - Parameter input: Represents a request to send a single raw email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html). (Type: `SendRawEmailInput`)
     ///
-    /// - Returns: `SendRawEmailOutput` : Represents a unique message ID.
+    /// - Returns: Represents a unique message ID. (Type: `SendRawEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3739,9 +3739,9 @@ extension SESClient {
     ///
     /// If your call to the SendTemplatedEmail operation includes all of the required parameters, Amazon SES accepts it and returns a Message ID. However, if Amazon SES can't render the email because the template contains errors, it doesn't send the email. Additionally, because it already accepted the message, Amazon SES doesn't return a message stating that it was unable to send the email. For these reasons, we highly recommend that you set up Amazon SES to send you notifications when Rendering Failure events occur. For more information, see [Sending Personalized Email Using the Amazon SES API](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html) in the Amazon Simple Email Service Developer Guide.
     ///
-    /// - Parameter SendTemplatedEmailInput : Represents a request to send a templated email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html).
+    /// - Parameter input: Represents a request to send a templated email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). (Type: `SendTemplatedEmailInput`)
     ///
-    /// - Returns: `SendTemplatedEmailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendTemplatedEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3811,9 +3811,9 @@ extension SESClient {
     ///
     /// Sets the specified receipt rule set as the active receipt rule set. To disable your email-receiving through Amazon SES completely, you can call this operation with RuleSetName set to null. For information about managing receipt rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter SetActiveReceiptRuleSetInput : Represents a request to set a receipt rule set as the active receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to set a receipt rule set as the active receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `SetActiveReceiptRuleSetInput`)
     ///
-    /// - Returns: `SetActiveReceiptRuleSetOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `SetActiveReceiptRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3878,9 +3878,9 @@ extension SESClient {
     ///
     /// Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from addresses on that domain. If Easy DKIM signing is enabled for an email address, then Amazon SES uses DKIM to sign all email it sends from that address. For email addresses (for example, user@example.com), you can only enable DKIM signing if the corresponding domain (in this case, example.com) has been set up to use Easy DKIM. You can enable DKIM signing for an identity at any time after you start the verification process for the identity, even if the verification process isn't complete. You can execute this operation no more than once per second. For more information about Easy DKIM signing, go to the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
     ///
-    /// - Parameter SetIdentityDkimEnabledInput : Represents a request to enable or disable Amazon SES Easy DKIM signing for an identity. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
+    /// - Parameter input: Represents a request to enable or disable Amazon SES Easy DKIM signing for an identity. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html). (Type: `SetIdentityDkimEnabledInput`)
     ///
-    /// - Returns: `SetIdentityDkimEnabledOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `SetIdentityDkimEnabledOutput`)
     public func setIdentityDkimEnabled(input: SetIdentityDkimEnabledInput) async throws -> SetIdentityDkimEnabledOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3940,9 +3940,9 @@ extension SESClient {
     ///
     /// Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and complaints. Feedback forwarding does not apply to delivery notifications. Delivery notifications are only available through Amazon SNS. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
-    /// - Parameter SetIdentityFeedbackForwardingEnabledInput : Represents a request to enable or disable whether Amazon SES forwards you bounce and complaint notifications through email. For information about email feedback forwarding, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-email.html).
+    /// - Parameter input: Represents a request to enable or disable whether Amazon SES forwards you bounce and complaint notifications through email. For information about email feedback forwarding, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-email.html). (Type: `SetIdentityFeedbackForwardingEnabledInput`)
     ///
-    /// - Returns: `SetIdentityFeedbackForwardingEnabledOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `SetIdentityFeedbackForwardingEnabledOutput`)
     public func setIdentityFeedbackForwardingEnabled(input: SetIdentityFeedbackForwardingEnabledInput) async throws -> SetIdentityFeedbackForwardingEnabledOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4002,9 +4002,9 @@ extension SESClient {
     ///
     /// Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type. You can execute this operation no more than once per second. For more information about using notifications with Amazon SES, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
-    /// - Parameter SetIdentityHeadersInNotificationsEnabledInput : Represents a request to set whether Amazon SES includes the original email headers in the Amazon SNS notifications of a specified type. For information about notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
+    /// - Parameter input: Represents a request to set whether Amazon SES includes the original email headers in the Amazon SNS notifications of a specified type. For information about notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html). (Type: `SetIdentityHeadersInNotificationsEnabledInput`)
     ///
-    /// - Returns: `SetIdentityHeadersInNotificationsEnabledOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `SetIdentityHeadersInNotificationsEnabledOutput`)
     public func setIdentityHeadersInNotificationsEnabled(input: SetIdentityHeadersInNotificationsEnabledInput) async throws -> SetIdentityHeadersInNotificationsEnabledOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4064,9 +4064,9 @@ extension SESClient {
     ///
     /// Enables or disables the custom MAIL FROM domain setup for a verified identity (an email address or a domain). To send emails using the specified MAIL FROM domain, you must add an MX record to your MAIL FROM domain's DNS settings. To ensure that your emails pass Sender Policy Framework (SPF) checks, you must also add or update an SPF record. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter SetIdentityMailFromDomainInput : Represents a request to enable or disable the Amazon SES custom MAIL FROM domain setup for a verified identity. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html).
+    /// - Parameter input: Represents a request to enable or disable the Amazon SES custom MAIL FROM domain setup for a verified identity. For information about using a custom MAIL FROM domain, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/mail-from.html). (Type: `SetIdentityMailFromDomainInput`)
     ///
-    /// - Returns: `SetIdentityMailFromDomainOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `SetIdentityMailFromDomainOutput`)
     public func setIdentityMailFromDomain(input: SetIdentityMailFromDomainInput) async throws -> SetIdentityMailFromDomainOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4126,9 +4126,9 @@ extension SESClient {
     ///
     /// Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering notifications. When you use this operation, you specify a verified identity, such as an email address or domain. When you send an email that uses the chosen identity in the Source field, Amazon SES sends notifications to the topic you specified. You can send bounce, complaint, or delivery notifications (or any combination of the three) to the Amazon SNS topic that you specify. You can execute this operation no more than once per second. For more information about feedback notification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications.html).
     ///
-    /// - Parameter SetIdentityNotificationTopicInput : Represents a request to specify the Amazon SNS topic to which Amazon SES publishes bounce, complaint, or delivery notifications for emails sent with that identity as the source. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html).
+    /// - Parameter input: Represents a request to specify the Amazon SNS topic to which Amazon SES publishes bounce, complaint, or delivery notifications for emails sent with that identity as the source. For information about Amazon SES notifications, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity-using-notifications-sns.html). (Type: `SetIdentityNotificationTopicInput`)
     ///
-    /// - Returns: `SetIdentityNotificationTopicOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `SetIdentityNotificationTopicOutput`)
     public func setIdentityNotificationTopic(input: SetIdentityNotificationTopicInput) async throws -> SetIdentityNotificationTopicOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4188,9 +4188,9 @@ extension SESClient {
     ///
     /// Sets the position of the specified receipt rule in the receipt rule set. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter SetReceiptRulePositionInput : Represents a request to set the position of a receipt rule in a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to set the position of a receipt rule in a receipt rule set. You use receipt rule sets to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `SetReceiptRulePositionInput`)
     ///
-    /// - Returns: `SetReceiptRulePositionOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `SetReceiptRulePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4256,9 +4256,9 @@ extension SESClient {
     ///
     /// Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
     ///
-    /// - Parameter TestRenderTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestRenderTemplateInput`)
     ///
-    /// - Returns: `TestRenderTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestRenderTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4325,9 +4325,9 @@ extension SESClient {
     ///
     /// Enables or disables email sending across your entire Amazon SES account in the current Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a given Amazon Web Services Region when reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateAccountSendingEnabledInput : Represents a request to enable or disable the email sending capabilities for your entire Amazon SES account.
+    /// - Parameter input: Represents a request to enable or disable the email sending capabilities for your entire Amazon SES account. (Type: `UpdateAccountSendingEnabledInput`)
     ///
-    /// - Returns: `UpdateAccountSendingEnabledOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSendingEnabledOutput`)
     public func updateAccountSendingEnabled(input: UpdateAccountSendingEnabledInput) async throws -> UpdateAccountSendingEnabledOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4387,9 +4387,9 @@ extension SESClient {
     ///
     /// Updates the event destination of a configuration set. Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see [Monitoring Your Amazon SES Sending Activity](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html) in the Amazon SES Developer Guide. When you create or update an event destination, you must provide one, and only one, destination. The destination can be Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateConfigurationSetEventDestinationInput : Represents a request to update the event destination of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html).
+    /// - Parameter input: Represents a request to update the event destination of a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html). (Type: `UpdateConfigurationSetEventDestinationInput`)
     ///
-    /// - Returns: `UpdateConfigurationSetEventDestinationOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `UpdateConfigurationSetEventDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4458,9 +4458,9 @@ extension SESClient {
     ///
     /// Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set in a given Amazon Web Services Region. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can create alarms when bounce or complaint rates exceed certain thresholds. You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateConfigurationSetReputationMetricsEnabledInput : Represents a request to modify the reputation metric publishing settings for a configuration set.
+    /// - Parameter input: Represents a request to modify the reputation metric publishing settings for a configuration set. (Type: `UpdateConfigurationSetReputationMetricsEnabledInput`)
     ///
-    /// - Returns: `UpdateConfigurationSetReputationMetricsEnabledOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationSetReputationMetricsEnabledOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4525,9 +4525,9 @@ extension SESClient {
     ///
     /// Enables or disables email sending for messages sent using a specific configuration set in a given Amazon Web Services Region. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) exceed certain thresholds. You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateConfigurationSetSendingEnabledInput : Represents a request to enable or disable the email sending capabilities for a specific configuration set.
+    /// - Parameter input: Represents a request to enable or disable the email sending capabilities for a specific configuration set. (Type: `UpdateConfigurationSetSendingEnabledInput`)
     ///
-    /// - Returns: `UpdateConfigurationSetSendingEnabledOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationSetSendingEnabledOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4592,9 +4592,9 @@ extension SESClient {
     ///
     /// Modifies an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html).
     ///
-    /// - Parameter UpdateConfigurationSetTrackingOptionsInput : Represents a request to update the tracking options for a configuration set.
+    /// - Parameter input: Represents a request to update the tracking options for a configuration set. (Type: `UpdateConfigurationSetTrackingOptionsInput`)
     ///
-    /// - Returns: `UpdateConfigurationSetTrackingOptionsOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `UpdateConfigurationSetTrackingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4665,9 +4665,9 @@ extension SESClient {
     ///
     /// Updates an existing custom verification email template. For more information about custom verification email templates, see [Using Custom Verification Email Templates](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateCustomVerificationEmailTemplateInput : Represents a request to update an existing custom verification email template.
+    /// - Parameter input: Represents a request to update an existing custom verification email template. (Type: `UpdateCustomVerificationEmailTemplateInput`)
     ///
-    /// - Returns: `UpdateCustomVerificationEmailTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomVerificationEmailTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4734,9 +4734,9 @@ extension SESClient {
     ///
     /// Updates a receipt rule. For information about managing receipt rules, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateReceiptRuleInput : Represents a request to update a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html).
+    /// - Parameter input: Represents a request to update a receipt rule. You use receipt rules to receive email with Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html). (Type: `UpdateReceiptRuleInput`)
     ///
-    /// - Returns: `UpdateReceiptRuleOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `UpdateReceiptRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4806,9 +4806,9 @@ extension SESClient {
     ///
     /// Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single operation. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-personalized-email-api.html). You can execute this operation no more than once per second.
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4883,9 +4883,9 @@ extension SESClient {
     ///
     /// In the preceding example, replace token with one of the tokens that are generated when you execute this operation. Replace example.com with your domain. Repeat this process for each token that's generated by this operation. You can execute this operation no more than once per second.
     ///
-    /// - Parameter VerifyDomainDkimInput : Represents a request to generate the CNAME records needed to set up Easy DKIM with Amazon SES. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html).
+    /// - Parameter input: Represents a request to generate the CNAME records needed to set up Easy DKIM with Amazon SES. For more information about setting up Easy DKIM, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html). (Type: `VerifyDomainDkimInput`)
     ///
-    /// - Returns: `VerifyDomainDkimOutput` : Returns CNAME records that you must publish to the DNS server of your domain to set up Easy DKIM with Amazon SES.
+    /// - Returns: Returns CNAME records that you must publish to the DNS server of your domain to set up Easy DKIM with Amazon SES. (Type: `VerifyDomainDkimOutput`)
     public func verifyDomainDkim(input: VerifyDomainDkimInput) async throws -> VerifyDomainDkimOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4945,9 +4945,9 @@ extension SESClient {
     ///
     /// Adds a domain to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. For more information about verifying domains, see [Verifying Email Addresses and Domains](https://docs.aws.amazon.com/ses/latest/dg/verify-addresses-and-domains.html) in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
-    /// - Parameter VerifyDomainIdentityInput : Represents a request to begin Amazon SES domain verification and to generate the TXT records that you must publish to the DNS server of your domain to complete the verification. For information about domain verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure).
+    /// - Parameter input: Represents a request to begin Amazon SES domain verification and to generate the TXT records that you must publish to the DNS server of your domain to complete the verification. For information about domain verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure). (Type: `VerifyDomainIdentityInput`)
     ///
-    /// - Returns: `VerifyDomainIdentityOutput` : Returns a TXT record that you must publish to the DNS server of your domain to complete domain verification with Amazon SES.
+    /// - Returns: Returns a TXT record that you must publish to the DNS server of your domain to complete domain verification with Amazon SES. (Type: `VerifyDomainIdentityOutput`)
     public func verifyDomainIdentity(input: VerifyDomainIdentityInput) async throws -> VerifyDomainIdentityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5007,9 +5007,9 @@ extension SESClient {
     ///
     /// Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
     ///
-    /// - Parameter VerifyEmailAddressInput : Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
+    /// - Parameter input: Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure). (Type: `VerifyEmailAddressInput`)
     ///
-    /// - Returns: `VerifyEmailAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyEmailAddressOutput`)
     public func verifyEmailAddress(input: VerifyEmailAddressInput) async throws -> VerifyEmailAddressOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5069,9 +5069,9 @@ extension SESClient {
     ///
     /// Adds an email address to the list of identities for your Amazon SES account in the current Amazon Web Services Region and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address. You can execute this operation no more than once per second.
     ///
-    /// - Parameter VerifyEmailIdentityInput : Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure).
+    /// - Parameter input: Represents a request to begin email address verification with Amazon SES. For information about email address verification, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure). (Type: `VerifyEmailIdentityInput`)
     ///
-    /// - Returns: `VerifyEmailIdentityOutput` : An empty element returned on a successful request.
+    /// - Returns: An empty element returned on a successful request. (Type: `VerifyEmailIdentityOutput`)
     public func verifyEmailIdentity(input: VerifyEmailIdentityInput) async throws -> VerifyEmailIdentityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

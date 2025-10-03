@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerLinuxSubscriptionsClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerLinuxSubscriptionsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerLinuxSubscriptionsClient.LicenseManagerLinuxSubscriptionsClientConfiguration
     let serviceName = "License Manager Linux Subscriptions"
@@ -372,9 +372,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions registered to your account.
     ///
-    /// - Parameter DeregisterSubscriptionProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterSubscriptionProviderInput`)
     ///
-    /// - Returns: `DeregisterSubscriptionProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterSubscriptionProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
     ///
-    /// - Parameter GetRegisteredSubscriptionProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegisteredSubscriptionProviderInput`)
     ///
-    /// - Returns: `GetRegisteredSubscriptionProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegisteredSubscriptionProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Lists the Linux subscriptions service settings for your account.
     ///
-    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSettingsInput`)
     ///
-    /// - Returns: `GetServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -578,9 +578,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
     ///
-    /// - Parameter ListLinuxSubscriptionInstancesInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    /// - Parameter input: NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases. (Type: `ListLinuxSubscriptionInstancesInput`)
     ///
-    /// - Returns: `ListLinuxSubscriptionInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLinuxSubscriptionInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,9 +647,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
     ///
-    /// - Parameter ListLinuxSubscriptionsInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    /// - Parameter input: NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases. (Type: `ListLinuxSubscriptionsInput`)
     ///
-    /// - Returns: `ListLinuxSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLinuxSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,9 +716,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// List Bring Your Own License (BYOL) subscription registration resources for your account.
     ///
-    /// - Parameter ListRegisteredSubscriptionProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegisteredSubscriptionProvidersInput`)
     ///
-    /// - Returns: `ListRegisteredSubscriptionProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegisteredSubscriptionProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -785,9 +785,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// List the metadata tags that are assigned to the specified Amazon Web Services resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,9 +851,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
     ///
-    /// - Parameter RegisterSubscriptionProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterSubscriptionProviderInput`)
     ///
-    /// - Returns: `RegisterSubscriptionProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterSubscriptionProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -920,9 +920,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Add metadata tags to the specified Amazon Web Services resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -989,9 +989,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Remove one or more metadata tag from the specified Amazon Web Services resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1055,9 +1055,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Updates the service settings for Linux subscriptions.
     ///
-    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSettingsInput`)
     ///
-    /// - Returns: `UpdateServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

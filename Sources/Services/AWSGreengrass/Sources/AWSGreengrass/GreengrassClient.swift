@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GreengrassClient: ClientRuntime.Client {
     public static let clientName = "GreengrassClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: GreengrassClient.GreengrassClientConfiguration
     let serviceName = "Greengrass"
@@ -373,9 +373,9 @@ extension GreengrassClient {
     ///
     /// Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
     ///
-    /// - Parameter AssociateRoleToGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateRoleToGroupInput`)
     ///
-    /// - Returns: `AssociateRoleToGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateRoleToGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,9 +441,9 @@ extension GreengrassClient {
     ///
     /// Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
     ///
-    /// - Parameter AssociateServiceRoleToAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateServiceRoleToAccountInput`)
     ///
-    /// - Returns: `AssociateServiceRoleToAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateServiceRoleToAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,9 +509,9 @@ extension GreengrassClient {
     ///
     /// Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
     ///
-    /// - Parameter CreateConnectorDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorDefinitionInput`)
     ///
-    /// - Returns: `CreateConnectorDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,9 +577,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a connector definition which has already been defined.
     ///
-    /// - Parameter CreateConnectorDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateConnectorDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -645,9 +645,9 @@ extension GreengrassClient {
     ///
     /// Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
     ///
-    /// - Parameter CreateCoreDefinitionInput : Information needed to create a core definition.
+    /// - Parameter input: Information needed to create a core definition. (Type: `CreateCoreDefinitionInput`)
     ///
-    /// - Returns: `CreateCoreDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCoreDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,9 +713,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
     ///
-    /// - Parameter CreateCoreDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCoreDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateCoreDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCoreDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,9 +781,9 @@ extension GreengrassClient {
     ///
     /// Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
     ///
-    /// - Parameter CreateDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -849,9 +849,9 @@ extension GreengrassClient {
     ///
     /// Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
     ///
-    /// - Parameter CreateDeviceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeviceDefinitionInput`)
     ///
-    /// - Returns: `CreateDeviceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeviceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -917,9 +917,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a device definition that has already been defined.
     ///
-    /// - Parameter CreateDeviceDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeviceDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateDeviceDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeviceDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,9 +985,9 @@ extension GreengrassClient {
     ///
     /// Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
     ///
-    /// - Parameter CreateFunctionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFunctionDefinitionInput`)
     ///
-    /// - Returns: `CreateFunctionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1053,9 +1053,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a Lambda function definition that has already been defined.
     ///
-    /// - Parameter CreateFunctionDefinitionVersionInput : Information needed to create a function definition version.
+    /// - Parameter input: Information needed to create a function definition version. (Type: `CreateFunctionDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateFunctionDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,9 +1121,9 @@ extension GreengrassClient {
     ///
     /// Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1189,9 +1189,9 @@ extension GreengrassClient {
     ///
     /// Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
     ///
-    /// - Parameter CreateGroupCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupCertificateAuthorityInput`)
     ///
-    /// - Returns: `CreateGroupCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1255,9 +1255,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a group which has already been defined.
     ///
-    /// - Parameter CreateGroupVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupVersionInput`)
     ///
-    /// - Returns: `CreateGroupVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1323,9 +1323,9 @@ extension GreengrassClient {
     ///
     /// Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
     ///
-    /// - Parameter CreateLoggerDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLoggerDefinitionInput`)
     ///
-    /// - Returns: `CreateLoggerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLoggerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1391,9 +1391,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a logger definition that has already been defined.
     ///
-    /// - Parameter CreateLoggerDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLoggerDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateLoggerDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLoggerDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1459,9 +1459,9 @@ extension GreengrassClient {
     ///
     /// Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
     ///
-    /// - Parameter CreateResourceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceDefinitionInput`)
     ///
-    /// - Returns: `CreateResourceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1527,9 +1527,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a resource definition that has already been defined.
     ///
-    /// - Parameter CreateResourceDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateResourceDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1595,9 +1595,9 @@ extension GreengrassClient {
     ///
     /// Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
     ///
-    /// - Parameter CreateSoftwareUpdateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSoftwareUpdateJobInput`)
     ///
-    /// - Returns: `CreateSoftwareUpdateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSoftwareUpdateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1664,9 +1664,9 @@ extension GreengrassClient {
     ///
     /// Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
     ///
-    /// - Parameter CreateSubscriptionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriptionDefinitionInput`)
     ///
-    /// - Returns: `CreateSubscriptionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriptionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1732,9 +1732,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a subscription definition which has already been defined.
     ///
-    /// - Parameter CreateSubscriptionDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriptionDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateSubscriptionDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriptionDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1800,9 +1800,9 @@ extension GreengrassClient {
     ///
     /// Deletes a connector definition.
     ///
-    /// - Parameter DeleteConnectorDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorDefinitionInput`)
     ///
-    /// - Returns: `DeleteConnectorDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1864,9 +1864,9 @@ extension GreengrassClient {
     ///
     /// Deletes a core definition.
     ///
-    /// - Parameter DeleteCoreDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCoreDefinitionInput`)
     ///
-    /// - Returns: `DeleteCoreDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCoreDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1928,9 +1928,9 @@ extension GreengrassClient {
     ///
     /// Deletes a device definition.
     ///
-    /// - Parameter DeleteDeviceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceDefinitionInput`)
     ///
-    /// - Returns: `DeleteDeviceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1992,9 +1992,9 @@ extension GreengrassClient {
     ///
     /// Deletes a Lambda function definition.
     ///
-    /// - Parameter DeleteFunctionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionDefinitionInput`)
     ///
-    /// - Returns: `DeleteFunctionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2056,9 +2056,9 @@ extension GreengrassClient {
     ///
     /// Deletes a group.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2120,9 +2120,9 @@ extension GreengrassClient {
     ///
     /// Deletes a logger definition.
     ///
-    /// - Parameter DeleteLoggerDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLoggerDefinitionInput`)
     ///
-    /// - Returns: `DeleteLoggerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoggerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2184,9 +2184,9 @@ extension GreengrassClient {
     ///
     /// Deletes a resource definition.
     ///
-    /// - Parameter DeleteResourceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceDefinitionInput`)
     ///
-    /// - Returns: `DeleteResourceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2248,9 +2248,9 @@ extension GreengrassClient {
     ///
     /// Deletes a subscription definition.
     ///
-    /// - Parameter DeleteSubscriptionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubscriptionDefinitionInput`)
     ///
-    /// - Returns: `DeleteSubscriptionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubscriptionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2312,9 +2312,9 @@ extension GreengrassClient {
     ///
     /// Disassociates the role from a group.
     ///
-    /// - Parameter DisassociateRoleFromGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateRoleFromGroupInput`)
     ///
-    /// - Returns: `DisassociateRoleFromGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateRoleFromGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2377,9 +2377,9 @@ extension GreengrassClient {
     ///
     /// Disassociates the service role from your account. Without a service role, deployments will not work.
     ///
-    /// - Parameter DisassociateServiceRoleFromAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateServiceRoleFromAccountInput`)
     ///
-    /// - Returns: `DisassociateServiceRoleFromAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateServiceRoleFromAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2441,9 +2441,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the role associated with a particular group.
     ///
-    /// - Parameter GetAssociatedRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssociatedRoleInput`)
     ///
-    /// - Returns: `GetAssociatedRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssociatedRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2506,9 +2506,9 @@ extension GreengrassClient {
     ///
     /// Returns the status of a bulk deployment.
     ///
-    /// - Parameter GetBulkDeploymentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBulkDeploymentStatusInput`)
     ///
-    /// - Returns: `GetBulkDeploymentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBulkDeploymentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2570,9 +2570,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the connectivity information for a core.
     ///
-    /// - Parameter GetConnectivityInfoInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectivityInfoInput`)
     ///
-    /// - Returns: `GetConnectivityInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectivityInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2635,9 +2635,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a connector definition.
     ///
-    /// - Parameter GetConnectorDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorDefinitionInput`)
     ///
-    /// - Returns: `GetConnectorDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2699,9 +2699,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
     ///
-    /// - Parameter GetConnectorDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorDefinitionVersionInput`)
     ///
-    /// - Returns: `GetConnectorDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2764,9 +2764,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a core definition version.
     ///
-    /// - Parameter GetCoreDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreDefinitionInput`)
     ///
-    /// - Returns: `GetCoreDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2828,9 +2828,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a core definition version.
     ///
-    /// - Parameter GetCoreDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreDefinitionVersionInput`)
     ///
-    /// - Returns: `GetCoreDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2892,9 +2892,9 @@ extension GreengrassClient {
     ///
     /// Returns the status of a deployment.
     ///
-    /// - Parameter GetDeploymentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentStatusInput`)
     ///
-    /// - Returns: `GetDeploymentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2956,9 +2956,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a device definition.
     ///
-    /// - Parameter GetDeviceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceDefinitionInput`)
     ///
-    /// - Returns: `GetDeviceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3020,9 +3020,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a device definition version.
     ///
-    /// - Parameter GetDeviceDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceDefinitionVersionInput`)
     ///
-    /// - Returns: `GetDeviceDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3085,9 +3085,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a Lambda function definition, including its creation time and latest version.
     ///
-    /// - Parameter GetFunctionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionDefinitionInput`)
     ///
-    /// - Returns: `GetFunctionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3149,9 +3149,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
     ///
-    /// - Parameter GetFunctionDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionDefinitionVersionInput`)
     ///
-    /// - Returns: `GetFunctionDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3214,9 +3214,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a group.
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3278,9 +3278,9 @@ extension GreengrassClient {
     ///
     /// Retreives the CA associated with a group. Returns the public key of the CA.
     ///
-    /// - Parameter GetGroupCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupCertificateAuthorityInput`)
     ///
-    /// - Returns: `GetGroupCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3343,9 +3343,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the current configuration for the CA used by the group.
     ///
-    /// - Parameter GetGroupCertificateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupCertificateConfigurationInput`)
     ///
-    /// - Returns: `GetGroupCertificateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupCertificateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3408,9 +3408,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a group version.
     ///
-    /// - Parameter GetGroupVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupVersionInput`)
     ///
-    /// - Returns: `GetGroupVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3472,9 +3472,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a logger definition.
     ///
-    /// - Parameter GetLoggerDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggerDefinitionInput`)
     ///
-    /// - Returns: `GetLoggerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3536,9 +3536,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a logger definition version.
     ///
-    /// - Parameter GetLoggerDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggerDefinitionVersionInput`)
     ///
-    /// - Returns: `GetLoggerDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggerDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3601,9 +3601,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a resource definition, including its creation time and latest version.
     ///
-    /// - Parameter GetResourceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceDefinitionInput`)
     ///
-    /// - Returns: `GetResourceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3665,9 +3665,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a resource definition version, including which resources are included in the version.
     ///
-    /// - Parameter GetResourceDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceDefinitionVersionInput`)
     ///
-    /// - Returns: `GetResourceDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3729,9 +3729,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the service role that is attached to your account.
     ///
-    /// - Parameter GetServiceRoleForAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceRoleForAccountInput`)
     ///
-    /// - Returns: `GetServiceRoleForAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceRoleForAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3793,9 +3793,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a subscription definition.
     ///
-    /// - Parameter GetSubscriptionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionDefinitionInput`)
     ///
-    /// - Returns: `GetSubscriptionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3857,9 +3857,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a subscription definition version.
     ///
-    /// - Parameter GetSubscriptionDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionDefinitionVersionInput`)
     ///
-    /// - Returns: `GetSubscriptionDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3922,9 +3922,9 @@ extension GreengrassClient {
     ///
     /// Get the runtime configuration of a thing.
     ///
-    /// - Parameter GetThingRuntimeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThingRuntimeConfigurationInput`)
     ///
-    /// - Returns: `GetThingRuntimeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThingRuntimeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3987,9 +3987,9 @@ extension GreengrassClient {
     ///
     /// Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
     ///
-    /// - Parameter ListBulkDeploymentDetailedReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBulkDeploymentDetailedReportsInput`)
     ///
-    /// - Returns: `ListBulkDeploymentDetailedReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBulkDeploymentDetailedReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4052,9 +4052,9 @@ extension GreengrassClient {
     ///
     /// Returns a list of bulk deployments.
     ///
-    /// - Parameter ListBulkDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBulkDeploymentsInput`)
     ///
-    /// - Returns: `ListBulkDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBulkDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4117,9 +4117,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
     ///
-    /// - Parameter ListConnectorDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListConnectorDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4182,9 +4182,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of connector definitions.
     ///
-    /// - Parameter ListConnectorDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorDefinitionsInput`)
     ///
-    /// - Returns: `ListConnectorDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorDefinitionsOutput`)
     public func listConnectorDefinitions(input: ListConnectorDefinitionsInput) async throws -> ListConnectorDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4242,9 +4242,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a core definition.
     ///
-    /// - Parameter ListCoreDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoreDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListCoreDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoreDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4307,9 +4307,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of core definitions.
     ///
-    /// - Parameter ListCoreDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoreDefinitionsInput`)
     ///
-    /// - Returns: `ListCoreDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoreDefinitionsOutput`)
     public func listCoreDefinitions(input: ListCoreDefinitionsInput) async throws -> ListCoreDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4367,9 +4367,9 @@ extension GreengrassClient {
     ///
     /// Returns a history of deployments for the group.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4432,9 +4432,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a device definition.
     ///
-    /// - Parameter ListDeviceDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListDeviceDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4497,9 +4497,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of device definitions.
     ///
-    /// - Parameter ListDeviceDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceDefinitionsInput`)
     ///
-    /// - Returns: `ListDeviceDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceDefinitionsOutput`)
     public func listDeviceDefinitions(input: ListDeviceDefinitionsInput) async throws -> ListDeviceDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4557,9 +4557,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a Lambda function definition.
     ///
-    /// - Parameter ListFunctionDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListFunctionDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4622,9 +4622,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of Lambda function definitions.
     ///
-    /// - Parameter ListFunctionDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionDefinitionsInput`)
     ///
-    /// - Returns: `ListFunctionDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionDefinitionsOutput`)
     public func listFunctionDefinitions(input: ListFunctionDefinitionsInput) async throws -> ListFunctionDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4682,9 +4682,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the current CAs for a group.
     ///
-    /// - Parameter ListGroupCertificateAuthoritiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupCertificateAuthoritiesInput`)
     ///
-    /// - Returns: `ListGroupCertificateAuthoritiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupCertificateAuthoritiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4747,9 +4747,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a group.
     ///
-    /// - Parameter ListGroupVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupVersionsInput`)
     ///
-    /// - Returns: `ListGroupVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4812,9 +4812,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of groups.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4872,9 +4872,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a logger definition.
     ///
-    /// - Parameter ListLoggerDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLoggerDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListLoggerDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLoggerDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4937,9 +4937,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of logger definitions.
     ///
-    /// - Parameter ListLoggerDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLoggerDefinitionsInput`)
     ///
-    /// - Returns: `ListLoggerDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLoggerDefinitionsOutput`)
     public func listLoggerDefinitions(input: ListLoggerDefinitionsInput) async throws -> ListLoggerDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4997,9 +4997,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a resource definition.
     ///
-    /// - Parameter ListResourceDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListResourceDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5062,9 +5062,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of resource definitions.
     ///
-    /// - Parameter ListResourceDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceDefinitionsInput`)
     ///
-    /// - Returns: `ListResourceDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceDefinitionsOutput`)
     public func listResourceDefinitions(input: ListResourceDefinitionsInput) async throws -> ListResourceDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5122,9 +5122,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a subscription definition.
     ///
-    /// - Parameter ListSubscriptionDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListSubscriptionDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5187,9 +5187,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of subscription definitions.
     ///
-    /// - Parameter ListSubscriptionDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionDefinitionsInput`)
     ///
-    /// - Returns: `ListSubscriptionDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionDefinitionsOutput`)
     public func listSubscriptionDefinitions(input: ListSubscriptionDefinitionsInput) async throws -> ListSubscriptionDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5247,9 +5247,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of resource tags for a resource arn.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5311,9 +5311,9 @@ extension GreengrassClient {
     ///
     /// Resets a group's deployments.
     ///
-    /// - Parameter ResetDeploymentsInput : Information needed to reset deployments.
+    /// - Parameter input: Information needed to reset deployments. (Type: `ResetDeploymentsInput`)
     ///
-    /// - Returns: `ResetDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5379,9 +5379,9 @@ extension GreengrassClient {
     ///
     /// Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
     ///
-    /// - Parameter StartBulkDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBulkDeploymentInput`)
     ///
-    /// - Returns: `StartBulkDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBulkDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5447,9 +5447,9 @@ extension GreengrassClient {
     ///
     /// Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
     ///
-    /// - Parameter StopBulkDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBulkDeploymentInput`)
     ///
-    /// - Returns: `StopBulkDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBulkDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5511,9 +5511,9 @@ extension GreengrassClient {
     ///
     /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
     ///
-    /// - Parameter TagResourceInput : A map of the key-value pairs for the resource tag.
+    /// - Parameter input: A map of the key-value pairs for the resource tag. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5578,9 +5578,9 @@ extension GreengrassClient {
     ///
     /// Remove resource tags from a Greengrass Resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5643,9 +5643,9 @@ extension GreengrassClient {
     ///
     /// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
     ///
-    /// - Parameter UpdateConnectivityInfoInput : Connectivity information.
+    /// - Parameter input: Connectivity information. (Type: `UpdateConnectivityInfoInput`)
     ///
-    /// - Returns: `UpdateConnectivityInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectivityInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5711,9 +5711,9 @@ extension GreengrassClient {
     ///
     /// Updates a connector definition.
     ///
-    /// - Parameter UpdateConnectorDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorDefinitionInput`)
     ///
-    /// - Returns: `UpdateConnectorDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5778,9 +5778,9 @@ extension GreengrassClient {
     ///
     /// Updates a core definition.
     ///
-    /// - Parameter UpdateCoreDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCoreDefinitionInput`)
     ///
-    /// - Returns: `UpdateCoreDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCoreDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5845,9 +5845,9 @@ extension GreengrassClient {
     ///
     /// Updates a device definition.
     ///
-    /// - Parameter UpdateDeviceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceDefinitionInput`)
     ///
-    /// - Returns: `UpdateDeviceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5912,9 +5912,9 @@ extension GreengrassClient {
     ///
     /// Updates a Lambda function definition.
     ///
-    /// - Parameter UpdateFunctionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionDefinitionInput`)
     ///
-    /// - Returns: `UpdateFunctionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFunctionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5979,9 +5979,9 @@ extension GreengrassClient {
     ///
     /// Updates a group.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6046,9 +6046,9 @@ extension GreengrassClient {
     ///
     /// Updates the Certificate expiry time for a group.
     ///
-    /// - Parameter UpdateGroupCertificateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupCertificateConfigurationInput`)
     ///
-    /// - Returns: `UpdateGroupCertificateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupCertificateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6114,9 +6114,9 @@ extension GreengrassClient {
     ///
     /// Updates a logger definition.
     ///
-    /// - Parameter UpdateLoggerDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLoggerDefinitionInput`)
     ///
-    /// - Returns: `UpdateLoggerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLoggerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6181,9 +6181,9 @@ extension GreengrassClient {
     ///
     /// Updates a resource definition.
     ///
-    /// - Parameter UpdateResourceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceDefinitionInput`)
     ///
-    /// - Returns: `UpdateResourceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6248,9 +6248,9 @@ extension GreengrassClient {
     ///
     /// Updates a subscription definition.
     ///
-    /// - Parameter UpdateSubscriptionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubscriptionDefinitionInput`)
     ///
-    /// - Returns: `UpdateSubscriptionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubscriptionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6315,9 +6315,9 @@ extension GreengrassClient {
     ///
     /// Updates the runtime configuration of a thing.
     ///
-    /// - Parameter UpdateThingRuntimeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThingRuntimeConfigurationInput`)
     ///
-    /// - Returns: `UpdateThingRuntimeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThingRuntimeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

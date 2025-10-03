@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaStoreDataClient: ClientRuntime.Client {
     public static let clientName = "MediaStoreDataClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaStoreDataClient.MediaStoreDataClientConfiguration
     let serviceName = "MediaStore Data"
@@ -374,9 +374,9 @@ extension MediaStoreDataClient {
     ///
     /// Deletes an object at the specified path.
     ///
-    /// - Parameter DeleteObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectInput`)
     ///
-    /// - Returns: `DeleteObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,9 +440,9 @@ extension MediaStoreDataClient {
     ///
     /// Gets the headers for an object at the specified path.
     ///
-    /// - Parameter DescribeObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeObjectInput`)
     ///
-    /// - Returns: `DescribeObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -506,9 +506,9 @@ extension MediaStoreDataClient {
     ///
     /// Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
     ///
-    /// - Parameter GetObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectInput`)
     ///
-    /// - Returns: `GetObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -574,9 +574,9 @@ extension MediaStoreDataClient {
     ///
     /// Provides a list of metadata entries about folders and objects in the specified folder.
     ///
-    /// - Parameter ListItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListItemsInput`)
     ///
-    /// - Returns: `ListItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,9 +640,9 @@ extension MediaStoreDataClient {
     ///
     /// Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
     ///
-    /// - Parameter PutObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutObjectInput`)
     ///
-    /// - Returns: `PutObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

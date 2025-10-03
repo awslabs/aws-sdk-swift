@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SocialMessagingClient: ClientRuntime.Client {
     public static let clientName = "SocialMessagingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SocialMessagingClient.SocialMessagingClientConfiguration
     let serviceName = "SocialMessaging"
@@ -373,9 +373,9 @@ extension SocialMessagingClient {
     ///
     /// This is only used through the Amazon Web Services console during sign-up to associate your WhatsApp Business Account to your Amazon Web Services account.
     ///
-    /// - Parameter AssociateWhatsAppBusinessAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWhatsAppBusinessAccountInput`)
     ///
-    /// - Returns: `AssociateWhatsAppBusinessAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWhatsAppBusinessAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension SocialMessagingClient {
     ///
     /// Creates a new WhatsApp message template from a custom definition.
     ///
-    /// - Parameter CreateWhatsAppMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatsAppMessageTemplateInput`)
     ///
-    /// - Returns: `CreateWhatsAppMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatsAppMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension SocialMessagingClient {
     ///
     /// Creates a new WhatsApp message template using a template from Meta's template library.
     ///
-    /// - Parameter CreateWhatsAppMessageTemplateFromLibraryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatsAppMessageTemplateFromLibraryInput`)
     ///
-    /// - Returns: `CreateWhatsAppMessageTemplateFromLibraryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatsAppMessageTemplateFromLibraryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension SocialMessagingClient {
     ///
     /// Uploads media for use in a WhatsApp message template.
     ///
-    /// - Parameter CreateWhatsAppMessageTemplateMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatsAppMessageTemplateMediaInput`)
     ///
-    /// - Returns: `CreateWhatsAppMessageTemplateMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatsAppMessageTemplateMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension SocialMessagingClient {
     ///
     /// Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
     ///
-    /// - Parameter DeleteWhatsAppMessageMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatsAppMessageMediaInput`)
     ///
-    /// - Returns: `DeleteWhatsAppMessageMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatsAppMessageMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -736,9 +736,9 @@ extension SocialMessagingClient {
     ///
     /// Deletes a WhatsApp message template.
     ///
-    /// - Parameter DeleteWhatsAppMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatsAppMessageTemplateInput`)
     ///
-    /// - Returns: `DeleteWhatsAppMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatsAppMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -807,9 +807,9 @@ extension SocialMessagingClient {
     ///
     /// Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
     ///
-    /// - Parameter DisassociateWhatsAppBusinessAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWhatsAppBusinessAccountInput`)
     ///
-    /// - Returns: `DisassociateWhatsAppBusinessAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWhatsAppBusinessAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,9 +877,9 @@ extension SocialMessagingClient {
     ///
     /// Get the details of your linked WhatsApp Business Account.
     ///
-    /// - Parameter GetLinkedWhatsAppBusinessAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountInput`)
     ///
-    /// - Returns: `GetLinkedWhatsAppBusinessAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension SocialMessagingClient {
     ///
     /// Use your WhatsApp phone number id to get the WABA account id and phone number details.
     ///
-    /// - Parameter GetLinkedWhatsAppBusinessAccountPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountPhoneNumberInput`)
     ///
-    /// - Returns: `GetLinkedWhatsAppBusinessAccountPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1019,9 +1019,9 @@ extension SocialMessagingClient {
     ///
     /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Amazon S3 bucket. Use either destinationS3File or destinationS3PresignedUrl for the destination. If both are used then an InvalidParameterException is returned.
     ///
-    /// - Parameter GetWhatsAppMessageMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWhatsAppMessageMediaInput`)
     ///
-    /// - Returns: `GetWhatsAppMessageMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWhatsAppMessageMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,9 +1093,9 @@ extension SocialMessagingClient {
     ///
     /// Retrieves a specific WhatsApp message template.
     ///
-    /// - Parameter GetWhatsAppMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWhatsAppMessageTemplateInput`)
     ///
-    /// - Returns: `GetWhatsAppMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWhatsAppMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1164,9 +1164,9 @@ extension SocialMessagingClient {
     ///
     /// List all WhatsApp Business Accounts linked to your Amazon Web Services account.
     ///
-    /// - Parameter ListLinkedWhatsAppBusinessAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLinkedWhatsAppBusinessAccountsInput`)
     ///
-    /// - Returns: `ListLinkedWhatsAppBusinessAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLinkedWhatsAppBusinessAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1234,9 +1234,9 @@ extension SocialMessagingClient {
     ///
     /// List all tags associated with a resource, such as a phone number or WABA.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1303,9 +1303,9 @@ extension SocialMessagingClient {
     ///
     /// Lists WhatsApp message templates for a specific WhatsApp Business Account.
     ///
-    /// - Parameter ListWhatsAppMessageTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatsAppMessageTemplatesInput`)
     ///
-    /// - Returns: `ListWhatsAppMessageTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatsAppMessageTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1374,9 +1374,9 @@ extension SocialMessagingClient {
     ///
     /// Lists templates available in Meta's template library for WhatsApp messaging.
     ///
-    /// - Parameter ListWhatsAppTemplateLibraryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatsAppTemplateLibraryInput`)
     ///
-    /// - Returns: `ListWhatsAppTemplateLibraryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatsAppTemplateLibraryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,9 +1448,9 @@ extension SocialMessagingClient {
     ///
     /// Upload a media file to the WhatsApp service. Only the specified originationPhoneNumberId has the permissions to send the media file when using [SendWhatsAppMessage](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_SendWhatsAppMessage.html). You must use either sourceS3File or sourceS3PresignedUrl for the source. If both or neither are specified then an InvalidParameterException is returned.
     ///
-    /// - Parameter PostWhatsAppMessageMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostWhatsAppMessageMediaInput`)
     ///
-    /// - Returns: `PostWhatsAppMessageMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostWhatsAppMessageMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1522,9 +1522,9 @@ extension SocialMessagingClient {
     ///
     /// Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
     ///
-    /// - Parameter PutWhatsAppBusinessAccountEventDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutWhatsAppBusinessAccountEventDestinationsInput`)
     ///
-    /// - Returns: `PutWhatsAppBusinessAccountEventDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutWhatsAppBusinessAccountEventDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1593,9 +1593,9 @@ extension SocialMessagingClient {
     ///
     /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see [Sending messages](https://docs.aws.amazon.com/social-messaging/latest/userguide/send-message.html) in the Amazon Web Services End User Messaging Social User Guide .
     ///
-    /// - Parameter SendWhatsAppMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendWhatsAppMessageInput`)
     ///
-    /// - Returns: `SendWhatsAppMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendWhatsAppMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1666,9 +1666,9 @@ extension SocialMessagingClient {
     ///
     /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1737,9 +1737,9 @@ extension SocialMessagingClient {
     ///
     /// Removes the specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1808,9 +1808,9 @@ extension SocialMessagingClient {
     ///
     /// Updates an existing WhatsApp message template.
     ///
-    /// - Parameter UpdateWhatsAppMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWhatsAppMessageTemplateInput`)
     ///
-    /// - Returns: `UpdateWhatsAppMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWhatsAppMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

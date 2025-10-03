@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceQuotasClient: ClientRuntime.Client {
     public static let clientName = "ServiceQuotasClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceQuotasClient.ServiceQuotasClientConfiguration
     let serviceName = "Service Quotas"
@@ -372,9 +372,9 @@ extension ServiceQuotasClient {
     ///
     /// Associates your quota request template with your organization. When a new Amazon Web Services account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
     ///
-    /// - Parameter AssociateServiceQuotaTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateServiceQuotaTemplateInput`)
     ///
-    /// - Returns: `AssociateServiceQuotaTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateServiceQuotaTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension ServiceQuotasClient {
     ///
     /// Creates a Support case for an existing quota increase request. This call only creates a Support case if the request has a Pending status.
     ///
-    /// - Parameter CreateSupportCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSupportCaseInput`)
     ///
-    /// - Returns: `CreateSupportCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSupportCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension ServiceQuotasClient {
     ///
     /// Deletes the quota increase request for the specified quota from your quota request template.
     ///
-    /// - Parameter DeleteServiceQuotaIncreaseRequestFromTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceQuotaIncreaseRequestFromTemplateInput`)
     ///
-    /// - Returns: `DeleteServiceQuotaIncreaseRequestFromTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceQuotaIncreaseRequestFromTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,9 +598,9 @@ extension ServiceQuotasClient {
     ///
     /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
     ///
-    /// - Parameter DisassociateServiceQuotaTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateServiceQuotaTemplateInput`)
     ///
-    /// - Returns: `DisassociateServiceQuotaTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateServiceQuotaTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -673,9 +673,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the default value for the specified quota. The default value does not reflect any quota increases.
     ///
-    /// - Parameter GetAWSDefaultServiceQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAWSDefaultServiceQuotaInput`)
     ///
-    /// - Returns: `GetAWSDefaultServiceQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAWSDefaultServiceQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the status of the association for the quota request template.
     ///
-    /// - Parameter GetAssociationForServiceQuotaTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssociationForServiceQuotaTemplateInput`)
     ///
-    /// - Returns: `GetAssociationForServiceQuotaTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssociationForServiceQuotaTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,9 +820,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves information about the specified quota increase request.
     ///
-    /// - Parameter GetRequestedServiceQuotaChangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRequestedServiceQuotaChangeInput`)
     ///
-    /// - Returns: `GetRequestedServiceQuotaChangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRequestedServiceQuotaChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -892,9 +892,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the applied quota value for the specified account-level or resource-level quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
-    /// - Parameter GetServiceQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceQuotaInput`)
     ///
-    /// - Returns: `GetServiceQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -964,9 +964,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves information about the specified quota increase request in your quota request template.
     ///
-    /// - Parameter GetServiceQuotaIncreaseRequestFromTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceQuotaIncreaseRequestFromTemplateInput`)
     ///
-    /// - Returns: `GetServiceQuotaIncreaseRequestFromTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceQuotaIncreaseRequestFromTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1040,9 +1040,9 @@ extension ServiceQuotasClient {
     ///
     /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases.
     ///
-    /// - Parameter ListAWSDefaultServiceQuotasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAWSDefaultServiceQuotasInput`)
     ///
-    /// - Returns: `ListAWSDefaultServiceQuotasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAWSDefaultServiceQuotasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,9 +1113,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
     ///
-    /// - Parameter ListRequestedServiceQuotaChangeHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRequestedServiceQuotaChangeHistoryInput`)
     ///
-    /// - Returns: `ListRequestedServiceQuotaChangeHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRequestedServiceQuotaChangeHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1186,9 +1186,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the quota increase requests for the specified quota. Filter responses to return quota requests at either the account level, resource level, or all levels.
     ///
-    /// - Parameter ListRequestedServiceQuotaChangeHistoryByQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRequestedServiceQuotaChangeHistoryByQuotaInput`)
     ///
-    /// - Returns: `ListRequestedServiceQuotaChangeHistoryByQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRequestedServiceQuotaChangeHistoryByQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,9 +1259,9 @@ extension ServiceQuotasClient {
     ///
     /// Lists the quota increase requests in the specified quota request template.
     ///
-    /// - Parameter ListServiceQuotaIncreaseRequestsInTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceQuotaIncreaseRequestsInTemplateInput`)
     ///
-    /// - Returns: `ListServiceQuotaIncreaseRequestsInTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceQuotaIncreaseRequestsInTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1334,9 +1334,9 @@ extension ServiceQuotasClient {
     ///
     /// Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved. Filter responses to return applied quota values at either the account level, resource level, or all levels.
     ///
-    /// - Parameter ListServiceQuotasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceQuotasInput`)
     ///
-    /// - Returns: `ListServiceQuotasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceQuotasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1407,9 +1407,9 @@ extension ServiceQuotasClient {
     ///
     /// Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1479,9 +1479,9 @@ extension ServiceQuotasClient {
     ///
     /// Returns a list of the tags assigned to the specified applied quota.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,9 +1551,9 @@ extension ServiceQuotasClient {
     ///
     /// Adds a quota increase request to your quota request template.
     ///
-    /// - Parameter PutServiceQuotaIncreaseRequestIntoTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutServiceQuotaIncreaseRequestIntoTemplateInput`)
     ///
-    /// - Returns: `PutServiceQuotaIncreaseRequestIntoTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutServiceQuotaIncreaseRequestIntoTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1628,9 +1628,9 @@ extension ServiceQuotasClient {
     ///
     /// Submits a quota increase request for the specified quota at the account or resource level.
     ///
-    /// - Parameter RequestServiceQuotaIncreaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RequestServiceQuotaIncreaseInput`)
     ///
-    /// - Returns: `RequestServiceQuotaIncreaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RequestServiceQuotaIncreaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1704,9 +1704,9 @@ extension ServiceQuotasClient {
     ///
     /// Adds tags to the specified applied quota. You can include one or more tags to add to the quota.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1778,9 +1778,9 @@ extension ServiceQuotasClient {
     ///
     /// Removes tags from the specified applied quota. You can specify one or more tags to remove.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

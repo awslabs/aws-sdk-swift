@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataSyncClient: ClientRuntime.Client {
     public static let clientName = "DataSyncClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DataSyncClient.DataSyncClientConfiguration
     let serviceName = "DataSync"
@@ -373,9 +373,9 @@ extension DataSyncClient {
     ///
     /// Stops an DataSync task execution that's in progress. The transfer of some files are abruptly interrupted. File contents that're transferred to the destination might be incomplete or inconsistent with the source files. However, if you start a new task execution using the same task and allow it to finish, file content on the destination will be complete and consistent. This applies to other unexpected failures that interrupt a task execution. In all of these cases, DataSync successfully completes the transfer when you start the next task execution.
     ///
-    /// - Parameter CancelTaskExecutionInput : CancelTaskExecutionRequest
+    /// - Parameter input: CancelTaskExecutionRequest (Type: `CancelTaskExecutionInput`)
     ///
-    /// - Returns: `CancelTaskExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTaskExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension DataSyncClient {
     ///
     /// Activates an DataSync agent that you deploy in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see [Do I need a DataSync agent?](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html)
     ///
-    /// - Parameter CreateAgentInput : CreateAgentRequest
+    /// - Parameter input: CreateAgentRequest (Type: `CreateAgentInput`)
     ///
-    /// - Returns: `CreateAgentOutput` : CreateAgentResponse
+    /// - Returns: CreateAgentResponse (Type: `CreateAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,9 +511,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. You can make transfers with or without a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that connects to your container. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types).
     ///
-    /// - Parameter CreateLocationAzureBlobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocationAzureBlobInput`)
     ///
-    /// - Returns: `CreateLocationAzureBlobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocationAzureBlobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -580,9 +580,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for an Amazon EFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses Amazon EFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-access).
     ///
-    /// - Parameter CreateLocationEfsInput : CreateLocationEfsRequest
+    /// - Parameter input: CreateLocationEfsRequest (Type: `CreateLocationEfsInput`)
     ///
-    /// - Returns: `CreateLocationEfsOutput` : CreateLocationEfs
+    /// - Returns: CreateLocationEfs (Type: `CreateLocationEfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -649,9 +649,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for Lustre file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html#create-lustre-location-access).
     ///
-    /// - Parameter CreateLocationFsxLustreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocationFsxLustreInput`)
     ///
-    /// - Returns: `CreateLocationFsxLustreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocationFsxLustreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,9 +718,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for an Amazon FSx for NetApp ONTAP file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
     ///
-    /// - Parameter CreateLocationFsxOntapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocationFsxOntapInput`)
     ///
-    /// - Returns: `CreateLocationFsxOntapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocationFsxOntapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -787,9 +787,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for an Amazon FSx for OpenZFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for OpenZFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html#create-openzfs-access). Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
     ///
-    /// - Parameter CreateLocationFsxOpenZfsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocationFsxOpenZfsInput`)
     ///
-    /// - Returns: `CreateLocationFsxOpenZfsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocationFsxOpenZfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,9 +856,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for an Amazon FSx for Windows File Server file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for Windows File Server file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-location-access).
     ///
-    /// - Parameter CreateLocationFsxWindowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocationFsxWindowsInput`)
     ///
-    /// - Returns: `CreateLocationFsxWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocationFsxWindowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -925,9 +925,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for a Hadoop Distributed File System (HDFS). DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses HDFS clusters](https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html#accessing-hdfs).
     ///
-    /// - Parameter CreateLocationHdfsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLocationHdfsInput`)
     ///
-    /// - Returns: `CreateLocationHdfsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLocationHdfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -994,9 +994,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
     ///
-    /// - Parameter CreateLocationNfsInput : CreateLocationNfsRequest
+    /// - Parameter input: CreateLocationNfsRequest (Type: `CreateLocationNfsInput`)
     ///
-    /// - Returns: `CreateLocationNfsOutput` : CreateLocationNfsResponse
+    /// - Returns: CreateLocationNfsResponse (Type: `CreateLocationNfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1063,9 +1063,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. You can make transfers with or without a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#when-agent-required). Before you begin, make sure that you understand the [prerequisites](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html#create-object-location-prerequisites) for DataSync to work with object storage systems.
     ///
-    /// - Parameter CreateLocationObjectStorageInput : CreateLocationObjectStorageRequest
+    /// - Parameter input: CreateLocationObjectStorageRequest (Type: `CreateLocationObjectStorageInput`)
     ///
-    /// - Returns: `CreateLocationObjectStorageOutput` : CreateLocationObjectStorageResponse
+    /// - Returns: CreateLocationObjectStorageResponse (Type: `CreateLocationObjectStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1139,9 +1139,9 @@ extension DataSyncClient {
     ///
     /// For more information, see [Configuring transfers with Amazon S3](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html).
     ///
-    /// - Parameter CreateLocationS3Input : CreateLocationS3Request
+    /// - Parameter input: CreateLocationS3Request (Type: `CreateLocationS3Input`)
     ///
-    /// - Returns: `CreateLocationS3Output` : CreateLocationS3Response
+    /// - Returns: CreateLocationS3Response (Type: `CreateLocationS3Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,9 +1208,9 @@ extension DataSyncClient {
     ///
     /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     ///
-    /// - Parameter CreateLocationSmbInput : CreateLocationSmbRequest
+    /// - Parameter input: CreateLocationSmbRequest (Type: `CreateLocationSmbInput`)
     ///
-    /// - Returns: `CreateLocationSmbOutput` : CreateLocationSmbResponse
+    /// - Returns: CreateLocationSmbResponse (Type: `CreateLocationSmbOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1277,9 +1277,9 @@ extension DataSyncClient {
     ///
     /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, destination location, and transfer options (such as bandwidth limits, scheduling, and more). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
-    /// - Parameter CreateTaskInput : CreateTaskRequest
+    /// - Parameter input: CreateTaskRequest (Type: `CreateTaskInput`)
     ///
-    /// - Returns: `CreateTaskOutput` : CreateTaskResponse
+    /// - Returns: CreateTaskResponse (Type: `CreateTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1346,9 +1346,9 @@ extension DataSyncClient {
     ///
     /// Removes an DataSync agent resource from your Amazon Web Services account. Keep in mind that this operation (which can't be undone) doesn't remove the agent's virtual machine (VM) or Amazon EC2 instance from your storage environment. For next steps, you can delete the VM or instance from your storage environment or reuse it to [activate a new agent](https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html).
     ///
-    /// - Parameter DeleteAgentInput : DeleteAgentRequest
+    /// - Parameter input: DeleteAgentRequest (Type: `DeleteAgentInput`)
     ///
-    /// - Returns: `DeleteAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1415,9 +1415,9 @@ extension DataSyncClient {
     ///
     /// Deletes a transfer location resource from DataSync.
     ///
-    /// - Parameter DeleteLocationInput : DeleteLocation
+    /// - Parameter input: DeleteLocation (Type: `DeleteLocationInput`)
     ///
-    /// - Returns: `DeleteLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1484,9 +1484,9 @@ extension DataSyncClient {
     ///
     /// Deletes a transfer task resource from DataSync.
     ///
-    /// - Parameter DeleteTaskInput : DeleteTask
+    /// - Parameter input: DeleteTask (Type: `DeleteTaskInput`)
     ///
-    /// - Returns: `DeleteTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1553,9 +1553,9 @@ extension DataSyncClient {
     ///
     /// Returns information about an DataSync agent, such as its name, service endpoint type, and status.
     ///
-    /// - Parameter DescribeAgentInput : DescribeAgent
+    /// - Parameter input: DescribeAgent (Type: `DescribeAgentInput`)
     ///
-    /// - Returns: `DescribeAgentOutput` : DescribeAgentResponse
+    /// - Returns: DescribeAgentResponse (Type: `DescribeAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,9 +1622,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for Microsoft Azure Blob Storage is configured.
     ///
-    /// - Parameter DescribeLocationAzureBlobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocationAzureBlobInput`)
     ///
-    /// - Returns: `DescribeLocationAzureBlobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocationAzureBlobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,9 +1691,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for an Amazon EFS file system is configured.
     ///
-    /// - Parameter DescribeLocationEfsInput : DescribeLocationEfsRequest
+    /// - Parameter input: DescribeLocationEfsRequest (Type: `DescribeLocationEfsInput`)
     ///
-    /// - Returns: `DescribeLocationEfsOutput` : DescribeLocationEfsResponse
+    /// - Returns: DescribeLocationEfsResponse (Type: `DescribeLocationEfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1760,9 +1760,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured.
     ///
-    /// - Parameter DescribeLocationFsxLustreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocationFsxLustreInput`)
     ///
-    /// - Returns: `DescribeLocationFsxLustreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocationFsxLustreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1829,9 +1829,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for an Amazon FSx for NetApp ONTAP file system is configured. If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
     ///
-    /// - Parameter DescribeLocationFsxOntapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocationFsxOntapInput`)
     ///
-    /// - Returns: `DescribeLocationFsxOntapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocationFsxOntapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1898,9 +1898,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
     ///
-    /// - Parameter DescribeLocationFsxOpenZfsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocationFsxOpenZfsInput`)
     ///
-    /// - Returns: `DescribeLocationFsxOpenZfsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocationFsxOpenZfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,9 +1967,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured.
     ///
-    /// - Parameter DescribeLocationFsxWindowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocationFsxWindowsInput`)
     ///
-    /// - Returns: `DescribeLocationFsxWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocationFsxWindowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2036,9 +2036,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for a Hadoop Distributed File System (HDFS) is configured.
     ///
-    /// - Parameter DescribeLocationHdfsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLocationHdfsInput`)
     ///
-    /// - Returns: `DescribeLocationHdfsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLocationHdfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2105,9 +2105,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for a Network File System (NFS) file server is configured.
     ///
-    /// - Parameter DescribeLocationNfsInput : DescribeLocationNfsRequest
+    /// - Parameter input: DescribeLocationNfsRequest (Type: `DescribeLocationNfsInput`)
     ///
-    /// - Returns: `DescribeLocationNfsOutput` : DescribeLocationNfsResponse
+    /// - Returns: DescribeLocationNfsResponse (Type: `DescribeLocationNfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2174,9 +2174,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for an object storage system is configured.
     ///
-    /// - Parameter DescribeLocationObjectStorageInput : DescribeLocationObjectStorageRequest
+    /// - Parameter input: DescribeLocationObjectStorageRequest (Type: `DescribeLocationObjectStorageInput`)
     ///
-    /// - Returns: `DescribeLocationObjectStorageOutput` : DescribeLocationObjectStorageResponse
+    /// - Returns: DescribeLocationObjectStorageResponse (Type: `DescribeLocationObjectStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2243,9 +2243,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for an S3 bucket is configured.
     ///
-    /// - Parameter DescribeLocationS3Input : DescribeLocationS3Request
+    /// - Parameter input: DescribeLocationS3Request (Type: `DescribeLocationS3Input`)
     ///
-    /// - Returns: `DescribeLocationS3Output` : DescribeLocationS3Response
+    /// - Returns: DescribeLocationS3Response (Type: `DescribeLocationS3Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2312,9 +2312,9 @@ extension DataSyncClient {
     ///
     /// Provides details about how an DataSync transfer location for a Server Message Block (SMB) file server is configured.
     ///
-    /// - Parameter DescribeLocationSmbInput : DescribeLocationSmbRequest
+    /// - Parameter input: DescribeLocationSmbRequest (Type: `DescribeLocationSmbInput`)
     ///
-    /// - Returns: `DescribeLocationSmbOutput` : DescribeLocationSmbResponse
+    /// - Returns: DescribeLocationSmbResponse (Type: `DescribeLocationSmbOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2381,9 +2381,9 @@ extension DataSyncClient {
     ///
     /// Provides information about a task, which defines where and how DataSync transfers your data.
     ///
-    /// - Parameter DescribeTaskInput : DescribeTaskRequest
+    /// - Parameter input: DescribeTaskRequest (Type: `DescribeTaskInput`)
     ///
-    /// - Returns: `DescribeTaskOutput` : DescribeTaskResponse
+    /// - Returns: DescribeTaskResponse (Type: `DescribeTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2450,9 +2450,9 @@ extension DataSyncClient {
     ///
     /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing data transfer or check the results of the transfer. Some DescribeTaskExecution response elements are only relevant to a specific task mode. For information, see [Understanding task mode differences](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences) and [Understanding data transfer performance counters](https://docs.aws.amazon.com/datasync/latest/userguide/transfer-performance-counters.html).
     ///
-    /// - Parameter DescribeTaskExecutionInput : DescribeTaskExecutionRequest
+    /// - Parameter input: DescribeTaskExecutionRequest (Type: `DescribeTaskExecutionInput`)
     ///
-    /// - Returns: `DescribeTaskExecutionOutput` : DescribeTaskExecutionResponse
+    /// - Returns: DescribeTaskExecutionResponse (Type: `DescribeTaskExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2519,9 +2519,9 @@ extension DataSyncClient {
     ///
     /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html) and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using [DescribeAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html).
     ///
-    /// - Parameter ListAgentsInput : ListAgentsRequest
+    /// - Parameter input: ListAgentsRequest (Type: `ListAgentsInput`)
     ///
-    /// - Returns: `ListAgentsOutput` : ListAgentsResponse
+    /// - Returns: ListAgentsResponse (Type: `ListAgentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2588,9 +2588,9 @@ extension DataSyncClient {
     ///
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     ///
-    /// - Parameter ListLocationsInput : ListLocationsRequest
+    /// - Parameter input: ListLocationsRequest (Type: `ListLocationsInput`)
     ///
-    /// - Returns: `ListLocationsOutput` : ListLocationsResponse
+    /// - Returns: ListLocationsResponse (Type: `ListLocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2657,9 +2657,9 @@ extension DataSyncClient {
     ///
     /// Returns all the tags associated with an Amazon Web Services resource.
     ///
-    /// - Parameter ListTagsForResourceInput : ListTagsForResourceRequest
+    /// - Parameter input: ListTagsForResourceRequest (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : ListTagsForResourceResponse
+    /// - Returns: ListTagsForResourceResponse (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2726,9 +2726,9 @@ extension DataSyncClient {
     ///
     /// Returns a list of executions for an DataSync transfer task.
     ///
-    /// - Parameter ListTaskExecutionsInput : ListTaskExecutions
+    /// - Parameter input: ListTaskExecutions (Type: `ListTaskExecutionsInput`)
     ///
-    /// - Returns: `ListTaskExecutionsOutput` : ListTaskExecutionsResponse
+    /// - Returns: ListTaskExecutionsResponse (Type: `ListTaskExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2795,9 +2795,9 @@ extension DataSyncClient {
     ///
     /// Returns a list of the DataSync tasks you created.
     ///
-    /// - Parameter ListTasksInput : ListTasksRequest
+    /// - Parameter input: ListTasksRequest (Type: `ListTasksInput`)
     ///
-    /// - Returns: `ListTasksOutput` : ListTasksResponse
+    /// - Returns: ListTasksResponse (Type: `ListTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2864,9 +2864,9 @@ extension DataSyncClient {
     ///
     /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several steps to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
-    /// - Parameter StartTaskExecutionInput : StartTaskExecutionRequest
+    /// - Parameter input: StartTaskExecutionRequest (Type: `StartTaskExecutionInput`)
     ///
-    /// - Returns: `StartTaskExecutionOutput` : StartTaskExecutionResponse
+    /// - Returns: StartTaskExecutionResponse (Type: `StartTaskExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2933,9 +2933,9 @@ extension DataSyncClient {
     ///
     /// Applies a tag to an Amazon Web Services resource. Tags are key-value pairs that can help you manage, filter, and search for your resources. These include DataSync resources, such as locations, tasks, and task executions.
     ///
-    /// - Parameter TagResourceInput : TagResourceRequest
+    /// - Parameter input: TagResourceRequest (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3002,9 +3002,9 @@ extension DataSyncClient {
     ///
     /// Removes tags from an Amazon Web Services resource.
     ///
-    /// - Parameter UntagResourceInput : UntagResourceRequest
+    /// - Parameter input: UntagResourceRequest (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3071,9 +3071,9 @@ extension DataSyncClient {
     ///
     /// Updates the name of an DataSync agent.
     ///
-    /// - Parameter UpdateAgentInput : UpdateAgentRequest
+    /// - Parameter input: UpdateAgentRequest (Type: `UpdateAgentInput`)
     ///
-    /// - Returns: `UpdateAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3140,9 +3140,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html).
     ///
-    /// - Parameter UpdateLocationAzureBlobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationAzureBlobInput`)
     ///
-    /// - Returns: `UpdateLocationAzureBlobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationAzureBlobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3209,9 +3209,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the Amazon EFS transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with Amazon EFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html).
     ///
-    /// - Parameter UpdateLocationEfsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationEfsInput`)
     ///
-    /// - Returns: `UpdateLocationEfsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationEfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3278,9 +3278,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the Amazon FSx for Lustre transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with FSx for Lustre](https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html).
     ///
-    /// - Parameter UpdateLocationFsxLustreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationFsxLustreInput`)
     ///
-    /// - Returns: `UpdateLocationFsxLustreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationFsxLustreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3347,9 +3347,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the Amazon FSx for NetApp ONTAP transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with FSx for ONTAP](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html).
     ///
-    /// - Parameter UpdateLocationFsxOntapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationFsxOntapInput`)
     ///
-    /// - Returns: `UpdateLocationFsxOntapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationFsxOntapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3416,9 +3416,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the Amazon FSx for OpenZFS transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with FSx for OpenZFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html). Request parameters related to SMB aren't supported with the UpdateLocationFsxOpenZfs operation.
     ///
-    /// - Parameter UpdateLocationFsxOpenZfsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationFsxOpenZfsInput`)
     ///
-    /// - Returns: `UpdateLocationFsxOpenZfsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationFsxOpenZfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3485,9 +3485,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the Amazon FSx for Windows File Server transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with FSx for Windows File Server](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html).
     ///
-    /// - Parameter UpdateLocationFsxWindowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationFsxWindowsInput`)
     ///
-    /// - Returns: `UpdateLocationFsxWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationFsxWindowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3554,9 +3554,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the Hadoop Distributed File System (HDFS) transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with an HDFS cluster](https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html).
     ///
-    /// - Parameter UpdateLocationHdfsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationHdfsInput`)
     ///
-    /// - Returns: `UpdateLocationHdfsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationHdfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3623,9 +3623,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see [Configuring transfers with an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html).
     ///
-    /// - Parameter UpdateLocationNfsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationNfsInput`)
     ///
-    /// - Returns: `UpdateLocationNfsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationNfsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3692,9 +3692,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with an object storage system](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
     ///
-    /// - Parameter UpdateLocationObjectStorageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationObjectStorageInput`)
     ///
-    /// - Returns: `UpdateLocationObjectStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationObjectStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3765,9 +3765,9 @@ extension DataSyncClient {
     ///
     /// * [Evaluating S3 request costs when using DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests)
     ///
-    /// - Parameter UpdateLocationS3Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationS3Input`)
     ///
-    /// - Returns: `UpdateLocationS3Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationS3Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3834,9 +3834,9 @@ extension DataSyncClient {
     ///
     /// Modifies the following configuration parameters of the Server Message Block (SMB) transfer location that you're using with DataSync. For more information, see [Configuring DataSync transfers with an SMB file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
     ///
-    /// - Parameter UpdateLocationSmbInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLocationSmbInput`)
     ///
-    /// - Returns: `UpdateLocationSmbOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLocationSmbOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3903,9 +3903,9 @@ extension DataSyncClient {
     ///
     /// Updates the configuration of a task, which defines where and how DataSync transfers your data.
     ///
-    /// - Parameter UpdateTaskInput : UpdateTaskResponse
+    /// - Parameter input: UpdateTaskResponse (Type: `UpdateTaskInput`)
     ///
-    /// - Returns: `UpdateTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3972,9 +3972,9 @@ extension DataSyncClient {
     ///
     /// Updates the configuration of a running DataSync task execution. Currently, the only Option that you can modify with UpdateTaskExecution is [BytesPerSecond](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond), which throttles bandwidth for a running or queued task execution.
     ///
-    /// - Parameter UpdateTaskExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTaskExecutionInput`)
     ///
-    /// - Returns: `UpdateTaskExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTaskExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

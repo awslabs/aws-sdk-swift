@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FinspaceClient: ClientRuntime.Client {
     public static let clientName = "FinspaceClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: FinspaceClient.FinspaceClientConfiguration
     let serviceName = "finspace"
@@ -375,9 +375,9 @@ extension FinspaceClient {
     /// Create a new FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension FinspaceClient {
     ///
     /// Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
     ///
-    /// - Parameter CreateKxChangesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxChangesetInput`)
     ///
-    /// - Returns: `CreateKxChangesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension FinspaceClient {
     ///
     /// Creates a new kdb cluster.
     ///
-    /// - Parameter CreateKxClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxClusterInput`)
     ///
-    /// - Returns: `CreateKxClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -595,9 +595,9 @@ extension FinspaceClient {
     ///
     /// Creates a new kdb database in the environment.
     ///
-    /// - Parameter CreateKxDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxDatabaseInput`)
     ///
-    /// - Returns: `CreateKxDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -670,9 +670,9 @@ extension FinspaceClient {
     ///
     /// Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
     ///
-    /// - Parameter CreateKxDataviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxDataviewInput`)
     ///
-    /// - Returns: `CreateKxDataviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxDataviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension FinspaceClient {
     ///
     /// Creates a managed kdb environment for the account.
     ///
-    /// - Parameter CreateKxEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxEnvironmentInput`)
     ///
-    /// - Returns: `CreateKxEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,9 +819,9 @@ extension FinspaceClient {
     ///
     /// Creates a new scaling group.
     ///
-    /// - Parameter CreateKxScalingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxScalingGroupInput`)
     ///
-    /// - Returns: `CreateKxScalingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxScalingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,9 +893,9 @@ extension FinspaceClient {
     ///
     /// Creates a user in FinSpace kdb environment with an associated IAM role.
     ///
-    /// - Parameter CreateKxUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxUserInput`)
     ///
-    /// - Returns: `CreateKxUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,9 +968,9 @@ extension FinspaceClient {
     ///
     /// Creates a new volume with a specific amount of throughput and storage capacity.
     ///
-    /// - Parameter CreateKxVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxVolumeInput`)
     ///
-    /// - Returns: `CreateKxVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,9 +1044,9 @@ extension FinspaceClient {
     /// Delete an FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,9 +1112,9 @@ extension FinspaceClient {
     ///
     /// Deletes a kdb cluster.
     ///
-    /// - Parameter DeleteKxClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxClusterInput`)
     ///
-    /// - Returns: `DeleteKxClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1184,9 +1184,9 @@ extension FinspaceClient {
     ///
     /// Deletes the specified nodes from a cluster.
     ///
-    /// - Parameter DeleteKxClusterNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxClusterNodeInput`)
     ///
-    /// - Returns: `DeleteKxClusterNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxClusterNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1252,9 +1252,9 @@ extension FinspaceClient {
     ///
     /// Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
     ///
-    /// - Parameter DeleteKxDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxDatabaseInput`)
     ///
-    /// - Returns: `DeleteKxDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1323,9 +1323,9 @@ extension FinspaceClient {
     ///
     /// Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
     ///
-    /// - Parameter DeleteKxDataviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxDataviewInput`)
     ///
-    /// - Returns: `DeleteKxDataviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxDataviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,9 +1394,9 @@ extension FinspaceClient {
     ///
     /// Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
     ///
-    /// - Parameter DeleteKxEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxEnvironmentInput`)
     ///
-    /// - Returns: `DeleteKxEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1465,9 +1465,9 @@ extension FinspaceClient {
     ///
     /// Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
     ///
-    /// - Parameter DeleteKxScalingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxScalingGroupInput`)
     ///
-    /// - Returns: `DeleteKxScalingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxScalingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1537,9 +1537,9 @@ extension FinspaceClient {
     ///
     /// Deletes a user in the specified kdb environment.
     ///
-    /// - Parameter DeleteKxUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxUserInput`)
     ///
-    /// - Returns: `DeleteKxUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1608,9 +1608,9 @@ extension FinspaceClient {
     ///
     /// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
     ///
-    /// - Parameter DeleteKxVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxVolumeInput`)
     ///
-    /// - Returns: `DeleteKxVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1681,9 +1681,9 @@ extension FinspaceClient {
     /// Returns the FinSpace environment object.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1748,9 +1748,9 @@ extension FinspaceClient {
     ///
     /// Returns information about a kdb changeset.
     ///
-    /// - Parameter GetKxChangesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxChangesetInput`)
     ///
-    /// - Returns: `GetKxChangesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1816,9 +1816,9 @@ extension FinspaceClient {
     ///
     /// Retrieves information about a kdb cluster.
     ///
-    /// - Parameter GetKxClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxClusterInput`)
     ///
-    /// - Returns: `GetKxClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1886,9 +1886,9 @@ extension FinspaceClient {
     ///
     /// Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
     ///
-    /// - Parameter GetKxConnectionStringInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxConnectionStringInput`)
     ///
-    /// - Returns: `GetKxConnectionStringOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxConnectionStringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1955,9 +1955,9 @@ extension FinspaceClient {
     ///
     /// Returns database information for the specified environment ID.
     ///
-    /// - Parameter GetKxDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxDatabaseInput`)
     ///
-    /// - Returns: `GetKxDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2023,9 +2023,9 @@ extension FinspaceClient {
     ///
     /// Retrieves details of the dataview.
     ///
-    /// - Parameter GetKxDataviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxDataviewInput`)
     ///
-    /// - Returns: `GetKxDataviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxDataviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2091,9 +2091,9 @@ extension FinspaceClient {
     ///
     /// Retrieves all the information for the specified kdb environment.
     ///
-    /// - Parameter GetKxEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxEnvironmentInput`)
     ///
-    /// - Returns: `GetKxEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2159,9 +2159,9 @@ extension FinspaceClient {
     ///
     /// Retrieves details of a scaling group.
     ///
-    /// - Parameter GetKxScalingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxScalingGroupInput`)
     ///
-    /// - Returns: `GetKxScalingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxScalingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2229,9 +2229,9 @@ extension FinspaceClient {
     ///
     /// Retrieves information about the specified kdb user.
     ///
-    /// - Parameter GetKxUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxUserInput`)
     ///
-    /// - Returns: `GetKxUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2297,9 +2297,9 @@ extension FinspaceClient {
     ///
     /// Retrieves the information about the volume.
     ///
-    /// - Parameter GetKxVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxVolumeInput`)
     ///
-    /// - Returns: `GetKxVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2368,9 +2368,9 @@ extension FinspaceClient {
     /// A list of all of your FinSpace environments.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2435,9 +2435,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of all the changesets for a database.
     ///
-    /// - Parameter ListKxChangesetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxChangesetsInput`)
     ///
-    /// - Returns: `ListKxChangesetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxChangesetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2504,9 +2504,9 @@ extension FinspaceClient {
     ///
     /// Lists all the nodes in a kdb cluster.
     ///
-    /// - Parameter ListKxClusterNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxClusterNodesInput`)
     ///
-    /// - Returns: `ListKxClusterNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxClusterNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2574,9 +2574,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of clusters.
     ///
-    /// - Parameter ListKxClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxClustersInput`)
     ///
-    /// - Returns: `ListKxClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2645,9 +2645,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of all the databases in the kdb environment.
     ///
-    /// - Parameter ListKxDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxDatabasesInput`)
     ///
-    /// - Returns: `ListKxDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2714,9 +2714,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of all the dataviews in the database.
     ///
-    /// - Parameter ListKxDataviewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxDataviewsInput`)
     ///
-    /// - Returns: `ListKxDataviewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxDataviewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2783,9 +2783,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of kdb environments created in an account.
     ///
-    /// - Parameter ListKxEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxEnvironmentsInput`)
     ///
-    /// - Returns: `ListKxEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2850,9 +2850,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of scaling groups in a kdb environment.
     ///
-    /// - Parameter ListKxScalingGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxScalingGroupsInput`)
     ///
-    /// - Returns: `ListKxScalingGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxScalingGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2921,9 +2921,9 @@ extension FinspaceClient {
     ///
     /// Lists all the users in a kdb environment.
     ///
-    /// - Parameter ListKxUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxUsersInput`)
     ///
-    /// - Returns: `ListKxUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2990,9 +2990,9 @@ extension FinspaceClient {
     ///
     /// Lists all the volumes in a kdb environment.
     ///
-    /// - Parameter ListKxVolumesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxVolumesInput`)
     ///
-    /// - Returns: `ListKxVolumesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxVolumesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3061,9 +3061,9 @@ extension FinspaceClient {
     ///
     /// A list of all tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3127,9 +3127,9 @@ extension FinspaceClient {
     ///
     /// Adds metadata tags to a FinSpace resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3196,9 +3196,9 @@ extension FinspaceClient {
     ///
     /// Removes metadata tags from a FinSpace resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3264,9 +3264,9 @@ extension FinspaceClient {
     /// Update your FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3335,9 +3335,9 @@ extension FinspaceClient {
     ///
     /// Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster. The configuration that you want to update will override any existing configurations on the cluster.
     ///
-    /// - Parameter UpdateKxClusterCodeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxClusterCodeConfigurationInput`)
     ///
-    /// - Returns: `UpdateKxClusterCodeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxClusterCodeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3409,9 +3409,9 @@ extension FinspaceClient {
     ///
     /// Updates the databases mounted on a kdb cluster, which includes the changesetId and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a cluster without one. Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
     ///
-    /// - Parameter UpdateKxClusterDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxClusterDatabasesInput`)
     ///
-    /// - Returns: `UpdateKxClusterDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxClusterDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3483,9 +3483,9 @@ extension FinspaceClient {
     ///
     /// Updates information for the given kdb database.
     ///
-    /// - Parameter UpdateKxDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxDatabaseInput`)
     ///
-    /// - Returns: `UpdateKxDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3556,9 +3556,9 @@ extension FinspaceClient {
     ///
     /// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
     ///
-    /// - Parameter UpdateKxDataviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxDataviewInput`)
     ///
-    /// - Returns: `UpdateKxDataviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxDataviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3630,9 +3630,9 @@ extension FinspaceClient {
     ///
     /// Updates information for the given kdb environment.
     ///
-    /// - Parameter UpdateKxEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxEnvironmentInput`)
     ///
-    /// - Returns: `UpdateKxEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3703,9 +3703,9 @@ extension FinspaceClient {
     ///
     /// Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
     ///
-    /// - Parameter UpdateKxEnvironmentNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxEnvironmentNetworkInput`)
     ///
-    /// - Returns: `UpdateKxEnvironmentNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxEnvironmentNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3776,9 +3776,9 @@ extension FinspaceClient {
     ///
     /// Updates the user details. You can only update the IAM role associated with a user.
     ///
-    /// - Parameter UpdateKxUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxUserInput`)
     ///
-    /// - Returns: `UpdateKxUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3850,9 +3850,9 @@ extension FinspaceClient {
     ///
     /// Updates the throughput or capacity of a volume. During the update process, the filesystem might be unavailable for a few minutes. You can retry any operations after the update is complete.
     ///
-    /// - Parameter UpdateKxVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxVolumeInput`)
     ///
-    /// - Returns: `UpdateKxVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

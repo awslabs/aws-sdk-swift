@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PcaConnectorScepClient: ClientRuntime.Client {
     public static let clientName = "PcaConnectorScepClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PcaConnectorScepClient.PcaConnectorScepClientConfiguration
     let serviceName = "Pca Connector Scep"
@@ -373,9 +373,9 @@ extension PcaConnectorScepClient {
     ///
     /// For general-purpose connectors. Creates a challenge password for the specified connector. The SCEP protocol uses a challenge password to authenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call [ListConnectors](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_ListConnectors.html). To create additional challenge passwords for the connector, call CreateChallenge again. We recommend frequently rotating your challenge passwords.
     ///
-    /// - Parameter CreateChallengeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChallengeInput`)
     ///
-    /// - Returns: `CreateChallengeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChallengeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension PcaConnectorScepClient {
     ///
     /// Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see [Connector for SCEP prerequisites](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-prerequisites.html).
     ///
-    /// - Parameter CreateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
-    /// - Returns: `CreateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension PcaConnectorScepClient {
     ///
     /// Deletes the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
-    /// - Parameter DeleteChallengeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChallengeInput`)
     ///
-    /// - Returns: `DeleteChallengeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChallengeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension PcaConnectorScepClient {
     ///
     /// Deletes the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html). This operation also deletes any challenges associated with the connector.
     ///
-    /// - Parameter DeleteConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
-    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,9 +660,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves the metadata for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
-    /// - Parameter GetChallengeMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChallengeMetadataInput`)
     ///
-    /// - Returns: `GetChallengeMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChallengeMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -728,9 +728,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves the challenge password for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
-    /// - Parameter GetChallengePasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChallengePasswordInput`)
     ///
-    /// - Returns: `GetChallengePasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChallengePasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -796,9 +796,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves details about the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html). Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
     ///
-    /// - Parameter GetConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorInput`)
     ///
-    /// - Returns: `GetConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -864,9 +864,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves the challenge metadata for the specified ARN.
     ///
-    /// - Parameter ListChallengeMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChallengeMetadataInput`)
     ///
-    /// - Returns: `ListChallengeMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChallengeMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,9 +933,9 @@ extension PcaConnectorScepClient {
     ///
     /// Lists the connectors belonging to your Amazon Web Services account.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1001,9 +1001,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,9 +1069,9 @@ extension PcaConnectorScepClient {
     ///
     /// Adds one or more tags to your resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1140,9 +1140,9 @@ extension PcaConnectorScepClient {
     ///
     /// Removes one or more tags from your resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

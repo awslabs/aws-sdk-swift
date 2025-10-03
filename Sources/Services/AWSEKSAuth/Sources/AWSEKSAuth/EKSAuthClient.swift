@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSAuthClient: ClientRuntime.Client {
     public static let clientName = "EKSAuthClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSAuthClient.EKSAuthClientConfiguration
     let serviceName = "EKS Auth"
@@ -371,9 +371,9 @@ extension EKSAuthClient {
     ///
     /// The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by the EKS Pod Identity Agent. We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically.
     ///
-    /// - Parameter AssumeRoleForPodIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeRoleForPodIdentityInput`)
     ///
-    /// - Returns: `AssumeRoleForPodIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeRoleForPodIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LookoutEquipmentClient: ClientRuntime.Client {
     public static let clientName = "LookoutEquipmentClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutEquipmentClient.LookoutEquipmentClientConfiguration
     let serviceName = "LookoutEquipment"
@@ -374,9 +374,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time inference plan to analyze new measurement data. When setting up the schedule, you provide an S3 bucket location for the input data, assign it a delimiter between separate entries in the data, set an offset delay if desired, and set the frequency of inferencing. You must also provide an S3 bucket location for the output data.
     ///
-    /// - Parameter CreateInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInferenceSchedulerInput`)
     ///
-    /// - Returns: `CreateInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,9 +523,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a label for an event.
     ///
-    /// - Parameter CreateLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLabelInput`)
     ///
-    /// - Returns: `CreateLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,9 +598,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a group of labels.
     ///
-    /// - Parameter CreateLabelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLabelGroupInput`)
     ///
-    /// - Returns: `CreateLabelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLabelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -672,9 +672,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
     ///
-    /// - Parameter CreateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelInput`)
     ///
-    /// - Returns: `CreateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -747,9 +747,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a retraining scheduler on the specified model.
     ///
-    /// - Parameter CreateRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRetrainingSchedulerInput`)
     ///
-    /// - Returns: `CreateRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,9 +821,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -894,9 +894,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted.
     ///
-    /// - Parameter DeleteInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInferenceSchedulerInput`)
     ///
-    /// - Returns: `DeleteInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,9 +967,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a label.
     ///
-    /// - Parameter DeleteLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLabelInput`)
     ///
-    /// - Returns: `DeleteLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1040,9 +1040,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a group of labels.
     ///
-    /// - Parameter DeleteLabelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLabelGroupInput`)
     ///
-    /// - Returns: `DeleteLabelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLabelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,9 +1113,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
     ///
-    /// - Parameter DeleteModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelInput`)
     ///
-    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1186,9 +1186,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes the resource policy attached to the resource.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,9 +1259,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status.
     ///
-    /// - Parameter DeleteRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRetrainingSchedulerInput`)
     ///
-    /// - Returns: `DeleteRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,9 +1332,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status.
     ///
-    /// - Parameter DescribeDataIngestionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataIngestionJobInput`)
     ///
-    /// - Returns: `DescribeDataIngestionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataIngestionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,9 +1404,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a JSON description of the data in each time series dataset, including names, column names, and data types.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1476,9 +1476,9 @@ extension LookoutEquipmentClient {
     ///
     /// Specifies information about the inference scheduler being used, including name, model, status, and associated metadata
     ///
-    /// - Parameter DescribeInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInferenceSchedulerInput`)
     ///
-    /// - Returns: `DescribeInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,9 +1548,9 @@ extension LookoutEquipmentClient {
     ///
     /// Returns the name of the label.
     ///
-    /// - Parameter DescribeLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLabelInput`)
     ///
-    /// - Returns: `DescribeLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1620,9 +1620,9 @@ extension LookoutEquipmentClient {
     ///
     /// Returns information about the label group.
     ///
-    /// - Parameter DescribeLabelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLabelGroupInput`)
     ///
-    /// - Returns: `DescribeLabelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLabelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,9 +1692,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on.
     ///
-    /// - Parameter DescribeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelInput`)
     ///
-    /// - Returns: `DescribeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1764,9 +1764,9 @@ extension LookoutEquipmentClient {
     ///
     /// Retrieves information about a specific machine learning model version.
     ///
-    /// - Parameter DescribeModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelVersionInput`)
     ///
-    /// - Returns: `DescribeModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1836,9 +1836,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides the details of a resource policy attached to a resource.
     ///
-    /// - Parameter DescribeResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
-    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1908,9 +1908,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters.
     ///
-    /// - Parameter DescribeRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRetrainingSchedulerInput`)
     ///
-    /// - Returns: `DescribeRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1980,9 +1980,9 @@ extension LookoutEquipmentClient {
     ///
     /// Imports a dataset.
     ///
-    /// - Parameter ImportDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportDatasetInput`)
     ///
-    /// - Returns: `ImportDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2055,9 +2055,9 @@ extension LookoutEquipmentClient {
     ///
     /// Imports a model that has been trained successfully.
     ///
-    /// - Parameter ImportModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportModelVersionInput`)
     ///
-    /// - Returns: `ImportModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2130,9 +2130,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
     ///
-    /// - Parameter ListDataIngestionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataIngestionJobsInput`)
     ///
-    /// - Returns: `ListDataIngestionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataIngestionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2201,9 +2201,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all datasets currently available in your account, filtering on the dataset name.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2272,9 +2272,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all inference events that have been found for the specified inference scheduler.
     ///
-    /// - Parameter ListInferenceEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceEventsInput`)
     ///
-    /// - Returns: `ListInferenceEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2344,9 +2344,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all inference executions that have been performed by the specified inference scheduler.
     ///
-    /// - Parameter ListInferenceExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceExecutionsInput`)
     ///
-    /// - Returns: `ListInferenceExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2416,9 +2416,9 @@ extension LookoutEquipmentClient {
     ///
     /// Retrieves a list of all inference schedulers currently available for your account.
     ///
-    /// - Parameter ListInferenceSchedulersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceSchedulersInput`)
     ///
-    /// - Returns: `ListInferenceSchedulersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceSchedulersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2487,9 +2487,9 @@ extension LookoutEquipmentClient {
     ///
     /// Returns a list of the label groups.
     ///
-    /// - Parameter ListLabelGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLabelGroupsInput`)
     ///
-    /// - Returns: `ListLabelGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLabelGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2558,9 +2558,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a list of labels.
     ///
-    /// - Parameter ListLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLabelsInput`)
     ///
-    /// - Returns: `ListLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2629,9 +2629,9 @@ extension LookoutEquipmentClient {
     ///
     /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
     ///
-    /// - Parameter ListModelVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelVersionsInput`)
     ///
-    /// - Returns: `ListModelVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2701,9 +2701,9 @@ extension LookoutEquipmentClient {
     ///
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
     ///
-    /// - Parameter ListModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelsInput`)
     ///
-    /// - Returns: `ListModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2772,9 +2772,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
     ///
-    /// - Parameter ListRetrainingSchedulersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRetrainingSchedulersInput`)
     ///
-    /// - Returns: `ListRetrainingSchedulersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRetrainingSchedulersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2843,9 +2843,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
     ///
-    /// - Parameter ListSensorStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSensorStatisticsInput`)
     ///
-    /// - Returns: `ListSensorStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSensorStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2915,9 +2915,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all the tags for a specified resource, including key and value.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2987,9 +2987,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a resource control policy for a given resource.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3062,9 +3062,9 @@ extension LookoutEquipmentClient {
     ///
     /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
     ///
-    /// - Parameter StartDataIngestionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataIngestionJobInput`)
     ///
-    /// - Returns: `StartDataIngestionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataIngestionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3137,9 +3137,9 @@ extension LookoutEquipmentClient {
     ///
     /// Starts an inference scheduler.
     ///
-    /// - Parameter StartInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartInferenceSchedulerInput`)
     ///
-    /// - Returns: `StartInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3210,9 +3210,9 @@ extension LookoutEquipmentClient {
     ///
     /// Starts a retraining scheduler.
     ///
-    /// - Parameter StartRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRetrainingSchedulerInput`)
     ///
-    /// - Returns: `StartRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3283,9 +3283,9 @@ extension LookoutEquipmentClient {
     ///
     /// Stops an inference scheduler.
     ///
-    /// - Parameter StopInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopInferenceSchedulerInput`)
     ///
-    /// - Returns: `StopInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3356,9 +3356,9 @@ extension LookoutEquipmentClient {
     ///
     /// Stops a retraining scheduler.
     ///
-    /// - Parameter StopRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopRetrainingSchedulerInput`)
     ///
-    /// - Returns: `StopRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3429,9 +3429,9 @@ extension LookoutEquipmentClient {
     ///
     /// Associates a given tag to a resource in your account. A tag is a key-value pair which can be added to an Amazon Lookout for Equipment resource as metadata. Tags can be used for organizing your resources as well as helping you to search and filter by tag. Multiple tags can be added to a resource, either when you create it, or later. Up to 50 tags can be associated with each resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3502,9 +3502,9 @@ extension LookoutEquipmentClient {
     ///
     /// Removes a specific tag from a given resource. The tag is specified by its key.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3574,9 +3574,9 @@ extension LookoutEquipmentClient {
     ///
     /// Sets the active model version for a given machine learning model.
     ///
-    /// - Parameter UpdateActiveModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateActiveModelVersionInput`)
     ///
-    /// - Returns: `UpdateActiveModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateActiveModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3647,9 +3647,9 @@ extension LookoutEquipmentClient {
     ///
     /// Updates an inference scheduler.
     ///
-    /// - Parameter UpdateInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInferenceSchedulerInput`)
     ///
-    /// - Returns: `UpdateInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3720,9 +3720,9 @@ extension LookoutEquipmentClient {
     ///
     /// Updates the label group.
     ///
-    /// - Parameter UpdateLabelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLabelGroupInput`)
     ///
-    /// - Returns: `UpdateLabelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLabelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3793,9 +3793,9 @@ extension LookoutEquipmentClient {
     ///
     /// Updates a model in the account.
     ///
-    /// - Parameter UpdateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelInput`)
     ///
-    /// - Returns: `UpdateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3866,9 +3866,9 @@ extension LookoutEquipmentClient {
     ///
     /// Updates a retraining scheduler.
     ///
-    /// - Parameter UpdateRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRetrainingSchedulerInput`)
     ///
-    /// - Returns: `UpdateRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

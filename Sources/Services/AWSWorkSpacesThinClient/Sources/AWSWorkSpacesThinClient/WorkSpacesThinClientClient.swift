@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkSpacesThinClientClient: ClientRuntime.Client {
     public static let clientName = "WorkSpacesThinClientClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesThinClientClient.WorkSpacesThinClientClientConfiguration
     let serviceName = "WorkSpaces Thin Client"
@@ -373,9 +373,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Creates an environment for your thin client devices.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Deletes a thin client device.
     ///
-    /// - Parameter DeleteDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceInput`)
     ///
-    /// - Returns: `DeleteDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Deletes an environment.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Deregisters a thin client device.
     ///
-    /// - Parameter DeregisterDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterDeviceInput`)
     ///
-    /// - Returns: `DeregisterDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns information for a thin client device.
     ///
-    /// - Parameter GetDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceInput`)
     ///
-    /// - Returns: `GetDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns information for an environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -798,9 +798,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns information for a software set.
     ///
-    /// - Parameter GetSoftwareSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSoftwareSetInput`)
     ///
-    /// - Returns: `GetSoftwareSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSoftwareSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -866,9 +866,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns a list of thin client devices.
     ///
-    /// - Parameter ListDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesInput`)
     ///
-    /// - Returns: `ListDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,9 +934,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns a list of environments.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,9 +1002,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns a list of software sets.
     ///
-    /// - Parameter ListSoftwareSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSoftwareSetsInput`)
     ///
-    /// - Returns: `ListSoftwareSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSoftwareSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1070,9 +1070,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1138,9 +1138,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1210,9 +1210,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1280,9 +1280,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Updates a thin client device.
     ///
-    /// - Parameter UpdateDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceInput`)
     ///
-    /// - Returns: `UpdateDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1351,9 +1351,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Updates an environment.
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,9 +1423,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Updates a software set.
     ///
-    /// - Parameter UpdateSoftwareSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSoftwareSetInput`)
     ///
-    /// - Returns: `UpdateSoftwareSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSoftwareSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

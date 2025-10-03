@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceCatalogAppRegistryClient: ClientRuntime.Client {
     public static let clientName = "ServiceCatalogAppRegistryClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceCatalogAppRegistryClient.ServiceCatalogAppRegistryClientConfiguration
     let serviceName = "Service Catalog AppRegistry"
@@ -374,9 +374,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Associates an attribute group with an application to augment the application's metadata with the group's attributes. This feature enables applications to be described with user-defined details that are machine-readable, such as third-party integrations.
     ///
-    /// - Parameter AssociateAttributeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAttributeGroupInput`)
     ///
-    /// - Returns: `AssociateAttributeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAttributeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -458,9 +458,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource. For more information, see [TagResources](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_TagResources.html) in the Resource Groups Tagging API Reference.
     ///
-    /// - Parameter AssociateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceInput`)
     ///
-    /// - Returns: `AssociateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -530,9 +530,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -602,9 +602,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools.
     ///
-    /// - Parameter CreateAttributeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAttributeGroupInput`)
     ///
-    /// - Returns: `CreateAttributeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAttributeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -673,9 +673,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,9 +739,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
     ///
-    /// - Parameter DeleteAttributeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAttributeGroupInput`)
     ///
-    /// - Returns: `DeleteAttributeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAttributeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -805,9 +805,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup.
     ///
-    /// - Parameter DisassociateAttributeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAttributeGroupInput`)
     ///
-    /// - Returns: `DisassociateAttributeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAttributeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -887,9 +887,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource. For more information, see [UntagResources](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_UntTagResources.html) in the Resource Groups Tagging API Reference.
     ///
-    /// - Parameter DisassociateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceInput`)
     ///
-    /// - Returns: `DisassociateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,9 +954,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Retrieves metadata information about one of your applications. The application can be specified by its ARN, ID, or name (which is unique within one account in one region at a given point in time). Specify by ARN or ID in automated workflows if you want to make sure that the exact same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,9 +1021,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Gets the resource associated with the application.
     ///
-    /// - Parameter GetAssociatedResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssociatedResourceInput`)
     ///
-    /// - Returns: `GetAssociatedResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssociatedResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,9 +1088,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Retrieves an attribute group by its ARN, ID, or name. The attribute group can be specified by its ARN, ID, or name.
     ///
-    /// - Parameter GetAttributeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAttributeGroupInput`)
     ///
-    /// - Returns: `GetAttributeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAttributeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1155,9 +1155,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Retrieves a TagKey configuration from an account.
     ///
-    /// - Parameter GetConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationInput`)
     ///
-    /// - Returns: `GetConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,9 +1219,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Retrieves a list of all of your applications. Results are paginated.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1285,9 +1285,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Lists all attribute groups that are associated with specified application. Results are paginated.
     ///
-    /// - Parameter ListAssociatedAttributeGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedAttributeGroupsInput`)
     ///
-    /// - Returns: `ListAssociatedAttributeGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedAttributeGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1352,9 +1352,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Lists all of the resources that are associated with the specified application. Results are paginated. If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the application can also view the tag values in all accounts that are associated with it using this API.
     ///
-    /// - Parameter ListAssociatedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedResourcesInput`)
     ///
-    /// - Returns: `ListAssociatedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,9 +1419,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Lists all attribute groups which you have access to. Results are paginated.
     ///
-    /// - Parameter ListAttributeGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttributeGroupsInput`)
     ///
-    /// - Returns: `ListAttributeGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttributeGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1485,9 +1485,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Lists the details of all attribute groups associated with a specific application. The results display in pages.
     ///
-    /// - Parameter ListAttributeGroupsForApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttributeGroupsForApplicationInput`)
     ///
-    /// - Returns: `ListAttributeGroupsForApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttributeGroupsForApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1552,9 +1552,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Lists all of the tags on the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1618,9 +1618,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Associates a TagKey configuration to an account.
     ///
-    /// - Parameter PutConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutConfigurationInput`)
     ///
-    /// - Returns: `PutConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1687,9 +1687,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Syncs the resource with current AppRegistry records. Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
     ///
-    /// - Parameter SyncResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SyncResourceInput`)
     ///
-    /// - Returns: `SyncResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SyncResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1755,9 +1755,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value. This operation returns an empty response if the call was successful.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1824,9 +1824,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Removes tags from a resource. This operation returns an empty response if the call was successful.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1891,9 +1891,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Updates an existing application with new attributes.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1962,9 +1962,9 @@ extension ServiceCatalogAppRegistryClient {
     ///
     /// Updates an existing attribute group with new details.
     ///
-    /// - Parameter UpdateAttributeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAttributeGroupInput`)
     ///
-    /// - Returns: `UpdateAttributeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAttributeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

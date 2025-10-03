@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmpClient: ClientRuntime.Client {
     public static let clientName = "AmpClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AmpClient.AmpClientConfiguration
     let serviceName = "amp"
@@ -374,9 +374,9 @@ extension AmpClient {
     ///
     /// The CreateAlertManagerDefinition operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use PutAlertManagerDefinition.
     ///
-    /// - Parameter CreateAlertManagerDefinitionInput : Represents the input of a CreateAlertManagerDefinition operation.
+    /// - Parameter input: Represents the input of a CreateAlertManagerDefinition operation. (Type: `CreateAlertManagerDefinitionInput`)
     ///
-    /// - Returns: `CreateAlertManagerDefinitionOutput` : Represents the output of a CreateAlertManagerDefinition operation.
+    /// - Returns: Represents the output of a CreateAlertManagerDefinition operation. (Type: `CreateAlertManagerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension AmpClient {
     ///
     /// The CreateLoggingConfiguration operation creates rules and alerting logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to. These logging configurations are only for rules and alerting logs.
     ///
-    /// - Parameter CreateLoggingConfigurationInput : Represents the input of a CreateLoggingConfiguration operation.
+    /// - Parameter input: Represents the input of a CreateLoggingConfiguration operation. (Type: `CreateLoggingConfigurationInput`)
     ///
-    /// - Returns: `CreateLoggingConfigurationOutput` : Represents the output of a CreateLoggingConfiguration operation.
+    /// - Returns: Represents the output of a CreateLoggingConfiguration operation. (Type: `CreateLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension AmpClient {
     ///
     /// Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold.
     ///
-    /// - Parameter CreateQueryLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueryLoggingConfigurationInput`)
     ///
-    /// - Returns: `CreateQueryLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueryLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension AmpClient {
     ///
     /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
     ///
-    /// - Parameter CreateRuleGroupsNamespaceInput : Represents the input of a CreateRuleGroupsNamespace operation.
+    /// - Parameter input: Represents the input of a CreateRuleGroupsNamespace operation. (Type: `CreateRuleGroupsNamespaceInput`)
     ///
-    /// - Returns: `CreateRuleGroupsNamespaceOutput` : Represents the output of a CreateRuleGroupsNamespace operation.
+    /// - Returns: Represents the output of a CreateRuleGroupsNamespace operation. (Type: `CreateRuleGroupsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension AmpClient {
     ///
     /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to the Amazon EKS cluster within the VPC for scraping metrics. For more information about collectors, including what metrics are collected, and how to configure the scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
     ///
-    /// - Parameter CreateScraperInput : Represents the input of a CreateScraper operation.
+    /// - Parameter input: Represents the input of a CreateScraper operation. (Type: `CreateScraperInput`)
     ///
-    /// - Returns: `CreateScraperOutput` : Represents the output of a CreateScraper operation.
+    /// - Returns: Represents the output of a CreateScraper operation. (Type: `CreateScraperOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,9 +738,9 @@ extension AmpClient {
     ///
     /// Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account.
     ///
-    /// - Parameter CreateWorkspaceInput : Represents the input of a CreateWorkspace operation.
+    /// - Parameter input: Represents the input of a CreateWorkspace operation. (Type: `CreateWorkspaceInput`)
     ///
-    /// - Returns: `CreateWorkspaceOutput` : Represents the output of a CreateWorkspace operation.
+    /// - Returns: Represents the output of a CreateWorkspace operation. (Type: `CreateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -811,9 +811,9 @@ extension AmpClient {
     ///
     /// Deletes the alert manager definition from a workspace.
     ///
-    /// - Parameter DeleteAlertManagerDefinitionInput : Represents the input of a DeleteAlertManagerDefinition operation.
+    /// - Parameter input: Represents the input of a DeleteAlertManagerDefinition operation. (Type: `DeleteAlertManagerDefinitionInput`)
     ///
-    /// - Returns: `DeleteAlertManagerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlertManagerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,9 +882,9 @@ extension AmpClient {
     ///
     /// Deletes the rules and alerting logging configuration for a workspace. These logging configurations are only for rules and alerting logs.
     ///
-    /// - Parameter DeleteLoggingConfigurationInput : Represents the input of a DeleteLoggingConfiguration operation.
+    /// - Parameter input: Represents the input of a DeleteLoggingConfiguration operation. (Type: `DeleteLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -952,9 +952,9 @@ extension AmpClient {
     ///
     /// Deletes the query logging configuration for the specified workspace.
     ///
-    /// - Parameter DeleteQueryLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueryLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteQueryLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueryLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,9 +1022,9 @@ extension AmpClient {
     ///
     /// Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,9 +1093,9 @@ extension AmpClient {
     ///
     /// Deletes one rule groups namespace and its associated rule groups definition.
     ///
-    /// - Parameter DeleteRuleGroupsNamespaceInput : Represents the input of a DeleteRuleGroupsNamespace operation.
+    /// - Parameter input: Represents the input of a DeleteRuleGroupsNamespace operation. (Type: `DeleteRuleGroupsNamespaceInput`)
     ///
-    /// - Returns: `DeleteRuleGroupsNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleGroupsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1164,9 +1164,9 @@ extension AmpClient {
     ///
     /// The DeleteScraper operation deletes one scraper, and stops any metrics collection that the scraper performs.
     ///
-    /// - Parameter DeleteScraperInput : Represents the input of a DeleteScraper operation.
+    /// - Parameter input: Represents the input of a DeleteScraper operation. (Type: `DeleteScraperInput`)
     ///
-    /// - Returns: `DeleteScraperOutput` : Represents the output of a DeleteScraper operation.
+    /// - Returns: Represents the output of a DeleteScraper operation. (Type: `DeleteScraperOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1235,9 +1235,9 @@ extension AmpClient {
     ///
     /// Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
     ///
-    /// - Parameter DeleteScraperLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScraperLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteScraperLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScraperLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,9 +1305,9 @@ extension AmpClient {
     ///
     /// Deletes an existing workspace. When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
     ///
-    /// - Parameter DeleteWorkspaceInput : Represents the input of a DeleteWorkspace operation.
+    /// - Parameter input: Represents the input of a DeleteWorkspace operation. (Type: `DeleteWorkspaceInput`)
     ///
-    /// - Returns: `DeleteWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1376,9 +1376,9 @@ extension AmpClient {
     ///
     /// Retrieves the full information about the alert manager definition for a workspace.
     ///
-    /// - Parameter DescribeAlertManagerDefinitionInput : Represents the input of a DescribeAlertManagerDefinition operation.
+    /// - Parameter input: Represents the input of a DescribeAlertManagerDefinition operation. (Type: `DescribeAlertManagerDefinitionInput`)
     ///
-    /// - Returns: `DescribeAlertManagerDefinitionOutput` : Represents the output of a DescribeAlertManagerDefinition operation.
+    /// - Returns: Represents the output of a DescribeAlertManagerDefinition operation. (Type: `DescribeAlertManagerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1444,9 +1444,9 @@ extension AmpClient {
     ///
     /// Returns complete information about the current rules and alerting logging configuration of the workspace. These logging configurations are only for rules and alerting logs.
     ///
-    /// - Parameter DescribeLoggingConfigurationInput : Represents the input of a DescribeLoggingConfiguration operation.
+    /// - Parameter input: Represents the input of a DescribeLoggingConfiguration operation. (Type: `DescribeLoggingConfigurationInput`)
     ///
-    /// - Returns: `DescribeLoggingConfigurationOutput` : Represents the output of a DescribeLoggingConfiguration operation.
+    /// - Returns: Represents the output of a DescribeLoggingConfiguration operation. (Type: `DescribeLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1511,9 +1511,9 @@ extension AmpClient {
     ///
     /// Retrieves the details of the query logging configuration for the specified workspace.
     ///
-    /// - Parameter DescribeQueryLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQueryLoggingConfigurationInput`)
     ///
-    /// - Returns: `DescribeQueryLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQueryLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,9 +1578,9 @@ extension AmpClient {
     ///
     /// Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
     ///
-    /// - Parameter DescribeResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
-    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,9 +1646,9 @@ extension AmpClient {
     ///
     /// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces.
     ///
-    /// - Parameter DescribeRuleGroupsNamespaceInput : Represents the input of a DescribeRuleGroupsNamespace operation.
+    /// - Parameter input: Represents the input of a DescribeRuleGroupsNamespace operation. (Type: `DescribeRuleGroupsNamespaceInput`)
     ///
-    /// - Returns: `DescribeRuleGroupsNamespaceOutput` : Represents the output of a DescribeRuleGroupsNamespace operation.
+    /// - Returns: Represents the output of a DescribeRuleGroupsNamespace operation. (Type: `DescribeRuleGroupsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1714,9 +1714,9 @@ extension AmpClient {
     ///
     /// The DescribeScraper operation displays information about an existing scraper.
     ///
-    /// - Parameter DescribeScraperInput : Represents the input of a DescribeScraper operation.
+    /// - Parameter input: Represents the input of a DescribeScraper operation. (Type: `DescribeScraperInput`)
     ///
-    /// - Returns: `DescribeScraperOutput` : Represents the output of a DescribeScraper operation.
+    /// - Returns: Represents the output of a DescribeScraper operation. (Type: `DescribeScraperOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1782,9 +1782,9 @@ extension AmpClient {
     ///
     /// Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
     ///
-    /// - Parameter DescribeScraperLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScraperLoggingConfigurationInput`)
     ///
-    /// - Returns: `DescribeScraperLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScraperLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1849,9 +1849,9 @@ extension AmpClient {
     ///
     /// Returns information about an existing workspace.
     ///
-    /// - Parameter DescribeWorkspaceInput : Represents the input of a DescribeWorkspace operation.
+    /// - Parameter input: Represents the input of a DescribeWorkspace operation. (Type: `DescribeWorkspaceInput`)
     ///
-    /// - Returns: `DescribeWorkspaceOutput` : Represents the output of a DescribeWorkspace operation.
+    /// - Returns: Represents the output of a DescribeWorkspace operation. (Type: `DescribeWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1917,9 +1917,9 @@ extension AmpClient {
     ///
     /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
     ///
-    /// - Parameter DescribeWorkspaceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceConfigurationInput`)
     ///
-    /// - Returns: `DescribeWorkspaceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1985,9 +1985,9 @@ extension AmpClient {
     ///
     /// The GetDefaultScraperConfiguration operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
     ///
-    /// - Parameter GetDefaultScraperConfigurationInput : Represents the input of a GetDefaultScraperConfiguration operation.
+    /// - Parameter input: Represents the input of a GetDefaultScraperConfiguration operation. (Type: `GetDefaultScraperConfigurationInput`)
     ///
-    /// - Returns: `GetDefaultScraperConfigurationOutput` : Represents the output of a GetDefaultScraperConfiguration operation.
+    /// - Returns: Represents the output of a GetDefaultScraperConfiguration operation. (Type: `GetDefaultScraperConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension AmpClient {
     ///
     /// Returns a list of rule groups namespaces in a workspace.
     ///
-    /// - Parameter ListRuleGroupsNamespacesInput : Represents the input of a ListRuleGroupsNamespaces operation.
+    /// - Parameter input: Represents the input of a ListRuleGroupsNamespaces operation. (Type: `ListRuleGroupsNamespacesInput`)
     ///
-    /// - Returns: `ListRuleGroupsNamespacesOutput` : Represents the output of a ListRuleGroupsNamespaces operation.
+    /// - Returns: Represents the output of a ListRuleGroupsNamespaces operation. (Type: `ListRuleGroupsNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2120,9 +2120,9 @@ extension AmpClient {
     ///
     /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
     ///
-    /// - Parameter ListScrapersInput : Represents the input of a ListScrapers operation.
+    /// - Parameter input: Represents the input of a ListScrapers operation. (Type: `ListScrapersInput`)
     ///
-    /// - Returns: `ListScrapersOutput` : Represents the output of a ListScrapers operation.
+    /// - Returns: Represents the output of a ListScrapers operation. (Type: `ListScrapersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2188,9 +2188,9 @@ extension AmpClient {
     ///
     /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2256,9 +2256,9 @@ extension AmpClient {
     ///
     /// Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
     ///
-    /// - Parameter ListWorkspacesInput : Represents the input of a ListWorkspaces operation.
+    /// - Parameter input: Represents the input of a ListWorkspaces operation. (Type: `ListWorkspacesInput`)
     ///
-    /// - Returns: `ListWorkspacesOutput` : Represents the output of a ListWorkspaces operation.
+    /// - Returns: Represents the output of a ListWorkspaces operation. (Type: `ListWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2324,9 +2324,9 @@ extension AmpClient {
     ///
     /// Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use CreateAlertManagerDefinition.
     ///
-    /// - Parameter PutAlertManagerDefinitionInput : Represents the input of a PutAlertManagerDefinition operation.
+    /// - Parameter input: Represents the input of a PutAlertManagerDefinition operation. (Type: `PutAlertManagerDefinitionInput`)
     ///
-    /// - Returns: `PutAlertManagerDefinitionOutput` : Represents the output of a PutAlertManagerDefinition operation.
+    /// - Returns: Represents the output of a PutAlertManagerDefinition operation. (Type: `PutAlertManagerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2398,9 +2398,9 @@ extension AmpClient {
     ///
     /// Creates or updates a resource-based policy for an Amazon Managed Service for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace. Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-Prometheus-compatible APIs to the policy, but they will be ignored. For more information, see [Prometheus-compatible APIs](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-APIReference-Prometheus-Compatible-Apis.html) in the Amazon Managed Service for Prometheus User Guide. If your workspace uses customer-managed KMS keys for encryption, you must grant the principals in your resource-based policy access to those KMS keys. You can do this by creating KMS grants. For more information, see [CreateGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html) in the AWS Key Management Service API Reference and [Encryption at rest](https://docs.aws.amazon.com/prometheus/latest/userguide/encryption-at-rest-Amazon-Service-Prometheus.html) in the Amazon Managed Service for Prometheus User Guide. For more information about working with IAM, see [Using Amazon Managed Service for Prometheus with IAM](https://docs.aws.amazon.com/prometheus/latest/userguide/security_iam_service-with-iam.html) in the Amazon Managed Service for Prometheus User Guide.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2471,9 +2471,9 @@ extension AmpClient {
     ///
     /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
     ///
-    /// - Parameter PutRuleGroupsNamespaceInput : Represents the input of a PutRuleGroupsNamespace operation.
+    /// - Parameter input: Represents the input of a PutRuleGroupsNamespace operation. (Type: `PutRuleGroupsNamespaceInput`)
     ///
-    /// - Returns: `PutRuleGroupsNamespaceOutput` : Represents the output of a PutRuleGroupsNamespace operation.
+    /// - Returns: Represents the output of a PutRuleGroupsNamespace operation. (Type: `PutRuleGroupsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2545,9 +2545,9 @@ extension AmpClient {
     ///
     /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2616,9 +2616,9 @@ extension AmpClient {
     ///
     /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2685,9 +2685,9 @@ extension AmpClient {
     ///
     /// Updates the log group ARN or the workspace ID of the current rules and alerting logging configuration. These logging configurations are only for rules and alerting logs.
     ///
-    /// - Parameter UpdateLoggingConfigurationInput : Represents the input of an UpdateLoggingConfiguration operation.
+    /// - Parameter input: Represents the input of an UpdateLoggingConfiguration operation. (Type: `UpdateLoggingConfigurationInput`)
     ///
-    /// - Returns: `UpdateLoggingConfigurationOutput` : Represents the output of an UpdateLoggingConfiguration operation.
+    /// - Returns: Represents the output of an UpdateLoggingConfiguration operation. (Type: `UpdateLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2757,9 +2757,9 @@ extension AmpClient {
     ///
     /// Updates the query logging configuration for the specified workspace.
     ///
-    /// - Parameter UpdateQueryLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueryLoggingConfigurationInput`)
     ///
-    /// - Returns: `UpdateQueryLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueryLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2829,9 +2829,9 @@ extension AmpClient {
     ///
     /// Updates an existing scraper. You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
     ///
-    /// - Parameter UpdateScraperInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScraperInput`)
     ///
-    /// - Returns: `UpdateScraperOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScraperOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2903,9 +2903,9 @@ extension AmpClient {
     ///
     /// Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
     ///
-    /// - Parameter UpdateScraperLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScraperLoggingConfigurationInput`)
     ///
-    /// - Returns: `UpdateScraperLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScraperLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2974,9 +2974,9 @@ extension AmpClient {
     ///
     /// Updates the alias of an existing workspace.
     ///
-    /// - Parameter UpdateWorkspaceAliasInput : Represents the input of an UpdateWorkspaceAlias operation.
+    /// - Parameter input: Represents the input of an UpdateWorkspaceAlias operation. (Type: `UpdateWorkspaceAliasInput`)
     ///
-    /// - Returns: `UpdateWorkspaceAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3048,9 +3048,9 @@ extension AmpClient {
     ///
     /// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid.
     ///
-    /// - Parameter UpdateWorkspaceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceConfigurationInput`)
     ///
-    /// - Returns: `UpdateWorkspaceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

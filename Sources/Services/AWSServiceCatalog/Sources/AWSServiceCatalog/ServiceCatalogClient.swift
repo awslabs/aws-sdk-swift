@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceCatalogClient: ClientRuntime.Client {
     public static let clientName = "ServiceCatalogClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceCatalogClient.ServiceCatalogClientConfiguration
     let serviceName = "Service Catalog"
@@ -373,9 +373,9 @@ extension ServiceCatalogClient {
     ///
     /// Accepts an offer to share the specified portfolio.
     ///
-    /// - Parameter AcceptPortfolioShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptPortfolioShareInput`)
     ///
-    /// - Returns: `AcceptPortfolioShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptPortfolioShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension ServiceCatalogClient {
     ///
     /// Associates the specified budget with the specified resource.
     ///
-    /// - Parameter AssociateBudgetWithResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateBudgetWithResourceInput`)
     ///
-    /// - Returns: `AssociateBudgetWithResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateBudgetWithResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension ServiceCatalogClient {
     ///
     /// Associates the specified principal ARN with the specified portfolio. If you share the portfolio with principal name sharing enabled, the PrincipalARN association is included in the share. The PortfolioID, PrincipalARN, and PrincipalType parameters are required. You can associate a maximum of 10 Principals with a portfolio using PrincipalType as IAM_PATTERN. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
     ///
-    /// - Parameter AssociatePrincipalWithPortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePrincipalWithPortfolioInput`)
     ///
-    /// - Returns: `AssociatePrincipalWithPortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePrincipalWithPortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension ServiceCatalogClient {
     ///
     /// Associates the specified product with the specified portfolio. A delegated admin is authorized to invoke this command.
     ///
-    /// - Parameter AssociateProductWithPortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateProductWithPortfolioInput`)
     ///
-    /// - Returns: `AssociateProductWithPortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateProductWithPortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,9 +654,9 @@ extension ServiceCatalogClient {
     ///
     /// Associates a self-service action with a provisioning artifact.
     ///
-    /// - Parameter AssociateServiceActionWithProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateServiceActionWithProvisioningArtifactInput`)
     ///
-    /// - Returns: `AssociateServiceActionWithProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateServiceActionWithProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -726,9 +726,9 @@ extension ServiceCatalogClient {
     ///
     /// Associate the specified TagOption with the specified portfolio or product.
     ///
-    /// - Parameter AssociateTagOptionWithResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTagOptionWithResourceInput`)
     ///
-    /// - Returns: `AssociateTagOptionWithResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTagOptionWithResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension ServiceCatalogClient {
     ///
     /// Associates multiple self-service actions with provisioning artifacts.
     ///
-    /// - Parameter BatchAssociateServiceActionWithProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateServiceActionWithProvisioningArtifactInput`)
     ///
-    /// - Returns: `BatchAssociateServiceActionWithProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateServiceActionWithProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -867,9 +867,9 @@ extension ServiceCatalogClient {
     ///
     /// Disassociates a batch of self-service actions from the specified provisioning artifact.
     ///
-    /// - Parameter BatchDisassociateServiceActionFromProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateServiceActionFromProvisioningArtifactInput`)
     ///
-    /// - Returns: `BatchDisassociateServiceActionFromProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateServiceActionFromProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -935,9 +935,9 @@ extension ServiceCatalogClient {
     ///
     /// Copies the specified source product to the specified target product or a new product. You can copy a product to the same account or another account. You can copy a product to the same Region or another Region. If you copy a product to another account, you must first share the product in a portfolio using [CreatePortfolioShare]. This operation is performed asynchronously. To track the progress of the operation, use [DescribeCopyProductStatus].
     ///
-    /// - Parameter CopyProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyProductInput`)
     ///
-    /// - Returns: `CopyProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1005,9 +1005,9 @@ extension ServiceCatalogClient {
     ///
     /// Creates a constraint. A delegated admin is authorized to invoke this command.
     ///
-    /// - Parameter CreateConstraintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConstraintInput`)
     ///
-    /// - Returns: `CreateConstraintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConstraintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1077,9 +1077,9 @@ extension ServiceCatalogClient {
     ///
     /// Creates a portfolio. A delegated admin is authorized to invoke this command.
     ///
-    /// - Parameter CreatePortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePortfolioInput`)
     ///
-    /// - Returns: `CreatePortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,9 +1148,9 @@ extension ServiceCatalogClient {
     ///
     /// Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
     ///
-    /// - Parameter CreatePortfolioShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePortfolioShareInput`)
     ///
-    /// - Returns: `CreatePortfolioShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePortfolioShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1220,9 +1220,9 @@ extension ServiceCatalogClient {
     ///
     /// Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
     ///
-    /// - Parameter CreateProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProductInput`)
     ///
-    /// - Returns: `CreateProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1291,9 +1291,9 @@ extension ServiceCatalogClient {
     ///
     /// Creates a plan. A plan includes the list of resources to be created (when provisioning a new product) or modified (when updating a provisioned product) when the plan is executed. You can create one plan for each provisioned product. To create a plan for an existing provisioned product, the product status must be AVAILABLE or TAINTED. To view the resource changes in the change set, use [DescribeProvisionedProductPlan]. To create or modify the provisioned product, use [ExecuteProvisionedProductPlan].
     ///
-    /// - Parameter CreateProvisionedProductPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProvisionedProductPlanInput`)
     ///
-    /// - Returns: `CreateProvisionedProductPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProvisionedProductPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1362,9 +1362,9 @@ extension ServiceCatalogClient {
     ///
     /// Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
     ///
-    /// - Parameter CreateProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProvisioningArtifactInput`)
     ///
-    /// - Returns: `CreateProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,9 +1433,9 @@ extension ServiceCatalogClient {
     ///
     /// Creates a self-service action.
     ///
-    /// - Parameter CreateServiceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceActionInput`)
     ///
-    /// - Returns: `CreateServiceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,9 +1503,9 @@ extension ServiceCatalogClient {
     ///
     /// Creates a TagOption.
     ///
-    /// - Parameter CreateTagOptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTagOptionInput`)
     ///
-    /// - Returns: `CreateTagOptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1573,9 +1573,9 @@ extension ServiceCatalogClient {
     ///
     /// Deletes the specified constraint. A delegated admin is authorized to invoke this command.
     ///
-    /// - Parameter DeleteConstraintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConstraintInput`)
     ///
-    /// - Returns: `DeleteConstraintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConstraintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1642,9 +1642,9 @@ extension ServiceCatalogClient {
     ///
     /// Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts. A delegated admin is authorized to invoke this command.
     ///
-    /// - Parameter DeletePortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePortfolioInput`)
     ///
-    /// - Returns: `DeletePortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,9 +1713,9 @@ extension ServiceCatalogClient {
     ///
     /// Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
     ///
-    /// - Parameter DeletePortfolioShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePortfolioShareInput`)
     ///
-    /// - Returns: `DeletePortfolioShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePortfolioShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1784,9 +1784,9 @@ extension ServiceCatalogClient {
     ///
     /// Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio. A delegated admin is authorized to invoke this command.
     ///
-    /// - Parameter DeleteProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProductInput`)
     ///
-    /// - Returns: `DeleteProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1855,9 +1855,9 @@ extension ServiceCatalogClient {
     ///
     /// Deletes the specified plan.
     ///
-    /// - Parameter DeleteProvisionedProductPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProvisionedProductPlanInput`)
     ///
-    /// - Returns: `DeleteProvisionedProductPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProvisionedProductPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1924,9 +1924,9 @@ extension ServiceCatalogClient {
     ///
     /// Deletes the specified provisioning artifact (also known as a version) for the specified product. You cannot delete a provisioning artifact associated with a product that was shared with you. You cannot delete the last provisioning artifact for a product, because a product must have at least one provisioning artifact.
     ///
-    /// - Parameter DeleteProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProvisioningArtifactInput`)
     ///
-    /// - Returns: `DeleteProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1994,9 +1994,9 @@ extension ServiceCatalogClient {
     ///
     /// Deletes a self-service action.
     ///
-    /// - Parameter DeleteServiceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceActionInput`)
     ///
-    /// - Returns: `DeleteServiceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2065,9 +2065,9 @@ extension ServiceCatalogClient {
     ///
     /// Deletes the specified TagOption. You cannot delete a TagOption if it is associated with a product or portfolio.
     ///
-    /// - Parameter DeleteTagOptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTagOptionInput`)
     ///
-    /// - Returns: `DeleteTagOptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,9 +2135,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified constraint.
     ///
-    /// - Parameter DescribeConstraintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConstraintInput`)
     ///
-    /// - Returns: `DescribeConstraintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConstraintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2203,9 +2203,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets the status of the specified copy product operation.
     ///
-    /// - Parameter DescribeCopyProductStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCopyProductStatusInput`)
     ///
-    /// - Returns: `DescribeCopyProductStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCopyProductStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2271,9 +2271,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified portfolio. A delegated admin is authorized to invoke this command.
     ///
-    /// - Parameter DescribePortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePortfolioInput`)
     ///
-    /// - Returns: `DescribePortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2339,9 +2339,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin.
     ///
-    /// - Parameter DescribePortfolioShareStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePortfolioShareStatusInput`)
     ///
-    /// - Returns: `DescribePortfolioShareStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePortfolioShareStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2409,9 +2409,9 @@ extension ServiceCatalogClient {
     ///
     /// Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required.
     ///
-    /// - Parameter DescribePortfolioSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePortfolioSharesInput`)
     ///
-    /// - Returns: `DescribePortfolioSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePortfolioSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2478,9 +2478,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified product. Running this operation with administrator access results in a failure. [DescribeProductAsAdmin] should be used instead.
     ///
-    /// - Parameter DescribeProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProductInput`)
     ///
-    /// - Returns: `DescribeProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2547,9 +2547,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified product. This operation is run with administrator access.
     ///
-    /// - Parameter DescribeProductAsAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProductAsAdminInput`)
     ///
-    /// - Returns: `DescribeProductAsAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProductAsAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2616,9 +2616,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified product.
     ///
-    /// - Parameter DescribeProductViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProductViewInput`)
     ///
-    /// - Returns: `DescribeProductViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProductViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2685,9 +2685,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified provisioned product.
     ///
-    /// - Parameter DescribeProvisionedProductInput : DescribeProvisionedProductAPI input structure. AcceptLanguage - [Optional] The language code for localization. Id - [Optional] The provisioned product identifier. Name - [Optional] Another provisioned product identifier. Customers must provide either Id or Name.
+    /// - Parameter input: DescribeProvisionedProductAPI input structure. AcceptLanguage - [Optional] The language code for localization. Id - [Optional] The provisioned product identifier. Name - [Optional] Another provisioned product identifier. Customers must provide either Id or Name. (Type: `DescribeProvisionedProductInput`)
     ///
-    /// - Returns: `DescribeProvisionedProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProvisionedProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2754,9 +2754,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the resource changes for the specified plan.
     ///
-    /// - Parameter DescribeProvisionedProductPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProvisionedProductPlanInput`)
     ///
-    /// - Returns: `DescribeProvisionedProductPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProvisionedProductPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2823,9 +2823,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified provisioning artifact (also known as a version) for the specified product.
     ///
-    /// - Parameter DescribeProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProvisioningArtifactInput`)
     ///
-    /// - Returns: `DescribeProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2892,9 +2892,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the configuration required to provision the specified product using the specified provisioning artifact. If the output contains a TagOption key with an empty list of values, there is a TagOption conflict for that key. The end user cannot take action to fix the conflict, and launch is not blocked. In subsequent calls to [ProvisionProduct], do not include conflicted TagOption keys as tags, or this causes the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". Tag the provisioned product with the value sc-tagoption-conflict-portfolioId-productId.
     ///
-    /// - Parameter DescribeProvisioningParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProvisioningParametersInput`)
     ///
-    /// - Returns: `DescribeProvisioningParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProvisioningParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2961,9 +2961,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified request operation. Use this operation after calling a request operation (for example, [ProvisionProduct], [TerminateProvisionedProduct], or [UpdateProvisionedProduct]). If a provisioned product was transferred to a new owner using [UpdateProvisionedProductProperties], the new owner will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use [ListRecordHistory] to see the product's history from when he was the owner.
     ///
-    /// - Parameter DescribeRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecordInput`)
     ///
-    /// - Returns: `DescribeRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3029,9 +3029,9 @@ extension ServiceCatalogClient {
     ///
     /// Describes a self-service action.
     ///
-    /// - Parameter DescribeServiceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceActionInput`)
     ///
-    /// - Returns: `DescribeServiceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3097,9 +3097,9 @@ extension ServiceCatalogClient {
     ///
     /// Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
     ///
-    /// - Parameter DescribeServiceActionExecutionParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceActionExecutionParametersInput`)
     ///
-    /// - Returns: `DescribeServiceActionExecutionParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceActionExecutionParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3166,9 +3166,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the specified TagOption.
     ///
-    /// - Parameter DescribeTagOptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTagOptionInput`)
     ///
-    /// - Returns: `DescribeTagOptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTagOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3235,9 +3235,9 @@ extension ServiceCatalogClient {
     ///
     /// Disable portfolio sharing through the Organizations service. This command will not delete your current shares, but prevents you from creating new shares throughout your organization. Current shares are not kept in sync with your organization structure if the structure changes after calling this API. Only the management account in the organization can call this API. You cannot call this API if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess. If you share an Service Catalog portfolio in an organization within Organizations, and then disable Organizations access for Service Catalog, the portfolio access permissions will not sync with the latest changes to the organization structure. Specifically, accounts that you removed from the organization after disabling Service Catalog access will retain access to the previously shared portfolio.
     ///
-    /// - Parameter DisableAWSOrganizationsAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableAWSOrganizationsAccessInput`)
     ///
-    /// - Returns: `DisableAWSOrganizationsAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableAWSOrganizationsAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3305,9 +3305,9 @@ extension ServiceCatalogClient {
     ///
     /// Disassociates the specified budget from the specified resource.
     ///
-    /// - Parameter DisassociateBudgetFromResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateBudgetFromResourceInput`)
     ///
-    /// - Returns: `DisassociateBudgetFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateBudgetFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3373,9 +3373,9 @@ extension ServiceCatalogClient {
     ///
     /// Disassociates a previously associated principal ARN from a specified portfolio. The PrincipalType and PrincipalARN must match the AssociatePrincipalWithPortfolio call request details. For example, to disassociate an association created with a PrincipalARN of PrincipalType IAM you must use the PrincipalType IAM when calling DisassociatePrincipalFromPortfolio. For portfolios that have been shared with principal name sharing enabled: after disassociating a principal, share recipient accounts will no longer be able to provision products in this portfolio using a role matching the name of the associated principal. For more information, review [associate-principal-with-portfolio](https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options) in the Amazon Web Services CLI Command Reference. If you disassociate a principal from a portfolio, with PrincipalType as IAM, the same principal will still have access to the portfolio if it matches one of the associated principals of type IAM_PATTERN. To fully remove access for a principal, verify all the associated Principals of type IAM_PATTERN, and then ensure you disassociate any IAM_PATTERN principals that match the principal whose access you are removing.
     ///
-    /// - Parameter DisassociatePrincipalFromPortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePrincipalFromPortfolioInput`)
     ///
-    /// - Returns: `DisassociatePrincipalFromPortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePrincipalFromPortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3442,9 +3442,9 @@ extension ServiceCatalogClient {
     ///
     /// Disassociates the specified product from the specified portfolio. A delegated admin is authorized to invoke this command.
     ///
-    /// - Parameter DisassociateProductFromPortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateProductFromPortfolioInput`)
     ///
-    /// - Returns: `DisassociateProductFromPortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateProductFromPortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3512,9 +3512,9 @@ extension ServiceCatalogClient {
     ///
     /// Disassociates the specified self-service action association from the specified provisioning artifact.
     ///
-    /// - Parameter DisassociateServiceActionFromProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateServiceActionFromProvisioningArtifactInput`)
     ///
-    /// - Returns: `DisassociateServiceActionFromProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateServiceActionFromProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3582,9 +3582,9 @@ extension ServiceCatalogClient {
     ///
     /// Disassociates the specified TagOption from the specified resource.
     ///
-    /// - Parameter DisassociateTagOptionFromResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTagOptionFromResourceInput`)
     ///
-    /// - Returns: `DisassociateTagOptionFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTagOptionFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3651,9 +3651,9 @@ extension ServiceCatalogClient {
     ///
     /// Enable portfolio sharing feature through Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. When you call this API, Service Catalog calls organizations:EnableAWSServiceAccess on your behalf so that your shares stay in sync with any changes in your Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess. If you have previously disabled Organizations access for Service Catalog, and then enable access again, the portfolio access permissions might not sync with the latest changes to the organization structure. Specifically, accounts that you removed from the organization after disabling Service Catalog access, and before you enabled access again, can retain access to the previously shared portfolio. As a result, an account that has been removed from the organization might still be able to create or manage Amazon Web Services resources when it is no longer authorized to do so. Amazon Web Services is working to resolve this issue.
     ///
-    /// - Parameter EnableAWSOrganizationsAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableAWSOrganizationsAccessInput`)
     ///
-    /// - Returns: `EnableAWSOrganizationsAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableAWSOrganizationsAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3721,9 +3721,9 @@ extension ServiceCatalogClient {
     ///
     /// Provisions or modifies a product based on the resource changes for the specified plan.
     ///
-    /// - Parameter ExecuteProvisionedProductPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteProvisionedProductPlanInput`)
     ///
-    /// - Returns: `ExecuteProvisionedProductPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteProvisionedProductPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3792,9 +3792,9 @@ extension ServiceCatalogClient {
     ///
     /// Executes a self-service action against a provisioned product.
     ///
-    /// - Parameter ExecuteProvisionedProductServiceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteProvisionedProductServiceActionInput`)
     ///
-    /// - Returns: `ExecuteProvisionedProductServiceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteProvisionedProductServiceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3863,9 +3863,9 @@ extension ServiceCatalogClient {
     ///
     /// Get the Access Status for Organizations portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin.
     ///
-    /// - Parameter GetAWSOrganizationsAccessStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAWSOrganizationsAccessStatusInput`)
     ///
-    /// - Returns: `GetAWSOrganizationsAccessStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAWSOrganizationsAccessStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3932,9 +3932,9 @@ extension ServiceCatalogClient {
     ///
     /// This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
     ///
-    /// - Parameter GetProvisionedProductOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProvisionedProductOutputsInput`)
     ///
-    /// - Returns: `GetProvisionedProductOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProvisionedProductOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4001,9 +4001,9 @@ extension ServiceCatalogClient {
     ///
     /// Requests the import of a resource as an Service Catalog provisioned product that is associated to an Service Catalog product and provisioning artifact. Once imported, all supported governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested stacks, are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, and IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact. When you import an existing CloudFormation stack into a portfolio, Service Catalog does not apply the product's associated constraints during the import process. Service Catalog applies the constraints after you call UpdateProvisionedProduct for the provisioned product. The user or role that performs this operation must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions. You can only import one provisioned product at a time. The product's CloudFormation stack must have the IMPORT_COMPLETE status before you import another.
     ///
-    /// - Parameter ImportAsProvisionedProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportAsProvisionedProductInput`)
     ///
-    /// - Returns: `ImportAsProvisionedProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportAsProvisionedProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4073,9 +4073,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType, you can list portfolios for which organizational shares were accepted by this account.
     ///
-    /// - Parameter ListAcceptedPortfolioSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAcceptedPortfolioSharesInput`)
     ///
-    /// - Returns: `ListAcceptedPortfolioSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAcceptedPortfolioSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4142,9 +4142,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists all the budgets associated to the specified resource.
     ///
-    /// - Parameter ListBudgetsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBudgetsForResourceInput`)
     ///
-    /// - Returns: `ListBudgetsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBudgetsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4211,9 +4211,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the constraints for the specified portfolio and product.
     ///
-    /// - Parameter ListConstraintsForPortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConstraintsForPortfolioInput`)
     ///
-    /// - Returns: `ListConstraintsForPortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConstraintsForPortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4280,9 +4280,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the paths to the specified product. A path describes how the user gets access to a specified product and is necessary when provisioning a product. A path also determines the constraints that are put on a product. A path is dependent on a specific product, porfolio, and principal. When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see [Granting users access](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html) in the Service Catalog User Guide.
     ///
-    /// - Parameter ListLaunchPathsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLaunchPathsInput`)
     ///
-    /// - Returns: `ListLaunchPathsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLaunchPathsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4349,9 +4349,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
     ///
-    /// - Parameter ListOrganizationPortfolioAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationPortfolioAccessInput`)
     ///
-    /// - Returns: `ListOrganizationPortfolioAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationPortfolioAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4419,9 +4419,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
     ///
-    /// - Parameter ListPortfolioAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPortfolioAccessInput`)
     ///
-    /// - Returns: `ListPortfolioAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPortfolioAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4488,9 +4488,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists all portfolios in the catalog.
     ///
-    /// - Parameter ListPortfoliosInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPortfoliosInput`)
     ///
-    /// - Returns: `ListPortfoliosOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPortfoliosOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4556,9 +4556,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists all portfolios that the specified product is associated with.
     ///
-    /// - Parameter ListPortfoliosForProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPortfoliosForProductInput`)
     ///
-    /// - Returns: `ListPortfoliosForProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPortfoliosForProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4625,9 +4625,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists all PrincipalARNs and corresponding PrincipalTypes associated with the specified portfolio.
     ///
-    /// - Parameter ListPrincipalsForPortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrincipalsForPortfolioInput`)
     ///
-    /// - Returns: `ListPrincipalsForPortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrincipalsForPortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4694,9 +4694,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the plans for the specified provisioned product or all plans to which the user has access.
     ///
-    /// - Parameter ListProvisionedProductPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisionedProductPlansInput`)
     ///
-    /// - Returns: `ListProvisionedProductPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisionedProductPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4763,9 +4763,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists all provisioning artifacts (also known as versions) for the specified product.
     ///
-    /// - Parameter ListProvisioningArtifactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisioningArtifactsInput`)
     ///
-    /// - Returns: `ListProvisioningArtifactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisioningArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4832,9 +4832,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists all provisioning artifacts (also known as versions) for the specified self-service action.
     ///
-    /// - Parameter ListProvisioningArtifactsForServiceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisioningArtifactsForServiceActionInput`)
     ///
-    /// - Returns: `ListProvisioningArtifactsForServiceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisioningArtifactsForServiceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4901,9 +4901,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the specified requests or all performed requests.
     ///
-    /// - Parameter ListRecordHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecordHistoryInput`)
     ///
-    /// - Returns: `ListRecordHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecordHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4969,9 +4969,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the resources associated with the specified TagOption.
     ///
-    /// - Parameter ListResourcesForTagOptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesForTagOptionInput`)
     ///
-    /// - Returns: `ListResourcesForTagOptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesForTagOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5039,9 +5039,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists all self-service actions.
     ///
-    /// - Parameter ListServiceActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceActionsInput`)
     ///
-    /// - Returns: `ListServiceActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5107,9 +5107,9 @@ extension ServiceCatalogClient {
     ///
     /// Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
     ///
-    /// - Parameter ListServiceActionsForProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceActionsForProvisioningArtifactInput`)
     ///
-    /// - Returns: `ListServiceActionsForProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceActionsForProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5176,9 +5176,9 @@ extension ServiceCatalogClient {
     ///
     /// Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
     ///
-    /// - Parameter ListStackInstancesForProvisionedProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackInstancesForProvisionedProductInput`)
     ///
-    /// - Returns: `ListStackInstancesForProvisionedProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackInstancesForProvisionedProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5245,9 +5245,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the specified TagOptions or all TagOptions.
     ///
-    /// - Parameter ListTagOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagOptionsInput`)
     ///
-    /// - Returns: `ListTagOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5314,9 +5314,9 @@ extension ServiceCatalogClient {
     ///
     /// Notifies the result of the provisioning engine execution.
     ///
-    /// - Parameter NotifyProvisionProductEngineWorkflowResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyProvisionProductEngineWorkflowResultInput`)
     ///
-    /// - Returns: `NotifyProvisionProductEngineWorkflowResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyProvisionProductEngineWorkflowResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5384,9 +5384,9 @@ extension ServiceCatalogClient {
     ///
     /// Notifies the result of the terminate engine execution.
     ///
-    /// - Parameter NotifyTerminateProvisionedProductEngineWorkflowResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyTerminateProvisionedProductEngineWorkflowResultInput`)
     ///
-    /// - Returns: `NotifyTerminateProvisionedProductEngineWorkflowResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyTerminateProvisionedProductEngineWorkflowResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5454,9 +5454,9 @@ extension ServiceCatalogClient {
     ///
     /// Notifies the result of the update engine execution.
     ///
-    /// - Parameter NotifyUpdateProvisionedProductEngineWorkflowResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyUpdateProvisionedProductEngineWorkflowResultInput`)
     ///
-    /// - Returns: `NotifyUpdateProvisionedProductEngineWorkflowResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyUpdateProvisionedProductEngineWorkflowResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5524,9 +5524,9 @@ extension ServiceCatalogClient {
     ///
     /// Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product that's based on an CloudFormation template launches an CloudFormation stack and its underlying resources. You can check the status of this request using [DescribeRecord]. If the request contains a tag key with an empty list of values, there's a tag conflict for that key. Don't include conflicted keys as tags, or this will cause the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see [Granting users access](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html) in the Service Catalog User Guide.
     ///
-    /// - Parameter ProvisionProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionProductInput`)
     ///
-    /// - Returns: `ProvisionProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5595,9 +5595,9 @@ extension ServiceCatalogClient {
     ///
     /// Rejects an offer to share the specified portfolio.
     ///
-    /// - Parameter RejectPortfolioShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectPortfolioShareInput`)
     ///
-    /// - Returns: `RejectPortfolioShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectPortfolioShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5663,9 +5663,9 @@ extension ServiceCatalogClient {
     ///
     /// Lists the provisioned products that are available (not terminated). To use additional filtering, see [SearchProvisionedProducts].
     ///
-    /// - Parameter ScanProvisionedProductsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ScanProvisionedProductsInput`)
     ///
-    /// - Returns: `ScanProvisionedProductsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ScanProvisionedProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5731,9 +5731,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the products to which the caller has access.
     ///
-    /// - Parameter SearchProductsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchProductsInput`)
     ///
-    /// - Returns: `SearchProductsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5799,9 +5799,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the products for the specified portfolio or all products.
     ///
-    /// - Parameter SearchProductsAsAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchProductsAsAdminInput`)
     ///
-    /// - Returns: `SearchProductsAsAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchProductsAsAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5868,9 +5868,9 @@ extension ServiceCatalogClient {
     ///
     /// Gets information about the provisioned products that meet the specified criteria.
     ///
-    /// - Parameter SearchProvisionedProductsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchProvisionedProductsInput`)
     ///
-    /// - Returns: `SearchProvisionedProductsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchProvisionedProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5936,9 +5936,9 @@ extension ServiceCatalogClient {
     ///
     /// Terminates the specified provisioned product. This operation does not delete any records associated with the provisioned product. You can check the status of this request using [DescribeRecord].
     ///
-    /// - Parameter TerminateProvisionedProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateProvisionedProductInput`)
     ///
-    /// - Returns: `TerminateProvisionedProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateProvisionedProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6005,9 +6005,9 @@ extension ServiceCatalogClient {
     ///
     /// Updates the specified constraint.
     ///
-    /// - Parameter UpdateConstraintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConstraintInput`)
     ///
-    /// - Returns: `UpdateConstraintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConstraintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6074,9 +6074,9 @@ extension ServiceCatalogClient {
     ///
     /// Updates the specified portfolio. You cannot update a product that was shared with you.
     ///
-    /// - Parameter UpdatePortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePortfolioInput`)
     ///
-    /// - Returns: `UpdatePortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePortfolioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6145,9 +6145,9 @@ extension ServiceCatalogClient {
     ///
     /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be completed. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type. This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action. When you associate a principal with portfolio, a potential privilege escalation path may occur when that portfolio is then shared with other accounts. For a user in a recipient account who is not an Service Catalog Admin, but still has the ability to create Principals (Users/Groups/Roles), that user could create a role that matches a principal name association for the portfolio. Although this user may not know which principal names are associated through Service Catalog, they may be able to guess the user. If this potential escalation path is a concern, then Service Catalog recommends using PrincipalType as IAM. With this configuration, the PrincipalARN must already exist in the recipient account before it can be associated.
     ///
-    /// - Parameter UpdatePortfolioShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePortfolioShareInput`)
     ///
-    /// - Returns: `UpdatePortfolioShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePortfolioShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6216,9 +6216,9 @@ extension ServiceCatalogClient {
     ///
     /// Updates the specified product.
     ///
-    /// - Parameter UpdateProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProductInput`)
     ///
-    /// - Returns: `UpdateProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6286,9 +6286,9 @@ extension ServiceCatalogClient {
     ///
     /// Requests updates to the configuration of the specified provisioned product. If there are tags associated with the object, they cannot be updated or added. Depending on the specific updates requested, this operation can update with no interruption, with some interruption, or replace the provisioned product entirely. You can check the status of this request using [DescribeRecord].
     ///
-    /// - Parameter UpdateProvisionedProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProvisionedProductInput`)
     ///
-    /// - Returns: `UpdateProvisionedProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProvisionedProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6356,9 +6356,9 @@ extension ServiceCatalogClient {
     ///
     /// Requests updates to the properties of the specified provisioned product.
     ///
-    /// - Parameter UpdateProvisionedProductPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProvisionedProductPropertiesInput`)
     ///
-    /// - Returns: `UpdateProvisionedProductPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProvisionedProductPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6427,9 +6427,9 @@ extension ServiceCatalogClient {
     ///
     /// Updates the specified provisioning artifact (also known as a version) for the specified product. You cannot update a provisioning artifact for a product that was shared with you.
     ///
-    /// - Parameter UpdateProvisioningArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProvisioningArtifactInput`)
     ///
-    /// - Returns: `UpdateProvisioningArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProvisioningArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6496,9 +6496,9 @@ extension ServiceCatalogClient {
     ///
     /// Updates a self-service action.
     ///
-    /// - Parameter UpdateServiceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceActionInput`)
     ///
-    /// - Returns: `UpdateServiceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6565,9 +6565,9 @@ extension ServiceCatalogClient {
     ///
     /// Updates the specified TagOption.
     ///
-    /// - Parameter UpdateTagOptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTagOptionInput`)
     ///
-    /// - Returns: `UpdateTagOptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTagOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

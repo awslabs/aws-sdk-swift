@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkDocsClient: ClientRuntime.Client {
     public static let clientName = "WorkDocsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkDocsClient.WorkDocsClientConfiguration
     let serviceName = "WorkDocs"
@@ -374,9 +374,9 @@ extension WorkDocsClient {
     ///
     /// Aborts the upload of the specified document version that was previously initiated by [InitiateDocumentVersionUpload]. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
     ///
-    /// - Parameter AbortDocumentVersionUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AbortDocumentVersionUploadInput`)
     ///
-    /// - Returns: `AbortDocumentVersionUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortDocumentVersionUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension WorkDocsClient {
     ///
     /// Activates the specified user. Only active users can access Amazon WorkDocs.
     ///
-    /// - Parameter ActivateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateUserInput`)
     ///
-    /// - Returns: `ActivateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension WorkDocsClient {
     ///
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
     ///
-    /// - Parameter AddResourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddResourcePermissionsInput`)
     ///
-    /// - Returns: `AddResourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddResourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension WorkDocsClient {
     ///
     /// Adds a new comment to the specified document version.
     ///
-    /// - Parameter CreateCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCommentInput`)
     ///
-    /// - Returns: `CreateCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension WorkDocsClient {
     ///
     /// Adds one or more custom properties to the specified resource (a folder, document, or version).
     ///
-    /// - Parameter CreateCustomMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomMetadataInput`)
     ///
-    /// - Returns: `CreateCustomMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -736,9 +736,9 @@ extension WorkDocsClient {
     ///
     /// Creates a folder with the specified name and parent folder.
     ///
-    /// - Parameter CreateFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFolderInput`)
     ///
-    /// - Returns: `CreateFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -813,9 +813,9 @@ extension WorkDocsClient {
     ///
     /// Adds the specified list of labels to the given resource (a document or folder)
     ///
-    /// - Parameter CreateLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLabelsInput`)
     ///
-    /// - Returns: `CreateLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,9 +886,9 @@ extension WorkDocsClient {
     ///
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see [Setting up notifications for an IAM user or role](https://docs.aws.amazon.com/workdocs/latest/developerguide/manage-notifications.html) in the Amazon WorkDocs Developer Guide.
     ///
-    /// - Parameter CreateNotificationSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotificationSubscriptionInput`)
     ///
-    /// - Returns: `CreateNotificationSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotificationSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,9 +956,9 @@ extension WorkDocsClient {
     ///
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1028,9 +1028,9 @@ extension WorkDocsClient {
     ///
     /// Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
     ///
-    /// - Parameter DeactivateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateUserInput`)
     ///
-    /// - Returns: `DeactivateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1097,9 +1097,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the specified comment from the document version.
     ///
-    /// - Parameter DeleteCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCommentInput`)
     ///
-    /// - Returns: `DeleteCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1168,9 +1168,9 @@ extension WorkDocsClient {
     ///
     /// Deletes custom metadata from the specified resource.
     ///
-    /// - Parameter DeleteCustomMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomMetadataInput`)
     ///
-    /// - Returns: `DeleteCustomMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,9 +1239,9 @@ extension WorkDocsClient {
     ///
     /// Permanently deletes the specified document and its associated metadata.
     ///
-    /// - Parameter DeleteDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDocumentInput`)
     ///
-    /// - Returns: `DeleteDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1312,9 +1312,9 @@ extension WorkDocsClient {
     ///
     /// Deletes a specific version of a document.
     ///
-    /// - Parameter DeleteDocumentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDocumentVersionInput`)
     ///
-    /// - Returns: `DeleteDocumentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDocumentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1385,9 +1385,9 @@ extension WorkDocsClient {
     ///
     /// Permanently deletes the specified folder and its contents.
     ///
-    /// - Parameter DeleteFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFolderInput`)
     ///
-    /// - Returns: `DeleteFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1458,9 +1458,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the contents of the specified folder.
     ///
-    /// - Parameter DeleteFolderContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFolderContentsInput`)
     ///
-    /// - Returns: `DeleteFolderContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFolderContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1529,9 +1529,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the specified list of labels from a resource.
     ///
-    /// - Parameter DeleteLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLabelsInput`)
     ///
-    /// - Returns: `DeleteLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1600,9 +1600,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the specified subscription from the specified organization.
     ///
-    /// - Parameter DeleteNotificationSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotificationSubscriptionInput`)
     ///
-    /// - Returns: `DeleteNotificationSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotificationSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1667,9 +1667,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the specified user from a Simple AD or Microsoft AD directory. Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1736,9 +1736,9 @@ extension WorkDocsClient {
     ///
     /// Describes the user activities in a specified time period.
     ///
-    /// - Parameter DescribeActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActivitiesInput`)
     ///
-    /// - Returns: `DescribeActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1806,9 +1806,9 @@ extension WorkDocsClient {
     ///
     /// List all the comments for the specified document version.
     ///
-    /// - Parameter DescribeCommentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCommentsInput`)
     ///
-    /// - Returns: `DescribeCommentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCommentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1877,9 +1877,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
     ///
-    /// - Parameter DescribeDocumentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDocumentVersionsInput`)
     ///
-    /// - Returns: `DescribeDocumentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDocumentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1950,9 +1950,9 @@ extension WorkDocsClient {
     ///
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     ///
-    /// - Parameter DescribeFolderContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFolderContentsInput`)
     ///
-    /// - Returns: `DescribeFolderContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFolderContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,9 +2021,9 @@ extension WorkDocsClient {
     ///
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
     ///
-    /// - Parameter DescribeGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupsInput`)
     ///
-    /// - Returns: `DescribeGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2090,9 +2090,9 @@ extension WorkDocsClient {
     ///
     /// Lists the specified notification subscriptions.
     ///
-    /// - Parameter DescribeNotificationSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNotificationSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeNotificationSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNotificationSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2157,9 +2157,9 @@ extension WorkDocsClient {
     ///
     /// Describes the permissions of a specified resource.
     ///
-    /// - Parameter DescribeResourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePermissionsInput`)
     ///
-    /// - Returns: `DescribeResourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,9 +2227,9 @@ extension WorkDocsClient {
     ///
     /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
     ///
-    /// - Parameter DescribeRootFoldersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRootFoldersInput`)
     ///
-    /// - Returns: `DescribeRootFoldersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRootFoldersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2297,9 +2297,9 @@ extension WorkDocsClient {
     ///
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     ///
-    /// - Parameter DescribeUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsersInput`)
     ///
-    /// - Returns: `DescribeUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2369,9 +2369,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
     ///
-    /// - Parameter GetCurrentUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCurrentUserInput`)
     ///
-    /// - Returns: `GetCurrentUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCurrentUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2438,9 +2438,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves details of a document.
     ///
-    /// - Parameter GetDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentInput`)
     ///
-    /// - Returns: `GetDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2510,9 +2510,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
     ///
-    /// - Parameter GetDocumentPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentPathInput`)
     ///
-    /// - Returns: `GetDocumentPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2580,9 +2580,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves version metadata for the specified document.
     ///
-    /// - Parameter GetDocumentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentVersionInput`)
     ///
-    /// - Returns: `GetDocumentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2652,9 +2652,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves the metadata of the specified folder.
     ///
-    /// - Parameter GetFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFolderInput`)
     ///
-    /// - Returns: `GetFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2724,9 +2724,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
     ///
-    /// - Parameter GetFolderPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFolderPathInput`)
     ///
-    /// - Returns: `GetFolderPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFolderPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2794,9 +2794,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME.
     ///
-    /// - Parameter GetResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesInput`)
     ///
-    /// - Returns: `GetResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2864,9 +2864,9 @@ extension WorkDocsClient {
     ///
     /// Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call [UpdateDocumentVersion]. To cancel the document upload, call [AbortDocumentVersionUpload].
     ///
-    /// - Parameter InitiateDocumentVersionUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitiateDocumentVersionUploadInput`)
     ///
-    /// - Returns: `InitiateDocumentVersionUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitiateDocumentVersionUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2945,9 +2945,9 @@ extension WorkDocsClient {
     ///
     /// Removes all the permissions from the specified resource.
     ///
-    /// - Parameter RemoveAllResourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveAllResourcePermissionsInput`)
     ///
-    /// - Returns: `RemoveAllResourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAllResourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3013,9 +3013,9 @@ extension WorkDocsClient {
     ///
     /// Removes the permission for the specified principal from the specified resource.
     ///
-    /// - Parameter RemoveResourcePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveResourcePermissionInput`)
     ///
-    /// - Returns: `RemoveResourcePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveResourcePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3082,9 +3082,9 @@ extension WorkDocsClient {
     ///
     /// Recovers a deleted version of an Amazon WorkDocs document.
     ///
-    /// - Parameter RestoreDocumentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreDocumentVersionsInput`)
     ///
-    /// - Returns: `RestoreDocumentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDocumentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3154,9 +3154,9 @@ extension WorkDocsClient {
     ///
     /// Searches metadata and the content of folders, documents, document versions, and comments.
     ///
-    /// - Parameter SearchResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchResourcesInput`)
     ///
-    /// - Returns: `SearchResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3225,9 +3225,9 @@ extension WorkDocsClient {
     ///
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     ///
-    /// - Parameter UpdateDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDocumentInput`)
     ///
-    /// - Returns: `UpdateDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3302,9 +3302,9 @@ extension WorkDocsClient {
     ///
     /// Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by [InitiateDocumentVersionUpload].
     ///
-    /// - Parameter UpdateDocumentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDocumentVersionInput`)
     ///
-    /// - Returns: `UpdateDocumentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDocumentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3377,9 +3377,9 @@ extension WorkDocsClient {
     ///
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
     ///
-    /// - Parameter UpdateFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFolderInput`)
     ///
-    /// - Returns: `UpdateFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3454,9 +3454,9 @@ extension WorkDocsClient {
     ///
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

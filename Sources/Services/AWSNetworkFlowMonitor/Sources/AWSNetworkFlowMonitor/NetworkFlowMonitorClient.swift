@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkFlowMonitorClient: ClientRuntime.Client {
     public static let clientName = "NetworkFlowMonitorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFlowMonitorClient.NetworkFlowMonitorClientConfiguration
     let serviceName = "NetworkFlowMonitor"
@@ -374,9 +374,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
     ///
-    /// - Parameter CreateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,9 +453,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// * Target identifiers, made up of a targetID (currently always an account ID) and a targetType (currently always an account).
     ///
-    /// - Parameter CreateScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScopeInput`)
     ///
-    /// - Returns: `CreateScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -526,9 +526,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Deletes a monitor in Network Flow Monitor.
     ///
-    /// - Parameter DeleteMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitorInput`)
     ///
-    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -595,9 +595,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Deletes a scope that has been defined.
     ///
-    /// - Parameter DeleteScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScopeInput`)
     ///
-    /// - Returns: `DeleteScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
     ///
-    /// - Parameter GetMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMonitorInput`)
     ///
-    /// - Returns: `GetMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,9 +733,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryMonitorTopContributors. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter GetQueryResultsMonitorTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsMonitorTopContributorsInput`)
     ///
-    /// - Returns: `GetQueryResultsMonitorTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsMonitorTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,9 +803,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a scope for workload insights. Workload insights provide a high level view of network flow performance data collected by agents. To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter GetQueryResultsWorkloadInsightsTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsWorkloadInsightsTopContributorsInput`)
     ///
-    /// - Returns: `GetQueryResultsWorkloadInsightsTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsWorkloadInsightsTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,9 +873,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a scope ID. This query returns the data for top contributors for workload insights for a specific scope. Workload insights provide a high level view of network flow performance data collected by agents for a scope. To return just the top contributors, see GetQueryResultsWorkloadInsightsTopContributors. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
     ///
-    /// - Parameter GetQueryResultsWorkloadInsightsTopContributorsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsWorkloadInsightsTopContributorsDataInput`)
     ///
-    /// - Returns: `GetQueryResultsWorkloadInsightsTopContributorsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsWorkloadInsightsTopContributorsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -943,9 +943,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start (create) the query, StartQueryMonitorTopContributors. When you run a query, use this call to check the status of the query to make sure that the query has SUCCEEDED before you review the results.
     ///
-    /// - Parameter GetQueryStatusMonitorTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatusMonitorTopContributorsInput`)
     ///
-    /// - Returns: `GetQueryStatusMonitorTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatusMonitorTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,9 +1011,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter GetQueryStatusWorkloadInsightsTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatusWorkloadInsightsTopContributorsInput`)
     ///
-    /// - Returns: `GetQueryStatusWorkloadInsightsTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatusWorkloadInsightsTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1079,9 +1079,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
     ///
-    /// - Parameter GetQueryStatusWorkloadInsightsTopContributorsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatusWorkloadInsightsTopContributorsDataInput`)
     ///
-    /// - Returns: `GetQueryStatusWorkloadInsightsTopContributorsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatusWorkloadInsightsTopContributorsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,9 +1147,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account.
     ///
-    /// - Parameter GetScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetScopeInput`)
     ///
-    /// - Returns: `GetScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,9 +1216,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the STATUS parameter.
     ///
-    /// - Parameter ListMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,9 +1284,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// List all the scopes for an account.
     ///
-    /// - Parameter ListScopesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScopesInput`)
     ///
-    /// - Returns: `ListScopesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScopesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1353,9 +1353,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Returns all the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1422,9 +1422,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for. The call returns a query ID that you can use with [ GetQueryResultsMonitorTopContributors](https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_GetQueryResultsMonitorTopContributors.html) to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     ///
-    /// - Parameter StartQueryMonitorTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryMonitorTopContributorsInput`)
     ///
-    /// - Returns: `StartQueryMonitorTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryMonitorTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1493,9 +1493,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with [ GetQueryResultsWorkloadInsightsTopContributors](https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_GetQueryResultsWorkloadInsightsTopContributors.html) to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     ///
-    /// - Parameter StartQueryWorkloadInsightsTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryWorkloadInsightsTopContributorsInput`)
     ///
-    /// - Returns: `StartQueryWorkloadInsightsTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryWorkloadInsightsTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1564,9 +1564,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Create a query with the Network Flow Monitor query interface that you can run to return data for workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with [ GetQueryResultsWorkloadInsightsTopContributorsData](https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_GetQueryResultsWorkloadInsightsTopContributorsData.html) to run the query and return the data for the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter StartQueryWorkloadInsightsTopContributorsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryWorkloadInsightsTopContributorsDataInput`)
     ///
-    /// - Returns: `StartQueryWorkloadInsightsTopContributorsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryWorkloadInsightsTopContributorsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1635,9 +1635,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Stop a top contributors query for a monitor. Specify the query that you want to stop by providing a query ID and a monitor name. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter StopQueryMonitorTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryMonitorTopContributorsInput`)
     ///
-    /// - Returns: `StopQueryMonitorTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryMonitorTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1703,9 +1703,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Stop a top contributors query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter StopQueryWorkloadInsightsTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryWorkloadInsightsTopContributorsInput`)
     ///
-    /// - Returns: `StopQueryWorkloadInsightsTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryWorkloadInsightsTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1771,9 +1771,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter StopQueryWorkloadInsightsTopContributorsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryWorkloadInsightsTopContributorsDataInput`)
     ///
-    /// - Returns: `StopQueryWorkloadInsightsTopContributorsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryWorkloadInsightsTopContributorsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1839,9 +1839,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1911,9 +1911,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,9 +1981,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Update a monitor to add or remove local or remote resources.
     ///
-    /// - Parameter UpdateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitorInput`)
     ///
-    /// - Returns: `UpdateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2053,9 +2053,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
     ///
-    /// - Parameter UpdateScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScopeInput`)
     ///
-    /// - Returns: `UpdateScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

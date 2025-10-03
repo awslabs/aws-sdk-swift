@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KendraRankingClient: ClientRuntime.Client {
     public static let clientName = "KendraRankingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: KendraRankingClient.KendraRankingClientConfiguration
     let serviceName = "Kendra Ranking"
@@ -375,9 +375,9 @@ extension KendraRankingClient {
     ///
     /// Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You set the number of capacity units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results. For an example of using the CreateRescoreExecutionPlan API, including using the Python and Java SDKs, see [Semantically ranking a search service's results](https://docs.aws.amazon.com/kendra/latest/dg/search-service-rerank.html).
     ///
-    /// - Parameter CreateRescoreExecutionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRescoreExecutionPlanInput`)
     ///
-    /// - Returns: `CreateRescoreExecutionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRescoreExecutionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension KendraRankingClient {
     ///
     /// Deletes a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
     ///
-    /// - Parameter DeleteRescoreExecutionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRescoreExecutionPlanInput`)
     ///
-    /// - Returns: `DeleteRescoreExecutionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRescoreExecutionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension KendraRankingClient {
     ///
     /// Gets information about a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
     ///
-    /// - Parameter DescribeRescoreExecutionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRescoreExecutionPlanInput`)
     ///
-    /// - Returns: `DescribeRescoreExecutionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRescoreExecutionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,9 +594,9 @@ extension KendraRankingClient {
     ///
     /// Lists your rescore execution plans. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
     ///
-    /// - Parameter ListRescoreExecutionPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRescoreExecutionPlansInput`)
     ///
-    /// - Returns: `ListRescoreExecutionPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRescoreExecutionPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,9 +666,9 @@ extension KendraRankingClient {
     ///
     /// Gets a list of tags associated with a specified resource. A rescore execution plan is an example of a resource that can have tags associated with it.
     ///
-    /// - Parameter ListTagsForResourceInput : The request information for listing tags associated with a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    /// - Parameter input: The request information for listing tags associated with a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : If the action is successful, the service sends back an HTTP 200 response.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,9 +738,9 @@ extension KendraRankingClient {
     ///
     /// Rescores or re-ranks search results from a search service such as OpenSearch (self managed). You use the semantic search capabilities of Amazon Kendra Intelligent Ranking to improve the search service's results.
     ///
-    /// - Parameter RescoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RescoreInput`)
     ///
-    /// - Returns: `RescoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RescoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -811,9 +811,9 @@ extension KendraRankingClient {
     ///
     /// Adds a specified tag to a specified rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. If the tag already exists, the existing value is replaced with the new value.
     ///
-    /// - Parameter TagResourceInput : The request information for tagging a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    /// - Parameter input: The request information for tagging a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -883,9 +883,9 @@ extension KendraRankingClient {
     ///
     /// Removes a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore operation.
     ///
-    /// - Parameter UntagResourceInput : The request information to remove a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    /// - Parameter input: The request information to remove a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -955,9 +955,9 @@ extension KendraRankingClient {
     ///
     /// Updates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can update the number of capacity units you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results.
     ///
-    /// - Parameter UpdateRescoreExecutionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRescoreExecutionPlanInput`)
     ///
-    /// - Returns: `UpdateRescoreExecutionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRescoreExecutionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

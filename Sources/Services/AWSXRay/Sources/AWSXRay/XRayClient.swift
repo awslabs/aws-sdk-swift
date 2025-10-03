@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class XRayClient: ClientRuntime.Client {
     public static let clientName = "XRayClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: XRayClient.XRayClientConfiguration
     let serviceName = "XRay"
@@ -372,9 +372,9 @@ extension XRayClient {
     ///
     /// You cannot find traces through this API if Transaction Search is enabled since trace is not indexed in X-Ray. Retrieves a list of traces specified by ID. Each trace is a collection of segment documents that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
     ///
-    /// - Parameter BatchGetTracesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetTracesInput`)
     ///
-    /// - Returns: `BatchGetTracesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetTracesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -440,9 +440,9 @@ extension XRayClient {
     ///
     /// Cancels an ongoing trace retrieval job initiated by StartTraceRetrieval using the provided RetrievalToken. A successful cancellation will return an HTTP 200 response.
     ///
-    /// - Parameter CancelTraceRetrievalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTraceRetrievalInput`)
     ///
-    /// - Returns: `CancelTraceRetrievalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTraceRetrievalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -509,9 +509,9 @@ extension XRayClient {
     ///
     /// Creates a group resource with a name and a filter expression.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,9 +577,9 @@ extension XRayClient {
     ///
     /// Creates a rule to control sampling behavior for instrumented applications. Services retrieve rules with [GetSamplingRules](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html), and evaluate each rule in ascending order of priority for each request. If a rule matches, the service records a trace, borrowing it from the reservoir size. After 10 seconds, the service reports back to X-Ray with [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html) to get updated versions of each in-use rule. The updated rule contains a trace quota that the service can use instead of borrowing from the reservoir.
     ///
-    /// - Parameter CreateSamplingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSamplingRuleInput`)
     ///
-    /// - Returns: `CreateSamplingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSamplingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -646,9 +646,9 @@ extension XRayClient {
     ///
     /// Deletes a group resource.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,9 +714,9 @@ extension XRayClient {
     ///
     /// Deletes a resource policy from the target Amazon Web Services account.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,9 +783,9 @@ extension XRayClient {
     ///
     /// Deletes a sampling rule.
     ///
-    /// - Parameter DeleteSamplingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSamplingRuleInput`)
     ///
-    /// - Returns: `DeleteSamplingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSamplingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,9 +851,9 @@ extension XRayClient {
     ///
     /// Retrieves the current encryption configuration for X-Ray data.
     ///
-    /// - Parameter GetEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEncryptionConfigInput`)
     ///
-    /// - Returns: `GetEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -916,9 +916,9 @@ extension XRayClient {
     ///
     /// Retrieves group resource details.
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,9 +984,9 @@ extension XRayClient {
     ///
     /// Retrieves all active group details.
     ///
-    /// - Parameter GetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupsInput`)
     ///
-    /// - Returns: `GetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1052,9 +1052,9 @@ extension XRayClient {
     ///
     /// Retrieves all indexing rules. Indexing rules are used to determine the server-side sampling rate for spans ingested through the CloudWatchLogs destination and indexed by X-Ray. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html).
     ///
-    /// - Parameter GetIndexingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIndexingRulesInput`)
     ///
-    /// - Returns: `GetIndexingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIndexingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,9 +1120,9 @@ extension XRayClient {
     ///
     /// Retrieves the summary information of an insight. This includes impact to clients and root cause services, the top anomalous services, the category, the state of the insight, and the start and end time of the insight.
     ///
-    /// - Parameter GetInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightInput`)
     ///
-    /// - Returns: `GetInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,9 +1188,9 @@ extension XRayClient {
     ///
     /// X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console.
     ///
-    /// - Parameter GetInsightEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightEventsInput`)
     ///
-    /// - Returns: `GetInsightEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1256,9 +1256,9 @@ extension XRayClient {
     ///
     /// Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only structural information. For a complete service graph, use this API with the GetServiceGraph API.
     ///
-    /// - Parameter GetInsightImpactGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightImpactGraphInput`)
     ///
-    /// - Returns: `GetInsightImpactGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightImpactGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1324,9 +1324,9 @@ extension XRayClient {
     ///
     /// Retrieves the summaries of all insights in the specified group matching the provided filter values.
     ///
-    /// - Parameter GetInsightSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightSummariesInput`)
     ///
-    /// - Returns: `GetInsightSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1392,9 +1392,9 @@ extension XRayClient {
     ///
     /// Retrieves a service graph for traces based on the specified RetrievalToken from the CloudWatch log group generated by Transaction Search. This API does not initiate a retrieval job. You must first execute StartTraceRetrieval to obtain the required RetrievalToken. The trace graph describes services that process incoming requests and any downstream services they call, which may include Amazon Web Services resources, external APIs, or databases. The response is empty until the RetrievalStatus is COMPLETE. Retry the request after the status changes from RUNNING or SCHEDULED to COMPLETE to access the full service graph. When CloudWatch log is the destination, this API can support cross-account observability and service graph retrieval across linked accounts. For retrieving graphs from X-Ray directly as opposed to the Transaction-Search Log group, see [GetTraceGraph](https://docs.aws.amazon.com/xray/latest/api/API_GetTraceGraph.html).
     ///
-    /// - Parameter GetRetrievedTracesGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRetrievedTracesGraphInput`)
     ///
-    /// - Returns: `GetRetrievedTracesGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRetrievedTracesGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1461,9 +1461,9 @@ extension XRayClient {
     ///
     /// Retrieves all sampling rules.
     ///
-    /// - Parameter GetSamplingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSamplingRulesInput`)
     ///
-    /// - Returns: `GetSamplingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSamplingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1529,9 +1529,9 @@ extension XRayClient {
     ///
     /// Retrieves information about recent sampling results for all sampling rules.
     ///
-    /// - Parameter GetSamplingStatisticSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSamplingStatisticSummariesInput`)
     ///
-    /// - Returns: `GetSamplingStatisticSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSamplingStatisticSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1597,9 +1597,9 @@ extension XRayClient {
     ///
     /// Requests a sampling quota for rules that the service is using to sample requests.
     ///
-    /// - Parameter GetSamplingTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSamplingTargetsInput`)
     ///
-    /// - Returns: `GetSamplingTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSamplingTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1665,9 +1665,9 @@ extension XRayClient {
     ///
     /// Retrieves a document that describes services that process incoming requests, and downstream services that they call as a result. Root services process incoming requests and make calls to downstream services. Root services are applications that use the [Amazon Web Services X-Ray SDK](https://docs.aws.amazon.com/xray/index.html). Downstream services can be other applications, Amazon Web Services resources, HTTP web APIs, or SQL databases.
     ///
-    /// - Parameter GetServiceGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceGraphInput`)
     ///
-    /// - Returns: `GetServiceGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1733,9 +1733,9 @@ extension XRayClient {
     ///
     /// Get an aggregation of service statistics defined by a specific time range.
     ///
-    /// - Parameter GetTimeSeriesServiceStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTimeSeriesServiceStatisticsInput`)
     ///
-    /// - Returns: `GetTimeSeriesServiceStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTimeSeriesServiceStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1801,9 +1801,9 @@ extension XRayClient {
     ///
     /// Retrieves a service graph for one or more specific trace IDs.
     ///
-    /// - Parameter GetTraceGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTraceGraphInput`)
     ///
-    /// - Returns: `GetTraceGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTraceGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1869,9 +1869,9 @@ extension XRayClient {
     ///
     /// Retrieves the current destination of data sent to PutTraceSegments and OpenTelemetry protocol (OTLP) endpoint. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html) and [OpenTelemetry](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-OpenTelemetry-Sections.html).
     ///
-    /// - Parameter GetTraceSegmentDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTraceSegmentDestinationInput`)
     ///
-    /// - Returns: `GetTraceSegmentDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTraceSegmentDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1934,9 +1934,9 @@ extension XRayClient {
     ///
     /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com: service("api.example.com") This filter expression finds traces that have an annotation named account with the value 12345: annotation.account = "12345" For a full list of indexed fields and keywords that you can use in filter expressions, see [Use filter expressions](https://docs.aws.amazon.com/xray/latest/devguide/aws-xray-interface-console.html#xray-console-filters) in the Amazon Web Services X-Ray Developer Guide.
     ///
-    /// - Parameter GetTraceSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTraceSummariesInput`)
     ///
-    /// - Returns: `GetTraceSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTraceSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2002,9 +2002,9 @@ extension XRayClient {
     ///
     /// Returns the list of resource policies in the target Amazon Web Services account.
     ///
-    /// - Parameter ListResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcePoliciesInput`)
     ///
-    /// - Returns: `ListResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2070,9 +2070,9 @@ extension XRayClient {
     ///
     /// Retrieves a list of traces for a given RetrievalToken from the CloudWatch log group generated by Transaction Search. For information on what each trace returns, see [BatchGetTraces](https://docs.aws.amazon.com/xray/latest/api/API_BatchGetTraces.html). This API does not initiate a retrieval process. To start a trace retrieval, use StartTraceRetrieval, which generates the required RetrievalToken. When the RetrievalStatus is not COMPLETE, the API will return an empty response. Retry the request once the retrieval has completed to access the full list of traces. For cross-account observability, this API can retrieve traces from linked accounts when CloudWatch log is set as the destination across relevant accounts. For more details, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). For retrieving data from X-Ray directly as opposed to the Transaction Search generated log group, see [BatchGetTraces](https://docs.aws.amazon.com/xray/latest/api/API_BatchGetTraces.html).
     ///
-    /// - Parameter ListRetrievedTracesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRetrievedTracesInput`)
     ///
-    /// - Returns: `ListRetrievedTracesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRetrievedTracesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2139,9 +2139,9 @@ extension XRayClient {
     ///
     /// Returns a list of tags that are applied to the specified Amazon Web Services X-Ray group or sampling rule.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2208,9 +2208,9 @@ extension XRayClient {
     ///
     /// Updates the encryption configuration for X-Ray data.
     ///
-    /// - Parameter PutEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEncryptionConfigInput`)
     ///
-    /// - Returns: `PutEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2276,9 +2276,9 @@ extension XRayClient {
     ///
     /// Sets the resource policy to grant one or more Amazon Web Services services and accounts permissions to access X-Ray. Each resource policy will be associated with a specific Amazon Web Services account. Each Amazon Web Services account can have a maximum of 5 resource policies, and each policy name must be unique within that account. The maximum size of each resource policy is 5KB.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2348,9 +2348,9 @@ extension XRayClient {
     ///
     /// Used by the Amazon Web Services X-Ray daemon to upload telemetry.
     ///
-    /// - Parameter PutTelemetryRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTelemetryRecordsInput`)
     ///
-    /// - Returns: `PutTelemetryRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTelemetryRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2440,9 +2440,9 @@ extension XRayClient {
     ///
     /// Trace IDs created via OpenTelemetry have a different format based on the [W3C Trace Context specification](https://www.w3.org/TR/trace-context/). A W3C trace ID must be formatted in the X-Ray trace ID format when sending to X-Ray. For example, a W3C trace ID 4efaaf4d1e8720b39541901950019ee5 should be formatted as 1-4efaaf4d-1e8720b39541901950019ee5 when sending to X-Ray. While X-Ray trace IDs include the original request timestamp in Unix epoch time, this is not required or validated.
     ///
-    /// - Parameter PutTraceSegmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTraceSegmentsInput`)
     ///
-    /// - Returns: `PutTraceSegmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTraceSegmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2508,9 +2508,9 @@ extension XRayClient {
     ///
     /// Initiates a trace retrieval process using the specified time range and for the given trace IDs in the Transaction Search generated CloudWatch log group. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html). API returns a RetrievalToken, which can be used with ListRetrievedTraces or GetRetrievedTracesGraph to fetch results. Retrievals will time out after 60 minutes. To execute long time ranges, consider segmenting into multiple retrievals. If you are using [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html), you can use this operation in a monitoring account to retrieve data from a linked source account, as long as both accounts have transaction search enabled. For retrieving data from X-Ray directly as opposed to the Transaction-Search Log group, see [BatchGetTraces](https://docs.aws.amazon.com/xray/latest/api/API_BatchGetTraces.html).
     ///
-    /// - Parameter StartTraceRetrievalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTraceRetrievalInput`)
     ///
-    /// - Returns: `StartTraceRetrievalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTraceRetrievalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2577,9 +2577,9 @@ extension XRayClient {
     ///
     /// Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2647,9 +2647,9 @@ extension XRayClient {
     ///
     /// Removes tags from an Amazon Web Services X-Ray group or sampling rule. You cannot edit or delete system tags (those with an aws: prefix).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2716,9 +2716,9 @@ extension XRayClient {
     ///
     /// Updates a group resource.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2784,9 +2784,9 @@ extension XRayClient {
     ///
     /// Modifies an indexing rule’s configuration. Indexing rules are used for determining the sampling rate for spans indexed from CloudWatch Logs. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html).
     ///
-    /// - Parameter UpdateIndexingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexingRuleInput`)
     ///
-    /// - Returns: `UpdateIndexingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIndexingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2853,9 +2853,9 @@ extension XRayClient {
     ///
     /// Modifies a sampling rule's configuration.
     ///
-    /// - Parameter UpdateSamplingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSamplingRuleInput`)
     ///
-    /// - Returns: `UpdateSamplingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSamplingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2921,9 +2921,9 @@ extension XRayClient {
     ///
     /// Modifies the destination of data sent to PutTraceSegments. The Transaction Search feature requires the CloudWatchLogs destination. For more information, see [Transaction Search](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Transaction-Search.html).
     ///
-    /// - Parameter UpdateTraceSegmentDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTraceSegmentDestinationInput`)
     ///
-    /// - Returns: `UpdateTraceSegmentDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTraceSegmentDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

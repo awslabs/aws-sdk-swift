@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ProtonClient: ClientRuntime.Client {
     public static let clientName = "ProtonClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ProtonClient.ProtonClientConfiguration
     let serviceName = "Proton"
@@ -373,9 +373,9 @@ extension ProtonClient {
     ///
     /// In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter AcceptEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `AcceptEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension ProtonClient {
     ///
     /// Attempts to cancel a component deployment (for a component that is in the IN_PROGRESS deployment status). For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter CancelComponentDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelComponentDeploymentInput`)
     ///
-    /// - Returns: `CancelComponentDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelComponentDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -525,9 +525,9 @@ extension ProtonClient {
     ///
     /// * If the current [UpdateEnvironment] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     ///
-    /// - Parameter CancelEnvironmentDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelEnvironmentDeploymentInput`)
     ///
-    /// - Returns: `CancelEnvironmentDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelEnvironmentDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -604,9 +604,9 @@ extension ProtonClient {
     ///
     /// * If the current [UpdateServiceInstance] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     ///
-    /// - Parameter CancelServiceInstanceDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelServiceInstanceDeploymentInput`)
     ///
-    /// - Returns: `CancelServiceInstanceDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelServiceInstanceDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,9 +683,9 @@ extension ProtonClient {
     ///
     /// * If the current [UpdateServicePipeline] action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     ///
-    /// - Parameter CancelServicePipelineDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelServicePipelineDeploymentInput`)
     ///
-    /// - Returns: `CancelServicePipelineDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelServicePipelineDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,9 +756,9 @@ extension ProtonClient {
     ///
     /// Create an Proton component. A component is an infrastructure extension for a service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComponentInput`)
     ///
-    /// - Returns: `CreateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,9 +838,9 @@ extension ProtonClient {
     ///
     /// For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -912,9 +912,9 @@ extension ProtonClient {
     ///
     /// Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account. An environment account connection is a secure bi-directional connection between a management account and an environment account that maintains authorization and permissions. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter CreateEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `CreateEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,9 +990,9 @@ extension ProtonClient {
     ///
     /// * Register and publish a customer managed environment template that connects Proton to your existing provisioned infrastructure that you manage. Proton doesn't manage your existing provisioned infrastructure. To create an environment template for customer provisioned and managed infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED. For more information, see [Register and publish an environment template](https://docs.aws.amazon.com/proton/latest/userguide/template-create.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateEnvironmentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentTemplateInput`)
     ///
-    /// - Returns: `CreateEnvironmentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1063,9 +1063,9 @@ extension ProtonClient {
     ///
     /// Create a new major or minor version of an environment template. A major version of an environment template is a version that isn't backwards compatible. A minor version of an environment template is a version that's backwards compatible within its major version.
     ///
-    /// - Parameter CreateEnvironmentTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentTemplateVersionInput`)
     ///
-    /// - Returns: `CreateEnvironmentTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1138,9 +1138,9 @@ extension ProtonClient {
     ///
     /// Create and register a link to a repository. Proton uses the link to repeatedly access the repository, to either push to it (self-managed provisioning) or pull from it (template sync). You can share a linked repository across multiple resources (like environments using self-managed provisioning, or synced templates). When you create a repository link, Proton creates a [service-linked role](https://docs.aws.amazon.com/proton/latest/userguide/using-service-linked-roles.html) for you. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self), [Template bundles](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-authoring.html#ag-template-bundles), and [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRepositoryInput`)
     ///
-    /// - Returns: `CreateRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1211,9 +1211,9 @@ extension ProtonClient {
     ///
     /// Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see [Services](https://docs.aws.amazon.com/proton/latest/userguide/ag-services.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
     ///
-    /// - Returns: `CreateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1285,9 +1285,9 @@ extension ProtonClient {
     ///
     /// Create a service instance.
     ///
-    /// - Parameter CreateServiceInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInstanceInput`)
     ///
-    /// - Returns: `CreateServiceInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,9 +1359,9 @@ extension ProtonClient {
     ///
     /// Create the Proton Ops configuration file.
     ///
-    /// - Parameter CreateServiceSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceSyncConfigInput`)
     ///
-    /// - Returns: `CreateServiceSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1432,9 +1432,9 @@ extension ProtonClient {
     ///
     /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CI/CD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see [Proton templates](https://docs.aws.amazon.com/proton/latest/userguide/ag-templates.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateServiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceTemplateInput`)
     ///
-    /// - Returns: `CreateServiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1505,9 +1505,9 @@ extension ProtonClient {
     ///
     /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
     ///
-    /// - Parameter CreateServiceTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceTemplateVersionInput`)
     ///
-    /// - Returns: `CreateServiceTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1580,9 +1580,9 @@ extension ProtonClient {
     ///
     /// Set up a template to create new template versions automatically by tracking a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository]. When a commit is pushed to your linked repository, Proton checks for changes to your repository template bundles. If it detects a template bundle change, a new major or minor version of its template is created, if the version doesn’t already exist. For more information, see [Template sync configurations](https://docs.aws.amazon.com/proton/latest/userguide/ag-template-sync-configs.html) in the Proton User Guide.
     ///
-    /// - Parameter CreateTemplateSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateSyncConfigInput`)
     ///
-    /// - Returns: `CreateTemplateSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1653,9 +1653,9 @@ extension ProtonClient {
     ///
     /// Delete an Proton component resource. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter DeleteComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComponentInput`)
     ///
-    /// - Returns: `DeleteComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1726,9 +1726,9 @@ extension ProtonClient {
     ///
     /// Delete the deployment.
     ///
-    /// - Parameter DeleteDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentInput`)
     ///
-    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1798,9 +1798,9 @@ extension ProtonClient {
     ///
     /// Delete an environment.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1871,9 +1871,9 @@ extension ProtonClient {
     ///
     /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an Proton environment, Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter DeleteEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `DeleteEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1944,9 +1944,9 @@ extension ProtonClient {
     ///
     /// If no other major or minor versions of an environment template exist, delete the environment template.
     ///
-    /// - Parameter DeleteEnvironmentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentTemplateInput`)
     ///
-    /// - Returns: `DeleteEnvironmentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2017,9 +2017,9 @@ extension ProtonClient {
     ///
     /// If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the Recommended version. Delete the Recommended version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backward compatible. Delete a minor version of an environment template if it isn't the Recommended version. Delete a Recommended minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backward compatible.
     ///
-    /// - Parameter DeleteEnvironmentTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentTemplateVersionInput`)
     ///
-    /// - Returns: `DeleteEnvironmentTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2090,9 +2090,9 @@ extension ProtonClient {
     ///
     /// De-register and unlink your repository.
     ///
-    /// - Parameter DeleteRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRepositoryInput`)
     ///
-    /// - Returns: `DeleteRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2163,9 +2163,9 @@ extension ProtonClient {
     ///
     /// Delete a service, with its instances and pipeline. You can't delete a service if it has any service instances that have components attached to them. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter DeleteServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: `DeleteServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2236,9 +2236,9 @@ extension ProtonClient {
     ///
     /// Delete the Proton Ops file.
     ///
-    /// - Parameter DeleteServiceSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceSyncConfigInput`)
     ///
-    /// - Returns: `DeleteServiceSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2309,9 +2309,9 @@ extension ProtonClient {
     ///
     /// If no other major or minor versions of the service template exist, delete the service template.
     ///
-    /// - Parameter DeleteServiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceTemplateInput`)
     ///
-    /// - Returns: `DeleteServiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2382,9 +2382,9 @@ extension ProtonClient {
     ///
     /// If no other minor versions of a service template exist, delete a major version of the service template if it's not the Recommended version. Delete the Recommended version of the service template if no other major versions or minor versions of the service template exist. A major version of a service template is a version that isn't backwards compatible. Delete a minor version of a service template if it's not the Recommended version. Delete a Recommended minor version of the service template if no other minor versions of the service template exist. A minor version of a service template is a version that's backwards compatible.
     ///
-    /// - Parameter DeleteServiceTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceTemplateVersionInput`)
     ///
-    /// - Returns: `DeleteServiceTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2455,9 +2455,9 @@ extension ProtonClient {
     ///
     /// Delete a template sync configuration.
     ///
-    /// - Parameter DeleteTemplateSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateSyncConfigInput`)
     ///
-    /// - Returns: `DeleteTemplateSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2528,9 +2528,9 @@ extension ProtonClient {
     ///
     /// Get detail data for Proton account-wide settings.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2600,9 +2600,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter GetComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
-    /// - Returns: `GetComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2672,9 +2672,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a deployment.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2744,9 +2744,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for an environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2816,9 +2816,9 @@ extension ProtonClient {
     ///
     /// In an environment account, get the detailed data for an environment account connection. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter GetEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `GetEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2888,9 +2888,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for an environment template.
     ///
-    /// - Parameter GetEnvironmentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentTemplateInput`)
     ///
-    /// - Returns: `GetEnvironmentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2960,9 +2960,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a major or minor version of an environment template.
     ///
-    /// - Parameter GetEnvironmentTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentTemplateVersionInput`)
     ///
-    /// - Returns: `GetEnvironmentTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3032,9 +3032,9 @@ extension ProtonClient {
     ///
     /// Get detail data for a linked repository.
     ///
-    /// - Parameter GetRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositoryInput`)
     ///
-    /// - Returns: `GetRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3104,9 +3104,9 @@ extension ProtonClient {
     ///
     /// Get the sync status of a repository used for Proton template sync. For more information about template sync, see . A repository sync status isn't tied to the Proton Repository resource (or any other Proton resource). Therefore, tags on an Proton Repository resource have no effect on this action. Specifically, you can't use these tags to control access to this action using Attribute-based access control (ABAC). For more information about ABAC, see [ABAC](https://docs.aws.amazon.com/proton/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-tags) in the Proton User Guide.
     ///
-    /// - Parameter GetRepositorySyncStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRepositorySyncStatusInput`)
     ///
-    /// - Returns: `GetRepositorySyncStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRepositorySyncStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3176,9 +3176,9 @@ extension ProtonClient {
     ///
     /// Get counts of Proton resources. For infrastructure-provisioning resources (environments, services, service instances, pipelines), the action returns staleness counts. A resource is stale when it's behind the recommended version of the Proton template that it uses and it needs an update to become current. The action returns staleness counts (counts of resources that are up-to-date, behind a template major version, or behind a template minor version), the total number of resources, and the number of resources that are in a failed state, grouped by resource type. Components, environments, and service templates return less information - see the components, environments, and serviceTemplates field descriptions. For context, the action also returns the total number of each type of Proton template in the Amazon Web Services account. For more information, see [Proton dashboard](https://docs.aws.amazon.com/proton/latest/userguide/monitoring-dashboard.html) in the Proton User Guide.
     ///
-    /// - Parameter GetResourcesSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesSummaryInput`)
     ///
-    /// - Returns: `GetResourcesSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3247,9 +3247,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a service.
     ///
-    /// - Parameter GetServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInput`)
     ///
-    /// - Returns: `GetServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3319,9 +3319,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a service instance. A service instance is an instantiation of service template and it runs in a specific environment.
     ///
-    /// - Parameter GetServiceInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInstanceInput`)
     ///
-    /// - Returns: `GetServiceInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3391,9 +3391,9 @@ extension ProtonClient {
     ///
     /// Get the status of the synced service instance.
     ///
-    /// - Parameter GetServiceInstanceSyncStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInstanceSyncStatusInput`)
     ///
-    /// - Returns: `GetServiceInstanceSyncStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceInstanceSyncStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3463,9 +3463,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for the service sync blocker summary.
     ///
-    /// - Parameter GetServiceSyncBlockerSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSyncBlockerSummaryInput`)
     ///
-    /// - Returns: `GetServiceSyncBlockerSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSyncBlockerSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3535,9 +3535,9 @@ extension ProtonClient {
     ///
     /// Get detailed information for the service sync configuration.
     ///
-    /// - Parameter GetServiceSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSyncConfigInput`)
     ///
-    /// - Returns: `GetServiceSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3607,9 +3607,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a service template.
     ///
-    /// - Parameter GetServiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceTemplateInput`)
     ///
-    /// - Returns: `GetServiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3679,9 +3679,9 @@ extension ProtonClient {
     ///
     /// Get detailed data for a major or minor version of a service template.
     ///
-    /// - Parameter GetServiceTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceTemplateVersionInput`)
     ///
-    /// - Returns: `GetServiceTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3751,9 +3751,9 @@ extension ProtonClient {
     ///
     /// Get detail data for a template sync configuration.
     ///
-    /// - Parameter GetTemplateSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateSyncConfigInput`)
     ///
-    /// - Returns: `GetTemplateSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3823,9 +3823,9 @@ extension ProtonClient {
     ///
     /// Get the status of a template sync.
     ///
-    /// - Parameter GetTemplateSyncStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateSyncStatusInput`)
     ///
-    /// - Returns: `GetTemplateSyncStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateSyncStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3895,9 +3895,9 @@ extension ProtonClient {
     ///
     /// Get a list of component Infrastructure as Code (IaC) outputs. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter ListComponentOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentOutputsInput`)
     ///
-    /// - Returns: `ListComponentOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3967,9 +3967,9 @@ extension ProtonClient {
     ///
     /// List provisioned resources for a component with details. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter ListComponentProvisionedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentProvisionedResourcesInput`)
     ///
-    /// - Returns: `ListComponentProvisionedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentProvisionedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4039,9 +4039,9 @@ extension ProtonClient {
     ///
     /// List components with summary data. You can filter the result list by environment, service, or a single service instance. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4110,9 +4110,9 @@ extension ProtonClient {
     ///
     /// List deployments. You can filter the result list by environment, service, or a single service instance.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4182,9 +4182,9 @@ extension ProtonClient {
     ///
     /// View a list of environment account connections. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter ListEnvironmentAccountConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentAccountConnectionsInput`)
     ///
-    /// - Returns: `ListEnvironmentAccountConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentAccountConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4253,9 +4253,9 @@ extension ProtonClient {
     ///
     /// List the infrastructure as code outputs for your environment.
     ///
-    /// - Parameter ListEnvironmentOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentOutputsInput`)
     ///
-    /// - Returns: `ListEnvironmentOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4325,9 +4325,9 @@ extension ProtonClient {
     ///
     /// List the provisioned resources for your environment.
     ///
-    /// - Parameter ListEnvironmentProvisionedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentProvisionedResourcesInput`)
     ///
-    /// - Returns: `ListEnvironmentProvisionedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentProvisionedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4397,9 +4397,9 @@ extension ProtonClient {
     ///
     /// List major or minor versions of an environment template with detail data.
     ///
-    /// - Parameter ListEnvironmentTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentTemplateVersionsInput`)
     ///
-    /// - Returns: `ListEnvironmentTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4469,9 +4469,9 @@ extension ProtonClient {
     ///
     /// List environment templates.
     ///
-    /// - Parameter ListEnvironmentTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentTemplatesInput`)
     ///
-    /// - Returns: `ListEnvironmentTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4540,9 +4540,9 @@ extension ProtonClient {
     ///
     /// List environments with detail data summaries.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4612,9 +4612,9 @@ extension ProtonClient {
     ///
     /// List linked repositories with detail data.
     ///
-    /// - Parameter ListRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositoriesInput`)
     ///
-    /// - Returns: `ListRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4684,9 +4684,9 @@ extension ProtonClient {
     ///
     /// List repository sync definitions with detail data.
     ///
-    /// - Parameter ListRepositorySyncDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositorySyncDefinitionsInput`)
     ///
-    /// - Returns: `ListRepositorySyncDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositorySyncDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4755,9 +4755,9 @@ extension ProtonClient {
     ///
     /// Get a list service of instance Infrastructure as Code (IaC) outputs.
     ///
-    /// - Parameter ListServiceInstanceOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceInstanceOutputsInput`)
     ///
-    /// - Returns: `ListServiceInstanceOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceInstanceOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4827,9 +4827,9 @@ extension ProtonClient {
     ///
     /// List provisioned resources for a service instance with details.
     ///
-    /// - Parameter ListServiceInstanceProvisionedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceInstanceProvisionedResourcesInput`)
     ///
-    /// - Returns: `ListServiceInstanceProvisionedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceInstanceProvisionedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4899,9 +4899,9 @@ extension ProtonClient {
     ///
     /// List service instances with summary data. This action lists service instances of all services in the Amazon Web Services account.
     ///
-    /// - Parameter ListServiceInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceInstancesInput`)
     ///
-    /// - Returns: `ListServiceInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4971,9 +4971,9 @@ extension ProtonClient {
     ///
     /// Get a list of service pipeline Infrastructure as Code (IaC) outputs.
     ///
-    /// - Parameter ListServicePipelineOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicePipelineOutputsInput`)
     ///
-    /// - Returns: `ListServicePipelineOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicePipelineOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5043,9 +5043,9 @@ extension ProtonClient {
     ///
     /// List provisioned resources for a service and pipeline with details.
     ///
-    /// - Parameter ListServicePipelineProvisionedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicePipelineProvisionedResourcesInput`)
     ///
-    /// - Returns: `ListServicePipelineProvisionedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicePipelineProvisionedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5115,9 +5115,9 @@ extension ProtonClient {
     ///
     /// List major or minor versions of a service template with detail data.
     ///
-    /// - Parameter ListServiceTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceTemplateVersionsInput`)
     ///
-    /// - Returns: `ListServiceTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5187,9 +5187,9 @@ extension ProtonClient {
     ///
     /// List service templates with detail data.
     ///
-    /// - Parameter ListServiceTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceTemplatesInput`)
     ///
-    /// - Returns: `ListServiceTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5258,9 +5258,9 @@ extension ProtonClient {
     ///
     /// List services with summaries of detail data.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5329,9 +5329,9 @@ extension ProtonClient {
     ///
     /// List tags for a resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5401,9 +5401,9 @@ extension ProtonClient {
     ///
     /// Notify Proton of status changes to a provisioned resource when you use self-managed provisioning. For more information, see [Self-managed provisioning](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html#ag-works-prov-methods-self) in the Proton User Guide.
     ///
-    /// - Parameter NotifyResourceDeploymentStatusChangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyResourceDeploymentStatusChangeInput`)
     ///
-    /// - Returns: `NotifyResourceDeploymentStatusChangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyResourceDeploymentStatusChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5475,9 +5475,9 @@ extension ProtonClient {
     ///
     /// In a management account, reject an environment account connection from another environment account. After you reject an environment account connection request, you can't accept or use the rejected environment account connection. You can’t reject an environment account connection that's connected to an environment. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter RejectEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `RejectEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5548,9 +5548,9 @@ extension ProtonClient {
     ///
     /// Tag a resource. A tag is a key-value pair of metadata that you associate with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5621,9 +5621,9 @@ extension ProtonClient {
     ///
     /// Remove a customer tag from a resource. A tag is a key-value pair of metadata associated with an Proton resource. For more information, see [Proton resources and tagging](https://docs.aws.amazon.com/proton/latest/userguide/resources.html) in the Proton User Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5694,9 +5694,9 @@ extension ProtonClient {
     ///
     /// Update Proton settings that are used for multiple services in the Amazon Web Services account.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5766,9 +5766,9 @@ extension ProtonClient {
     ///
     /// Update a component. There are a few modes for updating a component. The deploymentType field defines the mode. You can't update a component while its deployment status, or the deployment status of a service instance attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter UpdateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComponentInput`)
     ///
-    /// - Returns: `UpdateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5841,9 +5841,9 @@ extension ProtonClient {
     ///
     /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn and provisioningRepository parameter to update or connect to an environment account connection. You can only update to a new environment account connection if that connection was created in the same environment account that the current environment account connection was created in. The account connection must also be associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter. You can't update or connect the environment to an environment account connection if it isn't already associated with an environment connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. If the environment was configured for Amazon Web Services-managed provisioning, omit the provisioningRepository parameter. If the environment was configured for self-managed provisioning, specify the provisioningRepository parameter and omit the protonServiceRoleArn and environmentAccountConnectionId parameters. For more information, see [Environments](https://docs.aws.amazon.com/proton/latest/userguide/ag-environments.html) and [Provisioning methods](https://docs.aws.amazon.com/proton/latest/userguide/ag-works-prov-methods.html) in the Proton User Guide. There are four modes for updating an environment. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type. MINOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version.
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5914,9 +5914,9 @@ extension ProtonClient {
     ///
     /// In an environment account, update an environment account connection to use a new IAM role. For more information, see [Environment account connections](https://docs.aws.amazon.com/proton/latest/userguide/ag-env-account-connections.html) in the Proton User guide.
     ///
-    /// - Parameter UpdateEnvironmentAccountConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentAccountConnectionInput`)
     ///
-    /// - Returns: `UpdateEnvironmentAccountConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentAccountConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5987,9 +5987,9 @@ extension ProtonClient {
     ///
     /// Update an environment template.
     ///
-    /// - Parameter UpdateEnvironmentTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentTemplateInput`)
     ///
-    /// - Returns: `UpdateEnvironmentTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6060,9 +6060,9 @@ extension ProtonClient {
     ///
     /// Update a major or minor version of an environment template.
     ///
-    /// - Parameter UpdateEnvironmentTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentTemplateVersionInput`)
     ///
-    /// - Returns: `UpdateEnvironmentTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6133,9 +6133,9 @@ extension ProtonClient {
     ///
     /// Edit a service description or use a spec to add and delete service instances. Existing service instances and the service pipeline can't be edited using this API. They can only be deleted. Use the description parameter to modify the description. Edit the spec parameter to add or delete instances. You can't delete a service instance (remove it from the spec) if it has an attached component. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter UpdateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: `UpdateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6207,9 +6207,9 @@ extension ProtonClient {
     ///
     /// Update a service instance. There are a few modes for updating a service instance. The deploymentType field defines the mode. You can't update a service instance while its deployment status, or the deployment status of a component attached to it, is IN_PROGRESS. For more information about components, see [Proton components](https://docs.aws.amazon.com/proton/latest/userguide/ag-components.html) in the Proton User Guide.
     ///
-    /// - Parameter UpdateServiceInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInstanceInput`)
     ///
-    /// - Returns: `UpdateServiceInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6281,9 +6281,9 @@ extension ProtonClient {
     ///
     /// Update the service pipeline. There are four modes for updating a service pipeline. The deploymentType field defines the mode. NONE In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. CURRENT_VERSION In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type. MINOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use. MAJOR_VERSION In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template by default. You can specify a different major version that's higher than the major version in use and a minor version.
     ///
-    /// - Parameter UpdateServicePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServicePipelineInput`)
     ///
-    /// - Returns: `UpdateServicePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServicePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6354,9 +6354,9 @@ extension ProtonClient {
     ///
     /// Update the service sync blocker by resolving it.
     ///
-    /// - Parameter UpdateServiceSyncBlockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSyncBlockerInput`)
     ///
-    /// - Returns: `UpdateServiceSyncBlockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSyncBlockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6427,9 +6427,9 @@ extension ProtonClient {
     ///
     /// Update the Proton Ops config file.
     ///
-    /// - Parameter UpdateServiceSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSyncConfigInput`)
     ///
-    /// - Returns: `UpdateServiceSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6500,9 +6500,9 @@ extension ProtonClient {
     ///
     /// Update a service template.
     ///
-    /// - Parameter UpdateServiceTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceTemplateInput`)
     ///
-    /// - Returns: `UpdateServiceTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6573,9 +6573,9 @@ extension ProtonClient {
     ///
     /// Update a major or minor version of a service template.
     ///
-    /// - Parameter UpdateServiceTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceTemplateVersionInput`)
     ///
-    /// - Returns: `UpdateServiceTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6646,9 +6646,9 @@ extension ProtonClient {
     ///
     /// Update template sync configuration parameters, except for the templateName and templateType. Repository details (branch, name, and provider) should be of a linked repository. A linked repository is a repository that has been registered with Proton. For more information, see [CreateRepository].
     ///
-    /// - Parameter UpdateTemplateSyncConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateSyncConfigInput`)
     ///
-    /// - Returns: `UpdateTemplateSyncConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateSyncConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53ProfilesClient: ClientRuntime.Client {
     public static let clientName = "Route53ProfilesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53ProfilesClient.Route53ProfilesClientConfiguration
     let serviceName = "Route53Profiles"
@@ -373,9 +373,9 @@ extension Route53ProfilesClient {
     ///
     /// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more information, see [https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities).
     ///
-    /// - Parameter AssociateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateProfileInput`)
     ///
-    /// - Returns: `AssociateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension Route53ProfilesClient {
     ///
     /// Associates a DNS reource configuration to a Route 53 Profile.
     ///
-    /// - Parameter AssociateResourceToProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceToProfileInput`)
     ///
-    /// - Returns: `AssociateResourceToProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceToProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension Route53ProfilesClient {
     ///
     /// Creates an empty Route 53 Profile.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension Route53ProfilesClient {
     ///
     /// Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension Route53ProfilesClient {
     ///
     /// Dissociates a specified Route 53 Profile from the specified VPC.
     ///
-    /// - Parameter DisassociateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateProfileInput`)
     ///
-    /// - Returns: `DisassociateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension Route53ProfilesClient {
     ///
     /// Dissoaciated a specified resource, from the Route 53 Profile.
     ///
-    /// - Parameter DisassociateResourceFromProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceFromProfileInput`)
     ///
-    /// - Returns: `DisassociateResourceFromProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceFromProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -801,9 +801,9 @@ extension Route53ProfilesClient {
     ///
     /// Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.
     ///
-    /// - Parameter GetProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileInput`)
     ///
-    /// - Returns: `GetProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -868,9 +868,9 @@ extension Route53ProfilesClient {
     ///
     /// Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
     ///
-    /// - Parameter GetProfileAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileAssociationInput`)
     ///
-    /// - Returns: `GetProfileAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -935,9 +935,9 @@ extension Route53ProfilesClient {
     ///
     /// Returns information about a specified Route 53 Profile resource association.
     ///
-    /// - Parameter GetProfileResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileResourceAssociationInput`)
     ///
-    /// - Returns: `GetProfileResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,9 +1003,9 @@ extension Route53ProfilesClient {
     ///
     /// Lists all the VPCs that the specified Route 53 Profile is associated with.
     ///
-    /// - Parameter ListProfileAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileAssociationsInput`)
     ///
-    /// - Returns: `ListProfileAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1072,9 +1072,9 @@ extension Route53ProfilesClient {
     ///
     /// Lists all the resource associations for the specified Route 53 Profile.
     ///
-    /// - Parameter ListProfileResourceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileResourceAssociationsInput`)
     ///
-    /// - Returns: `ListProfileResourceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileResourceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,9 +1143,9 @@ extension Route53ProfilesClient {
     ///
     /// Lists all the Route 53 Profiles associated with your Amazon Web Services account.
     ///
-    /// - Parameter ListProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfilesInput`)
     ///
-    /// - Returns: `ListProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,9 +1212,9 @@ extension Route53ProfilesClient {
     ///
     /// Lists the tags that you associated with the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1280,9 +1280,9 @@ extension Route53ProfilesClient {
     ///
     /// Adds one or more tags to a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,9 +1350,9 @@ extension Route53ProfilesClient {
     ///
     /// Removes one or more tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,9 +1419,9 @@ extension Route53ProfilesClient {
     ///
     /// Updates the specified Route 53 Profile resourse association.
     ///
-    /// - Parameter UpdateProfileResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileResourceAssociationInput`)
     ///
-    /// - Returns: `UpdateProfileResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

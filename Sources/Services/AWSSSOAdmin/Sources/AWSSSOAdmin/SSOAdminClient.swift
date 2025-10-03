@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOAdminClient: ClientRuntime.Client {
     public static let clientName = "SSOAdminClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOAdminClient.SSOAdminClientConfiguration
     let serviceName = "SSO Admin"
@@ -374,9 +374,9 @@ extension SSOAdminClient {
     ///
     /// Attaches the specified customer managed policy to the specified [PermissionSet].
     ///
-    /// - Parameter AttachCustomerManagedPolicyReferenceToPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachCustomerManagedPolicyReferenceToPermissionSetInput`)
     ///
-    /// - Returns: `AttachCustomerManagedPolicyReferenceToPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachCustomerManagedPolicyReferenceToPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension SSOAdminClient {
     ///
     /// Attaches an Amazon Web Services managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
-    /// - Parameter AttachManagedPolicyToPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachManagedPolicyToPermissionSetInput`)
     ///
-    /// - Returns: `AttachManagedPolicyToPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachManagedPolicyToPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension SSOAdminClient {
     ///
     /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
-    /// - Parameter CreateAccountAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountAssignmentInput`)
     ///
-    /// - Returns: `CreateAccountAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -596,9 +596,9 @@ extension SSOAdminClient {
     ///
     /// Creates an OAuth 2.0 customer managed application in IAM Identity Center for the given application provider. This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See [Setting up customer managed SAML 2.0 applications](https://docs.aws.amazon.com/singlesignon/latest/userguide/customermanagedapps-saml2-setup.html). For more information on these application types, see [Amazon Web Services managed applications](https://docs.aws.amazon.com/singlesignon/latest/userguide/awsapps.html).
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension SSOAdminClient {
     ///
     /// Grant application access to a user or group.
     ///
-    /// - Parameter CreateApplicationAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationAssignmentInput`)
     ///
-    /// - Returns: `CreateApplicationAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,9 +749,9 @@ extension SSOAdminClient {
     ///
     /// * An instance already exists in the same account.
     ///
-    /// - Parameter CreateInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceInput`)
     ///
-    /// - Returns: `CreateInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -823,9 +823,9 @@ extension SSOAdminClient {
     ///
     /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide. After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created.
     ///
-    /// - Parameter CreateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceAccessControlAttributeConfigurationInput`)
     ///
-    /// - Returns: `CreateInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceAccessControlAttributeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -896,9 +896,9 @@ extension SSOAdminClient {
     ///
     /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to Amazon Web Services account resources, use [CreateAccountAssignment].
     ///
-    /// - Parameter CreatePermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionSetInput`)
     ///
-    /// - Returns: `CreatePermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -970,9 +970,9 @@ extension SSOAdminClient {
     ///
     /// Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A trusted token issuer enables trusted identity propagation to be used with applications that authenticate outside of Amazon Web Services. This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
     ///
-    /// - Parameter CreateTrustedTokenIssuerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrustedTokenIssuerInput`)
     ///
-    /// - Returns: `CreateTrustedTokenIssuerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrustedTokenIssuerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,9 +1044,9 @@ extension SSOAdminClient {
     ///
     /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
-    /// - Parameter DeleteAccountAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountAssignmentInput`)
     ///
-    /// - Returns: `DeleteAccountAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1117,9 +1117,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the association with the application. The connected service resource still exists.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1190,9 +1190,9 @@ extension SSOAdminClient {
     ///
     /// Deletes an IAM Identity Center access scope from an application.
     ///
-    /// - Parameter DeleteApplicationAccessScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationAccessScopeInput`)
     ///
-    /// - Returns: `DeleteApplicationAccessScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationAccessScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1263,9 +1263,9 @@ extension SSOAdminClient {
     ///
     /// Revoke application access to an application by deleting application assignments for a user or group.
     ///
-    /// - Parameter DeleteApplicationAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationAssignmentInput`)
     ///
-    /// - Returns: `DeleteApplicationAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1336,9 +1336,9 @@ extension SSOAdminClient {
     ///
     /// Deletes an authentication method from an application.
     ///
-    /// - Parameter DeleteApplicationAuthenticationMethodInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationAuthenticationMethodInput`)
     ///
-    /// - Returns: `DeleteApplicationAuthenticationMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationAuthenticationMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1409,9 +1409,9 @@ extension SSOAdminClient {
     ///
     /// Deletes a grant from an application.
     ///
-    /// - Parameter DeleteApplicationGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationGrantInput`)
     ///
-    /// - Returns: `DeleteApplicationGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,9 +1482,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the inline policy from a specified permission set.
     ///
-    /// - Parameter DeleteInlinePolicyFromPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInlinePolicyFromPermissionSetInput`)
     ///
-    /// - Returns: `DeleteInlinePolicyFromPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInlinePolicyFromPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1555,9 +1555,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
     ///
-    /// - Parameter DeleteInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceInput`)
     ///
-    /// - Returns: `DeleteInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1627,9 +1627,9 @@ extension SSOAdminClient {
     ///
     /// Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
-    /// - Parameter DeleteInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceAccessControlAttributeConfigurationInput`)
     ///
-    /// - Returns: `DeleteInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceAccessControlAttributeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1700,9 +1700,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the specified permission set.
     ///
-    /// - Parameter DeletePermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionSetInput`)
     ///
-    /// - Returns: `DeletePermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1773,9 +1773,9 @@ extension SSOAdminClient {
     ///
     /// Deletes the permissions boundary from a specified [PermissionSet].
     ///
-    /// - Parameter DeletePermissionsBoundaryFromPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionsBoundaryFromPermissionSetInput`)
     ///
-    /// - Returns: `DeletePermissionsBoundaryFromPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionsBoundaryFromPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1846,9 +1846,9 @@ extension SSOAdminClient {
     ///
     /// Deletes a trusted token issuer configuration from an instance of IAM Identity Center. Deleting this trusted token issuer configuration will cause users to lose access to any applications that are configured to use the trusted token issuer.
     ///
-    /// - Parameter DeleteTrustedTokenIssuerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrustedTokenIssuerInput`)
     ///
-    /// - Returns: `DeleteTrustedTokenIssuerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrustedTokenIssuerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1919,9 +1919,9 @@ extension SSOAdminClient {
     ///
     /// Describes the status of the assignment creation request.
     ///
-    /// - Parameter DescribeAccountAssignmentCreationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAssignmentCreationStatusInput`)
     ///
-    /// - Returns: `DescribeAccountAssignmentCreationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAssignmentCreationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1991,9 +1991,9 @@ extension SSOAdminClient {
     ///
     /// Describes the status of the assignment deletion request.
     ///
-    /// - Parameter DescribeAccountAssignmentDeletionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAssignmentDeletionStatusInput`)
     ///
-    /// - Returns: `DescribeAccountAssignmentDeletionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAssignmentDeletionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2063,9 +2063,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves the details of an application associated with an instance of IAM Identity Center.
     ///
-    /// - Parameter DescribeApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationInput`)
     ///
-    /// - Returns: `DescribeApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,9 +2135,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves a direct assignment of a user or group to an application. If the user doesn’t have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don’t use this API to test access to an application for a user. Instead use [ListApplicationAssignmentsForPrincipal].
     ///
-    /// - Parameter DescribeApplicationAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationAssignmentInput`)
     ///
-    /// - Returns: `DescribeApplicationAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2207,9 +2207,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
     ///
-    /// - Parameter DescribeApplicationProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationProviderInput`)
     ///
-    /// - Returns: `DescribeApplicationProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2285,9 +2285,9 @@ extension SSOAdminClient {
     ///
     /// * ACTIVE - The instance is active.
     ///
-    /// - Parameter DescribeInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceInput`)
     ///
-    /// - Returns: `DescribeInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2356,9 +2356,9 @@ extension SSOAdminClient {
     ///
     /// Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
-    /// - Parameter DescribeInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceAccessControlAttributeConfigurationInput`)
     ///
-    /// - Returns: `DescribeInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceAccessControlAttributeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2428,9 +2428,9 @@ extension SSOAdminClient {
     ///
     /// Gets the details of the permission set.
     ///
-    /// - Parameter DescribePermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePermissionSetInput`)
     ///
-    /// - Returns: `DescribePermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,9 +2500,9 @@ extension SSOAdminClient {
     ///
     /// Describes the status for the given permission set provisioning request.
     ///
-    /// - Parameter DescribePermissionSetProvisioningStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePermissionSetProvisioningStatusInput`)
     ///
-    /// - Returns: `DescribePermissionSetProvisioningStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePermissionSetProvisioningStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2572,9 +2572,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
     ///
-    /// - Parameter DescribeTrustedTokenIssuerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrustedTokenIssuerInput`)
     ///
-    /// - Returns: `DescribeTrustedTokenIssuerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrustedTokenIssuerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2644,9 +2644,9 @@ extension SSOAdminClient {
     ///
     /// Detaches the specified customer managed policy from the specified [PermissionSet].
     ///
-    /// - Parameter DetachCustomerManagedPolicyReferenceFromPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachCustomerManagedPolicyReferenceFromPermissionSetInput`)
     ///
-    /// - Returns: `DetachCustomerManagedPolicyReferenceFromPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachCustomerManagedPolicyReferenceFromPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2717,9 +2717,9 @@ extension SSOAdminClient {
     ///
     /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
-    /// - Parameter DetachManagedPolicyFromPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachManagedPolicyFromPermissionSetInput`)
     ///
-    /// - Returns: `DetachManagedPolicyFromPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachManagedPolicyFromPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2790,9 +2790,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves the authorized targets for an IAM Identity Center access scope for an application.
     ///
-    /// - Parameter GetApplicationAccessScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationAccessScopeInput`)
     ///
-    /// - Returns: `GetApplicationAccessScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationAccessScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2862,9 +2862,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves the configuration of [PutApplicationAssignmentConfiguration].
     ///
-    /// - Parameter GetApplicationAssignmentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationAssignmentConfigurationInput`)
     ///
-    /// - Returns: `GetApplicationAssignmentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationAssignmentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2934,9 +2934,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves details about an authentication method used by an application.
     ///
-    /// - Parameter GetApplicationAuthenticationMethodInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationAuthenticationMethodInput`)
     ///
-    /// - Returns: `GetApplicationAuthenticationMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationAuthenticationMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3006,9 +3006,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves details about an application grant.
     ///
-    /// - Parameter GetApplicationGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationGrantInput`)
     ///
-    /// - Returns: `GetApplicationGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3078,9 +3078,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
     ///
-    /// - Parameter GetApplicationSessionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationSessionConfigurationInput`)
     ///
-    /// - Returns: `GetApplicationSessionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationSessionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3150,9 +3150,9 @@ extension SSOAdminClient {
     ///
     /// Obtains the inline policy assigned to the permission set.
     ///
-    /// - Parameter GetInlinePolicyForPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInlinePolicyForPermissionSetInput`)
     ///
-    /// - Returns: `GetInlinePolicyForPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInlinePolicyForPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3222,9 +3222,9 @@ extension SSOAdminClient {
     ///
     /// Obtains the permissions boundary for a specified [PermissionSet].
     ///
-    /// - Parameter GetPermissionsBoundaryForPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPermissionsBoundaryForPermissionSetInput`)
     ///
-    /// - Returns: `GetPermissionsBoundaryForPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPermissionsBoundaryForPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3294,9 +3294,9 @@ extension SSOAdminClient {
     ///
     /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     ///
-    /// - Parameter ListAccountAssignmentCreationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssignmentCreationStatusInput`)
     ///
-    /// - Returns: `ListAccountAssignmentCreationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssignmentCreationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3366,9 +3366,9 @@ extension SSOAdminClient {
     ///
     /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     ///
-    /// - Parameter ListAccountAssignmentDeletionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssignmentDeletionStatusInput`)
     ///
-    /// - Returns: `ListAccountAssignmentDeletionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssignmentDeletionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3438,9 +3438,9 @@ extension SSOAdminClient {
     ///
     /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
-    /// - Parameter ListAccountAssignmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssignmentsInput`)
     ///
-    /// - Returns: `ListAccountAssignmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssignmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3510,9 +3510,9 @@ extension SSOAdminClient {
     ///
     /// Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
     ///
-    /// - Parameter ListAccountAssignmentsForPrincipalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssignmentsForPrincipalInput`)
     ///
-    /// - Returns: `ListAccountAssignmentsForPrincipalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssignmentsForPrincipalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3582,9 +3582,9 @@ extension SSOAdminClient {
     ///
     /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
-    /// - Parameter ListAccountsForProvisionedPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountsForProvisionedPermissionSetInput`)
     ///
-    /// - Returns: `ListAccountsForProvisionedPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountsForProvisionedPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3654,9 +3654,9 @@ extension SSOAdminClient {
     ///
     /// Lists the access scopes and authorized targets associated with an application.
     ///
-    /// - Parameter ListApplicationAccessScopesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAccessScopesInput`)
     ///
-    /// - Returns: `ListApplicationAccessScopesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAccessScopesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3726,9 +3726,9 @@ extension SSOAdminClient {
     ///
     /// Lists Amazon Web Services account users that are assigned to an application.
     ///
-    /// - Parameter ListApplicationAssignmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAssignmentsInput`)
     ///
-    /// - Returns: `ListApplicationAssignmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAssignmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3798,9 +3798,9 @@ extension SSOAdminClient {
     ///
     /// Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
     ///
-    /// - Parameter ListApplicationAssignmentsForPrincipalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAssignmentsForPrincipalInput`)
     ///
-    /// - Returns: `ListApplicationAssignmentsForPrincipalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAssignmentsForPrincipalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3870,9 +3870,9 @@ extension SSOAdminClient {
     ///
     /// Lists all of the authentication methods supported by the specified application.
     ///
-    /// - Parameter ListApplicationAuthenticationMethodsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationAuthenticationMethodsInput`)
     ///
-    /// - Returns: `ListApplicationAuthenticationMethodsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationAuthenticationMethodsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3942,9 +3942,9 @@ extension SSOAdminClient {
     ///
     /// List the grants associated with an application.
     ///
-    /// - Parameter ListApplicationGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationGrantsInput`)
     ///
-    /// - Returns: `ListApplicationGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4014,9 +4014,9 @@ extension SSOAdminClient {
     ///
     /// Lists the application providers configured in the IAM Identity Center identity store.
     ///
-    /// - Parameter ListApplicationProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationProvidersInput`)
     ///
-    /// - Returns: `ListApplicationProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4085,9 +4085,9 @@ extension SSOAdminClient {
     ///
     /// Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the applicationAccount parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4156,9 +4156,9 @@ extension SSOAdminClient {
     ///
     /// Lists all customer managed policies attached to a specified [PermissionSet].
     ///
-    /// - Parameter ListCustomerManagedPolicyReferencesInPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomerManagedPolicyReferencesInPermissionSetInput`)
     ///
-    /// - Returns: `ListCustomerManagedPolicyReferencesInPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomerManagedPolicyReferencesInPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4228,9 +4228,9 @@ extension SSOAdminClient {
     ///
     /// Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
     ///
-    /// - Parameter ListInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstancesInput`)
     ///
-    /// - Returns: `ListInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4299,9 +4299,9 @@ extension SSOAdminClient {
     ///
     /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
-    /// - Parameter ListManagedPoliciesInPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedPoliciesInPermissionSetInput`)
     ///
-    /// - Returns: `ListManagedPoliciesInPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedPoliciesInPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4371,9 +4371,9 @@ extension SSOAdminClient {
     ///
     /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
     ///
-    /// - Parameter ListPermissionSetProvisioningStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionSetProvisioningStatusInput`)
     ///
-    /// - Returns: `ListPermissionSetProvisioningStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionSetProvisioningStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4443,9 +4443,9 @@ extension SSOAdminClient {
     ///
     /// Lists the [PermissionSet]s in an IAM Identity Center instance.
     ///
-    /// - Parameter ListPermissionSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionSetsInput`)
     ///
-    /// - Returns: `ListPermissionSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4515,9 +4515,9 @@ extension SSOAdminClient {
     ///
     /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
-    /// - Parameter ListPermissionSetsProvisionedToAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionSetsProvisionedToAccountInput`)
     ///
-    /// - Returns: `ListPermissionSetsProvisionedToAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionSetsProvisionedToAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4587,9 +4587,9 @@ extension SSOAdminClient {
     ///
     /// Lists the tags that are attached to a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4659,9 +4659,9 @@ extension SSOAdminClient {
     ///
     /// Lists all the trusted token issuers configured in an instance of IAM Identity Center.
     ///
-    /// - Parameter ListTrustedTokenIssuersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustedTokenIssuersInput`)
     ///
-    /// - Returns: `ListTrustedTokenIssuersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustedTokenIssuersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4730,9 +4730,9 @@ extension SSOAdminClient {
     ///
     /// The process by which a specified permission set is provisioned to the specified target.
     ///
-    /// - Parameter ProvisionPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionPermissionSetInput`)
     ///
-    /// - Returns: `ProvisionPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4803,9 +4803,9 @@ extension SSOAdminClient {
     ///
     /// Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
     ///
-    /// - Parameter PutApplicationAccessScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationAccessScopeInput`)
     ///
-    /// - Returns: `PutApplicationAccessScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationAccessScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4876,9 +4876,9 @@ extension SSOAdminClient {
     ///
     /// Configure how users gain access to an application. If AssignmentsRequired is true (default value), users don’t have access to the application unless an assignment is created using the [CreateApplicationAssignment API](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html). If false, all users have access to the application. If an assignment is created using [CreateApplicationAssignment](https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_CreateApplicationAssignment.html)., the user retains access if AssignmentsRequired is set to true.
     ///
-    /// - Parameter PutApplicationAssignmentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationAssignmentConfigurationInput`)
     ///
-    /// - Returns: `PutApplicationAssignmentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationAssignmentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4949,9 +4949,9 @@ extension SSOAdminClient {
     ///
     /// Adds or updates an authentication method for an application.
     ///
-    /// - Parameter PutApplicationAuthenticationMethodInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationAuthenticationMethodInput`)
     ///
-    /// - Returns: `PutApplicationAuthenticationMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationAuthenticationMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5048,9 +5048,9 @@ extension SSOAdminClient {
     ///
     /// * Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
     ///
-    /// - Parameter PutApplicationGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationGrantInput`)
     ///
-    /// - Returns: `PutApplicationGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5121,9 +5121,9 @@ extension SSOAdminClient {
     ///
     /// Updates the session configuration for an application in IAM Identity Center. The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
     ///
-    /// - Parameter PutApplicationSessionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutApplicationSessionConfigurationInput`)
     ///
-    /// - Returns: `PutApplicationSessionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutApplicationSessionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5194,9 +5194,9 @@ extension SSOAdminClient {
     ///
     /// Attaches an inline policy to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this action to apply the corresponding IAM policy updates to all assigned accounts.
     ///
-    /// - Parameter PutInlinePolicyToPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInlinePolicyToPermissionSetInput`)
     ///
-    /// - Returns: `PutInlinePolicyToPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInlinePolicyToPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5268,9 +5268,9 @@ extension SSOAdminClient {
     ///
     /// Attaches an Amazon Web Services managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
     ///
-    /// - Parameter PutPermissionsBoundaryToPermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPermissionsBoundaryToPermissionSetInput`)
     ///
-    /// - Returns: `PutPermissionsBoundaryToPermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPermissionsBoundaryToPermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5341,9 +5341,9 @@ extension SSOAdminClient {
     ///
     /// Associates a set of tags with a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5415,9 +5415,9 @@ extension SSOAdminClient {
     ///
     /// Disassociates a set of tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5488,9 +5488,9 @@ extension SSOAdminClient {
     ///
     /// Updates application properties.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5561,9 +5561,9 @@ extension SSOAdminClient {
     ///
     /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
     ///
-    /// - Parameter UpdateInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceInput`)
     ///
-    /// - Returns: `UpdateInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5634,9 +5634,9 @@ extension SSOAdminClient {
     ///
     /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
     ///
-    /// - Parameter UpdateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceAccessControlAttributeConfigurationInput`)
     ///
-    /// - Returns: `UpdateInstanceAccessControlAttributeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceAccessControlAttributeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5707,9 +5707,9 @@ extension SSOAdminClient {
     ///
     /// Updates an existing permission set.
     ///
-    /// - Parameter UpdatePermissionSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePermissionSetInput`)
     ///
-    /// - Returns: `UpdatePermissionSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePermissionSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5780,9 +5780,9 @@ extension SSOAdminClient {
     ///
     /// Updates the name of the trusted token issuer, or the path of a source attribute or destination attribute for a trusted token issuer configuration. Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
     ///
-    /// - Parameter UpdateTrustedTokenIssuerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrustedTokenIssuerInput`)
     ///
-    /// - Returns: `UpdateTrustedTokenIssuerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrustedTokenIssuerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

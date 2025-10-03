@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTDataPlaneClient: ClientRuntime.Client {
     public static let clientName = "IoTDataPlaneClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTDataPlaneClient.IoTDataPlaneClientConfiguration
     let serviceName = "IoT Data Plane"
@@ -373,9 +373,9 @@ extension IoTDataPlaneClient {
     ///
     /// Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state.
     ///
-    /// - Parameter DeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension IoTDataPlaneClient {
     ///
     /// Deletes the shadow for the specified thing. Requires permission to access the [DeleteThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [DeleteThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_DeleteThingShadow.html) in the IoT Developer Guide.
     ///
-    /// - Parameter DeleteThingShadowInput : The input for the DeleteThingShadow operation.
+    /// - Parameter input: The input for the DeleteThingShadow operation. (Type: `DeleteThingShadowInput`)
     ///
-    /// - Returns: `DeleteThingShadowOutput` : The output from the DeleteThingShadow operation.
+    /// - Returns: The output from the DeleteThingShadow operation. (Type: `DeleteThingShadowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension IoTDataPlaneClient {
     ///
     /// Gets the details of a single retained message for the specified topic. This action returns the message payload of the retained message, which can incur messaging costs. To list only the topic names of the retained messages, call [ListRetainedMessages](https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_ListRetainedMessages.html). Requires permission to access the [GetRetainedMessage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html) action. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
-    /// - Parameter GetRetainedMessageInput : The input for the GetRetainedMessage operation.
+    /// - Parameter input: The input for the GetRetainedMessage operation. (Type: `GetRetainedMessageInput`)
     ///
-    /// - Returns: `GetRetainedMessageOutput` : The output from the GetRetainedMessage operation.
+    /// - Returns: The output from the GetRetainedMessage operation. (Type: `GetRetainedMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -584,9 +584,9 @@ extension IoTDataPlaneClient {
     ///
     /// Gets the shadow for the specified thing. Requires permission to access the [GetThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [GetThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_GetThingShadow.html) in the IoT Developer Guide.
     ///
-    /// - Parameter GetThingShadowInput : The input for the GetThingShadow operation.
+    /// - Parameter input: The input for the GetThingShadow operation. (Type: `GetThingShadowInput`)
     ///
-    /// - Returns: `GetThingShadowOutput` : The output from the GetThingShadow operation.
+    /// - Returns: The output from the GetThingShadow operation. (Type: `GetThingShadowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension IoTDataPlaneClient {
     ///
     /// Lists the shadows for the specified thing. Requires permission to access the [ListNamedShadowsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListNamedShadowsForThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNamedShadowsForThingInput`)
     ///
-    /// - Returns: `ListNamedShadowsForThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNamedShadowsForThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,9 +727,9 @@ extension IoTDataPlaneClient {
     ///
     /// Lists summary information about the retained messages stored for the account. This action returns only the topic names of the retained messages. It doesn't return any message payloads. Although this action doesn't return a message payload, it can still incur messaging costs. To get the message payload of a retained message, call [GetRetainedMessage](https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_GetRetainedMessage.html) with the topic name of the retained message. Requires permission to access the [ListRetainedMessages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html) action. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
-    /// - Parameter ListRetainedMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRetainedMessagesInput`)
     ///
-    /// - Returns: `ListRetainedMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRetainedMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -797,9 +797,9 @@ extension IoTDataPlaneClient {
     ///
     /// Publishes an MQTT message. Requires permission to access the [Publish](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information about MQTT messages, see [MQTT Protocol](http://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html) in the IoT Developer Guide. For more information about messaging costs, see [Amazon Web Services IoT Core pricing - Messaging](http://aws.amazon.com/iot-core/pricing/#Messaging).
     ///
-    /// - Parameter PublishInput : The input for the Publish operation.
+    /// - Parameter input: The input for the Publish operation. (Type: `PublishInput`)
     ///
-    /// - Returns: `PublishOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,9 +870,9 @@ extension IoTDataPlaneClient {
     ///
     /// Updates the shadow for the specified thing. Requires permission to access the [UpdateThingShadow](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. For more information, see [UpdateThingShadow](http://docs.aws.amazon.com/iot/latest/developerguide/API_UpdateThingShadow.html) in the IoT Developer Guide.
     ///
-    /// - Parameter UpdateThingShadowInput : The input for the UpdateThingShadow operation.
+    /// - Parameter input: The input for the UpdateThingShadow operation. (Type: `UpdateThingShadowInput`)
     ///
-    /// - Returns: `UpdateThingShadowOutput` : The output from the UpdateThingShadow operation.
+    /// - Returns: The output from the UpdateThingShadow operation. (Type: `UpdateThingShadowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

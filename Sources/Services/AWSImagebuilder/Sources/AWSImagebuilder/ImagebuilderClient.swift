@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ImagebuilderClient: ClientRuntime.Client {
     public static let clientName = "ImagebuilderClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ImagebuilderClient.ImagebuilderClientConfiguration
     let serviceName = "imagebuilder"
@@ -374,9 +374,9 @@ extension ImagebuilderClient {
     ///
     /// CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
     ///
-    /// - Parameter CancelImageCreationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelImageCreationInput`)
     ///
-    /// - Returns: `CancelImageCreationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelImageCreationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension ImagebuilderClient {
     ///
     /// Cancel a specific image lifecycle policy runtime instance.
     ///
-    /// - Parameter CancelLifecycleExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelLifecycleExecutionInput`)
     ///
-    /// - Returns: `CancelLifecycleExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelLifecycleExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -528,9 +528,9 @@ extension ImagebuilderClient {
     ///
     /// * A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body.
     ///
-    /// - Parameter CreateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComponentInput`)
     ///
-    /// - Returns: `CreateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -606,9 +606,9 @@ extension ImagebuilderClient {
     ///
     /// Creates a new container recipe. Container recipes define how images are configured, tested, and assessed.
     ///
-    /// - Parameter CreateContainerRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContainerRecipeInput`)
     ///
-    /// - Returns: `CreateContainerRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContainerRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -684,9 +684,9 @@ extension ImagebuilderClient {
     ///
     /// Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
     ///
-    /// - Parameter CreateDistributionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDistributionConfigurationInput`)
     ///
-    /// - Returns: `CreateDistributionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDistributionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,9 +762,9 @@ extension ImagebuilderClient {
     ///
     /// Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
     ///
-    /// - Parameter CreateImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageInput`)
     ///
-    /// - Returns: `CreateImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,9 +838,9 @@ extension ImagebuilderClient {
     ///
     /// Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images.
     ///
-    /// - Parameter CreateImagePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImagePipelineInput`)
     ///
-    /// - Returns: `CreateImagePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImagePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -915,9 +915,9 @@ extension ImagebuilderClient {
     ///
     /// Creates a new image recipe. Image recipes define how images are configured, tested, and assessed.
     ///
-    /// - Parameter CreateImageRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageRecipeInput`)
     ///
-    /// - Returns: `CreateImageRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -993,9 +993,9 @@ extension ImagebuilderClient {
     ///
     /// Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
     ///
-    /// - Parameter CreateInfrastructureConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInfrastructureConfigurationInput`)
     ///
-    /// - Returns: `CreateInfrastructureConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInfrastructureConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1070,9 +1070,9 @@ extension ImagebuilderClient {
     ///
     /// Create a lifecycle policy resource.
     ///
-    /// - Parameter CreateLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLifecyclePolicyInput`)
     ///
-    /// - Returns: `CreateLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,9 +1147,9 @@ extension ImagebuilderClient {
     ///
     /// Create a new workflow or a new version of an existing workflow.
     ///
-    /// - Parameter CreateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
-    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1225,9 +1225,9 @@ extension ImagebuilderClient {
     ///
     /// Deletes a component build version.
     ///
-    /// - Parameter DeleteComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComponentInput`)
     ///
-    /// - Returns: `DeleteComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1296,9 +1296,9 @@ extension ImagebuilderClient {
     ///
     /// Deletes a container recipe.
     ///
-    /// - Parameter DeleteContainerRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContainerRecipeInput`)
     ///
-    /// - Returns: `DeleteContainerRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContainerRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1367,9 +1367,9 @@ extension ImagebuilderClient {
     ///
     /// Deletes a distribution configuration.
     ///
-    /// - Parameter DeleteDistributionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDistributionConfigurationInput`)
     ///
-    /// - Returns: `DeleteDistributionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDistributionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1444,9 +1444,9 @@ extension ImagebuilderClient {
     ///
     /// * To delete a container image from Amazon ECR, see [Deleting an image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/delete_image.html) in the Amazon ECR User Guide.
     ///
-    /// - Parameter DeleteImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageInput`)
     ///
-    /// - Returns: `DeleteImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1515,9 +1515,9 @@ extension ImagebuilderClient {
     ///
     /// Deletes an image pipeline.
     ///
-    /// - Parameter DeleteImagePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImagePipelineInput`)
     ///
-    /// - Returns: `DeleteImagePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImagePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,9 +1586,9 @@ extension ImagebuilderClient {
     ///
     /// Deletes an image recipe.
     ///
-    /// - Parameter DeleteImageRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageRecipeInput`)
     ///
-    /// - Returns: `DeleteImageRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1657,9 +1657,9 @@ extension ImagebuilderClient {
     ///
     /// Deletes an infrastructure configuration.
     ///
-    /// - Parameter DeleteInfrastructureConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInfrastructureConfigurationInput`)
     ///
-    /// - Returns: `DeleteInfrastructureConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInfrastructureConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1728,9 +1728,9 @@ extension ImagebuilderClient {
     ///
     /// Delete the specified lifecycle policy resource.
     ///
-    /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLifecyclePolicyInput`)
     ///
-    /// - Returns: `DeleteLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,9 +1799,9 @@ extension ImagebuilderClient {
     ///
     /// Deletes a specific workflow resource.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1870,9 +1870,9 @@ extension ImagebuilderClient {
     ///
     /// Gets a component object.
     ///
-    /// - Parameter GetComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
-    /// - Returns: `GetComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1940,9 +1940,9 @@ extension ImagebuilderClient {
     ///
     /// Gets a component policy.
     ///
-    /// - Parameter GetComponentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentPolicyInput`)
     ///
-    /// - Returns: `GetComponentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2010,9 +2010,9 @@ extension ImagebuilderClient {
     ///
     /// Retrieves a container recipe.
     ///
-    /// - Parameter GetContainerRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerRecipeInput`)
     ///
-    /// - Returns: `GetContainerRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2080,9 +2080,9 @@ extension ImagebuilderClient {
     ///
     /// Retrieves the policy for a container recipe.
     ///
-    /// - Parameter GetContainerRecipePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerRecipePolicyInput`)
     ///
-    /// - Returns: `GetContainerRecipePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerRecipePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2150,9 +2150,9 @@ extension ImagebuilderClient {
     ///
     /// Gets a distribution configuration.
     ///
-    /// - Parameter GetDistributionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionConfigurationInput`)
     ///
-    /// - Returns: `GetDistributionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2220,9 +2220,9 @@ extension ImagebuilderClient {
     ///
     /// Gets an image.
     ///
-    /// - Parameter GetImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageInput`)
     ///
-    /// - Returns: `GetImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2290,9 +2290,9 @@ extension ImagebuilderClient {
     ///
     /// Gets an image pipeline.
     ///
-    /// - Parameter GetImagePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImagePipelineInput`)
     ///
-    /// - Returns: `GetImagePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImagePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,9 +2360,9 @@ extension ImagebuilderClient {
     ///
     /// Gets an image policy.
     ///
-    /// - Parameter GetImagePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImagePolicyInput`)
     ///
-    /// - Returns: `GetImagePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImagePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2430,9 +2430,9 @@ extension ImagebuilderClient {
     ///
     /// Gets an image recipe.
     ///
-    /// - Parameter GetImageRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageRecipeInput`)
     ///
-    /// - Returns: `GetImageRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,9 +2500,9 @@ extension ImagebuilderClient {
     ///
     /// Gets an image recipe policy.
     ///
-    /// - Parameter GetImageRecipePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageRecipePolicyInput`)
     ///
-    /// - Returns: `GetImageRecipePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageRecipePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2570,9 +2570,9 @@ extension ImagebuilderClient {
     ///
     /// Gets an infrastructure configuration.
     ///
-    /// - Parameter GetInfrastructureConfigurationInput : GetInfrastructureConfiguration request object.
+    /// - Parameter input: GetInfrastructureConfiguration request object. (Type: `GetInfrastructureConfigurationInput`)
     ///
-    /// - Returns: `GetInfrastructureConfigurationOutput` : GetInfrastructureConfiguration response object.
+    /// - Returns: GetInfrastructureConfiguration response object. (Type: `GetInfrastructureConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2640,9 +2640,9 @@ extension ImagebuilderClient {
     ///
     /// Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
     ///
-    /// - Parameter GetLifecycleExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecycleExecutionInput`)
     ///
-    /// - Returns: `GetLifecycleExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecycleExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2710,9 +2710,9 @@ extension ImagebuilderClient {
     ///
     /// Get details for the specified image lifecycle policy.
     ///
-    /// - Parameter GetLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecyclePolicyInput`)
     ///
-    /// - Returns: `GetLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2780,9 +2780,9 @@ extension ImagebuilderClient {
     ///
     /// Verify the subscription and perform resource dependency checks on the requested Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the components and their artifacts.
     ///
-    /// - Parameter GetMarketplaceResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMarketplaceResourceInput`)
     ///
-    /// - Returns: `GetMarketplaceResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMarketplaceResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2852,9 +2852,9 @@ extension ImagebuilderClient {
     ///
     /// Get a workflow resource object.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2922,9 +2922,9 @@ extension ImagebuilderClient {
     ///
     /// Get the runtime information that was logged for a specific runtime instance of the workflow.
     ///
-    /// - Parameter GetWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowExecutionInput`)
     ///
-    /// - Returns: `GetWorkflowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2992,9 +2992,9 @@ extension ImagebuilderClient {
     ///
     /// Get the runtime information that was logged for a specific runtime instance of the workflow step.
     ///
-    /// - Parameter GetWorkflowStepExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowStepExecutionInput`)
     ///
-    /// - Returns: `GetWorkflowStepExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowStepExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3062,9 +3062,9 @@ extension ImagebuilderClient {
     ///
     /// Imports a component and transforms its data into a component document.
     ///
-    /// - Parameter ImportComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportComponentInput`)
     ///
-    /// - Returns: `ImportComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3141,9 +3141,9 @@ extension ImagebuilderClient {
     ///
     /// * Windows 11 Enterprise
     ///
-    /// - Parameter ImportDiskImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportDiskImageInput`)
     ///
-    /// - Returns: `ImportDiskImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportDiskImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3211,9 +3211,9 @@ extension ImagebuilderClient {
     ///
     /// When you export your virtual machine (VM) from its virtualization environment, that process creates a set of one or more disk container files that act as snapshots of your VM’s environment, settings, and data. The Amazon EC2 API [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) action uses those files to import your VM and create an AMI. To import using the CLI command, see [import-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/import-image.html) You can reference the task ID from the VM import to pull in the AMI that the import created as the base image for your Image Builder recipe.
     ///
-    /// - Parameter ImportVmImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportVmImageInput`)
     ///
-    /// - Returns: `ImportVmImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportVmImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3281,9 +3281,9 @@ extension ImagebuilderClient {
     ///
     /// Returns the list of component build versions for the specified component version Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListComponentBuildVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentBuildVersionsInput`)
     ///
-    /// - Returns: `ListComponentBuildVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentBuildVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3354,9 +3354,9 @@ extension ImagebuilderClient {
     ///
     /// Returns the list of components that can be filtered by name, or by using the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3427,9 +3427,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of container recipes.
     ///
-    /// - Parameter ListContainerRecipesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContainerRecipesInput`)
     ///
-    /// - Returns: `ListContainerRecipesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContainerRecipesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3500,9 +3500,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of distribution configurations.
     ///
-    /// - Parameter ListDistributionConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionConfigurationsInput`)
     ///
-    /// - Returns: `ListDistributionConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3573,9 +3573,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of image build versions.
     ///
-    /// - Parameter ListImageBuildVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImageBuildVersionsInput`)
     ///
-    /// - Returns: `ListImageBuildVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImageBuildVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3646,9 +3646,9 @@ extension ImagebuilderClient {
     ///
     /// List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
     ///
-    /// - Parameter ListImagePackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImagePackagesInput`)
     ///
-    /// - Returns: `ListImagePackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImagePackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3720,9 +3720,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of images created by the specified pipeline.
     ///
-    /// - Parameter ListImagePipelineImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImagePipelineImagesInput`)
     ///
-    /// - Returns: `ListImagePipelineImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImagePipelineImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3794,9 +3794,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of image pipelines.
     ///
-    /// - Parameter ListImagePipelinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImagePipelinesInput`)
     ///
-    /// - Returns: `ListImagePipelinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImagePipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3867,9 +3867,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of image recipes.
     ///
-    /// - Parameter ListImageRecipesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImageRecipesInput`)
     ///
-    /// - Returns: `ListImageRecipesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImageRecipesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3948,9 +3948,9 @@ extension ImagebuilderClient {
     ///
     /// * vulnerabilityId
     ///
-    /// - Parameter ListImageScanFindingAggregationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImageScanFindingAggregationsInput`)
     ///
-    /// - Returns: `ListImageScanFindingAggregationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImageScanFindingAggregationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4021,9 +4021,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of image scan findings for your account.
     ///
-    /// - Parameter ListImageScanFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImageScanFindingsInput`)
     ///
-    /// - Returns: `ListImageScanFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImageScanFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4094,9 +4094,9 @@ extension ImagebuilderClient {
     ///
     /// Returns the list of images that you have access to. Newly created images can take up to two minutes to appear in the ListImages API Results.
     ///
-    /// - Parameter ListImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImagesInput`)
     ///
-    /// - Returns: `ListImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4167,9 +4167,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of infrastructure configurations.
     ///
-    /// - Parameter ListInfrastructureConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInfrastructureConfigurationsInput`)
     ///
-    /// - Returns: `ListInfrastructureConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInfrastructureConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4240,9 +4240,9 @@ extension ImagebuilderClient {
     ///
     /// List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
     ///
-    /// - Parameter ListLifecycleExecutionResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLifecycleExecutionResourcesInput`)
     ///
-    /// - Returns: `ListLifecycleExecutionResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLifecycleExecutionResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4313,9 +4313,9 @@ extension ImagebuilderClient {
     ///
     /// Get the lifecycle runtime history for the specified resource.
     ///
-    /// - Parameter ListLifecycleExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLifecycleExecutionsInput`)
     ///
-    /// - Returns: `ListLifecycleExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLifecycleExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4386,9 +4386,9 @@ extension ImagebuilderClient {
     ///
     /// Get a list of lifecycle policies in your Amazon Web Services account.
     ///
-    /// - Parameter ListLifecyclePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLifecyclePoliciesInput`)
     ///
-    /// - Returns: `ListLifecyclePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLifecyclePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4459,9 +4459,9 @@ extension ImagebuilderClient {
     ///
     /// Returns the list of tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4525,9 +4525,9 @@ extension ImagebuilderClient {
     ///
     /// Get a list of workflow steps that are waiting for action for workflows in your Amazon Web Services account.
     ///
-    /// - Parameter ListWaitingWorkflowStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWaitingWorkflowStepsInput`)
     ///
-    /// - Returns: `ListWaitingWorkflowStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWaitingWorkflowStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4598,9 +4598,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of build versions for a specific workflow resource.
     ///
-    /// - Parameter ListWorkflowBuildVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowBuildVersionsInput`)
     ///
-    /// - Returns: `ListWorkflowBuildVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowBuildVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4671,9 +4671,9 @@ extension ImagebuilderClient {
     ///
     /// Returns a list of workflow runtime instance metadata objects for a specific image build version.
     ///
-    /// - Parameter ListWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowExecutionsInput`)
     ///
-    /// - Returns: `ListWorkflowExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4744,9 +4744,9 @@ extension ImagebuilderClient {
     ///
     /// Returns runtime data for each step in a runtime instance of the workflow that you specify in the request.
     ///
-    /// - Parameter ListWorkflowStepExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowStepExecutionsInput`)
     ///
-    /// - Returns: `ListWorkflowStepExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowStepExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4817,9 +4817,9 @@ extension ImagebuilderClient {
     ///
     /// Lists workflow build versions based on filtering parameters.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4890,9 +4890,9 @@ extension ImagebuilderClient {
     ///
     /// Applies a policy to a component. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
-    /// - Parameter PutComponentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutComponentPolicyInput`)
     ///
-    /// - Returns: `PutComponentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutComponentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4964,9 +4964,9 @@ extension ImagebuilderClient {
     ///
     /// Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
-    /// - Parameter PutContainerRecipePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutContainerRecipePolicyInput`)
     ///
-    /// - Returns: `PutContainerRecipePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutContainerRecipePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5038,9 +5038,9 @@ extension ImagebuilderClient {
     ///
     /// Applies a policy to an image. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
-    /// - Parameter PutImagePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutImagePolicyInput`)
     ///
-    /// - Returns: `PutImagePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutImagePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5112,9 +5112,9 @@ extension ImagebuilderClient {
     ///
     /// Applies a policy to an image recipe. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     ///
-    /// - Parameter PutImageRecipePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutImageRecipePolicyInput`)
     ///
-    /// - Returns: `PutImageRecipePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutImageRecipePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5186,9 +5186,9 @@ extension ImagebuilderClient {
     ///
     /// Pauses or resumes image creation when the associated workflow runs a WaitForAction step.
     ///
-    /// - Parameter SendWorkflowStepActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendWorkflowStepActionInput`)
     ///
-    /// - Returns: `SendWorkflowStepActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendWorkflowStepActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5263,9 +5263,9 @@ extension ImagebuilderClient {
     ///
     /// Manually triggers a pipeline to create an image.
     ///
-    /// - Parameter StartImagePipelineExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImagePipelineExecutionInput`)
     ///
-    /// - Returns: `StartImagePipelineExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImagePipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5339,9 +5339,9 @@ extension ImagebuilderClient {
     ///
     /// Begin asynchronous resource state update for lifecycle changes to the specified image resources.
     ///
-    /// - Parameter StartResourceStateUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartResourceStateUpdateInput`)
     ///
-    /// - Returns: `StartResourceStateUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartResourceStateUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5415,9 +5415,9 @@ extension ImagebuilderClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5484,9 +5484,9 @@ extension ImagebuilderClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5551,9 +5551,9 @@ extension ImagebuilderClient {
     ///
     /// Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
     ///
-    /// - Parameter UpdateDistributionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDistributionConfigurationInput`)
     ///
-    /// - Returns: `UpdateDistributionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDistributionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5627,9 +5627,9 @@ extension ImagebuilderClient {
     ///
     /// Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. You must specify exactly one recipe for your image, using either a containerRecipeArn or an imageRecipeArn. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
     ///
-    /// - Parameter UpdateImagePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImagePipelineInput`)
     ///
-    /// - Returns: `UpdateImagePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImagePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5702,9 +5702,9 @@ extension ImagebuilderClient {
     ///
     /// Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
     ///
-    /// - Parameter UpdateInfrastructureConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInfrastructureConfigurationInput`)
     ///
-    /// - Returns: `UpdateInfrastructureConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInfrastructureConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5777,9 +5777,9 @@ extension ImagebuilderClient {
     ///
     /// Update the specified lifecycle policy.
     ///
-    /// - Parameter UpdateLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLifecyclePolicyInput`)
     ///
-    /// - Returns: `UpdateLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

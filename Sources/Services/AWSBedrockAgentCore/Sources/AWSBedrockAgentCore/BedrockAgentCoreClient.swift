@@ -72,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreClient.BedrockAgentCoreClientConfiguration
     let serviceName = "Bedrock AgentCore"
@@ -378,9 +378,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting.
     ///
-    /// - Parameter CreateEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventInput`)
     ///
-    /// - Returns: `CreateEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -452,9 +452,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission.
     ///
-    /// - Parameter DeleteEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventInput`)
     ///
-    /// - Returns: `DeleteEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemoryRecord permission.
     ///
-    /// - Parameter DeleteMemoryRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemoryRecordInput`)
     ///
-    /// - Returns: `DeleteMemoryRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemoryRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,9 +598,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [StopBrowserSession](https://docs.aws.amazon.com/API_StopBrowserSession.html)
     ///
-    /// - Parameter GetBrowserSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBrowserSessionInput`)
     ///
-    /// - Returns: `GetBrowserSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBrowserSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -673,9 +673,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [StopCodeInterpreterSession](https://docs.aws.amazon.com/API_StopCodeInterpreterSession.html)
     ///
-    /// - Parameter GetCodeInterpreterSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeInterpreterSessionInput`)
     ///
-    /// - Returns: `GetCodeInterpreterSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeInterpreterSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -742,9 +742,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Retrieves information about a specific event in an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetEvent permission.
     ///
-    /// - Parameter GetEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventInput`)
     ///
-    /// - Returns: `GetEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,9 +812,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemoryRecord permission.
     ///
-    /// - Parameter GetMemoryRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemoryRecordInput`)
     ///
-    /// - Returns: `GetMemoryRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemoryRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,9 +882,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Retrieves an API Key associated with an API Key Credential Provider
     ///
-    /// - Parameter GetResourceApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceApiKeyInput`)
     ///
-    /// - Returns: `GetResourceApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,9 +954,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Returns the OAuth 2.0 token of the provided resource
     ///
-    /// - Parameter GetResourceOauth2TokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceOauth2TokenInput`)
     ///
-    /// - Returns: `GetResourceOauth2TokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceOauth2TokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1026,9 +1026,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Obtains an Workload access token for agentic workloads not acting on behalf of user.
     ///
-    /// - Parameter GetWorkloadAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadAccessTokenInput`)
     ///
-    /// - Returns: `GetWorkloadAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1098,9 +1098,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Obtains an Workload access token for agentic workloads acting on behalf of user with JWT token
     ///
-    /// - Parameter GetWorkloadAccessTokenForJWTInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadAccessTokenForJWTInput`)
     ///
-    /// - Returns: `GetWorkloadAccessTokenForJWTOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadAccessTokenForJWTOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,9 +1170,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Obtains an Workload access token for agentic workloads acting on behalf of user with User Id.
     ///
-    /// - Parameter GetWorkloadAccessTokenForUserIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadAccessTokenForUserIdInput`)
     ///
-    /// - Returns: `GetWorkloadAccessTokenForUserIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadAccessTokenForUserIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1242,9 +1242,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html). If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html). To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission.
     ///
-    /// - Parameter InvokeAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeAgentRuntimeInput`)
     ///
-    /// - Returns: `InvokeAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1322,9 +1322,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/API_GetCodeInterpreterSession.html)
     ///
-    /// - Parameter InvokeCodeInterpreterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeCodeInterpreterInput`)
     ///
-    /// - Returns: `InvokeCodeInterpreterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeCodeInterpreterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,9 +1396,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListActors permission.
     ///
-    /// - Parameter ListActorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActorsInput`)
     ///
-    /// - Returns: `ListActorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1473,9 +1473,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [GetBrowserSession](https://docs.aws.amazon.com/API_GetBrowserSession.html)
     ///
-    /// - Parameter ListBrowserSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrowserSessionsInput`)
     ///
-    /// - Returns: `ListBrowserSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrowserSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,9 +1548,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/API_GetCodeInterpreterSession.html)
     ///
-    /// - Parameter ListCodeInterpreterSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeInterpreterSessionsInput`)
     ///
-    /// - Returns: `ListCodeInterpreterSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeInterpreterSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1619,9 +1619,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission.
     ///
-    /// - Parameter ListEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventsInput`)
     ///
-    /// - Returns: `ListEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,9 +1692,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemoryRecords permission.
     ///
-    /// - Parameter ListMemoryRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMemoryRecordsInput`)
     ///
-    /// - Returns: `ListMemoryRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMemoryRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1765,9 +1765,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,9 +1838,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission.
     ///
-    /// - Parameter RetrieveMemoryRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetrieveMemoryRecordsInput`)
     ///
-    /// - Returns: `RetrieveMemoryRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetrieveMemoryRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1917,9 +1917,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [StopBrowserSession](https://docs.aws.amazon.com/API_StopBrowserSession.html)
     ///
-    /// - Parameter StartBrowserSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBrowserSessionInput`)
     ///
-    /// - Returns: `StartBrowserSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBrowserSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1997,9 +1997,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [StopCodeInterpreterSession](https://docs.aws.amazon.com/API_StopCodeInterpreterSession.html)
     ///
-    /// - Parameter StartCodeInterpreterSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCodeInterpreterSessionInput`)
     ///
-    /// - Returns: `StartCodeInterpreterSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCodeInterpreterSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2075,9 +2075,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [GetBrowserSession](https://docs.aws.amazon.com/API_GetBrowserSession.html)
     ///
-    /// - Parameter StopBrowserSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBrowserSessionInput`)
     ///
-    /// - Returns: `StopBrowserSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBrowserSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2154,9 +2154,9 @@ extension BedrockAgentCoreClient {
     ///
     /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/API_GetCodeInterpreterSession.html)
     ///
-    /// - Parameter StopCodeInterpreterSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCodeInterpreterSessionInput`)
     ///
-    /// - Returns: `StopCodeInterpreterSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCodeInterpreterSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2229,9 +2229,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action.
     ///
-    /// - Parameter UpdateBrowserStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrowserStreamInput`)
     ///
-    /// - Returns: `UpdateBrowserStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrowserStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

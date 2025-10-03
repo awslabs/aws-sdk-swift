@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OSISClient: ClientRuntime.Client {
     public static let clientName = "OSISClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: OSISClient.OSISClientConfiguration
     let serviceName = "OSIS"
@@ -372,9 +372,9 @@ extension OSISClient {
     ///
     /// Creates an OpenSearch Ingestion pipeline. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
     ///
-    /// - Parameter CreatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePipelineInput`)
     ///
-    /// - Returns: `CreatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension OSISClient {
     ///
     /// Creates a VPC endpoint for an OpenSearch Ingestion pipeline. Pipeline endpoints allow you to ingest data from your VPC into pipelines that you have access to.
     ///
-    /// - Parameter CreatePipelineEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePipelineEndpointInput`)
     ///
-    /// - Returns: `CreatePipelineEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePipelineEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension OSISClient {
     ///
     /// Deletes an OpenSearch Ingestion pipeline. For more information, see [Deleting Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/delete-pipeline.html).
     ///
-    /// - Parameter DeletePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePipelineInput`)
     ///
-    /// - Returns: `DeletePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension OSISClient {
     ///
     /// Deletes a VPC endpoint for an OpenSearch Ingestion pipeline.
     ///
-    /// - Parameter DeletePipelineEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePipelineEndpointInput`)
     ///
-    /// - Returns: `DeletePipelineEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,9 +653,9 @@ extension OSISClient {
     ///
     /// Deletes a resource-based policy from an OpenSearch Ingestion resource.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -722,9 +722,9 @@ extension OSISClient {
     ///
     /// Retrieves information about an OpenSearch Ingestion pipeline.
     ///
-    /// - Parameter GetPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPipelineInput`)
     ///
-    /// - Returns: `GetPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -790,9 +790,9 @@ extension OSISClient {
     ///
     /// Retrieves information about a specific blueprint for OpenSearch Ingestion. Blueprints are templates for the configuration needed for a CreatePipeline request. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
     ///
-    /// - Parameter GetPipelineBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPipelineBlueprintInput`)
     ///
-    /// - Returns: `GetPipelineBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPipelineBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,9 +859,9 @@ extension OSISClient {
     ///
     /// Returns progress information for the current change happening on an OpenSearch Ingestion pipeline. Currently, this operation only returns information when a pipeline is being created. For more information, see [Tracking the status of pipeline creation](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#get-pipeline-progress).
     ///
-    /// - Parameter GetPipelineChangeProgressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPipelineChangeProgressInput`)
     ///
-    /// - Returns: `GetPipelineChangeProgressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPipelineChangeProgressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,9 +927,9 @@ extension OSISClient {
     ///
     /// Retrieves the resource-based policy attached to an OpenSearch Ingestion resource.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,9 +996,9 @@ extension OSISClient {
     ///
     /// Retrieves a list of all available blueprints for Data Prepper. For more information, see [Using blueprints to create a pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html#pipeline-blueprint).
     ///
-    /// - Parameter ListPipelineBlueprintsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineBlueprintsInput`)
     ///
-    /// - Returns: `ListPipelineBlueprintsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1064,9 +1064,9 @@ extension OSISClient {
     ///
     /// Lists the pipeline endpoints connected to pipelines in your account.
     ///
-    /// - Parameter ListPipelineEndpointConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineEndpointConnectionsInput`)
     ///
-    /// - Returns: `ListPipelineEndpointConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineEndpointConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1133,9 +1133,9 @@ extension OSISClient {
     ///
     /// Lists all pipeline endpoints in your account.
     ///
-    /// - Parameter ListPipelineEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineEndpointsInput`)
     ///
-    /// - Returns: `ListPipelineEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1202,9 +1202,9 @@ extension OSISClient {
     ///
     /// Lists all OpenSearch Ingestion pipelines in the current Amazon Web Services account and Region. For more information, see [Viewing Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/list-pipeline.html).
     ///
-    /// - Parameter ListPipelinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelinesInput`)
     ///
-    /// - Returns: `ListPipelinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1271,9 +1271,9 @@ extension OSISClient {
     ///
     /// Lists all resource tags associated with an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1340,9 +1340,9 @@ extension OSISClient {
     ///
     /// Attaches a resource-based policy to an OpenSearch Ingestion resource. Resource-based policies grant permissions to principals to perform actions on the resource.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1412,9 +1412,9 @@ extension OSISClient {
     ///
     /// Revokes pipeline endpoints from specified endpoint IDs.
     ///
-    /// - Parameter RevokePipelineEndpointConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokePipelineEndpointConnectionsInput`)
     ///
-    /// - Returns: `RevokePipelineEndpointConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokePipelineEndpointConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1483,9 +1483,9 @@ extension OSISClient {
     ///
     /// Starts an OpenSearch Ingestion pipeline. For more information, see [Starting an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--start).
     ///
-    /// - Parameter StartPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPipelineInput`)
     ///
-    /// - Returns: `StartPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1552,9 +1552,9 @@ extension OSISClient {
     ///
     /// Stops an OpenSearch Ingestion pipeline. For more information, see [Stopping an OpenSearch Ingestion pipeline](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline--stop-start.html#pipeline--stop).
     ///
-    /// - Parameter StopPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopPipelineInput`)
     ///
-    /// - Returns: `StopPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,9 +1621,9 @@ extension OSISClient {
     ///
     /// Tags an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1694,9 +1694,9 @@ extension OSISClient {
     ///
     /// Removes one or more tags from an OpenSearch Ingestion pipeline. For more information, see [Tagging Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-pipeline.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1766,9 +1766,9 @@ extension OSISClient {
     ///
     /// Updates an OpenSearch Ingestion pipeline. For more information, see [Updating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/update-pipeline.html).
     ///
-    /// - Parameter UpdatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePipelineInput`)
     ///
-    /// - Returns: `UpdatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,9 +1838,9 @@ extension OSISClient {
     ///
     /// Checks whether an OpenSearch Ingestion pipeline configuration is valid prior to creation. For more information, see [Creating Amazon OpenSearch Ingestion pipelines](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/creating-pipeline.html).
     ///
-    /// - Parameter ValidatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidatePipelineInput`)
     ///
-    /// - Returns: `ValidatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

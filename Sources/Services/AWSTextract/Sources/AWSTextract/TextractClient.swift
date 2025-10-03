@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TextractClient: ClientRuntime.Client {
     public static let clientName = "TextractClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: TextractClient.TextractClientConfiguration
     let serviceName = "Textract"
@@ -389,9 +389,9 @@ extension TextractClient {
     ///
     /// Selection elements such as check boxes and option buttons (radio buttons) can be detected in form data and in tables. A SELECTION_ELEMENT Block object contains information about a selection element, including the selection status. You can choose which type of analysis to perform by specifying the FeatureTypes list. The output is returned in a list of Block objects. AnalyzeDocument is a synchronous operation. To analyze documents asynchronously, use [StartDocumentAnalysis]. For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
     ///
-    /// - Parameter AnalyzeDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AnalyzeDocumentInput`)
     ///
-    /// - Returns: `AnalyzeDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AnalyzeDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -470,9 +470,9 @@ extension TextractClient {
     ///
     /// * SummaryFields- Contains all other information a receipt, such as header information or the vendors name.
     ///
-    /// - Parameter AnalyzeExpenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AnalyzeExpenseInput`)
     ///
-    /// - Returns: `AnalyzeExpenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AnalyzeExpenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,9 +546,9 @@ extension TextractClient {
     ///
     /// Analyzes identity documents for relevant information. This information is extracted and returned as IdentityDocumentFields, which records both the normalized field and value of the extracted text. Unlike other Amazon Textract operations, AnalyzeID doesn't return any Geometry data.
     ///
-    /// - Parameter AnalyzeIDInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AnalyzeIDInput`)
     ///
-    /// - Returns: `AnalyzeIDOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AnalyzeIDOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,9 +622,9 @@ extension TextractClient {
     ///
     /// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Currently the only supported feature type is QUERIES. You can also provide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
     ///
-    /// - Parameter CreateAdapterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAdapterInput`)
     ///
-    /// - Returns: `CreateAdapterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAdapterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,9 +700,9 @@ extension TextractClient {
     ///
     /// Creates a new version of an adapter. Operates on a provided AdapterId and a specified dataset provided via the DatasetConfig argument. Requires that you specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId, an optional ClientRequestToken, and optional tags.
     ///
-    /// - Parameter CreateAdapterVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAdapterVersionInput`)
     ///
-    /// - Returns: `CreateAdapterVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAdapterVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,9 +781,9 @@ extension TextractClient {
     ///
     /// Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
     ///
-    /// - Parameter DeleteAdapterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAdapterInput`)
     ///
-    /// - Returns: `DeleteAdapterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAdapterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,9 +856,9 @@ extension TextractClient {
     ///
     /// Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
     ///
-    /// - Parameter DeleteAdapterVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAdapterVersionInput`)
     ///
-    /// - Returns: `DeleteAdapterVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAdapterVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -931,9 +931,9 @@ extension TextractClient {
     ///
     /// Detects text in the input document. Amazon Textract can detect lines of text and the words that make up a line of text. The input document must be in one of the following image formats: JPEG, PNG, PDF, or TIFF. DetectDocumentText returns the detected text in an array of [Block] objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each word that makes up the line. Words are represented by Block objects of type WORD. DetectDocumentText is a synchronous operation. To analyze documents asynchronously, use [StartDocumentTextDetection]. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
-    /// - Parameter DetectDocumentTextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectDocumentTextInput`)
     ///
-    /// - Returns: `DetectDocumentTextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectDocumentTextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1007,9 +1007,9 @@ extension TextractClient {
     ///
     /// Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes.
     ///
-    /// - Parameter GetAdapterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdapterInput`)
     ///
-    /// - Returns: `GetAdapterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdapterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,9 +1081,9 @@ extension TextractClient {
     ///
     /// Gets configuration information for the specified adapter version, including: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig, KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
     ///
-    /// - Parameter GetAdapterVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdapterVersionInput`)
     ///
-    /// - Returns: `GetAdapterVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdapterVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1168,9 +1168,9 @@ extension TextractClient {
     ///
     /// While processing a document with queries, look out for INVALID_REQUEST_PARAMETERS output. This indicates that either the per page query limit has been exceeded or that the operation is trying to query a page in the document which doesn’t exist. Selection elements such as check boxes and option buttons (radio buttons) can be detected in form data and in tables. A SELECTION_ELEMENT Block object contains information about a selection element, including the selection status. Use the MaxResults parameter to limit the number of blocks that are returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetDocumentAnalysis, and populate the NextToken request parameter with the token value that's returned from the previous call to GetDocumentAnalysis. For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
     ///
-    /// - Parameter GetDocumentAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentAnalysisInput`)
     ///
-    /// - Returns: `GetDocumentAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1243,9 +1243,9 @@ extension TextractClient {
     ///
     /// Gets the results for an Amazon Textract asynchronous operation that detects text in a document. Amazon Textract can detect lines of text and the words that make up a line of text. You start asynchronous text detection by calling [StartDocumentTextDetection], which returns a job identifier (JobId). When the text detection operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartDocumentTextDetection. To get the results of the text-detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetDocumentTextDetection, and pass the job identifier (JobId) from the initial call to StartDocumentTextDetection. GetDocumentTextDetection returns an array of [Block] objects. Each document page has as an associated Block of type PAGE. Each PAGE Block object is the parent of LINE Block objects that represent the lines of detected text on a page. A LINE Block object is a parent for each word that makes up the line. Words are represented by Block objects of type WORD. Use the MaxResults parameter to limit the number of blocks that are returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetDocumentTextDetection, and populate the NextToken request parameter with the token value that's returned from the previous call to GetDocumentTextDetection. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
-    /// - Parameter GetDocumentTextDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentTextDetectionInput`)
     ///
-    /// - Returns: `GetDocumentTextDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentTextDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1318,9 +1318,9 @@ extension TextractClient {
     ///
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and receipts. Amazon Textract finds contact information, items purchased, and vendor name, from input invoices and receipts. You start asynchronous invoice/receipt analysis by calling [StartExpenseAnalysis], which returns a job identifier (JobId). Upon completion of the invoice/receipt analysis, Amazon Textract publishes the completion status to the Amazon Simple Notification Service (Amazon SNS) topic. This topic must be registered in the initial call to StartExpenseAnalysis. To get the results of the invoice/receipt analysis operation, first ensure that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetExpenseAnalysis, and pass the job identifier (JobId) from the initial call to StartExpenseAnalysis. Use the MaxResults parameter to limit the number of blocks that are returned. If there are more results than specified in MaxResults, the value of NextToken in the operation response contains a pagination token for getting the next set of results. To get the next page of results, call GetExpenseAnalysis, and populate the NextToken request parameter with the token value that's returned from the previous call to GetExpenseAnalysis. For more information, see [Analyzing Invoices and Receipts](https://docs.aws.amazon.com/textract/latest/dg/invoices-receipts.html).
     ///
-    /// - Parameter GetExpenseAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExpenseAnalysisInput`)
     ///
-    /// - Returns: `GetExpenseAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExpenseAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1393,9 +1393,9 @@ extension TextractClient {
     ///
     /// Gets the results for an Amazon Textract asynchronous operation that analyzes text in a lending document. You start asynchronous text analysis by calling StartLendingAnalysis, which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartLendingAnalysis. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysis, and pass the job identifier (JobId) from the initial call to StartLendingAnalysis.
     ///
-    /// - Parameter GetLendingAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLendingAnalysisInput`)
     ///
-    /// - Returns: `GetLendingAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLendingAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1468,9 +1468,9 @@ extension TextractClient {
     ///
     /// Gets summarized results for the StartLendingAnalysis operation, which analyzes text in a lending document. The returned summary consists of information about documents grouped together by a common document type. Information like detected signatures, page numbers, and split documents is returned with respect to the type of grouped document. You start asynchronous text analysis by calling StartLendingAnalysis, which returns a job identifier (JobId). When the text analysis operation finishes, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that's registered in the initial call to StartLendingAnalysis. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call GetLendingAnalysisSummary, and pass the job identifier (JobId) from the initial call to StartLendingAnalysis.
     ///
-    /// - Parameter GetLendingAnalysisSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLendingAnalysisSummaryInput`)
     ///
-    /// - Returns: `GetLendingAnalysisSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLendingAnalysisSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1543,9 +1543,9 @@ extension TextractClient {
     ///
     /// List all version of an adapter that meet the specified filtration criteria.
     ///
-    /// - Parameter ListAdapterVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAdapterVersionsInput`)
     ///
-    /// - Returns: `ListAdapterVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAdapterVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,9 +1617,9 @@ extension TextractClient {
     ///
     /// Lists all adapters that match the specified filtration criteria.
     ///
-    /// - Parameter ListAdaptersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAdaptersInput`)
     ///
-    /// - Returns: `ListAdaptersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAdaptersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1690,9 +1690,9 @@ extension TextractClient {
     ///
     /// Lists all tags for an Amazon Textract resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1764,9 +1764,9 @@ extension TextractClient {
     ///
     /// Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements. StartDocumentAnalysis can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use [DocumentLocation] to specify the bucket name and file name of the document. StartDocumentAnalysis returns a job identifier (JobId) that you use to get the results of the operation. When text analysis is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text analysis operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetDocumentAnalysis], and pass the job identifier (JobId) from the initial call to StartDocumentAnalysis. For more information, see [Document Text Analysis](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html).
     ///
-    /// - Parameter StartDocumentAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDocumentAnalysisInput`)
     ///
-    /// - Returns: `StartDocumentAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDocumentAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1843,9 +1843,9 @@ extension TextractClient {
     ///
     /// Starts the asynchronous detection of text in a document. Amazon Textract can detect lines of text and the words that make up a line of text. StartDocumentTextDetection can analyze text in documents that are in JPEG, PNG, TIFF, and PDF format. The documents are stored in an Amazon S3 bucket. Use [DocumentLocation] to specify the bucket name and file name of the document. StartDocumentTextDetection returns a job identifier (JobId) that you use to get the results of the operation. When text detection is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you specify in NotificationChannel. To get the results of the text detection operation, first check that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetDocumentTextDetection], and pass the job identifier (JobId) from the initial call to StartDocumentTextDetection. For more information, see [Document Text Detection](https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html).
     ///
-    /// - Parameter StartDocumentTextDetectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDocumentTextDetectionInput`)
     ///
-    /// - Returns: `StartDocumentTextDetectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDocumentTextDetectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1922,9 +1922,9 @@ extension TextractClient {
     ///
     /// Starts the asynchronous analysis of invoices or receipts for data like contact information, items purchased, and vendor names. StartExpenseAnalysis can analyze text in documents that are in JPEG, PNG, and PDF format. The documents must be stored in an Amazon S3 bucket. Use the [DocumentLocation] parameter to specify the name of your S3 bucket and the name of the document in that bucket. StartExpenseAnalysis returns a job identifier (JobId) that you will provide to GetExpenseAnalysis to retrieve the results of the operation. When the analysis of the input invoices/receipts is finished, Amazon Textract publishes a completion status to the Amazon Simple Notification Service (Amazon SNS) topic that you provide to the NotificationChannel. To obtain the results of the invoice and receipt analysis operation, ensure that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call [GetExpenseAnalysis], and pass the job identifier (JobId) that was returned by your call to StartExpenseAnalysis. For more information, see [Analyzing Invoices and Receipts](https://docs.aws.amazon.com/textract/latest/dg/invoice-receipts.html).
     ///
-    /// - Parameter StartExpenseAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExpenseAnalysisInput`)
     ///
-    /// - Returns: `StartExpenseAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExpenseAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2007,9 +2007,9 @@ extension TextractClient {
     ///
     /// * splitDocuments (documents split across logical boundaries)
     ///
-    /// - Parameter StartLendingAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartLendingAnalysisInput`)
     ///
-    /// - Returns: `StartLendingAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartLendingAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2086,9 +2086,9 @@ extension TextractClient {
     ///
     /// Adds one or more tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2161,9 +2161,9 @@ extension TextractClient {
     ///
     /// Removes any tags with the specified keys from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2235,9 +2235,9 @@ extension TextractClient {
     ///
     /// Update the configuration for an adapter. FeatureTypes configurations cannot be updated. At least one new parameter must be specified as an argument.
     ///
-    /// - Parameter UpdateAdapterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAdapterInput`)
     ///
-    /// - Returns: `UpdateAdapterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAdapterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

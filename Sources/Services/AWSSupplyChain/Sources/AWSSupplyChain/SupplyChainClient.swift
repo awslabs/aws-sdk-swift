@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SupplyChainClient: ClientRuntime.Client {
     public static let clientName = "SupplyChainClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SupplyChainClient.SupplyChainClientConfiguration
     let serviceName = "SupplyChain"
@@ -374,9 +374,9 @@ extension SupplyChainClient {
     ///
     /// CreateBillOfMaterialsImportJob creates an import job for the Product Bill Of Materials (BOM) entity. For information on the product_bom entity, see the AWS Supply Chain User Guide. The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance creation.
     ///
-    /// - Parameter CreateBillOfMaterialsImportJobInput : The request parameters for CreateBillOfMaterialsImportJob.
+    /// - Parameter input: The request parameters for CreateBillOfMaterialsImportJob. (Type: `CreateBillOfMaterialsImportJobInput`)
     ///
-    /// - Returns: `CreateBillOfMaterialsImportJobOutput` : The response parameters of CreateBillOfMaterialsImportJob.
+    /// - Returns: The response parameters of CreateBillOfMaterialsImportJob. (Type: `CreateBillOfMaterialsImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     ///
-    /// - Parameter CreateDataIntegrationFlowInput : The request parameters for CreateDataIntegrationFlow.
+    /// - Parameter input: The request parameters for CreateDataIntegrationFlow. (Type: `CreateDataIntegrationFlowInput`)
     ///
-    /// - Returns: `CreateDataIntegrationFlowOutput` : The response parameters for CreateDataIntegrationFlow.
+    /// - Returns: The response parameters for CreateDataIntegrationFlow. (Type: `CreateDataIntegrationFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
     ///
-    /// - Parameter CreateDataLakeDatasetInput : The request parameters for CreateDataLakeDataset.
+    /// - Parameter input: The request parameters for CreateDataLakeDataset. (Type: `CreateDataLakeDatasetInput`)
     ///
-    /// - Returns: `CreateDataLakeDatasetOutput` : The response parameters of CreateDataLakeDataset.
+    /// - Returns: The response parameters of CreateDataLakeDataset. (Type: `CreateDataLakeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,9 +594,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
     ///
-    /// - Parameter CreateDataLakeNamespaceInput : The request parameters for CreateDataLakeNamespace.
+    /// - Parameter input: The request parameters for CreateDataLakeNamespace. (Type: `CreateDataLakeNamespaceInput`)
     ///
-    /// - Returns: `CreateDataLakeNamespaceOutput` : The response parameters of CreateDataLakeNamespace.
+    /// - Returns: The response parameters of CreateDataLakeNamespace. (Type: `CreateDataLakeNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
     ///
-    /// - Parameter CreateInstanceInput : The request parameters for CreateInstance.
+    /// - Parameter input: The request parameters for CreateInstance. (Type: `CreateInstanceInput`)
     ///
-    /// - Returns: `CreateInstanceOutput` : The response parameters for CreateInstance.
+    /// - Returns: The response parameters for CreateInstance. (Type: `CreateInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -741,9 +741,9 @@ extension SupplyChainClient {
     ///
     /// Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     ///
-    /// - Parameter DeleteDataIntegrationFlowInput : The request parameters for DeleteDataIntegrationFlow.
+    /// - Parameter input: The request parameters for DeleteDataIntegrationFlow. (Type: `DeleteDataIntegrationFlowInput`)
     ///
-    /// - Returns: `DeleteDataIntegrationFlowOutput` : The response parameters for DeleteDataIntegrationFlow.
+    /// - Returns: The response parameters for DeleteDataIntegrationFlow. (Type: `DeleteDataIntegrationFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -811,9 +811,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
     ///
-    /// - Parameter DeleteDataLakeDatasetInput : The request parameters of DeleteDataLakeDataset.
+    /// - Parameter input: The request parameters of DeleteDataLakeDataset. (Type: `DeleteDataLakeDatasetInput`)
     ///
-    /// - Returns: `DeleteDataLakeDatasetOutput` : The response parameters of DeleteDataLakeDataset.
+    /// - Returns: The response parameters of DeleteDataLakeDataset. (Type: `DeleteDataLakeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,9 +881,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name.
     ///
-    /// - Parameter DeleteDataLakeNamespaceInput : The request parameters of DeleteDataLakeNamespace.
+    /// - Parameter input: The request parameters of DeleteDataLakeNamespace. (Type: `DeleteDataLakeNamespaceInput`)
     ///
-    /// - Returns: `DeleteDataLakeNamespaceOutput` : The response parameters of DeleteDataLakeNamespace.
+    /// - Returns: The response parameters of DeleteDataLakeNamespace. (Type: `DeleteDataLakeNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -951,9 +951,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
     ///
-    /// - Parameter DeleteInstanceInput : The request parameters for DeleteInstance.
+    /// - Parameter input: The request parameters for DeleteInstance. (Type: `DeleteInstanceInput`)
     ///
-    /// - Returns: `DeleteInstanceOutput` : The response parameters for DeleteInstance.
+    /// - Returns: The response parameters for DeleteInstance. (Type: `DeleteInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,9 +1021,9 @@ extension SupplyChainClient {
     ///
     /// Get status and details of a BillOfMaterialsImportJob.
     ///
-    /// - Parameter GetBillOfMaterialsImportJobInput : The request parameters for GetBillOfMaterialsImportJob.
+    /// - Parameter input: The request parameters for GetBillOfMaterialsImportJob. (Type: `GetBillOfMaterialsImportJobInput`)
     ///
-    /// - Returns: `GetBillOfMaterialsImportJobOutput` : The response parameters for GetBillOfMaterialsImportJob.
+    /// - Returns: The response parameters for GetBillOfMaterialsImportJob. (Type: `GetBillOfMaterialsImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1091,9 +1091,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget, datasetLoadExecution.
     ///
-    /// - Parameter GetDataIntegrationEventInput : The request parameters for GetDataIntegrationEvent.
+    /// - Parameter input: The request parameters for GetDataIntegrationEvent. (Type: `GetDataIntegrationEventInput`)
     ///
-    /// - Returns: `GetDataIntegrationEventOutput` : The response parameters for GetDataIntegrationEvent.
+    /// - Returns: The response parameters for GetDataIntegrationEvent. (Type: `GetDataIntegrationEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1161,9 +1161,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
     ///
-    /// - Parameter GetDataIntegrationFlowInput : The request parameters for GetDataIntegrationFlow.
+    /// - Parameter input: The request parameters for GetDataIntegrationFlow. (Type: `GetDataIntegrationFlowInput`)
     ///
-    /// - Returns: `GetDataIntegrationFlowOutput` : The response parameters for GetDataIntegrationFlow.
+    /// - Returns: The response parameters for GetDataIntegrationFlow. (Type: `GetDataIntegrationFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1231,9 +1231,9 @@ extension SupplyChainClient {
     ///
     /// Get the flow execution.
     ///
-    /// - Parameter GetDataIntegrationFlowExecutionInput : The request parameters of GetFlowExecution.
+    /// - Parameter input: The request parameters of GetFlowExecution. (Type: `GetDataIntegrationFlowExecutionInput`)
     ///
-    /// - Returns: `GetDataIntegrationFlowExecutionOutput` : The response parameters of GetFlowExecution.
+    /// - Returns: The response parameters of GetFlowExecution. (Type: `GetDataIntegrationFlowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,9 +1301,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
     ///
-    /// - Parameter GetDataLakeDatasetInput : The request parameters for GetDataLakeDataset.
+    /// - Parameter input: The request parameters for GetDataLakeDataset. (Type: `GetDataLakeDatasetInput`)
     ///
-    /// - Returns: `GetDataLakeDatasetOutput` : The response parameters for GetDataLakeDataset.
+    /// - Returns: The response parameters for GetDataLakeDataset. (Type: `GetDataLakeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1371,9 +1371,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically view an Amazon Web Services Supply Chain data lake namespace. Developers can view the data lake namespace information such as description for a given instance ID and namespace name.
     ///
-    /// - Parameter GetDataLakeNamespaceInput : The request parameters for GetDataLakeNamespace.
+    /// - Parameter input: The request parameters for GetDataLakeNamespace. (Type: `GetDataLakeNamespaceInput`)
     ///
-    /// - Returns: `GetDataLakeNamespaceOutput` : The response parameters for GetDataLakeNamespace.
+    /// - Returns: The response parameters for GetDataLakeNamespace. (Type: `GetDataLakeNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1441,9 +1441,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
     ///
-    /// - Parameter GetInstanceInput : The request parameters for GetInstance.
+    /// - Parameter input: The request parameters for GetInstance. (Type: `GetInstanceInput`)
     ///
-    /// - Returns: `GetInstanceOutput` : The response parameters for GetInstance.
+    /// - Returns: The response parameters for GetInstance. (Type: `GetInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1511,9 +1511,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically list all data integration events for the provided Amazon Web Services Supply Chain instance.
     ///
-    /// - Parameter ListDataIntegrationEventsInput : The request parameters for ListDataIntegrationEvents.
+    /// - Parameter input: The request parameters for ListDataIntegrationEvents. (Type: `ListDataIntegrationEventsInput`)
     ///
-    /// - Returns: `ListDataIntegrationEventsOutput` : The response parameters for ListDataIntegrationEvents.
+    /// - Returns: The response parameters for ListDataIntegrationEvents. (Type: `ListDataIntegrationEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1582,9 +1582,9 @@ extension SupplyChainClient {
     ///
     /// List flow executions.
     ///
-    /// - Parameter ListDataIntegrationFlowExecutionsInput : The request parameters of ListFlowExecutions.
+    /// - Parameter input: The request parameters of ListFlowExecutions. (Type: `ListDataIntegrationFlowExecutionsInput`)
     ///
-    /// - Returns: `ListDataIntegrationFlowExecutionsOutput` : The response parameters of ListFlowExecutions.
+    /// - Returns: The response parameters of ListFlowExecutions. (Type: `ListDataIntegrationFlowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1653,9 +1653,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
     ///
-    /// - Parameter ListDataIntegrationFlowsInput : The request parameters for ListDataIntegrationFlows.
+    /// - Parameter input: The request parameters for ListDataIntegrationFlows. (Type: `ListDataIntegrationFlowsInput`)
     ///
-    /// - Returns: `ListDataIntegrationFlowsOutput` : The response parameters for ListDataIntegrationFlows.
+    /// - Returns: The response parameters for ListDataIntegrationFlows. (Type: `ListDataIntegrationFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1724,9 +1724,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
     ///
-    /// - Parameter ListDataLakeDatasetsInput : The request parameters of ListDataLakeDatasets.
+    /// - Parameter input: The request parameters of ListDataLakeDatasets. (Type: `ListDataLakeDatasetsInput`)
     ///
-    /// - Returns: `ListDataLakeDatasetsOutput` : The response parameters of ListDataLakeDatasets.
+    /// - Returns: The response parameters of ListDataLakeDatasets. (Type: `ListDataLakeDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1795,9 +1795,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake namespaces. Developers can view the namespaces and the corresponding information such as description for a given instance ID. Note that this API only return custom namespaces, instance pre-defined namespaces are not included.
     ///
-    /// - Parameter ListDataLakeNamespacesInput : The request parameters of ListDataLakeNamespaces.
+    /// - Parameter input: The request parameters of ListDataLakeNamespaces. (Type: `ListDataLakeNamespacesInput`)
     ///
-    /// - Returns: `ListDataLakeNamespacesOutput` : The response parameters of ListDataLakeNamespaces.
+    /// - Returns: The response parameters of ListDataLakeNamespaces. (Type: `ListDataLakeNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1866,9 +1866,9 @@ extension SupplyChainClient {
     ///
     /// List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
     ///
-    /// - Parameter ListInstancesInput : The request parameters for ListInstances.
+    /// - Parameter input: The request parameters for ListInstances. (Type: `ListInstancesInput`)
     ///
-    /// - Returns: `ListInstancesOutput` : The response parameters for ListInstances.
+    /// - Returns: The response parameters for ListInstances. (Type: `ListInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1937,9 +1937,9 @@ extension SupplyChainClient {
     ///
     /// List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
     ///
-    /// - Parameter ListTagsForResourceInput : The request parameters of ListTagsForResource.
+    /// - Parameter input: The request parameters of ListTagsForResource. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : The response parameters of ListTagsForResource.
+    /// - Returns: The response parameters of ListTagsForResource. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2007,9 +2007,9 @@ extension SupplyChainClient {
     ///
     /// Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
     ///
-    /// - Parameter SendDataIntegrationEventInput : The request parameters for SendDataIntegrationEvent.
+    /// - Parameter input: The request parameters for SendDataIntegrationEvent. (Type: `SendDataIntegrationEventInput`)
     ///
-    /// - Returns: `SendDataIntegrationEventOutput` : The response parameters for SendDataIntegrationEvent.
+    /// - Returns: The response parameters for SendDataIntegrationEvent. (Type: `SendDataIntegrationEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2081,9 +2081,9 @@ extension SupplyChainClient {
     ///
     /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets. You can use these tags to identify a group of resources or a single resource used by the developer.
     ///
-    /// - Parameter TagResourceInput : The request parameters of TagResource.
+    /// - Parameter input: The request parameters of TagResource. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : The response parameters for TagResource.
+    /// - Returns: The response parameters for TagResource. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2154,9 +2154,9 @@ extension SupplyChainClient {
     ///
     /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
     ///
-    /// - Parameter UntagResourceInput : The request parameters of UntagResource.
+    /// - Parameter input: The request parameters of UntagResource. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : The response parameters of UntagResource.
+    /// - Returns: The response parameters of UntagResource. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2225,9 +2225,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
     ///
-    /// - Parameter UpdateDataIntegrationFlowInput : The request parameters for UpdateDataIntegrationFlow.
+    /// - Parameter input: The request parameters for UpdateDataIntegrationFlow. (Type: `UpdateDataIntegrationFlowInput`)
     ///
-    /// - Returns: `UpdateDataIntegrationFlowOutput` : The response parameters for UpdateDataIntegrationFlow.
+    /// - Returns: The response parameters for UpdateDataIntegrationFlow. (Type: `UpdateDataIntegrationFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2298,9 +2298,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
     ///
-    /// - Parameter UpdateDataLakeDatasetInput : The request parameters of UpdateDataLakeDataset.
+    /// - Parameter input: The request parameters of UpdateDataLakeDataset. (Type: `UpdateDataLakeDatasetInput`)
     ///
-    /// - Returns: `UpdateDataLakeDatasetOutput` : The response parameters of UpdateDataLakeDataset.
+    /// - Returns: The response parameters of UpdateDataLakeDataset. (Type: `UpdateDataLakeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2371,9 +2371,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name.
     ///
-    /// - Parameter UpdateDataLakeNamespaceInput : The request parameters of UpdateDataLakeNamespace.
+    /// - Parameter input: The request parameters of UpdateDataLakeNamespace. (Type: `UpdateDataLakeNamespaceInput`)
     ///
-    /// - Returns: `UpdateDataLakeNamespaceOutput` : The response parameters of UpdateDataLakeNamespace.
+    /// - Returns: The response parameters of UpdateDataLakeNamespace. (Type: `UpdateDataLakeNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2444,9 +2444,9 @@ extension SupplyChainClient {
     ///
     /// Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
     ///
-    /// - Parameter UpdateInstanceInput : The request parameters for UpdateInstance.
+    /// - Parameter input: The request parameters for UpdateInstance. (Type: `UpdateInstanceInput`)
     ///
-    /// - Returns: `UpdateInstanceOutput` : The response parameters for UpdateInstance.
+    /// - Returns: The response parameters for UpdateInstance. (Type: `UpdateInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCampaignsClient: ClientRuntime.Client {
     public static let clientName = "ConnectCampaignsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCampaignsClient.ConnectCampaignsClientConfiguration
     let serviceName = "ConnectCampaigns"
@@ -372,9 +372,9 @@ extension ConnectCampaignsClient {
     ///
     /// Creates a campaign for the specified Amazon Connect account. This API is idempotent.
     ///
-    /// - Parameter CreateCampaignInput : The request for Create Campaign API.
+    /// - Parameter input: The request for Create Campaign API. (Type: `CreateCampaignInput`)
     ///
-    /// - Returns: `CreateCampaignOutput` : The response for Create Campaign API
+    /// - Returns: The response for Create Campaign API (Type: `CreateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension ConnectCampaignsClient {
     ///
     /// Deletes a campaign from the specified Amazon Connect account.
     ///
-    /// - Parameter DeleteCampaignInput : DeleteCampaignRequest
+    /// - Parameter input: DeleteCampaignRequest (Type: `DeleteCampaignInput`)
     ///
-    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension ConnectCampaignsClient {
     ///
     /// Deletes a connect instance config from the specified AWS account.
     ///
-    /// - Parameter DeleteConnectInstanceConfigInput : DeleteCampaignRequest
+    /// - Parameter input: DeleteCampaignRequest (Type: `DeleteConnectInstanceConfigInput`)
     ///
-    /// - Returns: `DeleteConnectInstanceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectInstanceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,9 +581,9 @@ extension ConnectCampaignsClient {
     ///
     /// Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
     ///
-    /// - Parameter DeleteInstanceOnboardingJobInput : The request for DeleteInstanceOnboardingJob API.
+    /// - Parameter input: The request for DeleteInstanceOnboardingJob API. (Type: `DeleteInstanceOnboardingJobInput`)
     ///
-    /// - Returns: `DeleteInstanceOnboardingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceOnboardingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -649,9 +649,9 @@ extension ConnectCampaignsClient {
     ///
     /// Describes the specific campaign.
     ///
-    /// - Parameter DescribeCampaignInput : DescribeCampaignRequests
+    /// - Parameter input: DescribeCampaignRequests (Type: `DescribeCampaignInput`)
     ///
-    /// - Returns: `DescribeCampaignOutput` : DescribeCampaignResponse
+    /// - Returns: DescribeCampaignResponse (Type: `DescribeCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -716,9 +716,9 @@ extension ConnectCampaignsClient {
     ///
     /// Get state of a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter GetCampaignStateInput : GetCampaignStateRequest
+    /// - Parameter input: GetCampaignStateRequest (Type: `GetCampaignStateInput`)
     ///
-    /// - Returns: `GetCampaignStateOutput` : GetCampaignStateResponse
+    /// - Returns: GetCampaignStateResponse (Type: `GetCampaignStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,9 +784,9 @@ extension ConnectCampaignsClient {
     ///
     /// Get state of campaigns for the specified Amazon Connect account.
     ///
-    /// - Parameter GetCampaignStateBatchInput : GetCampaignStateBatchRequest
+    /// - Parameter input: GetCampaignStateBatchRequest (Type: `GetCampaignStateBatchInput`)
     ///
-    /// - Returns: `GetCampaignStateBatchOutput` : GetCampaignStateBatchResponse
+    /// - Returns: GetCampaignStateBatchResponse (Type: `GetCampaignStateBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -854,9 +854,9 @@ extension ConnectCampaignsClient {
     ///
     /// Get the specific Connect instance config.
     ///
-    /// - Parameter GetConnectInstanceConfigInput : GetConnectInstanceConfigRequest
+    /// - Parameter input: GetConnectInstanceConfigRequest (Type: `GetConnectInstanceConfigInput`)
     ///
-    /// - Returns: `GetConnectInstanceConfigOutput` : GetConnectInstanceConfigResponse
+    /// - Returns: GetConnectInstanceConfigResponse (Type: `GetConnectInstanceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,9 +921,9 @@ extension ConnectCampaignsClient {
     ///
     /// Get the specific instance onboarding job status.
     ///
-    /// - Parameter GetInstanceOnboardingJobStatusInput : GetInstanceOnboardingJobStatusRequest
+    /// - Parameter input: GetInstanceOnboardingJobStatusRequest (Type: `GetInstanceOnboardingJobStatusInput`)
     ///
-    /// - Returns: `GetInstanceOnboardingJobStatusOutput` : GetInstanceOnboardingJobStatusResponse
+    /// - Returns: GetInstanceOnboardingJobStatusResponse (Type: `GetInstanceOnboardingJobStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -988,9 +988,9 @@ extension ConnectCampaignsClient {
     ///
     /// Provides summary information about the campaigns under the specified Amazon Connect account.
     ///
-    /// - Parameter ListCampaignsInput : ListCampaignsRequest
+    /// - Parameter input: ListCampaignsRequest (Type: `ListCampaignsInput`)
     ///
-    /// - Returns: `ListCampaignsOutput` : ListCampaignsResponse
+    /// - Returns: ListCampaignsResponse (Type: `ListCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,9 +1057,9 @@ extension ConnectCampaignsClient {
     ///
     /// List tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : ListTagsForResource
+    /// - Parameter input: ListTagsForResource (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : ListTagsForResponse
+    /// - Returns: ListTagsForResponse (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,9 +1125,9 @@ extension ConnectCampaignsClient {
     ///
     /// Pauses a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter PauseCampaignInput : PauseCampaignRequest
+    /// - Parameter input: PauseCampaignRequest (Type: `PauseCampaignInput`)
     ///
-    /// - Returns: `PauseCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PauseCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1195,9 +1195,9 @@ extension ConnectCampaignsClient {
     ///
     /// Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
     ///
-    /// - Parameter PutDialRequestBatchInput : PutDialRequestBatchRequest
+    /// - Parameter input: PutDialRequestBatchRequest (Type: `PutDialRequestBatchInput`)
     ///
-    /// - Returns: `PutDialRequestBatchOutput` : PutDialRequestBatchResponse
+    /// - Returns: PutDialRequestBatchResponse (Type: `PutDialRequestBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,9 +1268,9 @@ extension ConnectCampaignsClient {
     ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter ResumeCampaignInput : ResumeCampaignRequest
+    /// - Parameter input: ResumeCampaignRequest (Type: `ResumeCampaignInput`)
     ///
-    /// - Returns: `ResumeCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,9 +1338,9 @@ extension ConnectCampaignsClient {
     ///
     /// Starts a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter StartCampaignInput : StartCampaignRequest
+    /// - Parameter input: StartCampaignRequest (Type: `StartCampaignInput`)
     ///
-    /// - Returns: `StartCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1408,9 +1408,9 @@ extension ConnectCampaignsClient {
     ///
     /// Onboard the specific Amazon Connect instance to Connect Campaigns.
     ///
-    /// - Parameter StartInstanceOnboardingJobInput : The request for StartInstanceOnboardingJob API.
+    /// - Parameter input: The request for StartInstanceOnboardingJob API. (Type: `StartInstanceOnboardingJobInput`)
     ///
-    /// - Returns: `StartInstanceOnboardingJobOutput` : The response for StartInstanceOnboardingJob API.
+    /// - Returns: The response for StartInstanceOnboardingJob API. (Type: `StartInstanceOnboardingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,9 +1480,9 @@ extension ConnectCampaignsClient {
     ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter StopCampaignInput : StopCampaignRequest
+    /// - Parameter input: StopCampaignRequest (Type: `StopCampaignInput`)
     ///
-    /// - Returns: `StopCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1550,9 +1550,9 @@ extension ConnectCampaignsClient {
     ///
     /// Tag a resource.
     ///
-    /// - Parameter TagResourceInput : TagResourceRequest
+    /// - Parameter input: TagResourceRequest (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,9 +1621,9 @@ extension ConnectCampaignsClient {
     ///
     /// Untag a resource.
     ///
-    /// - Parameter UntagResourceInput : UntagResourceRequest
+    /// - Parameter input: UntagResourceRequest (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1690,9 +1690,9 @@ extension ConnectCampaignsClient {
     ///
     /// Updates the dialer config of a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignDialerConfigInput : UpdateCampaignDialerConfigRequest
+    /// - Parameter input: UpdateCampaignDialerConfigRequest (Type: `UpdateCampaignDialerConfigInput`)
     ///
-    /// - Returns: `UpdateCampaignDialerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignDialerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,9 +1761,9 @@ extension ConnectCampaignsClient {
     ///
     /// Updates the name of a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignNameInput : UpdateCampaignNameRequest
+    /// - Parameter input: UpdateCampaignNameRequest (Type: `UpdateCampaignNameInput`)
     ///
-    /// - Returns: `UpdateCampaignNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1832,9 +1832,9 @@ extension ConnectCampaignsClient {
     ///
     /// Updates the outbound call config of a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignOutboundCallConfigInput : UpdateCampaignOutboundCallConfigRequest
+    /// - Parameter input: UpdateCampaignOutboundCallConfigRequest (Type: `UpdateCampaignOutboundCallConfigInput`)
     ///
-    /// - Returns: `UpdateCampaignOutboundCallConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignOutboundCallConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

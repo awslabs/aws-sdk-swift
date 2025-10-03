@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmplifyClient: ClientRuntime.Client {
     public static let clientName = "AmplifyClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AmplifyClient.AmplifyClientConfiguration
     let serviceName = "Amplify"
@@ -373,9 +373,9 @@ extension AmplifyClient {
     ///
     /// Creates a new Amplify app.
     ///
-    /// - Parameter CreateAppInput : The request structure used to create apps in Amplify.
+    /// - Parameter input: The request structure used to create apps in Amplify. (Type: `CreateAppInput`)
     ///
-    /// - Returns: `CreateAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension AmplifyClient {
     ///
     /// Creates a new backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
-    /// - Parameter CreateBackendEnvironmentInput : The request structure for the backend environment create request.
+    /// - Parameter input: The request structure for the backend environment create request. (Type: `CreateBackendEnvironmentInput`)
     ///
-    /// - Returns: `CreateBackendEnvironmentOutput` : The result structure for the create backend environment request.
+    /// - Returns: The result structure for the create backend environment request. (Type: `CreateBackendEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension AmplifyClient {
     ///
     /// Creates a new branch for an Amplify app.
     ///
-    /// - Parameter CreateBranchInput : The request structure for the create branch request.
+    /// - Parameter input: The request structure for the create branch request. (Type: `CreateBranchInput`)
     ///
-    /// - Returns: `CreateBranchOutput` : The result structure for create branch request.
+    /// - Returns: The result structure for create branch request. (Type: `CreateBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension AmplifyClient {
     ///
     /// Creates a deployment for a manually deployed Amplify app. Manually deployed apps are not connected to a Git repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
-    /// - Parameter CreateDeploymentInput : The request structure for the create a new deployment request.
+    /// - Parameter input: The request structure for the create a new deployment request. (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : The result structure for the create a new deployment request.
+    /// - Returns: The result structure for the create a new deployment request. (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,9 +657,9 @@ extension AmplifyClient {
     ///
     /// Creates a new domain association for an Amplify app. This action associates a custom domain with the Amplify app
     ///
-    /// - Parameter CreateDomainAssociationInput : The request structure for the create domain association request.
+    /// - Parameter input: The request structure for the create domain association request. (Type: `CreateDomainAssociationInput`)
     ///
-    /// - Returns: `CreateDomainAssociationOutput` : The result structure for the create domain association request.
+    /// - Returns: The result structure for the create domain association request. (Type: `CreateDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension AmplifyClient {
     ///
     /// Creates a new webhook on an Amplify app.
     ///
-    /// - Parameter CreateWebhookInput : The request structure for the create webhook request.
+    /// - Parameter input: The request structure for the create webhook request. (Type: `CreateWebhookInput`)
     ///
-    /// - Returns: `CreateWebhookOutput` : The result structure for the create webhook request.
+    /// - Returns: The result structure for the create webhook request. (Type: `CreateWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -801,9 +801,9 @@ extension AmplifyClient {
     ///
     /// Deletes an existing Amplify app specified by an app ID.
     ///
-    /// - Parameter DeleteAppInput : Describes the request structure for the delete app request.
+    /// - Parameter input: Describes the request structure for the delete app request. (Type: `DeleteAppInput`)
     ///
-    /// - Returns: `DeleteAppOutput` : The result structure for the delete app request.
+    /// - Returns: The result structure for the delete app request. (Type: `DeleteAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -869,9 +869,9 @@ extension AmplifyClient {
     ///
     /// Deletes a backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
-    /// - Parameter DeleteBackendEnvironmentInput : The request structure for the delete backend environment request.
+    /// - Parameter input: The request structure for the delete backend environment request. (Type: `DeleteBackendEnvironmentInput`)
     ///
-    /// - Returns: `DeleteBackendEnvironmentOutput` : The result structure of the delete backend environment result.
+    /// - Returns: The result structure of the delete backend environment result. (Type: `DeleteBackendEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -937,9 +937,9 @@ extension AmplifyClient {
     ///
     /// Deletes a branch for an Amplify app.
     ///
-    /// - Parameter DeleteBranchInput : The request structure for the delete branch request.
+    /// - Parameter input: The request structure for the delete branch request. (Type: `DeleteBranchInput`)
     ///
-    /// - Returns: `DeleteBranchOutput` : The result structure for the delete branch request.
+    /// - Returns: The result structure for the delete branch request. (Type: `DeleteBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1005,9 +1005,9 @@ extension AmplifyClient {
     ///
     /// Deletes a domain association for an Amplify app.
     ///
-    /// - Parameter DeleteDomainAssociationInput : The request structure for the delete domain association request.
+    /// - Parameter input: The request structure for the delete domain association request. (Type: `DeleteDomainAssociationInput`)
     ///
-    /// - Returns: `DeleteDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,9 +1073,9 @@ extension AmplifyClient {
     ///
     /// Deletes a job for a branch of an Amplify app.
     ///
-    /// - Parameter DeleteJobInput : The request structure for the delete job request.
+    /// - Parameter input: The request structure for the delete job request. (Type: `DeleteJobInput`)
     ///
-    /// - Returns: `DeleteJobOutput` : The result structure for the delete job request.
+    /// - Returns: The result structure for the delete job request. (Type: `DeleteJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1141,9 +1141,9 @@ extension AmplifyClient {
     ///
     /// Deletes a webhook.
     ///
-    /// - Parameter DeleteWebhookInput : The request structure for the delete webhook request.
+    /// - Parameter input: The request structure for the delete webhook request. (Type: `DeleteWebhookInput`)
     ///
-    /// - Returns: `DeleteWebhookOutput` : The result structure for the delete webhook request.
+    /// - Returns: The result structure for the delete webhook request. (Type: `DeleteWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1209,9 +1209,9 @@ extension AmplifyClient {
     ///
     /// Returns the website access logs for a specific time range using a presigned URL.
     ///
-    /// - Parameter GenerateAccessLogsInput : The request structure for the generate access logs request.
+    /// - Parameter input: The request structure for the generate access logs request. (Type: `GenerateAccessLogsInput`)
     ///
-    /// - Returns: `GenerateAccessLogsOutput` : The result structure for the generate access logs request.
+    /// - Returns: The result structure for the generate access logs request. (Type: `GenerateAccessLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1279,9 +1279,9 @@ extension AmplifyClient {
     ///
     /// Returns an existing Amplify app specified by an app ID.
     ///
-    /// - Parameter GetAppInput : The request structure for the get app request.
+    /// - Parameter input: The request structure for the get app request. (Type: `GetAppInput`)
     ///
-    /// - Returns: `GetAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1346,9 +1346,9 @@ extension AmplifyClient {
     ///
     /// Returns the artifact info that corresponds to an artifact id.
     ///
-    /// - Parameter GetArtifactUrlInput : Returns the request structure for the get artifact request.
+    /// - Parameter input: Returns the request structure for the get artifact request. (Type: `GetArtifactUrlInput`)
     ///
-    /// - Returns: `GetArtifactUrlOutput` : Returns the result structure for the get artifact request.
+    /// - Returns: Returns the result structure for the get artifact request. (Type: `GetArtifactUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1414,9 +1414,9 @@ extension AmplifyClient {
     ///
     /// Returns a backend environment for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
-    /// - Parameter GetBackendEnvironmentInput : The request structure for the get backend environment request.
+    /// - Parameter input: The request structure for the get backend environment request. (Type: `GetBackendEnvironmentInput`)
     ///
-    /// - Returns: `GetBackendEnvironmentOutput` : The result structure for the get backend environment result.
+    /// - Returns: The result structure for the get backend environment result. (Type: `GetBackendEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1481,9 +1481,9 @@ extension AmplifyClient {
     ///
     /// Returns a branch for an Amplify app.
     ///
-    /// - Parameter GetBranchInput : The request structure for the get branch request.
+    /// - Parameter input: The request structure for the get branch request. (Type: `GetBranchInput`)
     ///
-    /// - Returns: `GetBranchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,9 +1548,9 @@ extension AmplifyClient {
     ///
     /// Returns the domain information for an Amplify app.
     ///
-    /// - Parameter GetDomainAssociationInput : The request structure for the get domain association request.
+    /// - Parameter input: The request structure for the get domain association request. (Type: `GetDomainAssociationInput`)
     ///
-    /// - Returns: `GetDomainAssociationOutput` : The result structure for the get domain association request.
+    /// - Returns: The result structure for the get domain association request. (Type: `GetDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1615,9 +1615,9 @@ extension AmplifyClient {
     ///
     /// Returns a job for a branch of an Amplify app.
     ///
-    /// - Parameter GetJobInput : The request structure for the get job request.
+    /// - Parameter input: The request structure for the get job request. (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,9 +1683,9 @@ extension AmplifyClient {
     ///
     /// Returns the webhook information that corresponds to a specified webhook ID.
     ///
-    /// - Parameter GetWebhookInput : The request structure for the get webhook request.
+    /// - Parameter input: The request structure for the get webhook request. (Type: `GetWebhookInput`)
     ///
-    /// - Returns: `GetWebhookOutput` : The result structure for the get webhook request.
+    /// - Returns: The result structure for the get webhook request. (Type: `GetWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1751,9 +1751,9 @@ extension AmplifyClient {
     ///
     /// Returns a list of the existing Amplify apps.
     ///
-    /// - Parameter ListAppsInput : The request structure for the list apps request.
+    /// - Parameter input: The request structure for the list apps request. (Type: `ListAppsInput`)
     ///
-    /// - Returns: `ListAppsOutput` : The result structure for an Amplify app list request.
+    /// - Returns: The result structure for an Amplify app list request. (Type: `ListAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1818,9 +1818,9 @@ extension AmplifyClient {
     ///
     /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the [GetJob](https://docs.aws.amazon.com/amplify/latest/APIReference/API_GetJob.html) API. For more information about Amplify testing support, see [Setting up end-to-end Cypress tests for your Amplify application](https://docs.aws.amazon.com/amplify/latest/userguide/running-tests.html) in the Amplify Hosting User Guide.
     ///
-    /// - Parameter ListArtifactsInput : Describes the request structure for the list artifacts request.
+    /// - Parameter input: Describes the request structure for the list artifacts request. (Type: `ListArtifactsInput`)
     ///
-    /// - Returns: `ListArtifactsOutput` : The result structure for the list artifacts request.
+    /// - Returns: The result structure for the list artifacts request. (Type: `ListArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1886,9 +1886,9 @@ extension AmplifyClient {
     ///
     /// Lists the backend environments for an Amplify app. This API is available only to Amplify Gen 1 applications where the backend is created using Amplify Studio or the Amplify command line interface (CLI). This API isn’t available to Amplify Gen 2 applications. When you deploy an application with Amplify Gen 2, you provision the app's backend infrastructure using Typescript code.
     ///
-    /// - Parameter ListBackendEnvironmentsInput : The request structure for the list backend environments request.
+    /// - Parameter input: The request structure for the list backend environments request. (Type: `ListBackendEnvironmentsInput`)
     ///
-    /// - Returns: `ListBackendEnvironmentsOutput` : The result structure for the list backend environments result.
+    /// - Returns: The result structure for the list backend environments result. (Type: `ListBackendEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1953,9 +1953,9 @@ extension AmplifyClient {
     ///
     /// Lists the branches of an Amplify app.
     ///
-    /// - Parameter ListBranchesInput : The request structure for the list branches request.
+    /// - Parameter input: The request structure for the list branches request. (Type: `ListBranchesInput`)
     ///
-    /// - Returns: `ListBranchesOutput` : The result structure for the list branches request.
+    /// - Returns: The result structure for the list branches request. (Type: `ListBranchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,9 +2020,9 @@ extension AmplifyClient {
     ///
     /// Returns the domain associations for an Amplify app.
     ///
-    /// - Parameter ListDomainAssociationsInput : The request structure for the list domain associations request.
+    /// - Parameter input: The request structure for the list domain associations request. (Type: `ListDomainAssociationsInput`)
     ///
-    /// - Returns: `ListDomainAssociationsOutput` : The result structure for the list domain association request.
+    /// - Returns: The result structure for the list domain association request. (Type: `ListDomainAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,9 +2087,9 @@ extension AmplifyClient {
     ///
     /// Lists the jobs for a branch of an Amplify app.
     ///
-    /// - Parameter ListJobsInput : The request structure for the list jobs request.
+    /// - Parameter input: The request structure for the list jobs request. (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : The maximum number of records to list in a single response.
+    /// - Returns: The maximum number of records to list in a single response. (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2155,9 +2155,9 @@ extension AmplifyClient {
     ///
     /// Returns a list of tags for a specified Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListTagsForResourceInput : The request structure to use to list tags for a resource.
+    /// - Parameter input: The request structure to use to list tags for a resource. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : The response for the list tags for resource request.
+    /// - Returns: The response for the list tags for resource request. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2221,9 +2221,9 @@ extension AmplifyClient {
     ///
     /// Returns a list of webhooks for an Amplify app.
     ///
-    /// - Parameter ListWebhooksInput : The request structure for the list webhooks request.
+    /// - Parameter input: The request structure for the list webhooks request. (Type: `ListWebhooksInput`)
     ///
-    /// - Returns: `ListWebhooksOutput` : The result structure for the list webhooks request.
+    /// - Returns: The result structure for the list webhooks request. (Type: `ListWebhooksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2289,9 +2289,9 @@ extension AmplifyClient {
     ///
     /// Starts a deployment for a manually deployed app. Manually deployed apps are not connected to a Git repository. The maximum duration between the CreateDeployment call and the StartDeployment call cannot exceed 8 hours. If the duration exceeds 8 hours, the StartDeployment call and the associated Job will fail.
     ///
-    /// - Parameter StartDeploymentInput : The request structure for the start a deployment request.
+    /// - Parameter input: The request structure for the start a deployment request. (Type: `StartDeploymentInput`)
     ///
-    /// - Returns: `StartDeploymentOutput` : The result structure for the start a deployment request.
+    /// - Returns: The result structure for the start a deployment request. (Type: `StartDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,9 +2360,9 @@ extension AmplifyClient {
     ///
     /// Starts a new job for a branch of an Amplify app.
     ///
-    /// - Parameter StartJobInput : The request structure for the start job request.
+    /// - Parameter input: The request structure for the start job request. (Type: `StartJobInput`)
     ///
-    /// - Returns: `StartJobOutput` : The result structure for the run job request.
+    /// - Returns: The result structure for the run job request. (Type: `StartJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2431,9 +2431,9 @@ extension AmplifyClient {
     ///
     /// Stops a job that is in progress for a branch of an Amplify app.
     ///
-    /// - Parameter StopJobInput : The request structure for the stop job request.
+    /// - Parameter input: The request structure for the stop job request. (Type: `StopJobInput`)
     ///
-    /// - Returns: `StopJobOutput` : The result structure for the stop job request.
+    /// - Returns: The result structure for the stop job request. (Type: `StopJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2499,9 +2499,9 @@ extension AmplifyClient {
     ///
     /// Tags the resource with a tag key and value.
     ///
-    /// - Parameter TagResourceInput : The request structure to tag a resource with a tag key and value.
+    /// - Parameter input: The request structure to tag a resource with a tag key and value. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : The response for the tag resource request.
+    /// - Returns: The response for the tag resource request. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2568,9 +2568,9 @@ extension AmplifyClient {
     ///
     /// Untags a resource with a specified Amazon Resource Name (ARN).
     ///
-    /// - Parameter UntagResourceInput : The request structure for the untag resource request.
+    /// - Parameter input: The request structure for the untag resource request. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : The response for the untag resource request.
+    /// - Returns: The response for the untag resource request. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2635,9 +2635,9 @@ extension AmplifyClient {
     ///
     /// Updates an existing Amplify app.
     ///
-    /// - Parameter UpdateAppInput : The request structure for the update app request.
+    /// - Parameter input: The request structure for the update app request. (Type: `UpdateAppInput`)
     ///
-    /// - Returns: `UpdateAppOutput` : The result structure for an Amplify app update request.
+    /// - Returns: The result structure for an Amplify app update request. (Type: `UpdateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2705,9 +2705,9 @@ extension AmplifyClient {
     ///
     /// Updates a branch for an Amplify app.
     ///
-    /// - Parameter UpdateBranchInput : The request structure for the update branch request.
+    /// - Parameter input: The request structure for the update branch request. (Type: `UpdateBranchInput`)
     ///
-    /// - Returns: `UpdateBranchOutput` : The result structure for the update branch request.
+    /// - Returns: The result structure for the update branch request. (Type: `UpdateBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2776,9 +2776,9 @@ extension AmplifyClient {
     ///
     /// Creates a new domain association for an Amplify app.
     ///
-    /// - Parameter UpdateDomainAssociationInput : The request structure for the update domain association request.
+    /// - Parameter input: The request structure for the update domain association request. (Type: `UpdateDomainAssociationInput`)
     ///
-    /// - Returns: `UpdateDomainAssociationOutput` : The result structure for the update domain association request.
+    /// - Returns: The result structure for the update domain association request. (Type: `UpdateDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2847,9 +2847,9 @@ extension AmplifyClient {
     ///
     /// Updates a webhook.
     ///
-    /// - Parameter UpdateWebhookInput : The request structure for the update webhook request.
+    /// - Parameter input: The request structure for the update webhook request. (Type: `UpdateWebhookInput`)
     ///
-    /// - Returns: `UpdateWebhookOutput` : The result structure for the update webhook request.
+    /// - Returns: The result structure for the update webhook request. (Type: `UpdateWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

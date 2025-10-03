@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LookoutMetricsClient: ClientRuntime.Client {
     public static let clientName = "LookoutMetricsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutMetricsClient.LookoutMetricsClientConfiguration
     let serviceName = "LookoutMetrics"
@@ -373,9 +373,9 @@ extension LookoutMetricsClient {
     ///
     /// Activates an anomaly detector.
     ///
-    /// - Parameter ActivateAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateAnomalyDetectorInput`)
     ///
-    /// - Returns: `ActivateAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension LookoutMetricsClient {
     ///
     /// Runs a backtest for anomaly detection for the specified resource.
     ///
-    /// - Parameter BackTestAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BackTestAnomalyDetectorInput`)
     ///
-    /// - Returns: `BackTestAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BackTestAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension LookoutMetricsClient {
     ///
     /// Creates an alert for an anomaly detector.
     ///
-    /// - Parameter CreateAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAlertInput`)
     ///
-    /// - Returns: `CreateAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension LookoutMetricsClient {
     ///
     /// Creates an anomaly detector.
     ///
-    /// - Parameter CreateAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnomalyDetectorInput`)
     ///
-    /// - Returns: `CreateAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension LookoutMetricsClient {
     ///
     /// Creates a dataset.
     ///
-    /// - Parameter CreateMetricSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMetricSetInput`)
     ///
-    /// - Returns: `CreateMetricSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMetricSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -734,9 +734,9 @@ extension LookoutMetricsClient {
     ///
     /// Deactivates an anomaly detector.
     ///
-    /// - Parameter DeactivateAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateAnomalyDetectorInput`)
     ///
-    /// - Returns: `DeactivateAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,9 +806,9 @@ extension LookoutMetricsClient {
     ///
     /// Deletes an alert.
     ///
-    /// - Parameter DeleteAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAlertInput`)
     ///
-    /// - Returns: `DeleteAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,9 +877,9 @@ extension LookoutMetricsClient {
     ///
     /// Deletes a detector. Deleting an anomaly detector will delete all of its corresponding resources including any configured datasets and alerts.
     ///
-    /// - Parameter DeleteAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnomalyDetectorInput`)
     ///
-    /// - Returns: `DeleteAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -949,9 +949,9 @@ extension LookoutMetricsClient {
     ///
     /// Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter DescribeAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlertInput`)
     ///
-    /// - Returns: `DescribeAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1020,9 +1020,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns information about the status of the specified anomaly detection jobs.
     ///
-    /// - Parameter DescribeAnomalyDetectionExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnomalyDetectionExecutionsInput`)
     ///
-    /// - Returns: `DescribeAnomalyDetectionExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnomalyDetectionExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1091,9 +1091,9 @@ extension LookoutMetricsClient {
     ///
     /// Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter DescribeAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnomalyDetectorInput`)
     ///
-    /// - Returns: `DescribeAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1162,9 +1162,9 @@ extension LookoutMetricsClient {
     ///
     /// Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter DescribeMetricSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetricSetInput`)
     ///
-    /// - Returns: `DescribeMetricSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetricSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1233,9 +1233,9 @@ extension LookoutMetricsClient {
     ///
     /// Detects an Amazon S3 dataset's file format, interval, and offset.
     ///
-    /// - Parameter DetectMetricSetConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectMetricSetConfigInput`)
     ///
-    /// - Returns: `DetectMetricSetConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectMetricSetConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1304,9 +1304,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns details about a group of anomalous metrics.
     ///
-    /// - Parameter GetAnomalyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnomalyGroupInput`)
     ///
-    /// - Returns: `GetAnomalyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnomalyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1375,9 +1375,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns details about the requested data quality metrics.
     ///
-    /// - Parameter GetDataQualityMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataQualityMetricsInput`)
     ///
-    /// - Returns: `GetDataQualityMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataQualityMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1446,9 +1446,9 @@ extension LookoutMetricsClient {
     ///
     /// Get feedback for an anomaly group.
     ///
-    /// - Parameter GetFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFeedbackInput`)
     ///
-    /// - Returns: `GetFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1517,9 +1517,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns a selection of sample records from an Amazon S3 datasource.
     ///
-    /// - Parameter GetSampleDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSampleDataInput`)
     ///
-    /// - Returns: `GetSampleDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSampleDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1588,9 +1588,9 @@ extension LookoutMetricsClient {
     ///
     /// Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter ListAlertsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAlertsInput`)
     ///
-    /// - Returns: `ListAlertsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAlertsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1659,9 +1659,9 @@ extension LookoutMetricsClient {
     ///
     /// Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter ListAnomalyDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyDetectorsInput`)
     ///
-    /// - Returns: `ListAnomalyDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalyDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,9 +1730,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns a list of measures that are potential causes or effects of an anomaly group.
     ///
-    /// - Parameter ListAnomalyGroupRelatedMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyGroupRelatedMetricsInput`)
     ///
-    /// - Returns: `ListAnomalyGroupRelatedMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalyGroupRelatedMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1801,9 +1801,9 @@ extension LookoutMetricsClient {
     ///
     /// Returns a list of anomaly groups.
     ///
-    /// - Parameter ListAnomalyGroupSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyGroupSummariesInput`)
     ///
-    /// - Returns: `ListAnomalyGroupSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalyGroupSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,9 +1872,9 @@ extension LookoutMetricsClient {
     ///
     /// Gets a list of anomalous metrics for a measure in an anomaly group.
     ///
-    /// - Parameter ListAnomalyGroupTimeSeriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyGroupTimeSeriesInput`)
     ///
-    /// - Returns: `ListAnomalyGroupTimeSeriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalyGroupTimeSeriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1943,9 +1943,9 @@ extension LookoutMetricsClient {
     ///
     /// Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     ///
-    /// - Parameter ListMetricSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetricSetsInput`)
     ///
-    /// - Returns: `ListMetricSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetricSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2014,9 +2014,9 @@ extension LookoutMetricsClient {
     ///
     /// Gets a list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) for a detector, dataset, or alert.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2080,9 +2080,9 @@ extension LookoutMetricsClient {
     ///
     /// Add feedback for an anomalous metric.
     ///
-    /// - Parameter PutFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFeedbackInput`)
     ///
-    /// - Returns: `PutFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2151,9 +2151,9 @@ extension LookoutMetricsClient {
     ///
     /// Adds [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) to a detector, dataset, or alert.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2220,9 +2220,9 @@ extension LookoutMetricsClient {
     ///
     /// Removes [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) from a detector, dataset, or alert.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2287,9 +2287,9 @@ extension LookoutMetricsClient {
     ///
     /// Make changes to an existing alert.
     ///
-    /// - Parameter UpdateAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAlertInput`)
     ///
-    /// - Returns: `UpdateAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2358,9 +2358,9 @@ extension LookoutMetricsClient {
     ///
     /// Updates a detector. After activation, you can only change a detector's ingestion delay and description.
     ///
-    /// - Parameter UpdateAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnomalyDetectorInput`)
     ///
-    /// - Returns: `UpdateAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2429,9 +2429,9 @@ extension LookoutMetricsClient {
     ///
     /// Updates a dataset.
     ///
-    /// - Parameter UpdateMetricSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMetricSetInput`)
     ///
-    /// - Returns: `UpdateMetricSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMetricSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

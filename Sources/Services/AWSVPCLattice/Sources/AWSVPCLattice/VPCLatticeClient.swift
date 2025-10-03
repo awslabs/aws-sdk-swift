@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VPCLatticeClient: ClientRuntime.Client {
     public static let clientName = "VPCLatticeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: VPCLatticeClient.VPCLatticeClientConfiguration
     let serviceName = "VPC Lattice"
@@ -374,9 +374,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk updating or swapping rule priority. Required permissions: vpc-lattice:UpdateRule For more information, see [How Amazon VPC Lattice works with IAM](https://docs.aws.amazon.com/vpc-lattice/latest/ug/security_iam_service-with-iam.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter BatchUpdateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateRuleInput`)
     ///
-    /// - Returns: `BatchUpdateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension VPCLatticeClient {
     ///
     /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see [Access logs](https://docs.aws.amazon.com/vpc-lattice/latest/ug/monitoring-access-logs.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateAccessLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessLogSubscriptionInput`)
     ///
-    /// - Returns: `CreateAccessLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see [Listeners](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateListenerInput`)
     ///
-    /// - Returns: `CreateListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
     ///
-    /// - Parameter CreateResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceConfigurationInput`)
     ///
-    /// - Returns: `CreateResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension VPCLatticeClient {
     ///
     /// A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
     ///
-    /// - Parameter CreateResourceGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceGatewayInput`)
     ///
-    /// - Returns: `CreateResourceGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -741,9 +741,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleInput`)
     ///
-    /// - Returns: `CreateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -815,9 +815,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a service. A service is any software application that can run on instances containers, or serverless functions within an account or virtual private cloud (VPC). For more information, see [Services](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
     ///
-    /// - Returns: `CreateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -889,9 +889,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a service network. A service network is a logical boundary for a collection of services. You can associate services and VPCs with a service network. For more information, see [Service networks](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateServiceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceNetworkInput`)
     ///
-    /// - Returns: `CreateServiceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,9 +963,9 @@ extension VPCLatticeClient {
     ///
     /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
     ///
-    /// - Parameter CreateServiceNetworkResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceNetworkResourceAssociationInput`)
     ///
-    /// - Returns: `CreateServiceNetworkResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceNetworkResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,9 +1037,9 @@ extension VPCLatticeClient {
     ///
     /// Associates the specified service with the specified service network. For more information, see [Manage service associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-service-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     ///
-    /// - Parameter CreateServiceNetworkServiceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceNetworkServiceAssociationInput`)
     ///
-    /// - Returns: `CreateServiceNetworkServiceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceNetworkServiceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1111,9 +1111,9 @@ extension VPCLatticeClient {
     ///
     /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see [Manage VPC associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-vpc-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
     ///
-    /// - Parameter CreateServiceNetworkVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceNetworkVpcAssociationInput`)
     ///
-    /// - Returns: `CreateServiceNetworkVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceNetworkVpcAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1185,9 +1185,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a target group. A target group is a collection of targets, or compute resources, that run your application or service. A target group can only be used by a single service. For more information, see [Target groups](https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTargetGroupInput`)
     ///
-    /// - Returns: `CreateTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,9 +1259,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified access log subscription.
     ///
-    /// - Parameter DeleteAccessLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessLogSubscriptionInput`)
     ///
-    /// - Returns: `DeleteAccessLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1327,9 +1327,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
     ///
-    /// - Parameter DeleteAuthPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAuthPolicyInput`)
     ///
-    /// - Returns: `DeleteAuthPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAuthPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1395,9 +1395,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified listener.
     ///
-    /// - Parameter DeleteListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteListenerInput`)
     ///
-    /// - Returns: `DeleteListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1464,9 +1464,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified resource configuration.
     ///
-    /// - Parameter DeleteResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceConfigurationInput`)
     ///
-    /// - Returns: `DeleteResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1533,9 +1533,9 @@ extension VPCLatticeClient {
     ///
     /// Disassociates the resource configuration from the resource VPC endpoint.
     ///
-    /// - Parameter DeleteResourceEndpointAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceEndpointAssociationInput`)
     ///
-    /// - Returns: `DeleteResourceEndpointAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceEndpointAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1601,9 +1601,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified resource gateway.
     ///
-    /// - Parameter DeleteResourceGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceGatewayInput`)
     ///
-    /// - Returns: `DeleteResourceGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1670,9 +1670,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified resource policy.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1738,9 +1738,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. You can delete additional listener rules, but you cannot delete the default rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter DeleteRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleInput`)
     ///
-    /// - Returns: `DeleteRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1807,9 +1807,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see [Delete a service](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html#delete-service) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter DeleteServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: `DeleteServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1876,9 +1876,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter DeleteServiceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkInput`)
     ///
-    /// - Returns: `DeleteServiceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1945,9 +1945,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the association between a service network and a resource configuration.
     ///
-    /// - Parameter DeleteServiceNetworkResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkResourceAssociationInput`)
     ///
-    /// - Returns: `DeleteServiceNetworkResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceNetworkResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2014,9 +2014,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the association between a service and a service network. This operation fails if an association is still in progress.
     ///
-    /// - Parameter DeleteServiceNetworkServiceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkServiceAssociationInput`)
     ///
-    /// - Returns: `DeleteServiceNetworkServiceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceNetworkServiceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2083,9 +2083,9 @@ extension VPCLatticeClient {
     ///
     /// Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
     ///
-    /// - Parameter DeleteServiceNetworkVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkVpcAssociationInput`)
     ///
-    /// - Returns: `DeleteServiceNetworkVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceNetworkVpcAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2152,9 +2152,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
     ///
-    /// - Parameter DeleteTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTargetGroupInput`)
     ///
-    /// - Returns: `DeleteTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2220,9 +2220,9 @@ extension VPCLatticeClient {
     ///
     /// Deregisters the specified targets from the specified target group.
     ///
-    /// - Parameter DeregisterTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTargetsInput`)
     ///
-    /// - Returns: `DeregisterTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2292,9 +2292,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified access log subscription.
     ///
-    /// - Parameter GetAccessLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessLogSubscriptionInput`)
     ///
-    /// - Returns: `GetAccessLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,9 +2360,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the auth policy for the specified service or service network.
     ///
-    /// - Parameter GetAuthPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthPolicyInput`)
     ///
-    /// - Returns: `GetAuthPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2428,9 +2428,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified listener for the specified service.
     ///
-    /// - Parameter GetListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetListenerInput`)
     ///
-    /// - Returns: `GetListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2496,9 +2496,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified resource configuration.
     ///
-    /// - Parameter GetResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceConfigurationInput`)
     ///
-    /// - Returns: `GetResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2564,9 +2564,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified resource gateway.
     ///
-    /// - Parameter GetResourceGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceGatewayInput`)
     ///
-    /// - Returns: `GetResourceGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2632,9 +2632,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2700,9 +2700,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter GetRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleInput`)
     ///
-    /// - Returns: `GetRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2768,9 +2768,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified service.
     ///
-    /// - Parameter GetServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInput`)
     ///
-    /// - Returns: `GetServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2836,9 +2836,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified service network.
     ///
-    /// - Parameter GetServiceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceNetworkInput`)
     ///
-    /// - Returns: `GetServiceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2904,9 +2904,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified association between a service network and a resource configuration.
     ///
-    /// - Parameter GetServiceNetworkResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceNetworkResourceAssociationInput`)
     ///
-    /// - Returns: `GetServiceNetworkResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceNetworkResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2972,9 +2972,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified association between a service network and a service.
     ///
-    /// - Parameter GetServiceNetworkServiceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceNetworkServiceAssociationInput`)
     ///
-    /// - Returns: `GetServiceNetworkServiceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceNetworkServiceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3040,9 +3040,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified association between a service network and a VPC.
     ///
-    /// - Parameter GetServiceNetworkVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceNetworkVpcAssociationInput`)
     ///
-    /// - Returns: `GetServiceNetworkVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceNetworkVpcAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3108,9 +3108,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified target group.
     ///
-    /// - Parameter GetTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTargetGroupInput`)
     ///
-    /// - Returns: `GetTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3176,9 +3176,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the access log subscriptions for the specified service network or service.
     ///
-    /// - Parameter ListAccessLogSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessLogSubscriptionsInput`)
     ///
-    /// - Returns: `ListAccessLogSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessLogSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3244,9 +3244,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the listeners for the specified service.
     ///
-    /// - Parameter ListListenersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListListenersInput`)
     ///
-    /// - Returns: `ListListenersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListListenersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3313,9 +3313,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the resource configurations owned by or shared with this account.
     ///
-    /// - Parameter ListResourceConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceConfigurationsInput`)
     ///
-    /// - Returns: `ListResourceConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3381,9 +3381,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations for the specified VPC endpoint.
     ///
-    /// - Parameter ListResourceEndpointAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceEndpointAssociationsInput`)
     ///
-    /// - Returns: `ListResourceEndpointAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceEndpointAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3449,9 +3449,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the resource gateways that you own or that were shared with you.
     ///
-    /// - Parameter ListResourceGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceGatewaysInput`)
     ///
-    /// - Returns: `ListResourceGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3517,9 +3517,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the rules for the specified listener.
     ///
-    /// - Parameter ListRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesInput`)
     ///
-    /// - Returns: `ListRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3586,9 +3586,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations between a service network and a resource configuration.
     ///
-    /// - Parameter ListServiceNetworkResourceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworkResourceAssociationsInput`)
     ///
-    /// - Returns: `ListServiceNetworkResourceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworkResourceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3654,9 +3654,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations between a service network and a service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
     ///
-    /// - Parameter ListServiceNetworkServiceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworkServiceAssociationsInput`)
     ///
-    /// - Returns: `ListServiceNetworkServiceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworkServiceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3722,9 +3722,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
     ///
-    /// - Parameter ListServiceNetworkVpcAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworkVpcAssociationsInput`)
     ///
-    /// - Returns: `ListServiceNetworkVpcAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworkVpcAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3790,9 +3790,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations between a service network and a VPC endpoint.
     ///
-    /// - Parameter ListServiceNetworkVpcEndpointAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworkVpcEndpointAssociationsInput`)
     ///
-    /// - Returns: `ListServiceNetworkVpcEndpointAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworkVpcEndpointAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3858,9 +3858,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
     ///
-    /// - Parameter ListServiceNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworksInput`)
     ///
-    /// - Returns: `ListServiceNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3926,9 +3926,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the services owned by the caller account or shared with the caller account.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3994,9 +3994,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4061,9 +4061,9 @@ extension VPCLatticeClient {
     ///
     /// Lists your target groups. You can narrow your search by using the filters below in your request.
     ///
-    /// - Parameter ListTargetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetGroupsInput`)
     ///
-    /// - Returns: `ListTargetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4129,9 +4129,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also ﬁlter the results by target.
     ///
-    /// - Parameter ListTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetsInput`)
     ///
-    /// - Returns: `ListTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4201,9 +4201,9 @@ extension VPCLatticeClient {
     ///
     /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines. For more information, see [Auth policies](https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter PutAuthPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAuthPolicyInput`)
     ///
-    /// - Returns: `PutAuthPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAuthPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4272,9 +4272,9 @@ extension VPCLatticeClient {
     ///
     /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4343,9 +4343,9 @@ extension VPCLatticeClient {
     ///
     /// Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
     ///
-    /// - Parameter RegisterTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTargetsInput`)
     ///
-    /// - Returns: `RegisterTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4416,9 +4416,9 @@ extension VPCLatticeClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4487,9 +4487,9 @@ extension VPCLatticeClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4555,9 +4555,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified access log subscription.
     ///
-    /// - Parameter UpdateAccessLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessLogSubscriptionInput`)
     ///
-    /// - Returns: `UpdateAccessLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4627,9 +4627,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified listener for the specified service.
     ///
-    /// - Parameter UpdateListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateListenerInput`)
     ///
-    /// - Returns: `UpdateListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4700,9 +4700,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified resource configuration.
     ///
-    /// - Parameter UpdateResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceConfigurationInput`)
     ///
-    /// - Returns: `UpdateResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4772,9 +4772,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified resource gateway.
     ///
-    /// - Parameter UpdateResourceGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceGatewayInput`)
     ///
-    /// - Returns: `UpdateResourceGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4844,9 +4844,9 @@ extension VPCLatticeClient {
     ///
     /// Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
     ///
-    /// - Parameter UpdateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleInput`)
     ///
-    /// - Returns: `UpdateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4917,9 +4917,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified service.
     ///
-    /// - Parameter UpdateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: `UpdateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4990,9 +4990,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified service network.
     ///
-    /// - Parameter UpdateServiceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceNetworkInput`)
     ///
-    /// - Returns: `UpdateServiceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5062,9 +5062,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
     ///
-    /// - Parameter UpdateServiceNetworkVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceNetworkVpcAssociationInput`)
     ///
-    /// - Returns: `UpdateServiceNetworkVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceNetworkVpcAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5134,9 +5134,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified target group.
     ///
-    /// - Parameter UpdateTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTargetGroupInput`)
     ///
-    /// - Returns: `UpdateTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

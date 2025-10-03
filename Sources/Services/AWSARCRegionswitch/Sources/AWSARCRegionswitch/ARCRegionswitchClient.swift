@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ARCRegionswitchClient: ClientRuntime.Client {
     public static let clientName = "ARCRegionswitchClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCRegionswitchClient.ARCRegionswitchClientConfiguration
     let serviceName = "ARC Region switch"
@@ -374,9 +374,9 @@ extension ARCRegionswitchClient {
     ///
     /// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision.
     ///
-    /// - Parameter ApprovePlanExecutionStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApprovePlanExecutionStepInput`)
     ///
-    /// - Returns: `ApprovePlanExecutionStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApprovePlanExecutionStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension ARCRegionswitchClient {
     ///
     /// Cancels an in-progress plan execution. This operation stops the execution of the plan and prevents any further steps from being processed. You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled.
     ///
-    /// - Parameter CancelPlanExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelPlanExecutionInput`)
     ///
-    /// - Returns: `CancelPlanExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelPlanExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension ARCRegionswitchClient {
     ///
     /// Creates a new Region switch plan. A plan defines the steps required to shift traffic from one Amazon Web Services Region to another. You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and workflows that define the steps to execute during a Region switch.
     ///
-    /// - Parameter CreatePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePlanInput`)
     ///
-    /// - Returns: `CreatePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePlanOutput`)
     public func createPlan(input: CreatePlanInput) async throws -> CreatePlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -584,9 +584,9 @@ extension ARCRegionswitchClient {
     ///
     /// Deletes a Region switch plan. You must specify the ARN of the plan to delete. You cannot delete a plan that has an active execution in progress.
     ///
-    /// - Parameter DeletePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlanInput`)
     ///
-    /// - Returns: `DeletePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension ARCRegionswitchClient {
     ///
     /// Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan.
     ///
-    /// - Parameter GetPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanInput`)
     ///
-    /// - Returns: `GetPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,9 +727,9 @@ extension ARCRegionswitchClient {
     ///
     /// Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
     ///
-    /// - Parameter GetPlanEvaluationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanEvaluationStatusInput`)
     ///
-    /// - Returns: `GetPlanEvaluationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanEvaluationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension ARCRegionswitchClient {
     ///
     /// Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID.
     ///
-    /// - Parameter GetPlanExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanExecutionInput`)
     ///
-    /// - Returns: `GetPlanExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension ARCRegionswitchClient {
     ///
     /// Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
     ///
-    /// - Parameter GetPlanInRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanInRegionInput`)
     ///
-    /// - Returns: `GetPlanInRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanInRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -943,9 +943,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process.
     ///
-    /// - Parameter ListPlanExecutionEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlanExecutionEventsInput`)
     ///
-    /// - Returns: `ListPlanExecutionEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlanExecutionEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,9 +1015,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists the executions of a Region switch plan. This operation returns information about both current and historical executions.
     ///
-    /// - Parameter ListPlanExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlanExecutionsInput`)
     ///
-    /// - Returns: `ListPlanExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlanExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1087,9 +1087,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists all Region switch plans in your Amazon Web Services account.
     ///
-    /// - Parameter ListPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlansInput`)
     ///
-    /// - Returns: `ListPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlansOutput`)
     public func listPlans(input: ListPlansInput) async throws -> ListPlansOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1153,9 +1153,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists all Region switch plans in your Amazon Web Services account that are available in the current Amazon Web Services Region.
     ///
-    /// - Parameter ListPlansInRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlansInRegionInput`)
     ///
-    /// - Returns: `ListPlansInRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlansInRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,9 +1224,9 @@ extension ARCRegionswitchClient {
     ///
     /// List the Amazon Route 53 health checks.
     ///
-    /// - Parameter ListRoute53HealthChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoute53HealthChecksInput`)
     ///
-    /// - Returns: `ListRoute53HealthChecksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoute53HealthChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1297,9 +1297,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists the tags attached to a Region switch resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,9 +1369,9 @@ extension ARCRegionswitchClient {
     ///
     /// Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode. In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
     ///
-    /// - Parameter StartPlanExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPlanExecutionInput`)
     ///
-    /// - Returns: `StartPlanExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPlanExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1443,9 +1443,9 @@ extension ARCRegionswitchClient {
     ///
     /// Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1515,9 +1515,9 @@ extension ARCRegionswitchClient {
     ///
     /// Removes tags from a Region switch resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1587,9 +1587,9 @@ extension ARCRegionswitchClient {
     ///
     /// Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers.
     ///
-    /// - Parameter UpdatePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlanInput`)
     ///
-    /// - Returns: `UpdatePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1658,9 +1658,9 @@ extension ARCRegionswitchClient {
     ///
     /// Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
     ///
-    /// - Parameter UpdatePlanExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlanExecutionInput`)
     ///
-    /// - Returns: `UpdatePlanExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlanExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1731,9 +1731,9 @@ extension ARCRegionswitchClient {
     ///
     /// Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
     ///
-    /// - Parameter UpdatePlanExecutionStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlanExecutionStepInput`)
     ///
-    /// - Returns: `UpdatePlanExecutionStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlanExecutionStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

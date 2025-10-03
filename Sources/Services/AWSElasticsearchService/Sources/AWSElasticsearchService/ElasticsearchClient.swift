@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticsearchClient: ClientRuntime.Client {
     public static let clientName = "ElasticsearchClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticsearchClient.ElasticsearchClientConfiguration
     let serviceName = "Elasticsearch"
@@ -372,9 +372,9 @@ extension ElasticsearchClient {
     ///
     /// Allows the destination domain owner to accept an inbound cross-cluster search connection request.
     ///
-    /// - Parameter AcceptInboundCrossClusterSearchConnectionInput : Container for the parameters to the [AcceptInboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [AcceptInboundCrossClusterSearchConnection] operation. (Type: `AcceptInboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `AcceptInboundCrossClusterSearchConnectionOutput` : The result of a [AcceptInboundCrossClusterSearchConnection] operation. Contains details of accepted inbound connection.
+    /// - Returns: The result of a [AcceptInboundCrossClusterSearchConnection] operation. Contains details of accepted inbound connection. (Type: `AcceptInboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -438,9 +438,9 @@ extension ElasticsearchClient {
     ///
     /// Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See [ Tagging Amazon Elasticsearch Service Domains for more information.](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-awsresorcetagging)
     ///
-    /// - Parameter AddTagsInput : Container for the parameters to the [AddTags] operation. Specify the tags that you want to attach to the Elasticsearch domain.
+    /// - Parameter input: Container for the parameters to the [AddTags] operation. Specify the tags that you want to attach to the Elasticsearch domain. (Type: `AddTagsInput`)
     ///
-    /// - Returns: `AddTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -508,9 +508,9 @@ extension ElasticsearchClient {
     ///
     /// Associates a package with an Amazon ES domain.
     ///
-    /// - Parameter AssociatePackageInput : Container for request parameters to [AssociatePackage] operation.
+    /// - Parameter input: Container for request parameters to [AssociatePackage] operation. (Type: `AssociatePackageInput`)
     ///
-    /// - Returns: `AssociatePackageOutput` : Container for response returned by [AssociatePackage] operation.
+    /// - Returns: Container for response returned by [AssociatePackage] operation. (Type: `AssociatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -577,9 +577,9 @@ extension ElasticsearchClient {
     ///
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
-    /// - Parameter AuthorizeVpcEndpointAccessInput : Container for request parameters to the [AuthorizeVpcEndpointAccess] operation. Specifies the account to be permitted to manage VPC endpoints against the domain.
+    /// - Parameter input: Container for request parameters to the [AuthorizeVpcEndpointAccess] operation. Specifies the account to be permitted to manage VPC endpoints against the domain. (Type: `AuthorizeVpcEndpointAccessInput`)
     ///
-    /// - Returns: `AuthorizeVpcEndpointAccessOutput` : Container for response parameters to the [AuthorizeVpcEndpointAccess] operation. Contains the account ID and the type of the account being authorized to access the VPC endpoint.
+    /// - Returns: Container for response parameters to the [AuthorizeVpcEndpointAccess] operation. Contains the account ID and the type of the account being authorized to access the VPC endpoint. (Type: `AuthorizeVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -649,9 +649,9 @@ extension ElasticsearchClient {
     ///
     /// Cancels a pending configuration change on an Amazon OpenSearch Service domain.
     ///
-    /// - Parameter CancelDomainConfigChangeInput : Container for parameters of the CancelDomainConfigChange operation.
+    /// - Parameter input: Container for parameters of the CancelDomainConfigChange operation. (Type: `CancelDomainConfigChangeInput`)
     ///
-    /// - Returns: `CancelDomainConfigChangeOutput` : Contains the details of the cancelled domain config change.
+    /// - Returns: Contains the details of the cancelled domain config change. (Type: `CancelDomainConfigChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -720,9 +720,9 @@ extension ElasticsearchClient {
     ///
     /// Cancels a scheduled service software update for an Amazon ES domain. You can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is in the PENDING_UPDATE state.
     ///
-    /// - Parameter CancelElasticsearchServiceSoftwareUpdateInput : Container for the parameters to the [CancelElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to cancel a service software update on.
+    /// - Parameter input: Container for the parameters to the [CancelElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to cancel a service software update on. (Type: `CancelElasticsearchServiceSoftwareUpdateInput`)
     ///
-    /// - Returns: `CancelElasticsearchServiceSoftwareUpdateOutput` : The result of a CancelElasticsearchServiceSoftwareUpdate operation. Contains the status of the update.
+    /// - Returns: The result of a CancelElasticsearchServiceSoftwareUpdate operation. Contains the status of the update. (Type: `CancelElasticsearchServiceSoftwareUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -790,9 +790,9 @@ extension ElasticsearchClient {
     ///
     /// Creates a new Elasticsearch domain. For more information, see [Creating Elasticsearch Domains](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomains) in the Amazon Elasticsearch Service Developer Guide.
     ///
-    /// - Parameter CreateElasticsearchDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateElasticsearchDomainInput`)
     ///
-    /// - Returns: `CreateElasticsearchDomainOutput` : The result of a CreateElasticsearchDomain operation. Contains the status of the newly created Elasticsearch domain.
+    /// - Returns: The result of a CreateElasticsearchDomain operation. Contains the status of the newly created Elasticsearch domain. (Type: `CreateElasticsearchDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,9 +863,9 @@ extension ElasticsearchClient {
     ///
     /// Creates a new cross-cluster search connection from a source domain to a destination domain.
     ///
-    /// - Parameter CreateOutboundCrossClusterSearchConnectionInput : Container for the parameters to the [CreateOutboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [CreateOutboundCrossClusterSearchConnection] operation. (Type: `CreateOutboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `CreateOutboundCrossClusterSearchConnectionOutput` : The result of a [CreateOutboundCrossClusterSearchConnection] request. Contains the details of the newly created cross-cluster search connection.
+    /// - Returns: The result of a [CreateOutboundCrossClusterSearchConnection] request. Contains the details of the newly created cross-cluster search connection. (Type: `CreateOutboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,9 +933,9 @@ extension ElasticsearchClient {
     ///
     /// Create a package for use with Amazon ES domains.
     ///
-    /// - Parameter CreatePackageInput : Container for request parameters to [CreatePackage] operation.
+    /// - Parameter input: Container for request parameters to [CreatePackage] operation. (Type: `CreatePackageInput`)
     ///
-    /// - Returns: `CreatePackageOutput` : Container for response returned by [CreatePackage] operation.
+    /// - Returns: Container for response returned by [CreatePackage] operation. (Type: `CreatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,9 +1006,9 @@ extension ElasticsearchClient {
     ///
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
     ///
-    /// - Parameter CreateVpcEndpointInput : Container for the parameters to the [CreateVpcEndpointRequest] operation.
+    /// - Parameter input: Container for the parameters to the [CreateVpcEndpointRequest] operation. (Type: `CreateVpcEndpointInput`)
     ///
-    /// - Returns: `CreateVpcEndpointOutput` : Container for response parameters to the [CreateVpcEndpoint] operation. Contains the configuration and status of the VPC Endpoint being created.
+    /// - Returns: Container for response parameters to the [CreateVpcEndpoint] operation. Contains the configuration and status of the VPC Endpoint being created. (Type: `CreateVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1078,9 +1078,9 @@ extension ElasticsearchClient {
     ///
     /// Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
     ///
-    /// - Parameter DeleteElasticsearchDomainInput : Container for the parameters to the [DeleteElasticsearchDomain] operation. Specifies the name of the Elasticsearch domain that you want to delete.
+    /// - Parameter input: Container for the parameters to the [DeleteElasticsearchDomain] operation. Specifies the name of the Elasticsearch domain that you want to delete. (Type: `DeleteElasticsearchDomainInput`)
     ///
-    /// - Returns: `DeleteElasticsearchDomainOutput` : The result of a DeleteElasticsearchDomain request. Contains the status of the pending deletion, or no status if the domain and all of its resources have been deleted.
+    /// - Returns: The result of a DeleteElasticsearchDomain request. Contains the status of the pending deletion, or no status if the domain and all of its resources have been deleted. (Type: `DeleteElasticsearchDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,9 +1145,9 @@ extension ElasticsearchClient {
     ///
     /// Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC domains. Role deletion will fail if any existing VPC domains use the role. You must delete any such Elasticsearch domains before deleting the role. See [Deleting Elasticsearch Service Role](http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr) in VPC Endpoints for Amazon Elasticsearch Service Domains.
     ///
-    /// - Parameter DeleteElasticsearchServiceRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteElasticsearchServiceRoleInput`)
     ///
-    /// - Returns: `DeleteElasticsearchServiceRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteElasticsearchServiceRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1211,9 +1211,9 @@ extension ElasticsearchClient {
     ///
     /// Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
     ///
-    /// - Parameter DeleteInboundCrossClusterSearchConnectionInput : Container for the parameters to the [DeleteInboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [DeleteInboundCrossClusterSearchConnection] operation. (Type: `DeleteInboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `DeleteInboundCrossClusterSearchConnectionOutput` : The result of a [DeleteInboundCrossClusterSearchConnection] operation. Contains details of deleted inbound connection.
+    /// - Returns: The result of a [DeleteInboundCrossClusterSearchConnection] operation. Contains details of deleted inbound connection. (Type: `DeleteInboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1276,9 +1276,9 @@ extension ElasticsearchClient {
     ///
     /// Allows the source domain owner to delete an existing outbound cross-cluster search connection.
     ///
-    /// - Parameter DeleteOutboundCrossClusterSearchConnectionInput : Container for the parameters to the [DeleteOutboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [DeleteOutboundCrossClusterSearchConnection] operation. (Type: `DeleteOutboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `DeleteOutboundCrossClusterSearchConnectionOutput` : The result of a [DeleteOutboundCrossClusterSearchConnection] operation. Contains details of deleted outbound connection.
+    /// - Returns: The result of a [DeleteOutboundCrossClusterSearchConnection] operation. Contains details of deleted outbound connection. (Type: `DeleteOutboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,9 +1341,9 @@ extension ElasticsearchClient {
     ///
     /// Delete the package.
     ///
-    /// - Parameter DeletePackageInput : Container for request parameters to [DeletePackage] operation.
+    /// - Parameter input: Container for request parameters to [DeletePackage] operation. (Type: `DeletePackageInput`)
     ///
-    /// - Returns: `DeletePackageOutput` : Container for response parameters to [DeletePackage] operation.
+    /// - Returns: Container for response parameters to [DeletePackage] operation. (Type: `DeletePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1410,9 +1410,9 @@ extension ElasticsearchClient {
     ///
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
-    /// - Parameter DeleteVpcEndpointInput : Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+    /// - Parameter input: Deletes an Amazon OpenSearch Service-managed interface VPC endpoint. (Type: `DeleteVpcEndpointInput`)
     ///
-    /// - Returns: `DeleteVpcEndpointOutput` : Container for response parameters to the [DeleteVpcEndpoint] operation. Contains the summarized detail of the VPC Endpoint being deleted.
+    /// - Returns: Container for response parameters to the [DeleteVpcEndpoint] operation. Contains the summarized detail of the VPC Endpoint being deleted. (Type: `DeleteVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1477,9 +1477,9 @@ extension ElasticsearchClient {
     ///
     /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date.
     ///
-    /// - Parameter DescribeDomainAutoTunesInput : Container for the parameters to the DescribeDomainAutoTunes operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomainAutoTunes operation. (Type: `DescribeDomainAutoTunesInput`)
     ///
-    /// - Returns: `DescribeDomainAutoTunesOutput` : The result of DescribeDomainAutoTunes request. See the [Developer Guide](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html) for more information.
+    /// - Returns: The result of DescribeDomainAutoTunes request. See the [Developer Guide](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/auto-tune.html) for more information. (Type: `DescribeDomainAutoTunesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1547,9 +1547,9 @@ extension ElasticsearchClient {
     ///
     /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
     ///
-    /// - Parameter DescribeDomainChangeProgressInput : Container for the parameters to the DescribeDomainChangeProgress operation. Specifies the domain name and optional change specific identity for which you want progress information.
+    /// - Parameter input: Container for the parameters to the DescribeDomainChangeProgress operation. Specifies the domain name and optional change specific identity for which you want progress information. (Type: `DescribeDomainChangeProgressInput`)
     ///
-    /// - Returns: `DescribeDomainChangeProgressOutput` : The result of a DescribeDomainChangeProgress request. Contains the progress information of the requested domain change.
+    /// - Returns: The result of a DescribeDomainChangeProgress request. Contains the progress information of the requested domain change. (Type: `DescribeDomainChangeProgressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1615,9 +1615,9 @@ extension ElasticsearchClient {
     ///
     /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
     ///
-    /// - Parameter DescribeElasticsearchDomainInput : Container for the parameters to the [DescribeElasticsearchDomain] operation.
+    /// - Parameter input: Container for the parameters to the [DescribeElasticsearchDomain] operation. (Type: `DescribeElasticsearchDomainInput`)
     ///
-    /// - Returns: `DescribeElasticsearchDomainOutput` : The result of a DescribeElasticsearchDomain request. Contains the status of the domain specified in the request.
+    /// - Returns: The result of a DescribeElasticsearchDomain request. Contains the status of the domain specified in the request. (Type: `DescribeElasticsearchDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1682,9 +1682,9 @@ extension ElasticsearchClient {
     ///
     /// Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
     ///
-    /// - Parameter DescribeElasticsearchDomainConfigInput : Container for the parameters to the DescribeElasticsearchDomainConfig operation. Specifies the domain name for which you want configuration information.
+    /// - Parameter input: Container for the parameters to the DescribeElasticsearchDomainConfig operation. Specifies the domain name for which you want configuration information. (Type: `DescribeElasticsearchDomainConfigInput`)
     ///
-    /// - Returns: `DescribeElasticsearchDomainConfigOutput` : The result of a DescribeElasticsearchDomainConfig request. Contains the configuration information of the requested domain.
+    /// - Returns: The result of a DescribeElasticsearchDomainConfig request. Contains the configuration information of the requested domain. (Type: `DescribeElasticsearchDomainConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1749,9 +1749,9 @@ extension ElasticsearchClient {
     ///
     /// Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
     ///
-    /// - Parameter DescribeElasticsearchDomainsInput : Container for the parameters to the [DescribeElasticsearchDomains] operation. By default, the API returns the status of all Elasticsearch domains.
+    /// - Parameter input: Container for the parameters to the [DescribeElasticsearchDomains] operation. By default, the API returns the status of all Elasticsearch domains. (Type: `DescribeElasticsearchDomainsInput`)
     ///
-    /// - Returns: `DescribeElasticsearchDomainsOutput` : The result of a DescribeElasticsearchDomains request. Contains the status of the specified domains or all domains owned by the account.
+    /// - Returns: The result of a DescribeElasticsearchDomains request. Contains the status of the specified domains or all domains owned by the account. (Type: `DescribeElasticsearchDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1818,9 +1818,9 @@ extension ElasticsearchClient {
     ///
     /// Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When modifying existing Domain, specify the [DomainName] to know what Limits are supported for modifying.
     ///
-    /// - Parameter DescribeElasticsearchInstanceTypeLimitsInput : Container for the parameters to [DescribeElasticsearchInstanceTypeLimits] operation.
+    /// - Parameter input: Container for the parameters to [DescribeElasticsearchInstanceTypeLimits] operation. (Type: `DescribeElasticsearchInstanceTypeLimitsInput`)
     ///
-    /// - Returns: `DescribeElasticsearchInstanceTypeLimitsOutput` : Container for the parameters received from [DescribeElasticsearchInstanceTypeLimits] operation.
+    /// - Returns: Container for the parameters received from [DescribeElasticsearchInstanceTypeLimits] operation. (Type: `DescribeElasticsearchInstanceTypeLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1888,9 +1888,9 @@ extension ElasticsearchClient {
     ///
     /// Lists all the inbound cross-cluster search connections for a destination domain.
     ///
-    /// - Parameter DescribeInboundCrossClusterSearchConnectionsInput : Container for the parameters to the [DescribeInboundCrossClusterSearchConnections] operation.
+    /// - Parameter input: Container for the parameters to the [DescribeInboundCrossClusterSearchConnections] operation. (Type: `DescribeInboundCrossClusterSearchConnectionsInput`)
     ///
-    /// - Returns: `DescribeInboundCrossClusterSearchConnectionsOutput` : The result of a [DescribeInboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria.
+    /// - Returns: The result of a [DescribeInboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria. (Type: `DescribeInboundCrossClusterSearchConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1956,9 +1956,9 @@ extension ElasticsearchClient {
     ///
     /// Lists all the outbound cross-cluster search connections for a source domain.
     ///
-    /// - Parameter DescribeOutboundCrossClusterSearchConnectionsInput : Container for the parameters to the [DescribeOutboundCrossClusterSearchConnections] operation.
+    /// - Parameter input: Container for the parameters to the [DescribeOutboundCrossClusterSearchConnections] operation. (Type: `DescribeOutboundCrossClusterSearchConnectionsInput`)
     ///
-    /// - Returns: `DescribeOutboundCrossClusterSearchConnectionsOutput` : The result of a [DescribeOutboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria.
+    /// - Returns: The result of a [DescribeOutboundCrossClusterSearchConnections] request. Contains the list of connections matching the filter criteria. (Type: `DescribeOutboundCrossClusterSearchConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2024,9 +2024,9 @@ extension ElasticsearchClient {
     ///
     /// Describes all packages available to Amazon ES. Includes options for filtering, limiting the number of results, and pagination.
     ///
-    /// - Parameter DescribePackagesInput : Container for request parameters to [DescribePackage] operation.
+    /// - Parameter input: Container for request parameters to [DescribePackage] operation. (Type: `DescribePackagesInput`)
     ///
-    /// - Returns: `DescribePackagesOutput` : Container for response returned by [DescribePackages] operation.
+    /// - Returns: Container for response returned by [DescribePackages] operation. (Type: `DescribePackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2095,9 +2095,9 @@ extension ElasticsearchClient {
     ///
     /// Lists available reserved Elasticsearch instance offerings.
     ///
-    /// - Parameter DescribeReservedElasticsearchInstanceOfferingsInput : Container for parameters to DescribeReservedElasticsearchInstanceOfferings
+    /// - Parameter input: Container for parameters to DescribeReservedElasticsearchInstanceOfferings (Type: `DescribeReservedElasticsearchInstanceOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedElasticsearchInstanceOfferingsOutput` : Container for results from DescribeReservedElasticsearchInstanceOfferings
+    /// - Returns: Container for results from DescribeReservedElasticsearchInstanceOfferings (Type: `DescribeReservedElasticsearchInstanceOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2163,9 +2163,9 @@ extension ElasticsearchClient {
     ///
     /// Returns information about reserved Elasticsearch instances for this account.
     ///
-    /// - Parameter DescribeReservedElasticsearchInstancesInput : Container for parameters to DescribeReservedElasticsearchInstances
+    /// - Parameter input: Container for parameters to DescribeReservedElasticsearchInstances (Type: `DescribeReservedElasticsearchInstancesInput`)
     ///
-    /// - Returns: `DescribeReservedElasticsearchInstancesOutput` : Container for results from DescribeReservedElasticsearchInstances
+    /// - Returns: Container for results from DescribeReservedElasticsearchInstances (Type: `DescribeReservedElasticsearchInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2231,9 +2231,9 @@ extension ElasticsearchClient {
     ///
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
     ///
-    /// - Parameter DescribeVpcEndpointsInput : Container for request parameters to the [DescribeVpcEndpoints] operation. Specifies the list of VPC endpoints to be described.
+    /// - Parameter input: Container for request parameters to the [DescribeVpcEndpoints] operation. Specifies the list of VPC endpoints to be described. (Type: `DescribeVpcEndpointsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointsOutput` : Container for response parameters to the [DescribeVpcEndpoints] operation. Returns a list containing configuration details and status of the VPC Endpoints as well as a list containing error responses of the endpoints that could not be described
+    /// - Returns: Container for response parameters to the [DescribeVpcEndpoints] operation. Returns a list containing configuration details and status of the VPC Endpoints as well as a list containing error responses of the endpoints that could not be described (Type: `DescribeVpcEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2301,9 +2301,9 @@ extension ElasticsearchClient {
     ///
     /// Dissociates a package from the Amazon ES domain.
     ///
-    /// - Parameter DissociatePackageInput : Container for request parameters to [DissociatePackage] operation.
+    /// - Parameter input: Container for request parameters to [DissociatePackage] operation. (Type: `DissociatePackageInput`)
     ///
-    /// - Returns: `DissociatePackageOutput` : Container for response returned by [DissociatePackage] operation.
+    /// - Returns: Container for response returned by [DissociatePackage] operation. (Type: `DissociatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2370,9 +2370,9 @@ extension ElasticsearchClient {
     ///
     /// Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a [DomainName] to get all upgrade compatible Elasticsearch versions for that specific domain.
     ///
-    /// - Parameter GetCompatibleElasticsearchVersionsInput : Container for request parameters to [GetCompatibleElasticsearchVersions] operation.
+    /// - Parameter input: Container for request parameters to [GetCompatibleElasticsearchVersions] operation. (Type: `GetCompatibleElasticsearchVersionsInput`)
     ///
-    /// - Returns: `GetCompatibleElasticsearchVersionsOutput` : Container for response returned by [GetCompatibleElasticsearchVersions] operation.
+    /// - Returns: Container for response returned by [GetCompatibleElasticsearchVersions] operation. (Type: `GetCompatibleElasticsearchVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2439,9 +2439,9 @@ extension ElasticsearchClient {
     ///
     /// Returns a list of versions of the package, along with their creation time and commit message.
     ///
-    /// - Parameter GetPackageVersionHistoryInput : Container for request parameters to [GetPackageVersionHistory] operation.
+    /// - Parameter input: Container for request parameters to [GetPackageVersionHistory] operation. (Type: `GetPackageVersionHistoryInput`)
     ///
-    /// - Returns: `GetPackageVersionHistoryOutput` : Container for response returned by [GetPackageVersionHistory] operation.
+    /// - Returns: Container for response returned by [GetPackageVersionHistory] operation. (Type: `GetPackageVersionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2508,9 +2508,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves the complete history of the last 10 upgrades that were performed on the domain.
     ///
-    /// - Parameter GetUpgradeHistoryInput : Container for request parameters to [GetUpgradeHistory] operation.
+    /// - Parameter input: Container for request parameters to [GetUpgradeHistory] operation. (Type: `GetUpgradeHistoryInput`)
     ///
-    /// - Returns: `GetUpgradeHistoryOutput` : Container for response returned by [GetUpgradeHistory] operation.
+    /// - Returns: Container for response returned by [GetUpgradeHistory] operation. (Type: `GetUpgradeHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2577,9 +2577,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves the latest status of the last upgrade or upgrade eligibility check that was performed on the domain.
     ///
-    /// - Parameter GetUpgradeStatusInput : Container for request parameters to [GetUpgradeStatus] operation.
+    /// - Parameter input: Container for request parameters to [GetUpgradeStatus] operation. (Type: `GetUpgradeStatusInput`)
     ///
-    /// - Returns: `GetUpgradeStatusOutput` : Container for response returned by [GetUpgradeStatus] operation.
+    /// - Returns: Container for response returned by [GetUpgradeStatus] operation. (Type: `GetUpgradeStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2645,9 +2645,9 @@ extension ElasticsearchClient {
     ///
     /// Returns the name of all Elasticsearch domains owned by the current user's account.
     ///
-    /// - Parameter ListDomainNamesInput : Container for the parameters to the [ListDomainNames] operation.
+    /// - Parameter input: Container for the parameters to the [ListDomainNames] operation. (Type: `ListDomainNamesInput`)
     ///
-    /// - Returns: `ListDomainNamesOutput` : The result of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types.
+    /// - Returns: The result of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types. (Type: `ListDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2711,9 +2711,9 @@ extension ElasticsearchClient {
     ///
     /// Lists all Amazon ES domains associated with the package.
     ///
-    /// - Parameter ListDomainsForPackageInput : Container for request parameters to [ListDomainsForPackage] operation.
+    /// - Parameter input: Container for request parameters to [ListDomainsForPackage] operation. (Type: `ListDomainsForPackageInput`)
     ///
-    /// - Returns: `ListDomainsForPackageOutput` : Container for response parameters to [ListDomainsForPackage] operation.
+    /// - Returns: Container for response parameters to [ListDomainsForPackage] operation. (Type: `ListDomainsForPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2780,9 +2780,9 @@ extension ElasticsearchClient {
     ///
     /// List all Elasticsearch instance types that are supported for given ElasticsearchVersion
     ///
-    /// - Parameter ListElasticsearchInstanceTypesInput : Container for the parameters to the [ListElasticsearchInstanceTypes] operation.
+    /// - Parameter input: Container for the parameters to the [ListElasticsearchInstanceTypes] operation. (Type: `ListElasticsearchInstanceTypesInput`)
     ///
-    /// - Returns: `ListElasticsearchInstanceTypesOutput` : Container for the parameters returned by [ListElasticsearchInstanceTypes] operation.
+    /// - Returns: Container for the parameters returned by [ListElasticsearchInstanceTypes] operation. (Type: `ListElasticsearchInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2848,9 +2848,9 @@ extension ElasticsearchClient {
     ///
     /// List all supported Elasticsearch versions
     ///
-    /// - Parameter ListElasticsearchVersionsInput : Container for the parameters to the [ListElasticsearchVersions] operation. Use [MaxResults] to control the maximum number of results to retrieve in a single call. Use [NextToken] in response to retrieve more results. If the received response does not contain a NextToken, then there are no more results to retrieve.
+    /// - Parameter input: Container for the parameters to the [ListElasticsearchVersions] operation. Use [MaxResults] to control the maximum number of results to retrieve in a single call. Use [NextToken] in response to retrieve more results. If the received response does not contain a NextToken, then there are no more results to retrieve. (Type: `ListElasticsearchVersionsInput`)
     ///
-    /// - Returns: `ListElasticsearchVersionsOutput` : Container for the parameters for response received from [ListElasticsearchVersions] operation.
+    /// - Returns: Container for the parameters for response received from [ListElasticsearchVersions] operation. (Type: `ListElasticsearchVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2916,9 +2916,9 @@ extension ElasticsearchClient {
     ///
     /// Lists all packages associated with the Amazon ES domain.
     ///
-    /// - Parameter ListPackagesForDomainInput : Container for request parameters to [ListPackagesForDomain] operation.
+    /// - Parameter input: Container for request parameters to [ListPackagesForDomain] operation. (Type: `ListPackagesForDomainInput`)
     ///
-    /// - Returns: `ListPackagesForDomainOutput` : Container for response parameters to [ListPackagesForDomain] operation.
+    /// - Returns: Container for response parameters to [ListPackagesForDomain] operation. (Type: `ListPackagesForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2985,9 +2985,9 @@ extension ElasticsearchClient {
     ///
     /// Returns all tags for the given Elasticsearch domain.
     ///
-    /// - Parameter ListTagsInput : Container for the parameters to the [ListTags] operation. Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view are attached.
+    /// - Parameter input: Container for the parameters to the [ListTags] operation. Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view are attached. (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : The result of a ListTags operation. Contains tags for all requested Elasticsearch domains.
+    /// - Returns: The result of a ListTags operation. Contains tags for all requested Elasticsearch domains. (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3053,9 +3053,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
-    /// - Parameter ListVpcEndpointAccessInput : Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint
+    /// - Parameter input: Retrieves information about each principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint (Type: `ListVpcEndpointAccessInput`)
     ///
-    /// - Returns: `ListVpcEndpointAccessOutput` : Container for response parameters to the [ListVpcEndpointAccess] operation. Returns a list of accounts id and account type authorized to manage VPC endpoints.
+    /// - Returns: Container for response parameters to the [ListVpcEndpointAccess] operation. Returns a list of accounts id and account type authorized to manage VPC endpoints. (Type: `ListVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3121,9 +3121,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current account and Region.
     ///
-    /// - Parameter ListVpcEndpointsInput : Container for request parameters to the [ListVpcEndpoints] operation.
+    /// - Parameter input: Container for request parameters to the [ListVpcEndpoints] operation. (Type: `ListVpcEndpointsInput`)
     ///
-    /// - Returns: `ListVpcEndpointsOutput` : Container for response parameters to the [ListVpcEndpoints] operation. Returns a list containing summarized details of the VPC endpoints.
+    /// - Returns: Container for response parameters to the [ListVpcEndpoints] operation. Returns a list containing summarized details of the VPC endpoints. (Type: `ListVpcEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3188,9 +3188,9 @@ extension ElasticsearchClient {
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
     ///
-    /// - Parameter ListVpcEndpointsForDomainInput : Container for request parameters to the [ListVpcEndpointsForDomain] operation. Specifies the domain whose VPC endpoints will be listed.
+    /// - Parameter input: Container for request parameters to the [ListVpcEndpointsForDomain] operation. Specifies the domain whose VPC endpoints will be listed. (Type: `ListVpcEndpointsForDomainInput`)
     ///
-    /// - Returns: `ListVpcEndpointsForDomainOutput` : Container for response parameters to the [ListVpcEndpointsForDomain] operation. Returns a list containing summarized details of the VPC endpoints.
+    /// - Returns: Container for response parameters to the [ListVpcEndpointsForDomain] operation. Returns a list containing summarized details of the VPC endpoints. (Type: `ListVpcEndpointsForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3256,9 +3256,9 @@ extension ElasticsearchClient {
     ///
     /// Allows you to purchase reserved Elasticsearch instances.
     ///
-    /// - Parameter PurchaseReservedElasticsearchInstanceOfferingInput : Container for parameters to PurchaseReservedElasticsearchInstanceOffering
+    /// - Parameter input: Container for parameters to PurchaseReservedElasticsearchInstanceOffering (Type: `PurchaseReservedElasticsearchInstanceOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedElasticsearchInstanceOfferingOutput` : Represents the output of a PurchaseReservedElasticsearchInstanceOffering operation.
+    /// - Returns: Represents the output of a PurchaseReservedElasticsearchInstanceOffering operation. (Type: `PurchaseReservedElasticsearchInstanceOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3328,9 +3328,9 @@ extension ElasticsearchClient {
     ///
     /// Allows the destination domain owner to reject an inbound cross-cluster search connection request.
     ///
-    /// - Parameter RejectInboundCrossClusterSearchConnectionInput : Container for the parameters to the [RejectInboundCrossClusterSearchConnection] operation.
+    /// - Parameter input: Container for the parameters to the [RejectInboundCrossClusterSearchConnection] operation. (Type: `RejectInboundCrossClusterSearchConnectionInput`)
     ///
-    /// - Returns: `RejectInboundCrossClusterSearchConnectionOutput` : The result of a [RejectInboundCrossClusterSearchConnection] operation. Contains details of rejected inbound connection.
+    /// - Returns: The result of a [RejectInboundCrossClusterSearchConnection] operation. Contains details of rejected inbound connection. (Type: `RejectInboundCrossClusterSearchConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3393,9 +3393,9 @@ extension ElasticsearchClient {
     ///
     /// Removes the specified set of tags from the specified Elasticsearch domain.
     ///
-    /// - Parameter RemoveTagsInput : Container for the parameters to the [RemoveTags] operation. Specify the ARN for the Elasticsearch domain from which you want to remove the specified TagKey.
+    /// - Parameter input: Container for the parameters to the [RemoveTags] operation. Specify the ARN for the Elasticsearch domain from which you want to remove the specified TagKey. (Type: `RemoveTagsInput`)
     ///
-    /// - Returns: `RemoveTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3462,9 +3462,9 @@ extension ElasticsearchClient {
     ///
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
     ///
-    /// - Parameter RevokeVpcEndpointAccessInput : Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+    /// - Parameter input: Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint. (Type: `RevokeVpcEndpointAccessInput`)
     ///
-    /// - Returns: `RevokeVpcEndpointAccessOutput` : Container for response parameters to the [RevokeVpcEndpointAccess] operation. The response body for this operation is empty.
+    /// - Returns: Container for response parameters to the [RevokeVpcEndpointAccess] operation. The response body for this operation is empty. (Type: `RevokeVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3533,9 +3533,9 @@ extension ElasticsearchClient {
     ///
     /// Schedules a service software update for an Amazon ES domain.
     ///
-    /// - Parameter StartElasticsearchServiceSoftwareUpdateInput : Container for the parameters to the [StartElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to schedule a service software update on.
+    /// - Parameter input: Container for the parameters to the [StartElasticsearchServiceSoftwareUpdate] operation. Specifies the name of the Elasticsearch domain that you wish to schedule a service software update on. (Type: `StartElasticsearchServiceSoftwareUpdateInput`)
     ///
-    /// - Returns: `StartElasticsearchServiceSoftwareUpdateOutput` : The result of a StartElasticsearchServiceSoftwareUpdate operation. Contains the status of the update.
+    /// - Returns: The result of a StartElasticsearchServiceSoftwareUpdate operation. Contains the status of the update. (Type: `StartElasticsearchServiceSoftwareUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3603,9 +3603,9 @@ extension ElasticsearchClient {
     ///
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
     ///
-    /// - Parameter UpdateElasticsearchDomainConfigInput : Container for the parameters to the [UpdateElasticsearchDomain] operation. Specifies the type and number of instances in the domain cluster.
+    /// - Parameter input: Container for the parameters to the [UpdateElasticsearchDomain] operation. Specifies the type and number of instances in the domain cluster. (Type: `UpdateElasticsearchDomainConfigInput`)
     ///
-    /// - Returns: `UpdateElasticsearchDomainConfigOutput` : The result of an UpdateElasticsearchDomain request. Contains the status of the Elasticsearch domain being updated.
+    /// - Returns: The result of an UpdateElasticsearchDomain request. Contains the status of the Elasticsearch domain being updated. (Type: `UpdateElasticsearchDomainConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,9 +3675,9 @@ extension ElasticsearchClient {
     ///
     /// Updates a package for use with Amazon ES domains.
     ///
-    /// - Parameter UpdatePackageInput : Container for request parameters to [UpdatePackage] operation.
+    /// - Parameter input: Container for request parameters to [UpdatePackage] operation. (Type: `UpdatePackageInput`)
     ///
-    /// - Returns: `UpdatePackageOutput` : Container for response returned by [UpdatePackage] operation.
+    /// - Returns: Container for response returned by [UpdatePackage] operation. (Type: `UpdatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3747,9 +3747,9 @@ extension ElasticsearchClient {
     ///
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
-    /// - Parameter UpdateVpcEndpointInput : Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+    /// - Parameter input: Modifies an Amazon OpenSearch Service-managed interface VPC endpoint. (Type: `UpdateVpcEndpointInput`)
     ///
-    /// - Returns: `UpdateVpcEndpointOutput` : Contains the configuration and status of the VPC endpoint being updated.
+    /// - Returns: Contains the configuration and status of the VPC endpoint being updated. (Type: `UpdateVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3819,9 +3819,9 @@ extension ElasticsearchClient {
     ///
     /// Allows you to either upgrade your domain or perform an Upgrade eligibility check to a compatible Elasticsearch version.
     ///
-    /// - Parameter UpgradeElasticsearchDomainInput : Container for request parameters to [UpgradeElasticsearchDomain] operation.
+    /// - Parameter input: Container for request parameters to [UpgradeElasticsearchDomain] operation. (Type: `UpgradeElasticsearchDomainInput`)
     ///
-    /// - Returns: `UpgradeElasticsearchDomainOutput` : Container for response returned by [UpgradeElasticsearchDomain] operation.
+    /// - Returns: Container for response returned by [UpgradeElasticsearchDomain] operation. (Type: `UpgradeElasticsearchDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

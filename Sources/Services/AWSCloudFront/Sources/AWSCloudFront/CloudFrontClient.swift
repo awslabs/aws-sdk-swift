@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFrontClient: ClientRuntime.Client {
     public static let clientName = "CloudFrontClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontClient.CloudFrontClientConfiguration
     let serviceName = "CloudFront"
@@ -375,9 +375,9 @@ extension CloudFrontClient {
     ///
     /// The AssociateAlias API operation only supports standard distributions. To move domains between distribution tenants and/or standard distributions, we recommend that you use the [UpdateDomainAssociation](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDomainAssociation.html) API operation instead. Associates an alias with a CloudFront standard distribution. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. With this operation, you can move an alias that's already used for a standard distribution to a different standard distribution. This prevents the downtime that could occur if you first remove the alias from one standard distribution and then separately add the alias to another standard distribution. To use this operation, specify the alias and the ID of the target standard distribution. For more information, including how to set up the target standard distribution, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter AssociateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAliasInput`)
     ///
-    /// - Returns: `AssociateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension CloudFrontClient {
     ///
     /// Associates the WAF web ACL with a distribution tenant.
     ///
-    /// - Parameter AssociateDistributionTenantWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDistributionTenantWebACLInput`)
     ///
-    /// - Returns: `AssociateDistributionTenantWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDistributionTenantWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension CloudFrontClient {
     ///
     /// Associates the WAF web ACL with a distribution.
     ///
-    /// - Parameter AssociateDistributionWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDistributionWebACLInput`)
     ///
-    /// - Returns: `AssociateDistributionWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDistributionWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,9 +594,9 @@ extension CloudFrontClient {
     ///
     /// * [CopyDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CopyDistribution.html)
     ///
-    /// - Parameter CopyDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyDistributionInput`)
     ///
-    /// - Returns: `CopyDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -725,9 +725,9 @@ extension CloudFrontClient {
     ///
     /// Creates an Anycast static IP list.
     ///
-    /// - Parameter CreateAnycastIpListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnycastIpListInput`)
     ///
-    /// - Returns: `CreateAnycastIpListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnycastIpListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,9 +804,9 @@ extension CloudFrontClient {
     ///
     /// The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy. For more information about cache policies, see [Controlling the cache key](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateCachePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCachePolicyInput`)
     ///
-    /// - Returns: `CreateCachePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCachePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,9 +878,9 @@ extension CloudFrontClient {
     ///
     /// Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateCloudFrontOriginAccessIdentityInput : The request to create a new origin access identity (OAI). An origin access identity is a special CloudFront user that you can associate with Amazon S3 origins, so that you can secure all or just some of your Amazon S3 content. For more information, see [ Restricting Access to Amazon S3 Content by Using an Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) in the Amazon CloudFront Developer Guide.
+    /// - Parameter input: The request to create a new origin access identity (OAI). An origin access identity is a special CloudFront user that you can associate with Amazon S3 origins, so that you can secure all or just some of your Amazon S3 content. For more information, see [ Restricting Access to Amazon S3 Content by Using an Origin Access Identity](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html) in the Amazon CloudFront Developer Guide. (Type: `CreateCloudFrontOriginAccessIdentityInput`)
     ///
-    /// - Returns: `CreateCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateCloudFrontOriginAccessIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -949,9 +949,9 @@ extension CloudFrontClient {
     ///
     /// Creates a connection group.
     ///
-    /// - Parameter CreateConnectionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionGroupInput`)
     ///
-    /// - Returns: `CreateConnectionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1021,9 +1021,9 @@ extension CloudFrontClient {
     ///
     /// Creates a continuous deployment policy that distributes traffic for a custom domain name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to create a staging distribution, then use UpdateDistribution to modify the staging distribution's configuration. After you create and update a staging distribution, you can use a continuous deployment policy to incrementally move traffic to the staging distribution. This workflow enables you to test changes to a distribution's configuration before moving all of your domain's production traffic to the new configuration.
     ///
-    /// - Parameter CreateContinuousDeploymentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContinuousDeploymentPolicyInput`)
     ///
-    /// - Returns: `CreateContinuousDeploymentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContinuousDeploymentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,9 +1093,9 @@ extension CloudFrontClient {
     ///
     /// Creates a CloudFront distribution.
     ///
-    /// - Parameter CreateDistributionInput : The request to create a new distribution.
+    /// - Parameter input: The request to create a new distribution. (Type: `CreateDistributionInput`)
     ///
-    /// - Returns: `CreateDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1226,9 +1226,9 @@ extension CloudFrontClient {
     ///
     /// Creates a distribution tenant.
     ///
-    /// - Parameter CreateDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDistributionTenantInput`)
     ///
-    /// - Returns: `CreateDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1304,9 +1304,9 @@ extension CloudFrontClient {
     ///
     /// * [TagResource](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_TagResource.html)
     ///
-    /// - Parameter CreateDistributionWithTagsInput : The request to create a new distribution with tags.
+    /// - Parameter input: The request to create a new distribution with tags. (Type: `CreateDistributionWithTagsInput`)
     ///
-    /// - Returns: `CreateDistributionWithTagsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateDistributionWithTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1438,9 +1438,9 @@ extension CloudFrontClient {
     ///
     /// Create a new field-level encryption configuration.
     ///
-    /// - Parameter CreateFieldLevelEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFieldLevelEncryptionConfigInput`)
     ///
-    /// - Returns: `CreateFieldLevelEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFieldLevelEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1512,9 +1512,9 @@ extension CloudFrontClient {
     ///
     /// Create a field-level encryption profile.
     ///
-    /// - Parameter CreateFieldLevelEncryptionProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFieldLevelEncryptionProfileInput`)
     ///
-    /// - Returns: `CreateFieldLevelEncryptionProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFieldLevelEncryptionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,9 +1586,9 @@ extension CloudFrontClient {
     ///
     /// Creates a CloudFront function. To create a function, you provide the function code and some configuration information about the function. The response contains an Amazon Resource Name (ARN) that uniquely identifies the function. When you create a function, it's in the DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update it with UpdateFunction. When you're ready to use your function with a CloudFront distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE. When it's live, you can attach the function to a distribution's cache behavior, using the function's ARN.
     ///
-    /// - Parameter CreateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFunctionInput`)
     ///
-    /// - Returns: `CreateFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1657,9 +1657,9 @@ extension CloudFrontClient {
     ///
     /// Create a new invalidation. For more information, see [Invalidating files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateInvalidationInput : The request to create an invalidation.
+    /// - Parameter input: The request to create an invalidation. (Type: `CreateInvalidationInput`)
     ///
-    /// - Returns: `CreateInvalidationOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateInvalidationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,9 +1730,9 @@ extension CloudFrontClient {
     ///
     /// Creates an invalidation for a distribution tenant. For more information, see [Invalidating files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateInvalidationForDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvalidationForDistributionTenantInput`)
     ///
-    /// - Returns: `CreateInvalidationForDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvalidationForDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1803,9 +1803,9 @@ extension CloudFrontClient {
     ///
     /// Creates a key group that you can use with [CloudFront signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html). To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyGroupInput`)
     ///
-    /// - Returns: `CreateKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1873,9 +1873,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid ImportSource that you own.
     ///
-    /// - Parameter CreateKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyValueStoreInput`)
     ///
-    /// - Returns: `CreateKeyValueStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1945,9 +1945,9 @@ extension CloudFrontClient {
     ///
     /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see [Viewing additional CloudFront distribution metrics](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/viewing-cloudfront-metrics.html#monitoring-console.distributions-additional) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateMonitoringSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitoringSubscriptionInput`)
     ///
-    /// - Returns: `CreateMonitoringSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitoringSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2015,9 +2015,9 @@ extension CloudFrontClient {
     ///
     /// Creates a new origin access control in CloudFront. After you create an origin access control, you can add it to an origin in a CloudFront distribution so that CloudFront sends authenticated (signed) requests to the origin. This makes it possible to block public access to the origin, allowing viewers (users) to access the origin's content only through CloudFront. For more information about using a CloudFront origin access control, see [Restricting access to an Amazon Web Services origin](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateOriginAccessControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOriginAccessControlInput`)
     ///
-    /// - Returns: `CreateOriginAccessControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOriginAccessControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2093,9 +2093,9 @@ extension CloudFrontClient {
     ///
     /// CloudFront sends a request when it can't find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CachePolicy. For more information about origin request policies, see [Controlling origin requests](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateOriginRequestPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOriginRequestPolicyInput`)
     ///
-    /// - Returns: `CreateOriginRequestPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOriginRequestPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2167,9 +2167,9 @@ extension CloudFrontClient {
     ///
     /// Uploads a public key to CloudFront that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html).
     ///
-    /// - Parameter CreatePublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePublicKeyInput`)
     ///
-    /// - Returns: `CreatePublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2236,9 +2236,9 @@ extension CloudFrontClient {
     ///
     /// Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see [Real-time logs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRealtimeLogConfigInput`)
     ///
-    /// - Returns: `CreateRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,9 +2306,9 @@ extension CloudFrontClient {
     ///
     /// Creates a response headers policy. A response headers policy contains information about a set of HTTP headers. To create a response headers policy, you provide some metadata about the policy and a set of configurations that specify the headers. After you create a response headers policy, you can use its ID to attach it to one or more cache behaviors in a CloudFront distribution. When it's attached to a cache behavior, the response headers policy affects the HTTP headers that CloudFront includes in HTTP responses to requests that match the cache behavior. CloudFront adds or removes response headers according to the configuration of the response headers policy. For more information, see [Adding or removing HTTP headers in CloudFront responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/modifying-response-headers.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter CreateResponseHeadersPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResponseHeadersPolicyInput`)
     ///
-    /// - Returns: `CreateResponseHeadersPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResponseHeadersPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2380,9 +2380,9 @@ extension CloudFrontClient {
     ///
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356) on the Amazon CloudFront discussion forum.
     ///
-    /// - Parameter CreateStreamingDistributionInput : The request to create a new streaming distribution.
+    /// - Parameter input: The request to create a new streaming distribution. (Type: `CreateStreamingDistributionInput`)
     ///
-    /// - Returns: `CreateStreamingDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateStreamingDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2459,9 +2459,9 @@ extension CloudFrontClient {
     ///
     /// This API is deprecated. Amazon CloudFront is deprecating real-time messaging protocol (RTMP) distributions on December 31, 2020. For more information, [read the announcement](http://forums.aws.amazon.com/ann.jspa?annID=7356) on the Amazon CloudFront discussion forum.
     ///
-    /// - Parameter CreateStreamingDistributionWithTagsInput : The request to create a new streaming distribution with tags.
+    /// - Parameter input: The request to create a new streaming distribution with tags. (Type: `CreateStreamingDistributionWithTagsInput`)
     ///
-    /// - Returns: `CreateStreamingDistributionWithTagsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `CreateStreamingDistributionWithTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2540,9 +2540,9 @@ extension CloudFrontClient {
     ///
     /// Create an Amazon CloudFront VPC origin.
     ///
-    /// - Parameter CreateVpcOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcOriginInput`)
     ///
-    /// - Returns: `CreateVpcOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2613,9 +2613,9 @@ extension CloudFrontClient {
     ///
     /// Deletes an Anycast static IP list.
     ///
-    /// - Parameter DeleteAnycastIpListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnycastIpListInput`)
     ///
-    /// - Returns: `DeleteAnycastIpListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnycastIpListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2685,9 +2685,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a cache policy. You cannot delete a cache policy if it's attached to a cache behavior. First update your distributions to remove the cache policy from all cache behaviors, then delete the cache policy. To delete a cache policy, you must provide the policy's identifier and version. To get these values, you can use ListCachePolicies or GetCachePolicy.
     ///
-    /// - Parameter DeleteCachePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCachePolicyInput`)
     ///
-    /// - Returns: `DeleteCachePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCachePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2755,9 +2755,9 @@ extension CloudFrontClient {
     ///
     /// Delete an origin access identity.
     ///
-    /// - Parameter DeleteCloudFrontOriginAccessIdentityInput : Deletes a origin access identity.
+    /// - Parameter input: Deletes a origin access identity. (Type: `DeleteCloudFrontOriginAccessIdentityInput`)
     ///
-    /// - Returns: `DeleteCloudFrontOriginAccessIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudFrontOriginAccessIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2824,9 +2824,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a connection group.
     ///
-    /// - Parameter DeleteConnectionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionGroupInput`)
     ///
-    /// - Returns: `DeleteConnectionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2894,9 +2894,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary distribution. First update your distribution to remove the continuous deployment policy, then you can delete the policy.
     ///
-    /// - Parameter DeleteContinuousDeploymentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContinuousDeploymentPolicyInput`)
     ///
-    /// - Returns: `DeleteContinuousDeploymentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContinuousDeploymentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2964,7 +2964,7 @@ extension CloudFrontClient {
     ///
     /// Delete a distribution.
     ///
-    /// - Parameter DeleteDistributionInput : This action deletes a web distribution. To delete a web distribution using the CloudFront API, perform the following steps. To delete a web distribution using the CloudFront API:
+    /// - Parameter input: This action deletes a web distribution. To delete a web distribution using the CloudFront API, perform the following steps. To delete a web distribution using the CloudFront API:
     ///
     /// * Disable the web distribution
     ///
@@ -2983,9 +2983,9 @@ extension CloudFrontClient {
     /// * Review the response to your DELETE Distribution request to confirm that the distribution was successfully deleted.
     ///
     ///
-    /// For information about deleting a distribution using the CloudFront console, see [Deleting a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowToDeleteDistribution.html) in the Amazon CloudFront Developer Guide.
+    /// For information about deleting a distribution using the CloudFront console, see [Deleting a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowToDeleteDistribution.html) in the Amazon CloudFront Developer Guide. (Type: `DeleteDistributionInput`)
     ///
-    /// - Returns: `DeleteDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3053,9 +3053,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribution tenant by using the UpdateDistributionTenant API operation.
     ///
-    /// - Parameter DeleteDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDistributionTenantInput`)
     ///
-    /// - Returns: `DeleteDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3122,9 +3122,9 @@ extension CloudFrontClient {
     ///
     /// Remove a field-level encryption configuration.
     ///
-    /// - Parameter DeleteFieldLevelEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFieldLevelEncryptionConfigInput`)
     ///
-    /// - Returns: `DeleteFieldLevelEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFieldLevelEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3191,9 +3191,9 @@ extension CloudFrontClient {
     ///
     /// Remove a field-level encryption profile.
     ///
-    /// - Parameter DeleteFieldLevelEncryptionProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFieldLevelEncryptionProfileInput`)
     ///
-    /// - Returns: `DeleteFieldLevelEncryptionProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFieldLevelEncryptionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3260,9 +3260,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a CloudFront function. You cannot delete a function if it's associated with a cache behavior. First, update your distributions to remove the function association from all cache behaviors, then delete the function. To delete a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     ///
-    /// - Parameter DeleteFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionInput`)
     ///
-    /// - Returns: `DeleteFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3329,9 +3329,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group's identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
     ///
-    /// - Parameter DeleteKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyGroupInput`)
     ///
-    /// - Returns: `DeleteKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3397,9 +3397,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value store to delete.
     ///
-    /// - Parameter DeleteKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyValueStoreInput`)
     ///
-    /// - Returns: `DeleteKeyValueStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3467,9 +3467,9 @@ extension CloudFrontClient {
     ///
     /// Disables additional CloudWatch metrics for the specified CloudFront distribution.
     ///
-    /// - Parameter DeleteMonitoringSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitoringSubscriptionInput`)
     ///
-    /// - Returns: `DeleteMonitoringSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitoringSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3534,9 +3534,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a CloudFront origin access control. You cannot delete an origin access control if it's in use. First, update all distributions to remove the origin access control from all origins, then delete the origin access control.
     ///
-    /// - Parameter DeleteOriginAccessControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOriginAccessControlInput`)
     ///
-    /// - Returns: `DeleteOriginAccessControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOriginAccessControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3603,9 +3603,9 @@ extension CloudFrontClient {
     ///
     /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
     ///
-    /// - Parameter DeleteOriginRequestPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOriginRequestPolicyInput`)
     ///
-    /// - Returns: `DeleteOriginRequestPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOriginRequestPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3673,9 +3673,9 @@ extension CloudFrontClient {
     ///
     /// Remove a public key you previously added to CloudFront.
     ///
-    /// - Parameter DeletePublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicKeyInput`)
     ///
-    /// - Returns: `DeletePublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3742,9 +3742,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a real-time log configuration. You cannot delete a real-time log configuration if it's attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
     ///
-    /// - Parameter DeleteRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRealtimeLogConfigInput`)
     ///
-    /// - Returns: `DeleteRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3812,9 +3812,9 @@ extension CloudFrontClient {
     ///
     /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
     ///
-    /// - Parameter DeleteResponseHeadersPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResponseHeadersPolicyInput`)
     ///
-    /// - Returns: `DeleteResponseHeadersPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResponseHeadersPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3901,9 +3901,9 @@ extension CloudFrontClient {
     ///
     /// For information about deleting a distribution using the CloudFront console, see [Deleting a Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowToDeleteDistribution.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter DeleteStreamingDistributionInput : The request to delete a streaming distribution.
+    /// - Parameter input: The request to delete a streaming distribution. (Type: `DeleteStreamingDistributionInput`)
     ///
-    /// - Returns: `DeleteStreamingDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamingDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3970,9 +3970,9 @@ extension CloudFrontClient {
     ///
     /// Delete an Amazon CloudFront VPC origin.
     ///
-    /// - Parameter DeleteVpcOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcOriginInput`)
     ///
-    /// - Returns: `DeleteVpcOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4042,9 +4042,9 @@ extension CloudFrontClient {
     ///
     /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     ///
-    /// - Parameter DescribeFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFunctionInput`)
     ///
-    /// - Returns: `DescribeFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4108,9 +4108,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value store and its configuration.
     ///
-    /// - Parameter DescribeKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyValueStoreInput`)
     ///
-    /// - Returns: `DescribeKeyValueStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4175,9 +4175,9 @@ extension CloudFrontClient {
     ///
     /// Disassociates a distribution tenant from the WAF web ACL.
     ///
-    /// - Parameter DisassociateDistributionTenantWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDistributionTenantWebACLInput`)
     ///
-    /// - Returns: `DisassociateDistributionTenantWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDistributionTenantWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4244,9 +4244,9 @@ extension CloudFrontClient {
     ///
     /// Disassociates a distribution from the WAF web ACL.
     ///
-    /// - Parameter DisassociateDistributionWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDistributionWebACLInput`)
     ///
-    /// - Returns: `DisassociateDistributionWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDistributionWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4313,9 +4313,9 @@ extension CloudFrontClient {
     ///
     /// Gets an Anycast static IP list.
     ///
-    /// - Parameter GetAnycastIpListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnycastIpListInput`)
     ///
-    /// - Returns: `GetAnycastIpListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnycastIpListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4387,9 +4387,9 @@ extension CloudFrontClient {
     ///
     /// To get a cache policy, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///
-    /// - Parameter GetCachePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCachePolicyInput`)
     ///
-    /// - Returns: `GetCachePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCachePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4452,9 +4452,9 @@ extension CloudFrontClient {
     ///
     /// Gets a cache policy configuration. To get a cache policy configuration, you must provide the policy's identifier. If the cache policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
     ///
-    /// - Parameter GetCachePolicyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCachePolicyConfigInput`)
     ///
-    /// - Returns: `GetCachePolicyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCachePolicyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4517,9 +4517,9 @@ extension CloudFrontClient {
     ///
     /// Get the information about an origin access identity.
     ///
-    /// - Parameter GetCloudFrontOriginAccessIdentityInput : The request to get an origin access identity's information.
+    /// - Parameter input: The request to get an origin access identity's information. (Type: `GetCloudFrontOriginAccessIdentityInput`)
     ///
-    /// - Returns: `GetCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetCloudFrontOriginAccessIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4582,9 +4582,9 @@ extension CloudFrontClient {
     ///
     /// Get the configuration information about an origin access identity.
     ///
-    /// - Parameter GetCloudFrontOriginAccessIdentityConfigInput : The origin access identity's configuration information. For more information, see [CloudFrontOriginAccessIdentityConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CloudFrontOriginAccessIdentityConfig.html).
+    /// - Parameter input: The origin access identity's configuration information. For more information, see [CloudFrontOriginAccessIdentityConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CloudFrontOriginAccessIdentityConfig.html). (Type: `GetCloudFrontOriginAccessIdentityConfigInput`)
     ///
-    /// - Returns: `GetCloudFrontOriginAccessIdentityConfigOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetCloudFrontOriginAccessIdentityConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4647,9 +4647,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a connection group.
     ///
-    /// - Parameter GetConnectionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionGroupInput`)
     ///
-    /// - Returns: `GetConnectionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4712,9 +4712,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a connection group by using the endpoint that you specify.
     ///
-    /// - Parameter GetConnectionGroupByRoutingEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionGroupByRoutingEndpointInput`)
     ///
-    /// - Returns: `GetConnectionGroupByRoutingEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionGroupByRoutingEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4778,9 +4778,9 @@ extension CloudFrontClient {
     ///
     /// Gets a continuous deployment policy, including metadata (the policy's identifier and the date and time when the policy was last modified).
     ///
-    /// - Parameter GetContinuousDeploymentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContinuousDeploymentPolicyInput`)
     ///
-    /// - Returns: `GetContinuousDeploymentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContinuousDeploymentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4843,9 +4843,9 @@ extension CloudFrontClient {
     ///
     /// Gets configuration information about a continuous deployment policy.
     ///
-    /// - Parameter GetContinuousDeploymentPolicyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContinuousDeploymentPolicyConfigInput`)
     ///
-    /// - Returns: `GetContinuousDeploymentPolicyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContinuousDeploymentPolicyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4908,9 +4908,9 @@ extension CloudFrontClient {
     ///
     /// Get the information about a distribution.
     ///
-    /// - Parameter GetDistributionInput : The request to get a distribution's information.
+    /// - Parameter input: The request to get a distribution's information. (Type: `GetDistributionInput`)
     ///
-    /// - Returns: `GetDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4973,9 +4973,9 @@ extension CloudFrontClient {
     ///
     /// Get the configuration information about a distribution.
     ///
-    /// - Parameter GetDistributionConfigInput : The request to get a distribution configuration.
+    /// - Parameter input: The request to get a distribution configuration. (Type: `GetDistributionConfigInput`)
     ///
-    /// - Returns: `GetDistributionConfigOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetDistributionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5038,9 +5038,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a distribution tenant.
     ///
-    /// - Parameter GetDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionTenantInput`)
     ///
-    /// - Returns: `GetDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5103,9 +5103,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a distribution tenant by the associated domain.
     ///
-    /// - Parameter GetDistributionTenantByDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionTenantByDomainInput`)
     ///
-    /// - Returns: `GetDistributionTenantByDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionTenantByDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5169,9 +5169,9 @@ extension CloudFrontClient {
     ///
     /// Get the field-level encryption configuration information.
     ///
-    /// - Parameter GetFieldLevelEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFieldLevelEncryptionInput`)
     ///
-    /// - Returns: `GetFieldLevelEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFieldLevelEncryptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5234,9 +5234,9 @@ extension CloudFrontClient {
     ///
     /// Get the field-level encryption configuration information.
     ///
-    /// - Parameter GetFieldLevelEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFieldLevelEncryptionConfigInput`)
     ///
-    /// - Returns: `GetFieldLevelEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFieldLevelEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5299,9 +5299,9 @@ extension CloudFrontClient {
     ///
     /// Get the field-level encryption profile information.
     ///
-    /// - Parameter GetFieldLevelEncryptionProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFieldLevelEncryptionProfileInput`)
     ///
-    /// - Returns: `GetFieldLevelEncryptionProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFieldLevelEncryptionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5364,9 +5364,9 @@ extension CloudFrontClient {
     ///
     /// Get the field-level encryption profile configuration information.
     ///
-    /// - Parameter GetFieldLevelEncryptionProfileConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFieldLevelEncryptionProfileConfigInput`)
     ///
-    /// - Returns: `GetFieldLevelEncryptionProfileConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFieldLevelEncryptionProfileConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5429,9 +5429,9 @@ extension CloudFrontClient {
     ///
     /// Gets the code of a CloudFront function. To get configuration information and metadata about a function, use DescribeFunction. To get a function's code, you must provide the function's name and stage. To get these values, you can use ListFunctions.
     ///
-    /// - Parameter GetFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionInput`)
     ///
-    /// - Returns: `GetFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5495,9 +5495,9 @@ extension CloudFrontClient {
     ///
     /// Get the information about an invalidation.
     ///
-    /// - Parameter GetInvalidationInput : The request to get an invalidation's information.
+    /// - Parameter input: The request to get an invalidation's information. (Type: `GetInvalidationInput`)
     ///
-    /// - Returns: `GetInvalidationOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetInvalidationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5561,9 +5561,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a specific invalidation for a distribution tenant.
     ///
-    /// - Parameter GetInvalidationForDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvalidationForDistributionTenantInput`)
     ///
-    /// - Returns: `GetInvalidationForDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvalidationForDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5627,9 +5627,9 @@ extension CloudFrontClient {
     ///
     /// Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     ///
-    /// - Parameter GetKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyGroupInput`)
     ///
-    /// - Returns: `GetKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5691,9 +5691,9 @@ extension CloudFrontClient {
     ///
     /// Gets a key group configuration. To get a key group configuration, you must provide the key group's identifier. If the key group is referenced in a distribution's cache behavior, you can get the key group's identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
     ///
-    /// - Parameter GetKeyGroupConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyGroupConfigInput`)
     ///
-    /// - Returns: `GetKeyGroupConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyGroupConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5755,9 +5755,9 @@ extension CloudFrontClient {
     ///
     /// Gets details about the CloudFront managed ACM certificate.
     ///
-    /// - Parameter GetManagedCertificateDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedCertificateDetailsInput`)
     ///
-    /// - Returns: `GetManagedCertificateDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedCertificateDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5820,9 +5820,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
     ///
-    /// - Parameter GetMonitoringSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMonitoringSubscriptionInput`)
     ///
-    /// - Returns: `GetMonitoringSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMonitoringSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5887,9 +5887,9 @@ extension CloudFrontClient {
     ///
     /// Gets a CloudFront origin access control, including its unique identifier.
     ///
-    /// - Parameter GetOriginAccessControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginAccessControlInput`)
     ///
-    /// - Returns: `GetOriginAccessControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginAccessControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5952,9 +5952,9 @@ extension CloudFrontClient {
     ///
     /// Gets a CloudFront origin access control configuration.
     ///
-    /// - Parameter GetOriginAccessControlConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginAccessControlConfigInput`)
     ///
-    /// - Returns: `GetOriginAccessControlConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginAccessControlConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6024,9 +6024,9 @@ extension CloudFrontClient {
     ///
     /// To get an origin request policy, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///
-    /// - Parameter GetOriginRequestPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginRequestPolicyInput`)
     ///
-    /// - Returns: `GetOriginRequestPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginRequestPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6089,9 +6089,9 @@ extension CloudFrontClient {
     ///
     /// Gets an origin request policy configuration. To get an origin request policy configuration, you must provide the policy's identifier. If the origin request policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
     ///
-    /// - Parameter GetOriginRequestPolicyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginRequestPolicyConfigInput`)
     ///
-    /// - Returns: `GetOriginRequestPolicyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginRequestPolicyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6154,9 +6154,9 @@ extension CloudFrontClient {
     ///
     /// Gets a public key.
     ///
-    /// - Parameter GetPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyInput`)
     ///
-    /// - Returns: `GetPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6219,9 +6219,9 @@ extension CloudFrontClient {
     ///
     /// Gets a public key configuration.
     ///
-    /// - Parameter GetPublicKeyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyConfigInput`)
     ///
-    /// - Returns: `GetPublicKeyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6284,9 +6284,9 @@ extension CloudFrontClient {
     ///
     /// Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration's name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
     ///
-    /// - Parameter GetRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRealtimeLogConfigInput`)
     ///
-    /// - Returns: `GetRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6353,9 +6353,9 @@ extension CloudFrontClient {
     ///
     /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///
-    /// - Parameter GetResponseHeadersPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResponseHeadersPolicyInput`)
     ///
-    /// - Returns: `GetResponseHeadersPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResponseHeadersPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6418,9 +6418,9 @@ extension CloudFrontClient {
     ///
     /// Gets a response headers policy configuration. To get a response headers policy configuration, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     ///
-    /// - Parameter GetResponseHeadersPolicyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResponseHeadersPolicyConfigInput`)
     ///
-    /// - Returns: `GetResponseHeadersPolicyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResponseHeadersPolicyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6483,9 +6483,9 @@ extension CloudFrontClient {
     ///
     /// Gets information about a specified RTMP distribution, including the distribution configuration.
     ///
-    /// - Parameter GetStreamingDistributionInput : The request to get a streaming distribution's information.
+    /// - Parameter input: The request to get a streaming distribution's information. (Type: `GetStreamingDistributionInput`)
     ///
-    /// - Returns: `GetStreamingDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetStreamingDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6548,9 +6548,9 @@ extension CloudFrontClient {
     ///
     /// Get the configuration information about a streaming distribution.
     ///
-    /// - Parameter GetStreamingDistributionConfigInput : To request to get a streaming distribution configuration.
+    /// - Parameter input: To request to get a streaming distribution configuration. (Type: `GetStreamingDistributionConfigInput`)
     ///
-    /// - Returns: `GetStreamingDistributionConfigOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `GetStreamingDistributionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6613,9 +6613,9 @@ extension CloudFrontClient {
     ///
     /// Get the details of an Amazon CloudFront VPC origin.
     ///
-    /// - Parameter GetVpcOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpcOriginInput`)
     ///
-    /// - Returns: `GetVpcOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpcOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6680,9 +6680,9 @@ extension CloudFrontClient {
     ///
     /// Lists your Anycast static IP lists.
     ///
-    /// - Parameter ListAnycastIpListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnycastIpListsInput`)
     ///
-    /// - Returns: `ListAnycastIpListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnycastIpListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6748,9 +6748,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of cache policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListCachePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCachePoliciesInput`)
     ///
-    /// - Returns: `ListCachePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCachePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6815,9 +6815,9 @@ extension CloudFrontClient {
     ///
     /// Lists origin access identities.
     ///
-    /// - Parameter ListCloudFrontOriginAccessIdentitiesInput : The request to list origin access identities.
+    /// - Parameter input: The request to list origin access identities. (Type: `ListCloudFrontOriginAccessIdentitiesInput`)
     ///
-    /// - Returns: `ListCloudFrontOriginAccessIdentitiesOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListCloudFrontOriginAccessIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6880,9 +6880,9 @@ extension CloudFrontClient {
     ///
     /// The ListConflictingAliases API operation only supports standard distributions. To list domain conflicts for both standard distributions and distribution tenants, we recommend that you use the [ListDomainConflicts](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDomainConflicts.html) API operation instead. Gets a list of aliases that conflict or overlap with the provided alias, and the associated CloudFront standard distribution and Amazon Web Services accounts for each conflicting alias. An alias is commonly known as a custom domain or vanity domain. It can also be called a CNAME or alternate domain name. In the returned list, the standard distribution and account IDs are partially hidden, which allows you to identify the standard distribution and accounts that you own, and helps to protect the information of ones that you don't own. Use this operation to find aliases that are in use in CloudFront that conflict or overlap with the provided alias. For example, if you provide www.example.com as input, the returned list can include www.example.com and the overlapping wildcard alternate domain name (.example.com), if they exist. If you provide .example.com as input, the returned list can include *.example.com and any alternate domain names covered by that wildcard (for example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To list conflicting aliases, specify the alias to search and the ID of a standard distribution in your account that has an attached TLS certificate that includes the provided alias. For more information, including how to set up the standard distribution and certificate, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListConflictingAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConflictingAliasesInput`)
     ///
-    /// - Returns: `ListConflictingAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConflictingAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6946,9 +6946,9 @@ extension CloudFrontClient {
     ///
     /// Lists the connection groups in your Amazon Web Services account.
     ///
-    /// - Parameter ListConnectionGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectionGroupsInput`)
     ///
-    /// - Returns: `ListConnectionGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectionGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7015,9 +7015,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListContinuousDeploymentPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContinuousDeploymentPoliciesInput`)
     ///
-    /// - Returns: `ListContinuousDeploymentPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContinuousDeploymentPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7082,9 +7082,9 @@ extension CloudFrontClient {
     ///
     /// Lists the distribution tenants in your Amazon Web Services account.
     ///
-    /// - Parameter ListDistributionTenantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionTenantsInput`)
     ///
-    /// - Returns: `ListDistributionTenantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionTenantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7151,9 +7151,9 @@ extension CloudFrontClient {
     ///
     /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn parameter, but not both in the same request.
     ///
-    /// - Parameter ListDistributionTenantsByCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionTenantsByCustomizationInput`)
     ///
-    /// - Returns: `ListDistributionTenantsByCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionTenantsByCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7220,9 +7220,9 @@ extension CloudFrontClient {
     ///
     /// List CloudFront distributions.
     ///
-    /// - Parameter ListDistributionsInput : The request to list your distributions.
+    /// - Parameter input: The request to list your distributions. (Type: `ListDistributionsInput`)
     ///
-    /// - Returns: `ListDistributionsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListDistributionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7285,9 +7285,9 @@ extension CloudFrontClient {
     ///
     /// Lists the distributions in your account that are associated with the specified AnycastIpListId.
     ///
-    /// - Parameter ListDistributionsByAnycastIpListIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByAnycastIpListIdInput`)
     ///
-    /// - Returns: `ListDistributionsByAnycastIpListIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByAnycastIpListIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7353,9 +7353,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByCachePolicyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByCachePolicyIdInput`)
     ///
-    /// - Returns: `ListDistributionsByCachePolicyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByCachePolicyIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7420,9 +7420,9 @@ extension CloudFrontClient {
     ///
     /// Lists the distributions by the connection mode that you specify.
     ///
-    /// - Parameter ListDistributionsByConnectionModeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByConnectionModeInput`)
     ///
-    /// - Returns: `ListDistributionsByConnectionModeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByConnectionModeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7486,9 +7486,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByKeyGroupInput`)
     ///
-    /// - Returns: `ListDistributionsByKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7552,9 +7552,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByOriginRequestPolicyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByOriginRequestPolicyIdInput`)
     ///
-    /// - Returns: `ListDistributionsByOriginRequestPolicyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByOriginRequestPolicyIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7619,9 +7619,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByRealtimeLogConfigInput`)
     ///
-    /// - Returns: `ListDistributionsByRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7686,9 +7686,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified response headers policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDistributionsByResponseHeadersPolicyIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByResponseHeadersPolicyIdInput`)
     ///
-    /// - Returns: `ListDistributionsByResponseHeadersPolicyIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByResponseHeadersPolicyIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7753,9 +7753,9 @@ extension CloudFrontClient {
     ///
     /// List CloudFront distributions by their VPC origin ID.
     ///
-    /// - Parameter ListDistributionsByVpcOriginIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributionsByVpcOriginIdInput`)
     ///
-    /// - Returns: `ListDistributionsByVpcOriginIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributionsByVpcOriginIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7821,9 +7821,9 @@ extension CloudFrontClient {
     ///
     /// List the distributions that are associated with a specified WAF web ACL.
     ///
-    /// - Parameter ListDistributionsByWebACLIdInput : The request to list distributions that are associated with a specified WAF web ACL.
+    /// - Parameter input: The request to list distributions that are associated with a specified WAF web ACL. (Type: `ListDistributionsByWebACLIdInput`)
     ///
-    /// - Returns: `ListDistributionsByWebACLIdOutput` : The response to a request to list the distributions that are associated with a specified WAF web ACL.
+    /// - Returns: The response to a request to list the distributions that are associated with a specified WAF web ACL. (Type: `ListDistributionsByWebACLIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7894,9 +7894,9 @@ extension CloudFrontClient {
     ///
     /// For more information, including how to set up the standard distribution or distribution tenant, and the certificate, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListDomainConflictsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainConflictsInput`)
     ///
-    /// - Returns: `ListDomainConflictsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainConflictsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7963,9 +7963,9 @@ extension CloudFrontClient {
     ///
     /// List all field-level encryption configurations that have been created in CloudFront for this account.
     ///
-    /// - Parameter ListFieldLevelEncryptionConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFieldLevelEncryptionConfigsInput`)
     ///
-    /// - Returns: `ListFieldLevelEncryptionConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFieldLevelEncryptionConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8028,9 +8028,9 @@ extension CloudFrontClient {
     ///
     /// Request a list of field-level encryption profiles that have been created in CloudFront for this account.
     ///
-    /// - Parameter ListFieldLevelEncryptionProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFieldLevelEncryptionProfilesInput`)
     ///
-    /// - Returns: `ListFieldLevelEncryptionProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFieldLevelEncryptionProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8093,9 +8093,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of all CloudFront functions in your Amazon Web Services account. You can optionally apply a filter to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListFunctionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionsInput`)
     ///
-    /// - Returns: `ListFunctionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8159,9 +8159,9 @@ extension CloudFrontClient {
     ///
     /// Lists invalidation batches.
     ///
-    /// - Parameter ListInvalidationsInput : The request to list invalidations.
+    /// - Parameter input: The request to list invalidations. (Type: `ListInvalidationsInput`)
     ///
-    /// - Returns: `ListInvalidationsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListInvalidationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8226,9 +8226,9 @@ extension CloudFrontClient {
     ///
     /// Lists the invalidations for a distribution tenant.
     ///
-    /// - Parameter ListInvalidationsForDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvalidationsForDistributionTenantInput`)
     ///
-    /// - Returns: `ListInvalidationsForDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvalidationsForDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8293,9 +8293,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListKeyGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyGroupsInput`)
     ///
-    /// - Returns: `ListKeyGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8358,9 +8358,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value stores to list.
     ///
-    /// - Parameter ListKeyValueStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyValueStoresInput`)
     ///
-    /// - Returns: `ListKeyValueStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyValueStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8425,9 +8425,9 @@ extension CloudFrontClient {
     ///
     /// Gets the list of CloudFront origin access controls (OACs) in this Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send another request that specifies the NextMarker value from the current response as the Marker value in the next request. If you're not using origin access controls for your Amazon Web Services account, the ListOriginAccessControls operation doesn't return the Items element in the response.
     ///
-    /// - Parameter ListOriginAccessControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOriginAccessControlsInput`)
     ///
-    /// - Returns: `ListOriginAccessControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOriginAccessControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8490,9 +8490,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListOriginRequestPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOriginRequestPoliciesInput`)
     ///
-    /// - Returns: `ListOriginRequestPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOriginRequestPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8557,9 +8557,9 @@ extension CloudFrontClient {
     ///
     /// List all public keys that have been added to CloudFront for this account.
     ///
-    /// - Parameter ListPublicKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPublicKeysInput`)
     ///
-    /// - Returns: `ListPublicKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPublicKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8622,9 +8622,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListRealtimeLogConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRealtimeLogConfigsInput`)
     ///
-    /// - Returns: `ListRealtimeLogConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRealtimeLogConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8689,9 +8689,9 @@ extension CloudFrontClient {
     ///
     /// Gets a list of response headers policies. You can optionally apply a filter to get only the managed policies created by Amazon Web Services, or only the custom policies created in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     ///
-    /// - Parameter ListResponseHeadersPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResponseHeadersPoliciesInput`)
     ///
-    /// - Returns: `ListResponseHeadersPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResponseHeadersPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8756,9 +8756,9 @@ extension CloudFrontClient {
     ///
     /// List streaming distributions.
     ///
-    /// - Parameter ListStreamingDistributionsInput : The request to list your streaming distributions.
+    /// - Parameter input: The request to list your streaming distributions. (Type: `ListStreamingDistributionsInput`)
     ///
-    /// - Returns: `ListStreamingDistributionsOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListStreamingDistributionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8821,9 +8821,9 @@ extension CloudFrontClient {
     ///
     /// List tags for a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : The request to list tags for a CloudFront resource.
+    /// - Parameter input: The request to list tags for a CloudFront resource. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8889,9 +8889,9 @@ extension CloudFrontClient {
     ///
     /// List the CloudFront VPC origins in your account.
     ///
-    /// - Parameter ListVpcOriginsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcOriginsInput`)
     ///
-    /// - Returns: `ListVpcOriginsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcOriginsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8957,9 +8957,9 @@ extension CloudFrontClient {
     ///
     /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
     ///
-    /// - Parameter PublishFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishFunctionInput`)
     ///
-    /// - Returns: `PublishFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9026,9 +9026,9 @@ extension CloudFrontClient {
     ///
     /// Add tags to a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter TagResourceInput : The request to add tags to a CloudFront resource.
+    /// - Parameter input: The request to add tags to a CloudFront resource. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9097,9 +9097,9 @@ extension CloudFrontClient {
     ///
     /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see [Testing functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function) in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag value) along with the event object. To get the function's name and version, you can use ListFunctions and DescribeFunction.
     ///
-    /// - Parameter TestFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestFunctionInput`)
     ///
-    /// - Returns: `TestFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9169,9 +9169,9 @@ extension CloudFrontClient {
     ///
     /// Remove tags from a CloudFront resource. For more information, see [Tagging a distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/tagging.html) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter UntagResourceInput : The request to remove tags from a CloudFront resource.
+    /// - Parameter input: The request to remove tags from a CloudFront resource. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9249,9 +9249,9 @@ extension CloudFrontClient {
     ///
     /// If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     ///
-    /// - Parameter UpdateCachePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCachePolicyInput`)
     ///
-    /// - Returns: `UpdateCachePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCachePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9327,9 +9327,9 @@ extension CloudFrontClient {
     ///
     /// Update an origin access identity.
     ///
-    /// - Parameter UpdateCloudFrontOriginAccessIdentityInput : The request to update an origin access identity.
+    /// - Parameter input: The request to update an origin access identity. (Type: `UpdateCloudFrontOriginAccessIdentityInput`)
     ///
-    /// - Returns: `UpdateCloudFrontOriginAccessIdentityOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `UpdateCloudFrontOriginAccessIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9402,9 +9402,9 @@ extension CloudFrontClient {
     ///
     /// Updates a connection group.
     ///
-    /// - Parameter UpdateConnectionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionGroupInput`)
     ///
-    /// - Returns: `UpdateConnectionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9483,9 +9483,9 @@ extension CloudFrontClient {
     ///
     /// * Use UpdateContinuousDeploymentPolicy, providing the entire continuous deployment policy configuration, including the fields that you modified and those that you didn't.
     ///
-    /// - Parameter UpdateContinuousDeploymentPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContinuousDeploymentPolicyInput`)
     ///
-    /// - Returns: `UpdateContinuousDeploymentPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContinuousDeploymentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9570,9 +9570,9 @@ extension CloudFrontClient {
     ///
     /// * Submit an UpdateDistribution request, providing the updated distribution configuration. The new configuration replaces the existing configuration. The values that you specify in an UpdateDistribution request are not merged into your existing configuration. Make sure to include all fields: the ones that you modified and also the ones that you didn't.
     ///
-    /// - Parameter UpdateDistributionInput : The request to update a distribution.
+    /// - Parameter input: The request to update a distribution. (Type: `UpdateDistributionInput`)
     ///
-    /// - Returns: `UpdateDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `UpdateDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9704,9 +9704,9 @@ extension CloudFrontClient {
     ///
     /// Updates a distribution tenant.
     ///
-    /// - Parameter UpdateDistributionTenantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDistributionTenantInput`)
     ///
-    /// - Returns: `UpdateDistributionTenantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDistributionTenantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9784,9 +9784,9 @@ extension CloudFrontClient {
     ///
     /// * [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html)
     ///
-    /// - Parameter UpdateDistributionWithStagingConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDistributionWithStagingConfigInput`)
     ///
-    /// - Returns: `UpdateDistributionWithStagingConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDistributionWithStagingConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9911,9 +9911,9 @@ extension CloudFrontClient {
     ///
     /// We recommend that you use the UpdateDomainAssociation API operation to move a domain association, as it supports both standard distributions and distribution tenants. [AssociateAlias](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_AssociateAlias.html) performs similar checks but only supports standard distributions. Moves a domain from its current standard distribution or distribution tenant to another one. You must first disable the source distribution (standard distribution or distribution tenant) and then separately call this operation to move the domain to another target distribution (standard distribution or distribution tenant). To use this operation, specify the domain and the ID of the target resource (standard distribution or distribution tenant). For more information, including how to set up the target resource, prerequisites that you must complete, and other restrictions, see [Moving an alternate domain name to a different standard distribution or distribution tenant](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move) in the Amazon CloudFront Developer Guide.
     ///
-    /// - Parameter UpdateDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainAssociationInput`)
     ///
-    /// - Returns: `UpdateDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9984,9 +9984,9 @@ extension CloudFrontClient {
     ///
     /// Update a field-level encryption configuration.
     ///
-    /// - Parameter UpdateFieldLevelEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFieldLevelEncryptionConfigInput`)
     ///
-    /// - Returns: `UpdateFieldLevelEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFieldLevelEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10062,9 +10062,9 @@ extension CloudFrontClient {
     ///
     /// Update a field-level encryption profile.
     ///
-    /// - Parameter UpdateFieldLevelEncryptionProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFieldLevelEncryptionProfileInput`)
     ///
-    /// - Returns: `UpdateFieldLevelEncryptionProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFieldLevelEncryptionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10141,9 +10141,9 @@ extension CloudFrontClient {
     ///
     /// Updates a CloudFront function. You can update a function's code or the comment that describes the function. You cannot update a function's name. To update a function, you provide the function's name and version (ETag value) along with the updated function code. To get the name and version, you can use ListFunctions and DescribeFunction.
     ///
-    /// - Parameter UpdateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionInput`)
     ///
-    /// - Returns: `UpdateFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10220,9 +10220,9 @@ extension CloudFrontClient {
     ///
     /// * Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn't.
     ///
-    /// - Parameter UpdateKeyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyGroupInput`)
     ///
-    /// - Returns: `UpdateKeyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10293,9 +10293,9 @@ extension CloudFrontClient {
     ///
     /// Specifies the key value store to update.
     ///
-    /// - Parameter UpdateKeyValueStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyValueStoreInput`)
     ///
-    /// - Returns: `UpdateKeyValueStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyValueStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10366,9 +10366,9 @@ extension CloudFrontClient {
     ///
     /// Updates a CloudFront origin access control.
     ///
-    /// - Parameter UpdateOriginAccessControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOriginAccessControlInput`)
     ///
-    /// - Returns: `UpdateOriginAccessControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOriginAccessControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10446,9 +10446,9 @@ extension CloudFrontClient {
     ///
     /// * Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn't.
     ///
-    /// - Parameter UpdateOriginRequestPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOriginRequestPolicyInput`)
     ///
-    /// - Returns: `UpdateOriginRequestPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOriginRequestPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10524,9 +10524,9 @@ extension CloudFrontClient {
     ///
     /// Update public key information. Note that the only value you can change is the comment.
     ///
-    /// - Parameter UpdatePublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePublicKeyInput`)
     ///
-    /// - Returns: `UpdatePublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10607,9 +10607,9 @@ extension CloudFrontClient {
     ///
     /// You cannot update a real-time log configuration's Name or ARN.
     ///
-    /// - Parameter UpdateRealtimeLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRealtimeLogConfigInput`)
     ///
-    /// - Returns: `UpdateRealtimeLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRealtimeLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10682,9 +10682,9 @@ extension CloudFrontClient {
     ///
     /// * Call UpdateResponseHeadersPolicy, providing the entire response headers policy configuration, including the fields that you modified and those that you didn't.
     ///
-    /// - Parameter UpdateResponseHeadersPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResponseHeadersPolicyInput`)
     ///
-    /// - Returns: `UpdateResponseHeadersPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResponseHeadersPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10760,9 +10760,9 @@ extension CloudFrontClient {
     ///
     /// Update a streaming distribution.
     ///
-    /// - Parameter UpdateStreamingDistributionInput : The request to update a streaming distribution.
+    /// - Parameter input: The request to update a streaming distribution. (Type: `UpdateStreamingDistributionInput`)
     ///
-    /// - Returns: `UpdateStreamingDistributionOutput` : The returned result of the corresponding request.
+    /// - Returns: The returned result of the corresponding request. (Type: `UpdateStreamingDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10841,9 +10841,9 @@ extension CloudFrontClient {
     ///
     /// Update an Amazon CloudFront VPC origin in your account.
     ///
-    /// - Parameter UpdateVpcOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVpcOriginInput`)
     ///
-    /// - Returns: `UpdateVpcOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVpcOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10919,9 +10919,9 @@ extension CloudFrontClient {
     ///
     /// Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
     ///
-    /// - Parameter VerifyDnsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyDnsConfigurationInput`)
     ///
-    /// - Returns: `VerifyDnsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyDnsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

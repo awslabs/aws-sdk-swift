@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodePipelineClient: ClientRuntime.Client {
     public static let clientName = "CodePipelineClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CodePipelineClient.CodePipelineClientConfiguration
     let serviceName = "CodePipeline"
@@ -374,9 +374,9 @@ extension CodePipelineClient {
     ///
     /// Returns information about a specified job and whether that job has been received by the job worker. Used for custom actions only.
     ///
-    /// - Parameter AcknowledgeJobInput : Represents the input of an AcknowledgeJob action.
+    /// - Parameter input: Represents the input of an AcknowledgeJob action. (Type: `AcknowledgeJobInput`)
     ///
-    /// - Returns: `AcknowledgeJobOutput` : Represents the output of an AcknowledgeJob action.
+    /// - Returns: Represents the output of an AcknowledgeJob action. (Type: `AcknowledgeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension CodePipelineClient {
     ///
     /// Confirms a job worker has received the specified job. Used for partner actions only.
     ///
-    /// - Parameter AcknowledgeThirdPartyJobInput : Represents the input of an AcknowledgeThirdPartyJob action.
+    /// - Parameter input: Represents the input of an AcknowledgeThirdPartyJob action. (Type: `AcknowledgeThirdPartyJobInput`)
     ///
-    /// - Returns: `AcknowledgeThirdPartyJobOutput` : Represents the output of an AcknowledgeThirdPartyJob action.
+    /// - Returns: Represents the output of an AcknowledgeThirdPartyJob action. (Type: `AcknowledgeThirdPartyJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension CodePipelineClient {
     ///
     /// Creates a new custom action that can be used in all pipelines associated with the Amazon Web Services account. Only used for custom actions.
     ///
-    /// - Parameter CreateCustomActionTypeInput : Represents the input of a CreateCustomActionType operation.
+    /// - Parameter input: Represents the input of a CreateCustomActionType operation. (Type: `CreateCustomActionTypeInput`)
     ///
-    /// - Returns: `CreateCustomActionTypeOutput` : Represents the output of a CreateCustomActionType operation.
+    /// - Returns: Represents the output of a CreateCustomActionType operation. (Type: `CreateCustomActionTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension CodePipelineClient {
     ///
     /// Creates a pipeline. In the pipeline structure, you must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
     ///
-    /// - Parameter CreatePipelineInput : Represents the input of a CreatePipeline action.
+    /// - Parameter input: Represents the input of a CreatePipeline action. (Type: `CreatePipelineInput`)
     ///
-    /// - Returns: `CreatePipelineOutput` : Represents the output of a CreatePipeline action.
+    /// - Returns: Represents the output of a CreatePipeline action. (Type: `CreatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension CodePipelineClient {
     ///
     /// Marks a custom action as deleted. PollForJobs for the custom action fails after the action is marked for deletion. Used for custom actions only. To re-create a custom action after it has been deleted you must use a string in the version field that has never been used before. This string can be an incremented version number, for example. To restore a deleted custom action, use a JSON file that is identical to the deleted action, including the original string in the version field.
     ///
-    /// - Parameter DeleteCustomActionTypeInput : Represents the input of a DeleteCustomActionType operation. The custom action will be marked as deleted.
+    /// - Parameter input: Represents the input of a DeleteCustomActionType operation. The custom action will be marked as deleted. (Type: `DeleteCustomActionTypeInput`)
     ///
-    /// - Returns: `DeleteCustomActionTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomActionTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,9 +733,9 @@ extension CodePipelineClient {
     ///
     /// Deletes the specified pipeline.
     ///
-    /// - Parameter DeletePipelineInput : Represents the input of a DeletePipeline action.
+    /// - Parameter input: Represents the input of a DeletePipeline action. (Type: `DeletePipelineInput`)
     ///
-    /// - Returns: `DeletePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension CodePipelineClient {
     ///
     /// Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from starting a pipeline every time an external event occurs. The API returns successfully when trying to delete a webhook that is already deleted. If a deleted webhook is re-created by calling PutWebhook with the same name, it will have a different URL.
     ///
-    /// - Parameter DeleteWebhookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebhookInput`)
     ///
-    /// - Returns: `DeleteWebhookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension CodePipelineClient {
     ///
     /// Removes the connection between the webhook that was created by CodePipeline and the external tool with events to be detected. Currently supported only for webhooks that target an action type of GitHub.
     ///
-    /// - Parameter DeregisterWebhookWithThirdPartyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterWebhookWithThirdPartyInput`)
     ///
-    /// - Returns: `DeregisterWebhookWithThirdPartyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterWebhookWithThirdPartyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -940,9 +940,9 @@ extension CodePipelineClient {
     ///
     /// Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
     ///
-    /// - Parameter DisableStageTransitionInput : Represents the input of a DisableStageTransition action.
+    /// - Parameter input: Represents the input of a DisableStageTransition action. (Type: `DisableStageTransitionInput`)
     ///
-    /// - Returns: `DisableStageTransitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableStageTransitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,9 +1010,9 @@ extension CodePipelineClient {
     ///
     /// Enables artifacts in a pipeline to transition to a stage in a pipeline.
     ///
-    /// - Parameter EnableStageTransitionInput : Represents the input of an EnableStageTransition action.
+    /// - Parameter input: Represents the input of an EnableStageTransition action. (Type: `EnableStageTransitionInput`)
     ///
-    /// - Returns: `EnableStageTransitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableStageTransitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1080,9 +1080,9 @@ extension CodePipelineClient {
     ///
     /// Returns information about an action type created for an external provider, where the action is to be used by customers of the external provider. The action can be created with any supported integration model.
     ///
-    /// - Parameter GetActionTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetActionTypeInput`)
     ///
-    /// - Returns: `GetActionTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetActionTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1149,9 +1149,9 @@ extension CodePipelineClient {
     ///
     /// Returns information about a job. Used for custom actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
-    /// - Parameter GetJobDetailsInput : Represents the input of a GetJobDetails action.
+    /// - Parameter input: Represents the input of a GetJobDetails action. (Type: `GetJobDetailsInput`)
     ///
-    /// - Returns: `GetJobDetailsOutput` : Represents the output of a GetJobDetails action.
+    /// - Returns: Represents the output of a GetJobDetails action. (Type: `GetJobDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1218,9 +1218,9 @@ extension CodePipelineClient {
     ///
     /// Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with [UpdatePipeline].
     ///
-    /// - Parameter GetPipelineInput : Represents the input of a GetPipeline action.
+    /// - Parameter input: Represents the input of a GetPipeline action. (Type: `GetPipelineInput`)
     ///
-    /// - Returns: `GetPipelineOutput` : Represents the output of a GetPipeline action.
+    /// - Returns: Represents the output of a GetPipeline action. (Type: `GetPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1288,9 +1288,9 @@ extension CodePipelineClient {
     ///
     /// Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline.
     ///
-    /// - Parameter GetPipelineExecutionInput : Represents the input of a GetPipelineExecution action.
+    /// - Parameter input: Represents the input of a GetPipelineExecution action. (Type: `GetPipelineExecutionInput`)
     ///
-    /// - Returns: `GetPipelineExecutionOutput` : Represents the output of a GetPipelineExecution action.
+    /// - Returns: Represents the output of a GetPipelineExecution action. (Type: `GetPipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1358,9 +1358,9 @@ extension CodePipelineClient {
     ///
     /// Returns information about the state of a pipeline, including the stages and actions. Values returned in the revisionId and revisionUrl fields indicate the source revision information, such as the commit ID, for the current state.
     ///
-    /// - Parameter GetPipelineStateInput : Represents the input of a GetPipelineState action.
+    /// - Parameter input: Represents the input of a GetPipelineState action. (Type: `GetPipelineStateInput`)
     ///
-    /// - Returns: `GetPipelineStateOutput` : Represents the output of a GetPipelineState action.
+    /// - Returns: Represents the output of a GetPipelineState action. (Type: `GetPipelineStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1427,9 +1427,9 @@ extension CodePipelineClient {
     ///
     /// Requests the details of a job for a third party action. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
-    /// - Parameter GetThirdPartyJobDetailsInput : Represents the input of a GetThirdPartyJobDetails action.
+    /// - Parameter input: Represents the input of a GetThirdPartyJobDetails action. (Type: `GetThirdPartyJobDetailsInput`)
     ///
-    /// - Returns: `GetThirdPartyJobDetailsOutput` : Represents the output of a GetThirdPartyJobDetails action.
+    /// - Returns: Represents the output of a GetThirdPartyJobDetails action. (Type: `GetThirdPartyJobDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1498,9 +1498,9 @@ extension CodePipelineClient {
     ///
     /// Lists the action executions that have occurred in a pipeline.
     ///
-    /// - Parameter ListActionExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActionExecutionsInput`)
     ///
-    /// - Returns: `ListActionExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActionExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,9 +1569,9 @@ extension CodePipelineClient {
     ///
     /// Gets a summary of all CodePipeline action types associated with your account.
     ///
-    /// - Parameter ListActionTypesInput : Represents the input of a ListActionTypes action.
+    /// - Parameter input: Represents the input of a ListActionTypes action. (Type: `ListActionTypesInput`)
     ///
-    /// - Returns: `ListActionTypesOutput` : Represents the output of a ListActionTypes action.
+    /// - Returns: Represents the output of a ListActionTypes action. (Type: `ListActionTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1638,9 +1638,9 @@ extension CodePipelineClient {
     ///
     /// Lists the targets for the deploy action.
     ///
-    /// - Parameter ListDeployActionExecutionTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeployActionExecutionTargetsInput`)
     ///
-    /// - Returns: `ListDeployActionExecutionTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeployActionExecutionTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1709,9 +1709,9 @@ extension CodePipelineClient {
     ///
     /// Gets a summary of the most recent executions for a pipeline. When applying the filter for pipeline executions that have succeeded in the stage, the operation returns all executions in the current pipeline version beginning on February 1, 2024.
     ///
-    /// - Parameter ListPipelineExecutionsInput : Represents the input of a ListPipelineExecutions action.
+    /// - Parameter input: Represents the input of a ListPipelineExecutions action. (Type: `ListPipelineExecutionsInput`)
     ///
-    /// - Returns: `ListPipelineExecutionsOutput` : Represents the output of a ListPipelineExecutions action.
+    /// - Returns: Represents the output of a ListPipelineExecutions action. (Type: `ListPipelineExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1779,9 +1779,9 @@ extension CodePipelineClient {
     ///
     /// Gets a summary of all of the pipelines associated with your account.
     ///
-    /// - Parameter ListPipelinesInput : Represents the input of a ListPipelines action.
+    /// - Parameter input: Represents the input of a ListPipelines action. (Type: `ListPipelinesInput`)
     ///
-    /// - Returns: `ListPipelinesOutput` : Represents the output of a ListPipelines action.
+    /// - Returns: Represents the output of a ListPipelines action. (Type: `ListPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1848,9 +1848,9 @@ extension CodePipelineClient {
     ///
     /// Lists the rule executions that have occurred in a pipeline configured for conditions with rules.
     ///
-    /// - Parameter ListRuleExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleExecutionsInput`)
     ///
-    /// - Returns: `ListRuleExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1919,9 +1919,9 @@ extension CodePipelineClient {
     ///
     /// Lists the rules for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     ///
-    /// - Parameter ListRuleTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleTypesInput`)
     ///
-    /// - Returns: `ListRuleTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1988,9 +1988,9 @@ extension CodePipelineClient {
     ///
     /// Gets the set of key-value pairs (metadata) that are used to manage the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2059,9 +2059,9 @@ extension CodePipelineClient {
     ///
     /// Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The output lists all webhooks and includes the webhook URL and ARN and the configuration for each webhook. If a secret token was provided, it will be redacted in the response.
     ///
-    /// - Parameter ListWebhooksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWebhooksInput`)
     ///
-    /// - Returns: `ListWebhooksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWebhooksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2128,9 +2128,9 @@ extension CodePipelineClient {
     ///
     /// Used to override a stage condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).
     ///
-    /// - Parameter OverrideStageConditionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `OverrideStageConditionInput`)
     ///
-    /// - Returns: `OverrideStageConditionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `OverrideStageConditionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2202,9 +2202,9 @@ extension CodePipelineClient {
     ///
     /// Returns information about any jobs for CodePipeline to act on. PollForJobs is valid only for action types with "Custom" in the owner field. If the action type contains AWS or ThirdParty in the owner field, the PollForJobs action returns an error. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts. This API also returns any secret values defined for the action.
     ///
-    /// - Parameter PollForJobsInput : Represents the input of a PollForJobs action.
+    /// - Parameter input: Represents the input of a PollForJobs action. (Type: `PollForJobsInput`)
     ///
-    /// - Returns: `PollForJobsOutput` : Represents the output of a PollForJobs action.
+    /// - Returns: Represents the output of a PollForJobs action. (Type: `PollForJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2271,9 +2271,9 @@ extension CodePipelineClient {
     ///
     /// Determines whether there are any third party jobs for a job worker to act on. Used for partner actions only. When this API is called, CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for the pipeline, if the action requires access to that S3 bucket for input or output artifacts.
     ///
-    /// - Parameter PollForThirdPartyJobsInput : Represents the input of a PollForThirdPartyJobs action.
+    /// - Parameter input: Represents the input of a PollForThirdPartyJobs action. (Type: `PollForThirdPartyJobsInput`)
     ///
-    /// - Returns: `PollForThirdPartyJobsOutput` : Represents the output of a PollForThirdPartyJobs action.
+    /// - Returns: Represents the output of a PollForThirdPartyJobs action. (Type: `PollForThirdPartyJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2340,9 +2340,9 @@ extension CodePipelineClient {
     ///
     /// Provides information to CodePipeline about new revisions to a source.
     ///
-    /// - Parameter PutActionRevisionInput : Represents the input of a PutActionRevision action.
+    /// - Parameter input: Represents the input of a PutActionRevision action. (Type: `PutActionRevisionInput`)
     ///
-    /// - Returns: `PutActionRevisionOutput` : Represents the output of a PutActionRevision action.
+    /// - Returns: Represents the output of a PutActionRevision action. (Type: `PutActionRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2412,9 +2412,9 @@ extension CodePipelineClient {
     ///
     /// Provides the response to a manual approval request to CodePipeline. Valid responses include Approved and Rejected.
     ///
-    /// - Parameter PutApprovalResultInput : Represents the input of a PutApprovalResult action.
+    /// - Parameter input: Represents the input of a PutApprovalResult action. (Type: `PutApprovalResultInput`)
     ///
-    /// - Returns: `PutApprovalResultOutput` : Represents the output of a PutApprovalResult action.
+    /// - Returns: Represents the output of a PutApprovalResult action. (Type: `PutApprovalResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2485,9 +2485,9 @@ extension CodePipelineClient {
     ///
     /// Represents the failure of a job as returned to the pipeline by a job worker. Used for custom actions only.
     ///
-    /// - Parameter PutJobFailureResultInput : Represents the input of a PutJobFailureResult action.
+    /// - Parameter input: Represents the input of a PutJobFailureResult action. (Type: `PutJobFailureResultInput`)
     ///
-    /// - Returns: `PutJobFailureResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutJobFailureResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2555,9 +2555,9 @@ extension CodePipelineClient {
     ///
     /// Represents the success of a job as returned to the pipeline by a job worker. Used for custom actions only.
     ///
-    /// - Parameter PutJobSuccessResultInput : Represents the input of a PutJobSuccessResult action.
+    /// - Parameter input: Represents the input of a PutJobSuccessResult action. (Type: `PutJobSuccessResultInput`)
     ///
-    /// - Returns: `PutJobSuccessResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutJobSuccessResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2626,9 +2626,9 @@ extension CodePipelineClient {
     ///
     /// Represents the failure of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
     ///
-    /// - Parameter PutThirdPartyJobFailureResultInput : Represents the input of a PutThirdPartyJobFailureResult action.
+    /// - Parameter input: Represents the input of a PutThirdPartyJobFailureResult action. (Type: `PutThirdPartyJobFailureResultInput`)
     ///
-    /// - Returns: `PutThirdPartyJobFailureResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutThirdPartyJobFailureResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2697,9 +2697,9 @@ extension CodePipelineClient {
     ///
     /// Represents the success of a third party job as returned to the pipeline by a job worker. Used for partner actions only.
     ///
-    /// - Parameter PutThirdPartyJobSuccessResultInput : Represents the input of a PutThirdPartyJobSuccessResult action.
+    /// - Parameter input: Represents the input of a PutThirdPartyJobSuccessResult action. (Type: `PutThirdPartyJobSuccessResultInput`)
     ///
-    /// - Returns: `PutThirdPartyJobSuccessResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutThirdPartyJobSuccessResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2768,9 +2768,9 @@ extension CodePipelineClient {
     ///
     /// Defines a webhook and returns a unique webhook URL generated by CodePipeline. This URL can be supplied to third party source hosting providers to call every time there's a code change. When CodePipeline receives a POST request on this URL, the pipeline defined in the webhook is started as long as the POST request satisfied the authentication and filtering requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third parties to call the generated webhook URL. When creating CodePipeline webhooks, do not use your own credentials or reuse the same secret token across multiple webhooks. For optimal security, generate a unique secret token for each webhook you create. The secret token is an arbitrary string that you provide, which GitHub uses to compute and sign the webhook payloads sent to CodePipeline, for protecting the integrity and authenticity of the webhook payloads. Using your own credentials or reusing the same token across multiple webhooks can lead to security vulnerabilities. If a secret token was provided, it will be redacted in the response.
     ///
-    /// - Parameter PutWebhookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutWebhookInput`)
     ///
-    /// - Returns: `PutWebhookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutWebhookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2843,9 +2843,9 @@ extension CodePipelineClient {
     ///
     /// Configures a connection between the webhook that was created and the external tool with events to be detected.
     ///
-    /// - Parameter RegisterWebhookWithThirdPartyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterWebhookWithThirdPartyInput`)
     ///
-    /// - Returns: `RegisterWebhookWithThirdPartyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterWebhookWithThirdPartyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2912,9 +2912,9 @@ extension CodePipelineClient {
     ///
     /// You can retry a stage that has failed without having to run a pipeline again from the beginning. You do this by either retrying the failed actions in a stage or by retrying all actions in the stage starting from the first action in the stage. When you retry the failed actions in a stage, all actions that are still in progress continue working, and failed actions are triggered again. When you retry a failed stage from the first action in the stage, the stage cannot have any actions in progress. Before a stage can be retried, it must either have all actions failed or some actions failed and some succeeded.
     ///
-    /// - Parameter RetryStageExecutionInput : Represents the input of a RetryStageExecution action.
+    /// - Parameter input: Represents the input of a RetryStageExecution action. (Type: `RetryStageExecutionInput`)
     ///
-    /// - Returns: `RetryStageExecutionOutput` : Represents the output of a RetryStageExecution action.
+    /// - Returns: Represents the output of a RetryStageExecution action. (Type: `RetryStageExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2986,9 +2986,9 @@ extension CodePipelineClient {
     ///
     /// Rolls back a stage execution.
     ///
-    /// - Parameter RollbackStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RollbackStageInput`)
     ///
-    /// - Returns: `RollbackStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RollbackStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3060,9 +3060,9 @@ extension CodePipelineClient {
     ///
     /// Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
     ///
-    /// - Parameter StartPipelineExecutionInput : Represents the input of a StartPipelineExecution action.
+    /// - Parameter input: Represents the input of a StartPipelineExecution action. (Type: `StartPipelineExecutionInput`)
     ///
-    /// - Returns: `StartPipelineExecutionOutput` : Represents the output of a StartPipelineExecution action.
+    /// - Returns: Represents the output of a StartPipelineExecution action. (Type: `StartPipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3132,9 +3132,9 @@ extension CodePipelineClient {
     ///
     /// Stops the specified pipeline execution. You choose to either stop the pipeline execution by completing in-progress actions without starting subsequent actions, or by abandoning in-progress actions. While completing or abandoning in-progress actions, the pipeline execution is in a Stopping state. After all in-progress actions are completed or abandoned, the pipeline execution is in a Stopped state.
     ///
-    /// - Parameter StopPipelineExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopPipelineExecutionInput`)
     ///
-    /// - Returns: `StopPipelineExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopPipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3204,9 +3204,9 @@ extension CodePipelineClient {
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3277,9 +3277,9 @@ extension CodePipelineClient {
     ///
     /// Removes tags from an Amazon Web Services resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3349,9 +3349,9 @@ extension CodePipelineClient {
     ///
     /// Updates an action type that was created with any supported integration model, where the action type is to be used by customers of the action type provider. Use a JSON file with the action definition and UpdateActionType to provide the full structure.
     ///
-    /// - Parameter UpdateActionTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateActionTypeInput`)
     ///
-    /// - Returns: `UpdateActionTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateActionTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3419,9 +3419,9 @@ extension CodePipelineClient {
     ///
     /// Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure and UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1.
     ///
-    /// - Parameter UpdatePipelineInput : Represents the input of an UpdatePipeline action.
+    /// - Parameter input: Represents the input of an UpdatePipeline action. (Type: `UpdatePipelineInput`)
     ///
-    /// - Returns: `UpdatePipelineOutput` : Represents the output of an UpdatePipeline action.
+    /// - Returns: Represents the output of an UpdatePipeline action. (Type: `UpdatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

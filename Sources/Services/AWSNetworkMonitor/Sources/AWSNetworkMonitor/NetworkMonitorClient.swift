@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkMonitorClient: ClientRuntime.Client {
     public static let clientName = "NetworkMonitorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkMonitorClient.NetworkMonitorClientConfiguration
     let serviceName = "NetworkMonitor"
@@ -386,9 +386,9 @@ extension NetworkMonitorClient {
     ///
     /// * (Optional) tags —Key-value pairs created and assigned to the probe.
     ///
-    /// - Parameter CreateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -459,9 +459,9 @@ extension NetworkMonitorClient {
     ///
     /// Create a probe within a monitor. Once you create a probe, and it begins monitoring your network traffic, you'll incur billing charges for that probe. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names. Note the name of the monitorName you want to create the probe for.
     ///
-    /// - Parameter CreateProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProbeInput`)
     ///
-    /// - Returns: `CreateProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -532,9 +532,9 @@ extension NetworkMonitorClient {
     ///
     /// Deletes a specified monitor. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names.
     ///
-    /// - Parameter DeleteMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitorInput`)
     ///
-    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -600,9 +600,9 @@ extension NetworkMonitorClient {
     ///
     /// Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing fees for that probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can only delete a single probe at a time using this action.
     ///
-    /// - Parameter DeleteProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProbeInput`)
     ///
-    /// - Returns: `DeleteProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -669,9 +669,9 @@ extension NetworkMonitorClient {
     ///
     /// Returns details about a specific monitor. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names.
     ///
-    /// - Parameter GetMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMonitorInput`)
     ///
-    /// - Returns: `GetMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension NetworkMonitorClient {
     ///
     /// Returns the details about a probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs.
     ///
-    /// - Parameter GetProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProbeInput`)
     ///
-    /// - Returns: `GetProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -805,9 +805,9 @@ extension NetworkMonitorClient {
     ///
     /// Returns a list of all of your monitors.
     ///
-    /// - Parameter ListMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,9 +873,9 @@ extension NetworkMonitorClient {
     ///
     /// Lists the tags assigned to this resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,9 +942,9 @@ extension NetworkMonitorClient {
     ///
     /// Adds key-value pairs to a monitor or probe.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1014,9 +1014,9 @@ extension NetworkMonitorClient {
     ///
     /// Removes a key-value pair from a monitor or probe.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1084,9 +1084,9 @@ extension NetworkMonitorClient {
     ///
     /// Updates the aggregationPeriod for a monitor. Monitors support an aggregationPeriod of either 30 or 60 seconds. This action requires the monitorName and probeId parameter. Run ListMonitors to get a list of monitor names.
     ///
-    /// - Parameter UpdateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitorInput`)
     ///
-    /// - Returns: `UpdateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1168,9 +1168,9 @@ extension NetworkMonitorClient {
     ///
     /// * (Optional) tags —Key-value pairs created and assigned to the probe.
     ///
-    /// - Parameter UpdateProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProbeInput`)
     ///
-    /// - Returns: `UpdateProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

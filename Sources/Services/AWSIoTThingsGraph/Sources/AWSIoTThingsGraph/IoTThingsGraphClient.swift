@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTThingsGraphClient: ClientRuntime.Client {
     public static let clientName = "IoTThingsGraphClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTThingsGraphClient.IoTThingsGraphClientConfiguration
     let serviceName = "IoTThingsGraph"
@@ -374,9 +374,9 @@ extension IoTThingsGraphClient {
     /// Associates a device with a concrete thing that is in the user's registry. A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter AssociateEntityToThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateEntityToThingInput`)
     ///
-    /// - Returns: `AssociateEntityToThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEntityToThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension IoTThingsGraphClient {
     /// Creates a workflow template. Workflows can be created only in the user's namespace. (The public namespace contains only entities.) The workflow can contain only entities in the specified namespace. The workflow is validated against the entities in the latest version of the user's namespace unless another namespace version is specified in the request.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter CreateFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlowTemplateInput`)
     ///
-    /// - Returns: `CreateFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension IoTThingsGraphClient {
     /// Creates a system instance. This action validates the system instance, prepares the deployment-related resources. For Greengrass deployments, it updates the Greengrass group that is specified by the greengrassGroupName parameter. It also adds a file to the S3 bucket specified by the s3BucketName parameter. You need to call DeploySystemInstance after running this action. For Greengrass deployments, since this action modifies and adds resources to a Greengrass group and an S3 bucket on the caller's behalf, the calling identity must have write permissions to both the specified Greengrass group and S3 bucket. Otherwise, the call will fail with an authorization error. For cloud deployments, this action requires a flowActionsRoleArn value. This is an IAM role that has permissions to access AWS services, such as AWS Lambda and AWS IoT, that the flow uses when it executes. If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter CreateSystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSystemInstanceInput`)
     ///
-    /// - Returns: `CreateSystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension IoTThingsGraphClient {
     /// Creates a system. The system is validated against the entities in the latest version of the user's namespace unless another namespace version is specified in the request.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter CreateSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSystemTemplateInput`)
     ///
-    /// - Returns: `CreateSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension IoTThingsGraphClient {
     /// Deletes a workflow. Any new system or deployment that contains this workflow will fail to update or deploy. Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeleteFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlowTemplateInput`)
     ///
-    /// - Returns: `DeleteFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -736,9 +736,9 @@ extension IoTThingsGraphClient {
     /// Deletes the specified namespace. This action deletes all of the entities in the namespace. Delete the systems and flows that use entities in the namespace before performing this action. This action takes no request parameters.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeleteNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNamespaceInput`)
     ///
-    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,9 +806,9 @@ extension IoTThingsGraphClient {
     /// Deletes a system instance. Only system instances that have never been deployed, or that have been undeployed can be deleted. Users can create a new system instance that has the same ID as a deleted system instance.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeleteSystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSystemInstanceInput`)
     ///
-    /// - Returns: `DeleteSystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,9 +878,9 @@ extension IoTThingsGraphClient {
     /// Deletes a system. New deployments can't contain the system after its deletion. Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeleteSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSystemTemplateInput`)
     ///
-    /// - Returns: `DeleteSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -950,9 +950,9 @@ extension IoTThingsGraphClient {
     /// Greengrass and Cloud Deployments Deploys the system instance to the target specified in CreateSystemInstance. Greengrass Deployments If the system or any workflows and entities have been updated before this action is called, then the deployment will create a new Amazon Simple Storage Service resource file and then deploy it. Since this action creates a Greengrass deployment on the caller's behalf, the calling identity must have write permissions to the specified Greengrass group. Otherwise, the call will fail with an authorization error. For information about the artifacts that get added to your Greengrass core device when you use this API, see [AWS IoT Things Graph and AWS IoT Greengrass](https://docs.aws.amazon.com/thingsgraph/latest/ug/iot-tg-greengrass.html).
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeploySystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeploySystemInstanceInput`)
     ///
-    /// - Returns: `DeploySystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeploySystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1023,9 +1023,9 @@ extension IoTThingsGraphClient {
     /// Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeprecateFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateFlowTemplateInput`)
     ///
-    /// - Returns: `DeprecateFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1095,9 +1095,9 @@ extension IoTThingsGraphClient {
     /// Deprecates the specified system.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeprecateSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateSystemTemplateInput`)
     ///
-    /// - Returns: `DeprecateSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,9 +1167,9 @@ extension IoTThingsGraphClient {
     /// Gets the latest version of the user's namespace and the public version that it is tracking.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DescribeNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNamespaceInput`)
     ///
-    /// - Returns: `DescribeNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,9 +1239,9 @@ extension IoTThingsGraphClient {
     /// Dissociates a device entity from a concrete thing. The action takes only the type of the entity that you need to dissociate because only one entity of a particular type can be associated with a thing.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DissociateEntityFromThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DissociateEntityFromThingInput`)
     ///
-    /// - Returns: `DissociateEntityFromThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DissociateEntityFromThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,9 +1332,9 @@ extension IoTThingsGraphClient {
     /// This action doesn't return definitions for systems, flows, and deployments.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEntitiesInput`)
     ///
-    /// - Returns: `GetEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,9 +1404,9 @@ extension IoTThingsGraphClient {
     /// Gets the latest version of the DefinitionDocument and FlowTemplateSummary for the specified workflow.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFlowTemplateInput`)
     ///
-    /// - Returns: `GetFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1476,9 +1476,9 @@ extension IoTThingsGraphClient {
     /// Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated, this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetFlowTemplateRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFlowTemplateRevisionsInput`)
     ///
-    /// - Returns: `GetFlowTemplateRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFlowTemplateRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,9 +1548,9 @@ extension IoTThingsGraphClient {
     /// Gets the status of a namespace deletion task.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetNamespaceDeletionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNamespaceDeletionStatusInput`)
     ///
-    /// - Returns: `GetNamespaceDeletionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNamespaceDeletionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1619,9 +1619,9 @@ extension IoTThingsGraphClient {
     /// Gets a system instance.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetSystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSystemInstanceInput`)
     ///
-    /// - Returns: `GetSystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,9 +1691,9 @@ extension IoTThingsGraphClient {
     /// Gets a system.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSystemTemplateInput`)
     ///
-    /// - Returns: `GetSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1763,9 +1763,9 @@ extension IoTThingsGraphClient {
     /// Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetSystemTemplateRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSystemTemplateRevisionsInput`)
     ///
-    /// - Returns: `GetSystemTemplateRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSystemTemplateRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1835,9 +1835,9 @@ extension IoTThingsGraphClient {
     /// Gets the status of the specified upload.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetUploadStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUploadStatusInput`)
     ///
-    /// - Returns: `GetUploadStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUploadStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1907,9 +1907,9 @@ extension IoTThingsGraphClient {
     /// Returns a list of objects that contain information about events in a flow execution.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter ListFlowExecutionMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowExecutionMessagesInput`)
     ///
-    /// - Returns: `ListFlowExecutionMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowExecutionMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1979,9 +1979,9 @@ extension IoTThingsGraphClient {
     /// Lists all tags on an AWS IoT Things Graph resource.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension IoTThingsGraphClient {
     /// Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchEntitiesInput`)
     ///
-    /// - Returns: `SearchEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2122,9 +2122,9 @@ extension IoTThingsGraphClient {
     /// Searches for AWS IoT Things Graph workflow execution instances.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchFlowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchFlowExecutionsInput`)
     ///
-    /// - Returns: `SearchFlowExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchFlowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2194,9 +2194,9 @@ extension IoTThingsGraphClient {
     /// Searches for summary information about workflows.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchFlowTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchFlowTemplatesInput`)
     ///
-    /// - Returns: `SearchFlowTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchFlowTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2265,9 +2265,9 @@ extension IoTThingsGraphClient {
     /// Searches for system instances in the user's account.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchSystemInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSystemInstancesInput`)
     ///
-    /// - Returns: `SearchSystemInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSystemInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2336,9 +2336,9 @@ extension IoTThingsGraphClient {
     /// Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchSystemTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSystemTemplatesInput`)
     ///
-    /// - Returns: `SearchSystemTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSystemTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2407,9 +2407,9 @@ extension IoTThingsGraphClient {
     /// Searches for things associated with the specified entity. You can search by both device and device model. For example, if two different devices, camera1 and camera2, implement the camera device model, the user can associate thing1 to camera1 and thing2 to camera2. SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both thing1 and thing2. This action searches for exact matches and doesn't perform partial text matching.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchThingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchThingsInput`)
     ///
-    /// - Returns: `SearchThingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchThingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2479,9 +2479,9 @@ extension IoTThingsGraphClient {
     /// Creates a tag for the specified resource.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2551,9 +2551,9 @@ extension IoTThingsGraphClient {
     /// Removes a system instance from its target (Cloud or Greengrass).
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UndeploySystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UndeploySystemInstanceInput`)
     ///
-    /// - Returns: `UndeploySystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UndeploySystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2624,9 +2624,9 @@ extension IoTThingsGraphClient {
     /// Removes a tag from the specified resource.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2696,9 +2696,9 @@ extension IoTThingsGraphClient {
     /// Updates the specified workflow. All deployed systems and system instances that use the workflow will see the changes in the flow when it is redeployed. If you don't want this behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UpdateFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowTemplateInput`)
     ///
-    /// - Returns: `UpdateFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2768,9 +2768,9 @@ extension IoTThingsGraphClient {
     /// Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UpdateSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSystemTemplateInput`)
     ///
-    /// - Returns: `UpdateSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2840,9 +2840,9 @@ extension IoTThingsGraphClient {
     /// Asynchronously uploads one or more entity definitions to the user's namespace. The document parameter is required if syncWithPublicNamespace and deleteExistingEntites are false. If the syncWithPublicNamespace parameter is set to true, the user's namespace will synchronize with the latest version of the public namespace. If deprecateExistingEntities is set to true, all entities in the latest version will be deleted before the new DefinitionDocument is uploaded. When a user uploads entity definitions for the first time, the service creates a new namespace for the user. The new namespace tracks the public namespace. Currently users can have only one namespace. The namespace version increments whenever a user uploads entity definitions that are backwards-incompatible and whenever a user sets the syncWithPublicNamespace parameter or the deprecateExistingEntities parameter to true. The IDs for all of the entities should be in URN format. Each entity must be in the user's namespace. Users can't create entities in the public namespace, but entity definitions can refer to entities in the public namespace. Valid entities are Device, DeviceModel, Service, Capability, State, Action, Event, Property, Mapping, Enum.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UploadEntityDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadEntityDefinitionsInput`)
     ///
-    /// - Returns: `UploadEntityDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadEntityDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

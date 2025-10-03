@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceReportingClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceReportingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceReportingClient.MarketplaceReportingClientConfiguration
     let serviceName = "Marketplace Reporting"
@@ -375,9 +375,9 @@ extension MarketplaceReportingClient {
     ///
     /// * It has a session lifetime of one hour. The 5-minute validity period runs separately from the session lifetime.
     ///
-    /// - Parameter GetBuyerDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBuyerDashboardInput`)
     ///
-    /// - Returns: `GetBuyerDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBuyerDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

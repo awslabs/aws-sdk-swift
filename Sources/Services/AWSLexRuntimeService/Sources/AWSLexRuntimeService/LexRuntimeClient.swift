@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LexRuntimeClient: ClientRuntime.Client {
     public static let clientName = "LexRuntimeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: LexRuntimeClient.LexRuntimeClientConfiguration
     let serviceName = "Lex Runtime"
@@ -376,9 +376,9 @@ extension LexRuntimeClient {
     ///
     /// Removes session information for a specified bot, alias, and user ID.
     ///
-    /// - Parameter DeleteSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSessionInput`)
     ///
-    /// - Returns: `DeleteSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension LexRuntimeClient {
     ///
     /// Returns session information for a specified bot, alias, and user ID.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -541,9 +541,9 @@ extension LexRuntimeClient {
     ///
     /// In addition, Amazon Lex also returns your application-specific sessionAttributes. For more information, see [Managing Conversation Context](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html).
     ///
-    /// - Parameter PostContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostContentInput`)
     ///
-    /// - Returns: `PostContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -654,9 +654,9 @@ extension LexRuntimeClient {
     ///
     /// In addition, Amazon Lex also returns your application-specific sessionAttributes. For more information, see [Managing Conversation Context](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html).
     ///
-    /// - Parameter PostTextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostTextInput`)
     ///
-    /// - Returns: `PostTextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostTextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -734,9 +734,9 @@ extension LexRuntimeClient {
     ///
     /// Creates a new session or modifies an existing session with an Amazon Lex bot. Use this operation to enable your application to set the state of the bot. For more information, see [Managing Sessions](https://docs.aws.amazon.com/lex/latest/dg/how-session-api.html).
     ///
-    /// - Parameter PutSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSessionInput`)
     ///
-    /// - Returns: `PutSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

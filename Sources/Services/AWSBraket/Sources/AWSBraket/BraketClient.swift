@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BraketClient: ClientRuntime.Client {
     public static let clientName = "BraketClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BraketClient.BraketClientConfiguration
     let serviceName = "Braket"
@@ -374,9 +374,9 @@ extension BraketClient {
     ///
     /// Cancels an Amazon Braket hybrid job.
     ///
-    /// - Parameter CancelJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension BraketClient {
     ///
     /// Cancels the specified task.
     ///
-    /// - Parameter CancelQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelQuantumTaskInput`)
     ///
-    /// - Returns: `CancelQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension BraketClient {
     ///
     /// Creates an Amazon Braket hybrid job.
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension BraketClient {
     ///
     /// Creates a quantum task.
     ///
-    /// - Parameter CreateQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuantumTaskInput`)
     ///
-    /// - Returns: `CreateQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension BraketClient {
     ///
     /// Retrieves the devices available in Amazon Braket. For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
     ///
-    /// - Parameter GetDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceInput`)
     ///
-    /// - Returns: `GetDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,9 +733,9 @@ extension BraketClient {
     ///
     /// Retrieves the specified Amazon Braket hybrid job.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension BraketClient {
     ///
     /// Retrieves the specified quantum task.
     ///
-    /// - Parameter GetQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQuantumTaskInput`)
     ///
-    /// - Returns: `GetQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension BraketClient {
     ///
     /// Shows the tags associated with this resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -937,9 +937,9 @@ extension BraketClient {
     ///
     /// Searches for devices using the specified filters.
     ///
-    /// - Parameter SearchDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDevicesInput`)
     ///
-    /// - Returns: `SearchDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1007,9 +1007,9 @@ extension BraketClient {
     ///
     /// Searches for Amazon Braket hybrid jobs that match the specified filter values.
     ///
-    /// - Parameter SearchJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
     ///
-    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1077,9 +1077,9 @@ extension BraketClient {
     ///
     /// Searches for tasks that match the specified filter values.
     ///
-    /// - Parameter SearchQuantumTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQuantumTasksInput`)
     ///
-    /// - Returns: `SearchQuantumTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQuantumTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,9 +1147,9 @@ extension BraketClient {
     ///
     /// Add a tag to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,9 +1216,9 @@ extension BraketClient {
     ///
     /// Remove tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

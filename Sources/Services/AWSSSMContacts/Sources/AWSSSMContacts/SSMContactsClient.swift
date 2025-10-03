@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMContactsClient: ClientRuntime.Client {
     public static let clientName = "SSMContactsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMContactsClient.SSMContactsClientConfiguration
     let serviceName = "SSM Contacts"
@@ -374,9 +374,9 @@ extension SSMContactsClient {
     ///
     /// Used to acknowledge an engagement to a contact channel during an incident.
     ///
-    /// - Parameter AcceptPageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptPageInput`)
     ///
-    /// - Returns: `AcceptPageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptPageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension SSMContactsClient {
     ///
     /// Activates a contact's contact channel. Incident Manager can't engage a contact until the contact channel has been activated.
     ///
-    /// - Parameter ActivateContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateContactChannelInput`)
     ///
-    /// - Returns: `ActivateContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension SSMContactsClient {
     ///
     /// Contacts are either the contacts that Incident Manager engages during an incident or the escalation plans that Incident Manager uses to engage contacts in phases during an incident.
     ///
-    /// - Parameter CreateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactInput`)
     ///
-    /// - Returns: `CreateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension SSMContactsClient {
     ///
     /// A contact channel is the method that Incident Manager uses to engage your contact.
     ///
-    /// - Parameter CreateContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactChannelInput`)
     ///
-    /// - Returns: `CreateContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension SSMContactsClient {
     ///
     /// Creates a rotation in an on-call schedule.
     ///
-    /// - Parameter CreateRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRotationInput`)
     ///
-    /// - Returns: `CreateRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -740,9 +740,9 @@ extension SSMContactsClient {
     ///
     /// Creates an override for a rotation in an on-call schedule.
     ///
-    /// - Parameter CreateRotationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRotationOverrideInput`)
     ///
-    /// - Returns: `CreateRotationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRotationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -813,9 +813,9 @@ extension SSMContactsClient {
     ///
     /// To no longer receive Incident Manager engagements to a contact channel, you can deactivate the channel.
     ///
-    /// - Parameter DeactivateContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateContactChannelInput`)
     ///
-    /// - Returns: `DeactivateContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -885,9 +885,9 @@ extension SSMContactsClient {
     ///
     /// To remove a contact from Incident Manager, you can delete the contact. However, deleting a contact does not remove it from escalation plans and related response plans. Deleting an escalation plan also does not remove it from all related response plans. To modify an escalation plan, we recommend using the [UpdateContact] action to specify a different existing contact.
     ///
-    /// - Parameter DeleteContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactInput`)
     ///
-    /// - Returns: `DeleteContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -958,9 +958,9 @@ extension SSMContactsClient {
     ///
     /// To stop receiving engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel does not remove it from the contact's engagement plan, but the stage that includes the channel will be ignored. If you delete the only contact channel for a contact, you'll no longer be able to engage that contact during an incident.
     ///
-    /// - Parameter DeleteContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactChannelInput`)
     ///
-    /// - Returns: `DeleteContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1030,9 +1030,9 @@ extension SSMContactsClient {
     ///
     /// Deletes a rotation from the system. If a rotation belongs to more than one on-call schedule, this operation deletes it from all of them.
     ///
-    /// - Parameter DeleteRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRotationInput`)
     ///
-    /// - Returns: `DeleteRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1103,9 +1103,9 @@ extension SSMContactsClient {
     ///
     /// Deletes an existing override for an on-call rotation.
     ///
-    /// - Parameter DeleteRotationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRotationOverrideInput`)
     ///
-    /// - Returns: `DeleteRotationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRotationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1175,9 +1175,9 @@ extension SSMContactsClient {
     ///
     /// Incident Manager uses engagements to engage contacts and escalation plans during an incident. Use this command to describe the engagement that occurred during an incident.
     ///
-    /// - Parameter DescribeEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEngagementInput`)
     ///
-    /// - Returns: `DescribeEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,9 +1248,9 @@ extension SSMContactsClient {
     ///
     /// Lists details of the engagement to a contact channel.
     ///
-    /// - Parameter DescribePageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePageInput`)
     ///
-    /// - Returns: `DescribePageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1321,9 +1321,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves information about the specified contact or escalation plan.
     ///
-    /// - Parameter GetContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactInput`)
     ///
-    /// - Returns: `GetContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,9 +1394,9 @@ extension SSMContactsClient {
     ///
     /// List details about a specific contact channel.
     ///
-    /// - Parameter GetContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactChannelInput`)
     ///
-    /// - Returns: `GetContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1467,9 +1467,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves the resource policies attached to the specified contact or escalation plan.
     ///
-    /// - Parameter GetContactPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactPolicyInput`)
     ///
-    /// - Returns: `GetContactPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1539,9 +1539,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves information about an on-call rotation.
     ///
-    /// - Parameter GetRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRotationInput`)
     ///
-    /// - Returns: `GetRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1611,9 +1611,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves information about an override to an on-call rotation.
     ///
-    /// - Parameter GetRotationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRotationOverrideInput`)
     ///
-    /// - Returns: `GetRotationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRotationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,9 +1683,9 @@ extension SSMContactsClient {
     ///
     /// Lists all contact channels for the specified contact.
     ///
-    /// - Parameter ListContactChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactChannelsInput`)
     ///
-    /// - Returns: `ListContactChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1756,9 +1756,9 @@ extension SSMContactsClient {
     ///
     /// Lists all contacts and escalation plans in Incident Manager.
     ///
-    /// - Parameter ListContactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactsInput`)
     ///
-    /// - Returns: `ListContactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1827,9 +1827,9 @@ extension SSMContactsClient {
     ///
     /// Lists all engagements that have happened in an incident.
     ///
-    /// - Parameter ListEngagementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementsInput`)
     ///
-    /// - Returns: `ListEngagementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1898,9 +1898,9 @@ extension SSMContactsClient {
     ///
     /// Lists all of the engagements to contact channels that have been acknowledged.
     ///
-    /// - Parameter ListPageReceiptsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPageReceiptsInput`)
     ///
-    /// - Returns: `ListPageReceiptsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPageReceiptsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1970,9 +1970,9 @@ extension SSMContactsClient {
     ///
     /// Returns the resolution path of an engagement. For example, the escalation plan engaged in an incident might target an on-call schedule that includes several contacts in a rotation, but just one contact on-call when the incident starts. The resolution path indicates the hierarchy of escalation plan > on-call schedule > contact.
     ///
-    /// - Parameter ListPageResolutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPageResolutionsInput`)
     ///
-    /// - Returns: `ListPageResolutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPageResolutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2042,9 +2042,9 @@ extension SSMContactsClient {
     ///
     /// Lists the engagements to a contact's contact channels.
     ///
-    /// - Parameter ListPagesByContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPagesByContactInput`)
     ///
-    /// - Returns: `ListPagesByContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPagesByContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2114,9 +2114,9 @@ extension SSMContactsClient {
     ///
     /// Lists the engagements to contact channels that occurred by engaging a contact.
     ///
-    /// - Parameter ListPagesByEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPagesByEngagementInput`)
     ///
-    /// - Returns: `ListPagesByEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPagesByEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2186,9 +2186,9 @@ extension SSMContactsClient {
     ///
     /// Returns a list of shifts based on rotation configuration parameters. The Incident Manager primarily uses this operation to populate the Preview calendar. It is not typically run by end users.
     ///
-    /// - Parameter ListPreviewRotationShiftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPreviewRotationShiftsInput`)
     ///
-    /// - Returns: `ListPreviewRotationShiftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPreviewRotationShiftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2257,9 +2257,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves a list of overrides currently specified for an on-call rotation.
     ///
-    /// - Parameter ListRotationOverridesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRotationOverridesInput`)
     ///
-    /// - Returns: `ListRotationOverridesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRotationOverridesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2329,9 +2329,9 @@ extension SSMContactsClient {
     ///
     /// Returns a list of shifts generated by an existing rotation in the system.
     ///
-    /// - Parameter ListRotationShiftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRotationShiftsInput`)
     ///
-    /// - Returns: `ListRotationShiftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRotationShiftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,9 +2402,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves a list of on-call rotations.
     ///
-    /// - Parameter ListRotationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRotationsInput`)
     ///
-    /// - Returns: `ListRotationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRotationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2474,9 +2474,9 @@ extension SSMContactsClient {
     ///
     /// Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2546,9 +2546,9 @@ extension SSMContactsClient {
     ///
     /// Adds a resource policy to the specified contact or escalation plan. The resource policy is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see [Setting up cross-account functionality](https://docs.aws.amazon.com/incident-manager/latest/userguide/xa.html).
     ///
-    /// - Parameter PutContactPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutContactPolicyInput`)
     ///
-    /// - Returns: `PutContactPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutContactPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2619,9 +2619,9 @@ extension SSMContactsClient {
     ///
     /// Sends an activation code to a contact channel. The contact can use this code to activate the contact channel in the console or with the ActivateChannel operation. Incident Manager can't engage a contact channel until it has been activated.
     ///
-    /// - Parameter SendActivationCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendActivationCodeInput`)
     ///
-    /// - Returns: `SendActivationCodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendActivationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2693,9 +2693,9 @@ extension SSMContactsClient {
     ///
     /// Starts an engagement to a contact or escalation plan. The engagement engages each contact specified in the incident.
     ///
-    /// - Parameter StartEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEngagementInput`)
     ///
-    /// - Returns: `StartEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2767,9 +2767,9 @@ extension SSMContactsClient {
     ///
     /// Stops an engagement before it finishes the final stage of the escalation plan or engagement plan. Further contacts aren't engaged.
     ///
-    /// - Parameter StopEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEngagementInput`)
     ///
-    /// - Returns: `StopEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2839,9 +2839,9 @@ extension SSMContactsClient {
     ///
     /// Tags a contact or escalation plan. You can tag only contacts and escalation plans in the first region of your replication set.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2912,9 +2912,9 @@ extension SSMContactsClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2984,9 +2984,9 @@ extension SSMContactsClient {
     ///
     /// Updates the contact or escalation plan specified.
     ///
-    /// - Parameter UpdateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactInput`)
     ///
-    /// - Returns: `UpdateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3058,9 +3058,9 @@ extension SSMContactsClient {
     ///
     /// Updates a contact's contact channel.
     ///
-    /// - Parameter UpdateContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactChannelInput`)
     ///
-    /// - Returns: `UpdateContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3132,9 +3132,9 @@ extension SSMContactsClient {
     ///
     /// Updates the information specified for an on-call rotation.
     ///
-    /// - Parameter UpdateRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRotationInput`)
     ///
-    /// - Returns: `UpdateRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

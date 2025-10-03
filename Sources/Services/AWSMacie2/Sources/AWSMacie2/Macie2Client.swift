@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Macie2Client: ClientRuntime.Client {
     public static let clientName = "Macie2Client"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: Macie2Client.Macie2ClientConfiguration
     let serviceName = "Macie2"
@@ -374,9 +374,9 @@ extension Macie2Client {
     ///
     /// Accepts an Amazon Macie membership invitation that was received from a specific account.
     ///
-    /// - Parameter AcceptInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptInvitationInput`)
     ///
-    /// - Returns: `AcceptInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about one or more custom data identifiers.
     ///
-    /// - Parameter BatchGetCustomDataIdentifiersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCustomDataIdentifiersInput`)
     ///
-    /// - Returns: `BatchGetCustomDataIdentifiersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCustomDataIdentifiersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension Macie2Client {
     ///
     /// Changes the status of automated sensitive data discovery for one or more accounts.
     ///
-    /// - Parameter BatchUpdateAutomatedDiscoveryAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateAutomatedDiscoveryAccountsInput`)
     ///
-    /// - Returns: `BatchUpdateAutomatedDiscoveryAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateAutomatedDiscoveryAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension Macie2Client {
     ///
     /// Creates and defines the settings for an allow list.
     ///
-    /// - Parameter CreateAllowListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAllowListInput`)
     ///
-    /// - Returns: `CreateAllowListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAllowListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension Macie2Client {
     ///
     /// Creates and defines the settings for a classification job.
     ///
-    /// - Parameter CreateClassificationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClassificationJobInput`)
     ///
-    /// - Returns: `CreateClassificationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClassificationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,9 +739,9 @@ extension Macie2Client {
     ///
     /// Creates and defines the criteria and other settings for a custom data identifier.
     ///
-    /// - Parameter CreateCustomDataIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomDataIdentifierInput`)
     ///
-    /// - Returns: `CreateCustomDataIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomDataIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -813,9 +813,9 @@ extension Macie2Client {
     ///
     /// Creates and defines the criteria and other settings for a findings filter.
     ///
-    /// - Parameter CreateFindingsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFindingsFilterInput`)
     ///
-    /// - Returns: `CreateFindingsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFindingsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -887,9 +887,9 @@ extension Macie2Client {
     ///
     /// Sends an Amazon Macie membership invitation to one or more accounts.
     ///
-    /// - Parameter CreateInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvitationsInput`)
     ///
-    /// - Returns: `CreateInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,9 +960,9 @@ extension Macie2Client {
     ///
     /// Associates an account with an Amazon Macie administrator account.
     ///
-    /// - Parameter CreateMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMemberInput`)
     ///
-    /// - Returns: `CreateMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1033,9 +1033,9 @@ extension Macie2Client {
     ///
     /// Creates sample findings.
     ///
-    /// - Parameter CreateSampleFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSampleFindingsInput`)
     ///
-    /// - Returns: `CreateSampleFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSampleFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1106,9 +1106,9 @@ extension Macie2Client {
     ///
     /// Declines Amazon Macie membership invitations that were received from specific accounts.
     ///
-    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeclineInvitationsInput`)
     ///
-    /// - Returns: `DeclineInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeclineInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1179,9 +1179,9 @@ extension Macie2Client {
     ///
     /// Deletes an allow list.
     ///
-    /// - Parameter DeleteAllowListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAllowListInput`)
     ///
-    /// - Returns: `DeleteAllowListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAllowListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,9 +1248,9 @@ extension Macie2Client {
     ///
     /// Soft deletes a custom data identifier.
     ///
-    /// - Parameter DeleteCustomDataIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomDataIdentifierInput`)
     ///
-    /// - Returns: `DeleteCustomDataIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomDataIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1318,9 +1318,9 @@ extension Macie2Client {
     ///
     /// Deletes a findings filter.
     ///
-    /// - Parameter DeleteFindingsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFindingsFilterInput`)
     ///
-    /// - Returns: `DeleteFindingsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFindingsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1388,9 +1388,9 @@ extension Macie2Client {
     ///
     /// Deletes Amazon Macie membership invitations that were received from specific accounts.
     ///
-    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvitationsInput`)
     ///
-    /// - Returns: `DeleteInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1461,9 +1461,9 @@ extension Macie2Client {
     ///
     /// Deletes the association between an Amazon Macie administrator account and an account.
     ///
-    /// - Parameter DeleteMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemberInput`)
     ///
-    /// - Returns: `DeleteMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1531,9 +1531,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
     ///
-    /// - Parameter DescribeBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBucketsInput`)
     ///
-    /// - Returns: `DescribeBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBucketsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1604,9 +1604,9 @@ extension Macie2Client {
     ///
     /// Retrieves the status and settings for a classification job.
     ///
-    /// - Parameter DescribeClassificationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClassificationJobInput`)
     ///
-    /// - Returns: `DescribeClassificationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClassificationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1674,9 +1674,9 @@ extension Macie2Client {
     ///
     /// Retrieves the Amazon Macie configuration settings for an organization in Organizations.
     ///
-    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,9 +1744,9 @@ extension Macie2Client {
     ///
     /// Disables Amazon Macie and deletes all settings and resources for a Macie account.
     ///
-    /// - Parameter DisableMacieInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableMacieInput`)
     ///
-    /// - Returns: `DisableMacieOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableMacieOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1814,9 +1814,9 @@ extension Macie2Client {
     ///
     /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
-    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DisableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1885,9 +1885,9 @@ extension Macie2Client {
     ///
     /// Disassociates a member account from its Amazon Macie administrator account.
     ///
-    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromAdministratorAccountInput`)
     ///
-    /// - Returns: `DisassociateFromAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1955,9 +1955,9 @@ extension Macie2Client {
     ///
     /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
     ///
-    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromMasterAccountInput`)
     ///
-    /// - Returns: `DisassociateFromMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2025,9 +2025,9 @@ extension Macie2Client {
     ///
     /// Disassociates an Amazon Macie administrator account from a member account.
     ///
-    /// - Parameter DisassociateMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMemberInput`)
     ///
-    /// - Returns: `DisassociateMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2095,9 +2095,9 @@ extension Macie2Client {
     ///
     /// Enables Amazon Macie and specifies the configuration settings for a Macie account.
     ///
-    /// - Parameter EnableMacieInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableMacieInput`)
     ///
-    /// - Returns: `EnableMacieOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableMacieOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2169,9 +2169,9 @@ extension Macie2Client {
     ///
     /// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
-    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `EnableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2243,9 +2243,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about the Amazon Macie administrator account for an account.
     ///
-    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdministratorAccountInput`)
     ///
-    /// - Returns: `GetAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2313,9 +2313,9 @@ extension Macie2Client {
     ///
     /// Retrieves the settings and status of an allow list.
     ///
-    /// - Parameter GetAllowListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAllowListInput`)
     ///
-    /// - Returns: `GetAllowListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAllowListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2381,9 +2381,9 @@ extension Macie2Client {
     ///
     /// Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     ///
-    /// - Parameter GetAutomatedDiscoveryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedDiscoveryConfigurationInput`)
     ///
-    /// - Returns: `GetAutomatedDiscoveryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedDiscoveryConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2448,9 +2448,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
     ///
-    /// - Parameter GetBucketStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketStatisticsInput`)
     ///
-    /// - Returns: `GetBucketStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2521,9 +2521,9 @@ extension Macie2Client {
     ///
     /// Retrieves the configuration settings for storing data classification results.
     ///
-    /// - Parameter GetClassificationExportConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClassificationExportConfigurationInput`)
     ///
-    /// - Returns: `GetClassificationExportConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClassificationExportConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2591,9 +2591,9 @@ extension Macie2Client {
     ///
     /// Retrieves the classification scope settings for an account.
     ///
-    /// - Parameter GetClassificationScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClassificationScopeInput`)
     ///
-    /// - Returns: `GetClassificationScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClassificationScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2659,9 +2659,9 @@ extension Macie2Client {
     ///
     /// Retrieves the criteria and other settings for a custom data identifier.
     ///
-    /// - Parameter GetCustomDataIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomDataIdentifierInput`)
     ///
-    /// - Returns: `GetCustomDataIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomDataIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2729,9 +2729,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) aggregated statistical data about findings.
     ///
-    /// - Parameter GetFindingStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingStatisticsInput`)
     ///
-    /// - Returns: `GetFindingStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2802,9 +2802,9 @@ extension Macie2Client {
     ///
     /// Retrieves the details of one or more findings.
     ///
-    /// - Parameter GetFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsInput`)
     ///
-    /// - Returns: `GetFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2875,9 +2875,9 @@ extension Macie2Client {
     ///
     /// Retrieves the criteria and other settings for a findings filter.
     ///
-    /// - Parameter GetFindingsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsFilterInput`)
     ///
-    /// - Returns: `GetFindingsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2945,9 +2945,9 @@ extension Macie2Client {
     ///
     /// Retrieves the configuration settings for publishing findings to Security Hub.
     ///
-    /// - Parameter GetFindingsPublicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsPublicationConfigurationInput`)
     ///
-    /// - Returns: `GetFindingsPublicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsPublicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3015,9 +3015,9 @@ extension Macie2Client {
     ///
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
     ///
-    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvitationsCountInput`)
     ///
-    /// - Returns: `GetInvitationsCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvitationsCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3085,9 +3085,9 @@ extension Macie2Client {
     ///
     /// Retrieves the status and configuration settings for an Amazon Macie account.
     ///
-    /// - Parameter GetMacieSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMacieSessionInput`)
     ///
-    /// - Returns: `GetMacieSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMacieSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3155,9 +3155,9 @@ extension Macie2Client {
     ///
     /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
     ///
-    /// - Parameter GetMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMasterAccountInput`)
     ///
-    /// - Returns: `GetMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3225,9 +3225,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
     ///
-    /// - Parameter GetMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemberInput`)
     ///
-    /// - Returns: `GetMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3295,9 +3295,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
     ///
-    /// - Parameter GetResourceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceProfileInput`)
     ///
-    /// - Returns: `GetResourceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3365,9 +3365,9 @@ extension Macie2Client {
     ///
     /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     ///
-    /// - Parameter GetRevealConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRevealConfigurationInput`)
     ///
-    /// - Returns: `GetRevealConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRevealConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3432,9 +3432,9 @@ extension Macie2Client {
     ///
     /// Retrieves occurrences of sensitive data reported by a finding.
     ///
-    /// - Parameter GetSensitiveDataOccurrencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSensitiveDataOccurrencesInput`)
     ///
-    /// - Returns: `GetSensitiveDataOccurrencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSensitiveDataOccurrencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3501,9 +3501,9 @@ extension Macie2Client {
     ///
     /// Checks whether occurrences of sensitive data can be retrieved for a finding.
     ///
-    /// - Parameter GetSensitiveDataOccurrencesAvailabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSensitiveDataOccurrencesAvailabilityInput`)
     ///
-    /// - Returns: `GetSensitiveDataOccurrencesAvailabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSensitiveDataOccurrencesAvailabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3568,9 +3568,9 @@ extension Macie2Client {
     ///
     /// Retrieves the settings for the sensitivity inspection template for an account.
     ///
-    /// - Parameter GetSensitivityInspectionTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSensitivityInspectionTemplateInput`)
     ///
-    /// - Returns: `GetSensitivityInspectionTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSensitivityInspectionTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3636,9 +3636,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
     ///
-    /// - Parameter GetUsageStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageStatisticsInput`)
     ///
-    /// - Returns: `GetUsageStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3709,9 +3709,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) aggregated usage data for an account.
     ///
-    /// - Parameter GetUsageTotalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageTotalsInput`)
     ///
-    /// - Returns: `GetUsageTotalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageTotalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3780,9 +3780,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about all the allow lists for an account.
     ///
-    /// - Parameter ListAllowListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAllowListsInput`)
     ///
-    /// - Returns: `ListAllowListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAllowListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3848,9 +3848,9 @@ extension Macie2Client {
     ///
     /// Retrieves the status of automated sensitive data discovery for one or more accounts.
     ///
-    /// - Parameter ListAutomatedDiscoveryAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomatedDiscoveryAccountsInput`)
     ///
-    /// - Returns: `ListAutomatedDiscoveryAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomatedDiscoveryAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3917,9 +3917,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about one or more classification jobs.
     ///
-    /// - Parameter ListClassificationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClassificationJobsInput`)
     ///
-    /// - Returns: `ListClassificationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClassificationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3990,9 +3990,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about the classification scope for an account.
     ///
-    /// - Parameter ListClassificationScopesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClassificationScopesInput`)
     ///
-    /// - Returns: `ListClassificationScopesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClassificationScopesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4058,9 +4058,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about the custom data identifiers for an account.
     ///
-    /// - Parameter ListCustomDataIdentifiersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomDataIdentifiersInput`)
     ///
-    /// - Returns: `ListCustomDataIdentifiersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomDataIdentifiersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4131,9 +4131,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about one or more findings.
     ///
-    /// - Parameter ListFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsInput`)
     ///
-    /// - Returns: `ListFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4204,9 +4204,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about all the findings filters for an account.
     ///
-    /// - Parameter ListFindingsFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsFiltersInput`)
     ///
-    /// - Returns: `ListFindingsFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4275,9 +4275,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about Amazon Macie membership invitations that were received by an account.
     ///
-    /// - Parameter ListInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
-    /// - Returns: `ListInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4346,9 +4346,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
     ///
-    /// - Parameter ListManagedDataIdentifiersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedDataIdentifiersInput`)
     ///
-    /// - Returns: `ListManagedDataIdentifiersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedDataIdentifiersOutput`)
     public func listManagedDataIdentifiers(input: ListManagedDataIdentifiersInput) async throws -> ListManagedDataIdentifiersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4408,9 +4408,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4479,9 +4479,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
-    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationAdminAccountsInput`)
     ///
-    /// - Returns: `ListOrganizationAdminAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationAdminAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4550,9 +4550,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
     ///
-    /// - Parameter ListResourceProfileArtifactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceProfileArtifactsInput`)
     ///
-    /// - Returns: `ListResourceProfileArtifactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceProfileArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4619,9 +4619,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
     ///
-    /// - Parameter ListResourceProfileDetectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceProfileDetectionsInput`)
     ///
-    /// - Returns: `ListResourceProfileDetectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceProfileDetectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4689,9 +4689,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about the sensitivity inspection template for an account.
     ///
-    /// - Parameter ListSensitivityInspectionTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSensitivityInspectionTemplatesInput`)
     ///
-    /// - Returns: `ListSensitivityInspectionTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSensitivityInspectionTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4758,9 +4758,9 @@ extension Macie2Client {
     ///
     /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4817,9 +4817,9 @@ extension Macie2Client {
     ///
     /// Adds or updates the configuration settings for storing data classification results.
     ///
-    /// - Parameter PutClassificationExportConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutClassificationExportConfigurationInput`)
     ///
-    /// - Returns: `PutClassificationExportConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutClassificationExportConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4890,9 +4890,9 @@ extension Macie2Client {
     ///
     /// Updates the configuration settings for publishing findings to Security Hub.
     ///
-    /// - Parameter PutFindingsPublicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFindingsPublicationConfigurationInput`)
     ///
-    /// - Returns: `PutFindingsPublicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFindingsPublicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4964,9 +4964,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
     ///
-    /// - Parameter SearchResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchResourcesInput`)
     ///
-    /// - Returns: `SearchResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5037,9 +5037,9 @@ extension Macie2Client {
     ///
     /// Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5099,9 +5099,9 @@ extension Macie2Client {
     ///
     /// Tests criteria for a custom data identifier.
     ///
-    /// - Parameter TestCustomDataIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestCustomDataIdentifierInput`)
     ///
-    /// - Returns: `TestCustomDataIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestCustomDataIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5172,9 +5172,9 @@ extension Macie2Client {
     ///
     /// Removes one or more tags (keys and values) from an Amazon Macie resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -5232,9 +5232,9 @@ extension Macie2Client {
     ///
     /// Updates the settings for an allow list.
     ///
-    /// - Parameter UpdateAllowListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAllowListInput`)
     ///
-    /// - Returns: `UpdateAllowListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAllowListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5303,9 +5303,9 @@ extension Macie2Client {
     ///
     /// Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     ///
-    /// - Parameter UpdateAutomatedDiscoveryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutomatedDiscoveryConfigurationInput`)
     ///
-    /// - Returns: `UpdateAutomatedDiscoveryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAutomatedDiscoveryConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5373,9 +5373,9 @@ extension Macie2Client {
     ///
     /// Changes the status of a classification job.
     ///
-    /// - Parameter UpdateClassificationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClassificationJobInput`)
     ///
-    /// - Returns: `UpdateClassificationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClassificationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5446,9 +5446,9 @@ extension Macie2Client {
     ///
     /// Updates the classification scope settings for an account.
     ///
-    /// - Parameter UpdateClassificationScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClassificationScopeInput`)
     ///
-    /// - Returns: `UpdateClassificationScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClassificationScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5517,9 +5517,9 @@ extension Macie2Client {
     ///
     /// Updates the criteria and other settings for a findings filter.
     ///
-    /// - Parameter UpdateFindingsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFindingsFilterInput`)
     ///
-    /// - Returns: `UpdateFindingsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5591,9 +5591,9 @@ extension Macie2Client {
     ///
     /// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
     ///
-    /// - Parameter UpdateMacieSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMacieSessionInput`)
     ///
-    /// - Returns: `UpdateMacieSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMacieSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5664,9 +5664,9 @@ extension Macie2Client {
     ///
     /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
     ///
-    /// - Parameter UpdateMemberSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMemberSessionInput`)
     ///
-    /// - Returns: `UpdateMemberSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMemberSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5737,9 +5737,9 @@ extension Macie2Client {
     ///
     /// Updates the Amazon Macie configuration settings for an organization in Organizations.
     ///
-    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5810,9 +5810,9 @@ extension Macie2Client {
     ///
     /// Updates the sensitivity score for an S3 bucket.
     ///
-    /// - Parameter UpdateResourceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceProfileInput`)
     ///
-    /// - Returns: `UpdateResourceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5883,9 +5883,9 @@ extension Macie2Client {
     ///
     /// Updates the sensitivity scoring settings for an S3 bucket.
     ///
-    /// - Parameter UpdateResourceProfileDetectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceProfileDetectionsInput`)
     ///
-    /// - Returns: `UpdateResourceProfileDetectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceProfileDetectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5956,9 +5956,9 @@ extension Macie2Client {
     ///
     /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     ///
-    /// - Parameter UpdateRevealConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRevealConfigurationInput`)
     ///
-    /// - Returns: `UpdateRevealConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRevealConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6026,9 +6026,9 @@ extension Macie2Client {
     ///
     /// Updates the settings for the sensitivity inspection template for an account.
     ///
-    /// - Parameter UpdateSensitivityInspectionTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSensitivityInspectionTemplateInput`)
     ///
-    /// - Returns: `UpdateSensitivityInspectionTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSensitivityInspectionTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EvsClient: ClientRuntime.Client {
     public static let clientName = "EvsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: EvsClient.EvsClientConfiguration
     let serviceName = "evs"
@@ -373,9 +373,9 @@ extension EvsClient {
     ///
     /// Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
     ///
-    /// - Parameter AssociateEipToVlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateEipToVlanInput`)
     ///
-    /// - Returns: `AssociateEipToVlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEipToVlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension EvsClient {
     ///
     /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension EvsClient {
     ///
     /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     ///
-    /// - Parameter CreateEnvironmentHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentHostInput`)
     ///
-    /// - Returns: `CreateEnvironmentHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension EvsClient {
     ///
     /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,9 +653,9 @@ extension EvsClient {
     ///
     /// Deletes a host from an Amazon EVS environment. Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
     ///
-    /// - Parameter DeleteEnvironmentHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentHostInput`)
     ///
-    /// - Returns: `DeleteEnvironmentHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,9 +723,9 @@ extension EvsClient {
     ///
     /// Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
     ///
-    /// - Parameter DisassociateEipFromVlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateEipFromVlanInput`)
     ///
-    /// - Returns: `DisassociateEipFromVlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateEipFromVlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -794,9 +794,9 @@ extension EvsClient {
     ///
     /// Returns a description of the specified environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,9 +863,9 @@ extension EvsClient {
     ///
     /// List the hosts within an environment.
     ///
-    /// - Parameter ListEnvironmentHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentHostsInput`)
     ///
-    /// - Returns: `ListEnvironmentHostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentHostsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,9 +932,9 @@ extension EvsClient {
     ///
     /// Lists environment VLANs that are associated with the specified environment.
     ///
-    /// - Parameter ListEnvironmentVlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentVlansInput`)
     ///
-    /// - Returns: `ListEnvironmentVlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentVlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1001,9 +1001,9 @@ extension EvsClient {
     ///
     /// Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,9 +1069,9 @@ extension EvsClient {
     ///
     /// Lists the tags for an Amazon EVS resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1137,9 +1137,9 @@ extension EvsClient {
     ///
     /// Associates the specified tags to an Amazon EVS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,9 +1208,9 @@ extension EvsClient {
     ///
     /// Deletes specified tags from an Amazon EVS resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FraudDetectorClient: ClientRuntime.Client {
     public static let clientName = "FraudDetectorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: FraudDetectorClient.FraudDetectorClientConfiguration
     let serviceName = "FraudDetector"
@@ -372,9 +372,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a batch of variables.
     ///
-    /// - Parameter BatchCreateVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateVariableInput`)
     ///
-    /// - Returns: `BatchCreateVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension FraudDetectorClient {
     ///
     /// Gets a batch of variables.
     ///
-    /// - Parameter BatchGetVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetVariableInput`)
     ///
-    /// - Returns: `BatchGetVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension FraudDetectorClient {
     ///
     /// Cancels an in-progress batch import job.
     ///
-    /// - Parameter CancelBatchImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelBatchImportJobInput`)
     ///
-    /// - Returns: `CancelBatchImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelBatchImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension FraudDetectorClient {
     ///
     /// Cancels the specified batch prediction job.
     ///
-    /// - Parameter CancelBatchPredictionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelBatchPredictionJobInput`)
     ///
-    /// - Returns: `CancelBatchPredictionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelBatchPredictionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,9 +658,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a batch import job.
     ///
-    /// - Parameter CreateBatchImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBatchImportJobInput`)
     ///
-    /// - Returns: `CreateBatchImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBatchImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a batch prediction job.
     ///
-    /// - Parameter CreateBatchPredictionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBatchPredictionJobInput`)
     ///
-    /// - Returns: `CreateBatchPredictionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBatchPredictionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a detector version. The detector version starts in a DRAFT status.
     ///
-    /// - Parameter CreateDetectorVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDetectorVersionInput`)
     ///
-    /// - Returns: `CreateDetectorVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDetectorVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,9 +874,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a list. List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector. For more information, see [Lists](https://docs.aws.amazon.com/frauddetector/latest/ug/lists.html).
     ///
-    /// - Parameter CreateListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateListInput`)
     ///
-    /// - Returns: `CreateListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -945,9 +945,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a model using the specified model type.
     ///
-    /// - Parameter CreateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelInput`)
     ///
-    /// - Returns: `CreateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1016,9 +1016,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a version of the model using the specified model type and model id.
     ///
-    /// - Parameter CreateModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelVersionInput`)
     ///
-    /// - Returns: `CreateModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,9 +1088,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a rule for use with the specified detector.
     ///
-    /// - Parameter CreateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleInput`)
     ///
-    /// - Returns: `CreateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1159,9 +1159,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a variable.
     ///
-    /// - Parameter CreateVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVariableInput`)
     ///
-    /// - Returns: `CreateVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1230,9 +1230,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
     ///
-    /// - Parameter DeleteBatchImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBatchImportJobInput`)
     ///
-    /// - Returns: `DeleteBatchImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBatchImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,9 +1301,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a batch prediction job.
     ///
-    /// - Parameter DeleteBatchPredictionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBatchPredictionJobInput`)
     ///
-    /// - Returns: `DeleteBatchPredictionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBatchPredictionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,9 +1372,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector. When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDetectorInput`)
     ///
-    /// - Returns: `DeleteDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1444,9 +1444,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the detector version. You cannot delete detector versions that are in ACTIVE status. When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteDetectorVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDetectorVersionInput`)
     ///
-    /// - Returns: `DeleteDetectorVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDetectorVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1517,9 +1517,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes an entity type. You cannot delete an entity type that is included in an event type. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteEntityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEntityTypeInput`)
     ///
-    /// - Returns: `DeleteEntityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEntityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1589,9 +1589,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector. If deleteAuditHistory is True, event data is available through search for up to 30 seconds after the delete operation is completed.
     ///
-    /// - Parameter DeleteEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventInput`)
     ///
-    /// - Returns: `DeleteEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1660,9 +1660,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteEventTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventTypeInput`)
     ///
-    /// - Returns: `DeleteEventTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1732,9 +1732,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes all events of a particular event type.
     ///
-    /// - Parameter DeleteEventsByEventTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventsByEventTypeInput`)
     ///
-    /// - Returns: `DeleteEventsByEventTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventsByEventTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1805,9 +1805,9 @@ extension FraudDetectorClient {
     ///
     /// Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
     ///
-    /// - Parameter DeleteExternalModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExternalModelInput`)
     ///
-    /// - Returns: `DeleteExternalModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExternalModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1877,9 +1877,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLabelInput`)
     ///
-    /// - Returns: `DeleteLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1948,9 +1948,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the list, provided it is not used in a rule. When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list.
     ///
-    /// - Parameter DeleteListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteListInput`)
     ///
-    /// - Returns: `DeleteListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,9 +2020,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelInput`)
     ///
-    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,9 +2092,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelVersionInput`)
     ///
-    /// - Returns: `DeleteModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2164,9 +2164,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteOutcomeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOutcomeInput`)
     ///
-    /// - Returns: `DeleteOutcomeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOutcomeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2236,9 +2236,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleInput`)
     ///
-    /// - Returns: `DeleteRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2308,9 +2308,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVariableInput`)
     ///
-    /// - Returns: `DeleteVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2380,9 +2380,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all versions for a specified detector.
     ///
-    /// - Parameter DescribeDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDetectorInput`)
     ///
-    /// - Returns: `DescribeDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,9 +2452,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
     ///
-    /// - Parameter DescribeModelVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelVersionsInput`)
     ///
-    /// - Returns: `DescribeModelVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2524,9 +2524,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetBatchImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBatchImportJobsInput`)
     ///
-    /// - Returns: `GetBatchImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBatchImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2596,9 +2596,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetBatchPredictionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBatchPredictionJobsInput`)
     ///
-    /// - Returns: `GetBatchPredictionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBatchPredictionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2668,9 +2668,9 @@ extension FraudDetectorClient {
     ///
     /// Retrieves the status of a DeleteEventsByEventType action.
     ///
-    /// - Parameter GetDeleteEventsByEventTypeStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeleteEventsByEventTypeStatusInput`)
     ///
-    /// - Returns: `GetDeleteEventsByEventTypeStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeleteEventsByEventTypeStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2740,9 +2740,9 @@ extension FraudDetectorClient {
     ///
     /// Gets a particular detector version.
     ///
-    /// - Parameter GetDetectorVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDetectorVersionInput`)
     ///
-    /// - Returns: `GetDetectorVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDetectorVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2812,9 +2812,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDetectorsInput`)
     ///
-    /// - Returns: `GetDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2884,9 +2884,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetEntityTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEntityTypesInput`)
     ///
-    /// - Returns: `GetEntityTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEntityTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2956,9 +2956,9 @@ extension FraudDetectorClient {
     ///
     /// Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
     ///
-    /// - Parameter GetEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventInput`)
     ///
-    /// - Returns: `GetEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3028,9 +3028,9 @@ extension FraudDetectorClient {
     ///
     /// Evaluates an event against a detector version. If a version ID is not provided, the detector’s (ACTIVE) version is used.
     ///
-    /// - Parameter GetEventPredictionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventPredictionInput`)
     ///
-    /// - Returns: `GetEventPredictionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventPredictionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3102,9 +3102,9 @@ extension FraudDetectorClient {
     ///
     /// Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period.
     ///
-    /// - Parameter GetEventPredictionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventPredictionMetadataInput`)
     ///
-    /// - Returns: `GetEventPredictionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventPredictionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3174,9 +3174,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetEventTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventTypesInput`)
     ///
-    /// - Returns: `GetEventTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3246,9 +3246,9 @@ extension FraudDetectorClient {
     ///
     /// Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetExternalModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExternalModelsInput`)
     ///
-    /// - Returns: `GetExternalModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExternalModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3318,9 +3318,9 @@ extension FraudDetectorClient {
     ///
     /// Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
     ///
-    /// - Parameter GetKMSEncryptionKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKMSEncryptionKeyInput`)
     ///
-    /// - Returns: `GetKMSEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKMSEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3389,9 +3389,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLabelsInput`)
     ///
-    /// - Returns: `GetLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3461,9 +3461,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all the elements in the specified list.
     ///
-    /// - Parameter GetListElementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetListElementsInput`)
     ///
-    /// - Returns: `GetListElementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetListElementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3533,9 +3533,9 @@ extension FraudDetectorClient {
     ///
     /// Gets the metadata of either all the lists under the account or the specified list.
     ///
-    /// - Parameter GetListsMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetListsMetadataInput`)
     ///
-    /// - Returns: `GetListsMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetListsMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3605,9 +3605,9 @@ extension FraudDetectorClient {
     ///
     /// Gets the details of the specified model version.
     ///
-    /// - Parameter GetModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelVersionInput`)
     ///
-    /// - Returns: `GetModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3677,9 +3677,9 @@ extension FraudDetectorClient {
     ///
     /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelsInput`)
     ///
-    /// - Returns: `GetModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3749,9 +3749,9 @@ extension FraudDetectorClient {
     ///
     /// Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetOutcomesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutcomesInput`)
     ///
-    /// - Returns: `GetOutcomesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutcomesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3821,9 +3821,9 @@ extension FraudDetectorClient {
     ///
     /// Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRulesInput`)
     ///
-    /// - Returns: `GetRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3893,9 +3893,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetVariablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVariablesInput`)
     ///
-    /// - Returns: `GetVariablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVariablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3965,9 +3965,9 @@ extension FraudDetectorClient {
     ///
     /// Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period. If filter is not specified, the most recent prediction is returned. For example, the following filter lists all past predictions for xyz event type - { "eventType":{ "value": "xyz" }” }  This is a paginated API. If you provide a null maxResults, this action will retrieve a maximum of 10 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the nextToken from the response as part of your request. A null nextToken fetches the records from the beginning.
     ///
-    /// - Parameter ListEventPredictionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventPredictionsInput`)
     ///
-    /// - Returns: `ListEventPredictionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventPredictionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4036,9 +4036,9 @@ extension FraudDetectorClient {
     ///
     /// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4107,9 +4107,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates a detector.
     ///
-    /// - Parameter PutDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDetectorInput`)
     ///
-    /// - Returns: `PutDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4179,9 +4179,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
     ///
-    /// - Parameter PutEntityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEntityTypeInput`)
     ///
-    /// - Returns: `PutEntityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEntityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4251,9 +4251,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
     ///
-    /// - Parameter PutEventTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventTypeInput`)
     ///
-    /// - Returns: `PutEventTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4323,9 +4323,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
     ///
-    /// - Parameter PutExternalModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutExternalModelInput`)
     ///
-    /// - Returns: `PutExternalModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutExternalModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4395,9 +4395,9 @@ extension FraudDetectorClient {
     ///
     /// Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
     ///
-    /// - Parameter PutKMSEncryptionKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutKMSEncryptionKeyInput`)
     ///
-    /// - Returns: `PutKMSEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutKMSEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4468,9 +4468,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector.
     ///
-    /// - Parameter PutLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLabelInput`)
     ///
-    /// - Returns: `PutLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4540,9 +4540,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates an outcome.
     ///
-    /// - Parameter PutOutcomeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutOutcomeInput`)
     ///
-    /// - Returns: `PutOutcomeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutOutcomeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4612,9 +4612,9 @@ extension FraudDetectorClient {
     ///
     /// Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model.
     ///
-    /// - Parameter SendEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendEventInput`)
     ///
-    /// - Returns: `SendEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4685,9 +4685,9 @@ extension FraudDetectorClient {
     ///
     /// Assigns tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4756,9 +4756,9 @@ extension FraudDetectorClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4827,9 +4827,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a DRAFT detector version.
     ///
-    /// - Parameter UpdateDetectorVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorVersionInput`)
     ///
-    /// - Returns: `UpdateDetectorVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4900,9 +4900,9 @@ extension FraudDetectorClient {
     ///
     /// Updates the detector version's description. You can update the metadata for any detector version (DRAFT, ACTIVE, or INACTIVE).
     ///
-    /// - Parameter UpdateDetectorVersionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorVersionMetadataInput`)
     ///
-    /// - Returns: `UpdateDetectorVersionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorVersionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4972,9 +4972,9 @@ extension FraudDetectorClient {
     ///
     /// Updates the detector version’s status. You can perform the following promotions or demotions using UpdateDetectorVersionStatus: DRAFT to ACTIVE, ACTIVE to INACTIVE, and INACTIVE to ACTIVE.
     ///
-    /// - Parameter UpdateDetectorVersionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorVersionStatusInput`)
     ///
-    /// - Returns: `UpdateDetectorVersionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorVersionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5045,9 +5045,9 @@ extension FraudDetectorClient {
     ///
     /// Updates the specified event with a new label.
     ///
-    /// - Parameter UpdateEventLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventLabelInput`)
     ///
-    /// - Returns: `UpdateEventLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5118,9 +5118,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a list.
     ///
-    /// - Parameter UpdateListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateListInput`)
     ///
-    /// - Returns: `UpdateListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5191,9 +5191,9 @@ extension FraudDetectorClient {
     ///
     /// Updates model description.
     ///
-    /// - Parameter UpdateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelInput`)
     ///
-    /// - Returns: `UpdateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5264,9 +5264,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
     ///
-    /// - Parameter UpdateModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelVersionInput`)
     ///
-    /// - Returns: `UpdateModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5343,9 +5343,9 @@ extension FraudDetectorClient {
     ///
     /// * Change ACTIVE to INACTIVE.
     ///
-    /// - Parameter UpdateModelVersionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelVersionStatusInput`)
     ///
-    /// - Returns: `UpdateModelVersionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelVersionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5416,9 +5416,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a rule's metadata. The description attribute can be updated.
     ///
-    /// - Parameter UpdateRuleMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleMetadataInput`)
     ///
-    /// - Returns: `UpdateRuleMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5489,9 +5489,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
     ///
-    /// - Parameter UpdateRuleVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleVersionInput`)
     ///
-    /// - Returns: `UpdateRuleVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5562,9 +5562,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a variable.
     ///
-    /// - Parameter UpdateVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVariableInput`)
     ///
-    /// - Returns: `UpdateVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

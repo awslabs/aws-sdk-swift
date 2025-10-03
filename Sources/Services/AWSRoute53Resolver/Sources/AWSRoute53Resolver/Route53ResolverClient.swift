@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53ResolverClient: ClientRuntime.Client {
     public static let clientName = "Route53ResolverClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53ResolverClient.Route53ResolverClientConfiguration
     let serviceName = "Route53Resolver"
@@ -373,9 +373,9 @@ extension Route53ResolverClient {
     ///
     /// Associates a [FirewallRuleGroup] with a VPC, to provide DNS filtering for the VPC.
     ///
-    /// - Parameter AssociateFirewallRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateFirewallRuleGroupInput`)
     ///
-    /// - Returns: `AssociateFirewallRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateFirewallRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension Route53ResolverClient {
     ///
     /// Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see [DisassociateResolverEndpointIpAddress](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverEndpointIpAddress.html).
     ///
-    /// - Parameter AssociateResolverEndpointIpAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResolverEndpointIpAddressInput`)
     ///
-    /// - Returns: `AssociateResolverEndpointIpAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResolverEndpointIpAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension Route53ResolverClient {
     ///
     /// Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig request for each VPC. The VPCs that you associate with a query logging configuration must be in the same Region as the configuration. To remove a VPC from a query logging configuration, see [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html).
     ///
-    /// - Parameter AssociateResolverQueryLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResolverQueryLogConfigInput`)
     ///
-    /// - Returns: `AssociateResolverQueryLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResolverQueryLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension Route53ResolverClient {
     ///
     /// Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see [CreateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_CreateResolverRule.html).
     ///
-    /// - Parameter AssociateResolverRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResolverRuleInput`)
     ///
-    /// - Returns: `AssociateResolverRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResolverRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -672,9 +672,9 @@ extension Route53ResolverClient {
     ///
     /// Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using [ImportFirewallDomains], or with domain strings, using [UpdateFirewallDomains].
     ///
-    /// - Parameter CreateFirewallDomainListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFirewallDomainListInput`)
     ///
-    /// - Returns: `CreateFirewallDomainListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFirewallDomainListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension Route53ResolverClient {
     ///
     /// Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
     ///
-    /// - Parameter CreateFirewallRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFirewallRuleInput`)
     ///
-    /// - Returns: `CreateFirewallRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFirewallRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,9 +819,9 @@ extension Route53ResolverClient {
     ///
     /// Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group by calling [CreateFirewallRule].
     ///
-    /// - Parameter CreateFirewallRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFirewallRuleGroupInput`)
     ///
-    /// - Returns: `CreateFirewallRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFirewallRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -892,9 +892,9 @@ extension Route53ResolverClient {
     ///
     /// Creates a Route 53 Resolver on an Outpost.
     ///
-    /// - Parameter CreateOutpostResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOutpostResolverInput`)
     ///
-    /// - Returns: `CreateOutpostResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOutpostResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -969,9 +969,9 @@ extension Route53ResolverClient {
     ///
     /// * An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC to your network.
     ///
-    /// - Parameter CreateResolverEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResolverEndpointInput`)
     ///
-    /// - Returns: `CreateResolverEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResolverEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,9 +1044,9 @@ extension Route53ResolverClient {
     ///
     /// Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see [AssociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverQueryLogConfig.html). You can optionally use Resource Access Manager (RAM) to share a query logging configuration with other Amazon Web Services accounts. The other accounts can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all VPCs that are associated with the configuration.
     ///
-    /// - Parameter CreateResolverQueryLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResolverQueryLogConfigInput`)
     ///
-    /// - Returns: `CreateResolverQueryLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResolverQueryLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,9 +1120,9 @@ extension Route53ResolverClient {
     ///
     /// For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
     ///
-    /// - Parameter CreateResolverRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResolverRuleInput`)
     ///
-    /// - Returns: `CreateResolverRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResolverRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1196,9 +1196,9 @@ extension Route53ResolverClient {
     ///
     /// Deletes the specified domain list.
     ///
-    /// - Parameter DeleteFirewallDomainListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFirewallDomainListInput`)
     ///
-    /// - Returns: `DeleteFirewallDomainListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFirewallDomainListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,9 +1268,9 @@ extension Route53ResolverClient {
     ///
     /// Deletes the specified firewall rule.
     ///
-    /// - Parameter DeleteFirewallRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFirewallRuleInput`)
     ///
-    /// - Returns: `DeleteFirewallRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFirewallRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1340,9 +1340,9 @@ extension Route53ResolverClient {
     ///
     /// Deletes the specified firewall rule group.
     ///
-    /// - Parameter DeleteFirewallRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFirewallRuleGroupInput`)
     ///
-    /// - Returns: `DeleteFirewallRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFirewallRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,9 +1413,9 @@ extension Route53ResolverClient {
     ///
     /// Deletes a Resolver on the Outpost.
     ///
-    /// - Parameter DeleteOutpostResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOutpostResolverInput`)
     ///
-    /// - Returns: `DeleteOutpostResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOutpostResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1490,9 +1490,9 @@ extension Route53ResolverClient {
     ///
     /// * Outbound: DNS queries from a VPC are no longer routed to your network.
     ///
-    /// - Parameter DeleteResolverEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResolverEndpointInput`)
     ///
-    /// - Returns: `DeleteResolverEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResolverEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1562,9 +1562,9 @@ extension Route53ResolverClient {
     ///
     /// Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other Amazon Web Services accounts, and the other accounts have associated VPCs with the shared configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See [DisassociateResolverQueryLogConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverQueryLogConfig.html). If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically disassociated from the configuration.
     ///
-    /// - Parameter DeleteResolverQueryLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResolverQueryLogConfigInput`)
     ///
-    /// - Returns: `DeleteResolverQueryLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResolverQueryLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1635,9 +1635,9 @@ extension Route53ResolverClient {
     ///
     /// Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you associated the Resolver rule with. For more information, see [DisassociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_DisassociateResolverRule.html).
     ///
-    /// - Parameter DeleteResolverRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResolverRuleInput`)
     ///
-    /// - Returns: `DeleteResolverRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResolverRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1707,9 +1707,9 @@ extension Route53ResolverClient {
     ///
     /// Disassociates a [FirewallRuleGroup] from a VPC, to remove DNS filtering from the VPC.
     ///
-    /// - Parameter DisassociateFirewallRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFirewallRuleGroupInput`)
     ///
-    /// - Returns: `DisassociateFirewallRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFirewallRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1780,9 +1780,9 @@ extension Route53ResolverClient {
     ///
     /// Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see [AssociateResolverEndpointIpAddress](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverEndpointIpAddress.html).
     ///
-    /// - Parameter DisassociateResolverEndpointIpAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResolverEndpointIpAddressInput`)
     ///
-    /// - Returns: `DisassociateResolverEndpointIpAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResolverEndpointIpAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1857,9 +1857,9 @@ extension Route53ResolverClient {
     ///
     /// * You can stop sharing the configuration.
     ///
-    /// - Parameter DisassociateResolverQueryLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResolverQueryLogConfigInput`)
     ///
-    /// - Returns: `DisassociateResolverQueryLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResolverQueryLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1930,9 +1930,9 @@ extension Route53ResolverClient {
     ///
     /// Removes the association between a specified Resolver rule and a specified VPC. If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the Resolver rule.
     ///
-    /// - Parameter DisassociateResolverRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResolverRuleInput`)
     ///
-    /// - Returns: `DisassociateResolverRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResolverRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2001,9 +2001,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC).
     ///
-    /// - Parameter GetFirewallConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFirewallConfigInput`)
     ///
-    /// - Returns: `GetFirewallConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFirewallConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2073,9 +2073,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the specified firewall domain list.
     ///
-    /// - Parameter GetFirewallDomainListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFirewallDomainListInput`)
     ///
-    /// - Returns: `GetFirewallDomainListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFirewallDomainListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2144,9 +2144,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the specified firewall rule group.
     ///
-    /// - Parameter GetFirewallRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFirewallRuleGroupInput`)
     ///
-    /// - Returns: `GetFirewallRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFirewallRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2215,9 +2215,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC.
     ///
-    /// - Parameter GetFirewallRuleGroupAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFirewallRuleGroupAssociationInput`)
     ///
-    /// - Returns: `GetFirewallRuleGroupAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFirewallRuleGroupAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2286,9 +2286,9 @@ extension Route53ResolverClient {
     ///
     /// Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
     ///
-    /// - Parameter GetFirewallRuleGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFirewallRuleGroupPolicyInput`)
     ///
-    /// - Returns: `GetFirewallRuleGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFirewallRuleGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2358,9 +2358,9 @@ extension Route53ResolverClient {
     ///
     /// Gets information about a specified Resolver on the Outpost, such as its instance count and type, name, and the current status of the Resolver.
     ///
-    /// - Parameter GetOutpostResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutpostResolverInput`)
     ///
-    /// - Returns: `GetOutpostResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutpostResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2430,9 +2430,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.
     ///
-    /// - Parameter GetResolverConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverConfigInput`)
     ///
-    /// - Returns: `GetResolverConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2503,9 +2503,9 @@ extension Route53ResolverClient {
     ///
     /// Gets DNSSEC validation information for a specified resource.
     ///
-    /// - Parameter GetResolverDnssecConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverDnssecConfigInput`)
     ///
-    /// - Returns: `GetResolverDnssecConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverDnssecConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2576,9 +2576,9 @@ extension Route53ResolverClient {
     ///
     /// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current status of the endpoint.
     ///
-    /// - Parameter GetResolverEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverEndpointInput`)
     ///
-    /// - Returns: `GetResolverEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2647,9 +2647,9 @@ extension Route53ResolverClient {
     ///
     /// Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to.
     ///
-    /// - Parameter GetResolverQueryLogConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverQueryLogConfigInput`)
     ///
-    /// - Returns: `GetResolverQueryLogConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverQueryLogConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2720,9 +2720,9 @@ extension Route53ResolverClient {
     ///
     /// Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
     ///
-    /// - Parameter GetResolverQueryLogConfigAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverQueryLogConfigAssociationInput`)
     ///
-    /// - Returns: `GetResolverQueryLogConfigAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverQueryLogConfigAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2793,9 +2793,9 @@ extension Route53ResolverClient {
     ///
     /// Gets information about a query logging policy. A query logging policy specifies the Resolver query logging operations and resources that you want to allow another Amazon Web Services account to be able to use.
     ///
-    /// - Parameter GetResolverQueryLogConfigPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverQueryLogConfigPolicyInput`)
     ///
-    /// - Returns: `GetResolverQueryLogConfigPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverQueryLogConfigPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2865,9 +2865,9 @@ extension Route53ResolverClient {
     ///
     /// Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the outbound Resolver endpoint that the rule is associated with.
     ///
-    /// - Parameter GetResolverRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverRuleInput`)
     ///
-    /// - Returns: `GetResolverRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2936,9 +2936,9 @@ extension Route53ResolverClient {
     ///
     /// Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using [AssociateResolverRule](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53resolver_AssociateResolverRule.html).
     ///
-    /// - Parameter GetResolverRuleAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverRuleAssociationInput`)
     ///
-    /// - Returns: `GetResolverRuleAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverRuleAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3007,9 +3007,9 @@ extension Route53ResolverClient {
     ///
     /// Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
     ///
-    /// - Parameter GetResolverRulePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverRulePolicyInput`)
     ///
-    /// - Returns: `GetResolverRulePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverRulePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3084,9 +3084,9 @@ extension Route53ResolverClient {
     ///
     /// * It must be from 1-255 characters in length.
     ///
-    /// - Parameter ImportFirewallDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportFirewallDomainsInput`)
     ///
-    /// - Returns: `ImportFirewallDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportFirewallDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3158,9 +3158,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the firewall configurations that you have defined. DNS Firewall uses the configurations to manage firewall behavior for your VPCs. A single call might return only a partial list of the configurations. For information, see MaxResults.
     ///
-    /// - Parameter ListFirewallConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallConfigsInput`)
     ///
-    /// - Returns: `ListFirewallConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFirewallConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3229,9 +3229,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the firewall domain lists that you have defined. For each firewall domain list, you can retrieve the domains that are defined for a list by calling [ListFirewallDomains]. A single call to this list operation might return only a partial list of the domain lists. For information, see MaxResults.
     ///
-    /// - Parameter ListFirewallDomainListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallDomainListsInput`)
     ///
-    /// - Returns: `ListFirewallDomainListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFirewallDomainListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3300,9 +3300,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the domains that you have defined for the specified firewall domain list. A single call might return only a partial list of the domains. For information, see MaxResults.
     ///
-    /// - Parameter ListFirewallDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallDomainsInput`)
     ///
-    /// - Returns: `ListFirewallDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFirewallDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3372,9 +3372,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the firewall rule group associations that you have defined. Each association enables DNS filtering for a VPC with one rule group. A single call might return only a partial list of the associations. For information, see MaxResults.
     ///
-    /// - Parameter ListFirewallRuleGroupAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallRuleGroupAssociationsInput`)
     ///
-    /// - Returns: `ListFirewallRuleGroupAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFirewallRuleGroupAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3443,9 +3443,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the minimal high-level information for the rule groups that you have defined. A single call might return only a partial list of the rule groups. For information, see MaxResults.
     ///
-    /// - Parameter ListFirewallRuleGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallRuleGroupsInput`)
     ///
-    /// - Returns: `ListFirewallRuleGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFirewallRuleGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3514,9 +3514,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults.
     ///
-    /// - Parameter ListFirewallRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallRulesInput`)
     ///
-    /// - Returns: `ListFirewallRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFirewallRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3586,9 +3586,9 @@ extension Route53ResolverClient {
     ///
     /// Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
     ///
-    /// - Parameter ListOutpostResolversInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOutpostResolversInput`)
     ///
-    /// - Returns: `ListOutpostResolversOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOutpostResolversOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3658,9 +3658,9 @@ extension Route53ResolverClient {
     ///
     /// Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
     ///
-    /// - Parameter ListResolverConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolverConfigsInput`)
     ///
-    /// - Returns: `ListResolverConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolverConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3732,9 +3732,9 @@ extension Route53ResolverClient {
     ///
     /// Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
     ///
-    /// - Parameter ListResolverDnssecConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolverDnssecConfigsInput`)
     ///
-    /// - Returns: `ListResolverDnssecConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolverDnssecConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3805,9 +3805,9 @@ extension Route53ResolverClient {
     ///
     /// Gets the IP addresses for a specified Resolver endpoint.
     ///
-    /// - Parameter ListResolverEndpointIpAddressesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolverEndpointIpAddressesInput`)
     ///
-    /// - Returns: `ListResolverEndpointIpAddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolverEndpointIpAddressesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3877,9 +3877,9 @@ extension Route53ResolverClient {
     ///
     /// Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
     ///
-    /// - Parameter ListResolverEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolverEndpointsInput`)
     ///
-    /// - Returns: `ListResolverEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolverEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3949,9 +3949,9 @@ extension Route53ResolverClient {
     ///
     /// Lists information about associations between Amazon VPCs and query logging configurations.
     ///
-    /// - Parameter ListResolverQueryLogConfigAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolverQueryLogConfigAssociationsInput`)
     ///
-    /// - Returns: `ListResolverQueryLogConfigAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolverQueryLogConfigAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4022,9 +4022,9 @@ extension Route53ResolverClient {
     ///
     /// Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save DNS query logs and specifies the VPCs that you want to log queries for.
     ///
-    /// - Parameter ListResolverQueryLogConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolverQueryLogConfigsInput`)
     ///
-    /// - Returns: `ListResolverQueryLogConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolverQueryLogConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4095,9 +4095,9 @@ extension Route53ResolverClient {
     ///
     /// Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
     ///
-    /// - Parameter ListResolverRuleAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolverRuleAssociationsInput`)
     ///
-    /// - Returns: `ListResolverRuleAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolverRuleAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4167,9 +4167,9 @@ extension Route53ResolverClient {
     ///
     /// Lists the Resolver rules that were created using the current Amazon Web Services account.
     ///
-    /// - Parameter ListResolverRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolverRulesInput`)
     ///
-    /// - Returns: `ListResolverRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolverRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4239,9 +4239,9 @@ extension Route53ResolverClient {
     ///
     /// Lists the tags that you associated with the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4312,9 +4312,9 @@ extension Route53ResolverClient {
     ///
     /// Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
     ///
-    /// - Parameter PutFirewallRuleGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFirewallRuleGroupPolicyInput`)
     ///
-    /// - Returns: `PutFirewallRuleGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFirewallRuleGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4384,9 +4384,9 @@ extension Route53ResolverClient {
     ///
     /// Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share, and the operations that you want the account to be able to perform on the configuration.
     ///
-    /// - Parameter PutResolverQueryLogConfigPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResolverQueryLogConfigPolicyInput`)
     ///
-    /// - Returns: `PutResolverQueryLogConfigPolicyOutput` : The response to a PutResolverQueryLogConfigPolicy request.
+    /// - Returns: The response to a PutResolverQueryLogConfigPolicy request. (Type: `PutResolverQueryLogConfigPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4457,9 +4457,9 @@ extension Route53ResolverClient {
     ///
     /// Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule.
     ///
-    /// - Parameter PutResolverRulePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResolverRulePolicyInput`)
     ///
-    /// - Returns: `PutResolverRulePolicyOutput` : The response to a PutResolverRulePolicy request.
+    /// - Returns: The response to a PutResolverRulePolicy request. (Type: `PutResolverRulePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4529,9 +4529,9 @@ extension Route53ResolverClient {
     ///
     /// Adds one or more tags to a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4603,9 +4603,9 @@ extension Route53ResolverClient {
     ///
     /// Removes one or more tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4675,9 +4675,9 @@ extension Route53ResolverClient {
     ///
     /// Updates the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC).
     ///
-    /// - Parameter UpdateFirewallConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallConfigInput`)
     ///
-    /// - Returns: `UpdateFirewallConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4747,9 +4747,9 @@ extension Route53ResolverClient {
     ///
     /// Updates the firewall domain list from an array of domain specifications.
     ///
-    /// - Parameter UpdateFirewallDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallDomainsInput`)
     ///
-    /// - Returns: `UpdateFirewallDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4821,9 +4821,9 @@ extension Route53ResolverClient {
     ///
     /// Updates the specified firewall rule.
     ///
-    /// - Parameter UpdateFirewallRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallRuleInput`)
     ///
-    /// - Returns: `UpdateFirewallRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4894,9 +4894,9 @@ extension Route53ResolverClient {
     ///
     /// Changes the association of a [FirewallRuleGroup] with a VPC. The association enables DNS filtering for the VPC.
     ///
-    /// - Parameter UpdateFirewallRuleGroupAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallRuleGroupAssociationInput`)
     ///
-    /// - Returns: `UpdateFirewallRuleGroupAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallRuleGroupAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4967,9 +4967,9 @@ extension Route53ResolverClient {
     ///
     /// You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver on an Outpost.
     ///
-    /// - Parameter UpdateOutpostResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOutpostResolverInput`)
     ///
-    /// - Returns: `UpdateOutpostResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOutpostResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5041,9 +5041,9 @@ extension Route53ResolverClient {
     ///
     /// Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from Amazon Virtual Private Cloud.
     ///
-    /// - Parameter UpdateResolverConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResolverConfigInput`)
     ///
-    /// - Returns: `UpdateResolverConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResolverConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5117,9 +5117,9 @@ extension Route53ResolverClient {
     ///
     /// Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
     ///
-    /// - Parameter UpdateResolverDnssecConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResolverDnssecConfigInput`)
     ///
-    /// - Returns: `UpdateResolverDnssecConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResolverDnssecConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5190,9 +5190,9 @@ extension Route53ResolverClient {
     ///
     /// Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint. You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
     ///
-    /// - Parameter UpdateResolverEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResolverEndpointInput`)
     ///
-    /// - Returns: `UpdateResolverEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResolverEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5263,9 +5263,9 @@ extension Route53ResolverClient {
     ///
     /// Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other parameters are optional. If you don't specify a parameter, it retains its current value.
     ///
-    /// - Parameter UpdateResolverRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResolverRuleInput`)
     ///
-    /// - Returns: `UpdateResolverRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResolverRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

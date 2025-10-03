@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RepostspaceClient: ClientRuntime.Client {
     public static let clientName = "RepostspaceClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: RepostspaceClient.RepostspaceClientConfiguration
     let serviceName = "repostspace"
@@ -373,9 +373,9 @@ extension RepostspaceClient {
     ///
     /// Add role to multiple users or groups in a private re:Post channel.
     ///
-    /// - Parameter BatchAddChannelRoleToAccessorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAddChannelRoleToAccessorsInput`)
     ///
-    /// - Returns: `BatchAddChannelRoleToAccessorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAddChannelRoleToAccessorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension RepostspaceClient {
     ///
     /// Add a role to multiple users or groups in a private re:Post.
     ///
-    /// - Parameter BatchAddRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAddRoleInput`)
     ///
-    /// - Returns: `BatchAddRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAddRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension RepostspaceClient {
     ///
     /// Remove a role from multiple users or groups in a private re:Post channel.
     ///
-    /// - Parameter BatchRemoveChannelRoleFromAccessorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchRemoveChannelRoleFromAccessorsInput`)
     ///
-    /// - Returns: `BatchRemoveChannelRoleFromAccessorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchRemoveChannelRoleFromAccessorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension RepostspaceClient {
     ///
     /// Remove a role from multiple users or groups in a private re:Post.
     ///
-    /// - Parameter BatchRemoveRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchRemoveRoleInput`)
     ///
-    /// - Returns: `BatchRemoveRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchRemoveRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,9 +657,9 @@ extension RepostspaceClient {
     ///
     /// Creates a channel in an AWS re:Post Private private re:Post.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension RepostspaceClient {
     ///
     /// Creates an AWS re:Post Private private re:Post.
     ///
-    /// - Parameter CreateSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSpaceInput`)
     ///
-    /// - Returns: `CreateSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,9 +803,9 @@ extension RepostspaceClient {
     ///
     /// Deletes an AWS re:Post Private private re:Post.
     ///
-    /// - Parameter DeleteSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSpaceInput`)
     ///
-    /// - Returns: `DeleteSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension RepostspaceClient {
     ///
     /// Removes the user or group from the list of administrators of the private re:Post.
     ///
-    /// - Parameter DeregisterAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterAdminInput`)
     ///
-    /// - Returns: `DeregisterAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -939,9 +939,9 @@ extension RepostspaceClient {
     ///
     /// Displays information about a channel in a private re:Post.
     ///
-    /// - Parameter GetChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelInput`)
     ///
-    /// - Returns: `GetChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1007,9 +1007,9 @@ extension RepostspaceClient {
     ///
     /// Displays information about the AWS re:Post Private private re:Post.
     ///
-    /// - Parameter GetSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpaceInput`)
     ///
-    /// - Returns: `GetSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension RepostspaceClient {
     ///
     /// Returns the list of channel within a private re:Post with some information about each channel.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,9 +1143,9 @@ extension RepostspaceClient {
     ///
     /// Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
     ///
-    /// - Parameter ListSpacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpacesInput`)
     ///
-    /// - Returns: `ListSpacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1211,9 +1211,9 @@ extension RepostspaceClient {
     ///
     /// Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1279,9 +1279,9 @@ extension RepostspaceClient {
     ///
     /// Adds a user or group to the list of administrators of the private re:Post.
     ///
-    /// - Parameter RegisterAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAdminInput`)
     ///
-    /// - Returns: `RegisterAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1347,9 +1347,9 @@ extension RepostspaceClient {
     ///
     /// Sends an invitation email to selected users and groups.
     ///
-    /// - Parameter SendInvitesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendInvitesInput`)
     ///
-    /// - Returns: `SendInvitesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendInvitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1418,9 +1418,9 @@ extension RepostspaceClient {
     ///
     /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1489,9 +1489,9 @@ extension RepostspaceClient {
     ///
     /// Removes the association of the tag with the AWS re:Post Private resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1558,9 +1558,9 @@ extension RepostspaceClient {
     ///
     /// Modifies an existing channel.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1630,9 +1630,9 @@ extension RepostspaceClient {
     ///
     /// Modifies an existing AWS re:Post Private private re:Post.
     ///
-    /// - Parameter UpdateSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSpaceInput`)
     ///
-    /// - Returns: `UpdateSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

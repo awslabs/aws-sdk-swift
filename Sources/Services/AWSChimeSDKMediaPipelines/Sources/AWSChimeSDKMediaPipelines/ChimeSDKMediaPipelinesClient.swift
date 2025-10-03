@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKMediaPipelinesClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKMediaPipelinesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfiguration
     let serviceName = "Chime SDK Media Pipelines"
@@ -373,9 +373,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Creates a media pipeline.
     ///
-    /// - Parameter CreateMediaCapturePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMediaCapturePipelineInput`)
     ///
-    /// - Returns: `CreateMediaCapturePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMediaCapturePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Creates a media concatenation pipeline.
     ///
-    /// - Parameter CreateMediaConcatenationPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMediaConcatenationPipelineInput`)
     ///
-    /// - Returns: `CreateMediaConcatenationPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMediaConcatenationPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Creates a media insights pipeline.
     ///
-    /// - Parameter CreateMediaInsightsPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMediaInsightsPipelineInput`)
     ///
-    /// - Returns: `CreateMediaInsightsPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMediaInsightsPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -596,9 +596,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// A structure that contains the static configurations for a media insights pipeline.
     ///
-    /// - Parameter CreateMediaInsightsPipelineConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMediaInsightsPipelineConfigurationInput`)
     ///
-    /// - Returns: `CreateMediaInsightsPipelineConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMediaInsightsPipelineConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Creates a media live connector pipeline in an Amazon Chime SDK meeting.
     ///
-    /// - Parameter CreateMediaLiveConnectorPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMediaLiveConnectorPipelineInput`)
     ///
-    /// - Returns: `CreateMediaLiveConnectorPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMediaLiveConnectorPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Creates an Amazon Kinesis Video Stream pool for use with media stream pipelines. If a meeting uses an opt-in Region as its [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion), the KVS stream must be in that same Region. For example, if a meeting uses the af-south-1 Region, the KVS stream must also be in af-south-1. However, if the meeting uses a Region that AWS turns on by default, the KVS stream can be in any available Region, including an opt-in Region. For example, if the meeting uses ca-central-1, the KVS stream can be in eu-west-2, us-east-1, af-south-1, or any other Region that the Amazon Chime SDK supports. To learn which AWS Region a meeting uses, call the [GetMeeting](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html) API and use the [MediaRegion](https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion) parameter from the response. For more information about opt-in Regions, refer to [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html) in the Amazon Chime SDK Developer Guide, and [Specify which AWS Regions your account can use](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html), in the AWS Account Management Reference Guide.
     ///
-    /// - Parameter CreateMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMediaPipelineKinesisVideoStreamPoolInput`)
     ///
-    /// - Returns: `CreateMediaPipelineKinesisVideoStreamPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMediaPipelineKinesisVideoStreamPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,9 +820,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Creates a streaming media pipeline.
     ///
-    /// - Parameter CreateMediaStreamPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMediaStreamPipelineInput`)
     ///
-    /// - Returns: `CreateMediaStreamPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMediaStreamPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -895,9 +895,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Deletes the media pipeline.
     ///
-    /// - Parameter DeleteMediaCapturePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMediaCapturePipelineInput`)
     ///
-    /// - Returns: `DeleteMediaCapturePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMediaCapturePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -965,9 +965,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Deletes the specified configuration settings.
     ///
-    /// - Parameter DeleteMediaInsightsPipelineConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMediaInsightsPipelineConfigurationInput`)
     ///
-    /// - Returns: `DeleteMediaInsightsPipelineConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMediaInsightsPipelineConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1036,9 +1036,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Deletes the media pipeline.
     ///
-    /// - Parameter DeleteMediaPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMediaPipelineInput`)
     ///
-    /// - Returns: `DeleteMediaPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMediaPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1107,9 +1107,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Deletes an Amazon Kinesis Video Stream pool.
     ///
-    /// - Parameter DeleteMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMediaPipelineKinesisVideoStreamPoolInput`)
     ///
-    /// - Returns: `DeleteMediaPipelineKinesisVideoStreamPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMediaPipelineKinesisVideoStreamPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,9 +1178,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Gets an existing media pipeline.
     ///
-    /// - Parameter GetMediaCapturePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaCapturePipelineInput`)
     ///
-    /// - Returns: `GetMediaCapturePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaCapturePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,9 +1248,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Gets the configuration settings for a media insights pipeline.
     ///
-    /// - Parameter GetMediaInsightsPipelineConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaInsightsPipelineConfigurationInput`)
     ///
-    /// - Returns: `GetMediaInsightsPipelineConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaInsightsPipelineConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1318,9 +1318,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Gets an existing media pipeline.
     ///
-    /// - Parameter GetMediaPipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaPipelineInput`)
     ///
-    /// - Returns: `GetMediaPipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1388,9 +1388,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Gets an Kinesis video stream pool.
     ///
-    /// - Parameter GetMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaPipelineKinesisVideoStreamPoolInput`)
     ///
-    /// - Returns: `GetMediaPipelineKinesisVideoStreamPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaPipelineKinesisVideoStreamPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1458,9 +1458,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Retrieves the details of the specified speaker search task.
     ///
-    /// - Parameter GetSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `GetSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1528,9 +1528,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Retrieves the details of a voice tone analysis task.
     ///
-    /// - Parameter GetVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `GetVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1598,9 +1598,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Returns a list of media pipelines.
     ///
-    /// - Parameter ListMediaCapturePipelinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMediaCapturePipelinesInput`)
     ///
-    /// - Returns: `ListMediaCapturePipelinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMediaCapturePipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1669,9 +1669,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Lists the available media insights pipeline configurations.
     ///
-    /// - Parameter ListMediaInsightsPipelineConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMediaInsightsPipelineConfigurationsInput`)
     ///
-    /// - Returns: `ListMediaInsightsPipelineConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMediaInsightsPipelineConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1740,9 +1740,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Lists the video stream pools in the media pipeline.
     ///
-    /// - Parameter ListMediaPipelineKinesisVideoStreamPoolsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMediaPipelineKinesisVideoStreamPoolsInput`)
     ///
-    /// - Returns: `ListMediaPipelineKinesisVideoStreamPoolsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMediaPipelineKinesisVideoStreamPoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1811,9 +1811,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Returns a list of media pipelines.
     ///
-    /// - Parameter ListMediaPipelinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMediaPipelinesInput`)
     ///
-    /// - Returns: `ListMediaPipelinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMediaPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1882,9 +1882,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Lists the tags available for a media pipeline.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1953,9 +1953,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
-    /// - Parameter StartSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `StartSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2029,9 +2029,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
     ///
-    /// - Parameter StartVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `StartVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2105,9 +2105,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Stops a speaker search task.
     ///
-    /// - Parameter StopSpeakerSearchTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSpeakerSearchTaskInput`)
     ///
-    /// - Returns: `StopSpeakerSearchTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSpeakerSearchTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2177,9 +2177,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Stops a voice tone analysis task.
     ///
-    /// - Parameter StopVoiceToneAnalysisTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopVoiceToneAnalysisTaskInput`)
     ///
-    /// - Returns: `StopVoiceToneAnalysisTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopVoiceToneAnalysisTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2249,9 +2249,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2323,9 +2323,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Removes any tags from a media pipeline.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2397,9 +2397,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Updates the media insights pipeline's configuration settings.
     ///
-    /// - Parameter UpdateMediaInsightsPipelineConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMediaInsightsPipelineConfigurationInput`)
     ///
-    /// - Returns: `UpdateMediaInsightsPipelineConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMediaInsightsPipelineConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2471,9 +2471,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Updates the status of a media insights pipeline.
     ///
-    /// - Parameter UpdateMediaInsightsPipelineStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMediaInsightsPipelineStatusInput`)
     ///
-    /// - Returns: `UpdateMediaInsightsPipelineStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMediaInsightsPipelineStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2545,9 +2545,9 @@ extension ChimeSDKMediaPipelinesClient {
     ///
     /// Updates an Amazon Kinesis Video Stream pool in a media pipeline.
     ///
-    /// - Parameter UpdateMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMediaPipelineKinesisVideoStreamPoolInput`)
     ///
-    /// - Returns: `UpdateMediaPipelineKinesisVideoStreamPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMediaPipelineKinesisVideoStreamPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

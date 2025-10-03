@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityHubClient: ClientRuntime.Client {
     public static let clientName = "SecurityHubClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityHubClient.SecurityHubClientConfiguration
     let serviceName = "SecurityHub"
@@ -375,9 +375,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     ///
-    /// - Parameter AcceptAdministratorInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptAdministratorInvitationInput`)
     ///
-    /// - Returns: `AcceptAdministratorInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptAdministratorInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension SecurityHubClient {
     /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @available(*, deprecated, message: "This API has been deprecated, use AcceptAdministratorInvitation API instead.")
     ///
-    /// - Parameter AcceptInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptInvitationInput`)
     ///
-    /// - Returns: `AcceptInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension SecurityHubClient {
     ///
     /// Deletes one or more automation rules.
     ///
-    /// - Parameter BatchDeleteAutomationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteAutomationRulesInput`)
     ///
-    /// - Returns: `BatchDeleteAutomationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteAutomationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension SecurityHubClient {
     ///
     /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
     ///
-    /// - Parameter BatchDisableStandardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisableStandardsInput`)
     ///
-    /// - Returns: `BatchDisableStandardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisableStandardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,9 +660,9 @@ extension SecurityHubClient {
     ///
     /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
     ///
-    /// - Parameter BatchEnableStandardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchEnableStandardsInput`)
     ///
-    /// - Returns: `BatchEnableStandardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchEnableStandardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension SecurityHubClient {
     ///
     /// Retrieves a list of details for automation rules based on rule Amazon Resource Names (ARNs).
     ///
-    /// - Parameter BatchGetAutomationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetAutomationRulesInput`)
     ///
-    /// - Returns: `BatchGetAutomationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetAutomationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,9 +803,9 @@ extension SecurityHubClient {
     ///
     /// Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
     ///
-    /// - Parameter BatchGetConfigurationPolicyAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetConfigurationPolicyAssociationsInput`)
     ///
-    /// - Returns: `BatchGetConfigurationPolicyAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetConfigurationPolicyAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -875,9 +875,9 @@ extension SecurityHubClient {
     ///
     /// Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter BatchGetSecurityControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSecurityControlsInput`)
     ///
-    /// - Returns: `BatchGetSecurityControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetSecurityControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -945,9 +945,9 @@ extension SecurityHubClient {
     ///
     /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the association has a NOT_READY_FOR_UPDATES value for StandardsControlsUpdatable.
     ///
-    /// - Parameter BatchGetStandardsControlAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetStandardsControlAssociationsInput`)
     ///
-    /// - Returns: `BatchGetStandardsControlAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetStandardsControlAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1046,9 +1046,9 @@ extension SecurityHubClient {
     ///
     /// Instead, finding providers use FindingProviderFields to provide values for these attributes.
     ///
-    /// - Parameter BatchImportFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchImportFindingsInput`)
     ///
-    /// - Returns: `BatchImportFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchImportFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,9 +1116,9 @@ extension SecurityHubClient {
     ///
     /// Updates one or more automation rules based on rule Amazon Resource Names (ARNs) and input parameters.
     ///
-    /// - Parameter BatchUpdateAutomationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateAutomationRulesInput`)
     ///
-    /// - Returns: `BatchUpdateAutomationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateAutomationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,9 +1208,9 @@ extension SecurityHubClient {
     ///
     /// If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding. Also note that it can take several minutes for Security Hub to process your request and update each finding specified in the request. You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. For more information see [Configuring access to BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access) in the Security Hub User Guide.
     ///
-    /// - Parameter BatchUpdateFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateFindingsInput`)
     ///
-    /// - Returns: `BatchUpdateFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,9 +1278,9 @@ extension SecurityHubClient {
     ///
     /// Used by customers to update information about their investigation into a finding. Requested by delegated administrator accounts or member accounts. Delegated administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. BatchUpdateFindings and BatchUpdateFindingV2 both use securityhub:BatchUpdateFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:BatchUpdateFindings action. Updates from BatchUpdateFindingsV2 don't affect the value of finding_info.modified_time, finding_info.modified_time_dt, time, time_dt for a finding. This API is in private preview and subject to change.
     ///
-    /// - Parameter BatchUpdateFindingsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateFindingsV2Input`)
     ///
-    /// - Returns: `BatchUpdateFindingsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateFindingsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1349,9 +1349,9 @@ extension SecurityHubClient {
     ///
     /// For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
     ///
-    /// - Parameter BatchUpdateStandardsControlAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateStandardsControlAssociationsInput`)
     ///
-    /// - Returns: `BatchUpdateStandardsControlAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateStandardsControlAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1420,9 +1420,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to complete the authorization based on input parameters. This API is in preview release and subject to change.
     ///
-    /// - Parameter ConnectorRegistrationsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConnectorRegistrationsV2Input`)
     ///
-    /// - Returns: `ConnectorRegistrationsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConnectorRegistrationsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,9 +1492,9 @@ extension SecurityHubClient {
     ///
     /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
     ///
-    /// - Parameter CreateActionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateActionTargetInput`)
     ///
-    /// - Returns: `CreateActionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateActionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1563,9 +1563,9 @@ extension SecurityHubClient {
     ///
     /// Enables aggregation across Amazon Web Services Regions. This API is in private preview and subject to change.
     ///
-    /// - Parameter CreateAggregatorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAggregatorV2Input`)
     ///
-    /// - Returns: `CreateAggregatorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAggregatorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1636,9 +1636,9 @@ extension SecurityHubClient {
     ///
     /// Creates an automation rule based on input parameters.
     ///
-    /// - Parameter CreateAutomationRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutomationRuleInput`)
     ///
-    /// - Returns: `CreateAutomationRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutomationRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1707,9 +1707,9 @@ extension SecurityHubClient {
     ///
     /// Creates a V2 automation rule. This API is in private preview and subject to change.
     ///
-    /// - Parameter CreateAutomationRuleV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutomationRuleV2Input`)
     ///
-    /// - Returns: `CreateAutomationRuleV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutomationRuleV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1779,9 +1779,9 @@ extension SecurityHubClient {
     ///
     /// Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter CreateConfigurationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationPolicyInput`)
     ///
-    /// - Returns: `CreateConfigurationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1851,9 +1851,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to create a connectorV2 based on input parameters. This API is in preview release and subject to change.
     ///
-    /// - Parameter CreateConnectorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorV2Input`)
     ///
-    /// - Returns: `CreateConnectorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1924,9 +1924,9 @@ extension SecurityHubClient {
     ///
     /// The aggregation Region is now called the home Region. Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see [Understanding cross-Region aggregation in Security Hub](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html) in the Security Hub User Guide.
     ///
-    /// - Parameter CreateFindingAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFindingAggregatorInput`)
     ///
-    /// - Returns: `CreateFindingAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFindingAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1995,9 +1995,9 @@ extension SecurityHubClient {
     ///
     /// Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
     ///
-    /// - Parameter CreateInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInsightInput`)
     ///
-    /// - Returns: `CreateInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2080,9 +2080,9 @@ extension SecurityHubClient {
     ///
     /// A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
     ///
-    /// - Parameter CreateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembersInput`)
     ///
-    /// - Returns: `CreateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2152,9 +2152,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to create a ticket in the chosen ITSM based on finding information for the provided finding metadata UID. This API is in preview release and subject to change.
     ///
-    /// - Parameter CreateTicketV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTicketV2Input`)
     ///
-    /// - Returns: `CreateTicketV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTicketV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2225,9 +2225,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     ///
-    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeclineInvitationsInput`)
     ///
-    /// - Returns: `DeclineInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeclineInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2295,9 +2295,9 @@ extension SecurityHubClient {
     ///
     /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     ///
-    /// - Parameter DeleteActionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteActionTargetInput`)
     ///
-    /// - Returns: `DeleteActionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteActionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2362,9 +2362,9 @@ extension SecurityHubClient {
     ///
     /// Deletes the Aggregator V2. This API is in private preview and subject to change.
     ///
-    /// - Parameter DeleteAggregatorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAggregatorV2Input`)
     ///
-    /// - Returns: `DeleteAggregatorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAggregatorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2431,9 +2431,9 @@ extension SecurityHubClient {
     ///
     /// Deletes a V2 automation rule. This API is in private preview and subject to change.
     ///
-    /// - Parameter DeleteAutomationRuleV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAutomationRuleV2Input`)
     ///
-    /// - Returns: `DeleteAutomationRuleV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAutomationRuleV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,9 +2500,9 @@ extension SecurityHubClient {
     ///
     /// Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
     ///
-    /// - Parameter DeleteConfigurationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationPolicyInput`)
     ///
-    /// - Returns: `DeleteConfigurationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2570,9 +2570,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to delete a connectorV2. This API is in preview release and subject to change.
     ///
-    /// - Parameter DeleteConnectorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorV2Input`)
     ///
-    /// - Returns: `DeleteConnectorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2639,9 +2639,9 @@ extension SecurityHubClient {
     ///
     /// The aggregation Region is now called the home Region. Deletes a finding aggregator. When you delete the finding aggregator, you stop cross-Region aggregation. Finding replication stops occurring from the linked Regions to the home Region. When you stop cross-Region aggregation, findings that were already replicated and sent to the home Region are still visible from the home Region. However, new findings and finding updates are no longer replicated and sent to the home Region.
     ///
-    /// - Parameter DeleteFindingAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFindingAggregatorInput`)
     ///
-    /// - Returns: `DeleteFindingAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFindingAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2708,9 +2708,9 @@ extension SecurityHubClient {
     ///
     /// Deletes the insight specified by the InsightArn.
     ///
-    /// - Parameter DeleteInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInsightInput`)
     ///
-    /// - Returns: `DeleteInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2776,9 +2776,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Deletes invitations to become a Security Hub member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
     ///
-    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvitationsInput`)
     ///
-    /// - Returns: `DeleteInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2847,9 +2847,9 @@ extension SecurityHubClient {
     ///
     /// Deletes the specified member accounts from Security Hub. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
     ///
-    /// - Parameter DeleteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMembersInput`)
     ///
-    /// - Returns: `DeleteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2918,9 +2918,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of the custom action targets in Security Hub in your account.
     ///
-    /// - Parameter DescribeActionTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActionTargetsInput`)
     ///
-    /// - Returns: `DescribeActionTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActionTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2988,9 +2988,9 @@ extension SecurityHubClient {
     ///
     /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
     ///
-    /// - Parameter DescribeHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHubInput`)
     ///
-    /// - Returns: `DescribeHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3057,9 +3057,9 @@ extension SecurityHubClient {
     ///
     /// Returns information about the way your organization is configured in Security Hub. Only the Security Hub administrator account can invoke this operation.
     ///
-    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3124,9 +3124,9 @@ extension SecurityHubClient {
     ///
     /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
     ///
-    /// - Parameter DescribeProductsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProductsInput`)
     ///
-    /// - Returns: `DescribeProductsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3192,9 +3192,9 @@ extension SecurityHubClient {
     ///
     /// Gets information about the product integration. This API is in private preview and subject to change.
     ///
-    /// - Parameter DescribeProductsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProductsV2Input`)
     ///
-    /// - Returns: `DescribeProductsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProductsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3261,9 +3261,9 @@ extension SecurityHubClient {
     ///
     /// Returns details about the service resource in your account. This API is in private preview and subject to change.
     ///
-    /// - Parameter DescribeSecurityHubV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityHubV2Input`)
     ///
-    /// - Returns: `DescribeSecurityHubV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityHubV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3328,9 +3328,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
     ///
-    /// - Parameter DescribeStandardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStandardsInput`)
     ///
-    /// - Returns: `DescribeStandardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStandardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3395,9 +3395,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information. This operation returns an empty list for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
-    /// - Parameter DescribeStandardsControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStandardsControlsInput`)
     ///
-    /// - Returns: `DescribeStandardsControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStandardsControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3463,9 +3463,9 @@ extension SecurityHubClient {
     ///
     /// Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
     ///
-    /// - Parameter DisableImportFindingsForProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableImportFindingsForProductInput`)
     ///
-    /// - Returns: `DisableImportFindingsForProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableImportFindingsForProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3531,9 +3531,9 @@ extension SecurityHubClient {
     ///
     /// Disables a Security Hub administrator account. Can only be called by the organization management account.
     ///
-    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DisableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3602,9 +3602,9 @@ extension SecurityHubClient {
     ///
     /// Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. You can't disable Security Hub in an account that is currently the Security Hub administrator. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
     ///
-    /// - Parameter DisableSecurityHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubInput`)
     ///
-    /// - Returns: `DisableSecurityHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableSecurityHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3670,9 +3670,9 @@ extension SecurityHubClient {
     ///
     /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
     ///
-    /// - Parameter DisableSecurityHubV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubV2Input`)
     ///
-    /// - Returns: `DisableSecurityHubV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableSecurityHubV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3737,9 +3737,9 @@ extension SecurityHubClient {
     ///
     /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     ///
-    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromAdministratorAccountInput`)
     ///
-    /// - Returns: `DisassociateFromAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3806,9 +3806,9 @@ extension SecurityHubClient {
     /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
     ///
-    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromMasterAccountInput`)
     ///
-    /// - Returns: `DisassociateFromMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3874,9 +3874,9 @@ extension SecurityHubClient {
     ///
     /// Disassociates the specified member accounts from the associated administrator account. Can be used to disassociate both accounts that are managed using Organizations and accounts that were invited manually.
     ///
-    /// - Parameter DisassociateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMembersInput`)
     ///
-    /// - Returns: `DisassociateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3946,9 +3946,9 @@ extension SecurityHubClient {
     ///
     /// Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
     ///
-    /// - Parameter EnableImportFindingsForProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableImportFindingsForProductInput`)
     ///
-    /// - Returns: `EnableImportFindingsForProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableImportFindingsForProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4017,9 +4017,9 @@ extension SecurityHubClient {
     ///
     /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
     ///
-    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `EnableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4095,9 +4095,9 @@ extension SecurityHubClient {
     ///
     /// Other standards are not automatically enabled. To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the [setup information](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Security Hub User Guide.
     ///
-    /// - Parameter EnableSecurityHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSecurityHubInput`)
     ///
-    /// - Returns: `EnableSecurityHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSecurityHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4166,9 +4166,9 @@ extension SecurityHubClient {
     ///
     /// Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
     ///
-    /// - Parameter EnableSecurityHubV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSecurityHubV2Input`)
     ///
-    /// - Returns: `EnableSecurityHubV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSecurityHubV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4236,9 +4236,9 @@ extension SecurityHubClient {
     ///
     /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
-    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdministratorAccountInput`)
     ///
-    /// - Returns: `GetAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4304,9 +4304,9 @@ extension SecurityHubClient {
     ///
     /// Returns the configuration of the specified Aggregator V2. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetAggregatorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAggregatorV2Input`)
     ///
-    /// - Returns: `GetAggregatorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAggregatorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4373,9 +4373,9 @@ extension SecurityHubClient {
     ///
     /// Returns an automation rule for the V2 service. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetAutomationRuleV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomationRuleV2Input`)
     ///
-    /// - Returns: `GetAutomationRuleV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomationRuleV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4442,9 +4442,9 @@ extension SecurityHubClient {
     ///
     /// Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter GetConfigurationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationPolicyInput`)
     ///
-    /// - Returns: `GetConfigurationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4511,9 +4511,9 @@ extension SecurityHubClient {
     ///
     /// Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter GetConfigurationPolicyAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationPolicyAssociationInput`)
     ///
-    /// - Returns: `GetConfigurationPolicyAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationPolicyAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4583,9 +4583,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to retrieve details for a connectorV2 based on connector id. This API is in preview release and subject to change.
     ///
-    /// - Parameter GetConnectorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorV2Input`)
     ///
-    /// - Returns: `GetConnectorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4652,9 +4652,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of the standards that are currently enabled.
     ///
-    /// - Parameter GetEnabledStandardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnabledStandardsInput`)
     ///
-    /// - Returns: `GetEnabledStandardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnabledStandardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4722,9 +4722,9 @@ extension SecurityHubClient {
     ///
     /// The aggregation Region is now called the home Region. Returns the current configuration in the calling account for cross-Region aggregation. A finding aggregator is a resource that establishes the home Region and any linked Regions.
     ///
-    /// - Parameter GetFindingAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingAggregatorInput`)
     ///
-    /// - Returns: `GetFindingAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4791,9 +4791,9 @@ extension SecurityHubClient {
     ///
     /// Returns the history of a Security Hub finding. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and UpdatedAt fields. This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate that the results are incomplete. However, you should continue to specify a NextToken value until you receive a response that doesn't include this value.
     ///
-    /// - Parameter GetFindingHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingHistoryInput`)
     ///
-    /// - Returns: `GetFindingHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4861,9 +4861,9 @@ extension SecurityHubClient {
     ///
     /// Returns aggregated statistical data about findings. GetFindingStatisticsV2 use securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement. You must have permission to perform the s action. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetFindingStatisticsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingStatisticsV2Input`)
     ///
-    /// - Returns: `GetFindingStatisticsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingStatisticsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4932,9 +4932,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of findings that match the specified criteria. If cross-Region aggregation is enabled, then when you call GetFindings from the home Region, the results include all of the matching findings from both the home Region and linked Regions.
     ///
-    /// - Parameter GetFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsInput`)
     ///
-    /// - Returns: `GetFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5002,9 +5002,9 @@ extension SecurityHubClient {
     ///
     /// Return a list of findings that match the specified criteria. GetFindings and GetFindingsV2 both use securityhub:GetFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:GetFindings action. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetFindingsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsV2Input`)
     ///
-    /// - Returns: `GetFindingsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5073,9 +5073,9 @@ extension SecurityHubClient {
     ///
     /// Lists the results of the Security Hub insight specified by the insight ARN.
     ///
-    /// - Parameter GetInsightResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightResultsInput`)
     ///
-    /// - Returns: `GetInsightResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5141,9 +5141,9 @@ extension SecurityHubClient {
     ///
     /// Lists and describes insights for the specified insight ARNs.
     ///
-    /// - Parameter GetInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightsInput`)
     ///
-    /// - Returns: `GetInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5212,9 +5212,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Returns the count of all Security Hub membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     ///
-    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvitationsCountInput`)
     ///
-    /// - Returns: `GetInvitationsCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvitationsCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5280,9 +5280,9 @@ extension SecurityHubClient {
     /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
     ///
-    /// - Parameter GetMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMasterAccountInput`)
     ///
-    /// - Returns: `GetMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5348,9 +5348,9 @@ extension SecurityHubClient {
     ///
     /// Returns the details for the Security Hub member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub administrator account for an organization or an administrator account that enabled Security Hub manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
-    /// - Parameter GetMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembersInput`)
     ///
-    /// - Returns: `GetMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5419,9 +5419,9 @@ extension SecurityHubClient {
     ///
     /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetResourcesStatisticsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesStatisticsV2Input`)
     ///
-    /// - Returns: `GetResourcesStatisticsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesStatisticsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5491,9 +5491,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of resources. This API is in private preview and subject to change.
     ///
-    /// - Parameter GetResourcesV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesV2Input`)
     ///
-    /// - Returns: `GetResourcesV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5563,9 +5563,9 @@ extension SecurityHubClient {
     ///
     /// Retrieves the definition of a security control. The definition includes the control title, description, Region availability, parameter definitions, and other details.
     ///
-    /// - Parameter GetSecurityControlDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSecurityControlDefinitionInput`)
     ///
-    /// - Returns: `GetSecurityControlDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSecurityControlDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5632,9 +5632,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
     ///
-    /// - Parameter InviteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InviteMembersInput`)
     ///
-    /// - Returns: `InviteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InviteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5703,9 +5703,9 @@ extension SecurityHubClient {
     ///
     /// Retrieves a list of V2 aggregators. This API is in private preview and subject to change.
     ///
-    /// - Parameter ListAggregatorsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAggregatorsV2Input`)
     ///
-    /// - Returns: `ListAggregatorsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAggregatorsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5773,9 +5773,9 @@ extension SecurityHubClient {
     ///
     /// A list of automation rules and their metadata for the calling account.
     ///
-    /// - Parameter ListAutomationRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomationRulesInput`)
     ///
-    /// - Returns: `ListAutomationRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomationRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5842,9 +5842,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of automation rules and metadata for the calling account. This API is in private preview and subject to change.
     ///
-    /// - Parameter ListAutomationRulesV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomationRulesV2Input`)
     ///
-    /// - Returns: `ListAutomationRulesV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomationRulesV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5911,9 +5911,9 @@ extension SecurityHubClient {
     ///
     /// Lists the configuration policies that the Security Hub delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter ListConfigurationPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationPoliciesInput`)
     ///
-    /// - Returns: `ListConfigurationPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5980,9 +5980,9 @@ extension SecurityHubClient {
     ///
     /// Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter ListConfigurationPolicyAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationPolicyAssociationsInput`)
     ///
-    /// - Returns: `ListConfigurationPolicyAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationPolicyAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6051,9 +6051,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to retrieve a list of connectorsV2 and their metadata for the calling account. This API is in preview release and subject to change.
     ///
-    /// - Parameter ListConnectorsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsV2Input`)
     ///
-    /// - Returns: `ListConnectorsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6121,9 +6121,9 @@ extension SecurityHubClient {
     ///
     /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
     ///
-    /// - Parameter ListEnabledProductsForImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnabledProductsForImportInput`)
     ///
-    /// - Returns: `ListEnabledProductsForImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnabledProductsForImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6188,9 +6188,9 @@ extension SecurityHubClient {
     ///
     /// If cross-Region aggregation is enabled, then ListFindingAggregators returns the Amazon Resource Name (ARN) of the finding aggregator. You can run this operation from any Amazon Web Services Region.
     ///
-    /// - Parameter ListFindingAggregatorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingAggregatorsInput`)
     ///
-    /// - Returns: `ListFindingAggregatorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingAggregatorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6257,9 +6257,9 @@ extension SecurityHubClient {
     ///
     /// We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see [Managing Security Hub administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub User Guide. Lists all Security Hub membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     ///
-    /// - Parameter ListInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
-    /// - Returns: `ListInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6325,9 +6325,9 @@ extension SecurityHubClient {
     ///
     /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6393,9 +6393,9 @@ extension SecurityHubClient {
     ///
     /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
     ///
-    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationAdminAccountsInput`)
     ///
-    /// - Returns: `ListOrganizationAdminAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationAdminAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6461,9 +6461,9 @@ extension SecurityHubClient {
     ///
     /// Lists all of the security controls that apply to a specified standard.
     ///
-    /// - Parameter ListSecurityControlDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityControlDefinitionsInput`)
     ///
-    /// - Returns: `ListSecurityControlDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityControlDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6529,9 +6529,9 @@ extension SecurityHubClient {
     ///
     /// Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account. This operation omits standards control associations for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
-    /// - Parameter ListStandardsControlAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStandardsControlAssociationsInput`)
     ///
-    /// - Returns: `ListStandardsControlAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStandardsControlAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6597,9 +6597,9 @@ extension SecurityHubClient {
     ///
     /// Returns a list of tags associated with a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6663,9 +6663,9 @@ extension SecurityHubClient {
     ///
     /// Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter StartConfigurationPolicyAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConfigurationPolicyAssociationInput`)
     ///
-    /// - Returns: `StartConfigurationPolicyAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConfigurationPolicyAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6735,9 +6735,9 @@ extension SecurityHubClient {
     ///
     /// Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter StartConfigurationPolicyDisassociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConfigurationPolicyDisassociationInput`)
     ///
-    /// - Returns: `StartConfigurationPolicyDisassociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConfigurationPolicyDisassociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6807,9 +6807,9 @@ extension SecurityHubClient {
     ///
     /// Adds one or more tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6876,9 +6876,9 @@ extension SecurityHubClient {
     ///
     /// Removes one or more tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6943,9 +6943,9 @@ extension SecurityHubClient {
     ///
     /// Updates the name and description of a custom action target in Security Hub.
     ///
-    /// - Parameter UpdateActionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateActionTargetInput`)
     ///
-    /// - Returns: `UpdateActionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateActionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7013,9 +7013,9 @@ extension SecurityHubClient {
     ///
     /// Udpates the configuration for the Aggregator V2. This API is in private preview and subject to change.
     ///
-    /// - Parameter UpdateAggregatorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAggregatorV2Input`)
     ///
-    /// - Returns: `UpdateAggregatorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAggregatorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7085,9 +7085,9 @@ extension SecurityHubClient {
     ///
     /// Updates a V2 automation rule. This API is in private preview and subject to change.
     ///
-    /// - Parameter UpdateAutomationRuleV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutomationRuleV2Input`)
     ///
-    /// - Returns: `UpdateAutomationRuleV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAutomationRuleV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7157,9 +7157,9 @@ extension SecurityHubClient {
     ///
     /// Updates a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
     ///
-    /// - Parameter UpdateConfigurationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationPolicyInput`)
     ///
-    /// - Returns: `UpdateConfigurationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7230,9 +7230,9 @@ extension SecurityHubClient {
     ///
     /// Grants permission to update a connectorV2 based on its id and input parameters. This API is in preview release and subject to change.
     ///
-    /// - Parameter UpdateConnectorV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorV2Input`)
     ///
-    /// - Returns: `UpdateConnectorV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7302,9 +7302,9 @@ extension SecurityHubClient {
     ///
     /// The aggregation Region is now called the home Region. Updates cross-Region aggregation settings. You can use this operation to update the Region linking mode and the list of included or excluded Amazon Web Services Regions. However, you can't use this operation to change the home Region. You can invoke this operation from the current home Region only.
     ///
-    /// - Parameter UpdateFindingAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFindingAggregatorInput`)
     ///
-    /// - Returns: `UpdateFindingAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7374,9 +7374,9 @@ extension SecurityHubClient {
     ///
     /// UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub doesn't record updates made with UpdateFindings in the finding history.
     ///
-    /// - Parameter UpdateFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFindingsInput`)
     ///
-    /// - Returns: `UpdateFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7445,9 +7445,9 @@ extension SecurityHubClient {
     ///
     /// Updates the Security Hub insight identified by the specified insight ARN.
     ///
-    /// - Parameter UpdateInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInsightInput`)
     ///
-    /// - Returns: `UpdateInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7516,9 +7516,9 @@ extension SecurityHubClient {
     ///
     /// Updates the configuration of your organization in Security Hub. Only the Security Hub administrator account can invoke this operation.
     ///
-    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7589,9 +7589,9 @@ extension SecurityHubClient {
     ///
     /// Updates the properties of a security control.
     ///
-    /// - Parameter UpdateSecurityControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityControlInput`)
     ///
-    /// - Returns: `UpdateSecurityControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7662,9 +7662,9 @@ extension SecurityHubClient {
     ///
     /// Updates configuration options for Security Hub.
     ///
-    /// - Parameter UpdateSecurityHubConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityHubConfigurationInput`)
     ///
-    /// - Returns: `UpdateSecurityHubConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityHubConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7734,9 +7734,9 @@ extension SecurityHubClient {
     ///
     /// Used to control whether an individual security standard control is enabled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
     ///
-    /// - Parameter UpdateStandardsControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStandardsControlInput`)
     ///
-    /// - Returns: `UpdateStandardsControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStandardsControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

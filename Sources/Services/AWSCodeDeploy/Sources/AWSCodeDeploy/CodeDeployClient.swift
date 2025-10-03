@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeDeployClient: ClientRuntime.Client {
     public static let clientName = "CodeDeployClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeDeployClient.CodeDeployClientConfiguration
     let serviceName = "CodeDeploy"
@@ -372,9 +372,9 @@ extension CodeDeployClient {
     ///
     /// Adds tags to on-premises instances.
     ///
-    /// - Parameter AddTagsToOnPremisesInstancesInput : Represents the input of, and adds tags to, an on-premises instance operation.
+    /// - Parameter input: Represents the input of, and adds tags to, an on-premises instance operation. (Type: `AddTagsToOnPremisesInstancesInput`)
     ///
-    /// - Returns: `AddTagsToOnPremisesInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToOnPremisesInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about one or more application revisions. The maximum number of application revisions that can be returned is 25.
     ///
-    /// - Parameter BatchGetApplicationRevisionsInput : Represents the input of a BatchGetApplicationRevisions operation.
+    /// - Parameter input: Represents the input of a BatchGetApplicationRevisions operation. (Type: `BatchGetApplicationRevisionsInput`)
     ///
-    /// - Returns: `BatchGetApplicationRevisionsOutput` : Represents the output of a BatchGetApplicationRevisions operation.
+    /// - Returns: Represents the output of a BatchGetApplicationRevisions operation. (Type: `BatchGetApplicationRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about one or more applications. The maximum number of applications that can be returned is 100.
     ///
-    /// - Parameter BatchGetApplicationsInput : Represents the input of a BatchGetApplications operation.
+    /// - Parameter input: Represents the input of a BatchGetApplications operation. (Type: `BatchGetApplicationsInput`)
     ///
-    /// - Returns: `BatchGetApplicationsOutput` : Represents the output of a BatchGetApplications operation.
+    /// - Returns: Represents the output of a BatchGetApplications operation. (Type: `BatchGetApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about one or more deployment groups.
     ///
-    /// - Parameter BatchGetDeploymentGroupsInput : Represents the input of a BatchGetDeploymentGroups operation.
+    /// - Parameter input: Represents the input of a BatchGetDeploymentGroups operation. (Type: `BatchGetDeploymentGroupsInput`)
     ///
-    /// - Returns: `BatchGetDeploymentGroupsOutput` : Represents the output of a BatchGetDeploymentGroups operation.
+    /// - Returns: Represents the output of a BatchGetDeploymentGroups operation. (Type: `BatchGetDeploymentGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension CodeDeployClient {
     /// This method works, but is deprecated. Use BatchGetDeploymentTargets instead. Returns an array of one or more instances associated with a deployment. This method works with EC2/On-premises and Lambda compute platforms. The newer BatchGetDeploymentTargets works with all compute platforms. The maximum number of instances that can be returned is 25.
     @available(*, deprecated, message: "This operation is deprecated, use BatchGetDeploymentTargets instead.")
     ///
-    /// - Parameter BatchGetDeploymentInstancesInput : Represents the input of a BatchGetDeploymentInstances operation.
+    /// - Parameter input: Represents the input of a BatchGetDeploymentInstances operation. (Type: `BatchGetDeploymentInstancesInput`)
     ///
-    /// - Returns: `BatchGetDeploymentInstancesOutput` : Represents the output of a BatchGetDeploymentInstances operation.
+    /// - Returns: Represents the output of a BatchGetDeploymentInstances operation. (Type: `BatchGetDeploymentInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -747,9 +747,9 @@ extension CodeDeployClient {
     ///
     /// * CloudFormation: Information about targets of blue/green deployments initiated by a CloudFormation stack update.
     ///
-    /// - Parameter BatchGetDeploymentTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetDeploymentTargetsInput`)
     ///
-    /// - Returns: `BatchGetDeploymentTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetDeploymentTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -823,9 +823,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about one or more deployments. The maximum number of deployments that can be returned is 25.
     ///
-    /// - Parameter BatchGetDeploymentsInput : Represents the input of a BatchGetDeployments operation.
+    /// - Parameter input: Represents the input of a BatchGetDeployments operation. (Type: `BatchGetDeploymentsInput`)
     ///
-    /// - Returns: `BatchGetDeploymentsOutput` : Represents the output of a BatchGetDeployments operation.
+    /// - Returns: Represents the output of a BatchGetDeployments operation. (Type: `BatchGetDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,9 +893,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about one or more on-premises instances. The maximum number of on-premises instances that can be returned is 25.
     ///
-    /// - Parameter BatchGetOnPremisesInstancesInput : Represents the input of a BatchGetOnPremisesInstances operation.
+    /// - Parameter input: Represents the input of a BatchGetOnPremisesInstances operation. (Type: `BatchGetOnPremisesInstancesInput`)
     ///
-    /// - Returns: `BatchGetOnPremisesInstancesOutput` : Represents the output of a BatchGetOnPremisesInstances operation.
+    /// - Returns: Represents the output of a BatchGetOnPremisesInstances operation. (Type: `BatchGetOnPremisesInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,9 +963,9 @@ extension CodeDeployClient {
     ///
     /// For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.)
     ///
-    /// - Parameter ContinueDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ContinueDeploymentInput`)
     ///
-    /// - Returns: `ContinueDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ContinueDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1038,9 +1038,9 @@ extension CodeDeployClient {
     ///
     /// Creates an application.
     ///
-    /// - Parameter CreateApplicationInput : Represents the input of a CreateApplication operation.
+    /// - Parameter input: Represents the input of a CreateApplication operation. (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : Represents the output of a CreateApplication operation.
+    /// - Returns: Represents the output of a CreateApplication operation. (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1111,9 +1111,9 @@ extension CodeDeployClient {
     ///
     /// Deploys an application revision through the specified deployment group.
     ///
-    /// - Parameter CreateDeploymentInput : Represents the input of a CreateDeployment operation.
+    /// - Parameter input: Represents the input of a CreateDeployment operation. (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : Represents the output of a CreateDeployment operation.
+    /// - Returns: Represents the output of a CreateDeployment operation. (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1222,9 +1222,9 @@ extension CodeDeployClient {
     ///
     /// Creates a deployment configuration.
     ///
-    /// - Parameter CreateDeploymentConfigInput : Represents the input of a CreateDeploymentConfig operation.
+    /// - Parameter input: Represents the input of a CreateDeploymentConfig operation. (Type: `CreateDeploymentConfigInput`)
     ///
-    /// - Returns: `CreateDeploymentConfigOutput` : Represents the output of a CreateDeploymentConfig operation.
+    /// - Returns: Represents the output of a CreateDeploymentConfig operation. (Type: `CreateDeploymentConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1297,9 +1297,9 @@ extension CodeDeployClient {
     ///
     /// Creates a deployment group to which application revisions are deployed.
     ///
-    /// - Parameter CreateDeploymentGroupInput : Represents the input of a CreateDeploymentGroup operation.
+    /// - Parameter input: Represents the input of a CreateDeploymentGroup operation. (Type: `CreateDeploymentGroupInput`)
     ///
-    /// - Returns: `CreateDeploymentGroupOutput` : Represents the output of a CreateDeploymentGroup operation.
+    /// - Returns: Represents the output of a CreateDeploymentGroup operation. (Type: `CreateDeploymentGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1407,9 +1407,9 @@ extension CodeDeployClient {
     ///
     /// Deletes an application.
     ///
-    /// - Parameter DeleteApplicationInput : Represents the input of a DeleteApplication operation.
+    /// - Parameter input: Represents the input of a DeleteApplication operation. (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1477,9 +1477,9 @@ extension CodeDeployClient {
     ///
     /// Deletes a deployment configuration. A deployment configuration cannot be deleted if it is currently in use. Predefined configurations cannot be deleted.
     ///
-    /// - Parameter DeleteDeploymentConfigInput : Represents the input of a DeleteDeploymentConfig operation.
+    /// - Parameter input: Represents the input of a DeleteDeploymentConfig operation. (Type: `DeleteDeploymentConfigInput`)
     ///
-    /// - Returns: `DeleteDeploymentConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,9 +1548,9 @@ extension CodeDeployClient {
     ///
     /// Deletes a deployment group.
     ///
-    /// - Parameter DeleteDeploymentGroupInput : Represents the input of a DeleteDeploymentGroup operation.
+    /// - Parameter input: Represents the input of a DeleteDeploymentGroup operation. (Type: `DeleteDeploymentGroupInput`)
     ///
-    /// - Returns: `DeleteDeploymentGroupOutput` : Represents the output of a DeleteDeploymentGroup operation.
+    /// - Returns: Represents the output of a DeleteDeploymentGroup operation. (Type: `DeleteDeploymentGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1620,9 +1620,9 @@ extension CodeDeployClient {
     ///
     /// Deletes a GitHub account connection.
     ///
-    /// - Parameter DeleteGitHubAccountTokenInput : Represents the input of a DeleteGitHubAccount operation.
+    /// - Parameter input: Represents the input of a DeleteGitHubAccount operation. (Type: `DeleteGitHubAccountTokenInput`)
     ///
-    /// - Returns: `DeleteGitHubAccountTokenOutput` : Represents the output of a DeleteGitHubAccountToken operation.
+    /// - Returns: Represents the output of a DeleteGitHubAccountToken operation. (Type: `DeleteGitHubAccountTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,9 +1692,9 @@ extension CodeDeployClient {
     ///
     /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation. It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) requirements.
     ///
-    /// - Parameter DeleteResourcesByExternalIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcesByExternalIdInput`)
     ///
-    /// - Returns: `DeleteResourcesByExternalIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcesByExternalIdOutput`)
     public func deleteResourcesByExternalId(input: DeleteResourcesByExternalIdInput) async throws -> DeleteResourcesByExternalIdOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1755,9 +1755,9 @@ extension CodeDeployClient {
     ///
     /// Deregisters an on-premises instance.
     ///
-    /// - Parameter DeregisterOnPremisesInstanceInput : Represents the input of a DeregisterOnPremisesInstance operation.
+    /// - Parameter input: Represents the input of a DeregisterOnPremisesInstance operation. (Type: `DeregisterOnPremisesInstanceInput`)
     ///
-    /// - Returns: `DeregisterOnPremisesInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterOnPremisesInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1824,9 +1824,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about an application.
     ///
-    /// - Parameter GetApplicationInput : Represents the input of a GetApplication operation.
+    /// - Parameter input: Represents the input of a GetApplication operation. (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : Represents the output of a GetApplication operation.
+    /// - Returns: Represents the output of a GetApplication operation. (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1894,9 +1894,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about an application revision.
     ///
-    /// - Parameter GetApplicationRevisionInput : Represents the input of a GetApplicationRevision operation.
+    /// - Parameter input: Represents the input of a GetApplicationRevision operation. (Type: `GetApplicationRevisionInput`)
     ///
-    /// - Returns: `GetApplicationRevisionOutput` : Represents the output of a GetApplicationRevision operation.
+    /// - Returns: Represents the output of a GetApplicationRevision operation. (Type: `GetApplicationRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,9 +1967,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about a deployment. The content property of the appSpecContent object in the returned revision is always null. Use GetApplicationRevision and the sha256 property of the returned appSpecContent object to get the content of the deployment’s AppSpec file.
     ///
-    /// - Parameter GetDeploymentInput : Represents the input of a GetDeployment operation.
+    /// - Parameter input: Represents the input of a GetDeployment operation. (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : Represents the output of a GetDeployment operation.
+    /// - Returns: Represents the output of a GetDeployment operation. (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2037,9 +2037,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about a deployment configuration.
     ///
-    /// - Parameter GetDeploymentConfigInput : Represents the input of a GetDeploymentConfig operation.
+    /// - Parameter input: Represents the input of a GetDeploymentConfig operation. (Type: `GetDeploymentConfigInput`)
     ///
-    /// - Returns: `GetDeploymentConfigOutput` : Represents the output of a GetDeploymentConfig operation.
+    /// - Returns: Represents the output of a GetDeploymentConfig operation. (Type: `GetDeploymentConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2108,9 +2108,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about a deployment group.
     ///
-    /// - Parameter GetDeploymentGroupInput : Represents the input of a GetDeploymentGroup operation.
+    /// - Parameter input: Represents the input of a GetDeploymentGroup operation. (Type: `GetDeploymentGroupInput`)
     ///
-    /// - Returns: `GetDeploymentGroupOutput` : Represents the output of a GetDeploymentGroup operation.
+    /// - Returns: Represents the output of a GetDeploymentGroup operation. (Type: `GetDeploymentGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2183,9 +2183,9 @@ extension CodeDeployClient {
     /// Gets information about an instance as part of a deployment.
     @available(*, deprecated, message: "This operation is deprecated, use GetDeploymentTarget instead.")
     ///
-    /// - Parameter GetDeploymentInstanceInput : Represents the input of a GetDeploymentInstance operation.
+    /// - Parameter input: Represents the input of a GetDeploymentInstance operation. (Type: `GetDeploymentInstanceInput`)
     ///
-    /// - Returns: `GetDeploymentInstanceOutput` : Represents the output of a GetDeploymentInstance operation.
+    /// - Returns: Represents the output of a GetDeploymentInstance operation. (Type: `GetDeploymentInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2257,9 +2257,9 @@ extension CodeDeployClient {
     ///
     /// Returns information about a deployment target.
     ///
-    /// - Parameter GetDeploymentTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentTargetInput`)
     ///
-    /// - Returns: `GetDeploymentTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2332,9 +2332,9 @@ extension CodeDeployClient {
     ///
     /// Gets information about an on-premises instance.
     ///
-    /// - Parameter GetOnPremisesInstanceInput : Represents the input of a GetOnPremisesInstance operation.
+    /// - Parameter input: Represents the input of a GetOnPremisesInstance operation. (Type: `GetOnPremisesInstanceInput`)
     ///
-    /// - Returns: `GetOnPremisesInstanceOutput` : Represents the output of a GetOnPremisesInstance operation.
+    /// - Returns: Represents the output of a GetOnPremisesInstance operation. (Type: `GetOnPremisesInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,9 +2402,9 @@ extension CodeDeployClient {
     ///
     /// Lists information about revisions for an application.
     ///
-    /// - Parameter ListApplicationRevisionsInput : Represents the input of a ListApplicationRevisions operation.
+    /// - Parameter input: Represents the input of a ListApplicationRevisions operation. (Type: `ListApplicationRevisionsInput`)
     ///
-    /// - Returns: `ListApplicationRevisionsOutput` : Represents the output of a ListApplicationRevisions operation.
+    /// - Returns: Represents the output of a ListApplicationRevisions operation. (Type: `ListApplicationRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2479,9 +2479,9 @@ extension CodeDeployClient {
     ///
     /// Lists the applications registered with the user or Amazon Web Services account.
     ///
-    /// - Parameter ListApplicationsInput : Represents the input of a ListApplications operation.
+    /// - Parameter input: Represents the input of a ListApplications operation. (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : Represents the output of a ListApplications operation.
+    /// - Returns: Represents the output of a ListApplications operation. (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2547,9 +2547,9 @@ extension CodeDeployClient {
     ///
     /// Lists the deployment configurations with the user or Amazon Web Services account.
     ///
-    /// - Parameter ListDeploymentConfigsInput : Represents the input of a ListDeploymentConfigs operation.
+    /// - Parameter input: Represents the input of a ListDeploymentConfigs operation. (Type: `ListDeploymentConfigsInput`)
     ///
-    /// - Returns: `ListDeploymentConfigsOutput` : Represents the output of a ListDeploymentConfigs operation.
+    /// - Returns: Represents the output of a ListDeploymentConfigs operation. (Type: `ListDeploymentConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2615,9 +2615,9 @@ extension CodeDeployClient {
     ///
     /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account.
     ///
-    /// - Parameter ListDeploymentGroupsInput : Represents the input of a ListDeploymentGroups operation.
+    /// - Parameter input: Represents the input of a ListDeploymentGroups operation. (Type: `ListDeploymentGroupsInput`)
     ///
-    /// - Returns: `ListDeploymentGroupsOutput` : Represents the output of a ListDeploymentGroups operation.
+    /// - Returns: Represents the output of a ListDeploymentGroups operation. (Type: `ListDeploymentGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2687,9 +2687,9 @@ extension CodeDeployClient {
     /// The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda. Lists the instance for a deployment associated with the user or Amazon Web Services account.
     @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
     ///
-    /// - Parameter ListDeploymentInstancesInput : Represents the input of a ListDeploymentInstances operation.
+    /// - Parameter input: Represents the input of a ListDeploymentInstances operation. (Type: `ListDeploymentInstancesInput`)
     ///
-    /// - Returns: `ListDeploymentInstancesOutput` : Represents the output of a ListDeploymentInstances operation.
+    /// - Returns: Represents the output of a ListDeploymentInstances operation. (Type: `ListDeploymentInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2764,9 +2764,9 @@ extension CodeDeployClient {
     ///
     /// Returns an array of target IDs that are associated a deployment.
     ///
-    /// - Parameter ListDeploymentTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentTargetsInput`)
     ///
-    /// - Returns: `ListDeploymentTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2840,9 +2840,9 @@ extension CodeDeployClient {
     ///
     /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account.
     ///
-    /// - Parameter ListDeploymentsInput : Represents the input of a ListDeployments operation.
+    /// - Parameter input: Represents the input of a ListDeployments operation. (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : Represents the output of a ListDeployments operation.
+    /// - Returns: Represents the output of a ListDeployments operation. (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2918,9 +2918,9 @@ extension CodeDeployClient {
     ///
     /// Lists the names of stored connections to GitHub accounts.
     ///
-    /// - Parameter ListGitHubAccountTokenNamesInput : Represents the input of a ListGitHubAccountTokenNames operation.
+    /// - Parameter input: Represents the input of a ListGitHubAccountTokenNames operation. (Type: `ListGitHubAccountTokenNamesInput`)
     ///
-    /// - Returns: `ListGitHubAccountTokenNamesOutput` : Represents the output of a ListGitHubAccountTokenNames operation.
+    /// - Returns: Represents the output of a ListGitHubAccountTokenNames operation. (Type: `ListGitHubAccountTokenNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2988,9 +2988,9 @@ extension CodeDeployClient {
     ///
     /// Gets a list of names for one or more on-premises instances. Unless otherwise specified, both registered and deregistered on-premises instance names are listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
     ///
-    /// - Parameter ListOnPremisesInstancesInput : Represents the input of a ListOnPremisesInstances operation.
+    /// - Parameter input: Represents the input of a ListOnPremisesInstances operation. (Type: `ListOnPremisesInstancesInput`)
     ///
-    /// - Returns: `ListOnPremisesInstancesOutput` : Represents the output of the list on-premises instances operation.
+    /// - Returns: Represents the output of the list on-premises instances operation. (Type: `ListOnPremisesInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3058,9 +3058,9 @@ extension CodeDeployClient {
     ///
     /// Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3128,9 +3128,9 @@ extension CodeDeployClient {
     ///
     /// Sets the result of a Lambda validation function. The function validates lifecycle hooks during a deployment that uses the Lambda or Amazon ECS compute platform. For Lambda deployments, the available lifecycle hooks are BeforeAllowTraffic and AfterAllowTraffic. For Amazon ECS deployments, the available lifecycle hooks are BeforeInstall, AfterInstall, AfterAllowTestTraffic, BeforeAllowTraffic, and AfterAllowTraffic. Lambda validation functions return Succeeded or Failed. For more information, see [AppSpec 'hooks' Section for an Lambda Deployment ](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-lambda) and [AppSpec 'hooks' Section for an Amazon ECS Deployment](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#appspec-hooks-ecs).
     ///
-    /// - Parameter PutLifecycleEventHookExecutionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLifecycleEventHookExecutionStatusInput`)
     ///
-    /// - Returns: `PutLifecycleEventHookExecutionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLifecycleEventHookExecutionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3202,9 +3202,9 @@ extension CodeDeployClient {
     ///
     /// Registers with CodeDeploy a revision for the specified application.
     ///
-    /// - Parameter RegisterApplicationRevisionInput : Represents the input of a RegisterApplicationRevision operation.
+    /// - Parameter input: Represents the input of a RegisterApplicationRevision operation. (Type: `RegisterApplicationRevisionInput`)
     ///
-    /// - Returns: `RegisterApplicationRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterApplicationRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3275,9 +3275,9 @@ extension CodeDeployClient {
     ///
     /// Registers an on-premises instance. Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
     ///
-    /// - Parameter RegisterOnPremisesInstanceInput : Represents the input of the register on-premises instance operation.
+    /// - Parameter input: Represents the input of the register on-premises instance operation. (Type: `RegisterOnPremisesInstanceInput`)
     ///
-    /// - Returns: `RegisterOnPremisesInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterOnPremisesInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3352,9 +3352,9 @@ extension CodeDeployClient {
     ///
     /// Removes one or more tags from one or more on-premises instances.
     ///
-    /// - Parameter RemoveTagsFromOnPremisesInstancesInput : Represents the input of a RemoveTagsFromOnPremisesInstances operation.
+    /// - Parameter input: Represents the input of a RemoveTagsFromOnPremisesInstances operation. (Type: `RemoveTagsFromOnPremisesInstancesInput`)
     ///
-    /// - Returns: `RemoveTagsFromOnPremisesInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromOnPremisesInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3427,9 +3427,9 @@ extension CodeDeployClient {
     /// In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is complete.
     @available(*, deprecated, message: "This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.")
     ///
-    /// - Parameter SkipWaitTimeForInstanceTerminationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SkipWaitTimeForInstanceTerminationInput`)
     ///
-    /// - Returns: `SkipWaitTimeForInstanceTerminationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SkipWaitTimeForInstanceTerminationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3500,9 +3500,9 @@ extension CodeDeployClient {
     ///
     /// Attempts to stop an ongoing deployment.
     ///
-    /// - Parameter StopDeploymentInput : Represents the input of a StopDeployment operation.
+    /// - Parameter input: Represents the input of a StopDeployment operation. (Type: `StopDeploymentInput`)
     ///
-    /// - Returns: `StopDeploymentOutput` : Represents the output of a StopDeployment operation.
+    /// - Returns: Represents the output of a StopDeployment operation. (Type: `StopDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3573,9 +3573,9 @@ extension CodeDeployClient {
     ///
     /// Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3648,9 +3648,9 @@ extension CodeDeployClient {
     ///
     /// Disassociates a resource from a list of tags. The resource is identified by the ResourceArn input parameter. The tags are identified by the list of keys in the TagKeys input parameter.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3723,9 +3723,9 @@ extension CodeDeployClient {
     ///
     /// Changes the name of an application.
     ///
-    /// - Parameter UpdateApplicationInput : Represents the input of an UpdateApplication operation.
+    /// - Parameter input: Represents the input of an UpdateApplication operation. (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3794,9 +3794,9 @@ extension CodeDeployClient {
     ///
     /// Changes information about a deployment group.
     ///
-    /// - Parameter UpdateDeploymentGroupInput : Represents the input of an UpdateDeploymentGroup operation.
+    /// - Parameter input: Represents the input of an UpdateDeploymentGroup operation. (Type: `UpdateDeploymentGroupInput`)
     ///
-    /// - Returns: `UpdateDeploymentGroupOutput` : Represents the output of an UpdateDeploymentGroup operation.
+    /// - Returns: Represents the output of an UpdateDeploymentGroup operation. (Type: `UpdateDeploymentGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

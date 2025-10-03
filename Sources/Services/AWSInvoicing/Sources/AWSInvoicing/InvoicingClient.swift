@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class InvoicingClient: ClientRuntime.Client {
     public static let clientName = "InvoicingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: InvoicingClient.InvoicingClientConfiguration
     let serviceName = "Invoicing"
@@ -373,9 +373,9 @@ extension InvoicingClient {
     ///
     /// This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
     ///
-    /// - Parameter BatchGetInvoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetInvoiceProfileInput`)
     ///
-    /// - Returns: `BatchGetInvoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetInvoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension InvoicingClient {
     ///
     /// This creates a new invoice unit with the provided definition.
     ///
-    /// - Parameter CreateInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvoiceUnitInput`)
     ///
-    /// - Returns: `CreateInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension InvoicingClient {
     ///
     /// This deletes an invoice unit with the provided invoice unit ARN.
     ///
-    /// - Parameter DeleteInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvoiceUnitInput`)
     ///
-    /// - Returns: `DeleteInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension InvoicingClient {
     ///
     /// This retrieves the invoice unit definition.
     ///
-    /// - Parameter GetInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvoiceUnitInput`)
     ///
-    /// - Returns: `GetInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,9 +660,9 @@ extension InvoicingClient {
     ///
     /// Retrieves your invoice details programmatically, without line item details.
     ///
-    /// - Parameter ListInvoiceSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvoiceSummariesInput`)
     ///
-    /// - Returns: `ListInvoiceSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvoiceSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,9 +732,9 @@ extension InvoicingClient {
     ///
     /// This fetches a list of all invoice unit definitions for a given account, as of the provided AsOf date.
     ///
-    /// - Parameter ListInvoiceUnitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvoiceUnitsInput`)
     ///
-    /// - Returns: `ListInvoiceUnitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvoiceUnitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,9 +803,9 @@ extension InvoicingClient {
     ///
     /// Lists the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -875,9 +875,9 @@ extension InvoicingClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension InvoicingClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1020,9 +1020,9 @@ extension InvoicingClient {
     ///
     /// You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
     ///
-    /// - Parameter UpdateInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInvoiceUnitInput`)
     ///
-    /// - Returns: `UpdateInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsMLClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsMLClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsMLClient.CleanRoomsMLClientConfiguration
     let serviceName = "CleanRoomsML"
@@ -373,9 +373,9 @@ extension CleanRoomsMLClient {
     ///
     /// Submits a request to cancel the trained model job.
     ///
-    /// - Parameter CancelTrainedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTrainedModelInput`)
     ///
-    /// - Returns: `CancelTrainedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTrainedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension CleanRoomsMLClient {
     ///
     /// Submits a request to cancel a trained model inference job.
     ///
-    /// - Parameter CancelTrainedModelInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTrainedModelInferenceJobInput`)
     ///
-    /// - Returns: `CancelTrainedModelInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTrainedModelInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -510,9 +510,9 @@ extension CleanRoomsMLClient {
     ///
     /// Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the [StartAudienceGenerationJob] API.
     ///
-    /// - Parameter CreateAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAudienceModelInput`)
     ///
-    /// - Returns: `CreateAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,9 +581,9 @@ extension CleanRoomsMLClient {
     ///
     /// Defines the information necessary to create a configured audience model.
     ///
-    /// - Parameter CreateConfiguredAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredAudienceModelInput`)
     ///
-    /// - Returns: `CreateConfiguredAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,9 +652,9 @@ extension CleanRoomsMLClient {
     ///
     /// Creates a configured model algorithm using a container image stored in an ECR repository.
     ///
-    /// - Parameter CreateConfiguredModelAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredModelAlgorithmInput`)
     ///
-    /// - Returns: `CreateConfiguredModelAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredModelAlgorithmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -722,9 +722,9 @@ extension CleanRoomsMLClient {
     ///
     /// Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
     ///
-    /// - Parameter CreateConfiguredModelAlgorithmAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredModelAlgorithmAssociationInput`)
     ///
-    /// - Returns: `CreateConfiguredModelAlgorithmAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredModelAlgorithmAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -794,9 +794,9 @@ extension CleanRoomsMLClient {
     ///
     /// Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
     ///
-    /// - Parameter CreateMLInputChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMLInputChannelInput`)
     ///
-    /// - Returns: `CreateMLInputChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMLInputChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -866,9 +866,9 @@ extension CleanRoomsMLClient {
     ///
     /// Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
     ///
-    /// - Parameter CreateTrainedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrainedModelInput`)
     ///
-    /// - Returns: `CreateTrainedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrainedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -939,9 +939,9 @@ extension CleanRoomsMLClient {
     ///
     /// Defines the information necessary to create a training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation.
     ///
-    /// - Parameter CreateTrainingDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrainingDatasetInput`)
     ///
-    /// - Returns: `CreateTrainingDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrainingDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1008,9 +1008,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes the specified audience generation job, and removes all data associated with the job.
     ///
-    /// - Parameter DeleteAudienceGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAudienceGenerationJobInput`)
     ///
-    /// - Returns: `DeleteAudienceGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAudienceGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension CleanRoomsMLClient {
     ///
     /// Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that depend on the audience model.
     ///
-    /// - Parameter DeleteAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAudienceModelInput`)
     ///
-    /// - Returns: `DeleteAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,9 +1142,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes the specified configured audience model. You can't delete a configured audience model if there are any lookalike models that use the configured audience model. If you delete a configured audience model, it will be removed from any collaborations that it is associated to.
     ///
-    /// - Parameter DeleteConfiguredAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredAudienceModelInput`)
     ///
-    /// - Returns: `DeleteConfiguredAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1209,9 +1209,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes the specified configured audience model policy.
     ///
-    /// - Parameter DeleteConfiguredAudienceModelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredAudienceModelPolicyInput`)
     ///
-    /// - Returns: `DeleteConfiguredAudienceModelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredAudienceModelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1275,9 +1275,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes a configured model algorithm.
     ///
-    /// - Parameter DeleteConfiguredModelAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredModelAlgorithmInput`)
     ///
-    /// - Returns: `DeleteConfiguredModelAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredModelAlgorithmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1342,9 +1342,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes a configured model algorithm association.
     ///
-    /// - Parameter DeleteConfiguredModelAlgorithmAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredModelAlgorithmAssociationInput`)
     ///
-    /// - Returns: `DeleteConfiguredModelAlgorithmAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredModelAlgorithmAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1410,9 +1410,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes a ML modeling configuration.
     ///
-    /// - Parameter DeleteMLConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMLConfigurationInput`)
     ///
-    /// - Returns: `DeleteMLConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMLConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1477,9 +1477,9 @@ extension CleanRoomsMLClient {
     ///
     /// Provides the information necessary to delete an ML input channel.
     ///
-    /// - Parameter DeleteMLInputChannelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMLInputChannelDataInput`)
     ///
-    /// - Returns: `DeleteMLInputChannelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMLInputChannelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1545,9 +1545,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes the model artifacts stored by the service.
     ///
-    /// - Parameter DeleteTrainedModelOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrainedModelOutputInput`)
     ///
-    /// - Returns: `DeleteTrainedModelOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrainedModelOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1614,9 +1614,9 @@ extension CleanRoomsMLClient {
     ///
     /// Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation. This action deletes the metadata.
     ///
-    /// - Parameter DeleteTrainingDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrainingDatasetInput`)
     ///
-    /// - Returns: `DeleteTrainingDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrainingDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1681,9 +1681,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about an audience generation job.
     ///
-    /// - Parameter GetAudienceGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAudienceGenerationJobInput`)
     ///
-    /// - Returns: `GetAudienceGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAudienceGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1747,9 +1747,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about an audience model
     ///
-    /// - Parameter GetAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAudienceModelInput`)
     ///
-    /// - Returns: `GetAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1813,9 +1813,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about the configured model algorithm association in a collaboration.
     ///
-    /// - Parameter GetCollaborationConfiguredModelAlgorithmAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationConfiguredModelAlgorithmAssociationInput`)
     ///
-    /// - Returns: `GetCollaborationConfiguredModelAlgorithmAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationConfiguredModelAlgorithmAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1880,9 +1880,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a specific ML input channel in a collaboration.
     ///
-    /// - Parameter GetCollaborationMLInputChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationMLInputChannelInput`)
     ///
-    /// - Returns: `GetCollaborationMLInputChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationMLInputChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1947,9 +1947,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a trained model in a collaboration.
     ///
-    /// - Parameter GetCollaborationTrainedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationTrainedModelInput`)
     ///
-    /// - Returns: `GetCollaborationTrainedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationTrainedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2015,9 +2015,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a specified configured audience model.
     ///
-    /// - Parameter GetConfiguredAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredAudienceModelInput`)
     ///
-    /// - Returns: `GetConfiguredAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2081,9 +2081,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a configured audience model policy.
     ///
-    /// - Parameter GetConfiguredAudienceModelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredAudienceModelPolicyInput`)
     ///
-    /// - Returns: `GetConfiguredAudienceModelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredAudienceModelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2147,9 +2147,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a configured model algorithm.
     ///
-    /// - Parameter GetConfiguredModelAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredModelAlgorithmInput`)
     ///
-    /// - Returns: `GetConfiguredModelAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredModelAlgorithmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2213,9 +2213,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a configured model algorithm association.
     ///
-    /// - Parameter GetConfiguredModelAlgorithmAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredModelAlgorithmAssociationInput`)
     ///
-    /// - Returns: `GetConfiguredModelAlgorithmAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredModelAlgorithmAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2280,9 +2280,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a specific ML configuration.
     ///
-    /// - Parameter GetMLConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLConfigurationInput`)
     ///
-    /// - Returns: `GetMLConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2347,9 +2347,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about an ML input channel.
     ///
-    /// - Parameter GetMLInputChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLInputChannelInput`)
     ///
-    /// - Returns: `GetMLInputChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLInputChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2414,9 +2414,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a trained model.
     ///
-    /// - Parameter GetTrainedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrainedModelInput`)
     ///
-    /// - Returns: `GetTrainedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrainedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2482,9 +2482,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a trained model inference job.
     ///
-    /// - Parameter GetTrainedModelInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrainedModelInferenceJobInput`)
     ///
-    /// - Returns: `GetTrainedModelInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrainedModelInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2549,9 +2549,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a training dataset.
     ///
-    /// - Parameter GetTrainingDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrainingDatasetInput`)
     ///
-    /// - Returns: `GetTrainingDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrainingDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2615,9 +2615,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the audience export jobs.
     ///
-    /// - Parameter ListAudienceExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAudienceExportJobsInput`)
     ///
-    /// - Returns: `ListAudienceExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAudienceExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2681,9 +2681,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of audience generation jobs.
     ///
-    /// - Parameter ListAudienceGenerationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAudienceGenerationJobsInput`)
     ///
-    /// - Returns: `ListAudienceGenerationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAudienceGenerationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2747,9 +2747,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of audience models.
     ///
-    /// - Parameter ListAudienceModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAudienceModelsInput`)
     ///
-    /// - Returns: `ListAudienceModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAudienceModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2813,9 +2813,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the configured model algorithm associations in a collaboration.
     ///
-    /// - Parameter ListCollaborationConfiguredModelAlgorithmAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationConfiguredModelAlgorithmAssociationsInput`)
     ///
-    /// - Returns: `ListCollaborationConfiguredModelAlgorithmAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationConfiguredModelAlgorithmAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2880,9 +2880,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the ML input channels in a collaboration.
     ///
-    /// - Parameter ListCollaborationMLInputChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationMLInputChannelsInput`)
     ///
-    /// - Returns: `ListCollaborationMLInputChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationMLInputChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2947,9 +2947,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the export jobs for a trained model in a collaboration.
     ///
-    /// - Parameter ListCollaborationTrainedModelExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationTrainedModelExportJobsInput`)
     ///
-    /// - Returns: `ListCollaborationTrainedModelExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationTrainedModelExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3014,9 +3014,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of trained model inference jobs in a specified collaboration.
     ///
-    /// - Parameter ListCollaborationTrainedModelInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationTrainedModelInferenceJobsInput`)
     ///
-    /// - Returns: `ListCollaborationTrainedModelInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationTrainedModelInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3081,9 +3081,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the trained models in a collaboration.
     ///
-    /// - Parameter ListCollaborationTrainedModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationTrainedModelsInput`)
     ///
-    /// - Returns: `ListCollaborationTrainedModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationTrainedModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3148,9 +3148,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the configured audience models.
     ///
-    /// - Parameter ListConfiguredAudienceModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredAudienceModelsInput`)
     ///
-    /// - Returns: `ListConfiguredAudienceModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredAudienceModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3214,9 +3214,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of configured model algorithm associations.
     ///
-    /// - Parameter ListConfiguredModelAlgorithmAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredModelAlgorithmAssociationsInput`)
     ///
-    /// - Returns: `ListConfiguredModelAlgorithmAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredModelAlgorithmAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3281,9 +3281,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of configured model algorithms.
     ///
-    /// - Parameter ListConfiguredModelAlgorithmsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredModelAlgorithmsInput`)
     ///
-    /// - Returns: `ListConfiguredModelAlgorithmsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredModelAlgorithmsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3347,9 +3347,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of ML input channels.
     ///
-    /// - Parameter ListMLInputChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMLInputChannelsInput`)
     ///
-    /// - Returns: `ListMLInputChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMLInputChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3414,9 +3414,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of tags for a provided resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3480,9 +3480,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of trained model inference jobs that match the request parameters.
     ///
-    /// - Parameter ListTrainedModelInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainedModelInferenceJobsInput`)
     ///
-    /// - Returns: `ListTrainedModelInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainedModelInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3547,9 +3547,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training.
     ///
-    /// - Parameter ListTrainedModelVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainedModelVersionsInput`)
     ///
-    /// - Returns: `ListTrainedModelVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainedModelVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3615,9 +3615,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of trained models.
     ///
-    /// - Parameter ListTrainedModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainedModelsInput`)
     ///
-    /// - Returns: `ListTrainedModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainedModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3682,9 +3682,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of training datasets.
     ///
-    /// - Parameter ListTrainingDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainingDatasetsInput`)
     ///
-    /// - Returns: `ListTrainingDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainingDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3748,9 +3748,9 @@ extension CleanRoomsMLClient {
     ///
     /// Create or update the resource policy for a configured audience model.
     ///
-    /// - Parameter PutConfiguredAudienceModelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutConfiguredAudienceModelPolicyInput`)
     ///
-    /// - Returns: `PutConfiguredAudienceModelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutConfiguredAudienceModelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3817,9 +3817,9 @@ extension CleanRoomsMLClient {
     ///
     /// Assigns information about an ML configuration.
     ///
-    /// - Parameter PutMLConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMLConfigurationInput`)
     ///
-    /// - Returns: `PutMLConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMLConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3886,9 +3886,9 @@ extension CleanRoomsMLClient {
     ///
     /// Export an audience of a specified size after you have generated an audience.
     ///
-    /// - Parameter StartAudienceExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAudienceExportJobInput`)
     ///
-    /// - Returns: `StartAudienceExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAudienceExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3957,9 +3957,9 @@ extension CleanRoomsMLClient {
     ///
     /// Information necessary to start the audience generation job.
     ///
-    /// - Parameter StartAudienceGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAudienceGenerationJobInput`)
     ///
-    /// - Returns: `StartAudienceGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAudienceGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4029,9 +4029,9 @@ extension CleanRoomsMLClient {
     ///
     /// Provides the information necessary to start a trained model export job.
     ///
-    /// - Parameter StartTrainedModelExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTrainedModelExportJobInput`)
     ///
-    /// - Returns: `StartTrainedModelExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTrainedModelExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4100,9 +4100,9 @@ extension CleanRoomsMLClient {
     ///
     /// Defines the information necessary to begin a trained model inference job.
     ///
-    /// - Parameter StartTrainedModelInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTrainedModelInferenceJobInput`)
     ///
-    /// - Returns: `StartTrainedModelInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTrainedModelInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4172,9 +4172,9 @@ extension CleanRoomsMLClient {
     ///
     /// Adds metadata tags to a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4241,9 +4241,9 @@ extension CleanRoomsMLClient {
     ///
     /// Removes metadata tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4308,9 +4308,9 @@ extension CleanRoomsMLClient {
     ///
     /// Provides the information necessary to update a configured audience model. Updates that impact audience generation jobs take effect when a new job starts, but do not impact currently running jobs.
     ///
-    /// - Parameter UpdateConfiguredAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredAudienceModelInput`)
     ///
-    /// - Returns: `UpdateConfiguredAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

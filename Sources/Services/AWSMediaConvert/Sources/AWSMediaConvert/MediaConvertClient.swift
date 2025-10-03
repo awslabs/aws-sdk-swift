@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaConvertClient: ClientRuntime.Client {
     public static let clientName = "MediaConvertClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConvertClient.MediaConvertClientConfiguration
     let serviceName = "MediaConvert"
@@ -373,9 +373,9 @@ extension MediaConvertClient {
     ///
     /// Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
     ///
-    /// - Parameter AssociateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateCertificateInput`)
     ///
-    /// - Returns: `AssociateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension MediaConvertClient {
     ///
     /// Permanently cancel a job. Once you have canceled a job, you can't start it again.
     ///
-    /// - Parameter CancelJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,9 +514,9 @@ extension MediaConvertClient {
     ///
     /// Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension MediaConvertClient {
     ///
     /// Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreateJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobTemplateInput`)
     ///
-    /// - Returns: `CreateJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,9 +659,9 @@ extension MediaConvertClient {
     ///
     /// Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreatePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresetInput`)
     ///
-    /// - Returns: `CreatePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension MediaConvertClient {
     ///
     /// Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     ///
-    /// - Parameter CreateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
     ///
-    /// - Returns: `CreateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,9 +803,9 @@ extension MediaConvertClient {
     ///
     /// Create a new resource share request for MediaConvert resources with AWS Support.
     ///
-    /// - Parameter CreateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceShareInput`)
     ///
-    /// - Returns: `CreateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -875,9 +875,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a job template you have created.
     ///
-    /// - Parameter DeleteJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobTemplateInput`)
     ///
-    /// - Returns: `DeleteJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,9 +944,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a policy that you created.
     ///
-    /// - Parameter DeletePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyInput`)
     ///
-    /// - Returns: `DeletePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,9 +1013,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a preset you have created.
     ///
-    /// - Parameter DeletePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePresetInput`)
     ///
-    /// - Returns: `DeletePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,9 +1082,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a queue you have created.
     ///
-    /// - Parameter DeleteQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueInput`)
     ///
-    /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,9 +1152,9 @@ extension MediaConvertClient {
     /// Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
     @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     ///
-    /// - Parameter DescribeEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointsInput`)
     ///
-    /// - Returns: `DescribeEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,9 +1224,9 @@ extension MediaConvertClient {
     ///
     /// Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
     ///
-    /// - Parameter DisassociateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateCertificateInput`)
     ///
-    /// - Returns: `DisassociateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1293,9 +1293,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific transcoding job.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1362,9 +1362,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific job template.
     ///
-    /// - Parameter GetJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobTemplateInput`)
     ///
-    /// - Returns: `GetJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1431,9 +1431,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for your policy.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1500,9 +1500,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific preset.
     ///
-    /// - Parameter GetPresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPresetInput`)
     ///
-    /// - Returns: `GetPresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,9 +1569,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific queue.
     ///
-    /// - Parameter GetQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueInput`)
     ///
-    /// - Returns: `GetQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1638,9 +1638,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
     ///
-    /// - Parameter ListJobTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobTemplatesInput`)
     ///
-    /// - Returns: `ListJobTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1708,9 +1708,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1778,9 +1778,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListPresetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPresetsInput`)
     ///
-    /// - Returns: `ListPresetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPresetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1848,9 +1848,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
     ///
-    /// - Returns: `ListQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1918,9 +1918,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the tags for a MediaConvert resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1987,9 +1987,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of all available Job engine versions and the date they expire.
     ///
-    /// - Parameter ListVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVersionsInput`)
     ///
-    /// - Returns: `ListVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2057,9 +2057,9 @@ extension MediaConvertClient {
     ///
     /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
     ///
-    /// - Parameter ProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProbeInput`)
     ///
-    /// - Returns: `ProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2129,9 +2129,9 @@ extension MediaConvertClient {
     ///
     /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter PutPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPolicyInput`)
     ///
-    /// - Returns: `PutPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2201,9 +2201,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     ///
-    /// - Parameter SearchJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
     ///
-    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2271,9 +2271,9 @@ extension MediaConvertClient {
     ///
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2343,9 +2343,9 @@ extension MediaConvertClient {
     ///
     /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2415,9 +2415,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing job templates.
     ///
-    /// - Parameter UpdateJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobTemplateInput`)
     ///
-    /// - Returns: `UpdateJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2487,9 +2487,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing presets.
     ///
-    /// - Parameter UpdatePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePresetInput`)
     ///
-    /// - Returns: `UpdatePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2559,9 +2559,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing queues.
     ///
-    /// - Parameter UpdateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueInput`)
     ///
-    /// - Returns: `UpdateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTManagedIntegrationsClient: ClientRuntime.Client {
     public static let clientName = "IoTManagedIntegrationsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfiguration
     let serviceName = "IoT Managed Integrations"
@@ -375,9 +375,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Creates a new account association via the destination id.
     ///
-    /// - Parameter CreateAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountAssociationInput`)
     ///
-    /// - Returns: `CreateAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Creates a C2C (cloud-to-cloud) connector.
     ///
-    /// - Parameter CreateCloudConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudConnectorInput`)
     ///
-    /// - Returns: `CreateCloudConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
     ///
-    /// - Parameter CreateConnectorDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorDestinationInput`)
     ///
-    /// - Returns: `CreateConnectorDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a product credential locker. This operation will trigger the creation of all the manufacturing resources including the Wi-Fi setup key pair and device certificate.
     ///
-    /// - Parameter CreateCredentialLockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCredentialLockerInput`)
     ///
-    /// - Returns: `CreateCredentialLockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCredentialLockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a destination. IoT managed integrations uses the destination to determine where to deliver notifications for a device.
     ///
-    /// - Parameter CreateDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDestinationInput`)
     ///
-    /// - Returns: `CreateDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,9 +739,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Set the event log configuration for the account, resource type, or specific resource.
     ///
-    /// - Parameter CreateEventLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventLogConfigurationInput`)
     ///
-    /// - Returns: `CreateEventLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,9 +812,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a protocol-specific format.
     ///
-    /// - Parameter CreateManagedThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateManagedThingInput`)
     ///
-    /// - Returns: `CreateManagedThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateManagedThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -887,9 +887,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created.
     ///
-    /// - Parameter CreateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotificationConfigurationInput`)
     ///
-    /// - Returns: `CreateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -959,9 +959,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create an over-the-air (OTA) task to update a device.
     ///
-    /// - Parameter CreateOtaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOtaTaskInput`)
     ///
-    /// - Returns: `CreateOtaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOtaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1033,9 +1033,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a configuraiton for the over-the-air (OTA) task.
     ///
-    /// - Parameter CreateOtaTaskConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOtaTaskConfigurationInput`)
     ///
-    /// - Returns: `CreateOtaTaskConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOtaTaskConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1105,9 +1105,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
     ///
-    /// - Parameter CreateProvisioningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProvisioningProfileInput`)
     ///
-    /// - Returns: `CreateProvisioningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProvisioningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1180,9 +1180,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Remove a third party account and related devices from an end user.
     ///
-    /// - Parameter DeleteAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountAssociationInput`)
     ///
-    /// - Returns: `DeleteAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1249,9 +1249,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a cloud connector.
     ///
-    /// - Parameter DeleteCloudConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudConnectorInput`)
     ///
-    /// - Returns: `DeleteCloudConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1317,9 +1317,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
     ///
-    /// - Parameter DeleteConnectorDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorDestinationInput`)
     ///
-    /// - Returns: `DeleteConnectorDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1385,9 +1385,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a credential locker. This operation can't be undone and any existing device won't be able to use IoT managed integrations.
     ///
-    /// - Parameter DeleteCredentialLockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCredentialLockerInput`)
     ///
-    /// - Returns: `DeleteCredentialLockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCredentialLockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1454,9 +1454,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Deletes a customer-managed destination specified by id.
     ///
-    /// - Parameter DeleteDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDestinationInput`)
     ///
-    /// - Returns: `DeleteDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1522,9 +1522,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete an event log configuration.
     ///
-    /// - Parameter DeleteEventLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventLogConfigurationInput`)
     ///
-    /// - Returns: `DeleteEventLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1590,9 +1590,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a managed thing. If a controller is deleted, all of the devices connected to it will have their status changed to PENDING. It is not possible to remove a cloud device.
     ///
-    /// - Parameter DeleteManagedThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteManagedThingInput`)
     ///
-    /// - Returns: `DeleteManagedThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteManagedThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1662,9 +1662,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Deletes a notification configuration.
     ///
-    /// - Parameter DeleteNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotificationConfigurationInput`)
     ///
-    /// - Returns: `DeleteNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,9 +1730,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete the over-the-air (OTA) task.
     ///
-    /// - Parameter DeleteOtaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOtaTaskInput`)
     ///
-    /// - Returns: `DeleteOtaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOtaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,9 +1799,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete the over-the-air (OTA) task configuration.
     ///
-    /// - Parameter DeleteOtaTaskConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOtaTaskConfigurationInput`)
     ///
-    /// - Returns: `DeleteOtaTaskConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOtaTaskConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1867,9 +1867,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a provisioning profile.
     ///
-    /// - Parameter DeleteProvisioningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProvisioningProfileInput`)
     ///
-    /// - Returns: `DeleteProvisioningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProvisioningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1937,9 +1937,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Deregisters an account association, removing the connection between a managed thing and a third-party account.
     ///
-    /// - Parameter DeregisterAccountAssociationInput : Request for deregister a managed thing from account association
+    /// - Parameter input: Request for deregister a managed thing from account association (Type: `DeregisterAccountAssociationInput`)
     ///
-    /// - Returns: `DeregisterAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2008,9 +2008,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get an account association for an Amazon Web Services account linked to a customer-managed destination.
     ///
-    /// - Parameter GetAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountAssociationInput`)
     ///
-    /// - Returns: `GetAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2077,9 +2077,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Gets all the information about a connector for a connector developer.
     ///
-    /// - Parameter GetCloudConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudConnectorInput`)
     ///
-    /// - Returns: `GetCloudConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2145,9 +2145,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a connector destination of a cloud-to-cloud (C2C) connector connecting to a customer's Amazon Web Services account.
     ///
-    /// - Parameter GetConnectorDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorDestinationInput`)
     ///
-    /// - Returns: `GetConnectorDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2213,9 +2213,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get information on an existing credential locker
     ///
-    /// - Parameter GetCredentialLockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCredentialLockerInput`)
     ///
-    /// - Returns: `GetCredentialLockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCredentialLockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2282,9 +2282,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Returns the IoT managed integrations custom endpoint.
     ///
-    /// - Parameter GetCustomEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomEndpointInput`)
     ///
-    /// - Returns: `GetCustomEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2352,9 +2352,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the AWS IoT SiteWise User Guide.
     ///
-    /// - Parameter GetDefaultEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDefaultEncryptionConfigurationInput`)
     ///
-    /// - Returns: `GetDefaultEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDefaultEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2422,9 +2422,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Gets a destination by ID.
     ///
-    /// - Parameter GetDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDestinationInput`)
     ///
-    /// - Returns: `GetDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,9 +2490,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the current state of a device discovery.
     ///
-    /// - Parameter GetDeviceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceDiscoveryInput`)
     ///
-    /// - Returns: `GetDeviceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceDiscoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2560,9 +2560,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get an event log configuration.
     ///
-    /// - Parameter GetEventLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventLogConfigurationInput`)
     ///
-    /// - Returns: `GetEventLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2628,9 +2628,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a hub configuration.
     ///
-    /// - Parameter GetHubConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHubConfigurationInput`)
     ///
-    /// - Returns: `GetHubConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHubConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2697,9 +2697,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the attributes and capabilities associated with a managed thing.
     ///
-    /// - Parameter GetManagedThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingInput`)
     ///
-    /// - Returns: `GetManagedThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2767,9 +2767,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the capabilities for a managed thing using the device ID.
     ///
-    /// - Parameter GetManagedThingCapabilitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingCapabilitiesInput`)
     ///
-    /// - Returns: `GetManagedThingCapabilitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingCapabilitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2837,9 +2837,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the connectivity status of a managed thing.
     ///
-    /// - Parameter GetManagedThingConnectivityDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingConnectivityDataInput`)
     ///
-    /// - Returns: `GetManagedThingConnectivityDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingConnectivityDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2907,9 +2907,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the metadata information for a managed thing. The managedThingmetadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation.
     ///
-    /// - Parameter GetManagedThingMetaDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingMetaDataInput`)
     ///
-    /// - Returns: `GetManagedThingMetaDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingMetaDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2977,9 +2977,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Returns the managed thing state for the given device Id.
     ///
-    /// - Parameter GetManagedThingStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingStateInput`)
     ///
-    /// - Returns: `GetManagedThingStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3047,9 +3047,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a notification configuration.
     ///
-    /// - Parameter GetNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3115,9 +3115,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the over-the-air (OTA) task.
     ///
-    /// - Parameter GetOtaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOtaTaskInput`)
     ///
-    /// - Returns: `GetOtaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOtaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3183,9 +3183,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a configuraiton for the over-the-air (OTA) task.
     ///
-    /// - Parameter GetOtaTaskConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOtaTaskConfigurationInput`)
     ///
-    /// - Returns: `GetOtaTaskConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOtaTaskConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3251,9 +3251,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a provisioning profile by template name.
     ///
-    /// - Parameter GetProvisioningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProvisioningProfileInput`)
     ///
-    /// - Returns: `GetProvisioningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProvisioningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3321,9 +3321,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the runtime log configuration for a specific managed thing or for all managed things as a group.
     ///
-    /// - Parameter GetRuntimeLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuntimeLogConfigurationInput`)
     ///
-    /// - Returns: `GetRuntimeLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuntimeLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3389,9 +3389,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Gets a schema version with the provided information.
     ///
-    /// - Parameter GetSchemaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaVersionInput`)
     ///
-    /// - Returns: `GetSchemaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3460,9 +3460,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all account associations, with optional filtering by connector destination ID.
     ///
-    /// - Parameter ListAccountAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssociationsInput`)
     ///
-    /// - Returns: `ListAccountAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3529,9 +3529,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Returns a list of connectors based on permissions.
     ///
-    /// - Parameter ListCloudConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCloudConnectorsInput`)
     ///
-    /// - Returns: `ListCloudConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCloudConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3597,9 +3597,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all connector destinations, with optional filtering by cloud connector ID.
     ///
-    /// - Parameter ListConnectorDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorDestinationsInput`)
     ///
-    /// - Returns: `ListConnectorDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3665,9 +3665,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List information on an existing credential locker.
     ///
-    /// - Parameter ListCredentialLockersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCredentialLockersInput`)
     ///
-    /// - Returns: `ListCredentialLockersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCredentialLockersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3734,9 +3734,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all destination names under one Amazon Web Services account.
     ///
-    /// - Parameter ListDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDestinationsInput`)
     ///
-    /// - Returns: `ListDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3802,9 +3802,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all device discovery tasks, with optional filtering by type and status.
     ///
-    /// - Parameter ListDeviceDiscoveriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceDiscoveriesInput`)
     ///
-    /// - Returns: `ListDeviceDiscoveriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceDiscoveriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3872,9 +3872,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all devices discovered during a specific device discovery task.
     ///
-    /// - Parameter ListDiscoveredDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDiscoveredDevicesInput`)
     ///
-    /// - Returns: `ListDiscoveredDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDiscoveredDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3943,9 +3943,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all event log configurations for an account.
     ///
-    /// - Parameter ListEventLogConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventLogConfigurationsInput`)
     ///
-    /// - Returns: `ListEventLogConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventLogConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4011,9 +4011,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all account associations for a specific managed thing.
     ///
-    /// - Parameter ListManagedThingAccountAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedThingAccountAssociationsInput`)
     ///
-    /// - Returns: `ListManagedThingAccountAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedThingAccountAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4079,9 +4079,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List schemas associated with a managed thing.
     ///
-    /// - Parameter ListManagedThingSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedThingSchemasInput`)
     ///
-    /// - Returns: `ListManagedThingSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedThingSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4150,9 +4150,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Listing all managed things with provision for filters.
     ///
-    /// - Parameter ListManagedThingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedThingsInput`)
     ///
-    /// - Returns: `ListManagedThingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedThingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4220,9 +4220,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all notification configurations.
     ///
-    /// - Parameter ListNotificationConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationConfigurationsInput`)
     ///
-    /// - Returns: `ListNotificationConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4288,9 +4288,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all of the over-the-air (OTA) task configurations.
     ///
-    /// - Parameter ListOtaTaskConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOtaTaskConfigurationsInput`)
     ///
-    /// - Returns: `ListOtaTaskConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOtaTaskConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4356,9 +4356,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all of the over-the-air (OTA) task executions.
     ///
-    /// - Parameter ListOtaTaskExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOtaTaskExecutionsInput`)
     ///
-    /// - Returns: `ListOtaTaskExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOtaTaskExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4425,9 +4425,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all of the over-the-air (OTA) tasks.
     ///
-    /// - Parameter ListOtaTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOtaTasksInput`)
     ///
-    /// - Returns: `ListOtaTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOtaTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4494,9 +4494,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List the provisioning profiles within the Amazon Web Services account.
     ///
-    /// - Parameter ListProvisioningProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisioningProfilesInput`)
     ///
-    /// - Returns: `ListProvisioningProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisioningProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4564,9 +4564,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists schema versions with the provided information.
     ///
-    /// - Parameter ListSchemaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemaVersionsInput`)
     ///
-    /// - Returns: `ListSchemaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4634,9 +4634,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4701,9 +4701,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the AWS IoT SiteWise User Guide.
     ///
-    /// - Parameter PutDefaultEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDefaultEncryptionConfigurationInput`)
     ///
-    /// - Returns: `PutDefaultEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDefaultEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4774,9 +4774,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update a hub configuration.
     ///
-    /// - Parameter PutHubConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutHubConfigurationInput`)
     ///
-    /// - Returns: `PutHubConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutHubConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4846,9 +4846,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Set the runtime log configuration for a specific managed thing or for all managed things as a group.
     ///
-    /// - Parameter PutRuntimeLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRuntimeLogConfigurationInput`)
     ///
-    /// - Returns: `PutRuntimeLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRuntimeLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4917,9 +4917,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
     ///
-    /// - Parameter RegisterAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAccountAssociationInput`)
     ///
-    /// - Returns: `RegisterAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4989,9 +4989,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
     ///
-    /// - Parameter RegisterCustomEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterCustomEndpointInput`)
     ///
-    /// - Returns: `RegisterCustomEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterCustomEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5059,9 +5059,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Reset a runtime log configuration for a specific managed thing or for all managed things as a group.
     ///
-    /// - Parameter ResetRuntimeLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetRuntimeLogConfigurationInput`)
     ///
-    /// - Returns: `ResetRuntimeLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetRuntimeLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5127,9 +5127,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Relays third-party device events for a connector such as a new device or a device state change event.
     ///
-    /// - Parameter SendConnectorEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendConnectorEventInput`)
     ///
-    /// - Returns: `SendConnectorEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendConnectorEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5199,9 +5199,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Send the command to the device represented by the managed thing.
     ///
-    /// - Parameter SendManagedThingCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendManagedThingCommandInput`)
     ///
-    /// - Returns: `SendManagedThingCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendManagedThingCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5272,9 +5272,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Initiates a refresh of an existing account association to update its authorization and connection status.
     ///
-    /// - Parameter StartAccountAssociationRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAccountAssociationRefreshInput`)
     ///
-    /// - Returns: `StartAccountAssociationRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAccountAssociationRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5341,9 +5341,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
     ///
-    /// - Parameter StartDeviceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDeviceDiscoveryInput`)
     ///
-    /// - Returns: `StartDeviceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDeviceDiscoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5415,9 +5415,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Add tags for the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5486,9 +5486,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Remove tags for the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5555,9 +5555,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Updates the properties of an existing account association.
     ///
-    /// - Parameter UpdateAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountAssociationInput`)
     ///
-    /// - Returns: `UpdateAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5628,9 +5628,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update an existing cloud connector.
     ///
-    /// - Parameter UpdateCloudConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCloudConnectorInput`)
     ///
-    /// - Returns: `UpdateCloudConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCloudConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5699,9 +5699,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Updates the properties of an existing connector destination.
     ///
-    /// - Parameter UpdateConnectorDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorDestinationInput`)
     ///
-    /// - Returns: `UpdateConnectorDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5770,9 +5770,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update a destination specified by id.
     ///
-    /// - Parameter UpdateDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDestinationInput`)
     ///
-    /// - Returns: `UpdateDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5841,9 +5841,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update an event log configuration by log configuration ID.
     ///
-    /// - Parameter UpdateEventLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventLogConfigurationInput`)
     ///
-    /// - Returns: `UpdateEventLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5912,9 +5912,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update the attributes and capabilities associated with a managed thing.
     ///
-    /// - Parameter UpdateManagedThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateManagedThingInput`)
     ///
-    /// - Returns: `UpdateManagedThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateManagedThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5986,9 +5986,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update a notification configuration.
     ///
-    /// - Parameter UpdateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotificationConfigurationInput`)
     ///
-    /// - Returns: `UpdateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6057,9 +6057,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update an over-the-air (OTA) task.
     ///
-    /// - Parameter UpdateOtaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOtaTaskInput`)
     ///
-    /// - Returns: `UpdateOtaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOtaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

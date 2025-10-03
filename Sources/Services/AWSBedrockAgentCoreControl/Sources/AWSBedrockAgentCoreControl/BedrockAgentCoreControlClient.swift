@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreControlClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreControlClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreControlClient.BedrockAgentCoreControlClientConfiguration
     let serviceName = "Bedrock AgentCore Control"
@@ -374,9 +374,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates an Amazon Bedrock AgentCore Runtime.
     ///
-    /// - Parameter CreateAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAgentRuntimeInput`)
     ///
-    /// - Returns: `CreateAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates an AgentCore Runtime endpoint.
     ///
-    /// - Parameter CreateAgentRuntimeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAgentRuntimeEndpointInput`)
     ///
-    /// - Returns: `CreateAgentRuntimeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAgentRuntimeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -521,9 +521,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a new API key credential provider.
     ///
-    /// - Parameter CreateApiKeyCredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApiKeyCredentialProviderInput`)
     ///
-    /// - Returns: `CreateApiKeyCredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiKeyCredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,9 +598,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a custom browser.
     ///
-    /// - Parameter CreateBrowserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBrowserInput`)
     ///
-    /// - Returns: `CreateBrowserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBrowserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a custom code interpreter.
     ///
-    /// - Parameter CreateCodeInterpreterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCodeInterpreterInput`)
     ///
-    /// - Returns: `CreateCodeInterpreterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCodeInterpreterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -744,9 +744,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. To create a gateway, you must specify a name, protocol type, and IAM role. The role grants the gateway permission to access Amazon Web Services services and resources.
     ///
-    /// - Parameter CreateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayInput`)
     ///
-    /// - Returns: `CreateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -817,9 +817,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
     ///
-    /// - Parameter CreateGatewayTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayTargetInput`)
     ///
-    /// - Returns: `CreateGatewayTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -891,9 +891,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a new Amazon Bedrock AgentCore Memory resource.
     ///
-    /// - Parameter CreateMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMemoryInput`)
     ///
-    /// - Returns: `CreateMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -965,9 +965,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a new OAuth2 credential provider.
     ///
-    /// - Parameter CreateOauth2CredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOauth2CredentialProviderInput`)
     ///
-    /// - Returns: `CreateOauth2CredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOauth2CredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,9 +1042,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Creates a new workload identity.
     ///
-    /// - Parameter CreateWorkloadIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkloadIdentityInput`)
     ///
-    /// - Returns: `CreateWorkloadIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkloadIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,9 +1114,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an Amazon Bedrock AgentCore Runtime.
     ///
-    /// - Parameter DeleteAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgentRuntimeInput`)
     ///
-    /// - Returns: `DeleteAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1182,9 +1182,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an AAgentCore Runtime endpoint.
     ///
-    /// - Parameter DeleteAgentRuntimeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgentRuntimeEndpointInput`)
     ///
-    /// - Returns: `DeleteAgentRuntimeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAgentRuntimeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1252,9 +1252,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an API key credential provider.
     ///
-    /// - Parameter DeleteApiKeyCredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiKeyCredentialProviderInput`)
     ///
-    /// - Returns: `DeleteApiKeyCredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiKeyCredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1324,9 +1324,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a custom browser.
     ///
-    /// - Parameter DeleteBrowserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrowserInput`)
     ///
-    /// - Returns: `DeleteBrowserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrowserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,9 +1396,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a custom code interpreter.
     ///
-    /// - Parameter DeleteCodeInterpreterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCodeInterpreterInput`)
     ///
-    /// - Returns: `DeleteCodeInterpreterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCodeInterpreterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1468,9 +1468,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a gateway.
     ///
-    /// - Parameter DeleteGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayInput`)
     ///
-    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1537,9 +1537,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a gateway target.
     ///
-    /// - Parameter DeleteGatewayTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayTargetInput`)
     ///
-    /// - Returns: `DeleteGatewayTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1606,9 +1606,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an Amazon Bedrock AgentCore Memory resource.
     ///
-    /// - Parameter DeleteMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemoryInput`)
     ///
-    /// - Returns: `DeleteMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1676,9 +1676,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes an OAuth2 credential provider.
     ///
-    /// - Parameter DeleteOauth2CredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOauth2CredentialProviderInput`)
     ///
-    /// - Returns: `DeleteOauth2CredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOauth2CredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1748,9 +1748,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Deletes a workload identity.
     ///
-    /// - Parameter DeleteWorkloadIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkloadIdentityInput`)
     ///
-    /// - Returns: `DeleteWorkloadIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkloadIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,9 +1820,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Gets an Amazon Bedrock AgentCore Runtime.
     ///
-    /// - Parameter GetAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgentRuntimeInput`)
     ///
-    /// - Returns: `GetAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1889,9 +1889,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Gets information about an Amazon Secure AgentEndpoint.
     ///
-    /// - Parameter GetAgentRuntimeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgentRuntimeEndpointInput`)
     ///
-    /// - Returns: `GetAgentRuntimeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgentRuntimeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1957,9 +1957,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about an API key credential provider.
     ///
-    /// - Parameter GetApiKeyCredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiKeyCredentialProviderInput`)
     ///
-    /// - Returns: `GetApiKeyCredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiKeyCredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2030,9 +2030,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Gets information about a custom browser.
     ///
-    /// - Parameter GetBrowserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBrowserInput`)
     ///
-    /// - Returns: `GetBrowserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBrowserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2098,9 +2098,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Gets information about a custom code interpreter.
     ///
-    /// - Parameter GetCodeInterpreterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeInterpreterInput`)
     ///
-    /// - Returns: `GetCodeInterpreterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeInterpreterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2166,9 +2166,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about a specific Gateway.
     ///
-    /// - Parameter GetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGatewayInput`)
     ///
-    /// - Returns: `GetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2234,9 +2234,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about a specific gateway target.
     ///
-    /// - Parameter GetGatewayTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGatewayTargetInput`)
     ///
-    /// - Returns: `GetGatewayTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGatewayTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2302,9 +2302,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieve an existing Amazon Bedrock AgentCore Memory resource.
     ///
-    /// - Parameter GetMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemoryInput`)
     ///
-    /// - Returns: `GetMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2370,9 +2370,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about an OAuth2 credential provider.
     ///
-    /// - Parameter GetOauth2CredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOauth2CredentialProviderInput`)
     ///
-    /// - Returns: `GetOauth2CredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOauth2CredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2443,9 +2443,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about a token vault.
     ///
-    /// - Parameter GetTokenVaultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTokenVaultInput`)
     ///
-    /// - Returns: `GetTokenVaultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTokenVaultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2515,9 +2515,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Retrieves information about a workload identity.
     ///
-    /// - Parameter GetWorkloadIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadIdentityInput`)
     ///
-    /// - Returns: `GetWorkloadIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2587,9 +2587,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all endpoints for a specific Amazon Secure Agent.
     ///
-    /// - Parameter ListAgentRuntimeEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgentRuntimeEndpointsInput`)
     ///
-    /// - Returns: `ListAgentRuntimeEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgentRuntimeEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2655,9 +2655,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all versions of a specific Amazon Secure Agent.
     ///
-    /// - Parameter ListAgentRuntimeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgentRuntimeVersionsInput`)
     ///
-    /// - Returns: `ListAgentRuntimeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgentRuntimeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2724,9 +2724,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all Amazon Secure Agents in your account.
     ///
-    /// - Parameter ListAgentRuntimesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgentRuntimesInput`)
     ///
-    /// - Returns: `ListAgentRuntimesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgentRuntimesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2792,9 +2792,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all API key credential providers in your account.
     ///
-    /// - Parameter ListApiKeyCredentialProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApiKeyCredentialProvidersInput`)
     ///
-    /// - Returns: `ListApiKeyCredentialProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApiKeyCredentialProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2864,9 +2864,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all custom browsers in your account.
     ///
-    /// - Parameter ListBrowsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrowsersInput`)
     ///
-    /// - Returns: `ListBrowsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrowsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2932,9 +2932,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all custom code interpreters in your account.
     ///
-    /// - Parameter ListCodeInterpretersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeInterpretersInput`)
     ///
-    /// - Returns: `ListCodeInterpretersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeInterpretersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3000,9 +3000,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all targets for a specific gateway.
     ///
-    /// - Parameter ListGatewayTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewayTargetsInput`)
     ///
-    /// - Returns: `ListGatewayTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewayTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3068,9 +3068,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all gateways in the account.
     ///
-    /// - Parameter ListGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewaysInput`)
     ///
-    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3136,9 +3136,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
     ///
-    /// - Parameter ListMemoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMemoriesInput`)
     ///
-    /// - Returns: `ListMemoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMemoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3207,9 +3207,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all OAuth2 credential providers in your account.
     ///
-    /// - Parameter ListOauth2CredentialProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOauth2CredentialProvidersInput`)
     ///
-    /// - Returns: `ListOauth2CredentialProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOauth2CredentialProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3279,9 +3279,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists the tags associated with the specified resource. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3347,9 +3347,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Lists all workload identities in your account.
     ///
-    /// - Parameter ListWorkloadIdentitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadIdentitiesInput`)
     ///
-    /// - Returns: `ListWorkloadIdentitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3419,9 +3419,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Sets the customer master key (CMK) for a token vault.
     ///
-    /// - Parameter SetTokenVaultCMKInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetTokenVaultCMKInput`)
     ///
-    /// - Returns: `SetTokenVaultCMKOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetTokenVaultCMKOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3492,9 +3492,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3564,9 +3564,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Removes the specified tags from the specified resource. This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3633,9 +3633,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing Amazon Secure Agent.
     ///
-    /// - Parameter UpdateAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentRuntimeInput`)
     ///
-    /// - Returns: `UpdateAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3707,9 +3707,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing Amazon Bedrock AgentCore Runtime endpoint.
     ///
-    /// - Parameter UpdateAgentRuntimeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentRuntimeEndpointInput`)
     ///
-    /// - Returns: `UpdateAgentRuntimeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgentRuntimeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3781,9 +3781,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing API key credential provider.
     ///
-    /// - Parameter UpdateApiKeyCredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApiKeyCredentialProviderInput`)
     ///
-    /// - Returns: `UpdateApiKeyCredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiKeyCredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3857,9 +3857,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing gateway.
     ///
-    /// - Parameter UpdateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayInput`)
     ///
-    /// - Returns: `UpdateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3930,9 +3930,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing gateway target.
     ///
-    /// - Parameter UpdateGatewayTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayTargetInput`)
     ///
-    /// - Returns: `UpdateGatewayTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4003,9 +4003,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Update an Amazon Bedrock AgentCore Memory resource memory.
     ///
-    /// - Parameter UpdateMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMemoryInput`)
     ///
-    /// - Returns: `UpdateMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4077,9 +4077,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing OAuth2 credential provider.
     ///
-    /// - Parameter UpdateOauth2CredentialProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOauth2CredentialProviderInput`)
     ///
-    /// - Returns: `UpdateOauth2CredentialProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOauth2CredentialProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4153,9 +4153,9 @@ extension BedrockAgentCoreControlClient {
     ///
     /// Updates an existing workload identity.
     ///
-    /// - Parameter UpdateWorkloadIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkloadIdentityInput`)
     ///
-    /// - Returns: `UpdateWorkloadIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkloadIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

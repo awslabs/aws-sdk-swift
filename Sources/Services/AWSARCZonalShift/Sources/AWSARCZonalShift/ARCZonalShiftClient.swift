@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ARCZonalShiftClient: ClientRuntime.Client {
     public static let clientName = "ARCZonalShiftClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCZonalShiftClient.ARCZonalShiftClientConfiguration
     let serviceName = "ARC Zonal Shift"
@@ -373,9 +373,9 @@ extension ARCZonalShiftClient {
     ///
     /// Cancel an in-progress practice run zonal shift in Amazon Application Recovery Controller.
     ///
-    /// - Parameter CancelPracticeRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelPracticeRunInput`)
     ///
-    /// - Returns: `CancelPracticeRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelPracticeRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,9 +442,9 @@ extension ARCZonalShiftClient {
     ///
     /// Cancel a zonal shift in Amazon Application Recovery Controller. To cancel the zonal shift, specify the zonal shift ID. A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift.
     ///
-    /// - Parameter CancelZonalShiftInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelZonalShiftInput`)
     ///
-    /// - Returns: `CancelZonalShiftOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelZonalShiftOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,9 +511,9 @@ extension ARCZonalShiftClient {
     ///
     /// A practice run configuration for zonal autoshift is required when you enable zonal autoshift. A practice run configuration includes specifications for blocked dates and blocked time windows, and for Amazon CloudWatch alarms that you create to use with practice runs. The alarms that you specify are an outcome alarm, to monitor application health during practice runs and, optionally, a blocking alarm, to block practice runs from starting. When a resource has a practice run configuration, ARC starts zonal shifts for the resource weekly, to shift traffic for practice runs. Practice runs help you to ensure that shifting away traffic from an Availability Zone during an autoshift is safe for your application. For more information, see [ Considerations when you configure zonal autoshift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html) in the Amazon Application Recovery Controller Developer Guide.
     ///
-    /// - Parameter CreatePracticeRunConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePracticeRunConfigurationInput`)
     ///
-    /// - Returns: `CreatePracticeRunConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePracticeRunConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension ARCZonalShiftClient {
     ///
     /// Deletes the practice run configuration for a resource. Before you can delete a practice run configuration for a resource., you must disable zonal autoshift for the resource. Practice runs must be configured for zonal autoshift to be enabled.
     ///
-    /// - Parameter DeletePracticeRunConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePracticeRunConfigurationInput`)
     ///
-    /// - Returns: `DeletePracticeRunConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePracticeRunConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,9 +652,9 @@ extension ARCZonalShiftClient {
     ///
     /// Returns the status of the autoshift observer notification. Autoshift observer notifications notify you through Amazon EventBridge when there is an autoshift event for zonal autoshift. The status can be ENABLED or DISABLED. When ENABLED, a notification is sent when an autoshift is triggered. When DISABLED, notifications are not sent.
     ///
-    /// - Parameter GetAutoshiftObserverNotificationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutoshiftObserverNotificationStatusInput`)
     ///
-    /// - Returns: `GetAutoshiftObserverNotificationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutoshiftObserverNotificationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,9 +718,9 @@ extension ARCZonalShiftClient {
     ///
     /// Get information about a resource that's been registered for zonal shifts with Amazon Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in ARC. You can start zonal shifts and configure zonal autoshift for managed resources.
     ///
-    /// - Parameter GetManagedResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedResourceInput`)
     ///
-    /// - Returns: `GetManagedResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,9 +786,9 @@ extension ARCZonalShiftClient {
     ///
     /// Returns the autoshifts for an Amazon Web Services Region. By default, the call returns only ACTIVE autoshifts. Optionally, you can specify the status parameter to return COMPLETED autoshifts.
     ///
-    /// - Parameter ListAutoshiftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutoshiftsInput`)
     ///
-    /// - Returns: `ListAutoshiftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutoshiftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -854,9 +854,9 @@ extension ARCZonalShiftClient {
     ///
     /// Lists all the resources in your Amazon Web Services account in this Amazon Web Services Region that are managed for zonal shifts in Amazon Application Recovery Controller, and information about them. The information includes the zonal autoshift status for the resource, as well as the Amazon Resource Name (ARN), the Availability Zones that each resource is deployed in, and the resource name.
     ///
-    /// - Parameter ListManagedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedResourcesInput`)
     ///
-    /// - Returns: `ListManagedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,9 +922,9 @@ extension ARCZonalShiftClient {
     ///
     /// Lists all active and completed zonal shifts in Amazon Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal shifts that ARC started on your behalf for zonal autoshift. For more information about listing autoshifts, see [">ListAutoshifts](https://docs.aws.amazon.com/arc-zonal-shift/latest/api/API_ListAutoshifts.html).
     ///
-    /// - Parameter ListZonalShiftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListZonalShiftsInput`)
     ///
-    /// - Returns: `ListZonalShiftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListZonalShiftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,9 +990,9 @@ extension ARCZonalShiftClient {
     ///
     /// Start an on-demand practice run zonal shift in Amazon Application Recovery Controller. With zonal autoshift enabled, you can start an on-demand practice run to verify preparedness at any time. Amazon Web Services also runs automated practice runs about weekly when you have enabled zonal autoshift. For more information, see [ Considerations when you configure zonal autoshift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html) in the Amazon Application Recovery Controller Developer Guide.
     ///
-    /// - Parameter StartPracticeRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPracticeRunInput`)
     ///
-    /// - Returns: `StartPracticeRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPracticeRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,9 +1073,9 @@ extension ARCZonalShiftClient {
     ///
     /// When you start a zonal shift, traffic for the resource is no longer routed to the Availability Zone. The zonal shift is created immediately in ARC. However, it can take a short time, typically up to a few minutes, for existing, in-progress connections in the Availability Zone to complete. For more information, see [Zonal shift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-shift.html) in the Amazon Application Recovery Controller Developer Guide.
     ///
-    /// - Parameter StartZonalShiftInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartZonalShiftInput`)
     ///
-    /// - Returns: `StartZonalShiftOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartZonalShiftOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,9 +1145,9 @@ extension ARCZonalShiftClient {
     ///
     /// Update the status of autoshift observer notification. Autoshift observer notification enables you to be notified, through Amazon EventBridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED, ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress. When the status is DISABLED, ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see [ Notifications for practice runs and autoshifts](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html#ZAShiftNotification) in the Amazon Application Recovery Controller Developer Guide.
     ///
-    /// - Parameter UpdateAutoshiftObserverNotificationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutoshiftObserverNotificationStatusInput`)
     ///
-    /// - Returns: `UpdateAutoshiftObserverNotificationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAutoshiftObserverNotificationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,9 +1215,9 @@ extension ARCZonalShiftClient {
     ///
     /// Update a practice run configuration to change one or more of the following: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows.
     ///
-    /// - Parameter UpdatePracticeRunConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePracticeRunConfigurationInput`)
     ///
-    /// - Returns: `UpdatePracticeRunConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePracticeRunConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,9 +1287,9 @@ extension ARCZonalShiftClient {
     ///
     /// The zonal autoshift configuration for a resource includes the practice run configuration and the status for running autoshifts, zonal autoshift status. When a resource has a practice run configuration, ARC starts weekly zonal shifts for the resource, to shift traffic away from an Availability Zone. Weekly practice runs help you to make sure that your application can continue to operate normally with the loss of one Availability Zone. You can update the zonal autoshift status to enable or disable zonal autoshift. When zonal autoshift is ENABLED, you authorize Amazon Web Services to shift away resource traffic for an application from an Availability Zone during events, on your behalf, to help reduce time to recovery. Traffic is also shifted away for the required weekly practice runs.
     ///
-    /// - Parameter UpdateZonalAutoshiftConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateZonalAutoshiftConfigurationInput`)
     ///
-    /// - Returns: `UpdateZonalAutoshiftConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateZonalAutoshiftConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1359,9 +1359,9 @@ extension ARCZonalShiftClient {
     ///
     /// Update an active zonal shift in Amazon Application Recovery Controller in your Amazon Web Services account. You can update a zonal shift to set a new expiration, or edit or replace the comment for the zonal shift.
     ///
-    /// - Parameter UpdateZonalShiftInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateZonalShiftInput`)
     ///
-    /// - Returns: `UpdateZonalShiftOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateZonalShiftOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

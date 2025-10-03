@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubClient.MigrationHubClientConfiguration
     let serviceName = "Migration Hub"
@@ -379,9 +379,9 @@ extension MigrationHubClient {
     ///
     /// * Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance, or DMS endpoint, etc.
     ///
-    /// - Parameter AssociateCreatedArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateCreatedArtifactInput`)
     ///
-    /// - Returns: `AssociateCreatedArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateCreatedArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,9 +455,9 @@ extension MigrationHubClient {
     ///
     /// Associates a discovered resource ID from Application Discovery Service with a migration task.
     ///
-    /// - Parameter AssociateDiscoveredResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDiscoveredResourceInput`)
     ///
-    /// - Returns: `AssociateDiscoveredResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDiscoveredResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -532,9 +532,9 @@ extension MigrationHubClient {
     ///
     /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave.
     ///
-    /// - Parameter AssociateSourceResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceResourceInput`)
     ///
-    /// - Returns: `AssociateSourceResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSourceResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -607,9 +607,9 @@ extension MigrationHubClient {
     ///
     /// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
     ///
-    /// - Parameter CreateProgressUpdateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProgressUpdateStreamInput`)
     ///
-    /// - Returns: `CreateProgressUpdateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProgressUpdateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -692,9 +692,9 @@ extension MigrationHubClient {
     ///
     /// * Once the stream and all of its resources are deleted, CreateProgressUpdateStream for a stream of the same name will succeed, and that stream will be an entirely new logical resource (without any resources associated with the old stream).
     ///
-    /// - Parameter DeleteProgressUpdateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProgressUpdateStreamInput`)
     ///
-    /// - Returns: `DeleteProgressUpdateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProgressUpdateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,9 +768,9 @@ extension MigrationHubClient {
     ///
     /// Gets the migration status of an application.
     ///
-    /// - Parameter DescribeApplicationStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationStateInput`)
     ///
-    /// - Returns: `DescribeApplicationStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -843,9 +843,9 @@ extension MigrationHubClient {
     ///
     /// Retrieves a list of all attributes associated with a specific migration task.
     ///
-    /// - Parameter DescribeMigrationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMigrationTaskInput`)
     ///
-    /// - Returns: `DescribeMigrationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMigrationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,9 +923,9 @@ extension MigrationHubClient {
     ///
     /// * Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance, or RDS instance, etc.
     ///
-    /// - Parameter DisassociateCreatedArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateCreatedArtifactInput`)
     ///
-    /// - Returns: `DisassociateCreatedArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateCreatedArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -999,9 +999,9 @@ extension MigrationHubClient {
     ///
     /// Disassociate an Application Discovery Service discovered resource from a migration task.
     ///
-    /// - Parameter DisassociateDiscoveredResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDiscoveredResourceInput`)
     ///
-    /// - Returns: `DisassociateDiscoveredResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDiscoveredResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension MigrationHubClient {
     ///
     /// Removes the association between a source resource and a migration task.
     ///
-    /// - Parameter DisassociateSourceResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceResourceInput`)
     ///
-    /// - Returns: `DisassociateSourceResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,9 +1150,9 @@ extension MigrationHubClient {
     ///
     /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Migration Hub.
     ///
-    /// - Parameter ImportMigrationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportMigrationTaskInput`)
     ///
-    /// - Returns: `ImportMigrationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportMigrationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1226,9 +1226,9 @@ extension MigrationHubClient {
     ///
     /// Lists all the migration statuses for your applications. If you use the optional ApplicationIds parameter, only the migration statuses for those applications will be returned.
     ///
-    /// - Parameter ListApplicationStatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationStatesInput`)
     ///
-    /// - Returns: `ListApplicationStatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationStatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,9 +1305,9 @@ extension MigrationHubClient {
     ///
     /// * Lists created artifacts in a paginated interface.
     ///
-    /// - Parameter ListCreatedArtifactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCreatedArtifactsInput`)
     ///
-    /// - Returns: `ListCreatedArtifactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCreatedArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,9 +1379,9 @@ extension MigrationHubClient {
     ///
     /// Lists discovered resources associated with the given MigrationTask.
     ///
-    /// - Parameter ListDiscoveredResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDiscoveredResourcesInput`)
     ///
-    /// - Returns: `ListDiscoveredResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDiscoveredResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1453,9 +1453,9 @@ extension MigrationHubClient {
     ///
     /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream.
     ///
-    /// - Parameter ListMigrationTaskUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMigrationTaskUpdatesInput`)
     ///
-    /// - Returns: `ListMigrationTaskUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMigrationTaskUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1532,9 +1532,9 @@ extension MigrationHubClient {
     ///
     /// * Lists migration tasks in a paginated interface.
     ///
-    /// - Parameter ListMigrationTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMigrationTasksInput`)
     ///
-    /// - Returns: `ListMigrationTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMigrationTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1607,9 +1607,9 @@ extension MigrationHubClient {
     ///
     /// Lists progress update streams associated with the user account making this call.
     ///
-    /// - Parameter ListProgressUpdateStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProgressUpdateStreamsInput`)
     ///
-    /// - Returns: `ListProgressUpdateStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProgressUpdateStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1680,9 +1680,9 @@ extension MigrationHubClient {
     ///
     /// Lists all the source resource that are associated with the specified MigrationTaskName and ProgressUpdateStream.
     ///
-    /// - Parameter ListSourceResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceResourcesInput`)
     ///
-    /// - Returns: `ListSourceResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1753,9 +1753,9 @@ extension MigrationHubClient {
     ///
     /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId, its status is set or updated by passing one of three values to Status: NOT_STARTED | IN_PROGRESS | COMPLETED.
     ///
-    /// - Parameter NotifyApplicationStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyApplicationStateInput`)
     ///
-    /// - Returns: `NotifyApplicationStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyApplicationStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1836,9 +1836,9 @@ extension MigrationHubClient {
     ///
     /// * ProgressUpdateStream is used for access control and to provide a namespace for each migration tool.
     ///
-    /// - Parameter NotifyMigrationTaskStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyMigrationTaskStateInput`)
     ///
-    /// - Returns: `NotifyMigrationTaskStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyMigrationTaskStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1919,9 +1919,9 @@ extension MigrationHubClient {
     ///
     /// Because this is an asynchronous call, it will always return 200, whether an association occurs or not. To confirm if an association was found based on the provided details, call ListDiscoveredResources.
     ///
-    /// - Parameter PutResourceAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourceAttributesInput`)
     ///
-    /// - Returns: `PutResourceAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourceAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranscribeStreamingClient: ClientRuntime.Client {
     public static let clientName = "TranscribeStreamingClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeStreamingClient.TranscribeStreamingClientConfiguration
     let serviceName = "Transcribe Streaming"
@@ -371,9 +371,9 @@ extension TranscribeStreamingClient {
     ///
     /// Provides details about the specified Amazon Web Services HealthScribe streaming session. To view the status of the streaming session, check the StreamStatus field in the response. To get the details of post-stream analytics, including its status, check the PostStreamAnalyticsResult field in the response.
     ///
-    /// - Parameter GetMedicalScribeStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMedicalScribeStreamInput`)
     ///
-    /// - Returns: `GetMedicalScribeStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMedicalScribeStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension TranscribeStreamingClient {
     ///
     /// For more information on streaming with Amazon Transcribe, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     ///
-    /// - Parameter StartCallAnalyticsStreamTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCallAnalyticsStreamTranscriptionInput`)
     ///
-    /// - Returns: `StartCallAnalyticsStreamTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCallAnalyticsStreamTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -529,9 +529,9 @@ extension TranscribeStreamingClient {
     ///
     /// For more information on streaming with Amazon Web Services HealthScribe, see [Amazon Web Services HealthScribe](https://docs.aws.amazon.com/transcribe/latest/dg/health-scribe-streaming.html).
     ///
-    /// - Parameter StartMedicalScribeStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMedicalScribeStreamInput`)
     ///
-    /// - Returns: `StartMedicalScribeStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMedicalScribeStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -611,9 +611,9 @@ extension TranscribeStreamingClient {
     ///
     /// For more information on streaming with Amazon Transcribe Medical, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     ///
-    /// - Parameter StartMedicalStreamTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMedicalStreamTranscriptionInput`)
     ///
-    /// - Returns: `StartMedicalStreamTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMedicalStreamTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,9 +693,9 @@ extension TranscribeStreamingClient {
     ///
     /// For more information on streaming with Amazon Transcribe, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     ///
-    /// - Parameter StartStreamTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartStreamTranscriptionInput`)
     ///
-    /// - Returns: `StartStreamTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartStreamTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeCommitClient: ClientRuntime.Client {
     public static let clientName = "CodeCommitClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCommitClient.CodeCommitClientConfiguration
     let serviceName = "CodeCommit"
@@ -374,9 +374,9 @@ extension CodeCommitClient {
     ///
     /// Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull requests in that repository.
     ///
-    /// - Parameter AssociateApprovalRuleTemplateWithRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApprovalRuleTemplateWithRepositoryInput`)
     ///
-    /// - Returns: `AssociateApprovalRuleTemplateWithRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApprovalRuleTemplateWithRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -453,9 +453,9 @@ extension CodeCommitClient {
     ///
     /// Creates an association between an approval rule template and one or more specified repositories.
     ///
-    /// - Parameter BatchAssociateApprovalRuleTemplateWithRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateApprovalRuleTemplateWithRepositoriesInput`)
     ///
-    /// - Returns: `BatchAssociateApprovalRuleTemplateWithRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateApprovalRuleTemplateWithRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -530,9 +530,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
     ///
-    /// - Parameter BatchDescribeMergeConflictsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDescribeMergeConflictsInput`)
     ///
-    /// - Returns: `BatchDescribeMergeConflictsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDescribeMergeConflictsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -618,9 +618,9 @@ extension CodeCommitClient {
     ///
     /// Removes the association between an approval rule template and one or more specified repositories.
     ///
-    /// - Parameter BatchDisassociateApprovalRuleTemplateFromRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateApprovalRuleTemplateFromRepositoriesInput`)
     ///
-    /// - Returns: `BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,9 +695,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about the contents of one or more commits in a repository.
     ///
-    /// - Parameter BatchGetCommitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCommitsInput`)
     ///
-    /// - Returns: `BatchGetCommitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCommitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,9 +772,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about one or more repositories. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
-    /// - Parameter BatchGetRepositoriesInput : Represents the input of a batch get repositories operation.
+    /// - Parameter input: Represents the input of a batch get repositories operation. (Type: `BatchGetRepositoriesInput`)
     ///
-    /// - Returns: `BatchGetRepositoriesOutput` : Represents the output of a batch get repositories operation.
+    /// - Returns: Represents the output of a batch get repositories operation. (Type: `BatchGetRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,9 +847,9 @@ extension CodeCommitClient {
     ///
     /// Creates a template for approval rules that can then be associated with one or more repositories in your Amazon Web Services account. When you associate a template with a repository, CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see [AssociateApprovalRuleTemplateWithRepository].
     ///
-    /// - Parameter CreateApprovalRuleTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApprovalRuleTemplateInput`)
     ///
-    /// - Returns: `CreateApprovalRuleTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApprovalRuleTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,9 +921,9 @@ extension CodeCommitClient {
     ///
     /// Creates a branch in a repository and points the branch to a commit. Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
     ///
-    /// - Parameter CreateBranchInput : Represents the input of a create branch operation.
+    /// - Parameter input: Represents the input of a create branch operation. (Type: `CreateBranchInput`)
     ///
-    /// - Returns: `CreateBranchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,9 +1002,9 @@ extension CodeCommitClient {
     ///
     /// Creates a commit for a repository on the tip of a specified branch.
     ///
-    /// - Parameter CreateCommitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCommitInput`)
     ///
-    /// - Returns: `CreateCommitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCommitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1107,9 +1107,9 @@ extension CodeCommitClient {
     ///
     /// Creates a pull request in the specified repository.
     ///
-    /// - Parameter CreatePullRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePullRequestInput`)
     ///
-    /// - Returns: `CreatePullRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePullRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1200,9 +1200,9 @@ extension CodeCommitClient {
     ///
     /// Creates an approval rule for a pull request.
     ///
-    /// - Parameter CreatePullRequestApprovalRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePullRequestApprovalRuleInput`)
     ///
-    /// - Returns: `CreatePullRequestApprovalRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePullRequestApprovalRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1282,9 +1282,9 @@ extension CodeCommitClient {
     ///
     /// Creates a new, empty repository.
     ///
-    /// - Parameter CreateRepositoryInput : Represents the input of a create repository operation.
+    /// - Parameter input: Represents the input of a create repository operation. (Type: `CreateRepositoryInput`)
     ///
-    /// - Returns: `CreateRepositoryOutput` : Represents the output of a create repository operation.
+    /// - Returns: Represents the output of a create repository operation. (Type: `CreateRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1366,9 +1366,9 @@ extension CodeCommitClient {
     ///
     /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
     ///
-    /// - Parameter CreateUnreferencedMergeCommitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUnreferencedMergeCommitInput`)
     ///
-    /// - Returns: `CreateUnreferencedMergeCommitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUnreferencedMergeCommitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1469,9 +1469,9 @@ extension CodeCommitClient {
     ///
     /// Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
     ///
-    /// - Parameter DeleteApprovalRuleTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApprovalRuleTemplateInput`)
     ///
-    /// - Returns: `DeleteApprovalRuleTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApprovalRuleTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1539,9 +1539,9 @@ extension CodeCommitClient {
     ///
     /// Deletes a branch from a repository, unless that branch is the default branch for the repository.
     ///
-    /// - Parameter DeleteBranchInput : Represents the input of a delete branch operation.
+    /// - Parameter input: Represents the input of a delete branch operation. (Type: `DeleteBranchInput`)
     ///
-    /// - Returns: `DeleteBranchOutput` : Represents the output of a delete branch operation.
+    /// - Returns: Represents the output of a delete branch operation. (Type: `DeleteBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,9 +1617,9 @@ extension CodeCommitClient {
     ///
     /// Deletes the content of a comment made on a change, file, or commit in a repository.
     ///
-    /// - Parameter DeleteCommentContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCommentContentInput`)
     ///
-    /// - Returns: `DeleteCommentContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCommentContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1688,9 +1688,9 @@ extension CodeCommitClient {
     ///
     /// Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion.
     ///
-    /// - Parameter DeleteFileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFileInput`)
     ///
-    /// - Returns: `DeleteFileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1777,9 +1777,9 @@ extension CodeCommitClient {
     ///
     /// Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an approval rule from a merged or closed pull request.
     ///
-    /// - Parameter DeletePullRequestApprovalRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePullRequestApprovalRuleInput`)
     ///
-    /// - Returns: `DeletePullRequestApprovalRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePullRequestApprovalRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1856,9 +1856,9 @@ extension CodeCommitClient {
     ///
     /// Deletes a repository. If a specified repository was already deleted, a null repository ID is returned. Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail.
     ///
-    /// - Parameter DeleteRepositoryInput : Represents the input of a delete repository operation.
+    /// - Parameter input: Represents the input of a delete repository operation. (Type: `DeleteRepositoryInput`)
     ///
-    /// - Returns: `DeleteRepositoryOutput` : Represents the output of a delete repository operation.
+    /// - Returns: Represents the output of a delete repository operation. (Type: `DeleteRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1930,9 +1930,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
     ///
-    /// - Parameter DescribeMergeConflictsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMergeConflictsInput`)
     ///
-    /// - Returns: `DescribeMergeConflictsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMergeConflictsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,9 +2020,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about one or more pull request events.
     ///
-    /// - Parameter DescribePullRequestEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePullRequestEventsInput`)
     ///
-    /// - Returns: `DescribePullRequestEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePullRequestEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2100,9 +2100,9 @@ extension CodeCommitClient {
     ///
     /// Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association.
     ///
-    /// - Parameter DisassociateApprovalRuleTemplateFromRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApprovalRuleTemplateFromRepositoryInput`)
     ///
-    /// - Returns: `DisassociateApprovalRuleTemplateFromRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApprovalRuleTemplateFromRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2178,9 +2178,9 @@ extension CodeCommitClient {
     ///
     /// Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
     ///
-    /// - Parameter EvaluatePullRequestApprovalRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EvaluatePullRequestApprovalRulesInput`)
     ///
-    /// - Returns: `EvaluatePullRequestApprovalRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EvaluatePullRequestApprovalRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2256,9 +2256,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about a specified approval rule template.
     ///
-    /// - Parameter GetApprovalRuleTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApprovalRuleTemplateInput`)
     ///
-    /// - Returns: `GetApprovalRuleTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApprovalRuleTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2326,9 +2326,9 @@ extension CodeCommitClient {
     ///
     /// Returns the base-64 encoded content of an individual blob in a repository.
     ///
-    /// - Parameter GetBlobInput : Represents the input of a get blob operation.
+    /// - Parameter input: Represents the input of a get blob operation. (Type: `GetBlobInput`)
     ///
-    /// - Returns: `GetBlobOutput` : Represents the output of a get blob operation.
+    /// - Returns: Represents the output of a get blob operation. (Type: `GetBlobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2405,9 +2405,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about a repository branch, including its name and the last commit ID.
     ///
-    /// - Parameter GetBranchInput : Represents the input of a get branch operation.
+    /// - Parameter input: Represents the input of a get branch operation. (Type: `GetBranchInput`)
     ///
-    /// - Returns: `GetBranchOutput` : Represents the output of a get branch operation.
+    /// - Returns: Represents the output of a get branch operation. (Type: `GetBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2483,9 +2483,9 @@ extension CodeCommitClient {
     ///
     /// Returns the content of a comment made on a change, file, or commit in a repository. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
-    /// - Parameter GetCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCommentInput`)
     ///
-    /// - Returns: `GetCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2559,9 +2559,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
     ///
-    /// - Parameter GetCommentReactionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCommentReactionsInput`)
     ///
-    /// - Returns: `GetCommentReactionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCommentReactionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2633,9 +2633,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about comments made on the comparison between two commits. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
-    /// - Parameter GetCommentsForComparedCommitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCommentsForComparedCommitInput`)
     ///
-    /// - Returns: `GetCommentsForComparedCommitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCommentsForComparedCommitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2713,9 +2713,9 @@ extension CodeCommitClient {
     ///
     /// Returns comments made on a pull request. Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
     ///
-    /// - Parameter GetCommentsForPullRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCommentsForPullRequestInput`)
     ///
-    /// - Returns: `GetCommentsForPullRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCommentsForPullRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2797,9 +2797,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about a commit, including commit message and committer information.
     ///
-    /// - Parameter GetCommitInput : Represents the input of a get commit operation.
+    /// - Parameter input: Represents the input of a get commit operation. (Type: `GetCommitInput`)
     ///
-    /// - Returns: `GetCommitOutput` : Represents the output of a get commit operation.
+    /// - Returns: Represents the output of a get commit operation. (Type: `GetCommitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2875,9 +2875,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
     ///
-    /// - Parameter GetDifferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDifferencesInput`)
     ///
-    /// - Returns: `GetDifferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDifferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2958,9 +2958,9 @@ extension CodeCommitClient {
     ///
     /// Returns the base-64 encoded contents of a specified file and its metadata.
     ///
-    /// - Parameter GetFileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFileInput`)
     ///
-    /// - Returns: `GetFileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3039,9 +3039,9 @@ extension CodeCommitClient {
     ///
     /// Returns the contents of a specified folder in a repository.
     ///
-    /// - Parameter GetFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFolderInput`)
     ///
-    /// - Returns: `GetFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3119,9 +3119,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about a specified merge commit.
     ///
-    /// - Parameter GetMergeCommitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMergeCommitInput`)
     ///
-    /// - Returns: `GetMergeCommitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMergeCommitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3199,9 +3199,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
     ///
-    /// - Parameter GetMergeConflictsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMergeConflictsInput`)
     ///
-    /// - Returns: `GetMergeConflictsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMergeConflictsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3288,9 +3288,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
     ///
-    /// - Parameter GetMergeOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMergeOptionsInput`)
     ///
-    /// - Returns: `GetMergeOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMergeOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3371,9 +3371,9 @@ extension CodeCommitClient {
     ///
     /// Gets information about a pull request in a specified repository.
     ///
-    /// - Parameter GetPullRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPullRequestInput`)
     ///
-    /// - Returns: `GetPullRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPullRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3446,9 +3446,9 @@ extension CodeCommitClient {
     ///
     /// Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them.
     ///
-    /// - Parameter GetPullRequestApprovalStatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPullRequestApprovalStatesInput`)
     ///
-    /// - Returns: `GetPullRequestApprovalStatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPullRequestApprovalStatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3523,9 +3523,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
     ///
-    /// - Parameter GetPullRequestOverrideStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPullRequestOverrideStateInput`)
     ///
-    /// - Returns: `GetPullRequestOverrideStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPullRequestOverrideStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3600,9 +3600,9 @@ extension CodeCommitClient {
     ///
     /// Returns information about a repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
-    /// - Parameter GetRepositoryInput : Represents the input of a get repository operation.
+    /// - Parameter input: Represents the input of a get repository operation. (Type: `GetRepositoryInput`)
     ///
-    /// - Returns: `GetRepositoryOutput` : Represents the output of a get repository operation.
+    /// - Returns: Represents the output of a get repository operation. (Type: `GetRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,9 +3675,9 @@ extension CodeCommitClient {
     ///
     /// Gets information about triggers configured for a repository.
     ///
-    /// - Parameter GetRepositoryTriggersInput : Represents the input of a get repository triggers operation.
+    /// - Parameter input: Represents the input of a get repository triggers operation. (Type: `GetRepositoryTriggersInput`)
     ///
-    /// - Returns: `GetRepositoryTriggersOutput` : Represents the output of a get repository triggers operation.
+    /// - Returns: Represents the output of a get repository triggers operation. (Type: `GetRepositoryTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3750,9 +3750,9 @@ extension CodeCommitClient {
     ///
     /// Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
     ///
-    /// - Parameter ListApprovalRuleTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApprovalRuleTemplatesInput`)
     ///
-    /// - Returns: `ListApprovalRuleTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApprovalRuleTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3819,9 +3819,9 @@ extension CodeCommitClient {
     ///
     /// Lists all approval rule templates that are associated with a specified repository.
     ///
-    /// - Parameter ListAssociatedApprovalRuleTemplatesForRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedApprovalRuleTemplatesForRepositoryInput`)
     ///
-    /// - Returns: `ListAssociatedApprovalRuleTemplatesForRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedApprovalRuleTemplatesForRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3896,9 +3896,9 @@ extension CodeCommitClient {
     ///
     /// Gets information about one or more branches in a repository.
     ///
-    /// - Parameter ListBranchesInput : Represents the input of a list branches operation.
+    /// - Parameter input: Represents the input of a list branches operation. (Type: `ListBranchesInput`)
     ///
-    /// - Returns: `ListBranchesOutput` : Represents the output of a list branches operation.
+    /// - Returns: Represents the output of a list branches operation. (Type: `ListBranchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3972,9 +3972,9 @@ extension CodeCommitClient {
     ///
     /// Retrieves a list of commits and changes to a specified file.
     ///
-    /// - Parameter ListFileCommitHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFileCommitHistoryInput`)
     ///
-    /// - Returns: `ListFileCommitHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFileCommitHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4053,9 +4053,9 @@ extension CodeCommitClient {
     ///
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
     ///
-    /// - Parameter ListPullRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPullRequestsInput`)
     ///
-    /// - Returns: `ListPullRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPullRequestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4133,9 +4133,9 @@ extension CodeCommitClient {
     ///
     /// Gets information about one or more repositories.
     ///
-    /// - Parameter ListRepositoriesInput : Represents the input of a list repositories operation.
+    /// - Parameter input: Represents the input of a list repositories operation. (Type: `ListRepositoriesInput`)
     ///
-    /// - Returns: `ListRepositoriesOutput` : Represents the output of a list repositories operation.
+    /// - Returns: Represents the output of a list repositories operation. (Type: `ListRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4203,9 +4203,9 @@ extension CodeCommitClient {
     ///
     /// Lists all repositories associated with the specified approval rule template.
     ///
-    /// - Parameter ListRepositoriesForApprovalRuleTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRepositoriesForApprovalRuleTemplateInput`)
     ///
-    /// - Returns: `ListRepositoriesForApprovalRuleTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRepositoriesForApprovalRuleTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4280,9 +4280,9 @@ extension CodeCommitClient {
     ///
     /// Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4351,9 +4351,9 @@ extension CodeCommitClient {
     ///
     /// Merges two branches using the fast-forward merge strategy.
     ///
-    /// - Parameter MergeBranchesByFastForwardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MergeBranchesByFastForwardInput`)
     ///
-    /// - Returns: `MergeBranchesByFastForwardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergeBranchesByFastForwardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4437,9 +4437,9 @@ extension CodeCommitClient {
     ///
     /// Merges two branches using the squash merge strategy.
     ///
-    /// - Parameter MergeBranchesBySquashInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MergeBranchesBySquashInput`)
     ///
-    /// - Returns: `MergeBranchesBySquashOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergeBranchesBySquashOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4543,9 +4543,9 @@ extension CodeCommitClient {
     ///
     /// Merges two specified branches using the three-way merge strategy.
     ///
-    /// - Parameter MergeBranchesByThreeWayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MergeBranchesByThreeWayInput`)
     ///
-    /// - Returns: `MergeBranchesByThreeWayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergeBranchesByThreeWayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4649,9 +4649,9 @@ extension CodeCommitClient {
     ///
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
     ///
-    /// - Parameter MergePullRequestByFastForwardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MergePullRequestByFastForwardInput`)
     ///
-    /// - Returns: `MergePullRequestByFastForwardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergePullRequestByFastForwardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4735,9 +4735,9 @@ extension CodeCommitClient {
     ///
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
     ///
-    /// - Parameter MergePullRequestBySquashInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MergePullRequestBySquashInput`)
     ///
-    /// - Returns: `MergePullRequestBySquashOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergePullRequestBySquashOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4840,9 +4840,9 @@ extension CodeCommitClient {
     ///
     /// Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
     ///
-    /// - Parameter MergePullRequestByThreeWayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MergePullRequestByThreeWayInput`)
     ///
-    /// - Returns: `MergePullRequestByThreeWayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergePullRequestByThreeWayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4945,9 +4945,9 @@ extension CodeCommitClient {
     ///
     /// Sets aside (overrides) all approval rule requirements for a specified pull request.
     ///
-    /// - Parameter OverridePullRequestApprovalRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `OverridePullRequestApprovalRulesInput`)
     ///
-    /// - Returns: `OverridePullRequestApprovalRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `OverridePullRequestApprovalRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5027,9 +5027,9 @@ extension CodeCommitClient {
     ///
     /// Posts a comment on the comparison between two commits.
     ///
-    /// - Parameter PostCommentForComparedCommitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostCommentForComparedCommitInput`)
     ///
-    /// - Returns: `PostCommentForComparedCommitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostCommentForComparedCommitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5118,9 +5118,9 @@ extension CodeCommitClient {
     ///
     /// Posts a comment on a pull request.
     ///
-    /// - Parameter PostCommentForPullRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostCommentForPullRequestInput`)
     ///
-    /// - Returns: `PostCommentForPullRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostCommentForPullRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5213,9 +5213,9 @@ extension CodeCommitClient {
     ///
     /// Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
     ///
-    /// - Parameter PostCommentReplyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostCommentReplyInput`)
     ///
-    /// - Returns: `PostCommentReplyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostCommentReplyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5289,9 +5289,9 @@ extension CodeCommitClient {
     ///
     /// Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
     ///
-    /// - Parameter PutCommentReactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutCommentReactionInput`)
     ///
-    /// - Returns: `PutCommentReactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutCommentReactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5363,9 +5363,9 @@ extension CodeCommitClient {
     ///
     /// Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
     ///
-    /// - Parameter PutFileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFileInput`)
     ///
-    /// - Returns: `PutFileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5460,9 +5460,9 @@ extension CodeCommitClient {
     ///
     /// Replaces all triggers for a repository. Used to create or delete triggers.
     ///
-    /// - Parameter PutRepositoryTriggersInput : Represents the input of a put repository triggers operation.
+    /// - Parameter input: Represents the input of a put repository triggers operation. (Type: `PutRepositoryTriggersInput`)
     ///
-    /// - Returns: `PutRepositoryTriggersOutput` : Represents the output of a put repository triggers operation.
+    /// - Returns: Represents the output of a put repository triggers operation. (Type: `PutRepositoryTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5548,9 +5548,9 @@ extension CodeCommitClient {
     ///
     /// Adds or updates tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5624,9 +5624,9 @@ extension CodeCommitClient {
     ///
     /// Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated.
     ///
-    /// - Parameter TestRepositoryTriggersInput : Represents the input of a test repository triggers operation.
+    /// - Parameter input: Represents the input of a test repository triggers operation. (Type: `TestRepositoryTriggersInput`)
     ///
-    /// - Returns: `TestRepositoryTriggersOutput` : Represents the output of a test repository triggers operation.
+    /// - Returns: Represents the output of a test repository triggers operation. (Type: `TestRepositoryTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5712,9 +5712,9 @@ extension CodeCommitClient {
     ///
     /// Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5788,9 +5788,9 @@ extension CodeCommitClient {
     ///
     /// Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined.
     ///
-    /// - Parameter UpdateApprovalRuleTemplateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApprovalRuleTemplateContentInput`)
     ///
-    /// - Returns: `UpdateApprovalRuleTemplateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApprovalRuleTemplateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5861,9 +5861,9 @@ extension CodeCommitClient {
     ///
     /// Updates the description for a specified approval rule template.
     ///
-    /// - Parameter UpdateApprovalRuleTemplateDescriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApprovalRuleTemplateDescriptionInput`)
     ///
-    /// - Returns: `UpdateApprovalRuleTemplateDescriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApprovalRuleTemplateDescriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5932,9 +5932,9 @@ extension CodeCommitClient {
     ///
     /// Updates the name of a specified approval rule template.
     ///
-    /// - Parameter UpdateApprovalRuleTemplateNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApprovalRuleTemplateNameInput`)
     ///
-    /// - Returns: `UpdateApprovalRuleTemplateNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApprovalRuleTemplateNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6003,9 +6003,9 @@ extension CodeCommitClient {
     ///
     /// Replaces the contents of a comment.
     ///
-    /// - Parameter UpdateCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCommentInput`)
     ///
-    /// - Returns: `UpdateCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6077,9 +6077,9 @@ extension CodeCommitClient {
     ///
     /// Sets or changes the default branch name for the specified repository. If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
     ///
-    /// - Parameter UpdateDefaultBranchInput : Represents the input of an update default branch operation.
+    /// - Parameter input: Represents the input of an update default branch operation. (Type: `UpdateDefaultBranchInput`)
     ///
-    /// - Returns: `UpdateDefaultBranchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDefaultBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6155,9 +6155,9 @@ extension CodeCommitClient {
     ///
     /// Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and the approval pool for approvers.
     ///
-    /// - Parameter UpdatePullRequestApprovalRuleContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePullRequestApprovalRuleContentInput`)
     ///
-    /// - Returns: `UpdatePullRequestApprovalRuleContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePullRequestApprovalRuleContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6238,9 +6238,9 @@ extension CodeCommitClient {
     ///
     /// Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
     ///
-    /// - Parameter UpdatePullRequestApprovalStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePullRequestApprovalStateInput`)
     ///
-    /// - Returns: `UpdatePullRequestApprovalStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePullRequestApprovalStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6321,9 +6321,9 @@ extension CodeCommitClient {
     ///
     /// Replaces the contents of the description of a pull request.
     ///
-    /// - Parameter UpdatePullRequestDescriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePullRequestDescriptionInput`)
     ///
-    /// - Returns: `UpdatePullRequestDescriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePullRequestDescriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6393,9 +6393,9 @@ extension CodeCommitClient {
     ///
     /// Updates the status of a pull request.
     ///
-    /// - Parameter UpdatePullRequestStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePullRequestStatusInput`)
     ///
-    /// - Returns: `UpdatePullRequestStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePullRequestStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6471,9 +6471,9 @@ extension CodeCommitClient {
     ///
     /// Replaces the title of a pull request.
     ///
-    /// - Parameter UpdatePullRequestTitleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePullRequestTitleInput`)
     ///
-    /// - Returns: `UpdatePullRequestTitleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePullRequestTitleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6544,9 +6544,9 @@ extension CodeCommitClient {
     ///
     /// Sets or changes the comment or description for a repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     ///
-    /// - Parameter UpdateRepositoryDescriptionInput : Represents the input of an update repository description operation.
+    /// - Parameter input: Represents the input of an update repository description operation. (Type: `UpdateRepositoryDescriptionInput`)
     ///
-    /// - Returns: `UpdateRepositoryDescriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRepositoryDescriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6620,9 +6620,9 @@ extension CodeCommitClient {
     ///
     /// Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository.
     ///
-    /// - Parameter UpdateRepositoryEncryptionKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRepositoryEncryptionKeyInput`)
     ///
-    /// - Returns: `UpdateRepositoryEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRepositoryEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6698,9 +6698,9 @@ extension CodeCommitClient {
     ///
     /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     ///
-    /// - Parameter UpdateRepositoryNameInput : Represents the input of an update repository description operation.
+    /// - Parameter input: Represents the input of an update repository description operation. (Type: `UpdateRepositoryNameInput`)
     ///
-    /// - Returns: `UpdateRepositoryNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRepositoryNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

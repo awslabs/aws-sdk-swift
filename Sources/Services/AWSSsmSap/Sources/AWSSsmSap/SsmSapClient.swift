@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SsmSapClient: ClientRuntime.Client {
     public static let clientName = "SsmSapClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SsmSapClient.SsmSapClientConfiguration
     let serviceName = "Ssm Sap"
@@ -372,9 +372,9 @@ extension SsmSapClient {
     ///
     /// Removes permissions associated with the target database.
     ///
-    /// - Parameter DeleteResourcePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePermissionInput`)
     ///
-    /// - Returns: `DeleteResourcePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,9 +441,9 @@ extension SsmSapClient {
     ///
     /// Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect the existing setup of your SAP workloads on Amazon EC2.
     ///
-    /// - Parameter DeregisterApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterApplicationInput`)
     ///
-    /// - Returns: `DeregisterApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -510,9 +510,9 @@ extension SsmSapClient {
     ///
     /// Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -578,9 +578,9 @@ extension SsmSapClient {
     ///
     /// Gets the component of an application registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter GetComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
-    /// - Returns: `GetComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,9 +647,9 @@ extension SsmSapClient {
     ///
     /// Gets the details of a configuration check operation by specifying the operation ID.
     ///
-    /// - Parameter GetConfigurationCheckOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationCheckOperationInput`)
     ///
-    /// - Returns: `GetConfigurationCheckOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfigurationCheckOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -715,9 +715,9 @@ extension SsmSapClient {
     ///
     /// Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter GetDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatabaseInput`)
     ///
-    /// - Returns: `GetDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,9 +783,9 @@ extension SsmSapClient {
     ///
     /// Gets the details of an operation by specifying the operation ID.
     ///
-    /// - Parameter GetOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOperationInput`)
     ///
-    /// - Returns: `GetOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,9 +851,9 @@ extension SsmSapClient {
     ///
     /// Gets permissions associated with the target database.
     ///
-    /// - Parameter GetResourcePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePermissionInput`)
     ///
-    /// - Returns: `GetResourcePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -920,9 +920,9 @@ extension SsmSapClient {
     ///
     /// Lists all the applications registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -989,9 +989,9 @@ extension SsmSapClient {
     ///
     /// Lists all the components registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1059,9 +1059,9 @@ extension SsmSapClient {
     ///
     /// Lists all configuration check types supported by AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListConfigurationCheckDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationCheckDefinitionsInput`)
     ///
-    /// - Returns: `ListConfigurationCheckDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationCheckDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,9 +1127,9 @@ extension SsmSapClient {
     ///
     /// Lists the configuration check operations performed by AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListConfigurationCheckOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationCheckOperationsInput`)
     ///
-    /// - Returns: `ListConfigurationCheckOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationCheckOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1196,9 +1196,9 @@ extension SsmSapClient {
     ///
     /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatabasesInput`)
     ///
-    /// - Returns: `ListDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,9 +1265,9 @@ extension SsmSapClient {
     ///
     /// Returns a list of operations events. Available parameters include OperationID, as well as optional parameters MaxResults, NextToken, and Filters.
     ///
-    /// - Parameter ListOperationEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOperationEventsInput`)
     ///
-    /// - Returns: `ListOperationEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOperationEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1333,9 +1333,9 @@ extension SsmSapClient {
     ///
     /// Lists the operations performed by AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOperationsInput`)
     ///
-    /// - Returns: `ListOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1401,9 +1401,9 @@ extension SsmSapClient {
     ///
     /// Lists the sub-check results of a specified configuration check operation.
     ///
-    /// - Parameter ListSubCheckResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubCheckResultsInput`)
     ///
-    /// - Returns: `ListSubCheckResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubCheckResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1469,9 +1469,9 @@ extension SsmSapClient {
     ///
     /// Lists the rules of a specified sub-check belonging to a configuration check operation.
     ///
-    /// - Parameter ListSubCheckRuleResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubCheckRuleResultsInput`)
     ///
-    /// - Returns: `ListSubCheckRuleResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubCheckRuleResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1537,9 +1537,9 @@ extension SsmSapClient {
     ///
     /// Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1603,9 +1603,9 @@ extension SsmSapClient {
     ///
     /// Adds permissions to the target database.
     ///
-    /// - Parameter PutResourcePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePermissionInput`)
     ///
-    /// - Returns: `PutResourcePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1672,9 +1672,9 @@ extension SsmSapClient {
     ///
     /// Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering. The SAP application you want to register with AWS Systems Manager for SAP is running on Amazon EC2. AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required IAM permissions. Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
     ///
-    /// - Parameter RegisterApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterApplicationInput`)
     ///
-    /// - Returns: `RegisterApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1742,9 +1742,9 @@ extension SsmSapClient {
     ///
     /// Request is an operation which starts an application. Parameter ApplicationId is required.
     ///
-    /// - Parameter StartApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartApplicationInput`)
     ///
-    /// - Returns: `StartApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1812,9 +1812,9 @@ extension SsmSapClient {
     ///
     /// Refreshes a registered application.
     ///
-    /// - Parameter StartApplicationRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartApplicationRefreshInput`)
     ///
-    /// - Returns: `StartApplicationRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartApplicationRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1883,9 +1883,9 @@ extension SsmSapClient {
     ///
     /// Initiates configuration check operations against a specified application.
     ///
-    /// - Parameter StartConfigurationChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConfigurationChecksInput`)
     ///
-    /// - Returns: `StartConfigurationChecksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConfigurationChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1953,9 +1953,9 @@ extension SsmSapClient {
     ///
     /// Request is an operation to stop an application. Parameter ApplicationId is required. Parameters StopConnectedEntity and IncludeEc2InstanceShutdown are optional.
     ///
-    /// - Parameter StopApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopApplicationInput`)
     ///
-    /// - Returns: `StopApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2023,9 +2023,9 @@ extension SsmSapClient {
     ///
     /// Creates tag for a resource by specifying the ARN.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,9 +2092,9 @@ extension SsmSapClient {
     ///
     /// Delete the tags for a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2159,9 +2159,9 @@ extension SsmSapClient {
     ///
     /// Updates the settings of an application registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter UpdateApplicationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationSettingsInput`)
     ///
-    /// - Returns: `UpdateApplicationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

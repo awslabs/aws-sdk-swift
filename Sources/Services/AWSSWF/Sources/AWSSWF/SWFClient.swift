@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SWFClient: ClientRuntime.Client {
     public static let clientName = "SWFClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: SWFClient.SWFClientConfiguration
     let serviceName = "SWF"
@@ -391,9 +391,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter CountClosedWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountClosedWorkflowExecutionsInput`)
     ///
-    /// - Returns: `CountClosedWorkflowExecutionsOutput` : Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions]
+    /// - Returns: Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions] (Type: `CountClosedWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,9 +478,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter CountOpenWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountOpenWorkflowExecutionsInput`)
     ///
-    /// - Returns: `CountOpenWorkflowExecutionsOutput` : Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions]
+    /// - Returns: Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions] (Type: `CountOpenWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,9 +556,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter CountPendingActivityTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountPendingActivityTasksInput`)
     ///
-    /// - Returns: `CountPendingActivityTasksOutput` : Contains the count of tasks in a task list.
+    /// - Returns: Contains the count of tasks in a task list. (Type: `CountPendingActivityTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,9 +634,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter CountPendingDecisionTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountPendingDecisionTasksInput`)
     ///
-    /// - Returns: `CountPendingDecisionTasksOutput` : Contains the count of tasks in a task list.
+    /// - Returns: Contains the count of tasks in a task list. (Type: `CountPendingDecisionTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -719,9 +719,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeleteActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteActivityTypeInput`)
     ///
-    /// - Returns: `DeleteActivityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -805,9 +805,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeleteWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowTypeInput`)
     ///
-    /// - Returns: `DeleteWorkflowTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -891,9 +891,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeprecateActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateActivityTypeInput`)
     ///
-    /// - Returns: `DeprecateActivityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -970,9 +970,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeprecateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateDomainInput`)
     ///
-    /// - Returns: `DeprecateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1056,9 +1056,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeprecateWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateWorkflowTypeInput`)
     ///
-    /// - Returns: `DeprecateWorkflowTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,9 +1142,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DescribeActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActivityTypeInput`)
     ///
-    /// - Returns: `DescribeActivityTypeOutput` : Detailed information about an activity type.
+    /// - Returns: Detailed information about an activity type. (Type: `DescribeActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1220,9 +1220,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DescribeDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainInput`)
     ///
-    /// - Returns: `DescribeDomainOutput` : Contains details of a domain.
+    /// - Returns: Contains details of a domain. (Type: `DescribeDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1298,9 +1298,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DescribeWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkflowExecutionInput`)
     ///
-    /// - Returns: `DescribeWorkflowExecutionOutput` : Contains details about a workflow execution.
+    /// - Returns: Contains details about a workflow execution. (Type: `DescribeWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1383,9 +1383,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DescribeWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkflowTypeInput`)
     ///
-    /// - Returns: `DescribeWorkflowTypeOutput` : Contains details about a workflow type.
+    /// - Returns: Contains details about a workflow type. (Type: `DescribeWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1461,9 +1461,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter GetWorkflowExecutionHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowExecutionHistoryInput`)
     ///
-    /// - Returns: `GetWorkflowExecutionHistoryOutput` : Paginated representation of a workflow history for a workflow execution. This is the up to date, complete and authoritative record of the events related to all tasks and events in the life of the workflow execution.
+    /// - Returns: Paginated representation of a workflow history for a workflow execution. This is the up to date, complete and authoritative record of the events related to all tasks and events in the life of the workflow execution. (Type: `GetWorkflowExecutionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1539,9 +1539,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListActivityTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActivityTypesInput`)
     ///
-    /// - Returns: `ListActivityTypesOutput` : Contains a paginated list of activity type information structures.
+    /// - Returns: Contains a paginated list of activity type information structures. (Type: `ListActivityTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,9 +1626,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListClosedWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClosedWorkflowExecutionsInput`)
     ///
-    /// - Returns: `ListClosedWorkflowExecutionsOutput` : Contains a paginated list of information about workflow executions.
+    /// - Returns: Contains a paginated list of information about workflow executions. (Type: `ListClosedWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1704,9 +1704,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : Contains a paginated collection of DomainInfo structures.
+    /// - Returns: Contains a paginated collection of DomainInfo structures. (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1790,9 +1790,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListOpenWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpenWorkflowExecutionsInput`)
     ///
-    /// - Returns: `ListOpenWorkflowExecutionsOutput` : Contains a paginated list of information about workflow executions.
+    /// - Returns: Contains a paginated list of information about workflow executions. (Type: `ListOpenWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,9 +1859,9 @@ extension SWFClient {
     ///
     /// List tags for a given domain.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1938,9 +1938,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListWorkflowTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowTypesInput`)
     ///
-    /// - Returns: `ListWorkflowTypesOutput` : Contains a paginated list of information structures about workflow types.
+    /// - Returns: Contains a paginated list of information structures about workflow types. (Type: `ListWorkflowTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2016,9 +2016,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter PollForActivityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PollForActivityTaskInput`)
     ///
-    /// - Returns: `PollForActivityTaskOutput` : Unit of work sent to an activity worker.
+    /// - Returns: Unit of work sent to an activity worker. (Type: `PollForActivityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2095,9 +2095,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter PollForDecisionTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PollForDecisionTaskInput`)
     ///
-    /// - Returns: `PollForDecisionTaskOutput` : A structure that represents a decision task. Decision tasks are sent to deciders in order for them to make decisions.
+    /// - Returns: A structure that represents a decision task. Decision tasks are sent to deciders in order for them to make decisions. (Type: `PollForDecisionTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2174,9 +2174,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RecordActivityTaskHeartbeatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RecordActivityTaskHeartbeatInput`)
     ///
-    /// - Returns: `RecordActivityTaskHeartbeatOutput` : Status information about an activity task.
+    /// - Returns: Status information about an activity task. (Type: `RecordActivityTaskHeartbeatOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2261,9 +2261,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RegisterActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterActivityTypeInput`)
     ///
-    /// - Returns: `RegisterActivityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2341,9 +2341,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RegisterDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterDomainInput`)
     ///
-    /// - Returns: `RegisterDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2430,9 +2430,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RegisterWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterWorkflowTypeInput`)
     ///
-    /// - Returns: `RegisterWorkflowTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2510,9 +2510,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RequestCancelWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RequestCancelWorkflowExecutionInput`)
     ///
-    /// - Returns: `RequestCancelWorkflowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RequestCancelWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2588,9 +2588,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RespondActivityTaskCanceledInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RespondActivityTaskCanceledInput`)
     ///
-    /// - Returns: `RespondActivityTaskCanceledOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RespondActivityTaskCanceledOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2666,9 +2666,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RespondActivityTaskCompletedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RespondActivityTaskCompletedInput`)
     ///
-    /// - Returns: `RespondActivityTaskCompletedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RespondActivityTaskCompletedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2744,9 +2744,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RespondActivityTaskFailedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RespondActivityTaskFailedInput`)
     ///
-    /// - Returns: `RespondActivityTaskFailedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RespondActivityTaskFailedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2813,9 +2813,9 @@ extension SWFClient {
     ///
     /// Used by deciders to tell the service that the [DecisionTask] identified by the taskToken has successfully completed. The decisions argument specifies the list of decisions made while processing the task. A DecisionTaskCompleted event is added to the workflow history. The executionContext specified is attached to the event in the workflow execution history. Access Control If an IAM policy grants permission to use RespondDecisionTaskCompleted, it can express permissions for the list of decisions in the decisions parameter. Each of the decisions has one or more parameters, much like a regular API call. To allow for policies to be as readable as possible, you can express permissions on decisions as if they were actual API calls, including applying conditions to some parameters. For more information, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RespondDecisionTaskCompletedInput : Input data for a TaskCompleted response to a decision task.
+    /// - Parameter input: Input data for a TaskCompleted response to a decision task. (Type: `RespondDecisionTaskCompletedInput`)
     ///
-    /// - Returns: `RespondDecisionTaskCompletedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RespondDecisionTaskCompletedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2891,9 +2891,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter SignalWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SignalWorkflowExecutionInput`)
     ///
-    /// - Returns: `SignalWorkflowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SignalWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2988,9 +2988,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter StartWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkflowExecutionInput`)
     ///
-    /// - Returns: `StartWorkflowExecutionOutput` : Specifies the runId of a workflow execution.
+    /// - Returns: Specifies the runId of a workflow execution. (Type: `StartWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3061,9 +3061,9 @@ extension SWFClient {
     ///
     /// Add a tag to a Amazon SWF domain. Amazon SWF supports a maximum of 50 tags per resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3141,9 +3141,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter TerminateWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateWorkflowExecutionInput`)
     ///
-    /// - Returns: `TerminateWorkflowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3226,9 +3226,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter UndeprecateActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UndeprecateActivityTypeInput`)
     ///
-    /// - Returns: `UndeprecateActivityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UndeprecateActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3305,9 +3305,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter UndeprecateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UndeprecateDomainInput`)
     ///
-    /// - Returns: `UndeprecateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UndeprecateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3391,9 +3391,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter UndeprecateWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UndeprecateWorkflowTypeInput`)
     ///
-    /// - Returns: `UndeprecateWorkflowTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UndeprecateWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3461,9 +3461,9 @@ extension SWFClient {
     ///
     /// Remove a tag from a Amazon SWF domain.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

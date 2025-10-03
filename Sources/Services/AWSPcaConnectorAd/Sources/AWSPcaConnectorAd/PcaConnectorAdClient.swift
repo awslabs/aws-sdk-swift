@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PcaConnectorAdClient: ClientRuntime.Client {
     public static let clientName = "PcaConnectorAdClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PcaConnectorAdClient.PcaConnectorAdClientConfiguration
     let serviceName = "Pca Connector Ad"
@@ -373,9 +373,9 @@ extension PcaConnectorAdClient {
     ///
     /// Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA, directory ID, and security groups.
     ///
-    /// - Parameter CreateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
-    /// - Returns: `CreateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension PcaConnectorAdClient {
     ///
     /// Creates a directory registration that authorizes communication between Amazon Web Services Private CA and an Active Directory
     ///
-    /// - Parameter CreateDirectoryRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectoryRegistrationInput`)
     ///
-    /// - Returns: `CreateDirectoryRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectoryRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension PcaConnectorAdClient {
     ///
     /// Creates a service principal name (SPN) for the service account in Active Directory. Kerberos authentication uses SPNs to associate a service instance with a service sign-in account.
     ///
-    /// - Parameter CreateServicePrincipalNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServicePrincipalNameInput`)
     ///
-    /// - Returns: `CreateServicePrincipalNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServicePrincipalNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension PcaConnectorAdClient {
     ///
     /// Creates an Active Directory compatible certificate template. The connectors issues certificates using these templates based on the requester’s Active Directory group membership.
     ///
-    /// - Parameter CreateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -667,9 +667,9 @@ extension PcaConnectorAdClient {
     ///
     /// Create a group access control entry. Allow or deny Active Directory groups from enrolling and/or autoenrolling with the template based on the group security identifiers (SIDs).
     ///
-    /// - Parameter CreateTemplateGroupAccessControlEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateGroupAccessControlEntryInput`)
     ///
-    /// - Returns: `CreateTemplateGroupAccessControlEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateGroupAccessControlEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -741,9 +741,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes a connector for Active Directory. You must provide the Amazon Resource Name (ARN) of the connector that you want to delete. You can find the ARN by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors) action. Deleting a connector does not deregister your directory with Amazon Web Services Private CA. You can deregister your directory by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration) action.
     ///
-    /// - Parameter DeleteConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
-    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -810,9 +810,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes a directory registration. Deleting a directory registration deauthorizes Amazon Web Services Private CA with the directory.
     ///
-    /// - Parameter DeleteDirectoryRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectoryRegistrationInput`)
     ///
-    /// - Returns: `DeleteDirectoryRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectoryRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,9 +878,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes the service principal name (SPN) used by a connector to authenticate with your Active Directory.
     ///
-    /// - Parameter DeleteServicePrincipalNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServicePrincipalNameInput`)
     ///
-    /// - Returns: `DeleteServicePrincipalNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServicePrincipalNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -946,9 +946,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes a template. Certificates issued using the template are still valid until they are revoked or expired.
     ///
-    /// - Parameter DeleteTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,9 +1015,9 @@ extension PcaConnectorAdClient {
     ///
     /// Deletes a group access control entry.
     ///
-    /// - Parameter DeleteTemplateGroupAccessControlEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateGroupAccessControlEntryInput`)
     ///
-    /// - Returns: `DeleteTemplateGroupAccessControlEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateGroupAccessControlEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1084,9 +1084,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists information about your connector. You specify the connector on input by its ARN (Amazon Resource Name).
     ///
-    /// - Parameter GetConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorInput`)
     ///
-    /// - Returns: `GetConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,9 +1152,9 @@ extension PcaConnectorAdClient {
     ///
     /// A structure that contains information about your directory registration.
     ///
-    /// - Parameter GetDirectoryRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDirectoryRegistrationInput`)
     ///
-    /// - Returns: `GetDirectoryRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDirectoryRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1220,9 +1220,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the service principal name that the connector uses to authenticate with Active Directory.
     ///
-    /// - Parameter GetServicePrincipalNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServicePrincipalNameInput`)
     ///
-    /// - Returns: `GetServicePrincipalNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServicePrincipalNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1288,9 +1288,9 @@ extension PcaConnectorAdClient {
     ///
     /// Retrieves a certificate template that the connector uses to issue certificates from a private CA.
     ///
-    /// - Parameter GetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateInput`)
     ///
-    /// - Returns: `GetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1356,9 +1356,9 @@ extension PcaConnectorAdClient {
     ///
     /// Retrieves the group access control entries for a template.
     ///
-    /// - Parameter GetTemplateGroupAccessControlEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateGroupAccessControlEntryInput`)
     ///
-    /// - Returns: `GetTemplateGroupAccessControlEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateGroupAccessControlEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1424,9 +1424,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the connectors that you created by using the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector) action.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,9 +1492,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the directory registrations that you created by using the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration) action.
     ///
-    /// - Parameter ListDirectoryRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDirectoryRegistrationsInput`)
     ///
-    /// - Returns: `ListDirectoryRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDirectoryRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1560,9 +1560,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the service principal names that the connector uses to authenticate with Active Directory.
     ///
-    /// - Parameter ListServicePrincipalNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicePrincipalNamesInput`)
     ///
-    /// - Returns: `ListServicePrincipalNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicePrincipalNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1629,9 +1629,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the tags, if any, that are associated with your resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1697,9 +1697,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists group access control entries you created.
     ///
-    /// - Parameter ListTemplateGroupAccessControlEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateGroupAccessControlEntriesInput`)
     ///
-    /// - Returns: `ListTemplateGroupAccessControlEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateGroupAccessControlEntriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1766,9 +1766,9 @@ extension PcaConnectorAdClient {
     ///
     /// Lists the templates, if any, that are associated with a connector.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1835,9 +1835,9 @@ extension PcaConnectorAdClient {
     ///
     /// Adds one or more tags to your resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1906,9 +1906,9 @@ extension PcaConnectorAdClient {
     ///
     /// Removes one or more tags from your resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1975,9 +1975,9 @@ extension PcaConnectorAdClient {
     ///
     /// Update template configuration to define the information included in certificates.
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2047,9 +2047,9 @@ extension PcaConnectorAdClient {
     ///
     /// Update a group access control entry you created using [CreateTemplateGroupAccessControlEntry](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplateGroupAccessControlEntry.html).
     ///
-    /// - Parameter UpdateTemplateGroupAccessControlEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateGroupAccessControlEntryInput`)
     ///
-    /// - Returns: `UpdateTemplateGroupAccessControlEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateGroupAccessControlEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

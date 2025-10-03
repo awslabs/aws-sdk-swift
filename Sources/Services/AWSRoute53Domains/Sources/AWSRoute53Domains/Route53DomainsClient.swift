@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Route53DomainsClient: ClientRuntime.Client {
     public static let clientName = "Route53DomainsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53DomainsClient.Route53DomainsClientConfiguration
     let serviceName = "Route 53 Domains"
@@ -373,9 +373,9 @@ extension Route53DomainsClient {
     ///
     /// Accepts the transfer of a domain from another Amazon Web Services account to the currentAmazon Web Services account. You initiate a transfer between Amazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). If you use the CLI command at [accept-domain-transfer-from-another-aws-account](https://docs.aws.amazon.com/cli/latest/reference/route53domains/accept-domain-transfer-from-another-aws-account.html), use JSON format as input instead of text because otherwise CLI will throw an error from domain transfer input that includes single quotes. Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
-    /// - Parameter AcceptDomainTransferFromAnotherAwsAccountInput : The AcceptDomainTransferFromAnotherAwsAccount request includes the following elements.
+    /// - Parameter input: The AcceptDomainTransferFromAnotherAwsAccount request includes the following elements. (Type: `AcceptDomainTransferFromAnotherAwsAccountInput`)
     ///
-    /// - Returns: `AcceptDomainTransferFromAnotherAwsAccountOutput` : The AcceptDomainTransferFromAnotherAwsAccount response includes the following element.
+    /// - Returns: The AcceptDomainTransferFromAnotherAwsAccount response includes the following element. (Type: `AcceptDomainTransferFromAnotherAwsAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension Route53DomainsClient {
     ///
     /// Creates a delegation signer (DS) record in the registry zone for this domain name. Note that creating DS record at the registry impacts DNSSEC validation of your DNS records. This action may render your domain name unavailable on the internet if the steps are completed in the wrong order, or with incorrect timing. For more information about DNSSEC signing, see [Configuring DNSSEC signing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring-dnssec.html) in the Route 53 developer guide.
     ///
-    /// - Parameter AssociateDelegationSignerToDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDelegationSignerToDomainInput`)
     ///
-    /// - Returns: `AssociateDelegationSignerToDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDelegationSignerToDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension Route53DomainsClient {
     ///
     /// Cancels the transfer of a domain from the current Amazon Web Services account to another Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). You must cancel the transfer before the other Amazon Web Services account accepts the transfer using [AcceptDomainTransferFromAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html). Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
-    /// - Parameter CancelDomainTransferToAnotherAwsAccountInput : The CancelDomainTransferToAnotherAwsAccount request includes the following element.
+    /// - Parameter input: The CancelDomainTransferToAnotherAwsAccount request includes the following element. (Type: `CancelDomainTransferToAnotherAwsAccountInput`)
     ///
-    /// - Returns: `CancelDomainTransferToAnotherAwsAccountOutput` : The CancelDomainTransferToAnotherAwsAccount response includes the following element.
+    /// - Returns: The CancelDomainTransferToAnotherAwsAccount response includes the following element. (Type: `CancelDomainTransferToAnotherAwsAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension Route53DomainsClient {
     ///
     /// This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must submit another request to determine the availability of the domain name.
     ///
-    /// - Parameter CheckDomainAvailabilityInput : The CheckDomainAvailability request contains the following elements.
+    /// - Parameter input: The CheckDomainAvailability request contains the following elements. (Type: `CheckDomainAvailabilityInput`)
     ///
-    /// - Returns: `CheckDomainAvailabilityOutput` : The CheckDomainAvailability response includes the following elements.
+    /// - Returns: The CheckDomainAvailability response includes the following elements. (Type: `CheckDomainAvailabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension Route53DomainsClient {
     ///
     /// Checks whether a domain name can be transferred to Amazon Route 53.
     ///
-    /// - Parameter CheckDomainTransferabilityInput : The CheckDomainTransferability request contains the following elements.
+    /// - Parameter input: The CheckDomainTransferability request contains the following elements. (Type: `CheckDomainTransferabilityInput`)
     ///
-    /// - Returns: `CheckDomainTransferabilityOutput` : The CheckDomainTransferability response includes the following elements.
+    /// - Returns: The CheckDomainTransferability response includes the following elements. (Type: `CheckDomainTransferabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension Route53DomainsClient {
     ///
     /// * When the registration has been deleted, we'll send you a confirmation to the registrant contact. The email will come from noreply@domainnameverification.net or noreply@registrar.amazon.com.
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension Route53DomainsClient {
     ///
     /// This operation deletes the specified tags for a domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
-    /// - Parameter DeleteTagsForDomainInput : The DeleteTagsForDomainRequest includes the following elements.
+    /// - Parameter input: The DeleteTagsForDomainRequest includes the following elements. (Type: `DeleteTagsForDomainInput`)
     ///
-    /// - Returns: `DeleteTagsForDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -872,9 +872,9 @@ extension Route53DomainsClient {
     ///
     /// This operation disables automatic renewal of domain registration for the specified domain.
     ///
-    /// - Parameter DisableDomainAutoRenewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableDomainAutoRenewInput`)
     ///
-    /// - Returns: `DisableDomainAutoRenewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableDomainAutoRenewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -941,9 +941,9 @@ extension Route53DomainsClient {
     ///
     /// This operation removes the transfer lock on the domain (specifically the clientTransferProhibited status) to allow domain transfers. We recommend you refrain from performing this action unless you intend to transfer the domain to a different registrar. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
-    /// - Parameter DisableDomainTransferLockInput : The DisableDomainTransferLock request includes the following element.
+    /// - Parameter input: The DisableDomainTransferLock request includes the following element. (Type: `DisableDomainTransferLockInput`)
     ///
-    /// - Returns: `DisableDomainTransferLockOutput` : The DisableDomainTransferLock response includes the following element.
+    /// - Returns: The DisableDomainTransferLock response includes the following element. (Type: `DisableDomainTransferLockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,9 +1013,9 @@ extension Route53DomainsClient {
     ///
     /// Deletes a delegation signer (DS) record in the registry zone for this domain name.
     ///
-    /// - Parameter DisassociateDelegationSignerFromDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDelegationSignerFromDomainInput`)
     ///
-    /// - Returns: `DisassociateDelegationSignerFromDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDelegationSignerFromDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1085,9 +1085,9 @@ extension Route53DomainsClient {
     ///
     /// This operation configures Amazon Route 53 to automatically renew the specified domain before the domain registration expires. The cost of renewing your domain registration is billed to your Amazon Web Services account. The period during which you can renew a domain name varies by TLD. For a list of TLDs and their renewal policies, see [Domains That You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. Route 53 requires that you renew before the end of the renewal period so we can complete processing before the deadline.
     ///
-    /// - Parameter EnableDomainAutoRenewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableDomainAutoRenewInput`)
     ///
-    /// - Returns: `EnableDomainAutoRenewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableDomainAutoRenewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1155,9 +1155,9 @@ extension Route53DomainsClient {
     ///
     /// This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
-    /// - Parameter EnableDomainTransferLockInput : A request to set the transfer lock for the specified domain.
+    /// - Parameter input: A request to set the transfer lock for the specified domain. (Type: `EnableDomainTransferLockInput`)
     ///
-    /// - Returns: `EnableDomainTransferLockOutput` : The EnableDomainTransferLock response includes the following elements.
+    /// - Returns: The EnableDomainTransferLock response includes the following elements. (Type: `EnableDomainTransferLockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,9 +1227,9 @@ extension Route53DomainsClient {
     ///
     /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation returns information about whether the registrant contact has responded. If you want us to resend the email, use the ResendContactReachabilityEmail operation.
     ///
-    /// - Parameter GetContactReachabilityStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactReachabilityStatusInput`)
     ///
-    /// - Returns: `GetContactReachabilityStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactReachabilityStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1297,9 +1297,9 @@ extension Route53DomainsClient {
     ///
     /// This operation returns detailed information about a specified domain that is associated with the current Amazon Web Services account. Contact information for the domain is also returned as part of the output.
     ///
-    /// - Parameter GetDomainDetailInput : The GetDomainDetail request includes the following element.
+    /// - Parameter input: The GetDomainDetail request includes the following element. (Type: `GetDomainDetailInput`)
     ///
-    /// - Returns: `GetDomainDetailOutput` : The GetDomainDetail response includes the following elements.
+    /// - Returns: The GetDomainDetail response includes the following elements. (Type: `GetDomainDetailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1366,9 +1366,9 @@ extension Route53DomainsClient {
     ///
     /// The GetDomainSuggestions operation returns a list of suggested domain names.
     ///
-    /// - Parameter GetDomainSuggestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainSuggestionsInput`)
     ///
-    /// - Returns: `GetDomainSuggestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainSuggestionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1435,9 +1435,9 @@ extension Route53DomainsClient {
     ///
     /// This operation returns the current status of an operation that is not completed.
     ///
-    /// - Parameter GetOperationDetailInput : The [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) request includes the following element.
+    /// - Parameter input: The [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) request includes the following element. (Type: `GetOperationDetailInput`)
     ///
-    /// - Returns: `GetOperationDetailOutput` : The GetOperationDetail response includes the following elements.
+    /// - Returns: The GetOperationDetail response includes the following elements. (Type: `GetOperationDetailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,9 +1503,9 @@ extension Route53DomainsClient {
     ///
     /// This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account if no filtering conditions are used.
     ///
-    /// - Parameter ListDomainsInput : The ListDomains request includes the following elements.
+    /// - Parameter input: The ListDomains request includes the following elements. (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : The ListDomains response includes the following elements.
+    /// - Returns: The ListDomains response includes the following elements. (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1571,9 +1571,9 @@ extension Route53DomainsClient {
     ///
     /// Returns information about all of the operations that return an operation ID and that have ever been performed on domains that were registered by the current account. This command runs only in the us-east-1 Region.
     ///
-    /// - Parameter ListOperationsInput : The ListOperations request includes the following elements.
+    /// - Parameter input: The ListOperations request includes the following elements. (Type: `ListOperationsInput`)
     ///
-    /// - Returns: `ListOperationsOutput` : The ListOperations response includes the following elements.
+    /// - Returns: The ListOperations response includes the following elements. (Type: `ListOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1649,9 +1649,9 @@ extension Route53DomainsClient {
     ///
     /// * Domain restoration
     ///
-    /// - Parameter ListPricesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricesInput`)
     ///
-    /// - Returns: `ListPricesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1718,9 +1718,9 @@ extension Route53DomainsClient {
     ///
     /// This operation returns all of the tags that are associated with the specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
-    /// - Parameter ListTagsForDomainInput : The ListTagsForDomainRequest includes the following elements.
+    /// - Parameter input: The ListTagsForDomainRequest includes the following elements. (Type: `ListTagsForDomainInput`)
     ///
-    /// - Returns: `ListTagsForDomainOutput` : The ListTagsForDomain response includes the following elements.
+    /// - Returns: The ListTagsForDomain response includes the following elements. (Type: `ListTagsForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1790,9 +1790,9 @@ extension Route53DomainsClient {
     ///
     /// * Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means that the domain is ready to be transferred to another registrar.
     ///
-    /// - Parameter PushDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PushDomainInput`)
     ///
-    /// - Returns: `PushDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PushDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1870,9 +1870,9 @@ extension Route53DomainsClient {
     ///
     /// * Charges your Amazon Web Services account an amount based on the top-level domain. For more information, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
     ///
-    /// - Parameter RegisterDomainInput : The RegisterDomain request includes the following elements.
+    /// - Parameter input: The RegisterDomain request includes the following elements. (Type: `RegisterDomainInput`)
     ///
-    /// - Returns: `RegisterDomainOutput` : The RegisterDomain response includes the following element.
+    /// - Returns: The RegisterDomain response includes the following element. (Type: `RegisterDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1943,9 +1943,9 @@ extension Route53DomainsClient {
     ///
     /// Rejects the transfer of a domain from another Amazon Web Services account to the current Amazon Web Services account. You initiate a transfer betweenAmazon Web Services accounts using [TransferDomainToAnotherAwsAccount](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html). Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
-    /// - Parameter RejectDomainTransferFromAnotherAwsAccountInput : The RejectDomainTransferFromAnotherAwsAccount request includes the following element.
+    /// - Parameter input: The RejectDomainTransferFromAnotherAwsAccount request includes the following element. (Type: `RejectDomainTransferFromAnotherAwsAccountInput`)
     ///
-    /// - Returns: `RejectDomainTransferFromAnotherAwsAccountOutput` : The RejectDomainTransferFromAnotherAwsAccount response includes the following element.
+    /// - Returns: The RejectDomainTransferFromAnotherAwsAccount response includes the following element. (Type: `RejectDomainTransferFromAnotherAwsAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2013,9 +2013,9 @@ extension Route53DomainsClient {
     ///
     /// This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your Amazon Web Services account. We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see [Renewing Registration for a Domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-renew.html) in the Amazon Route 53 Developer Guide.
     ///
-    /// - Parameter RenewDomainInput : A RenewDomain request includes the number of years that you want to renew for and the current expiration year.
+    /// - Parameter input: A RenewDomain request includes the number of years that you want to renew for and the current expiration year. (Type: `RenewDomainInput`)
     ///
-    /// - Returns: `RenewDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RenewDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2085,9 +2085,9 @@ extension Route53DomainsClient {
     ///
     /// For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact.
     ///
-    /// - Parameter ResendContactReachabilityEmailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResendContactReachabilityEmailInput`)
     ///
-    /// - Returns: `ResendContactReachabilityEmailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResendContactReachabilityEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2155,9 +2155,9 @@ extension Route53DomainsClient {
     ///
     /// Resend the form of authorization email for this operation.
     ///
-    /// - Parameter ResendOperationAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResendOperationAuthorizationInput`)
     ///
-    /// - Returns: `ResendOperationAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResendOperationAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2223,9 +2223,9 @@ extension Route53DomainsClient {
     ///
     /// This operation returns the authorization code for the domain. To transfer a domain to another registrar, you provide this value to the new registrar.
     ///
-    /// - Parameter RetrieveDomainAuthCodeInput : A request for the authorization code for the specified domain. To transfer a domain to another registrar, you provide this value to the new registrar.
+    /// - Parameter input: A request for the authorization code for the specified domain. To transfer a domain to another registrar, you provide this value to the new registrar. (Type: `RetrieveDomainAuthCodeInput`)
     ///
-    /// - Returns: `RetrieveDomainAuthCodeOutput` : The RetrieveDomainAuthCode response includes the following element.
+    /// - Returns: The RetrieveDomainAuthCode response includes the following element. (Type: `RetrieveDomainAuthCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2301,9 +2301,9 @@ extension Route53DomainsClient {
     ///
     /// During the transfer of any country code top-level domains (ccTLDs) to Route 53, except for .cc and .tv, updates to the owner contact are ignored and the owner contact data from the registry is used. You can update the owner contact after the transfer is complete. For more information, see [UpdateDomainContact](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainContact.html). If the registrar for your domain is also the DNS service provider for the domain, we highly recommend that you transfer your DNS service to Route 53 or to another DNS service provider before you transfer your registration. Some registrars provide free DNS service when you purchase a domain registration. When you transfer the registration, the previous registrar will not renew your domain registration and could end your DNS service at any time. If the registrar for your domain is also the DNS service provider for the domain and you don't transfer DNS service to another provider, your website, email, and the web applications associated with the domain might become unavailable. If the transfer is successful, this method returns an operation ID that you can use to track the progress and completion of the action. If the transfer doesn't complete successfully, the domain registrant will be notified by email.
     ///
-    /// - Parameter TransferDomainInput : The TransferDomain request includes the following elements.
+    /// - Parameter input: The TransferDomain request includes the following elements. (Type: `TransferDomainInput`)
     ///
-    /// - Returns: `TransferDomainOutput` : The TransferDomain response includes the following element.
+    /// - Returns: The TransferDomain response includes the following element. (Type: `TransferDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2383,9 +2383,9 @@ extension Route53DomainsClient {
     ///
     /// When you transfer a domain from one Amazon Web Services account to another, Route 53 doesn't transfer the hosted zone that is associated with the domain. DNS resolution isn't affected if the domain and the hosted zone are owned by separate accounts, so transferring the hosted zone is optional. For information about transferring the hosted zone to another Amazon Web Services account, see [Migrating a Hosted Zone to a Different Amazon Web Services Account](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-migrating.html) in the Amazon Route 53 Developer Guide. Use either [ListOperations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html) or [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to determine whether the operation succeeded. [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) provides additional information, for example, Domain Transfer from Aws Account 111122223333 has been cancelled.
     ///
-    /// - Parameter TransferDomainToAnotherAwsAccountInput : The TransferDomainToAnotherAwsAccount request includes the following elements.
+    /// - Parameter input: The TransferDomainToAnotherAwsAccount request includes the following elements. (Type: `TransferDomainToAnotherAwsAccountInput`)
     ///
-    /// - Returns: `TransferDomainToAnotherAwsAccountOutput` : The TransferDomainToAnotherAwsAccount response includes the following elements.
+    /// - Returns: The TransferDomainToAnotherAwsAccount response includes the following elements. (Type: `TransferDomainToAnotherAwsAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2454,9 +2454,9 @@ extension Route53DomainsClient {
     ///
     /// This operation updates the contact information for a particular domain. You must specify information for at least one contact: registrant, administrator, or technical. If the update is successful, this method returns an operation ID that you can use to track the progress and completion of the operation. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
-    /// - Parameter UpdateDomainContactInput : The UpdateDomainContact request includes the following elements.
+    /// - Parameter input: The UpdateDomainContact request includes the following elements. (Type: `UpdateDomainContactInput`)
     ///
-    /// - Returns: `UpdateDomainContactOutput` : The UpdateDomainContact response includes the following element.
+    /// - Returns: The UpdateDomainContact response includes the following element. (Type: `UpdateDomainContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2526,9 +2526,9 @@ extension Route53DomainsClient {
     ///
     /// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is replaced with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of owner." While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (administrative, registrant, or technical). If the request succeeds, Amazon Route 53 returns an operation ID that you can use with [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to track the progress and completion of the action. If the request doesn't complete successfully, the domain registrant will be notified by email. By disabling the privacy service via API, you consent to the publication of the contact information provided for this domain via the public WHOIS database. You certify that you are the registrant of this domain name and have the authority to make this decision. You may withdraw your consent at any time by enabling privacy protection using either UpdateDomainContactPrivacy or the Route 53 console. Enabling privacy protection removes the contact information provided for this domain from the WHOIS database. For more information on our privacy practices, see [https://aws.amazon.com/privacy/](https://aws.amazon.com/privacy/).
     ///
-    /// - Parameter UpdateDomainContactPrivacyInput : The UpdateDomainContactPrivacy request includes the following elements.
+    /// - Parameter input: The UpdateDomainContactPrivacy request includes the following elements. (Type: `UpdateDomainContactPrivacyInput`)
     ///
-    /// - Returns: `UpdateDomainContactPrivacyOutput` : The UpdateDomainContactPrivacy response includes the following element.
+    /// - Returns: The UpdateDomainContactPrivacy response includes the following element. (Type: `UpdateDomainContactPrivacyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2598,9 +2598,9 @@ extension Route53DomainsClient {
     ///
     /// This operation replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     ///
-    /// - Parameter UpdateDomainNameserversInput : Replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+    /// - Parameter input: Replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain. If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email. (Type: `UpdateDomainNameserversInput`)
     ///
-    /// - Returns: `UpdateDomainNameserversOutput` : The UpdateDomainNameservers response includes the following element.
+    /// - Returns: The UpdateDomainNameservers response includes the following element. (Type: `UpdateDomainNameserversOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2670,9 +2670,9 @@ extension Route53DomainsClient {
     ///
     /// This operation adds or updates tags for a specified domain. All tag operations are eventually consistent; subsequent operations might not immediately represent all issued operations.
     ///
-    /// - Parameter UpdateTagsForDomainInput : The UpdateTagsForDomainRequest includes the following elements.
+    /// - Parameter input: The UpdateTagsForDomainRequest includes the following elements. (Type: `UpdateTagsForDomainInput`)
     ///
-    /// - Returns: `UpdateTagsForDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTagsForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2740,9 +2740,9 @@ extension Route53DomainsClient {
     ///
     /// Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
     ///
-    /// - Parameter ViewBillingInput : The ViewBilling request includes the following elements.
+    /// - Parameter input: The ViewBilling request includes the following elements. (Type: `ViewBillingInput`)
     ///
-    /// - Returns: `ViewBillingOutput` : The ViewBilling response includes the following elements.
+    /// - Returns: The ViewBilling response includes the following elements. (Type: `ViewBillingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

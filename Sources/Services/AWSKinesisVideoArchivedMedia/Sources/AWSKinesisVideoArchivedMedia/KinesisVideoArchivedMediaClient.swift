@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoArchivedMediaClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoArchivedMediaClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoArchivedMediaClient.KinesisVideoArchivedMediaClientConfiguration
     let serviceName = "Kinesis Video Archived Media"
@@ -384,9 +384,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// You can monitor the amount of outgoing data by monitoring the GetClip.OutgoingBytes Amazon CloudWatch metric. For information about using CloudWatch to monitor Kinesis Video Streams, see [Monitoring Kinesis Video Streams](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/monitoring.html). For pricing information, see [Amazon Kinesis Video Streams Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/) and [ Amazon Web Services Pricing](https://aws.amazon.com/pricing/). Charges for outgoing Amazon Web Services data apply.
     ///
-    /// - Parameter GetClipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClipInput`)
     ///
-    /// - Returns: `GetClipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,9 +497,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter GetDASHStreamingSessionURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDASHStreamingSessionURLInput`)
     ///
-    /// - Returns: `GetDASHStreamingSessionURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDASHStreamingSessionURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,9 +613,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter GetHLSStreamingSessionURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHLSStreamingSessionURLInput`)
     ///
-    /// - Returns: `GetHLSStreamingSessionURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHLSStreamingSessionURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,9 +687,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
     ///
-    /// - Parameter GetImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImagesInput`)
     ///
-    /// - Returns: `GetImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,9 +765,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter GetMediaForFragmentListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaForFragmentListInput`)
     ///
-    /// - Returns: `GetMediaForFragmentListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaForFragmentListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,9 +842,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter ListFragmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFragmentsInput`)
     ///
-    /// - Returns: `ListFragmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFragmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

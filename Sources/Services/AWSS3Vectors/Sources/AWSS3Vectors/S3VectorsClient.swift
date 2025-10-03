@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3VectorsClient: ClientRuntime.Client {
     public static let clientName = "S3VectorsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: S3VectorsClient.S3VectorsClientConfiguration
     let serviceName = "S3Vectors"
@@ -372,9 +372,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:CreateIndex permission to use this operation.
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in. Permissions You must have the s3vectors:CreateVectorBucket permission to use this operation.
     ///
-    /// - Parameter CreateVectorBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVectorBucketInput`)
     ///
-    /// - Returns: `CreateVectorBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVectorBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteIndex permission to use this operation.
     ///
-    /// - Parameter DeleteIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
     ///
-    /// - Returns: `DeleteIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucket permission to use this operation.
     ///
-    /// - Parameter DeleteVectorBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVectorBucketInput`)
     ///
-    /// - Returns: `DeleteVectorBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVectorBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
     ///
-    /// - Parameter DeleteVectorBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVectorBucketPolicyInput`)
     ///
-    /// - Returns: `DeleteVectorBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVectorBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -737,9 +737,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this operation.
     ///
-    /// - Parameter DeleteVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVectorsInput`)
     ///
-    /// - Returns: `DeleteVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,9 +821,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetIndex permission to use this operation.
     ///
-    /// - Parameter GetIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIndexInput`)
     ///
-    /// - Returns: `GetIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -894,9 +894,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucket permission to use this operation.
     ///
-    /// - Parameter GetVectorBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVectorBucketInput`)
     ///
-    /// - Returns: `GetVectorBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVectorBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,9 +967,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
     ///
-    /// - Parameter GetVectorBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVectorBucketPolicyInput`)
     ///
-    /// - Returns: `GetVectorBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVectorBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1040,9 +1040,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectors permission to use this operation.
     ///
-    /// - Parameter GetVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVectorsInput`)
     ///
-    /// - Returns: `GetVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1124,9 +1124,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:ListIndexes permission to use this operation.
     ///
-    /// - Parameter ListIndexesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexesInput`)
     ///
-    /// - Returns: `ListIndexesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,9 +1197,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns a list of all the vector buckets that are owned by the authenticated sender of the request. Permissions You must have the s3vectors:ListVectorBuckets permission to use this operation.
     ///
-    /// - Parameter ListVectorBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVectorBucketsInput`)
     ///
-    /// - Returns: `ListVectorBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVectorBucketsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,9 +1273,9 @@ extension S3VectorsClient {
     ///
     /// * If you set returnData or returnMetadata to true, you must have both s3vectors:ListVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request vector data or metadata without the s3vectors:GetVectors permission.
     ///
-    /// - Parameter ListVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVectorsInput`)
     ///
-    /// - Returns: `ListVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1346,9 +1346,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
     ///
-    /// - Parameter PutVectorBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVectorBucketPolicyInput`)
     ///
-    /// - Returns: `PutVectorBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVectorBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,9 +1419,9 @@ extension S3VectorsClient {
     ///
     /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). For more information about limits, see [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide. When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values. Permissions You must have the s3vectors:PutVectors permission to use this operation.
     ///
-    /// - Parameter PutVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVectorsInput`)
     ///
-    /// - Returns: `PutVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,9 +1507,9 @@ extension S3VectorsClient {
     ///
     /// * If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering, vector data, or metadata without the s3vectors:GetVectors permission.
     ///
-    /// - Parameter QueryVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryVectorsInput`)
     ///
-    /// - Returns: `QueryVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

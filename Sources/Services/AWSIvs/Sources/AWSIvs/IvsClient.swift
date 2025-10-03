@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IvsClient: ClientRuntime.Client {
     public static let clientName = "IvsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: IvsClient.IvsClientConfiguration
     let serviceName = "ivs"
@@ -372,9 +372,9 @@ extension IvsClient {
     ///
     /// Performs [GetChannel] on multiple ARNs simultaneously.
     ///
-    /// - Parameter BatchGetChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetChannelInput`)
     ///
-    /// - Returns: `BatchGetChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetChannelOutput`)
     public func batchGetChannel(input: BatchGetChannelInput) async throws -> BatchGetChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -434,9 +434,9 @@ extension IvsClient {
     ///
     /// Performs [GetStreamKey] on multiple ARNs simultaneously.
     ///
-    /// - Parameter BatchGetStreamKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetStreamKeyInput`)
     ///
-    /// - Returns: `BatchGetStreamKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetStreamKeyOutput`)
     public func batchGetStreamKey(input: BatchGetStreamKeyInput) async throws -> BatchGetStreamKeyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -496,9 +496,9 @@ extension IvsClient {
     ///
     /// Performs [StartViewerSessionRevocation] on multiple channel ARN and viewer ID pairs simultaneously.
     ///
-    /// - Parameter BatchStartViewerSessionRevocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchStartViewerSessionRevocationInput`)
     ///
-    /// - Returns: `BatchStartViewerSessionRevocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchStartViewerSessionRevocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,9 +566,9 @@ extension IvsClient {
     ///
     /// Creates a new channel and an associated stream key to start streaming.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -637,9 +637,9 @@ extension IvsClient {
     ///
     /// Creates a new playback restriction policy, for constraining playback by countries and/or origins.
     ///
-    /// - Parameter CreatePlaybackRestrictionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePlaybackRestrictionPolicyInput`)
     ///
-    /// - Returns: `CreatePlaybackRestrictionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePlaybackRestrictionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,9 +708,9 @@ extension IvsClient {
     ///
     /// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
     ///
-    /// - Parameter CreateRecordingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecordingConfigurationInput`)
     ///
-    /// - Returns: `CreateRecordingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecordingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -780,9 +780,9 @@ extension IvsClient {
     ///
     /// Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that [CreateChannel] creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use [DeleteStreamKey] and then CreateStreamKey.
     ///
-    /// - Parameter CreateStreamKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamKeyInput`)
     ///
-    /// - Returns: `CreateStreamKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,9 +851,9 @@ extension IvsClient {
     ///
     /// Deletes the specified channel and its associated stream keys. If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call [StopStream], wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See [ Using EventBridge with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html).)
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,9 +922,9 @@ extension IvsClient {
     ///
     /// Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s privateKey. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter DeletePlaybackKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlaybackKeyPairInput`)
     ///
-    /// - Returns: `DeletePlaybackKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlaybackKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -992,9 +992,9 @@ extension IvsClient {
     ///
     /// Deletes the specified playback restriction policy.
     ///
-    /// - Parameter DeletePlaybackRestrictionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlaybackRestrictionPolicyInput`)
     ///
-    /// - Returns: `DeletePlaybackRestrictionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlaybackRestrictionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1063,9 +1063,9 @@ extension IvsClient {
     ///
     /// Deletes the recording configuration for the specified ARN. If you try to delete a recording configuration that is associated with a channel, you will get an error (409 ConflictException). To avoid this, for all channels that reference the recording configuration, first use [UpdateChannel] to set the recordingConfigurationArn field to an empty string, then use DeleteRecordingConfiguration.
     ///
-    /// - Parameter DeleteRecordingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecordingConfigurationInput`)
     ///
-    /// - Returns: `DeleteRecordingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecordingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,9 +1134,9 @@ extension IvsClient {
     ///
     /// Deletes the stream key for the specified ARN, so it can no longer be used to stream.
     ///
-    /// - Parameter DeleteStreamKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStreamKeyInput`)
     ///
-    /// - Returns: `DeleteStreamKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,9 +1204,9 @@ extension IvsClient {
     ///
     /// Gets the channel configuration for the specified channel ARN. See also [BatchGetChannel].
     ///
-    /// - Parameter GetChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelInput`)
     ///
-    /// - Returns: `GetChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,9 +1273,9 @@ extension IvsClient {
     ///
     /// Gets a specified playback authorization key pair and returns the arn and fingerprint. The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter GetPlaybackKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlaybackKeyPairInput`)
     ///
-    /// - Returns: `GetPlaybackKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlaybackKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1342,9 +1342,9 @@ extension IvsClient {
     ///
     /// Gets the specified playback restriction policy.
     ///
-    /// - Parameter GetPlaybackRestrictionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlaybackRestrictionPolicyInput`)
     ///
-    /// - Returns: `GetPlaybackRestrictionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlaybackRestrictionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1412,9 +1412,9 @@ extension IvsClient {
     ///
     /// Gets the recording configuration for the specified ARN.
     ///
-    /// - Parameter GetRecordingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecordingConfigurationInput`)
     ///
-    /// - Returns: `GetRecordingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecordingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,9 +1482,9 @@ extension IvsClient {
     ///
     /// Gets information about the active (live) stream on a specified channel.
     ///
-    /// - Parameter GetStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamInput`)
     ///
-    /// - Returns: `GetStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1552,9 +1552,9 @@ extension IvsClient {
     ///
     /// Gets stream-key information for a specified ARN.
     ///
-    /// - Parameter GetStreamKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamKeyInput`)
     ///
-    /// - Returns: `GetStreamKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,9 +1621,9 @@ extension IvsClient {
     ///
     /// Gets metadata on a specified stream.
     ///
-    /// - Parameter GetStreamSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamSessionInput`)
     ///
-    /// - Returns: `GetStreamSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1690,9 +1690,9 @@ extension IvsClient {
     ///
     /// Imports the public portion of a new key pair and returns its arn and fingerprint. The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter ImportPlaybackKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportPlaybackKeyPairInput`)
     ///
-    /// - Returns: `ImportPlaybackKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportPlaybackKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,9 +1761,9 @@ extension IvsClient {
     ///
     /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1830,9 +1830,9 @@ extension IvsClient {
     ///
     /// Gets summary information about playback key pairs. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter ListPlaybackKeyPairsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlaybackKeyPairsInput`)
     ///
-    /// - Returns: `ListPlaybackKeyPairsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlaybackKeyPairsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1898,9 +1898,9 @@ extension IvsClient {
     ///
     /// Gets summary information about playback restriction policies.
     ///
-    /// - Parameter ListPlaybackRestrictionPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlaybackRestrictionPoliciesInput`)
     ///
-    /// - Returns: `ListPlaybackRestrictionPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlaybackRestrictionPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1968,9 +1968,9 @@ extension IvsClient {
     ///
     /// Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
     ///
-    /// - Parameter ListRecordingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecordingConfigurationsInput`)
     ///
-    /// - Returns: `ListRecordingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecordingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2037,9 +2037,9 @@ extension IvsClient {
     ///
     /// Gets summary information about stream keys for the specified channel.
     ///
-    /// - Parameter ListStreamKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamKeysInput`)
     ///
-    /// - Returns: `ListStreamKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2106,9 +2106,9 @@ extension IvsClient {
     ///
     /// Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListStreamSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamSessionsInput`)
     ///
-    /// - Returns: `ListStreamSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2175,9 +2175,9 @@ extension IvsClient {
     ///
     /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
     ///
-    /// - Parameter ListStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamsInput`)
     ///
-    /// - Returns: `ListStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2243,9 +2243,9 @@ extension IvsClient {
     ///
     /// Gets information about Amazon Web Services tags for the specified ARN.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2309,9 +2309,9 @@ extension IvsClient {
     ///
     /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see [Embedding Metadata within a Video Stream](https://docs.aws.amazon.com/ivs/latest/userguide/metadata.html) in the Amazon IVS User Guide.
     ///
-    /// - Parameter PutMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMetadataInput`)
     ///
-    /// - Returns: `PutMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2380,9 +2380,9 @@ extension IvsClient {
     ///
     /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html).
     ///
-    /// - Parameter StartViewerSessionRevocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartViewerSessionRevocationInput`)
     ///
-    /// - Returns: `StartViewerSessionRevocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartViewerSessionRevocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,9 +2452,9 @@ extension IvsClient {
     ///
     /// Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with [DeleteStreamKey] to prevent further streaming to a channel. Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel.
     ///
-    /// - Parameter StopStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopStreamInput`)
     ///
-    /// - Returns: `StopStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2523,9 +2523,9 @@ extension IvsClient {
     ///
     /// Adds or updates tags for the Amazon Web Services resource with the specified ARN.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2592,9 +2592,9 @@ extension IvsClient {
     ///
     /// Removes tags from the resource with the specified ARN.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2659,9 +2659,9 @@ extension IvsClient {
     ///
     /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2730,9 +2730,9 @@ extension IvsClient {
     ///
     /// Updates a specified playback restriction policy.
     ///
-    /// - Parameter UpdatePlaybackRestrictionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlaybackRestrictionPolicyInput`)
     ///
-    /// - Returns: `UpdatePlaybackRestrictionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlaybackRestrictionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaTailorClient: ClientRuntime.Client {
     public static let clientName = "MediaTailorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaTailorClient.MediaTailorClientConfiguration
     let serviceName = "MediaTailor"
@@ -373,9 +373,9 @@ extension MediaTailorClient {
     ///
     /// Configures Amazon CloudWatch log settings for a channel.
     ///
-    /// - Parameter ConfigureLogsForChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfigureLogsForChannelInput`)
     ///
-    /// - Returns: `ConfigureLogsForChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfigureLogsForChannelOutput`)
     public func configureLogsForChannel(input: ConfigureLogsForChannelInput) async throws -> ConfigureLogsForChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -435,9 +435,9 @@ extension MediaTailorClient {
     ///
     /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     ///
-    /// - Parameter ConfigureLogsForPlaybackConfigurationInput : Configures Amazon CloudWatch log settings for a playback configuration.
+    /// - Parameter input: Configures Amazon CloudWatch log settings for a playback configuration. (Type: `ConfigureLogsForPlaybackConfigurationInput`)
     ///
-    /// - Returns: `ConfigureLogsForPlaybackConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfigureLogsForPlaybackConfigurationOutput`)
     public func configureLogsForPlaybackConfiguration(input: ConfigureLogsForPlaybackConfigurationInput) async throws -> ConfigureLogsForPlaybackConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -497,9 +497,9 @@ extension MediaTailorClient {
     ///
     /// Creates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -559,9 +559,9 @@ extension MediaTailorClient {
     ///
     /// The live source configuration.
     ///
-    /// - Parameter CreateLiveSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLiveSourceInput`)
     ///
-    /// - Returns: `CreateLiveSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLiveSourceOutput`)
     public func createLiveSource(input: CreateLiveSourceInput) async throws -> CreateLiveSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -621,9 +621,9 @@ extension MediaTailorClient {
     ///
     /// Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter CreatePrefetchScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePrefetchScheduleInput`)
     ///
-    /// - Returns: `CreatePrefetchScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePrefetchScheduleOutput`)
     public func createPrefetchSchedule(input: CreatePrefetchScheduleInput) async throws -> CreatePrefetchScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -683,9 +683,9 @@ extension MediaTailorClient {
     ///
     /// Creates a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter CreateProgramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProgramInput`)
     ///
-    /// - Returns: `CreateProgramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProgramOutput`)
     public func createProgram(input: CreateProgramInput) async throws -> CreateProgramOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -745,9 +745,9 @@ extension MediaTailorClient {
     ///
     /// Creates a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter CreateSourceLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSourceLocationInput`)
     ///
-    /// - Returns: `CreateSourceLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSourceLocationOutput`)
     public func createSourceLocation(input: CreateSourceLocationInput) async throws -> CreateSourceLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -807,9 +807,9 @@ extension MediaTailorClient {
     ///
     /// The VOD source configuration parameters.
     ///
-    /// - Parameter CreateVodSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVodSourceInput`)
     ///
-    /// - Returns: `CreateVodSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVodSourceOutput`)
     public func createVodSource(input: CreateVodSourceInput) async throws -> CreateVodSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -869,9 +869,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -928,9 +928,9 @@ extension MediaTailorClient {
     ///
     /// The channel policy to delete.
     ///
-    /// - Parameter DeleteChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelPolicyInput`)
     ///
-    /// - Returns: `DeleteChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelPolicyOutput`)
     public func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -987,9 +987,9 @@ extension MediaTailorClient {
     ///
     /// The live source to delete.
     ///
-    /// - Parameter DeleteLiveSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLiveSourceInput`)
     ///
-    /// - Returns: `DeleteLiveSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLiveSourceOutput`)
     public func deleteLiveSource(input: DeleteLiveSourceInput) async throws -> DeleteLiveSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1046,9 +1046,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     ///
-    /// - Parameter DeletePlaybackConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlaybackConfigurationInput`)
     ///
-    /// - Returns: `DeletePlaybackConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlaybackConfigurationOutput`)
     public func deletePlaybackConfiguration(input: DeletePlaybackConfigurationInput) async throws -> DeletePlaybackConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1105,9 +1105,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a prefetch schedule for a specific playback configuration. If you call DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DeletePrefetchScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePrefetchScheduleInput`)
     ///
-    /// - Returns: `DeletePrefetchScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePrefetchScheduleOutput`)
     public func deletePrefetchSchedule(input: DeletePrefetchScheduleInput) async throws -> DeletePrefetchScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1164,9 +1164,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DeleteProgramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProgramInput`)
     ///
-    /// - Returns: `DeleteProgramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProgramOutput`)
     public func deleteProgram(input: DeleteProgramInput) async throws -> DeleteProgramOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1223,9 +1223,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DeleteSourceLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceLocationInput`)
     ///
-    /// - Returns: `DeleteSourceLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceLocationOutput`)
     public func deleteSourceLocation(input: DeleteSourceLocationInput) async throws -> DeleteSourceLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1282,9 +1282,9 @@ extension MediaTailorClient {
     ///
     /// The video on demand (VOD) source to delete.
     ///
-    /// - Parameter DeleteVodSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVodSourceInput`)
     ///
-    /// - Returns: `DeleteVodSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVodSourceOutput`)
     public func deleteVodSource(input: DeleteVodSourceInput) async throws -> DeleteVodSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1341,9 +1341,9 @@ extension MediaTailorClient {
     ///
     /// Describes a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DescribeChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelInput`)
     ///
-    /// - Returns: `DescribeChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelOutput`)
     public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1400,9 +1400,9 @@ extension MediaTailorClient {
     ///
     /// The live source to describe.
     ///
-    /// - Parameter DescribeLiveSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLiveSourceInput`)
     ///
-    /// - Returns: `DescribeLiveSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLiveSourceOutput`)
     public func describeLiveSource(input: DescribeLiveSourceInput) async throws -> DescribeLiveSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1459,9 +1459,9 @@ extension MediaTailorClient {
     ///
     /// Describes a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DescribeProgramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProgramInput`)
     ///
-    /// - Returns: `DescribeProgramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProgramOutput`)
     public func describeProgram(input: DescribeProgramInput) async throws -> DescribeProgramOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1518,9 +1518,9 @@ extension MediaTailorClient {
     ///
     /// Describes a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DescribeSourceLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSourceLocationInput`)
     ///
-    /// - Returns: `DescribeSourceLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSourceLocationOutput`)
     public func describeSourceLocation(input: DescribeSourceLocationInput) async throws -> DescribeSourceLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1577,9 +1577,9 @@ extension MediaTailorClient {
     ///
     /// Provides details about a specific video on demand (VOD) source in a specific source location.
     ///
-    /// - Parameter DescribeVodSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVodSourceInput`)
     ///
-    /// - Returns: `DescribeVodSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVodSourceOutput`)
     public func describeVodSource(input: DescribeVodSourceInput) async throws -> DescribeVodSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1636,9 +1636,9 @@ extension MediaTailorClient {
     ///
     /// Returns the channel's IAM policy. IAM policies are used to control access to your channel.
     ///
-    /// - Parameter GetChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelPolicyInput`)
     ///
-    /// - Returns: `GetChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelPolicyOutput`)
     public func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1695,9 +1695,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves information about your channel's schedule.
     ///
-    /// - Parameter GetChannelScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelScheduleInput`)
     ///
-    /// - Returns: `GetChannelScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelScheduleOutput`)
     public func getChannelSchedule(input: GetChannelScheduleInput) async throws -> GetChannelScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1755,9 +1755,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     ///
-    /// - Parameter GetPlaybackConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlaybackConfigurationInput`)
     ///
-    /// - Returns: `GetPlaybackConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlaybackConfigurationOutput`)
     public func getPlaybackConfiguration(input: GetPlaybackConfigurationInput) async throws -> GetPlaybackConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1814,9 +1814,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter GetPrefetchScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPrefetchScheduleInput`)
     ///
-    /// - Returns: `GetPrefetchScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPrefetchScheduleOutput`)
     public func getPrefetchSchedule(input: GetPrefetchScheduleInput) async throws -> GetPrefetchScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1873,9 +1873,9 @@ extension MediaTailorClient {
     ///
     /// Lists the alerts that are associated with a MediaTailor channel assembly resource.
     ///
-    /// - Parameter ListAlertsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAlertsInput`)
     ///
-    /// - Returns: `ListAlertsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAlertsOutput`)
     public func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1933,9 +1933,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves information about the channels that are associated with the current AWS account.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1993,9 +1993,9 @@ extension MediaTailorClient {
     ///
     /// Lists the live sources contained in a source location. A source represents a piece of content.
     ///
-    /// - Parameter ListLiveSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLiveSourcesInput`)
     ///
-    /// - Returns: `ListLiveSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLiveSourcesOutput`)
     public func listLiveSources(input: ListLiveSourcesInput) async throws -> ListLiveSourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2053,9 +2053,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves existing playback configurations. For information about MediaTailor configurations, see [Working with Configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     ///
-    /// - Parameter ListPlaybackConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlaybackConfigurationsInput`)
     ///
-    /// - Returns: `ListPlaybackConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlaybackConfigurationsOutput`)
     public func listPlaybackConfigurations(input: ListPlaybackConfigurationsInput) async throws -> ListPlaybackConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2113,9 +2113,9 @@ extension MediaTailorClient {
     ///
     /// Lists the prefetch schedules for a playback configuration.
     ///
-    /// - Parameter ListPrefetchSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrefetchSchedulesInput`)
     ///
-    /// - Returns: `ListPrefetchSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrefetchSchedulesOutput`)
     public func listPrefetchSchedules(input: ListPrefetchSchedulesInput) async throws -> ListPrefetchSchedulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2175,9 +2175,9 @@ extension MediaTailorClient {
     ///
     /// Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
     ///
-    /// - Parameter ListSourceLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceLocationsInput`)
     ///
-    /// - Returns: `ListSourceLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceLocationsOutput`)
     public func listSourceLocations(input: ListSourceLocationsInput) async throws -> ListSourceLocationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2235,9 +2235,9 @@ extension MediaTailorClient {
     ///
     /// A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2299,9 +2299,9 @@ extension MediaTailorClient {
     ///
     /// Lists the VOD sources contained in a source location. A source represents a piece of content.
     ///
-    /// - Parameter ListVodSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVodSourcesInput`)
     ///
-    /// - Returns: `ListVodSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVodSourcesOutput`)
     public func listVodSources(input: ListVodSourcesInput) async throws -> ListVodSourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2359,9 +2359,9 @@ extension MediaTailorClient {
     ///
     /// Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
     ///
-    /// - Parameter PutChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutChannelPolicyInput`)
     ///
-    /// - Returns: `PutChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutChannelPolicyOutput`)
     public func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2421,9 +2421,9 @@ extension MediaTailorClient {
     ///
     /// Creates a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     ///
-    /// - Parameter PutPlaybackConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPlaybackConfigurationInput`)
     ///
-    /// - Returns: `PutPlaybackConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPlaybackConfigurationOutput`)
     public func putPlaybackConfiguration(input: PutPlaybackConfigurationInput) async throws -> PutPlaybackConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2483,9 +2483,9 @@ extension MediaTailorClient {
     ///
     /// Starts a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter StartChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartChannelInput`)
     ///
-    /// - Returns: `StartChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartChannelOutput`)
     public func startChannel(input: StartChannelInput) async throws -> StartChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2542,9 +2542,9 @@ extension MediaTailorClient {
     ///
     /// Stops a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter StopChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopChannelInput`)
     ///
-    /// - Returns: `StopChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopChannelOutput`)
     public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2601,9 +2601,9 @@ extension MediaTailorClient {
     ///
     /// The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2668,9 +2668,9 @@ extension MediaTailorClient {
     ///
     /// The resource to untag.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2733,9 +2733,9 @@ extension MediaTailorClient {
     ///
     /// Updates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2795,9 +2795,9 @@ extension MediaTailorClient {
     ///
     /// Updates a live source's configuration.
     ///
-    /// - Parameter UpdateLiveSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLiveSourceInput`)
     ///
-    /// - Returns: `UpdateLiveSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLiveSourceOutput`)
     public func updateLiveSource(input: UpdateLiveSourceInput) async throws -> UpdateLiveSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2857,9 +2857,9 @@ extension MediaTailorClient {
     ///
     /// Updates a program within a channel.
     ///
-    /// - Parameter UpdateProgramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProgramInput`)
     ///
-    /// - Returns: `UpdateProgramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProgramOutput`)
     public func updateProgram(input: UpdateProgramInput) async throws -> UpdateProgramOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2919,9 +2919,9 @@ extension MediaTailorClient {
     ///
     /// Updates a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter UpdateSourceLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSourceLocationInput`)
     ///
-    /// - Returns: `UpdateSourceLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSourceLocationOutput`)
     public func updateSourceLocation(input: UpdateSourceLocationInput) async throws -> UpdateSourceLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2981,9 +2981,9 @@ extension MediaTailorClient {
     ///
     /// Updates a VOD source's configuration.
     ///
-    /// - Parameter UpdateVodSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVodSourceInput`)
     ///
-    /// - Returns: `UpdateVodSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVodSourceOutput`)
     public func updateVodSource(input: UpdateVodSourceInput) async throws -> UpdateVodSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)

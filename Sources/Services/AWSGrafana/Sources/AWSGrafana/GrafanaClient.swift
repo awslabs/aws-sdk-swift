@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GrafanaClient: ClientRuntime.Client {
     public static let clientName = "GrafanaClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: GrafanaClient.GrafanaClientConfiguration
     let serviceName = "grafana"
@@ -374,9 +374,9 @@ extension GrafanaClient {
     ///
     /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType, and pass in a valid Grafana Labs token for the grafanaToken. Upgrading to Grafana Enterprise incurs additional fees. For more information, see [Upgrade a workspace to Grafana Enterprise](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html).
     ///
-    /// - Parameter AssociateLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateLicenseInput`)
     ///
-    /// - Returns: `AssociateLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension GrafanaClient {
     ///
     /// Creates a workspace. In a workspace, you can create Grafana dashboards and visualizations to analyze your metrics, logs, and traces. You don't have to build, package, or deploy any hardware to run the Grafana server. Don't use CreateWorkspace to modify an existing workspace. Instead, use [UpdateWorkspace](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdateWorkspace.html).
     ///
-    /// - Parameter CreateWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceInput`)
     ///
-    /// - Returns: `CreateWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension GrafanaClient {
     ///
     /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See [https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html](https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html) for available APIs and example requests. In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
     ///
-    /// - Parameter CreateWorkspaceApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceApiKeyInput`)
     ///
-    /// - Returns: `CreateWorkspaceApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension GrafanaClient {
     ///
     /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above. For more information about service accounts, see [Service accounts](https://docs.aws.amazon.com/grafana/latest/userguide/service-accounts.html) in the Amazon Managed Grafana User Guide. For more information about the Grafana HTTP APIs, see [Using Grafana HTTP APIs](https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html) in the Amazon Managed Grafana User Guide.
     ///
-    /// - Parameter CreateWorkspaceServiceAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceServiceAccountInput`)
     ///
-    /// - Returns: `CreateWorkspaceServiceAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceServiceAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension GrafanaClient {
     ///
     /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given [workspace service account](https://docs.aws.amazon.com/grafana/latest/userguide/service-accounts.html). The service account acts as a user for the API operations, and defines the permissions that are used by the API. When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a new key. This will disable the initial key. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     ///
-    /// - Parameter CreateWorkspaceServiceAccountTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceServiceAccountTokenInput`)
     ///
-    /// - Returns: `CreateWorkspaceServiceAccountTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceServiceAccountTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,9 +735,9 @@ extension GrafanaClient {
     ///
     /// Deletes an Amazon Managed Grafana workspace.
     ///
-    /// - Parameter DeleteWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceInput`)
     ///
-    /// - Returns: `DeleteWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,9 +804,9 @@ extension GrafanaClient {
     ///
     /// Deletes a Grafana API key for the workspace. In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
     ///
-    /// - Parameter DeleteWorkspaceApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceApiKeyInput`)
     ///
-    /// - Returns: `DeleteWorkspaceApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,9 +873,9 @@ extension GrafanaClient {
     ///
     /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     ///
-    /// - Parameter DeleteWorkspaceServiceAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceServiceAccountInput`)
     ///
-    /// - Returns: `DeleteWorkspaceServiceAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceServiceAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,9 +942,9 @@ extension GrafanaClient {
     ///
     /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or authorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     ///
-    /// - Parameter DeleteWorkspaceServiceAccountTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceServiceAccountTokenInput`)
     ///
-    /// - Returns: `DeleteWorkspaceServiceAccountTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceServiceAccountTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,9 +1011,9 @@ extension GrafanaClient {
     ///
     /// Displays information about one Amazon Managed Grafana workspace.
     ///
-    /// - Parameter DescribeWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceInput`)
     ///
-    /// - Returns: `DescribeWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1079,9 +1079,9 @@ extension GrafanaClient {
     ///
     /// Displays information about the authentication methods used in one Amazon Managed Grafana workspace.
     ///
-    /// - Parameter DescribeWorkspaceAuthenticationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceAuthenticationInput`)
     ///
-    /// - Returns: `DescribeWorkspaceAuthenticationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceAuthenticationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,9 +1148,9 @@ extension GrafanaClient {
     ///
     /// Gets the current configuration string for the given workspace.
     ///
-    /// - Parameter DescribeWorkspaceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceConfigurationInput`)
     ///
-    /// - Returns: `DescribeWorkspaceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,9 +1215,9 @@ extension GrafanaClient {
     ///
     /// Removes the Grafana Enterprise license from a workspace.
     ///
-    /// - Parameter DisassociateLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateLicenseInput`)
     ///
-    /// - Returns: `DisassociateLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1283,9 +1283,9 @@ extension GrafanaClient {
     ///
     /// Lists the users and groups who have the Grafana Admin and Editor roles in this workspace. If you use this operation without specifying userId or groupId, the operation returns the roles of all users and groups. If you specify a userId or a groupId, only the roles for that user or group are returned. If you do this, you can specify only one userId or one groupId.
     ///
-    /// - Parameter ListPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionsInput`)
     ///
-    /// - Returns: `ListPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1352,9 +1352,9 @@ extension GrafanaClient {
     ///
     /// The ListTagsForResource operation returns the tags that are associated with the Amazon Managed Service for Grafana resource specified by the resourceArn. Currently, the only resource that can be tagged is a workspace.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1420,9 +1420,9 @@ extension GrafanaClient {
     ///
     /// Lists available versions of Grafana. These are available when calling CreateWorkspace. Optionally, include a workspace to list the versions to which it can be upgraded.
     ///
-    /// - Parameter ListVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVersionsInput`)
     ///
-    /// - Returns: `ListVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1489,9 +1489,9 @@ extension GrafanaClient {
     ///
     /// Returns a list of tokens for a workspace service account. This does not return the key for each token. You cannot access keys after they are created. To create a new key, delete the token and recreate it. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     ///
-    /// - Parameter ListWorkspaceServiceAccountTokensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkspaceServiceAccountTokensInput`)
     ///
-    /// - Returns: `ListWorkspaceServiceAccountTokensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkspaceServiceAccountTokensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1559,9 +1559,9 @@ extension GrafanaClient {
     ///
     /// Returns a list of service accounts for a workspace. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     ///
-    /// - Parameter ListWorkspaceServiceAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkspaceServiceAccountsInput`)
     ///
-    /// - Returns: `ListWorkspaceServiceAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkspaceServiceAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1629,9 +1629,9 @@ extension GrafanaClient {
     ///
     /// Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use [DescribeWorkspace](https://docs.aws.amazon.com/AAMG/latest/APIReference/API_DescribeWorkspace.html).
     ///
-    /// - Parameter ListWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkspacesInput`)
     ///
-    /// - Returns: `ListWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1696,9 +1696,9 @@ extension GrafanaClient {
     ///
     /// The TagResource operation associates tags with an Amazon Managed Grafana resource. Currently, the only resource that can be tagged is workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1767,9 +1767,9 @@ extension GrafanaClient {
     ///
     /// The UntagResource operation removes the association of the tag with the Amazon Managed Grafana resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1836,9 +1836,9 @@ extension GrafanaClient {
     ///
     /// Updates which users in a workspace have the Grafana Admin or Editor roles.
     ///
-    /// - Parameter UpdatePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePermissionsInput`)
     ///
-    /// - Returns: `UpdatePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1907,9 +1907,9 @@ extension GrafanaClient {
     ///
     /// Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit any optional parameters, the existing values of those parameters are not changed. To modify the user authentication methods that the workspace uses, such as SAML or IAM Identity Center, use [UpdateWorkspaceAuthentication](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdateWorkspaceAuthentication.html). To modify which users in the workspace have the Admin and Editor Grafana roles, use [UpdatePermissions](https://docs.aws.amazon.com/grafana/latest/APIReference/API_UpdatePermissions.html).
     ///
-    /// - Parameter UpdateWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceInput`)
     ///
-    /// - Returns: `UpdateWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1979,9 +1979,9 @@ extension GrafanaClient {
     ///
     /// Use this operation to define the identity provider (IdP) that this workspace authenticates users from, using SAML. You can also map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace. Changes to the authentication method for a workspace may take a few minutes to take effect.
     ///
-    /// - Parameter UpdateWorkspaceAuthenticationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceAuthenticationInput`)
     ///
-    /// - Returns: `UpdateWorkspaceAuthenticationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceAuthenticationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension GrafanaClient {
     ///
     /// Updates the configuration string for the given workspace
     ///
-    /// - Parameter UpdateWorkspaceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceConfigurationInput`)
     ///
-    /// - Returns: `UpdateWorkspaceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

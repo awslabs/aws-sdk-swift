@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppflowClient: ClientRuntime.Client {
     public static let clientName = "AppflowClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppflowClient.AppflowClientConfiguration
     let serviceName = "Appflow"
@@ -374,9 +374,9 @@ extension AppflowClient {
     ///
     /// Cancels active runs for a flow. You can cancel all of the active runs for a flow, or you can cancel specific runs by providing their IDs. You can cancel a flow run only when the run is in progress. You can't cancel a run that has already completed or failed. You also can't cancel a run that's scheduled to occur but hasn't started yet. To prevent a scheduled run, you can deactivate the flow with the StopFlow action. You cannot resume a run after you cancel it. When you send your request, the status for each run becomes CancelStarted. When the cancellation completes, the status becomes Canceled. When you cancel a run, you still incur charges for any data that the run already processed before the cancellation. If the run had already written some data to the flow destination, then that data remains in the destination. If you configured the flow to use a batch API (such as the Salesforce Bulk API 2.0), then the run will finish reading or writing its entire batch of data after the cancellation. For these operations, the data processing charges for Amazon AppFlow apply. For the pricing information, see [Amazon AppFlow pricing](http://aws.amazon.com/appflow/pricing/).
     ///
-    /// - Parameter CancelFlowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelFlowExecutionsInput`)
     ///
-    /// - Returns: `CancelFlowExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelFlowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension AppflowClient {
     ///
     /// Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel. In each connector profile that you create, you can provide the credentials and properties for only one connector.
     ///
-    /// - Parameter CreateConnectorProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorProfileInput`)
     ///
-    /// - Returns: `CreateConnectorProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension AppflowClient {
     ///
     /// Enables your application to create a new flow using Amazon AppFlow. You must create a connector profile before calling this API. Please note that the Request Syntax below shows syntax for multiple destinations, however, you can only transfer data to one item in this list at a time. Amazon AppFlow does not currently support flows to multiple destinations at once.
     ///
-    /// - Parameter CreateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlowInput`)
     ///
-    /// - Returns: `CreateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension AppflowClient {
     ///
     /// Enables you to delete an existing connector profile.
     ///
-    /// - Parameter DeleteConnectorProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorProfileInput`)
     ///
-    /// - Returns: `DeleteConnectorProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension AppflowClient {
     ///
     /// Enables your application to delete an existing flow. Before deleting the flow, Amazon AppFlow validates the request by checking the flow configuration and status. You can delete flows one at a time.
     ///
-    /// - Parameter DeleteFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlowInput`)
     ///
-    /// - Returns: `DeleteFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension AppflowClient {
     ///
     /// Describes the given custom connector registered in your Amazon Web Services account. This API can be used for custom connectors that are registered in your account and also for Amazon authored connectors.
     ///
-    /// - Parameter DescribeConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectorInput`)
     ///
-    /// - Returns: `DescribeConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension AppflowClient {
     ///
     /// Provides details regarding the entity used with the connector, with a description of the data model for each field in that entity.
     ///
-    /// - Parameter DescribeConnectorEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectorEntityInput`)
     ///
-    /// - Returns: `DescribeConnectorEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectorEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,9 +870,9 @@ extension AppflowClient {
     ///
     /// Returns a list of connector-profile details matching the provided connector-profile names and connector-types. Both input lists are optional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector profiles in a paginated form. If there is no match, this operation returns an empty list.
     ///
-    /// - Parameter DescribeConnectorProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectorProfilesInput`)
     ///
-    /// - Returns: `DescribeConnectorProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectorProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -938,9 +938,9 @@ extension AppflowClient {
     ///
     /// Describes the connectors vended by Amazon AppFlow for specified connector types. If you don't specify a connector type, this operation describes all connectors vended by Amazon AppFlow. If there are more connectors than can be returned in one page, the response contains a nextToken object, which can be be passed in to the next call to the DescribeConnectors API operation to retrieve the next page.
     ///
-    /// - Parameter DescribeConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectorsInput`)
     ///
-    /// - Returns: `DescribeConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,9 +1006,9 @@ extension AppflowClient {
     ///
     /// Provides a description of the specified flow.
     ///
-    /// - Parameter DescribeFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowInput`)
     ///
-    /// - Returns: `DescribeFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,9 +1074,9 @@ extension AppflowClient {
     ///
     /// Fetches the execution history of the flow.
     ///
-    /// - Parameter DescribeFlowExecutionRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowExecutionRecordsInput`)
     ///
-    /// - Returns: `DescribeFlowExecutionRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowExecutionRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,9 +1143,9 @@ extension AppflowClient {
     ///
     /// Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportunity entities, or query ServiceNow for the Incident entity.
     ///
-    /// - Parameter ListConnectorEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorEntitiesInput`)
     ///
-    /// - Returns: `ListConnectorEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,9 +1214,9 @@ extension AppflowClient {
     ///
     /// Returns the list of all registered custom connectors in your Amazon Web Services account. This API lists only custom connectors registered in this account, not the Amazon Web Services authored connectors.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1282,9 +1282,9 @@ extension AppflowClient {
     ///
     /// Lists all of the flows associated with your account.
     ///
-    /// - Parameter ListFlowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowsInput`)
     ///
-    /// - Returns: `ListFlowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,9 +1350,9 @@ extension AppflowClient {
     ///
     /// Retrieves the tags that are associated with a specified flow.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1416,9 +1416,9 @@ extension AppflowClient {
     ///
     /// Registers a new custom connector with your Amazon Web Services account. Before you can register the connector, you must deploy the associated AWS lambda function in your account.
     ///
-    /// - Parameter RegisterConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterConnectorInput`)
     ///
-    /// - Returns: `RegisterConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,9 +1492,9 @@ extension AppflowClient {
     ///
     /// Resets metadata about your connector entities that Amazon AppFlow stored in its cache. Use this action when you want Amazon AppFlow to return the latest information about the data that you have in a source application. Amazon AppFlow returns metadata about your entities when you use the ListConnectorEntities or DescribeConnectorEntities actions. Following these actions, Amazon AppFlow caches the metadata to reduce the number of API requests that it must send to the source application. Amazon AppFlow automatically resets the cache once every hour, but you can use this action when you want to get the latest metadata right away.
     ///
-    /// - Parameter ResetConnectorMetadataCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetConnectorMetadataCacheInput`)
     ///
-    /// - Returns: `ResetConnectorMetadataCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetConnectorMetadataCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1562,9 +1562,9 @@ extension AppflowClient {
     ///
     /// Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow.
     ///
-    /// - Parameter StartFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFlowInput`)
     ///
-    /// - Returns: `StartFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1633,9 +1633,9 @@ extension AppflowClient {
     ///
     /// Deactivates the existing flow. For on-demand flows, this operation returns an unsupportedOperationException error message. For schedule and event-triggered flows, this operation deactivates the flow.
     ///
-    /// - Parameter StopFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopFlowInput`)
     ///
-    /// - Returns: `StopFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1703,9 +1703,9 @@ extension AppflowClient {
     ///
     /// Applies a tag to the specified flow.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1772,9 +1772,9 @@ extension AppflowClient {
     ///
     /// Unregisters the custom connector registered in your account that matches the connector label provided in the request.
     ///
-    /// - Parameter UnregisterConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnregisterConnectorInput`)
     ///
-    /// - Returns: `UnregisterConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnregisterConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1841,9 +1841,9 @@ extension AppflowClient {
     ///
     /// Removes a tag from the specified flow.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1908,9 +1908,9 @@ extension AppflowClient {
     ///
     /// Updates a given connector profile associated with your account.
     ///
-    /// - Parameter UpdateConnectorProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorProfileInput`)
     ///
-    /// - Returns: `UpdateConnectorProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1984,9 +1984,9 @@ extension AppflowClient {
     ///
     /// * A new AWS Lambda function that you specify
     ///
-    /// - Parameter UpdateConnectorRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorRegistrationInput`)
     ///
-    /// - Returns: `UpdateConnectorRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2060,9 +2060,9 @@ extension AppflowClient {
     ///
     /// Updates an existing flow.
     ///
-    /// - Parameter UpdateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowInput`)
     ///
-    /// - Returns: `UpdateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

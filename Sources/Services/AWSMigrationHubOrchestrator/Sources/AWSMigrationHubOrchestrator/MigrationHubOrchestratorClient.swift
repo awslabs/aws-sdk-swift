@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubOrchestratorClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubOrchestratorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfiguration
     let serviceName = "MigrationHubOrchestrator"
@@ -374,9 +374,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Creates a migration workflow template.
     ///
-    /// - Parameter CreateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Create a workflow to orchestrate your migrations.
     ///
-    /// - Parameter CreateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
-    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Create a step in the migration workflow.
     ///
-    /// - Parameter CreateWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowStepInput`)
     ///
-    /// - Returns: `CreateWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Create a step group in a migration workflow.
     ///
-    /// - Parameter CreateWorkflowStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowStepGroupInput`)
     ///
-    /// - Returns: `CreateWorkflowStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Deletes a migration workflow template.
     ///
-    /// - Parameter DeleteTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -792,9 +792,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step.
     ///
-    /// - Parameter DeleteWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowStepInput`)
     ///
-    /// - Returns: `DeleteWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,9 +861,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Delete a step group in a migration workflow.
     ///
-    /// - Parameter DeleteWorkflowStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowStepGroupInput`)
     ///
-    /// - Returns: `DeleteWorkflowStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,9 +930,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get the template you want to use for creating a migration workflow.
     ///
-    /// - Parameter GetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateInput`)
     ///
-    /// - Returns: `GetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,9 +997,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get a specific step in a template.
     ///
-    /// - Parameter GetTemplateStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateStepInput`)
     ///
-    /// - Returns: `GetTemplateStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1066,9 +1066,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get a step group in a template.
     ///
-    /// - Parameter GetTemplateStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateStepGroupInput`)
     ///
-    /// - Returns: `GetTemplateStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,9 +1134,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get migration workflow.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1202,9 +1202,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get a step in the migration workflow.
     ///
-    /// - Parameter GetWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowStepInput`)
     ///
-    /// - Returns: `GetWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1270,9 +1270,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get the step group of a migration workflow.
     ///
-    /// - Parameter GetWorkflowStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowStepGroupInput`)
     ///
-    /// - Returns: `GetWorkflowStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1339,9 +1339,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List AWS Migration Hub Orchestrator plugins.
     ///
-    /// - Parameter ListPluginsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPluginsInput`)
     ///
-    /// - Returns: `ListPluginsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPluginsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,9 +1406,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the tags added to a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1471,9 +1471,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the step groups in a template.
     ///
-    /// - Parameter ListTemplateStepGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateStepGroupsInput`)
     ///
-    /// - Returns: `ListTemplateStepGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateStepGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1539,9 +1539,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the steps in a template.
     ///
-    /// - Parameter ListTemplateStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateStepsInput`)
     ///
-    /// - Returns: `ListTemplateStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1608,9 +1608,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1675,9 +1675,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the step groups in a migration workflow.
     ///
-    /// - Parameter ListWorkflowStepGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowStepGroupsInput`)
     ///
-    /// - Returns: `ListWorkflowStepGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowStepGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,9 +1744,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the steps in a workflow.
     ///
-    /// - Parameter ListWorkflowStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowStepsInput`)
     ///
-    /// - Returns: `ListWorkflowStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1812,9 +1812,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the migration workflows.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1881,9 +1881,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Retry a failed step in a migration workflow.
     ///
-    /// - Parameter RetryWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryWorkflowStepInput`)
     ///
-    /// - Returns: `RetryWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1949,9 +1949,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Start a migration workflow.
     ///
-    /// - Parameter StartWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkflowInput`)
     ///
-    /// - Returns: `StartWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2017,9 +2017,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Stop an ongoing migration workflow.
     ///
-    /// - Parameter StopWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopWorkflowInput`)
     ///
-    /// - Returns: `StopWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2085,9 +2085,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Tag a resource by specifying its Amazon Resource Name (ARN).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2153,9 +2153,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Deletes the tags for a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2219,9 +2219,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Updates a migration workflow template.
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2291,9 +2291,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Update a migration workflow.
     ///
-    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowInput`)
     ///
-    /// - Returns: `UpdateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2362,9 +2362,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Update a step in a migration workflow.
     ///
-    /// - Parameter UpdateWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowStepInput`)
     ///
-    /// - Returns: `UpdateWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2432,9 +2432,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Update the step group in a migration workflow.
     ///
-    /// - Parameter UpdateWorkflowStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowStepGroupInput`)
     ///
-    /// - Returns: `UpdateWorkflowStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

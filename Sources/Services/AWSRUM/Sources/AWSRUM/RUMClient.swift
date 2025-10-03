@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RUMClient: ClientRuntime.Client {
     public static let clientName = "RUMClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: RUMClient.RUMClientConfiguration
     let serviceName = "RUM"
@@ -379,9 +379,9 @@ extension RUMClient {
     ///
     /// The maximum number of metric definitions that you can specify in one BatchCreateRumMetricDefinitions operation is 200. The maximum number of metric definitions that one destination can contain is 2000. Extended metrics sent to CloudWatch and RUM custom metrics are charged as CloudWatch custom metrics. Each combination of additional dimension name and dimension value counts as a custom metric. For more information, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/). You must have already created a destination for the metrics before you send them. For more information, see [PutRumMetricsDestination](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_PutRumMetricsDestination.html). If some metric definitions specified in a BatchCreateRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
     ///
-    /// - Parameter BatchCreateRumMetricDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateRumMetricDefinitionsInput`)
     ///
-    /// - Returns: `BatchCreateRumMetricDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateRumMetricDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -452,9 +452,9 @@ extension RUMClient {
     ///
     /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200.
     ///
-    /// - Parameter BatchDeleteRumMetricDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteRumMetricDefinitionsInput`)
     ///
-    /// - Returns: `BatchDeleteRumMetricDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteRumMetricDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension RUMClient {
     ///
     /// Retrieves the list of metrics and dimensions that a RUM app monitor is sending to a single destination.
     ///
-    /// - Parameter BatchGetRumMetricDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetRumMetricDefinitionsInput`)
     ///
-    /// - Returns: `BatchGetRumMetricDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetRumMetricDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension RUMClient {
     ///
     /// Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors, and user behavior. You use this operation only to create a new app monitor. To update an existing app monitor, use [UpdateAppMonitor](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_UpdateAppMonitor.html) instead. After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see [How do I find a code snippet that I've already generated?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-find-code-snippet.html)
     ///
-    /// - Parameter CreateAppMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppMonitorInput`)
     ///
-    /// - Returns: `CreateAppMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -663,9 +663,9 @@ extension RUMClient {
     ///
     /// Deletes an existing app monitor. This immediately stops the collection of data.
     ///
-    /// - Parameter DeleteAppMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppMonitorInput`)
     ///
-    /// - Returns: `DeleteAppMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,9 +732,9 @@ extension RUMClient {
     ///
     /// Removes the association of a resource-based policy from an app monitor.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,9 +804,9 @@ extension RUMClient {
     ///
     /// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
     ///
-    /// - Parameter DeleteRumMetricsDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRumMetricsDestinationInput`)
     ///
-    /// - Returns: `DeleteRumMetricsDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRumMetricsDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,9 +874,9 @@ extension RUMClient {
     ///
     /// Retrieves the complete configuration information for one app monitor.
     ///
-    /// - Parameter GetAppMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppMonitorInput`)
     ///
-    /// - Returns: `GetAppMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,9 +942,9 @@ extension RUMClient {
     ///
     /// Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
     ///
-    /// - Parameter GetAppMonitorDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppMonitorDataInput`)
     ///
-    /// - Returns: `GetAppMonitorDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppMonitorDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,9 +1013,9 @@ extension RUMClient {
     ///
     /// Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1083,9 +1083,9 @@ extension RUMClient {
     ///
     /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
     ///
-    /// - Parameter ListAppMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppMonitorsInput`)
     ///
-    /// - Returns: `ListAppMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1151,9 +1151,9 @@ extension RUMClient {
     ///
     /// Returns a list of destinations that you have created to receive RUM extended metrics, for the specified app monitor. For more information about extended metrics, see [AddRumMetrics](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_AddRumMetrcs.html).
     ///
-    /// - Parameter ListRumMetricsDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRumMetricsDestinationsInput`)
     ///
-    /// - Returns: `ListRumMetricsDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRumMetricsDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,9 +1219,9 @@ extension RUMClient {
     ///
     /// Displays the tags associated with a CloudWatch RUM resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1285,9 +1285,9 @@ extension RUMClient {
     ///
     /// Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see [Using resource-based policies with CloudWatch RUM](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-resource-policies.html).
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,9 +1360,9 @@ extension RUMClient {
     ///
     /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code snippet that RUM generates for you to add to your application includes PutRumEvents operations to send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
     ///
-    /// - Parameter PutRumEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRumEventsInput`)
     ///
-    /// - Returns: `PutRumEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRumEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1431,9 +1431,9 @@ extension RUMClient {
     ///
     /// Creates or updates a destination to receive extended metrics from CloudWatch RUM. You can send extended metrics to CloudWatch or to a CloudWatch Evidently experiment. For more information about extended metrics, see [BatchCreateRumMetricDefinitions](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricDefinitions.html).
     ///
-    /// - Parameter PutRumMetricsDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRumMetricsDestinationInput`)
     ///
-    /// - Returns: `PutRumMetricsDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRumMetricsDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,9 +1503,9 @@ extension RUMClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently, the only resources that can be tagged app monitors. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1572,9 +1572,9 @@ extension RUMClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1639,9 +1639,9 @@ extension RUMClient {
     ///
     /// Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept. You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use [TagResource](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_TagResource.html). To create a new app monitor, use [CreateAppMonitor](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_CreateAppMonitor.html). After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see [How do I find a code snippet that I've already generated?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-find-code-snippet.html)
     ///
-    /// - Parameter UpdateAppMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppMonitorInput`)
     ///
-    /// - Returns: `UpdateAppMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1711,9 +1711,9 @@ extension RUMClient {
     ///
     /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see [BatchCreateRumMetricsDefinitions](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_BatchCreateRumMetricsDefinitions.html).
     ///
-    /// - Parameter UpdateRumMetricDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRumMetricDefinitionInput`)
     ///
-    /// - Returns: `UpdateRumMetricDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRumMetricDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ForecastClient: ClientRuntime.Client {
     public static let clientName = "ForecastClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ForecastClient.ForecastClientConfiguration
     let serviceName = "forecast"
@@ -391,9 +391,9 @@ extension ForecastClient {
     ///
     /// When upgrading or retraining a predictor, only specify values for the ReferencePredictorArn and PredictorName.
     ///
-    /// - Parameter CreateAutoPredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutoPredictorInput`)
     ///
-    /// - Returns: `CreateAutoPredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutoPredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -472,9 +472,9 @@ extension ForecastClient {
     ///
     /// After creating a dataset, you import your training data into it and add the dataset to a dataset group. You use the dataset group to create a predictor. For more information, see [Importing datasets](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html). To get a list of all your datasets, use the [ListDatasets](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html) operation. For example Forecast datasets, see the [Amazon Forecast Sample GitHub repository](https://github.com/aws-samples/amazon-forecast-samples). The Status of a dataset must be ACTIVE before you can import training data. Use the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation to get the status.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -542,9 +542,9 @@ extension ForecastClient {
     ///
     /// Creates a dataset group, which holds a collection of related datasets. You can add datasets to the dataset group when you create the dataset group, or later by using the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation. After creating a dataset group and adding datasets, you use the dataset group when you create a predictor. For more information, see [Dataset groups](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html). To get a list of all your datasets groups, use the [ListDatasetGroups](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html) operation. The Status of a dataset group must be ACTIVE before you can use the dataset group to create a predictor. To get the status, use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation.
     ///
-    /// - Parameter CreateDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetGroupInput`)
     ///
-    /// - Returns: `CreateDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -614,9 +614,9 @@ extension ForecastClient {
     ///
     /// Imports your training data to an Amazon Forecast dataset. You provide the location of your training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want to import the data to. You must specify a [DataSource](https://docs.aws.amazon.com/forecast/latest/dg/API_DataSource.html) object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and processes it in an internal Amazon Web Services system. For more information, see [Set up permissions](https://docs.aws.amazon.com/forecast/latest/dg/aws-forecast-iam-roles.html). The training data must be in CSV or Parquet format. The delimiter must be a comma (,). You can specify the path to a specific file, the S3 bucket, or to a folder in the S3 bucket. For the latter two cases, Amazon Forecast imports all files up to the limit of 10,000 files. Because dataset imports are not aggregated, your most recent dataset import is the one that is used when training a predictor or generating a forecast. Make sure that your most recent dataset import contains all of the data you want to model off of, and not just the new data collected since the previous import. To get a list of all your dataset import jobs, filtered by specified criteria, use the [ListDatasetImportJobs](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html) operation.
     ///
-    /// - Parameter CreateDatasetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetImportJobInput`)
     ///
-    /// - Returns: `CreateDatasetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension ForecastClient {
     ///
     /// * EndDateTime - The last timestamp in the range of time points.
     ///
-    /// - Parameter CreateExplainabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExplainabilityInput`)
     ///
-    /// - Returns: `CreateExplainabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExplainabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension ForecastClient {
     ///
     /// Exports an Explainability resource created by the [CreateExplainability] operation. Exported files are exported to an Amazon Simple Storage Service (Amazon S3) bucket. You must specify a [DataDestination] object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. The Status of the export job must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the status, use the [DescribeExplainabilityExport] operation.
     ///
-    /// - Parameter CreateExplainabilityExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExplainabilityExportInput`)
     ///
-    /// - Returns: `CreateExplainabilityExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExplainabilityExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,9 +874,9 @@ extension ForecastClient {
     ///
     /// Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train the predictor. This is known as inference. To retrieve the forecast for a single item at low latency, use the operation. To export the complete forecast into your Amazon Simple Storage Service (Amazon S3) bucket, use the [CreateForecastExportJob] operation. The range of the forecast is determined by the ForecastHorizon value, which you specify in the [CreatePredictor] request. When you query a forecast, you can request a specific date range within the forecast. To get a list of all your forecasts, use the [ListForecasts] operation. The forecasts generated by Amazon Forecast are in the same time zone as the dataset that was used to create the predictor. For more information, see [howitworks-forecast]. The Status of the forecast must be ACTIVE before you can query or export the forecast. Use the [DescribeForecast] operation to get the status. By default, a forecast includes predictions for every item (item_id) in the dataset group that was used to train the predictor. However, you can use the TimeSeriesSelector object to generate a forecast on a subset of time series. Forecast creation is skipped for any time series that you specify that are not in the input dataset. The forecast export file will not contain these time series or their forecasted values.
     ///
-    /// - Parameter CreateForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateForecastInput`)
     ///
-    /// - Returns: `CreateForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -946,9 +946,9 @@ extension ForecastClient {
     ///
     /// Exports a forecast created by the [CreateForecast] operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: __ where the component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. For more information, see [howitworks-forecast]. To get a list of all your forecast export jobs, use the [ListForecastExportJobs] operation. The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. To get the status, use the [DescribeForecastExportJob] operation.
     ///
-    /// - Parameter CreateForecastExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateForecastExportJobInput`)
     ///
-    /// - Returns: `CreateForecastExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateForecastExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1018,9 +1018,9 @@ extension ForecastClient {
     ///
     /// Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time. For more information, see [Predictor Monitoring](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring.html).
     ///
-    /// - Parameter CreateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1101,9 +1101,9 @@ extension ForecastClient {
     ///
     /// To get a list of all of your predictors, use the [ListPredictors] operation. Before you can use the predictor to create a forecast, the Status of the predictor must be ACTIVE, signifying that training has completed. To get the status, use the [DescribePredictor] operation.
     ///
-    /// - Parameter CreatePredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePredictorInput`)
     ///
-    /// - Returns: `CreatePredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1173,9 +1173,9 @@ extension ForecastClient {
     ///
     /// Exports backtest forecasts and accuracy metrics generated by the [CreateAutoPredictor] or [CreatePredictor] operations. Two folders containing CSV or Parquet files are exported to your specified S3 bucket. The export file names will match the following conventions: __.csv The component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. The Status of the export job must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the status, use the [DescribePredictorBacktestExportJob] operation.
     ///
-    /// - Parameter CreatePredictorBacktestExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePredictorBacktestExportJobInput`)
     ///
-    /// - Returns: `CreatePredictorBacktestExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePredictorBacktestExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1245,9 +1245,9 @@ extension ForecastClient {
     ///
     /// What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and compare the forecasts generated by these changes against the baseline, unchanged time series. It is important to remember that the purpose of a what-if analysis is to understand how a forecast can change given different modifications to the baseline time series. For example, imagine you are a clothing retailer who is considering an end of season sale to clear space for new styles. After creating a baseline forecast, you can use a what-if analysis to investigate how different sales tactics might affect your goals. You could create a scenario where everything is given a 25% markdown, and another where everything is given a fixed dollar markdown. You could create a scenario where the sale lasts for one week and another where the sale lasts for one month. With a what-if analysis, you can compare many different scenarios against each other. Note that a what-if analysis is meant to display what the forecasting model has learned and how it will behave in the scenarios that you are evaluating. Do not blindly use the results of the what-if analysis to make business decisions. For instance, forecasts might not be accurate for novel scenarios where there is no reference available to determine whether a forecast is good. The [TimeSeriesSelector] object defines the items that you want in the what-if analysis.
     ///
-    /// - Parameter CreateWhatIfAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatIfAnalysisInput`)
     ///
-    /// - Returns: `CreateWhatIfAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatIfAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1317,9 +1317,9 @@ extension ForecastClient {
     ///
     /// A what-if forecast is a forecast that is created from a modified version of the baseline forecast. Each what-if forecast incorporates either a replacement dataset or a set of transformations to the original dataset.
     ///
-    /// - Parameter CreateWhatIfForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatIfForecastInput`)
     ///
-    /// - Returns: `CreateWhatIfForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatIfForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1389,9 +1389,9 @@ extension ForecastClient {
     ///
     /// Exports a forecast created by the [CreateWhatIfForecast] operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: ≈__ The component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. For more information, see [howitworks-forecast]. To get a list of all your what-if forecast export jobs, use the [ListWhatIfForecastExports] operation. The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. To get the status, use the [DescribeWhatIfForecastExport] operation.
     ///
-    /// - Parameter CreateWhatIfForecastExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatIfForecastExportInput`)
     ///
-    /// - Returns: `CreateWhatIfForecastExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatIfForecastExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1461,9 +1461,9 @@ extension ForecastClient {
     ///
     /// Deletes an Amazon Forecast dataset that was created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. You can only delete datasets that have a status of ACTIVE or CREATE_FAILED. To get the status use the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation. Forecast does not automatically update any dataset groups that contain the deleted dataset. In order to update the dataset group, use the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation, omitting the deleted dataset's ARN.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1531,9 +1531,9 @@ extension ForecastClient {
     ///
     /// Deletes a dataset group created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. You can only delete dataset groups that have a status of ACTIVE, CREATE_FAILED, or UPDATE_FAILED. To get the status, use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation. This operation deletes only the dataset group, not the datasets in the group.
     ///
-    /// - Parameter DeleteDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetGroupInput`)
     ///
-    /// - Returns: `DeleteDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1601,9 +1601,9 @@ extension ForecastClient {
     ///
     /// Deletes a dataset import job created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. You can delete only dataset import jobs that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation.
     ///
-    /// - Parameter DeleteDatasetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetImportJobInput`)
     ///
-    /// - Returns: `DeleteDatasetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1671,9 +1671,9 @@ extension ForecastClient {
     ///
     /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeExplainability] operation.
     ///
-    /// - Parameter DeleteExplainabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExplainabilityInput`)
     ///
-    /// - Returns: `DeleteExplainabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExplainabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1741,9 +1741,9 @@ extension ForecastClient {
     ///
     /// Deletes an Explainability export.
     ///
-    /// - Parameter DeleteExplainabilityExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExplainabilityExportInput`)
     ///
-    /// - Returns: `DeleteExplainabilityExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExplainabilityExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1811,9 +1811,9 @@ extension ForecastClient {
     ///
     /// Deletes a forecast created using the [CreateForecast] operation. You can delete only forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeForecast] operation. You can't delete a forecast while it is being exported. After a forecast is deleted, you can no longer query the forecast.
     ///
-    /// - Parameter DeleteForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteForecastInput`)
     ///
-    /// - Returns: `DeleteForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1881,9 +1881,9 @@ extension ForecastClient {
     ///
     /// Deletes a forecast export job created using the [CreateForecastExportJob] operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeForecastExportJob] operation.
     ///
-    /// - Parameter DeleteForecastExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteForecastExportJobInput`)
     ///
-    /// - Returns: `DeleteForecastExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteForecastExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,9 +1951,9 @@ extension ForecastClient {
     ///
     /// Deletes a monitor resource. You can only delete a monitor resource with a status of ACTIVE, ACTIVE_STOPPED, CREATE_FAILED, or CREATE_STOPPED.
     ///
-    /// - Parameter DeleteMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitorInput`)
     ///
-    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,9 +2021,9 @@ extension ForecastClient {
     ///
     /// Deletes a predictor created using the [DescribePredictor] or [CreatePredictor] operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribePredictor] operation.
     ///
-    /// - Parameter DeletePredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePredictorInput`)
     ///
-    /// - Returns: `DeletePredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2091,9 +2091,9 @@ extension ForecastClient {
     ///
     /// Deletes a predictor backtest export job.
     ///
-    /// - Parameter DeletePredictorBacktestExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePredictorBacktestExportJobInput`)
     ///
-    /// - Returns: `DeletePredictorBacktestExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePredictorBacktestExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2172,9 +2172,9 @@ extension ForecastClient {
     ///
     /// DeleteResourceTree will only delete Amazon Forecast resources, and will not delete datasets or exported files stored in Amazon S3.
     ///
-    /// - Parameter DeleteResourceTreeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceTreeInput`)
     ///
-    /// - Returns: `DeleteResourceTreeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceTreeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2242,9 +2242,9 @@ extension ForecastClient {
     ///
     /// Deletes a what-if analysis created using the [CreateWhatIfAnalysis] operation. You can delete only what-if analyses that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfAnalysis] operation. You can't delete a what-if analysis while any of its forecasts are being exported.
     ///
-    /// - Parameter DeleteWhatIfAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatIfAnalysisInput`)
     ///
-    /// - Returns: `DeleteWhatIfAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatIfAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2312,9 +2312,9 @@ extension ForecastClient {
     ///
     /// Deletes a what-if forecast created using the [CreateWhatIfForecast] operation. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfForecast] operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analysis.
     ///
-    /// - Parameter DeleteWhatIfForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatIfForecastInput`)
     ///
-    /// - Returns: `DeleteWhatIfForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatIfForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2382,9 +2382,9 @@ extension ForecastClient {
     ///
     /// Deletes a what-if forecast export created using the [CreateWhatIfForecastExport] operation. You can delete only what-if forecast exports that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfForecastExport] operation.
     ///
-    /// - Parameter DeleteWhatIfForecastExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatIfForecastExportInput`)
     ///
-    /// - Returns: `DeleteWhatIfForecastExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatIfForecastExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,9 +2452,9 @@ extension ForecastClient {
     ///
     /// Describes a predictor created using the CreateAutoPredictor operation.
     ///
-    /// - Parameter DescribeAutoPredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAutoPredictorInput`)
     ///
-    /// - Returns: `DescribeAutoPredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAutoPredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2527,9 +2527,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2604,9 +2604,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetGroupInput`)
     ///
-    /// - Returns: `DescribeDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2685,9 +2685,9 @@ extension ForecastClient {
     ///
     /// * Message - If an error occurred, information about the error.
     ///
-    /// - Parameter DescribeDatasetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetImportJobInput`)
     ///
-    /// - Returns: `DescribeDatasetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2754,9 +2754,9 @@ extension ForecastClient {
     ///
     /// Describes an Explainability resource created using the [CreateExplainability] operation.
     ///
-    /// - Parameter DescribeExplainabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExplainabilityInput`)
     ///
-    /// - Returns: `DescribeExplainabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExplainabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2823,9 +2823,9 @@ extension ForecastClient {
     ///
     /// Describes an Explainability export created using the [CreateExplainabilityExport] operation.
     ///
-    /// - Parameter DescribeExplainabilityExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExplainabilityExportInput`)
     ///
-    /// - Returns: `DescribeExplainabilityExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExplainabilityExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2902,9 +2902,9 @@ extension ForecastClient {
     ///
     /// * Message - If an error occurred, information about the error.
     ///
-    /// - Parameter DescribeForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeForecastInput`)
     ///
-    /// - Returns: `DescribeForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2979,9 +2979,9 @@ extension ForecastClient {
     ///
     /// * Message - If an error occurred, information about the error.
     ///
-    /// - Parameter DescribeForecastExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeForecastExportJobInput`)
     ///
-    /// - Returns: `DescribeForecastExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeForecastExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3062,9 +3062,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMonitorInput`)
     ///
-    /// - Returns: `DescribeMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3143,9 +3143,9 @@ extension ForecastClient {
     ///
     /// * Message - If an error occurred, information about the error.
     ///
-    /// - Parameter DescribePredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePredictorInput`)
     ///
-    /// - Returns: `DescribePredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3220,9 +3220,9 @@ extension ForecastClient {
     ///
     /// * Message (if an error occurred)
     ///
-    /// - Parameter DescribePredictorBacktestExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePredictorBacktestExportJobInput`)
     ///
-    /// - Returns: `DescribePredictorBacktestExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePredictorBacktestExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3297,9 +3297,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeWhatIfAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWhatIfAnalysisInput`)
     ///
-    /// - Returns: `DescribeWhatIfAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWhatIfAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3374,9 +3374,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeWhatIfForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWhatIfForecastInput`)
     ///
-    /// - Returns: `DescribeWhatIfForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWhatIfForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3451,9 +3451,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeWhatIfForecastExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWhatIfForecastExportInput`)
     ///
-    /// - Returns: `DescribeWhatIfForecastExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWhatIfForecastExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3520,9 +3520,9 @@ extension ForecastClient {
     ///
     /// Provides metrics on the accuracy of the models that were trained by the [CreatePredictor] operation. Use metrics to see how well the model performed and to decide whether to use the predictor to generate a forecast. For more information, see [Predictor Metrics](https://docs.aws.amazon.com/forecast/latest/dg/metrics.html). This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows) is specified using the [EvaluationParameters] object, which is optionally included in the CreatePredictor request. If NumberOfBacktestWindows isn't specified, the number defaults to one. The parameters of the filling method determine which items contribute to the metrics. If you want all items to contribute, specify zero. If you want only those items that have complete data in the range being evaluated to contribute, specify nan. For more information, see [FeaturizationMethod]. Before you can get accuracy metrics, the Status of the predictor must be ACTIVE, signifying that training has completed. To get the status, use the [DescribePredictor] operation.
     ///
-    /// - Parameter GetAccuracyMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccuracyMetricsInput`)
     ///
-    /// - Returns: `GetAccuracyMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccuracyMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3590,9 +3590,9 @@ extension ForecastClient {
     ///
     /// Returns a list of dataset groups created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the dataset group ARN with the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation.
     ///
-    /// - Parameter ListDatasetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetGroupsInput`)
     ///
-    /// - Returns: `ListDatasetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3658,9 +3658,9 @@ extension ForecastClient {
     ///
     /// Returns a list of dataset import jobs created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. For each import job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation. You can filter the list by providing an array of [Filter](https://docs.aws.amazon.com/forecast/latest/dg/API_Filter.html) objects.
     ///
-    /// - Parameter ListDatasetImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetImportJobsInput`)
     ///
-    /// - Returns: `ListDatasetImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3727,9 +3727,9 @@ extension ForecastClient {
     ///
     /// Returns a list of datasets created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. For each dataset, a summary of its properties, including its Amazon Resource Name (ARN), is returned. To retrieve the complete set of properties, use the ARN with the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3795,9 +3795,9 @@ extension ForecastClient {
     ///
     /// Returns a list of Explainability resources created using the [CreateExplainability] operation. This operation returns a summary for each Explainability. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular Explainability resource, use the ARN with the [DescribeExplainability] operation.
     ///
-    /// - Parameter ListExplainabilitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExplainabilitiesInput`)
     ///
-    /// - Returns: `ListExplainabilitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExplainabilitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3864,9 +3864,9 @@ extension ForecastClient {
     ///
     /// Returns a list of Explainability exports created using the [CreateExplainabilityExport] operation. This operation returns a summary for each Explainability export. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular Explainability export, use the ARN with the [DescribeExplainability] operation.
     ///
-    /// - Parameter ListExplainabilityExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExplainabilityExportsInput`)
     ///
-    /// - Returns: `ListExplainabilityExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExplainabilityExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3933,9 +3933,9 @@ extension ForecastClient {
     ///
     /// Returns a list of forecast export jobs created using the [CreateForecastExportJob] operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the [DescribeForecastExportJob] operation. You can filter the list using an array of [Filter] objects.
     ///
-    /// - Parameter ListForecastExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListForecastExportJobsInput`)
     ///
-    /// - Returns: `ListForecastExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListForecastExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4002,9 +4002,9 @@ extension ForecastClient {
     ///
     /// Returns a list of forecasts created using the [CreateForecast] operation. For each forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, specify the ARN with the [DescribeForecast] operation. You can filter the list using an array of [Filter] objects.
     ///
-    /// - Parameter ListForecastsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListForecastsInput`)
     ///
-    /// - Returns: `ListForecastsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListForecastsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4071,9 +4071,9 @@ extension ForecastClient {
     ///
     /// Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see [predictor-monitoring]. For more information about retrieving monitoring results see [Viewing Monitoring Results](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html).
     ///
-    /// - Parameter ListMonitorEvaluationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorEvaluationsInput`)
     ///
-    /// - Returns: `ListMonitorEvaluationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorEvaluationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4141,9 +4141,9 @@ extension ForecastClient {
     ///
     /// Returns a list of monitors created with the [CreateMonitor] operation and [CreateAutoPredictor] operation. For each monitor resource, this operation returns of a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the [DescribeMonitor] operation.
     ///
-    /// - Parameter ListMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4210,9 +4210,9 @@ extension ForecastClient {
     ///
     /// Returns a list of predictor backtest export jobs created using the [CreatePredictorBacktestExportJob] operation. This operation returns a summary for each backtest export job. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular backtest export job, use the ARN with the [DescribePredictorBacktestExportJob] operation.
     ///
-    /// - Parameter ListPredictorBacktestExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPredictorBacktestExportJobsInput`)
     ///
-    /// - Returns: `ListPredictorBacktestExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPredictorBacktestExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4279,9 +4279,9 @@ extension ForecastClient {
     ///
     /// Returns a list of predictors created using the [CreateAutoPredictor] or [CreatePredictor] operations. For each predictor, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the [DescribeAutoPredictor] and [DescribePredictor] operations. You can filter the list using an array of [Filter] objects.
     ///
-    /// - Parameter ListPredictorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPredictorsInput`)
     ///
-    /// - Returns: `ListPredictorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPredictorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4348,9 +4348,9 @@ extension ForecastClient {
     ///
     /// Lists the tags for an Amazon Forecast resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4417,9 +4417,9 @@ extension ForecastClient {
     ///
     /// Returns a list of what-if analyses created using the [CreateWhatIfAnalysis] operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the [DescribeWhatIfAnalysis] operation.
     ///
-    /// - Parameter ListWhatIfAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatIfAnalysesInput`)
     ///
-    /// - Returns: `ListWhatIfAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatIfAnalysesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4486,9 +4486,9 @@ extension ForecastClient {
     ///
     /// Returns a list of what-if forecast exports created using the [CreateWhatIfForecastExport] operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the [DescribeWhatIfForecastExport] operation.
     ///
-    /// - Parameter ListWhatIfForecastExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatIfForecastExportsInput`)
     ///
-    /// - Returns: `ListWhatIfForecastExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatIfForecastExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4555,9 +4555,9 @@ extension ForecastClient {
     ///
     /// Returns a list of what-if forecasts created using the [CreateWhatIfForecast] operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the [DescribeWhatIfForecast] operation.
     ///
-    /// - Parameter ListWhatIfForecastsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatIfForecastsInput`)
     ///
-    /// - Returns: `ListWhatIfForecastsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatIfForecastsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4624,9 +4624,9 @@ extension ForecastClient {
     ///
     /// Resumes a stopped monitor resource.
     ///
-    /// - Parameter ResumeResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResumeResourceInput`)
     ///
-    /// - Returns: `ResumeResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4709,9 +4709,9 @@ extension ForecastClient {
     ///
     /// * Explainability Export Job
     ///
-    /// - Parameter StopResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopResourceInput`)
     ///
-    /// - Returns: `StopResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4779,9 +4779,9 @@ extension ForecastClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4849,9 +4849,9 @@ extension ForecastClient {
     ///
     /// Deletes the specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4918,9 +4918,9 @@ extension ForecastClient {
     ///
     /// Replaces the datasets in a dataset group with the specified datasets. The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. Use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation to get the status.
     ///
-    /// - Parameter UpdateDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetGroupInput`)
     ///
-    /// - Returns: `UpdateDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

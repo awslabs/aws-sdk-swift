@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ManagedBlockchainClient: ClientRuntime.Client {
     public static let clientName = "ManagedBlockchainClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ManagedBlockchainClient.ManagedBlockchainClientConfiguration
     let serviceName = "ManagedBlockchain"
@@ -373,9 +373,9 @@ extension ManagedBlockchainClient {
     ///
     /// Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access. The accessor contains information required for token based access.
     ///
-    /// - Parameter CreateAccessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessorInput`)
     ///
-    /// - Returns: `CreateAccessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension ManagedBlockchainClient {
     ///
     /// Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter CreateMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMemberInput`)
     ///
-    /// - Returns: `CreateMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,9 +523,9 @@ extension ManagedBlockchainClient {
     ///
     /// Creates a new blockchain network using Amazon Managed Blockchain. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter CreateNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkInput`)
     ///
-    /// - Returns: `CreateNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension ManagedBlockchainClient {
     ///
     /// Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum.
     ///
-    /// - Parameter CreateNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNodeInput`)
     ///
-    /// - Returns: `CreateNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -673,9 +673,9 @@ extension ManagedBlockchainClient {
     ///
     /// Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter CreateProposalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProposalInput`)
     ///
-    /// - Returns: `CreateProposalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProposalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -747,9 +747,9 @@ extension ManagedBlockchainClient {
     ///
     /// Deletes an accessor that your Amazon Web Services account owns. An accessor object is a container that has the information required for token based access to your Ethereum nodes including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections that were initiated while the accessor was in the AVAILABLE state remain open until they expire (up to 2 hours).
     ///
-    /// - Parameter DeleteAccessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessorInput`)
     ///
-    /// - Returns: `DeleteAccessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -815,9 +815,9 @@ extension ManagedBlockchainClient {
     ///
     /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network is deleted also. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter DeleteMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemberInput`)
     ///
-    /// - Returns: `DeleteMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -884,9 +884,9 @@ extension ManagedBlockchainClient {
     ///
     /// Deletes a node that your Amazon Web Services account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
     ///
-    /// - Parameter DeleteNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNodeInput`)
     ///
-    /// - Returns: `DeleteNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,9 +954,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns detailed information about an accessor. An accessor object is a container that has the information required for token based access to your Ethereum nodes.
     ///
-    /// - Parameter GetAccessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessorInput`)
     ///
-    /// - Returns: `GetAccessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,9 +1022,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns detailed information about a member. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter GetMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemberInput`)
     ///
-    /// - Returns: `GetMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1090,9 +1090,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns detailed information about a network. Applies to Hyperledger Fabric and Ethereum.
     ///
-    /// - Parameter GetNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkInput`)
     ///
-    /// - Returns: `GetNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1158,9 +1158,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns detailed information about a node. Applies to Hyperledger Fabric and Ethereum.
     ///
-    /// - Parameter GetNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNodeInput`)
     ///
-    /// - Returns: `GetNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,9 +1227,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns detailed information about a proposal. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter GetProposalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProposalInput`)
     ///
-    /// - Returns: `GetProposalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProposalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1295,9 +1295,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns a list of the accessors and their properties. Accessor objects are containers that have the information required for token based access to your Ethereum nodes.
     ///
-    /// - Parameter ListAccessorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessorsInput`)
     ///
-    /// - Returns: `ListAccessorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1363,9 +1363,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns a list of all invitations for the current Amazon Web Services account. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter ListInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
-    /// - Returns: `ListInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,9 +1433,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1501,9 +1501,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns information about the networks in which the current Amazon Web Services account participates. Applies to Hyperledger Fabric and Ethereum.
     ///
-    /// - Parameter ListNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNetworksInput`)
     ///
-    /// - Returns: `ListNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,9 +1569,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum.
     ///
-    /// - Parameter ListNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodesInput`)
     ///
-    /// - Returns: `ListNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1637,9 +1637,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter ListProposalVotesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProposalVotesInput`)
     ///
-    /// - Returns: `ListProposalVotesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProposalVotesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1705,9 +1705,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter ListProposalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProposalsInput`)
     ///
-    /// - Returns: `ListProposalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProposalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1774,9 +1774,9 @@ extension ManagedBlockchainClient {
     ///
     /// Returns a list of tags for the specified resource. Each tag consists of a key and optional value. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1841,9 +1841,9 @@ extension ManagedBlockchainClient {
     ///
     /// Rejects an invitation to join a network. This action can be called by a principal in an Amazon Web Services account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter RejectInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectInvitationInput`)
     ///
-    /// - Returns: `RejectInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,9 +1910,9 @@ extension ManagedBlockchainClient {
     ///
     /// Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value. When you specify a tag key that already exists, the tag value is overwritten with the new value. Use UntagResource to remove tag keys. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,9 +1981,9 @@ extension ManagedBlockchainClient {
     ///
     /// Removes the specified tags from the Amazon Managed Blockchain resource. For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html) in the Amazon Managed Blockchain Ethereum Developer Guide, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html) in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2049,9 +2049,9 @@ extension ManagedBlockchainClient {
     ///
     /// Updates a member configuration with new parameters. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter UpdateMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMemberInput`)
     ///
-    /// - Returns: `UpdateMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2120,9 +2120,9 @@ extension ManagedBlockchainClient {
     ///
     /// Updates a node configuration with new parameters. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter UpdateNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNodeInput`)
     ///
-    /// - Returns: `UpdateNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2191,9 +2191,9 @@ extension ManagedBlockchainClient {
     ///
     /// Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same Amazon Web Services account as the principal that calls the action. Applies only to Hyperledger Fabric.
     ///
-    /// - Parameter VoteOnProposalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VoteOnProposalInput`)
     ///
-    /// - Returns: `VoteOnProposalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VoteOnProposalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

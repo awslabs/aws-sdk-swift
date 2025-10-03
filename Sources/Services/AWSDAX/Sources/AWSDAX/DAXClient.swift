@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DAXClient: ClientRuntime.Client {
     public static let clientName = "DAXClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DAXClient.DAXClientConfiguration
     let serviceName = "DAX"
@@ -373,9 +373,9 @@ extension DAXClient {
     ///
     /// Creates a DAX cluster. All nodes in the cluster run the same DAX caching software.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -455,9 +455,9 @@ extension DAXClient {
     ///
     /// Creates a new parameter group. A parameter group is a collection of parameters that you apply to all of the nodes in a DAX cluster.
     ///
-    /// - Parameter CreateParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateParameterGroupInput`)
     ///
-    /// - Returns: `CreateParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -528,9 +528,9 @@ extension DAXClient {
     ///
     /// Creates a new subnet group.
     ///
-    /// - Parameter CreateSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubnetGroupInput`)
     ///
-    /// - Returns: `CreateSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -601,9 +601,9 @@ extension DAXClient {
     ///
     /// Removes one or more nodes from a DAX cluster. You cannot use DecreaseReplicationFactor to remove the last node in a DAX cluster. If you need to do this, use DeleteCluster instead.
     ///
-    /// - Parameter DecreaseReplicationFactorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DecreaseReplicationFactorInput`)
     ///
-    /// - Returns: `DecreaseReplicationFactorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DecreaseReplicationFactorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -674,9 +674,9 @@ extension DAXClient {
     ///
     /// Deletes a previously provisioned DAX cluster. DeleteCluster deletes all associated nodes, node endpoints and the DAX cluster itself. When you receive a successful response from this action, DAX immediately begins deleting the cluster; you cannot cancel or revert this action.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -746,9 +746,9 @@ extension DAXClient {
     ///
     /// Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any DAX clusters.
     ///
-    /// - Parameter DeleteParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteParameterGroupInput`)
     ///
-    /// - Returns: `DeleteParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -818,9 +818,9 @@ extension DAXClient {
     ///
     /// Deletes a subnet group. You cannot delete a subnet group if it is associated with any DAX clusters.
     ///
-    /// - Parameter DeleteSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -888,9 +888,9 @@ extension DAXClient {
     ///
     /// Returns information about all provisioned DAX clusters if no cluster identifier is specified, or about a specific DAX cluster if a cluster identifier is supplied. If the cluster is in the CREATING state, only cluster level information will be displayed until all of the nodes are successfully provisioned. If the cluster is in the DELETING state, only cluster level information will be displayed. If nodes are currently being added to the DAX cluster, node endpoint information and creation time for the additional nodes will not be displayed until they are completely provisioned. When the DAX cluster state is available, the cluster is ready for use. If nodes are currently being removed from the DAX cluster, no endpoint information for the removed nodes is displayed.
     ///
-    /// - Parameter DescribeClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClustersInput`)
     ///
-    /// - Returns: `DescribeClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -959,9 +959,9 @@ extension DAXClient {
     ///
     /// Returns the default system parameter information for the DAX caching software.
     ///
-    /// - Parameter DescribeDefaultParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDefaultParametersInput`)
     ///
-    /// - Returns: `DescribeDefaultParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDefaultParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1029,9 +1029,9 @@ extension DAXClient {
     ///
     /// Returns events related to DAX clusters and parameter groups. You can obtain events specific to a particular DAX cluster or parameter group by providing the name as a parameter. By default, only the events occurring within the last 24 hours are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     ///
-    /// - Parameter DescribeEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1099,9 +1099,9 @@ extension DAXClient {
     ///
     /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list will contain only the descriptions for that group.
     ///
-    /// - Parameter DescribeParameterGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeParameterGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,9 +1170,9 @@ extension DAXClient {
     ///
     /// Returns the detailed parameter list for a particular parameter group.
     ///
-    /// - Parameter DescribeParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeParametersInput`)
     ///
-    /// - Returns: `DescribeParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1241,9 +1241,9 @@ extension DAXClient {
     ///
     /// Returns a list of subnet group descriptions. If a subnet group name is specified, the list will contain only the description of that group.
     ///
-    /// - Parameter DescribeSubnetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeSubnetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,9 +1310,9 @@ extension DAXClient {
     ///
     /// Adds one or more nodes to a DAX cluster.
     ///
-    /// - Parameter IncreaseReplicationFactorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IncreaseReplicationFactorInput`)
     ///
-    /// - Returns: `IncreaseReplicationFactorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IncreaseReplicationFactorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1386,9 +1386,9 @@ extension DAXClient {
     ///
     /// List all of the tags for a DAX cluster. You can call ListTags up to 10 times per second, per account.
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1459,9 +1459,9 @@ extension DAXClient {
     ///
     /// Reboots a single node of a DAX cluster. The reboot action takes place as soon as possible. During the reboot, the node status is set to REBOOTING. RebootNode restarts the DAX engine process and does not remove the contents of the cache.
     ///
-    /// - Parameter RebootNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootNodeInput`)
     ///
-    /// - Returns: `RebootNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1532,9 +1532,9 @@ extension DAXClient {
     ///
     /// Associates a set of tags with a DAX resource. You can call TagResource up to 5 times per second, per account.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1606,9 +1606,9 @@ extension DAXClient {
     ///
     /// Removes the association of tags from a DAX resource. You can call UntagResource up to 5 times per second, per account.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1680,9 +1680,9 @@ extension DAXClient {
     ///
     /// Modifies the settings for a DAX cluster. You can use this action to change one or more cluster configuration parameters by specifying the parameters and the new values.
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1754,9 +1754,9 @@ extension DAXClient {
     ///
     /// Modifies the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
     ///
-    /// - Parameter UpdateParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateParameterGroupInput`)
     ///
-    /// - Returns: `UpdateParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1826,9 +1826,9 @@ extension DAXClient {
     ///
     /// Modifies an existing subnet group.
     ///
-    /// - Parameter UpdateSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubnetGroupInput`)
     ///
-    /// - Returns: `UpdateSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

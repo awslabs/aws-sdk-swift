@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DocDBElasticClient: ClientRuntime.Client {
     public static let clientName = "DocDBElasticClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBElasticClient.DocDBElasticClientConfiguration
     let serviceName = "DocDB Elastic"
@@ -373,9 +373,9 @@ extension DocDBElasticClient {
     ///
     /// The type of pending maintenance action to be applied to the resource.
     ///
-    /// - Parameter ApplyPendingMaintenanceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApplyPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `ApplyPendingMaintenanceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplyPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension DocDBElasticClient {
     ///
     /// Copies a snapshot of an elastic cluster.
     ///
-    /// - Parameter CopyClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyClusterSnapshotInput`)
     ///
-    /// - Returns: `CopyClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -518,9 +518,9 @@ extension DocDBElasticClient {
     ///
     /// Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,9 +591,9 @@ extension DocDBElasticClient {
     ///
     /// Creates a snapshot of an elastic cluster.
     ///
-    /// - Parameter CreateClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterSnapshotInput`)
     ///
-    /// - Returns: `CreateClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -664,9 +664,9 @@ extension DocDBElasticClient {
     ///
     /// Delete an elastic cluster.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -733,9 +733,9 @@ extension DocDBElasticClient {
     ///
     /// Delete an elastic cluster snapshot.
     ///
-    /// - Parameter DeleteClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterSnapshotInput`)
     ///
-    /// - Returns: `DeleteClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension DocDBElasticClient {
     ///
     /// Returns information about a specific elastic cluster.
     ///
-    /// - Parameter GetClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterInput`)
     ///
-    /// - Returns: `GetClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,9 +870,9 @@ extension DocDBElasticClient {
     ///
     /// Returns information about a specific elastic cluster snapshot
     ///
-    /// - Parameter GetClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterSnapshotInput`)
     ///
-    /// - Returns: `GetClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -938,9 +938,9 @@ extension DocDBElasticClient {
     ///
     /// Retrieves all maintenance actions that are pending.
     ///
-    /// - Parameter GetPendingMaintenanceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `GetPendingMaintenanceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1007,9 +1007,9 @@ extension DocDBElasticClient {
     ///
     /// Returns information about snapshots for a specified elastic cluster.
     ///
-    /// - Parameter ListClusterSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterSnapshotsInput`)
     ///
-    /// - Returns: `ListClusterSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension DocDBElasticClient {
     ///
     /// Returns information about provisioned Amazon DocumentDB elastic clusters.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,9 +1143,9 @@ extension DocDBElasticClient {
     ///
     /// Retrieves a list of all maintenance actions that are pending.
     ///
-    /// - Parameter ListPendingMaintenanceActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPendingMaintenanceActionsInput`)
     ///
-    /// - Returns: `ListPendingMaintenanceActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPendingMaintenanceActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1211,9 +1211,9 @@ extension DocDBElasticClient {
     ///
     /// Lists all tags on a elastic cluster resource
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1278,9 +1278,9 @@ extension DocDBElasticClient {
     ///
     /// Restores an elastic cluster from a snapshot.
     ///
-    /// - Parameter RestoreClusterFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreClusterFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreClusterFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreClusterFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1351,9 +1351,9 @@ extension DocDBElasticClient {
     ///
     /// Restarts the stopped elastic cluster that is specified by clusterARN.
     ///
-    /// - Parameter StartClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartClusterInput`)
     ///
-    /// - Returns: `StartClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,9 +1419,9 @@ extension DocDBElasticClient {
     ///
     /// Stops the running elastic cluster that is specified by clusterArn. The elastic cluster must be in the available state.
     ///
-    /// - Parameter StopClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopClusterInput`)
     ///
-    /// - Returns: `StopClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1487,9 +1487,9 @@ extension DocDBElasticClient {
     ///
     /// Adds metadata tags to an elastic cluster resource
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1557,9 +1557,9 @@ extension DocDBElasticClient {
     ///
     /// Removes metadata tags from an elastic cluster resource
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,9 +1625,9 @@ extension DocDBElasticClient {
     ///
     /// Modifies an elastic cluster. This includes updating admin-username/password, upgrading the API version, and setting up a backup window and maintenance window
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

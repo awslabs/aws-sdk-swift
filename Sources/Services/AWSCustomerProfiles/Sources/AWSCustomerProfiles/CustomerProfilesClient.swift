@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CustomerProfilesClient: ClientRuntime.Client {
     public static let clientName = "CustomerProfilesClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: CustomerProfilesClient.CustomerProfilesClientConfiguration
     let serviceName = "Customer Profiles"
@@ -373,9 +373,9 @@ extension CustomerProfilesClient {
     ///
     /// Associates a new key value with a specific profile, such as a Contact Record ContactId. A profile object can have a single unique key and any number of additional keys that can be used to identify the profile that it belongs to.
     ///
-    /// - Parameter AddProfileKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddProfileKeyInput`)
     ///
-    /// - Returns: `AddProfileKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddProfileKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension CustomerProfilesClient {
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
-    /// - Parameter BatchGetCalculatedAttributeForProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCalculatedAttributeForProfileInput`)
     ///
-    /// - Returns: `BatchGetCalculatedAttributeForProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCalculatedAttributeForProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension CustomerProfilesClient {
     ///
     /// Get a batch of profiles.
     ///
-    /// - Parameter BatchGetProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetProfileInput`)
     ///
-    /// - Returns: `BatchGetProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the [GetCalculatedAttributeForProfile](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetCalculatedAttributeForProfile.html) API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
     ///
-    /// - Parameter CreateCalculatedAttributeDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCalculatedAttributeDefinitionInput`)
     ///
-    /// - Returns: `CreateCalculatedAttributeDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCalculatedAttributeDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -657,9 +657,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or [UpdateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UpdateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see [Enable Customer Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/enable-customer-profiles.html#enable-customer-profiles-step1). Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -728,9 +728,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter CreateDomainLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainLayoutInput`)
     ///
-    /// - Returns: `CreateDomainLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
     ///
-    /// - Parameter CreateEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventStreamInput`)
     ///
-    /// - Returns: `CreateEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -870,9 +870,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates an event trigger, which specifies the rules when to perform action based on customer's ingested data. Each event stream can be associated with only one integration in the same region and AWS account as the event stream.
     ///
-    /// - Parameter CreateEventTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventTriggerInput`)
     ///
-    /// - Returns: `CreateEventTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -941,9 +941,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates an integration workflow. An integration workflow is an async process which ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
     ///
-    /// - Parameter CreateIntegrationWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntegrationWorkflowInput`)
     ///
-    /// - Returns: `CreateIntegrationWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1012,9 +1012,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1083,9 +1083,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a segment definition associated to the given domain.
     ///
-    /// - Parameter CreateSegmentDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentDefinitionInput`)
     ///
-    /// - Returns: `CreateSegmentDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1154,9 +1154,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates a segment estimate query.
     ///
-    /// - Parameter CreateSegmentEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentEstimateInput`)
     ///
-    /// - Returns: `CreateSegmentEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1225,9 +1225,9 @@ extension CustomerProfilesClient {
     ///
     /// Triggers a job to export a segment to a specified destination.
     ///
-    /// - Parameter CreateSegmentSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentSnapshotInput`)
     ///
-    /// - Returns: `CreateSegmentSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1296,9 +1296,9 @@ extension CustomerProfilesClient {
     ///
     /// Creates an Upload job to ingest data for segment imports. The metadata is created for the job with the provided field mapping and unique key.
     ///
-    /// - Parameter CreateUploadJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUploadJobInput`)
     ///
-    /// - Returns: `CreateUploadJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUploadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1367,9 +1367,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes an existing calculated attribute definition. Note that deleting a default calculated attribute is possible, however once deleted, you will be unable to undo that action and will need to recreate it on your own using the CreateCalculatedAttributeDefinition API if you want it back.
     ///
-    /// - Parameter DeleteCalculatedAttributeDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCalculatedAttributeDefinitionInput`)
     ///
-    /// - Returns: `DeleteCalculatedAttributeDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCalculatedAttributeDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1435,9 +1435,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,9 +1503,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter DeleteDomainLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainLayoutInput`)
     ///
-    /// - Returns: `DeleteDomainLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1571,9 +1571,9 @@ extension CustomerProfilesClient {
     ///
     /// Disables and deletes the specified event stream.
     ///
-    /// - Parameter DeleteEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventStreamInput`)
     ///
-    /// - Returns: `DeleteEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1639,9 +1639,9 @@ extension CustomerProfilesClient {
     ///
     /// Disable and deletes the Event Trigger. You cannot delete an Event Trigger with an active Integration associated.
     ///
-    /// - Parameter DeleteEventTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventTriggerInput`)
     ///
-    /// - Returns: `DeleteEventTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1707,9 +1707,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes an integration from a specific domain.
     ///
-    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1778,9 +1778,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes the standard customer profile and all data pertaining to the profile.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1849,9 +1849,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes a searchable key from a customer profile.
     ///
-    /// - Parameter DeleteProfileKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileKeyInput`)
     ///
-    /// - Returns: `DeleteProfileKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1920,9 +1920,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes an object associated with a profile of a given ProfileObjectType.
     ///
-    /// - Parameter DeleteProfileObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileObjectInput`)
     ///
-    /// - Returns: `DeleteProfileObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1991,9 +1991,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileObjectType.
     ///
-    /// - Parameter DeleteProfileObjectTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileObjectTypeInput`)
     ///
-    /// - Returns: `DeleteProfileObjectTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileObjectTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2059,9 +2059,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes a segment definition from the domain.
     ///
-    /// - Parameter DeleteSegmentDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSegmentDefinitionInput`)
     ///
-    /// - Returns: `DeleteSegmentDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSegmentDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2127,9 +2127,9 @@ extension CustomerProfilesClient {
     ///
     /// Deletes the specified workflow and all its corresponding resources. This is an async process.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2195,9 +2195,9 @@ extension CustomerProfilesClient {
     ///
     /// The process of detecting profile object type mapping by using given objects.
     ///
-    /// - Parameter DetectProfileObjectTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectProfileObjectTypeInput`)
     ///
-    /// - Returns: `DetectProfileObjectTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectProfileObjectTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2266,9 +2266,9 @@ extension CustomerProfilesClient {
     ///
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list. You can't view which profiles are matched and would be merged. We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
     ///
-    /// - Parameter GetAutoMergingPreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutoMergingPreviewInput`)
     ///
-    /// - Returns: `GetAutoMergingPreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutoMergingPreviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2337,9 +2337,9 @@ extension CustomerProfilesClient {
     ///
     /// Provides more information on a calculated attribute definition for Customer Profiles.
     ///
-    /// - Parameter GetCalculatedAttributeDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCalculatedAttributeDefinitionInput`)
     ///
-    /// - Returns: `GetCalculatedAttributeDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCalculatedAttributeDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2405,9 +2405,9 @@ extension CustomerProfilesClient {
     ///
     /// Retrieve a calculated attribute for a customer profile.
     ///
-    /// - Parameter GetCalculatedAttributeForProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCalculatedAttributeForProfileInput`)
     ///
-    /// - Returns: `GetCalculatedAttributeForProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCalculatedAttributeForProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2473,9 +2473,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns information about a specific domain.
     ///
-    /// - Parameter GetDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainInput`)
     ///
-    /// - Returns: `GetDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2541,9 +2541,9 @@ extension CustomerProfilesClient {
     ///
     /// Gets the layout to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter GetDomainLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainLayoutInput`)
     ///
-    /// - Returns: `GetDomainLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2609,9 +2609,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns information about the specified event stream in a specific domain.
     ///
-    /// - Parameter GetEventStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventStreamInput`)
     ///
-    /// - Returns: `GetEventStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2677,9 +2677,9 @@ extension CustomerProfilesClient {
     ///
     /// Get a specific Event Trigger from the domain.
     ///
-    /// - Parameter GetEventTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventTriggerInput`)
     ///
-    /// - Returns: `GetEventTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2745,9 +2745,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns information about an Identity Resolution Job in a specific domain. Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see [Use Identity Resolution to consolidate similar profiles](https://docs.aws.amazon.com/connect/latest/adminguide/use-identity-resolution.html).
     ///
-    /// - Parameter GetIdentityResolutionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdentityResolutionJobInput`)
     ///
-    /// - Returns: `GetIdentityResolutionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdentityResolutionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2813,9 +2813,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns an integration for a domain.
     ///
-    /// - Parameter GetIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationInput`)
     ///
-    /// - Returns: `GetIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2903,9 +2903,9 @@ extension CustomerProfilesClient {
     ///
     /// For example, two or more profiles—with spelling mistakes such as John Doe and Jhn Doe, or different casing email addresses such as JOHN_DOE@ANYCOMPANY.COM and johndoe@anycompany.com, or different phone number formats such as 555-010-0000 and +1-555-010-0000—can be detected as belonging to the same customer John Doe and merged into a unified profile.
     ///
-    /// - Parameter GetMatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMatchesInput`)
     ///
-    /// - Returns: `GetMatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2972,9 +2972,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a history record for a specific profile, for a specific domain.
     ///
-    /// - Parameter GetProfileHistoryRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileHistoryRecordInput`)
     ///
-    /// - Returns: `GetProfileHistoryRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileHistoryRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3040,9 +3040,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns the object types for a specific domain.
     ///
-    /// - Parameter GetProfileObjectTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileObjectTypeInput`)
     ///
-    /// - Returns: `GetProfileObjectTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileObjectTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3108,9 +3108,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as “Salesforce-Account” or “Salesforce-Contact.” When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template.
     ///
-    /// - Parameter GetProfileObjectTypeTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileObjectTypeTemplateInput`)
     ///
-    /// - Returns: `GetProfileObjectTypeTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileObjectTypeTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3176,9 +3176,9 @@ extension CustomerProfilesClient {
     ///
     /// Gets a segment definition from the domain.
     ///
-    /// - Parameter GetSegmentDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentDefinitionInput`)
     ///
-    /// - Returns: `GetSegmentDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3244,9 +3244,9 @@ extension CustomerProfilesClient {
     ///
     /// Gets the result of a segment estimate query.
     ///
-    /// - Parameter GetSegmentEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentEstimateInput`)
     ///
-    /// - Returns: `GetSegmentEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3312,9 +3312,9 @@ extension CustomerProfilesClient {
     ///
     /// Determines if the given profiles are within a segment.
     ///
-    /// - Parameter GetSegmentMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentMembershipInput`)
     ///
-    /// - Returns: `GetSegmentMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3383,9 +3383,9 @@ extension CustomerProfilesClient {
     ///
     /// Retrieve the latest status of a segment snapshot.
     ///
-    /// - Parameter GetSegmentSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentSnapshotInput`)
     ///
-    /// - Returns: `GetSegmentSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3451,9 +3451,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
     ///
-    /// - Parameter GetSimilarProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSimilarProfilesInput`)
     ///
-    /// - Returns: `GetSimilarProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSimilarProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3523,9 +3523,9 @@ extension CustomerProfilesClient {
     ///
     /// This API retrieves the details of a specific upload job.
     ///
-    /// - Parameter GetUploadJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUploadJobInput`)
     ///
-    /// - Returns: `GetUploadJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUploadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3591,9 +3591,9 @@ extension CustomerProfilesClient {
     ///
     /// This API retrieves the pre-signed URL and client token for uploading the file associated with the upload job.
     ///
-    /// - Parameter GetUploadJobPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUploadJobPathInput`)
     ///
-    /// - Returns: `GetUploadJobPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUploadJobPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3659,9 +3659,9 @@ extension CustomerProfilesClient {
     ///
     /// Get details of specified workflow.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3727,9 +3727,9 @@ extension CustomerProfilesClient {
     ///
     /// Get granular list of steps in workflow.
     ///
-    /// - Parameter GetWorkflowStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowStepsInput`)
     ///
-    /// - Returns: `GetWorkflowStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3796,9 +3796,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the integrations associated to a specific URI in the AWS account.
     ///
-    /// - Parameter ListAccountIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountIntegrationsInput`)
     ///
-    /// - Returns: `ListAccountIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3868,9 +3868,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists calculated attribute definitions for Customer Profiles
     ///
-    /// - Parameter ListCalculatedAttributeDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCalculatedAttributeDefinitionsInput`)
     ///
-    /// - Returns: `ListCalculatedAttributeDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCalculatedAttributeDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3937,9 +3937,9 @@ extension CustomerProfilesClient {
     ///
     /// Retrieve a list of calculated attributes for a customer profile.
     ///
-    /// - Parameter ListCalculatedAttributesForProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCalculatedAttributesForProfileInput`)
     ///
-    /// - Returns: `ListCalculatedAttributesForProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCalculatedAttributesForProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4006,9 +4006,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists the existing layouts that can be used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter ListDomainLayoutsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainLayoutsInput`)
     ///
-    /// - Returns: `ListDomainLayoutsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainLayoutsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4075,9 +4075,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a list of all the domains for an AWS account that have been created.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4144,9 +4144,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a list of all the event streams in a specific domain.
     ///
-    /// - Parameter ListEventStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventStreamsInput`)
     ///
-    /// - Returns: `ListEventStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4213,9 +4213,9 @@ extension CustomerProfilesClient {
     ///
     /// List all Event Triggers under a domain.
     ///
-    /// - Parameter ListEventTriggersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventTriggersInput`)
     ///
-    /// - Returns: `ListEventTriggersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4282,9 +4282,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by JobStartTime.
     ///
-    /// - Parameter ListIdentityResolutionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityResolutionJobsInput`)
     ///
-    /// - Returns: `ListIdentityResolutionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityResolutionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4351,9 +4351,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the integrations in your domain.
     ///
-    /// - Parameter ListIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIntegrationsInput`)
     ///
-    /// - Returns: `ListIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4420,9 +4420,9 @@ extension CustomerProfilesClient {
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
-    /// - Parameter ListObjectTypeAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectTypeAttributesInput`)
     ///
-    /// - Returns: `ListObjectTypeAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectTypeAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4489,9 +4489,9 @@ extension CustomerProfilesClient {
     ///
     /// Fetch the possible attribute values given the attribute name.
     ///
-    /// - Parameter ListProfileAttributeValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileAttributeValuesInput`)
     ///
-    /// - Returns: `ListProfileAttributeValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileAttributeValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4557,9 +4557,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a list of history records for a specific profile, for a specific domain.
     ///
-    /// - Parameter ListProfileHistoryRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileHistoryRecordsInput`)
     ///
-    /// - Returns: `ListProfileHistoryRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileHistoryRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4629,9 +4629,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the template information for object types.
     ///
-    /// - Parameter ListProfileObjectTypeTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileObjectTypeTemplatesInput`)
     ///
-    /// - Returns: `ListProfileObjectTypeTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileObjectTypeTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4698,9 +4698,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all of the templates available within the service.
     ///
-    /// - Parameter ListProfileObjectTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileObjectTypesInput`)
     ///
-    /// - Returns: `ListProfileObjectTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileObjectTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4767,9 +4767,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a list of objects associated with a profile of a given ProfileObjectType.
     ///
-    /// - Parameter ListProfileObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileObjectsInput`)
     ///
-    /// - Returns: `ListProfileObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4839,9 +4839,9 @@ extension CustomerProfilesClient {
     ///
     /// Returns a set of MatchIds that belong to the given domain.
     ///
-    /// - Parameter ListRuleBasedMatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleBasedMatchesInput`)
     ///
-    /// - Returns: `ListRuleBasedMatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleBasedMatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4908,9 +4908,9 @@ extension CustomerProfilesClient {
     ///
     /// Lists all segment definitions under a domain.
     ///
-    /// - Parameter ListSegmentDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSegmentDefinitionsInput`)
     ///
-    /// - Returns: `ListSegmentDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSegmentDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4977,9 +4977,9 @@ extension CustomerProfilesClient {
     ///
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5043,9 +5043,9 @@ extension CustomerProfilesClient {
     ///
     /// This API retrieves a list of upload jobs for the specified domain.
     ///
-    /// - Parameter ListUploadJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUploadJobsInput`)
     ///
-    /// - Returns: `ListUploadJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUploadJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5112,9 +5112,9 @@ extension CustomerProfilesClient {
     ///
     /// Query to list all workflows.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5211,9 +5211,9 @@ extension CustomerProfilesClient {
     ///
     /// You can use MergeProfiles together with [GetMatches](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html), which returns potentially matching profiles, or use it with the results of another matching system. After profiles have been merged, they cannot be separated (unmerged).
     ///
-    /// - Parameter MergeProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MergeProfilesInput`)
     ///
-    /// - Returns: `MergeProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MergeProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5281,9 +5281,9 @@ extension CustomerProfilesClient {
     ///
     /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see [ TagResource ](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[ UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
-    /// - Parameter PutIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutIntegrationInput`)
     ///
-    /// - Returns: `PutIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5352,9 +5352,9 @@ extension CustomerProfilesClient {
     ///
     /// Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType definition. PutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
     ///
-    /// - Parameter PutProfileObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProfileObjectInput`)
     ///
-    /// - Returns: `PutProfileObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProfileObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5423,9 +5423,9 @@ extension CustomerProfilesClient {
     ///
     /// Defines a ProfileObjectType. To add or remove tags on an existing ObjectType, see [ TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
-    /// - Parameter PutProfileObjectTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProfileObjectTypeInput`)
     ///
-    /// - Returns: `PutProfileObjectTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProfileObjectTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5494,9 +5494,9 @@ extension CustomerProfilesClient {
     ///
     /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic.
     ///
-    /// - Parameter SearchProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchProfilesInput`)
     ///
-    /// - Returns: `SearchProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5566,9 +5566,9 @@ extension CustomerProfilesClient {
     ///
     /// This API starts the processing of an upload job to ingest profile data.
     ///
-    /// - Parameter StartUploadJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartUploadJobInput`)
     ///
-    /// - Returns: `StartUploadJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartUploadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5634,9 +5634,9 @@ extension CustomerProfilesClient {
     ///
     /// This API stops the processing of an upload job.
     ///
-    /// - Parameter StopUploadJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopUploadJobInput`)
     ///
-    /// - Returns: `StopUploadJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopUploadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5702,9 +5702,9 @@ extension CustomerProfilesClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5771,9 +5771,9 @@ extension CustomerProfilesClient {
     ///
     /// Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5838,9 +5838,9 @@ extension CustomerProfilesClient {
     ///
     /// Updates an existing calculated attribute definition. When updating the Conditions, note that increasing the date range of a calculated attribute will not trigger inclusion of historical data greater than the current date range.
     ///
-    /// - Parameter UpdateCalculatedAttributeDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCalculatedAttributeDefinitionInput`)
     ///
-    /// - Returns: `UpdateCalculatedAttributeDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCalculatedAttributeDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5909,9 +5909,9 @@ extension CustomerProfilesClient {
     ///
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or [CreateDomain](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_CreateDomain.html) to enable [identity resolution](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html): set Matching to true. To prevent cross-service impersonation when you call this API, see [Cross-service confused deputy prevention](https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html) for sample policies that you should apply. To add or remove tags on an existing Domain, see [TagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_TagResource.html)/[UntagResource](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_UntagResource.html).
     ///
-    /// - Parameter UpdateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainInput`)
     ///
-    /// - Returns: `UpdateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5980,9 +5980,9 @@ extension CustomerProfilesClient {
     ///
     /// Updates the layout used to view data for a specific domain. This API can only be invoked from the Amazon Connect admin website.
     ///
-    /// - Parameter UpdateDomainLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainLayoutInput`)
     ///
-    /// - Returns: `UpdateDomainLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6051,9 +6051,9 @@ extension CustomerProfilesClient {
     ///
     /// Update the properties of an Event Trigger.
     ///
-    /// - Parameter UpdateEventTriggerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventTriggerInput`)
     ///
-    /// - Returns: `UpdateEventTriggerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6122,9 +6122,9 @@ extension CustomerProfilesClient {
     ///
     /// Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
     ///
-    /// - Parameter UpdateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileInput`)
     ///
-    /// - Returns: `UpdateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

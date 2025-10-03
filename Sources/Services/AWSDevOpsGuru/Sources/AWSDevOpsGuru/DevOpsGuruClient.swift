@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DevOpsGuruClient: ClientRuntime.Client {
     public static let clientName = "DevOpsGuruClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DevOpsGuruClient.DevOpsGuruClientConfiguration
     let serviceName = "DevOps Guru"
@@ -374,9 +374,9 @@ extension DevOpsGuruClient {
     ///
     /// Adds a notification channel to DevOps Guru. A notification channel is used to notify you about important DevOps Guru events, such as when an insight is generated. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see [Permissions for Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html). If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see [Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html).
     ///
-    /// - Parameter AddNotificationChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddNotificationChannelInput`)
     ///
-    /// - Returns: `AddNotificationChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddNotificationChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension DevOpsGuruClient {
     ///
     /// Deletes the insight along with the associated anomalies, events and recommendations.
     ///
-    /// - Parameter DeleteInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInsightInput`)
     ///
-    /// - Returns: `DeleteInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns the number of open reactive insights, the number of open proactive insights, and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the health of operations in your Amazon Web Services account.
     ///
-    /// - Parameter DescribeAccountHealthInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountHealthInput`)
     ///
-    /// - Returns: `DescribeAccountHealthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -583,9 +583,9 @@ extension DevOpsGuruClient {
     ///
     /// For the time range passed in, returns the number of open reactive insight that were created, the number of open proactive insights that were created, and the Mean Time to Recover (MTTR) for all closed reactive insights.
     ///
-    /// - Parameter DescribeAccountOverviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountOverviewInput`)
     ///
-    /// - Returns: `DescribeAccountOverviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountOverviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,9 +653,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns details about an anomaly that you specify using its ID.
     ///
-    /// - Parameter DescribeAnomalyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnomalyInput`)
     ///
-    /// - Returns: `DescribeAnomalyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnomalyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -722,9 +722,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns the integration status of services that are integrated with DevOps Guru as Consumer via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru.
     ///
-    /// - Parameter DescribeEventSourcesConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventSourcesConfigInput`)
     ///
-    /// - Returns: `DescribeEventSourcesConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventSourcesConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -789,9 +789,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
     ///
-    /// - Parameter DescribeFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFeedbackInput`)
     ///
-    /// - Returns: `DescribeFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -860,9 +860,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns details about an insight that you specify using its ID.
     ///
-    /// - Parameter DescribeInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInsightInput`)
     ///
-    /// - Returns: `DescribeInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,9 +929,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns active insights, predictive insights, and resource hours analyzed in last hour.
     ///
-    /// - Parameter DescribeOrganizationHealthInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationHealthInput`)
     ///
-    /// - Returns: `DescribeOrganizationHealthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -999,9 +999,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns an overview of your organization's history based on the specified time range. The overview includes the total reactive and proactive insights.
     ///
-    /// - Parameter DescribeOrganizationOverviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationOverviewInput`)
     ///
-    /// - Returns: `DescribeOrganizationOverviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationOverviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,9 +1069,9 @@ extension DevOpsGuruClient {
     ///
     /// Provides an overview of your system's health. If additional member accounts are part of your organization, you can filter those accounts using the AccountIds field.
     ///
-    /// - Parameter DescribeOrganizationResourceCollectionHealthInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationResourceCollectionHealthInput`)
     ///
-    /// - Returns: `DescribeOrganizationResourceCollectionHealthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationResourceCollectionHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1139,9 +1139,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR) for all closed insights in resource collections in your account. You specify the type of Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     ///
-    /// - Parameter DescribeResourceCollectionHealthInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourceCollectionHealthInput`)
     ///
-    /// - Returns: `DescribeResourceCollectionHealthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourceCollectionHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1207,9 +1207,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns the integration status of services that are integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
     ///
-    /// - Parameter DescribeServiceIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeServiceIntegrationInput`)
     ///
-    /// - Returns: `DescribeServiceIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeServiceIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1275,9 +1275,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns an estimate of the monthly cost for DevOps Guru to analyze your Amazon Web Services resources. For more information, see [Estimate your Amazon DevOps Guru costs](https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html) and [Amazon DevOps Guru pricing](http://aws.amazon.com/devops-guru/pricing/).
     ///
-    /// - Parameter GetCostEstimationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCostEstimationInput`)
     ///
-    /// - Returns: `GetCostEstimationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCostEstimationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1344,9 +1344,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns lists Amazon Web Services resources that are of the specified resource collection type. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     ///
-    /// - Parameter GetResourceCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceCollectionInput`)
     ///
-    /// - Returns: `GetResourceCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,9 +1413,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns a list of the anomalies that belong to an insight that you specify using its ID.
     ///
-    /// - Parameter ListAnomaliesForInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomaliesForInsightInput`)
     ///
-    /// - Returns: `ListAnomaliesForInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomaliesForInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1484,9 +1484,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns the list of log groups that contain log anomalies.
     ///
-    /// - Parameter ListAnomalousLogGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalousLogGroupsInput`)
     ///
-    /// - Returns: `ListAnomalousLogGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomalousLogGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1555,9 +1555,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns a list of the events emitted by the resources that are evaluated by DevOps Guru. You can use filters to specify which events are returned.
     ///
-    /// - Parameter ListEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventsInput`)
     ///
-    /// - Returns: `ListEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,9 +1626,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time and status (ONGOING, CLOSED, or ANY).
     ///
-    /// - Parameter ListInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInsightsInput`)
     ///
-    /// - Returns: `ListInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1696,9 +1696,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns the list of all log groups that are being monitored and tagged by DevOps Guru.
     ///
-    /// - Parameter ListMonitoredResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitoredResourcesInput`)
     ///
-    /// - Returns: `ListMonitoredResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitoredResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1766,9 +1766,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns a list of notification channels configured for DevOps Guru. Each notification channel is used to notify you when DevOps Guru generates an insight that contains information about how to improve your operations. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS).
     ///
-    /// - Parameter ListNotificationChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationChannelsInput`)
     ///
-    /// - Returns: `ListNotificationChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1836,9 +1836,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns a list of insights associated with the account or OU Id.
     ///
-    /// - Parameter ListOrganizationInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationInsightsInput`)
     ///
-    /// - Returns: `ListOrganizationInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1906,9 +1906,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns a list of a specified insight's recommendations. Each recommendation includes a list of related metrics and a list of related events.
     ///
-    /// - Parameter ListRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationsInput`)
     ///
-    /// - Returns: `ListRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1977,9 +1977,9 @@ extension DevOpsGuruClient {
     ///
     /// Collects customer feedback about the specified insight.
     ///
-    /// - Parameter PutFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFeedbackInput`)
     ///
-    /// - Returns: `PutFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2049,9 +2049,9 @@ extension DevOpsGuruClient {
     ///
     /// Removes a notification channel from DevOps Guru. A notification channel is used to notify you when DevOps Guru generates an insight that contains information about how to improve your operations.
     ///
-    /// - Parameter RemoveNotificationChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveNotificationChannelInput`)
     ///
-    /// - Returns: `RemoveNotificationChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveNotificationChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2118,9 +2118,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns a list of insights in your Amazon Web Services account. You can specify which insights are returned by their start time, one or more statuses (ONGOING or CLOSED), one or more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE). Use the Filters parameter to specify status and severity search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search.
     ///
-    /// - Parameter SearchInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchInsightsInput`)
     ///
-    /// - Returns: `SearchInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2188,9 +2188,9 @@ extension DevOpsGuruClient {
     ///
     /// Returns a list of insights in your organization. You can specify which insights are returned by their start time, one or more statuses (ONGOING, CLOSED, and CLOSED), one or more severities (LOW, MEDIUM, and HIGH), and type (REACTIVE or PROACTIVE). Use the Filters parameter to specify status and severity search parameters. Use the Type parameter to specify REACTIVE or PROACTIVE in your search.
     ///
-    /// - Parameter SearchOrganizationInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchOrganizationInsightsInput`)
     ///
-    /// - Returns: `SearchOrganizationInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchOrganizationInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2258,9 +2258,9 @@ extension DevOpsGuruClient {
     ///
     /// Starts the creation of an estimate of the monthly cost to analyze your Amazon Web Services resources.
     ///
-    /// - Parameter StartCostEstimationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCostEstimationInput`)
     ///
-    /// - Returns: `StartCostEstimationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCostEstimationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2331,9 +2331,9 @@ extension DevOpsGuruClient {
     ///
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru.
     ///
-    /// - Parameter UpdateEventSourcesConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventSourcesConfigInput`)
     ///
-    /// - Returns: `UpdateEventSourcesConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventSourcesConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2401,9 +2401,9 @@ extension DevOpsGuruClient {
     ///
     /// Updates the collection of resources that DevOps Guru analyzes. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks. This method also creates the IAM role required for you to use DevOps Guru.
     ///
-    /// - Parameter UpdateResourceCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceCollectionInput`)
     ///
-    /// - Returns: `UpdateResourceCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2472,9 +2472,9 @@ extension DevOpsGuruClient {
     ///
     /// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon Web Services Systems Manager, which can be used to create an OpsItem for each generated insight.
     ///
-    /// - Parameter UpdateServiceIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceIntegrationInput`)
     ///
-    /// - Returns: `UpdateServiceIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

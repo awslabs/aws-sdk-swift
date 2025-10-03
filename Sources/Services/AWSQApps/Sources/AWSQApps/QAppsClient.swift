@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QAppsClient: ClientRuntime.Client {
     public static let clientName = "QAppsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: QAppsClient.QAppsClientConfiguration
     let serviceName = "QApps"
@@ -374,9 +374,9 @@ extension QAppsClient {
     ///
     /// Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
     ///
-    /// - Parameter AssociateLibraryItemReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateLibraryItemReviewInput`)
     ///
-    /// - Returns: `AssociateLibraryItemReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateLibraryItemReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -449,9 +449,9 @@ extension QAppsClient {
     ///
     /// This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a favorite for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
     ///
-    /// - Parameter AssociateQAppWithUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateQAppWithUserInput`)
     ///
-    /// - Returns: `AssociateQAppWithUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateQAppWithUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,9 +523,9 @@ extension QAppsClient {
     ///
     /// Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
-    /// - Parameter BatchCreateCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateCategoryInput`)
     ///
-    /// - Returns: `BatchCreateCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension QAppsClient {
     ///
     /// Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
-    /// - Parameter BatchDeleteCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteCategoryInput`)
     ///
-    /// - Returns: `BatchDeleteCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension QAppsClient {
     ///
     /// Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
-    /// - Parameter BatchUpdateCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateCategoryInput`)
     ///
-    /// - Returns: `BatchUpdateCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -745,9 +745,9 @@ extension QAppsClient {
     ///
     /// Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
     ///
-    /// - Parameter CreateLibraryItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLibraryItemInput`)
     ///
-    /// - Returns: `CreateLibraryItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLibraryItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,9 +819,9 @@ extension QAppsClient {
     ///
     /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level. The IAM permissions are derived from the qapps:ImportDocument action. For more information on the IAM policy for Amazon Q Apps, see [IAM permissions for using Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/deploy-q-apps-iam-permissions.html).
     ///
-    /// - Parameter CreatePresignedUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresignedUrlInput`)
     ///
-    /// - Returns: `CreatePresignedUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresignedUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -891,9 +891,9 @@ extension QAppsClient {
     ///
     /// Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts.
     ///
-    /// - Parameter CreateQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQAppInput`)
     ///
-    /// - Returns: `CreateQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -966,9 +966,9 @@ extension QAppsClient {
     ///
     /// Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
     ///
-    /// - Parameter DeleteLibraryItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLibraryItemInput`)
     ///
-    /// - Returns: `DeleteLibraryItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLibraryItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1040,9 +1040,9 @@ extension QAppsClient {
     ///
     /// Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
     ///
-    /// - Parameter DeleteQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQAppInput`)
     ///
-    /// - Returns: `DeleteQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,9 +1113,9 @@ extension QAppsClient {
     ///
     /// Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
     ///
-    /// - Parameter DescribeQAppPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQAppPermissionsInput`)
     ///
-    /// - Returns: `DescribeQAppPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQAppPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1184,9 +1184,9 @@ extension QAppsClient {
     ///
     /// Removes a rating or review previously submitted by the user for a library item.
     ///
-    /// - Parameter DisassociateLibraryItemReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateLibraryItemReviewInput`)
     ///
-    /// - Returns: `DisassociateLibraryItemReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateLibraryItemReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,9 +1259,9 @@ extension QAppsClient {
     ///
     /// Disassociates a Q App from a user removing the user's access to run the Q App.
     ///
-    /// - Parameter DisassociateQAppFromUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateQAppFromUserInput`)
     ///
-    /// - Returns: `DisassociateQAppFromUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateQAppFromUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,9 +1332,9 @@ extension QAppsClient {
     ///
     /// Exports the collected data of a Q App data collection session.
     ///
-    /// - Parameter ExportQAppSessionDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportQAppSessionDataInput`)
     ///
-    /// - Returns: `ExportQAppSessionDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportQAppSessionDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1407,9 +1407,9 @@ extension QAppsClient {
     ///
     /// Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
     ///
-    /// - Parameter GetLibraryItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLibraryItemInput`)
     ///
-    /// - Returns: `GetLibraryItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLibraryItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1478,9 +1478,9 @@ extension QAppsClient {
     ///
     /// Retrieves the full details of an Q App, including its definition specifying the cards and flow.
     ///
-    /// - Parameter GetQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQAppInput`)
     ///
-    /// - Returns: `GetQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1549,9 +1549,9 @@ extension QAppsClient {
     ///
     /// Retrieves the current state and results for an active session of an Amazon Q App.
     ///
-    /// - Parameter GetQAppSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQAppSessionInput`)
     ///
-    /// - Returns: `GetQAppSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQAppSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,9 +1621,9 @@ extension QAppsClient {
     ///
     /// Retrieves the current configuration of a Q App session.
     ///
-    /// - Parameter GetQAppSessionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQAppSessionMetadataInput`)
     ///
-    /// - Returns: `GetQAppSessionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQAppSessionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1693,9 +1693,9 @@ extension QAppsClient {
     ///
     /// Uploads a file that can then be used either as a default in a FileUploadCard from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
     ///
-    /// - Parameter ImportDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportDocumentInput`)
     ///
-    /// - Returns: `ImportDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1768,9 +1768,9 @@ extension QAppsClient {
     ///
     /// Lists the categories of a Amazon Q Business application environment instance. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
-    /// - Parameter ListCategoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCategoriesInput`)
     ///
-    /// - Returns: `ListCategoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCategoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,9 +1838,9 @@ extension QAppsClient {
     ///
     /// Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
     ///
-    /// - Parameter ListLibraryItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLibraryItemsInput`)
     ///
-    /// - Returns: `ListLibraryItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLibraryItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1909,9 +1909,9 @@ extension QAppsClient {
     ///
     /// Lists the collected data of a Q App data collection session.
     ///
-    /// - Parameter ListQAppSessionDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQAppSessionDataInput`)
     ///
-    /// - Returns: `ListQAppSessionDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQAppSessionDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,9 +1981,9 @@ extension QAppsClient {
     ///
     /// Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
     ///
-    /// - Parameter ListQAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQAppsInput`)
     ///
-    /// - Returns: `ListQAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,9 +2051,9 @@ extension QAppsClient {
     ///
     /// Lists the tags associated with an Amazon Q Apps resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2119,9 +2119,9 @@ extension QAppsClient {
     ///
     /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp. This API doesn't create Amazon Q Apps directly.
     ///
-    /// - Parameter PredictQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PredictQAppInput`)
     ///
-    /// - Returns: `PredictQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PredictQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2191,9 +2191,9 @@ extension QAppsClient {
     ///
     /// Starts a new session for an Amazon Q App, allowing inputs to be provided and the app to be run. Each Q App session will be condensed into a single conversation in the web experience.
     ///
-    /// - Parameter StartQAppSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQAppSessionInput`)
     ///
-    /// - Returns: `StartQAppSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQAppSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2265,9 +2265,9 @@ extension QAppsClient {
     ///
     /// Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
     ///
-    /// - Parameter StopQAppSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQAppSessionInput`)
     ///
-    /// - Returns: `StopQAppSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQAppSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2339,9 +2339,9 @@ extension QAppsClient {
     ///
     /// Associates tags with an Amazon Q Apps resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2411,9 +2411,9 @@ extension QAppsClient {
     ///
     /// Disassociates tags from an Amazon Q Apps resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2480,9 +2480,9 @@ extension QAppsClient {
     ///
     /// Updates the library item for an Amazon Q App.
     ///
-    /// - Parameter UpdateLibraryItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLibraryItemInput`)
     ///
-    /// - Returns: `UpdateLibraryItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLibraryItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2554,9 +2554,9 @@ extension QAppsClient {
     ///
     /// Updates the verification status of a library item for an Amazon Q App.
     ///
-    /// - Parameter UpdateLibraryItemMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLibraryItemMetadataInput`)
     ///
-    /// - Returns: `UpdateLibraryItemMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLibraryItemMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2628,9 +2628,9 @@ extension QAppsClient {
     ///
     /// Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
     ///
-    /// - Parameter UpdateQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQAppInput`)
     ///
-    /// - Returns: `UpdateQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2702,9 +2702,9 @@ extension QAppsClient {
     ///
     /// Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
     ///
-    /// - Parameter UpdateQAppPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQAppPermissionsInput`)
     ///
-    /// - Returns: `UpdateQAppPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQAppPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2775,9 +2775,9 @@ extension QAppsClient {
     ///
     /// Updates the session for a given Q App sessionId. This is only valid when at least one card of the session is in the WAITING state. Data for each WAITING card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the WAITING status will be ignored.
     ///
-    /// - Parameter UpdateQAppSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQAppSessionInput`)
     ///
-    /// - Returns: `UpdateQAppSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQAppSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2849,9 +2849,9 @@ extension QAppsClient {
     ///
     /// Updates the configuration metadata of a session for a given Q App sessionId.
     ///
-    /// - Parameter UpdateQAppSessionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQAppSessionMetadataInput`)
     ///
-    /// - Returns: `UpdateQAppSessionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQAppSessionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComputeOptimizerClient: ClientRuntime.Client {
     public static let clientName = "ComputeOptimizerClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ComputeOptimizerClient.ComputeOptimizerClientConfiguration
     let serviceName = "Compute Optimizer"
@@ -373,9 +373,9 @@ extension ComputeOptimizerClient {
     ///
     /// Deletes a recommendation preference, such as enhanced infrastructure metrics. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter DeleteRecommendationPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecommendationPreferencesInput`)
     ///
-    /// - Returns: `DeleteRecommendationPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecommendationPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension ComputeOptimizerClient {
     ///
     /// Describes recommendation export jobs created in the last seven days. Use the [ExportAutoScalingGroupRecommendations] or [ExportEC2InstanceRecommendations] actions to request an export of your recommendations. Then use the [DescribeRecommendationExportJobs] action to view your export jobs.
     ///
-    /// - Parameter DescribeRecommendationExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecommendationExportJobsInput`)
     ///
-    /// - Returns: `DescribeRecommendationExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecommendationExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,9 +523,9 @@ extension ComputeOptimizerClient {
     ///
     /// Exports optimization recommendations for Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Auto Scaling group export job in progress per Amazon Web Services Region.
     ///
-    /// - Parameter ExportAutoScalingGroupRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportAutoScalingGroupRecommendationsInput`)
     ///
-    /// - Returns: `ExportAutoScalingGroupRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportAutoScalingGroupRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -598,9 +598,9 @@ extension ComputeOptimizerClient {
     ///
     /// Exports optimization recommendations for Amazon EBS volumes. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
     ///
-    /// - Parameter ExportEBSVolumeRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportEBSVolumeRecommendationsInput`)
     ///
-    /// - Returns: `ExportEBSVolumeRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportEBSVolumeRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -673,9 +673,9 @@ extension ComputeOptimizerClient {
     ///
     /// Exports optimization recommendations for Amazon EC2 instances. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
     ///
-    /// - Parameter ExportEC2InstanceRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportEC2InstanceRecommendationsInput`)
     ///
-    /// - Returns: `ExportEC2InstanceRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportEC2InstanceRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -748,9 +748,9 @@ extension ComputeOptimizerClient {
     ///
     /// Exports optimization recommendations for Amazon ECS services on Fargate. Recommendations are exported in a CSV file, and its metadata in a JSON file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can only have one Amazon ECS service export job in progress per Amazon Web Services Region.
     ///
-    /// - Parameter ExportECSServiceRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportECSServiceRecommendationsInput`)
     ///
-    /// - Returns: `ExportECSServiceRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportECSServiceRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -823,9 +823,9 @@ extension ComputeOptimizerClient {
     ///
     /// Export optimization recommendations for your idle resources. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one idle resource export job in progress per Amazon Web Services Region.
     ///
-    /// - Parameter ExportIdleRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportIdleRecommendationsInput`)
     ///
-    /// - Returns: `ExportIdleRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportIdleRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,9 +898,9 @@ extension ComputeOptimizerClient {
     ///
     /// Exports optimization recommendations for Lambda functions. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Lambda function export job in progress per Amazon Web Services Region.
     ///
-    /// - Parameter ExportLambdaFunctionRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportLambdaFunctionRecommendationsInput`)
     ///
-    /// - Returns: `ExportLambdaFunctionRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportLambdaFunctionRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,9 +973,9 @@ extension ComputeOptimizerClient {
     ///
     /// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one license export job in progress per Amazon Web Services Region.
     ///
-    /// - Parameter ExportLicenseRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportLicenseRecommendationsInput`)
     ///
-    /// - Returns: `ExportLicenseRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportLicenseRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1048,9 +1048,9 @@ extension ComputeOptimizerClient {
     ///
     /// Export optimization recommendations for your Amazon Aurora and Amazon Relational Database Service (Amazon RDS) databases. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one Amazon Aurora or RDS export job in progress per Amazon Web Services Region.
     ///
-    /// - Parameter ExportRDSDatabaseRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportRDSDatabaseRecommendationsInput`)
     ///
-    /// - Returns: `ExportRDSDatabaseRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportRDSDatabaseRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1123,9 +1123,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter GetAutoScalingGroupRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutoScalingGroupRecommendationsInput`)
     ///
-    /// - Returns: `GetAutoScalingGroupRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutoScalingGroupRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1198,9 +1198,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns Amazon Elastic Block Store (Amazon EBS) volume recommendations. Compute Optimizer generates recommendations for Amazon EBS volumes that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter GetEBSVolumeRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEBSVolumeRecommendationsInput`)
     ///
-    /// - Returns: `GetEBSVolumeRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEBSVolumeRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1273,9 +1273,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns Amazon EC2 instance recommendations. Compute Optimizer generates recommendations for Amazon Elastic Compute Cloud (Amazon EC2) instances that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter GetEC2InstanceRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEC2InstanceRecommendationsInput`)
     ///
-    /// - Returns: `GetEC2InstanceRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEC2InstanceRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1348,9 +1348,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns the projected utilization metrics of Amazon EC2 instance recommendations. The Cpu and Memory metrics are the only projected utilization metrics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
     ///
-    /// - Parameter GetEC2RecommendationProjectedMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEC2RecommendationProjectedMetricsInput`)
     ///
-    /// - Returns: `GetEC2RecommendationProjectedMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEC2RecommendationProjectedMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,9 +1423,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns the projected metrics of Amazon ECS service recommendations.
     ///
-    /// - Parameter GetECSServiceRecommendationProjectedMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetECSServiceRecommendationProjectedMetricsInput`)
     ///
-    /// - Returns: `GetECSServiceRecommendationProjectedMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetECSServiceRecommendationProjectedMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1498,9 +1498,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns Amazon ECS service recommendations. Compute Optimizer generates recommendations for Amazon ECS services on Fargate that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter GetECSServiceRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetECSServiceRecommendationsInput`)
     ///
-    /// - Returns: `GetECSServiceRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetECSServiceRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1573,9 +1573,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all applicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive. Use this action to view the recommendation preferences that are in effect, or Active.
     ///
-    /// - Parameter GetEffectiveRecommendationPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEffectiveRecommendationPreferencesInput`)
     ///
-    /// - Returns: `GetEffectiveRecommendationPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEffectiveRecommendationPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1648,9 +1648,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns the enrollment (opt in) status of an account to the Compute Optimizer service. If the account is the management account of an organization, this action also confirms the enrollment status of member accounts of the organization. Use the [GetEnrollmentStatusesForOrganization] action to get detailed information about the enrollment status of member accounts of an organization.
     ///
-    /// - Parameter GetEnrollmentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnrollmentStatusInput`)
     ///
-    /// - Returns: `GetEnrollmentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnrollmentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,9 +1721,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns the Compute Optimizer enrollment (opt-in) status of organization member accounts, if your account is an organization management account. To get the enrollment status of standalone accounts, use the [GetEnrollmentStatus] action.
     ///
-    /// - Parameter GetEnrollmentStatusesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnrollmentStatusesForOrganizationInput`)
     ///
-    /// - Returns: `GetEnrollmentStatusesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnrollmentStatusesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1794,9 +1794,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns idle resource recommendations. Compute Optimizer generates recommendations for idle resources that meet a specific set of requirements. For more information, see [Resource requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide
     ///
-    /// - Parameter GetIdleRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdleRecommendationsInput`)
     ///
-    /// - Returns: `GetIdleRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdleRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1869,9 +1869,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns Lambda function recommendations. Compute Optimizer generates recommendations for functions that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter GetLambdaFunctionRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLambdaFunctionRecommendationsInput`)
     ///
-    /// - Returns: `GetLambdaFunctionRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLambdaFunctionRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1944,9 +1944,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns license recommendations for Amazon EC2 instances that run on a specific license. Compute Optimizer generates recommendations for licenses that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter GetLicenseRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseRecommendationsInput`)
     ///
-    /// - Returns: `GetLicenseRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2019,9 +2019,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns the projected metrics of Aurora and RDS database recommendations.
     ///
-    /// - Parameter GetRDSDatabaseRecommendationProjectedMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRDSDatabaseRecommendationProjectedMetricsInput`)
     ///
-    /// - Returns: `GetRDSDatabaseRecommendationProjectedMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRDSDatabaseRecommendationProjectedMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2094,9 +2094,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns Amazon Aurora and RDS database recommendations. Compute Optimizer generates recommendations for Amazon Aurora and RDS databases that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter GetRDSDatabaseRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRDSDatabaseRecommendationsInput`)
     ///
-    /// - Returns: `GetRDSDatabaseRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRDSDatabaseRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2169,9 +2169,9 @@ extension ComputeOptimizerClient {
     ///
     /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter GetRecommendationPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationPreferencesInput`)
     ///
-    /// - Returns: `GetRecommendationPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2258,9 +2258,9 @@ extension ComputeOptimizerClient {
     ///
     /// * Amazon Aurora and Amazon RDS databases in an account that are Underprovisioned, Overprovisioned, Optimized, or NotOptimized.
     ///
-    /// - Parameter GetRecommendationSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationSummariesInput`)
     ///
-    /// - Returns: `GetRecommendationSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2332,9 +2332,9 @@ extension ComputeOptimizerClient {
     ///
     /// Creates a new recommendation preference or updates an existing recommendation preference, such as enhanced infrastructure metrics. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter PutRecommendationPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRecommendationPreferencesInput`)
     ///
-    /// - Returns: `PutRecommendationPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRecommendationPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2407,9 +2407,9 @@ extension ComputeOptimizerClient {
     ///
     /// Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Compute Optimizer, to view its recommendations, and to opt out. For more information, see [Controlling access with Amazon Web Services Identity and Access Management](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html) in the Compute Optimizer User Guide. When you opt in, Compute Optimizer automatically creates a service-linked role in your account to access its data. For more information, see [Using Service-Linked Roles for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/using-service-linked-roles.html) in the Compute Optimizer User Guide.
     ///
-    /// - Parameter UpdateEnrollmentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnrollmentStatusInput`)
     ///
-    /// - Returns: `UpdateEnrollmentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnrollmentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

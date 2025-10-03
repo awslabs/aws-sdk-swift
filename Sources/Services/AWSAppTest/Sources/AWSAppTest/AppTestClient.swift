@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppTestClient: ClientRuntime.Client {
     public static let clientName = "AppTestClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: AppTestClient.AppTestClientConfiguration
     let serviceName = "AppTest"
@@ -374,9 +374,9 @@ extension AppTestClient {
     ///
     /// Creates a test case.
     ///
-    /// - Parameter CreateTestCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTestCaseInput`)
     ///
-    /// - Returns: `CreateTestCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTestCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension AppTestClient {
     ///
     /// Creates a test configuration.
     ///
-    /// - Parameter CreateTestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTestConfigurationInput`)
     ///
-    /// - Returns: `CreateTestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension AppTestClient {
     ///
     /// Creates a test suite.
     ///
-    /// - Parameter CreateTestSuiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTestSuiteInput`)
     ///
-    /// - Returns: `CreateTestSuiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTestSuiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension AppTestClient {
     ///
     /// Deletes a test case.
     ///
-    /// - Parameter DeleteTestCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTestCaseInput`)
     ///
-    /// - Returns: `DeleteTestCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTestCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,9 +662,9 @@ extension AppTestClient {
     ///
     /// Deletes a test configuration.
     ///
-    /// - Parameter DeleteTestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTestConfigurationInput`)
     ///
-    /// - Returns: `DeleteTestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -731,9 +731,9 @@ extension AppTestClient {
     ///
     /// Deletes a test run.
     ///
-    /// - Parameter DeleteTestRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTestRunInput`)
     ///
-    /// - Returns: `DeleteTestRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTestRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,9 +799,9 @@ extension AppTestClient {
     ///
     /// Deletes a test suite.
     ///
-    /// - Parameter DeleteTestSuiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTestSuiteInput`)
     ///
-    /// - Returns: `DeleteTestSuiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTestSuiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -868,9 +868,9 @@ extension AppTestClient {
     ///
     /// Gets a test case.
     ///
-    /// - Parameter GetTestCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTestCaseInput`)
     ///
-    /// - Returns: `GetTestCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTestCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -937,9 +937,9 @@ extension AppTestClient {
     ///
     /// Gets a test configuration.
     ///
-    /// - Parameter GetTestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTestConfigurationInput`)
     ///
-    /// - Returns: `GetTestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,9 +1006,9 @@ extension AppTestClient {
     ///
     /// Gets a test run step.
     ///
-    /// - Parameter GetTestRunStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTestRunStepInput`)
     ///
-    /// - Returns: `GetTestRunStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTestRunStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension AppTestClient {
     ///
     /// Gets a test suite.
     ///
-    /// - Parameter GetTestSuiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTestSuiteInput`)
     ///
-    /// - Returns: `GetTestSuiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTestSuiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1144,9 +1144,9 @@ extension AppTestClient {
     ///
     /// Lists tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,9 +1212,9 @@ extension AppTestClient {
     ///
     /// Lists test cases.
     ///
-    /// - Parameter ListTestCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestCasesInput`)
     ///
-    /// - Returns: `ListTestCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,9 +1281,9 @@ extension AppTestClient {
     ///
     /// Lists test configurations.
     ///
-    /// - Parameter ListTestConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestConfigurationsInput`)
     ///
-    /// - Returns: `ListTestConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,9 +1350,9 @@ extension AppTestClient {
     ///
     /// Lists test run steps.
     ///
-    /// - Parameter ListTestRunStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestRunStepsInput`)
     ///
-    /// - Returns: `ListTestRunStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestRunStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,9 +1419,9 @@ extension AppTestClient {
     ///
     /// Lists test run test cases.
     ///
-    /// - Parameter ListTestRunTestCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestRunTestCasesInput`)
     ///
-    /// - Returns: `ListTestRunTestCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestRunTestCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1488,9 +1488,9 @@ extension AppTestClient {
     ///
     /// Lists test runs.
     ///
-    /// - Parameter ListTestRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestRunsInput`)
     ///
-    /// - Returns: `ListTestRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1557,9 +1557,9 @@ extension AppTestClient {
     ///
     /// Lists test suites.
     ///
-    /// - Parameter ListTestSuitesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestSuitesInput`)
     ///
-    /// - Returns: `ListTestSuitesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestSuitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,9 +1626,9 @@ extension AppTestClient {
     ///
     /// Starts a test run.
     ///
-    /// - Parameter StartTestRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTestRunInput`)
     ///
-    /// - Returns: `StartTestRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTestRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1700,9 +1700,9 @@ extension AppTestClient {
     ///
     /// Specifies tags of a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1772,9 +1772,9 @@ extension AppTestClient {
     ///
     /// Untags a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1841,9 +1841,9 @@ extension AppTestClient {
     ///
     /// Updates a test case.
     ///
-    /// - Parameter UpdateTestCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTestCaseInput`)
     ///
-    /// - Returns: `UpdateTestCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTestCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1913,9 +1913,9 @@ extension AppTestClient {
     ///
     /// Updates a test configuration.
     ///
-    /// - Parameter UpdateTestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTestConfigurationInput`)
     ///
-    /// - Returns: `UpdateTestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1985,9 +1985,9 @@ extension AppTestClient {
     ///
     /// Updates a test suite.
     ///
-    /// - Parameter UpdateTestSuiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTestSuiteInput`)
     ///
-    /// - Returns: `UpdateTestSuiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTestSuiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

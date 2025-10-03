@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NeptuneGraphClient: ClientRuntime.Client {
     public static let clientName = "NeptuneGraphClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: NeptuneGraphClient.NeptuneGraphClientConfiguration
     let serviceName = "Neptune Graph"
@@ -376,9 +376,9 @@ extension NeptuneGraphClient {
     ///
     /// Cancel the specified export task.
     ///
-    /// - Parameter CancelExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelExportTaskInput`)
     ///
-    /// - Returns: `CancelExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension NeptuneGraphClient {
     ///
     /// Deletes the specified import task.
     ///
-    /// - Parameter CancelImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelImportTaskInput`)
     ///
-    /// - Returns: `CancelImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,9 +512,9 @@ extension NeptuneGraphClient {
     ///
     /// Cancels a specified query.
     ///
-    /// - Parameter CancelQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelQueryInput`)
     ///
-    /// - Returns: `CancelQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -581,9 +581,9 @@ extension NeptuneGraphClient {
     ///
     /// Creates a new Neptune Analytics graph.
     ///
-    /// - Parameter CreateGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphInput`)
     ///
-    /// - Returns: `CreateGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,9 +652,9 @@ extension NeptuneGraphClient {
     ///
     /// Creates a snapshot of the specific graph.
     ///
-    /// - Parameter CreateGraphSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphSnapshotInput`)
     ///
-    /// - Returns: `CreateGraphSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -724,9 +724,9 @@ extension NeptuneGraphClient {
     ///
     /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
     ///
-    /// - Parameter CreateGraphUsingImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphUsingImportTaskInput`)
     ///
-    /// - Returns: `CreateGraphUsingImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphUsingImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -795,9 +795,9 @@ extension NeptuneGraphClient {
     ///
     /// Create a private graph endpoint to allow private access from to the graph from within a VPC. You can attach security groups to the private graph endpoint. VPC endpoint charges apply.
     ///
-    /// - Parameter CreatePrivateGraphEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePrivateGraphEndpointInput`)
     ///
-    /// - Returns: `CreatePrivateGraphEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePrivateGraphEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -867,9 +867,9 @@ extension NeptuneGraphClient {
     ///
     /// Deletes the specified graph. Graphs cannot be deleted if delete-protection is enabled.
     ///
-    /// - Parameter DeleteGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGraphInput`)
     ///
-    /// - Returns: `DeleteGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -936,9 +936,9 @@ extension NeptuneGraphClient {
     ///
     /// Deletes the specifed graph snapshot.
     ///
-    /// - Parameter DeleteGraphSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGraphSnapshotInput`)
     ///
-    /// - Returns: `DeleteGraphSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGraphSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,9 +1004,9 @@ extension NeptuneGraphClient {
     ///
     /// Deletes a private graph endpoint.
     ///
-    /// - Parameter DeletePrivateGraphEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePrivateGraphEndpointInput`)
     ///
-    /// - Returns: `DeletePrivateGraphEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePrivateGraphEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1078,9 +1078,9 @@ extension NeptuneGraphClient {
     ///
     /// * neptune-graph:DeleteDataViaQuery
     ///
-    /// - Parameter ExecuteQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteQueryInput`)
     ///
-    /// - Returns: `ExecuteQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1151,9 +1151,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves a specified export task.
     ///
-    /// - Parameter GetExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExportTaskInput`)
     ///
-    /// - Returns: `GetExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1218,9 +1218,9 @@ extension NeptuneGraphClient {
     ///
     /// Gets information about a specified graph.
     ///
-    /// - Parameter GetGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphInput`)
     ///
-    /// - Returns: `GetGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1285,9 +1285,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves a specified graph snapshot.
     ///
-    /// - Parameter GetGraphSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphSnapshotInput`)
     ///
-    /// - Returns: `GetGraphSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1352,9 +1352,9 @@ extension NeptuneGraphClient {
     ///
     /// Gets a graph summary for a property graph.
     ///
-    /// - Parameter GetGraphSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphSummaryInput`)
     ///
-    /// - Returns: `GetGraphSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1422,9 +1422,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves a specified import task.
     ///
-    /// - Parameter GetImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportTaskInput`)
     ///
-    /// - Returns: `GetImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1489,9 +1489,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves information about a specified private endpoint.
     ///
-    /// - Parameter GetPrivateGraphEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPrivateGraphEndpointInput`)
     ///
-    /// - Returns: `GetPrivateGraphEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPrivateGraphEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1556,9 +1556,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves the status of a specified query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:GetQueryStatus IAM action attached.
     ///
-    /// - Parameter GetQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryInput`)
     ///
-    /// - Returns: `GetQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,9 +1625,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves a list of export tasks.
     ///
-    /// - Parameter ListExportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExportTasksInput`)
     ///
-    /// - Returns: `ListExportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1693,9 +1693,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists available snapshots of a specified Neptune Analytics graph.
     ///
-    /// - Parameter ListGraphSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGraphSnapshotsInput`)
     ///
-    /// - Returns: `ListGraphSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGraphSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,9 +1761,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists available Neptune Analytics graphs.
     ///
-    /// - Parameter ListGraphsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGraphsInput`)
     ///
-    /// - Returns: `ListGraphsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGraphsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1828,9 +1828,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists import tasks.
     ///
-    /// - Parameter ListImportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportTasksInput`)
     ///
-    /// - Returns: `ListImportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1896,9 +1896,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists private endpoints for a specified Neptune Analytics graph.
     ///
-    /// - Parameter ListPrivateGraphEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrivateGraphEndpointsInput`)
     ///
-    /// - Returns: `ListPrivateGraphEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrivateGraphEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1964,9 +1964,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists active openCypher queries.
     ///
-    /// - Parameter ListQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueriesInput`)
     ///
-    /// - Returns: `ListQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2033,9 +2033,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists tags associated with a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2100,9 +2100,9 @@ extension NeptuneGraphClient {
     ///
     /// Empties the data from a specified Neptune Analytics graph.
     ///
-    /// - Parameter ResetGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetGraphInput`)
     ///
-    /// - Returns: `ResetGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2171,9 +2171,9 @@ extension NeptuneGraphClient {
     ///
     /// Restores a graph from a snapshot.
     ///
-    /// - Parameter RestoreGraphFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreGraphFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreGraphFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreGraphFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2243,9 +2243,9 @@ extension NeptuneGraphClient {
     ///
     /// Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be AVAILABLE.
     ///
-    /// - Parameter StartExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExportTaskInput`)
     ///
-    /// - Returns: `StartExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2314,9 +2314,9 @@ extension NeptuneGraphClient {
     ///
     /// Starts the specific graph.
     ///
-    /// - Parameter StartGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartGraphInput`)
     ///
-    /// - Returns: `StartGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2382,9 +2382,9 @@ extension NeptuneGraphClient {
     ///
     /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
     ///
-    /// - Parameter StartImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportTaskInput`)
     ///
-    /// - Returns: `StartImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2453,9 +2453,9 @@ extension NeptuneGraphClient {
     ///
     /// Stops the specific graph.
     ///
-    /// - Parameter StopGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopGraphInput`)
     ///
-    /// - Returns: `StopGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2521,9 +2521,9 @@ extension NeptuneGraphClient {
     ///
     /// Adds tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2591,9 +2591,9 @@ extension NeptuneGraphClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2659,9 +2659,9 @@ extension NeptuneGraphClient {
     ///
     /// Updates the configuration of a specified Neptune Analytics graph
     ///
-    /// - Parameter UpdateGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGraphInput`)
     ///
-    /// - Returns: `UpdateGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

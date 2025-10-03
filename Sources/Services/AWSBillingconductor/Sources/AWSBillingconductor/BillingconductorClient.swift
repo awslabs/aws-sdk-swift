@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BillingconductorClient: ClientRuntime.Client {
     public static let clientName = "BillingconductorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: BillingconductorClient.BillingconductorClientConfiguration
     let serviceName = "billingconductor"
@@ -374,9 +374,9 @@ extension BillingconductorClient {
     ///
     /// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
     ///
-    /// - Parameter AssociateAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAccountsInput`)
     ///
-    /// - Returns: `AssociateAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -447,9 +447,9 @@ extension BillingconductorClient {
     ///
     /// Connects an array of PricingRuleArns to a defined PricingPlan. The maximum number PricingRuleArn that can be associated in one call is 30.
     ///
-    /// - Parameter AssociatePricingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePricingRulesInput`)
     ///
-    /// - Returns: `AssociatePricingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePricingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -520,9 +520,9 @@ extension BillingconductorClient {
     ///
     /// Associates a batch of resources to a percentage custom line item.
     ///
-    /// - Parameter BatchAssociateResourcesToCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateResourcesToCustomLineItemInput`)
     ///
-    /// - Returns: `BatchAssociateResourcesToCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateResourcesToCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,9 +593,9 @@ extension BillingconductorClient {
     ///
     /// Disassociates a batch of resources from a percentage custom line item.
     ///
-    /// - Parameter BatchDisassociateResourcesFromCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateResourcesFromCustomLineItemInput`)
     ///
-    /// - Returns: `BatchDisassociateResourcesFromCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateResourcesFromCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension BillingconductorClient {
     ///
     /// Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
     ///
-    /// - Parameter CreateBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBillingGroupInput`)
     ///
-    /// - Returns: `CreateBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -739,9 +739,9 @@ extension BillingconductorClient {
     ///
     /// Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
     ///
-    /// - Parameter CreateCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomLineItemInput`)
     ///
-    /// - Returns: `CreateCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -813,9 +813,9 @@ extension BillingconductorClient {
     ///
     /// Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
     ///
-    /// - Parameter CreatePricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePricingPlanInput`)
     ///
-    /// - Returns: `CreatePricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -888,9 +888,9 @@ extension BillingconductorClient {
     ///
     /// Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
     ///
-    /// - Parameter CreatePricingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePricingRuleInput`)
     ///
-    /// - Returns: `CreatePricingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePricingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -962,9 +962,9 @@ extension BillingconductorClient {
     ///
     /// Deletes a billing group.
     ///
-    /// - Parameter DeleteBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBillingGroupInput`)
     ///
-    /// - Returns: `DeleteBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1032,9 +1032,9 @@ extension BillingconductorClient {
     ///
     /// Deletes the custom line item identified by the given ARN in the current, or previous billing period.
     ///
-    /// - Parameter DeleteCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomLineItemInput`)
     ///
-    /// - Returns: `DeleteCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1103,9 +1103,9 @@ extension BillingconductorClient {
     ///
     /// Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
     ///
-    /// - Parameter DeletePricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePricingPlanInput`)
     ///
-    /// - Returns: `DeletePricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1174,9 +1174,9 @@ extension BillingconductorClient {
     ///
     /// Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
     ///
-    /// - Parameter DeletePricingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePricingRuleInput`)
     ///
-    /// - Returns: `DeletePricingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePricingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1245,9 +1245,9 @@ extension BillingconductorClient {
     ///
     /// Removes the specified list of account IDs from the given billing group.
     ///
-    /// - Parameter DisassociateAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAccountsInput`)
     ///
-    /// - Returns: `DisassociateAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1317,9 +1317,9 @@ extension BillingconductorClient {
     ///
     /// Disassociates a list of pricing rules from a pricing plan.
     ///
-    /// - Parameter DisassociatePricingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePricingRulesInput`)
     ///
-    /// - Returns: `DisassociatePricingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePricingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1389,9 +1389,9 @@ extension BillingconductorClient {
     ///
     /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Service for a specific billing group.
     ///
-    /// - Parameter GetBillingGroupCostReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBillingGroupCostReportInput`)
     ///
-    /// - Returns: `GetBillingGroupCostReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBillingGroupCostReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1460,9 +1460,9 @@ extension BillingconductorClient {
     ///
     /// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     ///
-    /// - Parameter ListAccountAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssociationsInput`)
     ///
-    /// - Returns: `ListAccountAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1531,9 +1531,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
     ///
-    /// - Parameter ListBillingGroupCostReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillingGroupCostReportsInput`)
     ///
-    /// - Returns: `ListBillingGroupCostReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillingGroupCostReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1602,9 +1602,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
     ///
-    /// - Parameter ListBillingGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillingGroupsInput`)
     ///
-    /// - Returns: `ListBillingGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillingGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1673,9 +1673,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to get a list of all custom line item versions.
     ///
-    /// - Parameter ListCustomLineItemVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomLineItemVersionsInput`)
     ///
-    /// - Returns: `ListCustomLineItemVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomLineItemVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1743,9 +1743,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
-    /// - Parameter ListCustomLineItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomLineItemsInput`)
     ///
-    /// - Returns: `ListCustomLineItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomLineItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1814,9 +1814,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
-    /// - Parameter ListPricingPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricingPlansInput`)
     ///
-    /// - Returns: `ListPricingPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricingPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1884,9 +1884,9 @@ extension BillingconductorClient {
     ///
     /// A list of the pricing plans that are associated with a pricing rule.
     ///
-    /// - Parameter ListPricingPlansAssociatedWithPricingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricingPlansAssociatedWithPricingRuleInput`)
     ///
-    /// - Returns: `ListPricingPlansAssociatedWithPricingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricingPlansAssociatedWithPricingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1955,9 +1955,9 @@ extension BillingconductorClient {
     ///
     /// Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
     ///
-    /// - Parameter ListPricingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricingRulesInput`)
     ///
-    /// - Returns: `ListPricingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2025,9 +2025,9 @@ extension BillingconductorClient {
     ///
     /// Lists the pricing rules that are associated with a pricing plan.
     ///
-    /// - Parameter ListPricingRulesAssociatedToPricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricingRulesAssociatedToPricingPlanInput`)
     ///
-    /// - Returns: `ListPricingRulesAssociatedToPricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricingRulesAssociatedToPricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2096,9 +2096,9 @@ extension BillingconductorClient {
     ///
     /// List the resources that are associated to a custom line item.
     ///
-    /// - Parameter ListResourcesAssociatedToCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesAssociatedToCustomLineItemInput`)
     ///
-    /// - Returns: `ListResourcesAssociatedToCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesAssociatedToCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2167,9 +2167,9 @@ extension BillingconductorClient {
     ///
     /// A list the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2235,9 +2235,9 @@ extension BillingconductorClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,9 +2306,9 @@ extension BillingconductorClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2375,9 +2375,9 @@ extension BillingconductorClient {
     ///
     /// This updates an existing billing group.
     ///
-    /// - Parameter UpdateBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBillingGroupInput`)
     ///
-    /// - Returns: `UpdateBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2447,9 +2447,9 @@ extension BillingconductorClient {
     ///
     /// Update an existing custom line item in the current or previous billing period.
     ///
-    /// - Parameter UpdateCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomLineItemInput`)
     ///
-    /// - Returns: `UpdateCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2518,9 +2518,9 @@ extension BillingconductorClient {
     ///
     /// This updates an existing pricing plan.
     ///
-    /// - Parameter UpdatePricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePricingPlanInput`)
     ///
-    /// - Returns: `UpdatePricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2590,9 +2590,9 @@ extension BillingconductorClient {
     ///
     /// Updates an existing pricing rule.
     ///
-    /// - Parameter UpdatePricingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePricingRuleInput`)
     ///
-    /// - Returns: `UpdatePricingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePricingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

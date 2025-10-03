@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ObservabilityAdminClient: ClientRuntime.Client {
     public static let clientName = "ObservabilityAdminClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ObservabilityAdminClient.ObservabilityAdminClientConfiguration
     let serviceName = "ObservabilityAdmin"
@@ -371,9 +371,9 @@ extension ObservabilityAdminClient {
     ///
     /// Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter CreateCentralizationRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `CreateCentralizationRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension ObservabilityAdminClient {
     ///
     /// Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
     ///
-    /// - Parameter CreateTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTelemetryRuleInput`)
     ///
-    /// - Returns: `CreateTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -515,9 +515,9 @@ extension ObservabilityAdminClient {
     ///
     /// Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter CreateTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `CreateTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -587,9 +587,9 @@ extension ObservabilityAdminClient {
     ///
     /// Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter DeleteCentralizationRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `DeleteCentralizationRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -658,9 +658,9 @@ extension ObservabilityAdminClient {
     ///
     /// Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
     ///
-    /// - Parameter DeleteTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTelemetryRuleInput`)
     ///
-    /// - Returns: `DeleteTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,9 +729,9 @@ extension ObservabilityAdminClient {
     ///
     /// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter DeleteTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `DeleteTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,9 +800,9 @@ extension ObservabilityAdminClient {
     ///
     /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter GetCentralizationRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `GetCentralizationRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension ObservabilityAdminClient {
     ///
     /// Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
     ///
-    /// - Parameter GetTelemetryEvaluationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryEvaluationStatusInput`)
     ///
-    /// - Returns: `GetTelemetryEvaluationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryEvaluationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -937,9 +937,9 @@ extension ObservabilityAdminClient {
     ///
     /// This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
     ///
-    /// - Parameter GetTelemetryEvaluationStatusForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryEvaluationStatusForOrganizationInput`)
     ///
-    /// - Returns: `GetTelemetryEvaluationStatusForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryEvaluationStatusForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,9 +1004,9 @@ extension ObservabilityAdminClient {
     ///
     /// Retrieves the details of a specific telemetry rule in your account.
     ///
-    /// - Parameter GetTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryRuleInput`)
     ///
-    /// - Returns: `GetTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension ObservabilityAdminClient {
     ///
     /// Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter GetTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `GetTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1146,9 +1146,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter ListCentralizationRulesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCentralizationRulesForOrganizationInput`)
     ///
-    /// - Returns: `ListCentralizationRulesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCentralizationRulesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,9 +1216,9 @@ extension ObservabilityAdminClient {
     ///
     /// Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see [Auditing CloudWatch telemetry configurations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/telemetry-config-cloudwatch.html).
     ///
-    /// - Parameter ListResourceTelemetryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTelemetryInput`)
     ///
-    /// - Returns: `ListResourceTelemetryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTelemetryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,9 +1286,9 @@ extension ObservabilityAdminClient {
     ///
     /// Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
     ///
-    /// - Parameter ListResourceTelemetryForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTelemetryForOrganizationInput`)
     ///
-    /// - Returns: `ListResourceTelemetryForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTelemetryForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1356,9 +1356,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all tags attached to the specified telemetry rule resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1427,9 +1427,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
     ///
-    /// - Parameter ListTelemetryRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTelemetryRulesInput`)
     ///
-    /// - Returns: `ListTelemetryRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTelemetryRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1497,9 +1497,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter ListTelemetryRulesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTelemetryRulesForOrganizationInput`)
     ///
-    /// - Returns: `ListTelemetryRulesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTelemetryRulesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1567,9 +1567,9 @@ extension ObservabilityAdminClient {
     ///
     /// This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
     ///
-    /// - Parameter StartTelemetryEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTelemetryEvaluationInput`)
     ///
-    /// - Returns: `StartTelemetryEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTelemetryEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1634,9 +1634,9 @@ extension ObservabilityAdminClient {
     ///
     /// This actions begins onboarding the organization and all member accounts to the telemetry config feature.
     ///
-    /// - Parameter StartTelemetryEvaluationForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTelemetryEvaluationForOrganizationInput`)
     ///
-    /// - Returns: `StartTelemetryEvaluationForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTelemetryEvaluationForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1701,9 +1701,9 @@ extension ObservabilityAdminClient {
     ///
     /// This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
     ///
-    /// - Parameter StopTelemetryEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTelemetryEvaluationInput`)
     ///
-    /// - Returns: `StopTelemetryEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTelemetryEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1768,9 +1768,9 @@ extension ObservabilityAdminClient {
     ///
     /// This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
     ///
-    /// - Parameter StopTelemetryEvaluationForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTelemetryEvaluationForOrganizationInput`)
     ///
-    /// - Returns: `StopTelemetryEvaluationForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTelemetryEvaluationForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1835,9 +1835,9 @@ extension ObservabilityAdminClient {
     ///
     /// Adds or updates tags for a telemetry rule resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1907,9 +1907,9 @@ extension ObservabilityAdminClient {
     ///
     /// Removes tags from a telemetry rule resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1978,9 +1978,9 @@ extension ObservabilityAdminClient {
     ///
     /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter UpdateCentralizationRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `UpdateCentralizationRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2050,9 +2050,9 @@ extension ObservabilityAdminClient {
     ///
     /// Updates an existing telemetry rule in your account.
     ///
-    /// - Parameter UpdateTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTelemetryRuleInput`)
     ///
-    /// - Returns: `UpdateTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2122,9 +2122,9 @@ extension ObservabilityAdminClient {
     ///
     /// Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter UpdateTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `UpdateTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

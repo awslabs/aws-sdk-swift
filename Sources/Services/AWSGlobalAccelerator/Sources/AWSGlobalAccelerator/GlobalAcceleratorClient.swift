@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlobalAcceleratorClient: ClientRuntime.Client {
     public static let clientName = "GlobalAcceleratorClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: GlobalAcceleratorClient.GlobalAcceleratorClientConfiguration
     let serviceName = "Global Accelerator"
@@ -373,9 +373,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or the call will fail with a LimitExceededException. By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation.
     ///
-    /// - Parameter AddCustomRoutingEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddCustomRoutingEndpointsInput`)
     ///
-    /// - Returns: `AddCustomRoutingEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddCustomRoutingEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -454,9 +454,9 @@ extension GlobalAcceleratorClient {
     ///
     /// For information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see [ Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter AddEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddEndpointsInput`)
     ///
-    /// - Returns: `AddEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -527,9 +527,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use [ WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter AdvertiseByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdvertiseByoipCidrInput`)
     ///
-    /// - Returns: `AdvertiseByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdvertiseByoipCidrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -599,9 +599,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
-    /// - Parameter AllowCustomRoutingTrafficInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllowCustomRoutingTrafficInput`)
     ///
-    /// - Returns: `AllowCustomRoutingTrafficOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AllowCustomRoutingTrafficOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -669,9 +669,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
-    /// - Parameter CreateAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAcceleratorInput`)
     ///
-    /// - Returns: `CreateAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -742,9 +742,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to work with resources in accelerators in their own account. You specify, in the same attachment, the resources that are shared. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to work with a resource listed in the attachment, you must sign in to an account specified as a principal. Then, you can work with resources that are listed, with any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal, anyone with permission to make updates to the accelerator can work with resources that are listed in the attachment. Specify each principal and resource separately. To specify two CIDR address pools, list them individually under Resources, and so on. For a command line operation, for example, you might use a statement like the following:  "Resources": [{"Cidr": "169.254.60.0/24"},{"Cidr": "169.254.59.0/24"}] For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter CreateCrossAccountAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCrossAccountAttachmentInput`)
     ///
-    /// - Returns: `CreateCrossAccountAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCrossAccountAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -815,9 +815,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
-    /// - Parameter CreateCustomRoutingAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomRoutingAcceleratorInput`)
     ///
-    /// - Returns: `CreateCustomRoutingAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomRoutingAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -888,9 +888,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region.
     ///
-    /// - Parameter CreateCustomRoutingEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomRoutingEndpointGroupInput`)
     ///
-    /// - Returns: `CreateCustomRoutingEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomRoutingEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -964,9 +964,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify.
     ///
-    /// - Parameter CreateCustomRoutingListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomRoutingListenerInput`)
     ///
-    /// - Returns: `CreateCustomRoutingListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomRoutingListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,9 +1037,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services Region. A resource must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see [ Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter CreateEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEndpointGroupInput`)
     ///
-    /// - Returns: `CreateEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,9 +1112,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify.
     ///
-    /// - Parameter CreateListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateListenerInput`)
     ///
-    /// - Returns: `CreateListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1185,9 +1185,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter DeleteAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAcceleratorInput`)
     ///
-    /// - Returns: `DeleteAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1258,9 +1258,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter DeleteCrossAccountAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCrossAccountAttachmentInput`)
     ///
-    /// - Returns: `DeleteCrossAccountAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCrossAccountAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1330,9 +1330,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter DeleteCustomRoutingAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomRoutingAcceleratorInput`)
     ///
-    /// - Returns: `DeleteCustomRoutingAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomRoutingAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1403,9 +1403,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete an endpoint group from a listener for a custom routing accelerator.
     ///
-    /// - Parameter DeleteCustomRoutingEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomRoutingEndpointGroupInput`)
     ///
-    /// - Returns: `DeleteCustomRoutingEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomRoutingEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1473,9 +1473,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete a listener for a custom routing accelerator.
     ///
-    /// - Parameter DeleteCustomRoutingListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomRoutingListenerInput`)
     ///
-    /// - Returns: `DeleteCustomRoutingListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomRoutingListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1544,9 +1544,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete an endpoint group from a listener.
     ///
-    /// - Parameter DeleteEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointGroupInput`)
     ///
-    /// - Returns: `DeleteEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1614,9 +1614,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete a listener from an accelerator.
     ///
-    /// - Parameter DeleteListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteListenerInput`)
     ///
-    /// - Returns: `DeleteListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1685,9 +1685,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
-    /// - Parameter DenyCustomRoutingTrafficInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DenyCustomRoutingTrafficInput`)
     ///
-    /// - Returns: `DenyCustomRoutingTrafficOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DenyCustomRoutingTrafficOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1755,9 +1755,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it by using [WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html) and you must not have any accelerators that are using static IP addresses allocated from its address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter DeprovisionByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprovisionByoipCidrInput`)
     ///
-    /// - Returns: `DeprovisionByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprovisionByoipCidrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1827,9 +1827,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe an accelerator.
     ///
-    /// - Parameter DescribeAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAcceleratorInput`)
     ///
-    /// - Returns: `DescribeAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1897,9 +1897,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe the attributes of an accelerator.
     ///
-    /// - Parameter DescribeAcceleratorAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAcceleratorAttributesInput`)
     ///
-    /// - Returns: `DescribeAcceleratorAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAcceleratorAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,9 +1967,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Gets configuration information about a cross-account attachment.
     ///
-    /// - Parameter DescribeCrossAccountAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCrossAccountAttachmentInput`)
     ///
-    /// - Returns: `DescribeCrossAccountAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCrossAccountAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2038,9 +2038,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe a custom routing accelerator.
     ///
-    /// - Parameter DescribeCustomRoutingAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomRoutingAcceleratorInput`)
     ///
-    /// - Returns: `DescribeCustomRoutingAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomRoutingAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2108,9 +2108,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe the attributes of a custom routing accelerator.
     ///
-    /// - Parameter DescribeCustomRoutingAcceleratorAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomRoutingAcceleratorAttributesInput`)
     ///
-    /// - Returns: `DescribeCustomRoutingAcceleratorAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomRoutingAcceleratorAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2178,9 +2178,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe an endpoint group for a custom routing accelerator.
     ///
-    /// - Parameter DescribeCustomRoutingEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomRoutingEndpointGroupInput`)
     ///
-    /// - Returns: `DescribeCustomRoutingEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomRoutingEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2248,9 +2248,9 @@ extension GlobalAcceleratorClient {
     ///
     /// The description of a listener for a custom routing accelerator.
     ///
-    /// - Parameter DescribeCustomRoutingListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomRoutingListenerInput`)
     ///
-    /// - Returns: `DescribeCustomRoutingListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomRoutingListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2318,9 +2318,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe an endpoint group.
     ///
-    /// - Parameter DescribeEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointGroupInput`)
     ///
-    /// - Returns: `DescribeEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2388,9 +2388,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe a listener.
     ///
-    /// - Parameter DescribeListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeListenerInput`)
     ///
-    /// - Returns: `DescribeListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2458,9 +2458,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the accelerators for an Amazon Web Services account.
     ///
-    /// - Parameter ListAcceleratorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAcceleratorsInput`)
     ///
-    /// - Returns: `ListAcceleratorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAcceleratorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2528,9 +2528,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Lists the IP address ranges that were specified in calls to [ProvisionByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/ProvisionByoipCidr.html), including the current state and a history of state changes.
     ///
-    /// - Parameter ListByoipCidrsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListByoipCidrsInput`)
     ///
-    /// - Returns: `ListByoipCidrsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListByoipCidrsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2599,9 +2599,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the cross-account attachments that have been created in Global Accelerator.
     ///
-    /// - Parameter ListCrossAccountAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrossAccountAttachmentsInput`)
     ///
-    /// - Returns: `ListCrossAccountAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrossAccountAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2670,9 +2670,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the accounts that have cross-account resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter ListCrossAccountResourceAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrossAccountResourceAccountsInput`)
     ///
-    /// - Returns: `ListCrossAccountResourceAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrossAccountResourceAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2739,9 +2739,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the cross-account resources available to work with.
     ///
-    /// - Parameter ListCrossAccountResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrossAccountResourcesInput`)
     ///
-    /// - Returns: `ListCrossAccountResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrossAccountResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2811,9 +2811,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the custom routing accelerators for an Amazon Web Services account.
     ///
-    /// - Parameter ListCustomRoutingAcceleratorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingAcceleratorsInput`)
     ///
-    /// - Returns: `ListCustomRoutingAcceleratorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingAcceleratorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2881,9 +2881,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the endpoint groups that are associated with a listener for a custom routing accelerator.
     ///
-    /// - Parameter ListCustomRoutingEndpointGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingEndpointGroupsInput`)
     ///
-    /// - Returns: `ListCustomRoutingEndpointGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingEndpointGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2952,9 +2952,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the listeners for a custom routing accelerator.
     ///
-    /// - Parameter ListCustomRoutingListenersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingListenersInput`)
     ///
-    /// - Returns: `ListCustomRoutingListenersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingListenersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3023,9 +3023,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator. For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers. If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator. The mappings also include a flag for each destination denoting which destination IP addresses and ports are allowed or denied traffic.
     ///
-    /// - Parameter ListCustomRoutingPortMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingPortMappingsInput`)
     ///
-    /// - Returns: `ListCustomRoutingPortMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingPortMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3095,9 +3095,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance.
     ///
-    /// - Parameter ListCustomRoutingPortMappingsByDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingPortMappingsByDestinationInput`)
     ///
-    /// - Returns: `ListCustomRoutingPortMappingsByDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingPortMappingsByDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3166,9 +3166,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the endpoint groups that are associated with a listener.
     ///
-    /// - Parameter ListEndpointGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEndpointGroupsInput`)
     ///
-    /// - Returns: `ListEndpointGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEndpointGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3237,9 +3237,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the listeners for an accelerator.
     ///
-    /// - Parameter ListListenersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListListenersInput`)
     ///
-    /// - Returns: `ListListenersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListListenersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3308,9 +3308,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List all tags for an accelerator. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3381,9 +3381,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using [ AdvertiseByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/AdvertiseByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter ProvisionByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionByoipCidrInput`)
     ///
-    /// - Returns: `ProvisionByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionByoipCidrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3453,9 +3453,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Remove endpoints from a custom routing accelerator.
     ///
-    /// - Parameter RemoveCustomRoutingEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveCustomRoutingEndpointsInput`)
     ///
-    /// - Returns: `RemoveCustomRoutingEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveCustomRoutingEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3530,9 +3530,9 @@ extension GlobalAcceleratorClient {
     ///
     /// * It's faster, because Global Accelerator doesn't need to resolve any endpoints. With the UpdateEndpointGroup API operation, Global Accelerator must resolve all of the endpoints that remain in the group.
     ///
-    /// - Parameter RemoveEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveEndpointsInput`)
     ///
-    /// - Returns: `RemoveEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3602,9 +3602,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Add tags to an accelerator resource. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3672,9 +3672,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3753,9 +3753,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Be aware that static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete the accelerator, you lose the static IP addresses that are assigned to it, so you can no longer route traffic by using them. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
-    /// - Parameter UpdateAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAcceleratorInput`)
     ///
-    /// - Returns: `UpdateAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3826,9 +3826,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update the attributes for an accelerator.
     ///
-    /// - Parameter UpdateAcceleratorAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAcceleratorAttributesInput`)
     ///
-    /// - Returns: `UpdateAcceleratorAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAcceleratorAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3898,9 +3898,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter UpdateCrossAccountAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCrossAccountAttachmentInput`)
     ///
-    /// - Returns: `UpdateCrossAccountAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCrossAccountAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3971,9 +3971,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update a custom routing accelerator.
     ///
-    /// - Parameter UpdateCustomRoutingAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomRoutingAcceleratorInput`)
     ///
-    /// - Returns: `UpdateCustomRoutingAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomRoutingAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4043,9 +4043,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update the attributes for a custom routing accelerator.
     ///
-    /// - Parameter UpdateCustomRoutingAcceleratorAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomRoutingAcceleratorAttributesInput`)
     ///
-    /// - Returns: `UpdateCustomRoutingAcceleratorAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomRoutingAcceleratorAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4115,9 +4115,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update a listener for a custom routing accelerator.
     ///
-    /// - Parameter UpdateCustomRoutingListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomRoutingListenerInput`)
     ///
-    /// - Returns: `UpdateCustomRoutingListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomRoutingListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4187,9 +4187,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
     ///
-    /// - Parameter UpdateEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointGroupInput`)
     ///
-    /// - Returns: `UpdateEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4259,9 +4259,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update a listener.
     ///
-    /// - Parameter UpdateListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateListenerInput`)
     ///
-    /// - Returns: `UpdateListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4331,9 +4331,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of propagation delays. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter WithdrawByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `WithdrawByoipCidrInput`)
     ///
-    /// - Returns: `WithdrawByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `WithdrawByoipCidrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

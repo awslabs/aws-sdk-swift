@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class HealthLakeClient: ClientRuntime.Client {
     public static let clientName = "HealthLakeClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: HealthLakeClient.HealthLakeClientConfiguration
     let serviceName = "HealthLake"
@@ -374,9 +374,9 @@ extension HealthLakeClient {
     ///
     /// Create a FHIR-enabled data store.
     ///
-    /// - Parameter CreateFHIRDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFHIRDatastoreInput`)
     ///
-    /// - Returns: `CreateFHIRDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFHIRDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension HealthLakeClient {
     ///
     /// Delete a FHIR-enabled data store.
     ///
-    /// - Parameter DeleteFHIRDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFHIRDatastoreInput`)
     ///
-    /// - Returns: `DeleteFHIRDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFHIRDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension HealthLakeClient {
     ///
     /// Get properties for a FHIR-enabled data store.
     ///
-    /// - Parameter DescribeFHIRDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFHIRDatastoreInput`)
     ///
-    /// - Returns: `DescribeFHIRDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFHIRDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,9 +590,9 @@ extension HealthLakeClient {
     ///
     /// Get FHIR export job properties.
     ///
-    /// - Parameter DescribeFHIRExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFHIRExportJobInput`)
     ///
-    /// - Returns: `DescribeFHIRExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFHIRExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,9 +661,9 @@ extension HealthLakeClient {
     ///
     /// Get the import job properties to learn more about the job or job progress.
     ///
-    /// - Parameter DescribeFHIRImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFHIRImportJobInput`)
     ///
-    /// - Returns: `DescribeFHIRImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFHIRImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -732,9 +732,9 @@ extension HealthLakeClient {
     ///
     /// List all FHIR-enabled data stores in a user’s account, regardless of data store status.
     ///
-    /// - Parameter ListFHIRDatastoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFHIRDatastoresInput`)
     ///
-    /// - Returns: `ListFHIRDatastoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFHIRDatastoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -802,9 +802,9 @@ extension HealthLakeClient {
     ///
     /// Lists all FHIR export jobs associated with an account and their statuses.
     ///
-    /// - Parameter ListFHIRExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFHIRExportJobsInput`)
     ///
-    /// - Returns: `ListFHIRExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFHIRExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,9 +874,9 @@ extension HealthLakeClient {
     ///
     /// List all FHIR import jobs associated with an account and their statuses.
     ///
-    /// - Parameter ListFHIRImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFHIRImportJobsInput`)
     ///
-    /// - Returns: `ListFHIRImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFHIRImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -946,9 +946,9 @@ extension HealthLakeClient {
     ///
     /// Returns a list of all existing tags associated with a data store.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,9 +1015,9 @@ extension HealthLakeClient {
     ///
     /// Start a FHIR export job.
     ///
-    /// - Parameter StartFHIRExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFHIRExportJobInput`)
     ///
-    /// - Returns: `StartFHIRExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFHIRExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1088,9 +1088,9 @@ extension HealthLakeClient {
     ///
     /// Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the InputDataConfig object and stores processing results in the JobOutputDataConfig object.
     ///
-    /// - Parameter StartFHIRImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFHIRImportJobInput`)
     ///
-    /// - Returns: `StartFHIRImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFHIRImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1161,9 +1161,9 @@ extension HealthLakeClient {
     ///
     /// Add a user-specifed key and value tag to a data store.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1230,9 +1230,9 @@ extension HealthLakeClient {
     ///
     /// Remove a user-specifed key and value tag from a data store.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

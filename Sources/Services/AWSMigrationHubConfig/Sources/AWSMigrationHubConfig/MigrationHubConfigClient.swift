@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubConfigClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubConfigClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubConfigClient.MigrationHubConfigClientConfiguration
     let serviceName = "MigrationHub Config"
@@ -372,9 +372,9 @@ extension MigrationHubConfigClient {
     ///
     /// This API sets up the home region for the calling account only.
     ///
-    /// - Parameter CreateHomeRegionControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHomeRegionControlInput`)
     ///
-    /// - Returns: `CreateHomeRegionControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHomeRegionControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension MigrationHubConfigClient {
     ///
     /// This operation deletes the home region configuration for the calling account. The operation does not delete discovery or migration tracking data in the home region.
     ///
-    /// - Parameter DeleteHomeRegionControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHomeRegionControlInput`)
     ///
-    /// - Returns: `DeleteHomeRegionControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHomeRegionControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension MigrationHubConfigClient {
     ///
     /// This API permits filtering on the ControlId and HomeRegion fields.
     ///
-    /// - Parameter DescribeHomeRegionControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHomeRegionControlsInput`)
     ///
-    /// - Returns: `DescribeHomeRegionControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHomeRegionControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -589,9 +589,9 @@ extension MigrationHubConfigClient {
     ///
     /// Returns the calling account’s home region, if configured. This API is used by other AWS services to determine the regional endpoint for calling AWS Application Discovery Service and Migration Hub. You must call GetHomeRegion at least once before you call any other AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's Migration Hub home region.
     ///
-    /// - Parameter GetHomeRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHomeRegionInput`)
     ///
-    /// - Returns: `GetHomeRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHomeRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MPAClient: ClientRuntime.Client {
     public static let clientName = "MPAClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: MPAClient.MPAClientConfiguration
     let serviceName = "MPA"
@@ -374,9 +374,9 @@ extension MPAClient {
     ///
     /// Cancels an approval session. For more information, see [Session](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter CancelSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSessionInput`)
     ///
-    /// - Returns: `CancelSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -443,9 +443,9 @@ extension MPAClient {
     ///
     /// Creates a new approval team. For more information, see [Approval team](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter CreateApprovalTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApprovalTeamInput`)
     ///
-    /// - Returns: `CreateApprovalTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApprovalTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension MPAClient {
     ///
     /// Creates a new identity source. For more information, see [Identity Source](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter CreateIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdentitySourceInput`)
     ///
-    /// - Returns: `CreateIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension MPAClient {
     ///
     /// Deletes an identity source. For more information, see [Identity Source](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter DeleteIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentitySourceInput`)
     ///
-    /// - Returns: `DeleteIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension MPAClient {
     ///
     /// Deletes an inactive approval team. For more information, see [Team health](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-health.html) in the Multi-party approval User Guide. You can also use this operation to delete a team draft. For more information, see [Interacting with drafts](https://docs.aws.amazon.com/mpa/latest/userguide/update-team.html#update-team-draft-status) in the Multi-party approval User Guide.
     ///
-    /// - Parameter DeleteInactiveApprovalTeamVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInactiveApprovalTeamVersionInput`)
     ///
-    /// - Returns: `DeleteInactiveApprovalTeamVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInactiveApprovalTeamVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -725,9 +725,9 @@ extension MPAClient {
     ///
     /// Returns details for an approval team.
     ///
-    /// - Parameter GetApprovalTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApprovalTeamInput`)
     ///
-    /// - Returns: `GetApprovalTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApprovalTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -793,9 +793,9 @@ extension MPAClient {
     ///
     /// Returns details for an identity source. For more information, see [Identity Source](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter GetIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdentitySourceInput`)
     ///
-    /// - Returns: `GetIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,9 +861,9 @@ extension MPAClient {
     ///
     /// Returns details for the version of a policy. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter GetPolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyVersionInput`)
     ///
-    /// - Returns: `GetPolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,9 +929,9 @@ extension MPAClient {
     ///
     /// Returns details about a policy for a resource.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1000,9 +1000,9 @@ extension MPAClient {
     ///
     /// Returns details for an approval session. For more information, see [Session](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,9 +1068,9 @@ extension MPAClient {
     ///
     /// Returns a list of approval teams.
     ///
-    /// - Parameter ListApprovalTeamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApprovalTeamsInput`)
     ///
-    /// - Returns: `ListApprovalTeamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApprovalTeamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,9 +1136,9 @@ extension MPAClient {
     ///
     /// Returns a list of identity sources. For more information, see [Identity Source](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter ListIdentitySourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentitySourcesInput`)
     ///
-    /// - Returns: `ListIdentitySourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentitySourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,9 +1204,9 @@ extension MPAClient {
     ///
     /// Returns a list of policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter ListPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPoliciesInput`)
     ///
-    /// - Returns: `ListPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1272,9 +1272,9 @@ extension MPAClient {
     ///
     /// Returns a list of the versions for policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter ListPolicyVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyVersionsInput`)
     ///
-    /// - Returns: `ListPolicyVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,9 +1341,9 @@ extension MPAClient {
     ///
     /// Returns a list of policies for a resource.
     ///
-    /// - Parameter ListResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcePoliciesInput`)
     ///
-    /// - Returns: `ListResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1410,9 +1410,9 @@ extension MPAClient {
     ///
     /// Returns a list of approval sessions. For more information, see [Session](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,9 +1482,9 @@ extension MPAClient {
     ///
     /// Returns a list of the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1550,9 +1550,9 @@ extension MPAClient {
     ///
     /// Starts the deletion process for an active approval team. Deletions require team approval Requests to delete an active team must be approved by the team.
     ///
-    /// - Parameter StartActiveApprovalTeamDeletionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartActiveApprovalTeamDeletionInput`)
     ///
-    /// - Returns: `StartActiveApprovalTeamDeletionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartActiveApprovalTeamDeletionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1623,9 +1623,9 @@ extension MPAClient {
     ///
     /// Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1695,9 +1695,9 @@ extension MPAClient {
     ///
     /// Removes a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1766,9 +1766,9 @@ extension MPAClient {
     ///
     /// Updates an approval team. You can request to update the team description, approval threshold, and approvers in the team. Updates require team approval Updates to an active team must be approved by the team.
     ///
-    /// - Parameter UpdateApprovalTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApprovalTeamInput`)
     ///
-    /// - Returns: `UpdateApprovalTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApprovalTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

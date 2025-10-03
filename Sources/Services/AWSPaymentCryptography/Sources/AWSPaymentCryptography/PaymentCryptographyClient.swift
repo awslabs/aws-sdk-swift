@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PaymentCryptographyClient: ClientRuntime.Client {
     public static let clientName = "PaymentCryptographyClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: PaymentCryptographyClient.PaymentCryptographyClientConfiguration
     let serviceName = "Payment Cryptography"
@@ -379,9 +379,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
     ///
-    /// - Parameter AddKeyReplicationRegionsInput : Input parameters for adding replication regions to a specific key.
+    /// - Parameter input: Input parameters for adding replication regions to a specific key. (Type: `AddKeyReplicationRegionsInput`)
     ///
-    /// - Returns: `AddKeyReplicationRegionsOutput` : Output from adding replication regions to a key.
+    /// - Returns: Output from adding replication regions to a key. (Type: `AddKeyReplicationRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -461,9 +461,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
     ///
-    /// - Parameter CreateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAliasInput`)
     ///
-    /// - Returns: `CreateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -542,9 +542,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [ListKeys](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListKeys.html)
     ///
-    /// - Parameter CreateKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyInput`)
     ///
-    /// - Returns: `CreateKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,9 +625,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
     ///
-    /// - Parameter DeleteAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAliasInput`)
     ///
-    /// - Returns: `DeleteAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -705,9 +705,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
     ///
-    /// - Parameter DeleteKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyInput`)
     ///
-    /// - Returns: `DeleteKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,9 +783,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
     ///
-    /// - Parameter DisableDefaultKeyReplicationRegionsInput : Input parameters for disabling default key replication regions for the account.
+    /// - Parameter input: Input parameters for disabling default key replication regions for the account. (Type: `DisableDefaultKeyReplicationRegionsInput`)
     ///
-    /// - Returns: `DisableDefaultKeyReplicationRegionsOutput` : Output from disabling default key replication regions for the account.
+    /// - Returns: Output from disabling default key replication regions for the account. (Type: `DisableDefaultKeyReplicationRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,9 +861,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [GetDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetDefaultKeyReplicationRegions.html)
     ///
-    /// - Parameter EnableDefaultKeyReplicationRegionsInput : Input parameters for enabling default key replication regions for the account.
+    /// - Parameter input: Input parameters for enabling default key replication regions for the account. (Type: `EnableDefaultKeyReplicationRegionsInput`)
     ///
-    /// - Returns: `EnableDefaultKeyReplicationRegionsOutput` : Output from enabling default key replication regions for the account.
+    /// - Returns: Output from enabling default key replication regions for the account. (Type: `EnableDefaultKeyReplicationRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,9 +983,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
     ///
-    /// - Parameter ExportKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportKeyInput`)
     ///
-    /// - Returns: `ExportKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,9 +1065,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
     ///
-    /// - Parameter GetAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAliasInput`)
     ///
-    /// - Returns: `GetAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1138,9 +1138,9 @@ extension PaymentCryptographyClient {
     ///
     /// Used to retrieve the public key for a keypair.
     ///
-    /// - Parameter GetCertificateSigningRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCertificateSigningRequestInput`)
     ///
-    /// - Returns: `GetCertificateSigningRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCertificateSigningRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,9 +1215,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [DisableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html)
     ///
-    /// - Parameter GetDefaultKeyReplicationRegionsInput : Input parameters for retrieving the account's default key replication regions. This operation requires no input parameters.
+    /// - Parameter input: Input parameters for retrieving the account's default key replication regions. This operation requires no input parameters. (Type: `GetDefaultKeyReplicationRegionsInput`)
     ///
-    /// - Returns: `GetDefaultKeyReplicationRegionsOutput` : Output containing the account's current default key replication configuration.
+    /// - Returns: Output containing the account's current default key replication configuration. (Type: `GetDefaultKeyReplicationRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1295,9 +1295,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [ListKeys](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListKeys.html)
     ///
-    /// - Parameter GetKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyInput`)
     ///
-    /// - Returns: `GetKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,9 +1372,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html)
     ///
-    /// - Parameter GetParametersForExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParametersForExportInput`)
     ///
-    /// - Returns: `GetParametersForExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParametersForExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,9 +1451,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [ImportKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ImportKey.html)
     ///
-    /// - Parameter GetParametersForImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParametersForImportInput`)
     ///
-    /// - Returns: `GetParametersForImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParametersForImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1526,9 +1526,9 @@ extension PaymentCryptographyClient {
     ///
     /// Gets the public key certificate of the asymmetric key pair that exists within Amazon Web Services Payment Cryptography. Unlike the private key of an asymmetric key, which never leaves Amazon Web Services Payment Cryptography unencrypted, callers with GetPublicKeyCertificate permission can download the public key certificate of the asymmetric key. You can share the public key certificate to allow others to encrypt messages and verify signatures outside of Amazon Web Services Payment Cryptography Cross-account use: This operation can't be used across different Amazon Web Services accounts.
     ///
-    /// - Parameter GetPublicKeyCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyCertificateInput`)
     ///
-    /// - Returns: `GetPublicKeyCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1660,9 +1660,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [GetParametersForImport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForImport.html)
     ///
-    /// - Parameter ImportKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportKeyInput`)
     ///
-    /// - Returns: `ImportKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1743,9 +1743,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [UpdateAlias](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UpdateAlias.html)
     ///
-    /// - Parameter ListAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAliasesInput`)
     ///
-    /// - Returns: `ListAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1822,9 +1822,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [GetKey](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetKey.html)
     ///
-    /// - Parameter ListKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeysInput`)
     ///
-    /// - Returns: `ListKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1899,9 +1899,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [UntagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html)
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1976,9 +1976,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [DisableDefaultKeyReplicationRegions](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_DisableDefaultKeyReplicationRegions.html)
     ///
-    /// - Parameter RemoveKeyReplicationRegionsInput : Input parameters for removing replication regions from a specific key.
+    /// - Parameter input: Input parameters for removing replication regions from a specific key. (Type: `RemoveKeyReplicationRegionsInput`)
     ///
-    /// - Returns: `RemoveKeyReplicationRegionsOutput` : Output from removing replication regions from a key.
+    /// - Returns: Output from removing replication regions from a key. (Type: `RemoveKeyReplicationRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2056,9 +2056,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
     ///
-    /// - Parameter RestoreKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreKeyInput`)
     ///
-    /// - Returns: `RestoreKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2133,9 +2133,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [StopKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StopKeyUsage.html)
     ///
-    /// - Parameter StartKeyUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartKeyUsageInput`)
     ///
-    /// - Returns: `StartKeyUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartKeyUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,9 +2212,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [StartKeyUsage](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_StartKeyUsage.html)
     ///
-    /// - Parameter StopKeyUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopKeyUsageInput`)
     ///
-    /// - Returns: `StopKeyUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopKeyUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2291,9 +2291,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [UntagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_UntagResource.html)
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2370,9 +2370,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html)
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,9 +2452,9 @@ extension PaymentCryptographyClient {
     ///
     /// * [ListAliases](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListAliases.html)
     ///
-    /// - Parameter UpdateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAliasInput`)
     ///
-    /// - Returns: `UpdateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

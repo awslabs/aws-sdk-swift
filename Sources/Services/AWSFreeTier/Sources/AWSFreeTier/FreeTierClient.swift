@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FreeTierClient: ClientRuntime.Client {
     public static let clientName = "FreeTierClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: FreeTierClient.FreeTierClientConfiguration
     let serviceName = "FreeTier"
@@ -373,9 +373,9 @@ extension FreeTierClient {
     ///
     /// Returns a specific activity record that is available to the customer.
     ///
-    /// - Parameter GetAccountActivityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountActivityInput`)
     ///
-    /// - Returns: `GetAccountActivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountActivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension FreeTierClient {
     ///
     /// This returns all of the information related to the state of the account plan related to Free Tier.
     ///
-    /// - Parameter GetAccountPlanStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountPlanStateInput`)
     ///
-    /// - Returns: `GetAccountPlanStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountPlanStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -516,9 +516,9 @@ extension FreeTierClient {
     ///
     /// Returns a list of all Free Tier usage objects that match your filters.
     ///
-    /// - Parameter GetFreeTierUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFreeTierUsageInput`)
     ///
-    /// - Returns: `GetFreeTierUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFreeTierUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -586,9 +586,9 @@ extension FreeTierClient {
     ///
     /// Returns a list of activities that are available. This operation supports pagination and filtering by status.
     ///
-    /// - Parameter ListAccountActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountActivitiesInput`)
     ///
-    /// - Returns: `ListAccountActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,9 +656,9 @@ extension FreeTierClient {
     ///
     /// The account plan type for the Amazon Web Services account.
     ///
-    /// - Parameter UpgradeAccountPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradeAccountPlanInput`)
     ///
-    /// - Returns: `UpgradeAccountPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradeAccountPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

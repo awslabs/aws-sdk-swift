@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryServiceDataClient: ClientRuntime.Client {
     public static let clientName = "DirectoryServiceDataClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryServiceDataClient.DirectoryServiceDataClientConfiguration
     let serviceName = "Directory Service Data"
@@ -373,9 +373,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Adds an existing user, group, or computer as a group member.
     ///
-    /// - Parameter AddGroupMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddGroupMemberInput`)
     ///
-    /// - Returns: `AddGroupMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddGroupMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -448,9 +448,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Creates a new group.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -522,9 +522,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Creates a new user.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -596,9 +596,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Deletes a group.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,9 +671,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Deletes a user.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -746,9 +746,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Returns information about a specific group.
     ///
-    /// - Parameter DescribeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupInput`)
     ///
-    /// - Returns: `DescribeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,9 +819,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Returns information about a specific user.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -892,9 +892,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Deactivates an active user account. For information about how to enable an inactive user account, see [ResetUserPassword](https://docs.aws.amazon.com/directoryservice/latest/devguide/API_ResetUserPassword.html) in the Directory Service API Reference.
     ///
-    /// - Parameter DisableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableUserInput`)
     ///
-    /// - Returns: `DisableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,9 +967,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Returns member information for the specified group. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListGroupMembers.NextToken member contains a token that you pass in the next call to ListGroupMembers. This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter.
     ///
-    /// - Parameter ListGroupMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupMembersInput`)
     ///
-    /// - Returns: `ListGroupMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1040,9 +1040,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Returns group information for the specified directory. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListGroups.NextToken member contains a token that you pass in the next call to ListGroups. This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,9 +1112,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Returns group information for the specified member. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListGroupsForMember.NextToken member contains a token that you pass in the next call to ListGroupsForMember. This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter.
     ///
-    /// - Parameter ListGroupsForMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsForMemberInput`)
     ///
-    /// - Returns: `ListGroupsForMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsForMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1185,9 +1185,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Returns user information for the specified directory. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListUsers.NextToken member contains a token that you pass in the next call to ListUsers. This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1257,9 +1257,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Removes a member from a group.
     ///
-    /// - Parameter RemoveGroupMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveGroupMemberInput`)
     ///
-    /// - Returns: `RemoveGroupMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveGroupMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,9 +1332,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Searches the specified directory for a group. You can find groups that match the SearchString parameter with the value of their attributes included in the SearchString parameter. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the SearchGroups.NextToken member contains a token that you pass in the next call to SearchGroups. This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter.
     ///
-    /// - Parameter SearchGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchGroupsInput`)
     ///
-    /// - Returns: `SearchGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,9 +1404,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Searches the specified directory for a user. You can find users that match the SearchString parameter with the value of their attributes included in the SearchString parameter. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the SearchUsers.NextToken member contains a token that you pass in the next call to SearchUsers. This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter.
     ///
-    /// - Parameter SearchUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchUsersInput`)
     ///
-    /// - Returns: `SearchUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1476,9 +1476,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Updates group information.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,9 +1551,9 @@ extension DirectoryServiceDataClient {
     ///
     /// Updates user information.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

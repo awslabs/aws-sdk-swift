@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NotificationsClient: ClientRuntime.Client {
     public static let clientName = "NotificationsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: NotificationsClient.NotificationsClientConfiguration
     let serviceName = "Notifications"
@@ -373,9 +373,9 @@ extension NotificationsClient {
     ///
     /// Associates a delivery [Channel](https://docs.aws.amazon.com/notifications/latest/userguide/managing-delivery-channels.html) with a particular NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
-    /// - Parameter AssociateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateChannelInput`)
     ///
-    /// - Returns: `AssociateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -446,9 +446,9 @@ extension NotificationsClient {
     ///
     /// Associates an Account Contact with a particular ManagedNotificationConfiguration.
     ///
-    /// - Parameter AssociateManagedNotificationAccountContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateManagedNotificationAccountContactInput`)
     ///
-    /// - Returns: `AssociateManagedNotificationAccountContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateManagedNotificationAccountContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,9 +519,9 @@ extension NotificationsClient {
     ///
     /// Associates an additional Channel with a particular ManagedNotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
-    /// - Parameter AssociateManagedNotificationAdditionalChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateManagedNotificationAdditionalChannelInput`)
     ///
-    /// - Returns: `AssociateManagedNotificationAdditionalChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateManagedNotificationAdditionalChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -592,9 +592,9 @@ extension NotificationsClient {
     ///
     /// Associates an organizational unit with a notification configuration.
     ///
-    /// - Parameter AssociateOrganizationalUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateOrganizationalUnitInput`)
     ///
-    /// - Returns: `AssociateOrganizationalUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateOrganizationalUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -665,9 +665,9 @@ extension NotificationsClient {
     ///
     /// Creates an [EventRule](https://docs.aws.amazon.com/notifications/latest/userguide/glossary.html) that is associated with a specified NotificationConfiguration.
     ///
-    /// - Parameter CreateEventRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventRuleInput`)
     ///
-    /// - Returns: `CreateEventRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,9 +738,9 @@ extension NotificationsClient {
     ///
     /// Creates a new NotificationConfiguration.
     ///
-    /// - Parameter CreateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotificationConfigurationInput`)
     ///
-    /// - Returns: `CreateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -810,9 +810,9 @@ extension NotificationsClient {
     ///
     /// Deletes an EventRule.
     ///
-    /// - Parameter DeleteEventRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventRuleInput`)
     ///
-    /// - Returns: `DeleteEventRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -879,9 +879,9 @@ extension NotificationsClient {
     ///
     /// Deletes a NotificationConfiguration.
     ///
-    /// - Parameter DeleteNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotificationConfigurationInput`)
     ///
-    /// - Returns: `DeleteNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -948,9 +948,9 @@ extension NotificationsClient {
     ///
     /// Deregisters a NotificationConfiguration in the specified Region. You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents.
     ///
-    /// - Parameter DeregisterNotificationHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterNotificationHubInput`)
     ///
-    /// - Returns: `DeregisterNotificationHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterNotificationHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1017,9 +1017,9 @@ extension NotificationsClient {
     ///
     /// Disables service trust between User Notifications and Amazon Web Services Organizations.
     ///
-    /// - Parameter DisableNotificationsAccessForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableNotificationsAccessForOrganizationInput`)
     ///
-    /// - Returns: `DisableNotificationsAccessForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableNotificationsAccessForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1087,9 +1087,9 @@ extension NotificationsClient {
     ///
     /// Disassociates a Channel from a specified NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
-    /// - Parameter DisassociateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateChannelInput`)
     ///
-    /// - Returns: `DisassociateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1158,9 +1158,9 @@ extension NotificationsClient {
     ///
     /// Disassociates an Account Contact with a particular ManagedNotificationConfiguration.
     ///
-    /// - Parameter DisassociateManagedNotificationAccountContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateManagedNotificationAccountContactInput`)
     ///
-    /// - Returns: `DisassociateManagedNotificationAccountContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateManagedNotificationAccountContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1230,9 +1230,9 @@ extension NotificationsClient {
     ///
     /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
-    /// - Parameter DisassociateManagedNotificationAdditionalChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateManagedNotificationAdditionalChannelInput`)
     ///
-    /// - Returns: `DisassociateManagedNotificationAdditionalChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateManagedNotificationAdditionalChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,9 +1301,9 @@ extension NotificationsClient {
     ///
     /// Removes the association between an organizational unit and a notification configuration.
     ///
-    /// - Parameter DisassociateOrganizationalUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateOrganizationalUnitInput`)
     ///
-    /// - Returns: `DisassociateOrganizationalUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateOrganizationalUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,9 +1372,9 @@ extension NotificationsClient {
     ///
     /// Enables service trust between User Notifications and Amazon Web Services Organizations.
     ///
-    /// - Parameter EnableNotificationsAccessForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableNotificationsAccessForOrganizationInput`)
     ///
-    /// - Returns: `EnableNotificationsAccessForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableNotificationsAccessForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1442,9 +1442,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified EventRule.
     ///
-    /// - Parameter GetEventRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventRuleInput`)
     ///
-    /// - Returns: `GetEventRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1510,9 +1510,9 @@ extension NotificationsClient {
     ///
     /// Returns the child event of a specific given ManagedNotificationEvent.
     ///
-    /// - Parameter GetManagedNotificationChildEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedNotificationChildEventInput`)
     ///
-    /// - Returns: `GetManagedNotificationChildEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedNotificationChildEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1579,9 +1579,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified ManagedNotificationConfiguration.
     ///
-    /// - Parameter GetManagedNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetManagedNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1647,9 +1647,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified ManagedNotificationEvent.
     ///
-    /// - Parameter GetManagedNotificationEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedNotificationEventInput`)
     ///
-    /// - Returns: `GetManagedNotificationEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedNotificationEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1716,9 +1716,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified NotificationConfiguration.
     ///
-    /// - Parameter GetNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1784,9 +1784,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified NotificationEvent. User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see [Notification hubs](https://docs.aws.amazon.com/notifications/latest/userguide/notification-hubs.html) in the Amazon Web Services User Notifications User Guide.
     ///
-    /// - Parameter GetNotificationEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationEventInput`)
     ///
-    /// - Returns: `GetNotificationEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1853,9 +1853,9 @@ extension NotificationsClient {
     ///
     /// Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
     ///
-    /// - Parameter GetNotificationsAccessForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationsAccessForOrganizationInput`)
     ///
-    /// - Returns: `GetNotificationsAccessForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationsAccessForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1920,9 +1920,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of Channels for a NotificationConfiguration.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1989,9 +1989,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of EventRules according to specified filters, in reverse chronological order (newest first).
     ///
-    /// - Parameter ListEventRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventRulesInput`)
     ///
-    /// - Returns: `ListEventRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2058,9 +2058,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of Account contacts and Channels associated with a ManagedNotificationConfiguration, in paginated format.
     ///
-    /// - Parameter ListManagedNotificationChannelAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedNotificationChannelAssociationsInput`)
     ///
-    /// - Returns: `ListManagedNotificationChannelAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedNotificationChannelAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2127,9 +2127,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of ManagedNotificationChildEvents for a specified aggregate ManagedNotificationEvent, ordered by creation time in reverse chronological order (newest first).
     ///
-    /// - Parameter ListManagedNotificationChildEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedNotificationChildEventsInput`)
     ///
-    /// - Returns: `ListManagedNotificationChildEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedNotificationChildEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2195,9 +2195,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first).
     ///
-    /// - Parameter ListManagedNotificationConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedNotificationConfigurationsInput`)
     ///
-    /// - Returns: `ListManagedNotificationConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedNotificationConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2263,9 +2263,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first).
     ///
-    /// - Parameter ListManagedNotificationEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedNotificationEventsInput`)
     ///
-    /// - Returns: `ListManagedNotificationEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedNotificationEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2331,9 +2331,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of member accounts associated with a notification configuration.
     ///
-    /// - Parameter ListMemberAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMemberAccountsInput`)
     ///
-    /// - Returns: `ListMemberAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMemberAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2400,9 +2400,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of abbreviated NotificationConfigurations according to specified filters, in reverse chronological order (newest first).
     ///
-    /// - Parameter ListNotificationConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationConfigurationsInput`)
     ///
-    /// - Returns: `ListNotificationConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2468,9 +2468,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first). User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see [Notification hubs](https://docs.aws.amazon.com/notifications/latest/userguide/notification-hubs.html) in the Amazon Web Services User Notifications User Guide.
     ///
-    /// - Parameter ListNotificationEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationEventsInput`)
     ///
-    /// - Returns: `ListNotificationEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2536,9 +2536,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of NotificationHubs.
     ///
-    /// - Parameter ListNotificationHubsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationHubsInput`)
     ///
-    /// - Returns: `ListNotificationHubsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationHubsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2604,9 +2604,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of organizational units associated with a notification configuration.
     ///
-    /// - Parameter ListOrganizationalUnitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationalUnitsInput`)
     ///
-    /// - Returns: `ListOrganizationalUnitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationalUnitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2673,9 +2673,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of tags for a specified Amazon Resource Name (ARN). For more information, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html) in the Tagging Amazon Web Services Resources User Guide. This is only supported for NotificationConfigurations.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2741,9 +2741,9 @@ extension NotificationsClient {
     ///
     /// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time.
     ///
-    /// - Parameter RegisterNotificationHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterNotificationHubInput`)
     ///
-    /// - Returns: `RegisterNotificationHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterNotificationHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2813,9 +2813,9 @@ extension NotificationsClient {
     ///
     /// Tags the resource with a tag key and value. For more information, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html) in the Tagging Amazon Web Services Resources User Guide. This is only supported for NotificationConfigurations.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2884,9 +2884,9 @@ extension NotificationsClient {
     ///
     /// Untags a resource with a specified Amazon Resource Name (ARN). For more information, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html) in the Tagging Amazon Web Services Resources User Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2953,9 +2953,9 @@ extension NotificationsClient {
     ///
     /// Updates an existing EventRule.
     ///
-    /// - Parameter UpdateEventRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventRuleInput`)
     ///
-    /// - Returns: `UpdateEventRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3025,9 +3025,9 @@ extension NotificationsClient {
     ///
     /// Updates a NotificationConfiguration.
     ///
-    /// - Parameter UpdateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotificationConfigurationInput`)
     ///
-    /// - Returns: `UpdateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

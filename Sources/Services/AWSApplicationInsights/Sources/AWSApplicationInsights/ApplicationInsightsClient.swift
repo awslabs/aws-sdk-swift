@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationInsightsClient: ClientRuntime.Client {
     public static let clientName = "ApplicationInsightsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationInsightsClient.ApplicationInsightsClientConfiguration
     let serviceName = "Application Insights"
@@ -373,9 +373,9 @@ extension ApplicationInsightsClient {
     ///
     /// Adds a workload to a component. Each component can have at most five workloads.
     ///
-    /// - Parameter AddWorkloadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddWorkloadInput`)
     ///
-    /// - Returns: `AddWorkloadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -444,9 +444,9 @@ extension ApplicationInsightsClient {
     ///
     /// Adds an application that is created from a resource group.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension ApplicationInsightsClient {
     ///
     /// Creates a custom component by grouping similar standalone instances to monitor.
     ///
-    /// - Parameter CreateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComponentInput`)
     ///
-    /// - Returns: `CreateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -588,9 +588,9 @@ extension ApplicationInsightsClient {
     ///
     /// Adds an log pattern to a LogPatternSet.
     ///
-    /// - Parameter CreateLogPatternInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLogPatternInput`)
     ///
-    /// - Returns: `CreateLogPatternOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLogPatternOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,9 +659,9 @@ extension ApplicationInsightsClient {
     ///
     /// Removes the specified application from monitoring. Does not delete the application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,9 +730,9 @@ extension ApplicationInsightsClient {
     ///
     /// Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
     ///
-    /// - Parameter DeleteComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComponentInput`)
     ///
-    /// - Returns: `DeleteComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,9 +800,9 @@ extension ApplicationInsightsClient {
     ///
     /// Removes the specified log pattern from a LogPatternSet.
     ///
-    /// - Parameter DeleteLogPatternInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLogPatternInput`)
     ///
-    /// - Returns: `DeleteLogPatternOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLogPatternOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -871,9 +871,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describes the application.
     ///
-    /// - Parameter DescribeApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationInput`)
     ///
-    /// - Returns: `DescribeApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -941,9 +941,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describes a component and lists the resources that are grouped together in a component.
     ///
-    /// - Parameter DescribeComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeComponentInput`)
     ///
-    /// - Returns: `DescribeComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,9 +1011,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describes the monitoring configuration of the component.
     ///
-    /// - Parameter DescribeComponentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeComponentConfigurationInput`)
     ///
-    /// - Returns: `DescribeComponentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeComponentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,9 +1081,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describes the recommended monitoring configuration of the component.
     ///
-    /// - Parameter DescribeComponentConfigurationRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeComponentConfigurationRecommendationInput`)
     ///
-    /// - Returns: `DescribeComponentConfigurationRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeComponentConfigurationRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1151,9 +1151,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describe a specific log pattern from a LogPatternSet.
     ///
-    /// - Parameter DescribeLogPatternInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLogPatternInput`)
     ///
-    /// - Returns: `DescribeLogPatternOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLogPatternOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1221,9 +1221,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describes an anomaly or error with the application.
     ///
-    /// - Parameter DescribeObservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeObservationInput`)
     ///
-    /// - Returns: `DescribeObservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeObservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1291,9 +1291,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describes an application problem.
     ///
-    /// - Parameter DescribeProblemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProblemInput`)
     ///
-    /// - Returns: `DescribeProblemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProblemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1361,9 +1361,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describes the anomalies or errors associated with the problem.
     ///
-    /// - Parameter DescribeProblemObservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProblemObservationsInput`)
     ///
-    /// - Returns: `DescribeProblemObservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProblemObservationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1431,9 +1431,9 @@ extension ApplicationInsightsClient {
     ///
     /// Describes a workload and its configuration.
     ///
-    /// - Parameter DescribeWorkloadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkloadInput`)
     ///
-    /// - Returns: `DescribeWorkloadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1501,9 +1501,9 @@ extension ApplicationInsightsClient {
     ///
     /// Lists the IDs of the applications that you are monitoring.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1570,9 +1570,9 @@ extension ApplicationInsightsClient {
     ///
     /// Lists the auto-grouped, standalone, and custom components of the application.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,9 +1646,9 @@ extension ApplicationInsightsClient {
     ///
     /// * ERROR: alarm not created due to permission errors or exceeding quotas.
     ///
-    /// - Parameter ListConfigurationHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationHistoryInput`)
     ///
-    /// - Returns: `ListConfigurationHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1716,9 +1716,9 @@ extension ApplicationInsightsClient {
     ///
     /// Lists the log pattern sets in the specific application.
     ///
-    /// - Parameter ListLogPatternSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLogPatternSetsInput`)
     ///
-    /// - Returns: `ListLogPatternSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLogPatternSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1786,9 +1786,9 @@ extension ApplicationInsightsClient {
     ///
     /// Lists the log patterns in the specific log LogPatternSet.
     ///
-    /// - Parameter ListLogPatternsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLogPatternsInput`)
     ///
-    /// - Returns: `ListLogPatternsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLogPatternsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1856,9 +1856,9 @@ extension ApplicationInsightsClient {
     ///
     /// Lists the problems with your application.
     ///
-    /// - Parameter ListProblemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProblemsInput`)
     ///
-    /// - Returns: `ListProblemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProblemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1926,9 +1926,9 @@ extension ApplicationInsightsClient {
     ///
     /// Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1995,9 +1995,9 @@ extension ApplicationInsightsClient {
     ///
     /// Lists the workloads that are configured on a given component.
     ///
-    /// - Parameter ListWorkloadsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadsInput`)
     ///
-    /// - Returns: `ListWorkloadsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2065,9 +2065,9 @@ extension ApplicationInsightsClient {
     ///
     /// Remove workload from a component.
     ///
-    /// - Parameter RemoveWorkloadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveWorkloadInput`)
     ///
-    /// - Returns: `RemoveWorkloadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,9 +2135,9 @@ extension ApplicationInsightsClient {
     ///
     /// Add one or more tags (keys and values) to a specified application. A tag is a label that you optionally define and associate with an application. Tags can help you categorize and manage application in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2205,9 +2205,9 @@ extension ApplicationInsightsClient {
     ///
     /// Remove one or more tags (keys and values) from a specified application.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2274,9 +2274,9 @@ extension ApplicationInsightsClient {
     ///
     /// Updates the application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2344,9 +2344,9 @@ extension ApplicationInsightsClient {
     ///
     /// Updates the custom component name and/or the list of resources that make up the component.
     ///
-    /// - Parameter UpdateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComponentInput`)
     ///
-    /// - Returns: `UpdateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2415,9 +2415,9 @@ extension ApplicationInsightsClient {
     ///
     /// Updates the monitoring configurations for the component. The configuration input parameter is an escaped JSON of the configuration and should match the schema of what is returned by DescribeComponentConfigurationRecommendation.
     ///
-    /// - Parameter UpdateComponentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComponentConfigurationInput`)
     ///
-    /// - Returns: `UpdateComponentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComponentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2486,9 +2486,9 @@ extension ApplicationInsightsClient {
     ///
     /// Adds a log pattern to a LogPatternSet.
     ///
-    /// - Parameter UpdateLogPatternInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLogPatternInput`)
     ///
-    /// - Returns: `UpdateLogPatternOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLogPatternOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2557,9 +2557,9 @@ extension ApplicationInsightsClient {
     ///
     /// Updates the visibility of the problem or specifies the problem as RESOLVED.
     ///
-    /// - Parameter UpdateProblemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProblemInput`)
     ///
-    /// - Returns: `UpdateProblemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProblemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2627,9 +2627,9 @@ extension ApplicationInsightsClient {
     ///
     /// Adds a workload to a component. Each component can have at most five workloads.
     ///
-    /// - Parameter UpdateWorkloadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkloadInput`)
     ///
-    /// - Returns: `UpdateWorkloadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

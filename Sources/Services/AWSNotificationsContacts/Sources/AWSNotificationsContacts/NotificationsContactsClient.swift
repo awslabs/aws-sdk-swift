@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NotificationsContactsClient: ClientRuntime.Client {
     public static let clientName = "NotificationsContactsClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: NotificationsContactsClient.NotificationsContactsClientConfiguration
     let serviceName = "NotificationsContacts"
@@ -372,9 +372,9 @@ extension NotificationsContactsClient {
     ///
     /// Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
     ///
-    /// - Parameter ActivateEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateEmailContactInput`)
     ///
-    /// - Returns: `ActivateEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -441,9 +441,9 @@ extension NotificationsContactsClient {
     ///
     /// Creates an email contact for the provided email address.
     ///
-    /// - Parameter CreateEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEmailContactInput`)
     ///
-    /// - Returns: `CreateEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,9 +513,9 @@ extension NotificationsContactsClient {
     ///
     /// Deletes an email contact. Deleting an email contact removes it from all associated notification configurations.
     ///
-    /// - Parameter DeleteEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEmailContactInput`)
     ///
-    /// - Returns: `DeleteEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,9 +582,9 @@ extension NotificationsContactsClient {
     ///
     /// Returns an email contact.
     ///
-    /// - Parameter GetEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEmailContactInput`)
     ///
-    /// - Returns: `GetEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -650,9 +650,9 @@ extension NotificationsContactsClient {
     ///
     /// Lists all email contacts created under the Account.
     ///
-    /// - Parameter ListEmailContactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEmailContactsInput`)
     ///
-    /// - Returns: `ListEmailContactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEmailContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,9 +718,9 @@ extension NotificationsContactsClient {
     ///
     /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,9 +786,9 @@ extension NotificationsContactsClient {
     ///
     /// Sends an activation email to the email address associated with the specified email contact. It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email.
     ///
-    /// - Parameter SendActivationCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendActivationCodeInput`)
     ///
-    /// - Returns: `SendActivationCodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendActivationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,9 +855,9 @@ extension NotificationsContactsClient {
     ///
     /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -926,9 +926,9 @@ extension NotificationsContactsClient {
     ///
     /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts..
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

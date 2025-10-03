@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WisdomClient: ClientRuntime.Client {
     public static let clientName = "WisdomClient"
-    public static let version = "1.5.55"
+    public static let version = "1.5.56"
     let client: ClientRuntime.SdkHttpClient
     let config: WisdomClient.WisdomClientConfiguration
     let serviceName = "Wisdom"
@@ -374,9 +374,9 @@ extension WisdomClient {
     ///
     /// Creates an Amazon Connect Wisdom assistant.
     ///
-    /// - Parameter CreateAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssistantInput`)
     ///
-    /// - Returns: `CreateAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -445,9 +445,9 @@ extension WisdomClient {
     ///
     /// Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
     ///
-    /// - Parameter CreateAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssistantAssociationInput`)
     ///
-    /// - Returns: `CreateAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -517,9 +517,9 @@ extension WisdomClient {
     ///
     /// Creates Wisdom content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset.
     ///
-    /// - Parameter CreateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContentInput`)
     ///
-    /// - Returns: `CreateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -597,9 +597,9 @@ extension WisdomClient {
     ///
     /// * Call CreateKnowledgeBase.
     ///
-    /// - Parameter CreateKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKnowledgeBaseInput`)
     ///
-    /// - Returns: `CreateKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -668,9 +668,9 @@ extension WisdomClient {
     ///
     /// Creates a Wisdom quick response.
     ///
-    /// - Parameter CreateQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuickResponseInput`)
     ///
-    /// - Returns: `CreateQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -740,9 +740,9 @@ extension WisdomClient {
     ///
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
     ///
-    /// - Parameter CreateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
-    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -810,9 +810,9 @@ extension WisdomClient {
     ///
     /// Deletes an assistant.
     ///
-    /// - Parameter DeleteAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssistantInput`)
     ///
-    /// - Returns: `DeleteAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -876,9 +876,9 @@ extension WisdomClient {
     ///
     /// Deletes an assistant association.
     ///
-    /// - Parameter DeleteAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssistantAssociationInput`)
     ///
-    /// - Returns: `DeleteAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -942,9 +942,9 @@ extension WisdomClient {
     ///
     /// Deletes the content.
     ///
-    /// - Parameter DeleteContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContentInput`)
     ///
-    /// - Returns: `DeleteContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1008,9 +1008,9 @@ extension WisdomClient {
     ///
     /// Deletes the quick response import job.
     ///
-    /// - Parameter DeleteImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImportJobInput`)
     ///
-    /// - Returns: `DeleteImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,9 +1075,9 @@ extension WisdomClient {
     ///
     /// Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
     ///
-    /// - Parameter DeleteKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKnowledgeBaseInput`)
     ///
-    /// - Returns: `DeleteKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,9 +1142,9 @@ extension WisdomClient {
     ///
     /// Deletes a quick response.
     ///
-    /// - Parameter DeleteQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQuickResponseInput`)
     ///
-    /// - Returns: `DeleteQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,9 +1208,9 @@ extension WisdomClient {
     ///
     /// Retrieves information about an assistant.
     ///
-    /// - Parameter GetAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssistantInput`)
     ///
-    /// - Returns: `GetAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1274,9 +1274,9 @@ extension WisdomClient {
     ///
     /// Retrieves information about an assistant association.
     ///
-    /// - Parameter GetAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssistantAssociationInput`)
     ///
-    /// - Returns: `GetAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1340,9 +1340,9 @@ extension WisdomClient {
     ///
     /// Retrieves content, including a pre-signed URL to download the content.
     ///
-    /// - Parameter GetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentInput`)
     ///
-    /// - Returns: `GetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,9 +1406,9 @@ extension WisdomClient {
     ///
     /// Retrieves summary information about the content.
     ///
-    /// - Parameter GetContentSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentSummaryInput`)
     ///
-    /// - Returns: `GetContentSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,9 +1472,9 @@ extension WisdomClient {
     ///
     /// Retrieves the started import job.
     ///
-    /// - Parameter GetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportJobInput`)
     ///
-    /// - Returns: `GetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,9 +1538,9 @@ extension WisdomClient {
     ///
     /// Retrieves information about the knowledge base.
     ///
-    /// - Parameter GetKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKnowledgeBaseInput`)
     ///
-    /// - Returns: `GetKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1604,9 +1604,9 @@ extension WisdomClient {
     ///
     /// Retrieves the quick response.
     ///
-    /// - Parameter GetQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQuickResponseInput`)
     ///
-    /// - Returns: `GetQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1671,9 +1671,9 @@ extension WisdomClient {
     /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
-    /// - Parameter GetRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationsInput`)
     ///
-    /// - Returns: `GetRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1738,9 +1738,9 @@ extension WisdomClient {
     ///
     /// Retrieves information for a specified session.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,9 +1804,9 @@ extension WisdomClient {
     ///
     /// Lists information about assistant associations.
     ///
-    /// - Parameter ListAssistantAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssistantAssociationsInput`)
     ///
-    /// - Returns: `ListAssistantAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssistantAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1871,9 +1871,9 @@ extension WisdomClient {
     ///
     /// Lists information about assistants.
     ///
-    /// - Parameter ListAssistantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssistantsInput`)
     ///
-    /// - Returns: `ListAssistantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssistantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1937,9 +1937,9 @@ extension WisdomClient {
     ///
     /// Lists the content.
     ///
-    /// - Parameter ListContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContentsInput`)
     ///
-    /// - Returns: `ListContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2004,9 +2004,9 @@ extension WisdomClient {
     ///
     /// Lists information about import jobs.
     ///
-    /// - Parameter ListImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportJobsInput`)
     ///
-    /// - Returns: `ListImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2070,9 +2070,9 @@ extension WisdomClient {
     ///
     /// Lists the knowledge bases.
     ///
-    /// - Parameter ListKnowledgeBasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKnowledgeBasesInput`)
     ///
-    /// - Returns: `ListKnowledgeBasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKnowledgeBasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2136,9 +2136,9 @@ extension WisdomClient {
     ///
     /// Lists information about quick response.
     ///
-    /// - Parameter ListQuickResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQuickResponsesInput`)
     ///
-    /// - Returns: `ListQuickResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQuickResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2203,9 +2203,9 @@ extension WisdomClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2267,9 +2267,9 @@ extension WisdomClient {
     ///
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
     ///
-    /// - Parameter NotifyRecommendationsReceivedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyRecommendationsReceivedInput`)
     ///
-    /// - Returns: `NotifyRecommendationsReceivedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyRecommendationsReceivedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2337,9 +2337,9 @@ extension WisdomClient {
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
-    /// - Parameter QueryAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryAssistantInput`)
     ///
-    /// - Returns: `QueryAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2407,9 +2407,9 @@ extension WisdomClient {
     ///
     /// Removes a URI template from a knowledge base.
     ///
-    /// - Parameter RemoveKnowledgeBaseTemplateUriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveKnowledgeBaseTemplateUriInput`)
     ///
-    /// - Returns: `RemoveKnowledgeBaseTemplateUriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveKnowledgeBaseTemplateUriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2473,9 +2473,9 @@ extension WisdomClient {
     ///
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     ///
-    /// - Parameter SearchContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchContentInput`)
     ///
-    /// - Returns: `SearchContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2543,9 +2543,9 @@ extension WisdomClient {
     ///
     /// Searches existing Wisdom quick responses in a Wisdom knowledge base.
     ///
-    /// - Parameter SearchQuickResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQuickResponsesInput`)
     ///
-    /// - Returns: `SearchQuickResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQuickResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2614,9 +2614,9 @@ extension WisdomClient {
     ///
     /// Searches for sessions.
     ///
-    /// - Parameter SearchSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSessionsInput`)
     ///
-    /// - Returns: `SearchSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2684,9 +2684,9 @@ extension WisdomClient {
     ///
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
     ///
-    /// - Parameter StartContentUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContentUploadInput`)
     ///
-    /// - Returns: `StartContentUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContentUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2755,9 +2755,9 @@ extension WisdomClient {
     ///
     /// * For importing Wisdom quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
     ///
-    /// - Parameter StartImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportJobInput`)
     ///
-    /// - Returns: `StartImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2827,9 +2827,9 @@ extension WisdomClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2895,9 +2895,9 @@ extension WisdomClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2960,9 +2960,9 @@ extension WisdomClient {
     ///
     /// Updates information about the content.
     ///
-    /// - Parameter UpdateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContentInput`)
     ///
-    /// - Returns: `UpdateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3030,9 +3030,9 @@ extension WisdomClient {
     ///
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     ///
-    /// - Parameter UpdateKnowledgeBaseTemplateUriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKnowledgeBaseTemplateUriInput`)
     ///
-    /// - Returns: `UpdateKnowledgeBaseTemplateUriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKnowledgeBaseTemplateUriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3099,9 +3099,9 @@ extension WisdomClient {
     ///
     /// Updates an existing Wisdom quick response.
     ///
-    /// - Parameter UpdateQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuickResponseInput`)
     ///
-    /// - Returns: `UpdateQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
