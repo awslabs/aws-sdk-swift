@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoSignalingClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoSignalingClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoSignalingClient.KinesisVideoSignalingClientConfiguration
     let serviceName = "Kinesis Video Signaling"
@@ -412,6 +413,7 @@ extension KinesisVideoSignalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIceServerConfigInput, GetIceServerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIceServerConfigOutput>(GetIceServerConfigOutput.httpOutput(from:), GetIceServerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIceServerConfigInput, GetIceServerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIceServerConfigOutput>())
@@ -482,6 +484,7 @@ extension KinesisVideoSignalingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAlexaOfferToMasterInput, SendAlexaOfferToMasterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendAlexaOfferToMasterOutput>(SendAlexaOfferToMasterOutput.httpOutput(from:), SendAlexaOfferToMasterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAlexaOfferToMasterInput, SendAlexaOfferToMasterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendAlexaOfferToMasterOutput>())

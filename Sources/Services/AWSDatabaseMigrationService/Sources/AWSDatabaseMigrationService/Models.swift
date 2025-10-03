@@ -4667,7 +4667,7 @@ public struct CreateInstanceProfileInput: Swift.Sendable {
     public var description: Swift.String?
     /// A user-friendly name for the instance profile.
     public var instanceProfileName: Swift.String?
-    /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+    /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
     public var kmsKeyArn: Swift.String?
     /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
     public var networkType: Swift.String?
@@ -4717,7 +4717,7 @@ extension DatabaseMigrationClientTypes {
         public var instanceProfileCreationTime: Foundation.Date?
         /// The user-friendly name for the instance profile.
         public var instanceProfileName: Swift.String?
-        /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+        /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
         public var kmsKeyArn: Swift.String?
         /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
         public var networkType: Swift.String?
@@ -10272,7 +10272,7 @@ public struct ModifyInstanceProfileInput: Swift.Sendable {
     public var instanceProfileIdentifier: Swift.String?
     /// A user-friendly name for the instance profile.
     public var instanceProfileName: Swift.String?
-    /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+    /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
     public var kmsKeyArn: Swift.String?
     /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
     public var networkType: Swift.String?

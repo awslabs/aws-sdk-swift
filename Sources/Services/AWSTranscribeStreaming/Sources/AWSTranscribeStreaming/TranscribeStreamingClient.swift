@@ -21,6 +21,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranscribeStreamingClient: ClientRuntime.Client {
     public static let clientName = "TranscribeStreamingClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeStreamingClient.TranscribeStreamingClientConfiguration
     let serviceName = "Transcribe Streaming"
@@ -407,6 +408,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMedicalScribeStreamInput, GetMedicalScribeStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMedicalScribeStreamOutput>(GetMedicalScribeStreamOutput.httpOutput(from:), GetMedicalScribeStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMedicalScribeStreamInput, GetMedicalScribeStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMedicalScribeStreamOutput>())
@@ -489,6 +491,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCallAnalyticsStreamTranscriptionOutput>(StartCallAnalyticsStreamTranscriptionOutput.httpOutput(from:), StartCallAnalyticsStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCallAnalyticsStreamTranscriptionOutput>())
@@ -571,6 +574,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalScribeStreamInput, StartMedicalScribeStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMedicalScribeStreamOutput>(StartMedicalScribeStreamOutput.httpOutput(from:), StartMedicalScribeStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalScribeStreamInput, StartMedicalScribeStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalScribeStreamOutput>())
@@ -653,6 +657,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMedicalStreamTranscriptionOutput>(StartMedicalStreamTranscriptionOutput.httpOutput(from:), StartMedicalStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalStreamTranscriptionOutput>())
@@ -735,6 +740,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamTranscriptionOutput>(StartStreamTranscriptionOutput.httpOutput(from:), StartStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamTranscriptionOutput>())

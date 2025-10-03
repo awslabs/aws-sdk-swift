@@ -106,6 +106,135 @@ public struct StartTrainedModelExportJobOutput: Swift.Sendable {
     public init() { }
 }
 
+extension CleanRoomsMLClientTypes {
+
+    public enum AutoRefreshMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoRefreshMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum AccessBudgetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case calendarDay
+        case calendarMonth
+        case calendarWeek
+        case lifetime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessBudgetType] {
+            return [
+                .calendarDay,
+                .calendarMonth,
+                .calendarWeek,
+                .lifetime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .calendarDay: return "CALENDAR_DAY"
+            case .calendarMonth: return "CALENDAR_MONTH"
+            case .calendarWeek: return "CALENDAR_WEEK"
+            case .lifetime: return "LIFETIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// The detailed information for a specific budget period, including time boundaries and budget amounts.
+    public struct AccessBudgetDetails: Swift.Sendable {
+        /// Specifies whether this budget automatically refreshes when the current period ends.
+        public var autoRefresh: CleanRoomsMLClientTypes.AutoRefreshMode?
+        /// The total budget amount allocated for this period.
+        /// This member is required.
+        public var budget: Swift.Int?
+        /// The type of budget period. Calendar-based types reset automatically at regular intervals, while LIFETIME budgets never reset.
+        /// This member is required.
+        public var budgetType: CleanRoomsMLClientTypes.AccessBudgetType?
+        /// The end time of this budget period. If not specified, the budget period continues indefinitely.
+        public var endTime: Foundation.Date?
+        /// The amount of budget remaining in this period.
+        /// This member is required.
+        public var remainingBudget: Swift.Int?
+        /// The start time of this budget period.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            autoRefresh: CleanRoomsMLClientTypes.AutoRefreshMode? = nil,
+            budget: Swift.Int? = nil,
+            budgetType: CleanRoomsMLClientTypes.AccessBudgetType? = nil,
+            endTime: Foundation.Date? = nil,
+            remainingBudget: Swift.Int? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.autoRefresh = autoRefresh
+            self.budget = budget
+            self.budgetType = budgetType
+            self.endTime = endTime
+            self.remainingBudget = remainingBudget
+            self.startTime = startTime
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// An access budget that defines consumption limits for a specific resource within defined time periods.
+    public struct AccessBudget: Swift.Sendable {
+        /// The total remaining budget across all active budget periods for this resource.
+        /// This member is required.
+        public var aggregateRemainingBudget: Swift.Int?
+        /// A list of budget details for this resource. Contains active budget periods that apply to the resource.
+        /// This member is required.
+        public var details: [CleanRoomsMLClientTypes.AccessBudgetDetails]?
+        /// The Amazon Resource Name (ARN) of the resource that this access budget applies to.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+
+        public init(
+            aggregateRemainingBudget: Swift.Int? = nil,
+            details: [CleanRoomsMLClientTypes.AccessBudgetDetails]? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.aggregateRemainingBudget = aggregateRemainingBudget
+            self.details = details
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4020,6 +4149,16 @@ public struct GetCollaborationMLInputChannelInput: Swift.Sendable {
     }
 }
 
+extension CleanRoomsMLClientTypes {
+
+    /// The privacy budget information that controls access to Clean Rooms ML input channels.
+    public enum PrivacyBudgets: Swift.Sendable {
+        /// A list of access budgets that apply to resources associated with this Clean Rooms ML input channel.
+        case accessbudgets([CleanRoomsMLClientTypes.AccessBudget])
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
     /// The collaboration ID of the collaboration that contains the ML input channel.
     /// This member is required.
@@ -4046,6 +4185,8 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The number of records in the ML input channel.
     public var numberOfRecords: Swift.Int?
+    /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
+    public var privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets?
     /// The number of days to retain the data for the ML input channel.
     /// This member is required.
     public var retentionInDays: Swift.Int?
@@ -4068,6 +4209,7 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         mlInputChannelArn: Swift.String? = nil,
         name: Swift.String? = nil,
         numberOfRecords: Swift.Int? = nil,
+        privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets? = nil,
         retentionInDays: Swift.Int? = nil,
         status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
@@ -4082,6 +4224,7 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         self.mlInputChannelArn = mlInputChannelArn
         self.name = name
         self.numberOfRecords = numberOfRecords
+        self.privacyBudgets = privacyBudgets
         self.retentionInDays = retentionInDays
         self.status = status
         self.statusDetails = statusDetails
@@ -4136,6 +4279,8 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
     public var numberOfFiles: Swift.Double?
     /// The number of records in the ML input channel.
     public var numberOfRecords: Swift.Int?
+    /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
+    public var privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets?
     /// The ID of the protected query that was used to create the ML input channel.
     public var protectedQueryIdentifier: Swift.String?
     /// The number of days to keep the data in the ML input channel.
@@ -4180,6 +4325,7 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         name: Swift.String? = nil,
         numberOfFiles: Swift.Double? = nil,
         numberOfRecords: Swift.Int? = nil,
+        privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets? = nil,
         protectedQueryIdentifier: Swift.String? = nil,
         retentionInDays: Swift.Int? = nil,
         sizeInGb: Swift.Double? = nil,
@@ -4199,6 +4345,7 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         self.name = name
         self.numberOfFiles = numberOfFiles
         self.numberOfRecords = numberOfRecords
+        self.privacyBudgets = privacyBudgets
         self.protectedQueryIdentifier = protectedQueryIdentifier
         self.retentionInDays = retentionInDays
         self.sizeInGb = sizeInGb
@@ -8088,6 +8235,7 @@ extension GetCollaborationMLInputChannelOutput {
         value.mlInputChannelArn = try reader["mlInputChannelArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.numberOfRecords = try reader["numberOfRecords"].readIfPresent()
+        value.privacyBudgets = try reader["privacyBudgets"].readIfPresent(with: CleanRoomsMLClientTypes.PrivacyBudgets.read(from:))
         value.retentionInDays = try reader["retentionInDays"].readIfPresent() ?? 0
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusDetails = try reader["statusDetails"].readIfPresent(with: CleanRoomsMLClientTypes.StatusDetails.read(from:))
@@ -8241,6 +8389,7 @@ extension GetMLInputChannelOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.numberOfFiles = try reader["numberOfFiles"].readIfPresent()
         value.numberOfRecords = try reader["numberOfRecords"].readIfPresent()
+        value.privacyBudgets = try reader["privacyBudgets"].readIfPresent(with: CleanRoomsMLClientTypes.PrivacyBudgets.read(from:))
         value.protectedQueryIdentifier = try reader["protectedQueryIdentifier"].readIfPresent()
         value.retentionInDays = try reader["retentionInDays"].readIfPresent() ?? 0
         value.sizeInGb = try reader["sizeInGb"].readIfPresent()
@@ -10076,6 +10225,47 @@ extension CleanRoomsMLClientTypes.MetricsConfigurationPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.MetricsConfigurationPolicy()
         value.noiseLevel = try reader["noiseLevel"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.PrivacyBudgets {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.PrivacyBudgets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "accessBudgets":
+                return .accessbudgets(try reader["accessBudgets"].readList(memberReadingClosure: CleanRoomsMLClientTypes.AccessBudget.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes.AccessBudget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AccessBudget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.AccessBudget()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.details = try reader["details"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.AccessBudgetDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.aggregateRemainingBudget = try reader["aggregateRemainingBudget"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.AccessBudgetDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AccessBudgetDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.AccessBudgetDetails()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.remainingBudget = try reader["remainingBudget"].readIfPresent() ?? 0
+        value.budget = try reader["budget"].readIfPresent() ?? 0
+        value.budgetType = try reader["budgetType"].readIfPresent() ?? .sdkUnknown("")
+        value.autoRefresh = try reader["autoRefresh"].readIfPresent()
         return value
     }
 }

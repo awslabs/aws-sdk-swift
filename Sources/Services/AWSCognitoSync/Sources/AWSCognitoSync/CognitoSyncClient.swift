@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CognitoSyncClient: ClientRuntime.Client {
     public static let clientName = "CognitoSyncClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoSyncClient.CognitoSyncClientConfiguration
     let serviceName = "Cognito Sync"
@@ -412,6 +413,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BulkPublishInput, BulkPublishOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BulkPublishOutput>(BulkPublishOutput.httpOutput(from:), BulkPublishOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BulkPublishInput, BulkPublishOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BulkPublishOutput>())
@@ -481,6 +483,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -549,6 +552,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -617,6 +621,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIdentityPoolUsageInput, DescribeIdentityPoolUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdentityPoolUsageOutput>(DescribeIdentityPoolUsageOutput.httpOutput(from:), DescribeIdentityPoolUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityPoolUsageInput, DescribeIdentityPoolUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityPoolUsageOutput>())
@@ -685,6 +690,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIdentityUsageInput, DescribeIdentityUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdentityUsageOutput>(DescribeIdentityUsageOutput.httpOutput(from:), DescribeIdentityUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityUsageInput, DescribeIdentityUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityUsageOutput>())
@@ -752,6 +758,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBulkPublishDetailsInput, GetBulkPublishDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBulkPublishDetailsOutput>(GetBulkPublishDetailsOutput.httpOutput(from:), GetBulkPublishDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBulkPublishDetailsInput, GetBulkPublishDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBulkPublishDetailsOutput>())
@@ -820,6 +827,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCognitoEventsInput, GetCognitoEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCognitoEventsOutput>(GetCognitoEventsOutput.httpOutput(from:), GetCognitoEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCognitoEventsInput, GetCognitoEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCognitoEventsOutput>())
@@ -888,6 +896,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityPoolConfigurationInput, GetIdentityPoolConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityPoolConfigurationOutput>(GetIdentityPoolConfigurationOutput.httpOutput(from:), GetIdentityPoolConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityPoolConfigurationInput, GetIdentityPoolConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityPoolConfigurationOutput>())
@@ -956,6 +965,7 @@ extension CognitoSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetsInput, ListDatasetsOutput>(ListDatasetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -1024,6 +1034,7 @@ extension CognitoSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput>(ListIdentityPoolUsageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityPoolUsageOutput>(ListIdentityPoolUsageOutput.httpOutput(from:), ListIdentityPoolUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityPoolUsageInput, ListIdentityPoolUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityPoolUsageOutput>())
@@ -1092,6 +1103,7 @@ extension CognitoSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecordsInput, ListRecordsOutput>(ListRecordsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecordsOutput>(ListRecordsOutput.httpOutput(from:), ListRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecordsInput, ListRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecordsOutput>())
@@ -1164,6 +1176,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDeviceInput, RegisterDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterDeviceOutput>(RegisterDeviceOutput.httpOutput(from:), RegisterDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDeviceInput, RegisterDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDeviceOutput>())
@@ -1235,6 +1248,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetCognitoEventsInput, SetCognitoEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetCognitoEventsOutput>(SetCognitoEventsOutput.httpOutput(from:), SetCognitoEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetCognitoEventsInput, SetCognitoEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetCognitoEventsOutput>())
@@ -1307,6 +1321,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetIdentityPoolConfigurationOutput>(SetIdentityPoolConfigurationOutput.httpOutput(from:), SetIdentityPoolConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetIdentityPoolConfigurationInput, SetIdentityPoolConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetIdentityPoolConfigurationOutput>())
@@ -1376,6 +1391,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SubscribeToDatasetInput, SubscribeToDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubscribeToDatasetOutput>(SubscribeToDatasetOutput.httpOutput(from:), SubscribeToDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubscribeToDatasetInput, SubscribeToDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubscribeToDatasetOutput>())
@@ -1445,6 +1461,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UnsubscribeFromDatasetInput, UnsubscribeFromDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnsubscribeFromDatasetOutput>(UnsubscribeFromDatasetOutput.httpOutput(from:), UnsubscribeFromDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnsubscribeFromDatasetInput, UnsubscribeFromDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnsubscribeFromDatasetOutput>())
@@ -1521,6 +1538,7 @@ extension CognitoSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecordsInput, UpdateRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecordsOutput>(UpdateRecordsOutput.httpOutput(from:), UpdateRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecordsInput, UpdateRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecordsOutput>())

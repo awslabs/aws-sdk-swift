@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2InstanceConnectClient: ClientRuntime.Client {
     public static let clientName = "EC2InstanceConnectClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration
     let serviceName = "EC2 Instance Connect"
@@ -412,6 +413,7 @@ extension EC2InstanceConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendSSHPublicKeyOutput>(SendSSHPublicKeyOutput.httpOutput(from:), SendSSHPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendSSHPublicKeyOutput>())
@@ -491,6 +493,7 @@ extension EC2InstanceConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendSerialConsoleSSHPublicKeyOutput>(SendSerialConsoleSSHPublicKeyOutput.httpOutput(from:), SendSerialConsoleSSHPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendSerialConsoleSSHPublicKeyOutput>())

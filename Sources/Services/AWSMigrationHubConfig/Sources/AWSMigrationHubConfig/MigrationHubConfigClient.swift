@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubConfigClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubConfigClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubConfigClient.MigrationHubConfigClientConfiguration
     let serviceName = "MigrationHub Config"
@@ -411,6 +412,7 @@ extension MigrationHubConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHomeRegionControlOutput>(CreateHomeRegionControlOutput.httpOutput(from:), CreateHomeRegionControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHomeRegionControlOutput>())
@@ -483,6 +485,7 @@ extension MigrationHubConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHomeRegionControlOutput>(DeleteHomeRegionControlOutput.httpOutput(from:), DeleteHomeRegionControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHomeRegionControlInput, DeleteHomeRegionControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHomeRegionControlOutput>())
@@ -555,6 +558,7 @@ extension MigrationHubConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHomeRegionControlsOutput>(DescribeHomeRegionControlsOutput.httpOutput(from:), DescribeHomeRegionControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHomeRegionControlsOutput>())
@@ -627,6 +631,7 @@ extension MigrationHubConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHomeRegionInput, GetHomeRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHomeRegionOutput>(GetHomeRegionOutput.httpOutput(from:), GetHomeRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHomeRegionInput, GetHomeRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHomeRegionOutput>())

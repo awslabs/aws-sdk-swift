@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceCommerceAnalyticsClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceCommerceAnalyticsClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceCommerceAnalyticsClient.MarketplaceCommerceAnalyticsClientConfiguration
     let serviceName = "Marketplace Commerce Analytics"
@@ -407,6 +408,7 @@ extension MarketplaceCommerceAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateDataSetInput, GenerateDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateDataSetOutput>(GenerateDataSetOutput.httpOutput(from:), GenerateDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateDataSetInput, GenerateDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateDataSetOutput>())
@@ -476,6 +478,7 @@ extension MarketplaceCommerceAnalyticsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSupportDataExportInput, StartSupportDataExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSupportDataExportOutput>(StartSupportDataExportOutput.httpOutput(from:), StartSupportDataExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSupportDataExportInput, StartSupportDataExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSupportDataExportOutput>())

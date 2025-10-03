@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3VectorsClient: ClientRuntime.Client {
     public static let clientName = "S3VectorsClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: S3VectorsClient.S3VectorsClientConfiguration
     let serviceName = "S3Vectors"
@@ -415,6 +416,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
@@ -488,6 +490,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVectorBucketInput, CreateVectorBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVectorBucketOutput>(CreateVectorBucketOutput.httpOutput(from:), CreateVectorBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVectorBucketInput, CreateVectorBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVectorBucketOutput>())
@@ -560,6 +563,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexInput, DeleteIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
@@ -633,6 +637,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVectorBucketInput, DeleteVectorBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVectorBucketOutput>(DeleteVectorBucketOutput.httpOutput(from:), DeleteVectorBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVectorBucketInput, DeleteVectorBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVectorBucketOutput>())
@@ -706,6 +711,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVectorBucketPolicyInput, DeleteVectorBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVectorBucketPolicyOutput>(DeleteVectorBucketPolicyOutput.httpOutput(from:), DeleteVectorBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVectorBucketPolicyInput, DeleteVectorBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVectorBucketPolicyOutput>())
@@ -790,6 +796,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVectorsInput, DeleteVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVectorsOutput>(DeleteVectorsOutput.httpOutput(from:), DeleteVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVectorsInput, DeleteVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVectorsOutput>())
@@ -863,6 +870,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIndexInput, GetIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIndexOutput>(GetIndexOutput.httpOutput(from:), GetIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIndexInput, GetIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIndexOutput>())
@@ -936,6 +944,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVectorBucketInput, GetVectorBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVectorBucketOutput>(GetVectorBucketOutput.httpOutput(from:), GetVectorBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVectorBucketInput, GetVectorBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVectorBucketOutput>())
@@ -1009,6 +1018,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVectorBucketPolicyInput, GetVectorBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVectorBucketPolicyOutput>(GetVectorBucketPolicyOutput.httpOutput(from:), GetVectorBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVectorBucketPolicyInput, GetVectorBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVectorBucketPolicyOutput>())
@@ -1093,6 +1103,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVectorsInput, GetVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVectorsOutput>(GetVectorsOutput.httpOutput(from:), GetVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVectorsInput, GetVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVectorsOutput>())
@@ -1166,6 +1177,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIndexesInput, ListIndexesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndexesOutput>(ListIndexesOutput.httpOutput(from:), ListIndexesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndexesInput, ListIndexesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndexesOutput>())
@@ -1238,6 +1250,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVectorBucketsInput, ListVectorBucketsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVectorBucketsOutput>(ListVectorBucketsOutput.httpOutput(from:), ListVectorBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVectorBucketsInput, ListVectorBucketsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVectorBucketsOutput>())
@@ -1315,6 +1328,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVectorsInput, ListVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVectorsOutput>(ListVectorsOutput.httpOutput(from:), ListVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVectorsInput, ListVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVectorsOutput>())
@@ -1388,6 +1402,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVectorBucketPolicyInput, PutVectorBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVectorBucketPolicyOutput>(PutVectorBucketPolicyOutput.httpOutput(from:), PutVectorBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVectorBucketPolicyInput, PutVectorBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVectorBucketPolicyOutput>())
@@ -1472,6 +1487,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVectorsInput, PutVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVectorsOutput>(PutVectorsOutput.httpOutput(from:), PutVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVectorsInput, PutVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVectorsOutput>())
@@ -1560,6 +1576,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryVectorsInput, QueryVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryVectorsOutput>(QueryVectorsOutput.httpOutput(from:), QueryVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryVectorsInput, QueryVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryVectorsOutput>())

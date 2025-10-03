@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ForecastqueryClient: ClientRuntime.Client {
     public static let clientName = "ForecastqueryClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: ForecastqueryClient.ForecastqueryClientConfiguration
     let serviceName = "forecastquery"
@@ -410,6 +411,7 @@ extension ForecastqueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryForecastInput, QueryForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryForecastOutput>(QueryForecastOutput.httpOutput(from:), QueryForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryForecastInput, QueryForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryForecastOutput>())
@@ -482,6 +484,7 @@ extension ForecastqueryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryWhatIfForecastOutput>(QueryWhatIfForecastOutput.httpOutput(from:), QueryWhatIfForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryWhatIfForecastInput, QueryWhatIfForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryWhatIfForecastOutput>())

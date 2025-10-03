@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerUserSubscriptionsClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerUserSubscriptionsClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfiguration
     let serviceName = "License Manager User Subscriptions"
@@ -414,6 +415,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateUserInput, AssociateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateUserOutput>(AssociateUserOutput.httpOutput(from:), AssociateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateUserInput, AssociateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateUserOutput>())
@@ -487,6 +489,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseServerEndpointInput, CreateLicenseServerEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseServerEndpointOutput>(CreateLicenseServerEndpointOutput.httpOutput(from:), CreateLicenseServerEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseServerEndpointInput, CreateLicenseServerEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseServerEndpointOutput>())
@@ -560,6 +563,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseServerEndpointInput, DeleteLicenseServerEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseServerEndpointOutput>(DeleteLicenseServerEndpointOutput.httpOutput(from:), DeleteLicenseServerEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseServerEndpointInput, DeleteLicenseServerEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLicenseServerEndpointOutput>())
@@ -633,6 +637,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterIdentityProviderOutput>(DeregisterIdentityProviderOutput.httpOutput(from:), DeregisterIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterIdentityProviderInput, DeregisterIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterIdentityProviderOutput>())
@@ -706,6 +711,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateUserInput, DisassociateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateUserOutput>(DisassociateUserOutput.httpOutput(from:), DisassociateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateUserInput, DisassociateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateUserOutput>())
@@ -779,6 +785,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutput>(ListIdentityProvidersOutput.httpOutput(from:), ListIdentityProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityProvidersOutput>())
@@ -852,6 +859,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstancesInput, ListInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstancesOutput>(ListInstancesOutput.httpOutput(from:), ListInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstancesInput, ListInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstancesOutput>())
@@ -924,6 +932,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseServerEndpointsInput, ListLicenseServerEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseServerEndpointsOutput>(ListLicenseServerEndpointsOutput.httpOutput(from:), ListLicenseServerEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseServerEndpointsInput, ListLicenseServerEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseServerEndpointsOutput>())
@@ -997,6 +1006,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProductSubscriptionsOutput>(ListProductSubscriptionsOutput.httpOutput(from:), ListProductSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProductSubscriptionsInput, ListProductSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProductSubscriptionsOutput>())
@@ -1063,6 +1073,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1136,6 +1147,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserAssociationsInput, ListUserAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserAssociationsOutput>(ListUserAssociationsOutput.httpOutput(from:), ListUserAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserAssociationsInput, ListUserAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserAssociationsOutput>())
@@ -1209,6 +1221,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterIdentityProviderOutput>(RegisterIdentityProviderOutput.httpOutput(from:), RegisterIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterIdentityProviderInput, RegisterIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterIdentityProviderOutput>())
@@ -1282,6 +1295,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProductSubscriptionOutput>(StartProductSubscriptionOutput.httpOutput(from:), StartProductSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProductSubscriptionInput, StartProductSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartProductSubscriptionOutput>())
@@ -1355,6 +1369,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopProductSubscriptionOutput>(StopProductSubscriptionOutput.httpOutput(from:), StopProductSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopProductSubscriptionInput, StopProductSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopProductSubscriptionOutput>())
@@ -1424,6 +1439,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1490,6 +1506,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1560,6 +1577,7 @@ extension LicenseManagerUserSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderSettingsOutput>(UpdateIdentityProviderSettingsOutput.httpOutput(from:), UpdateIdentityProviderSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdentityProviderSettingsInput, UpdateIdentityProviderSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdentityProviderSettingsOutput>())

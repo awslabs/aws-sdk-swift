@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QLDBClient: ClientRuntime.Client {
     public static let clientName = "QLDBClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: QLDBClient.QLDBClientConfiguration
     let serviceName = "QLDB"
@@ -408,6 +409,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJournalKinesisStreamInput, CancelJournalKinesisStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJournalKinesisStreamOutput>(CancelJournalKinesisStreamOutput.httpOutput(from:), CancelJournalKinesisStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJournalKinesisStreamInput, CancelJournalKinesisStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJournalKinesisStreamOutput>())
@@ -478,6 +480,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLedgerInput, CreateLedgerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLedgerOutput>(CreateLedgerOutput.httpOutput(from:), CreateLedgerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLedgerInput, CreateLedgerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLedgerOutput>())
@@ -545,6 +548,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLedgerInput, DeleteLedgerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLedgerOutput>(DeleteLedgerOutput.httpOutput(from:), DeleteLedgerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLedgerInput, DeleteLedgerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLedgerOutput>())
@@ -611,6 +615,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJournalKinesisStreamInput, DescribeJournalKinesisStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJournalKinesisStreamOutput>(DescribeJournalKinesisStreamOutput.httpOutput(from:), DescribeJournalKinesisStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJournalKinesisStreamInput, DescribeJournalKinesisStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJournalKinesisStreamOutput>())
@@ -675,6 +680,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJournalS3ExportInput, DescribeJournalS3ExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJournalS3ExportOutput>(DescribeJournalS3ExportOutput.httpOutput(from:), DescribeJournalS3ExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJournalS3ExportInput, DescribeJournalS3ExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJournalS3ExportOutput>())
@@ -740,6 +746,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLedgerInput, DescribeLedgerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLedgerOutput>(DescribeLedgerOutput.httpOutput(from:), DescribeLedgerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLedgerInput, DescribeLedgerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLedgerOutput>())
@@ -808,6 +815,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportJournalToS3Input, ExportJournalToS3Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportJournalToS3Output>(ExportJournalToS3Output.httpOutput(from:), ExportJournalToS3OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportJournalToS3Input, ExportJournalToS3Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportJournalToS3Output>())
@@ -877,6 +885,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlockInput, GetBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBlockOutput>(GetBlockOutput.httpOutput(from:), GetBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlockInput, GetBlockOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlockOutput>())
@@ -943,6 +952,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDigestInput, GetDigestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDigestOutput>(GetDigestOutput.httpOutput(from:), GetDigestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDigestInput, GetDigestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDigestOutput>())
@@ -1012,6 +1022,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRevisionInput, GetRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRevisionOutput>(GetRevisionOutput.httpOutput(from:), GetRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevisionInput, GetRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRevisionOutput>())
@@ -1079,6 +1090,7 @@ extension QLDBClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutput>(ListJournalKinesisStreamsForLedgerInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJournalKinesisStreamsForLedgerOutput>(ListJournalKinesisStreamsForLedgerOutput.httpOutput(from:), ListJournalKinesisStreamsForLedgerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJournalKinesisStreamsForLedgerOutput>())
@@ -1139,6 +1151,7 @@ extension QLDBClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJournalS3ExportsInput, ListJournalS3ExportsOutput>(ListJournalS3ExportsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJournalS3ExportsOutput>(ListJournalS3ExportsOutput.httpOutput(from:), ListJournalS3ExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJournalS3ExportsInput, ListJournalS3ExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJournalS3ExportsOutput>())
@@ -1199,6 +1212,7 @@ extension QLDBClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutput>(ListJournalS3ExportsForLedgerInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJournalS3ExportsForLedgerOutput>(ListJournalS3ExportsForLedgerOutput.httpOutput(from:), ListJournalS3ExportsForLedgerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJournalS3ExportsForLedgerOutput>())
@@ -1259,6 +1273,7 @@ extension QLDBClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLedgersInput, ListLedgersOutput>(ListLedgersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLedgersOutput>(ListLedgersOutput.httpOutput(from:), ListLedgersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLedgersInput, ListLedgersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLedgersOutput>())
@@ -1324,6 +1339,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1393,6 +1409,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StreamJournalToKinesisInput, StreamJournalToKinesisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StreamJournalToKinesisOutput>(StreamJournalToKinesisOutput.httpOutput(from:), StreamJournalToKinesisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StreamJournalToKinesisInput, StreamJournalToKinesisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StreamJournalToKinesisOutput>())
@@ -1461,6 +1478,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1527,6 +1545,7 @@ extension QLDBClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1595,6 +1614,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLedgerInput, UpdateLedgerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLedgerOutput>(UpdateLedgerOutput.httpOutput(from:), UpdateLedgerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLedgerInput, UpdateLedgerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLedgerOutput>())
@@ -1663,6 +1683,7 @@ extension QLDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLedgerPermissionsModeInput, UpdateLedgerPermissionsModeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLedgerPermissionsModeOutput>(UpdateLedgerPermissionsModeOutput.httpOutput(from:), UpdateLedgerPermissionsModeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLedgerPermissionsModeInput, UpdateLedgerPermissionsModeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLedgerPermissionsModeOutput>())

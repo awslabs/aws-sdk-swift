@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class HealthLakeClient: ClientRuntime.Client {
     public static let clientName = "HealthLakeClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: HealthLakeClient.HealthLakeClientConfiguration
     let serviceName = "HealthLake"
@@ -412,6 +413,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFHIRDatastoreInput, CreateFHIRDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFHIRDatastoreOutput>(CreateFHIRDatastoreOutput.httpOutput(from:), CreateFHIRDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFHIRDatastoreInput, CreateFHIRDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFHIRDatastoreOutput>())
@@ -485,6 +487,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFHIRDatastoreInput, DeleteFHIRDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFHIRDatastoreOutput>(DeleteFHIRDatastoreOutput.httpOutput(from:), DeleteFHIRDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFHIRDatastoreInput, DeleteFHIRDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFHIRDatastoreOutput>())
@@ -556,6 +559,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFHIRDatastoreInput, DescribeFHIRDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFHIRDatastoreOutput>(DescribeFHIRDatastoreOutput.httpOutput(from:), DescribeFHIRDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFHIRDatastoreInput, DescribeFHIRDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFHIRDatastoreOutput>())
@@ -627,6 +631,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFHIRExportJobInput, DescribeFHIRExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFHIRExportJobOutput>(DescribeFHIRExportJobOutput.httpOutput(from:), DescribeFHIRExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFHIRExportJobInput, DescribeFHIRExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFHIRExportJobOutput>())
@@ -698,6 +703,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFHIRImportJobInput, DescribeFHIRImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFHIRImportJobOutput>(DescribeFHIRImportJobOutput.httpOutput(from:), DescribeFHIRImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFHIRImportJobInput, DescribeFHIRImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFHIRImportJobOutput>())
@@ -768,6 +774,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFHIRDatastoresInput, ListFHIRDatastoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFHIRDatastoresOutput>(ListFHIRDatastoresOutput.httpOutput(from:), ListFHIRDatastoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFHIRDatastoresInput, ListFHIRDatastoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFHIRDatastoresOutput>())
@@ -840,6 +847,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFHIRExportJobsInput, ListFHIRExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFHIRExportJobsOutput>(ListFHIRExportJobsOutput.httpOutput(from:), ListFHIRExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFHIRExportJobsInput, ListFHIRExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFHIRExportJobsOutput>())
@@ -912,6 +920,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFHIRImportJobsInput, ListFHIRImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFHIRImportJobsOutput>(ListFHIRImportJobsOutput.httpOutput(from:), ListFHIRImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFHIRImportJobsInput, ListFHIRImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFHIRImportJobsOutput>())
@@ -981,6 +990,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1054,6 +1064,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFHIRExportJobInput, StartFHIRExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFHIRExportJobOutput>(StartFHIRExportJobOutput.httpOutput(from:), StartFHIRExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFHIRExportJobInput, StartFHIRExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFHIRExportJobOutput>())
@@ -1127,6 +1138,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFHIRImportJobInput, StartFHIRImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFHIRImportJobOutput>(StartFHIRImportJobOutput.httpOutput(from:), StartFHIRImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFHIRImportJobInput, StartFHIRImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFHIRImportJobOutput>())
@@ -1196,6 +1208,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1265,6 +1278,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerGeospatialClient: ClientRuntime.Client {
     public static let clientName = "SageMakerGeospatialClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerGeospatialClient.SageMakerGeospatialClientConfiguration
     let serviceName = "SageMaker Geospatial"
@@ -413,6 +414,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEarthObservationJobInput, DeleteEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEarthObservationJobOutput>(DeleteEarthObservationJobOutput.httpOutput(from:), DeleteEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEarthObservationJobInput, DeleteEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEarthObservationJobOutput>())
@@ -482,6 +484,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVectorEnrichmentJobInput, DeleteVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVectorEnrichmentJobOutput>(DeleteVectorEnrichmentJobOutput.httpOutput(from:), DeleteVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVectorEnrichmentJobInput, DeleteVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVectorEnrichmentJobOutput>())
@@ -556,6 +559,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportEarthObservationJobInput, ExportEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportEarthObservationJobOutput>(ExportEarthObservationJobOutput.httpOutput(from:), ExportEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportEarthObservationJobInput, ExportEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportEarthObservationJobOutput>())
@@ -630,6 +634,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportVectorEnrichmentJobInput, ExportVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportVectorEnrichmentJobOutput>(ExportVectorEnrichmentJobOutput.httpOutput(from:), ExportVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportVectorEnrichmentJobInput, ExportVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportVectorEnrichmentJobOutput>())
@@ -698,6 +703,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEarthObservationJobInput, GetEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEarthObservationJobOutput>(GetEarthObservationJobOutput.httpOutput(from:), GetEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEarthObservationJobInput, GetEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEarthObservationJobOutput>())
@@ -766,6 +772,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRasterDataCollectionInput, GetRasterDataCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRasterDataCollectionOutput>(GetRasterDataCollectionOutput.httpOutput(from:), GetRasterDataCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRasterDataCollectionInput, GetRasterDataCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRasterDataCollectionOutput>())
@@ -835,6 +842,7 @@ extension SageMakerGeospatialClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTileInput, GetTileOutput>(GetTileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTileOutput>(GetTileOutput.httpOutput(from:), GetTileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTileInput, GetTileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTileOutput>())
@@ -903,6 +911,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVectorEnrichmentJobInput, GetVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVectorEnrichmentJobOutput>(GetVectorEnrichmentJobOutput.httpOutput(from:), GetVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVectorEnrichmentJobInput, GetVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVectorEnrichmentJobOutput>())
@@ -974,6 +983,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEarthObservationJobsInput, ListEarthObservationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEarthObservationJobsOutput>(ListEarthObservationJobsOutput.httpOutput(from:), ListEarthObservationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEarthObservationJobsInput, ListEarthObservationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEarthObservationJobsOutput>())
@@ -1043,6 +1053,7 @@ extension SageMakerGeospatialClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRasterDataCollectionsInput, ListRasterDataCollectionsOutput>(ListRasterDataCollectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRasterDataCollectionsOutput>(ListRasterDataCollectionsOutput.httpOutput(from:), ListRasterDataCollectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRasterDataCollectionsInput, ListRasterDataCollectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRasterDataCollectionsOutput>())
@@ -1111,6 +1122,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1182,6 +1194,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVectorEnrichmentJobsInput, ListVectorEnrichmentJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVectorEnrichmentJobsOutput>(ListVectorEnrichmentJobsOutput.httpOutput(from:), ListVectorEnrichmentJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVectorEnrichmentJobsInput, ListVectorEnrichmentJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVectorEnrichmentJobsOutput>())
@@ -1253,6 +1266,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchRasterDataCollectionInput, SearchRasterDataCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchRasterDataCollectionOutput>(SearchRasterDataCollectionOutput.httpOutput(from:), SearchRasterDataCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchRasterDataCollectionInput, SearchRasterDataCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchRasterDataCollectionOutput>())
@@ -1327,6 +1341,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEarthObservationJobInput, StartEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEarthObservationJobOutput>(StartEarthObservationJobOutput.httpOutput(from:), StartEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEarthObservationJobInput, StartEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEarthObservationJobOutput>())
@@ -1401,6 +1416,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVectorEnrichmentJobInput, StartVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartVectorEnrichmentJobOutput>(StartVectorEnrichmentJobOutput.httpOutput(from:), StartVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVectorEnrichmentJobInput, StartVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartVectorEnrichmentJobOutput>())
@@ -1473,6 +1489,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEarthObservationJobInput, StopEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEarthObservationJobOutput>(StopEarthObservationJobOutput.httpOutput(from:), StopEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEarthObservationJobInput, StopEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEarthObservationJobOutput>())
@@ -1545,6 +1562,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopVectorEnrichmentJobInput, StopVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopVectorEnrichmentJobOutput>(StopVectorEnrichmentJobOutput.httpOutput(from:), StopVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopVectorEnrichmentJobInput, StopVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopVectorEnrichmentJobOutput>())
@@ -1616,6 +1634,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1685,6 +1704,7 @@ extension SageMakerGeospatialClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

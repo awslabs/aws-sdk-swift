@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppTestClient: ClientRuntime.Client {
     public static let clientName = "AppTestClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: AppTestClient.AppTestClientConfiguration
     let serviceName = "AppTest"
@@ -416,6 +417,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTestCaseInput, CreateTestCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTestCaseOutput>(CreateTestCaseOutput.httpOutput(from:), CreateTestCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTestCaseInput, CreateTestCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTestCaseOutput>())
@@ -489,6 +491,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTestConfigurationInput, CreateTestConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTestConfigurationOutput>(CreateTestConfigurationOutput.httpOutput(from:), CreateTestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTestConfigurationInput, CreateTestConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTestConfigurationOutput>())
@@ -562,6 +565,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTestSuiteInput, CreateTestSuiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTestSuiteOutput>(CreateTestSuiteOutput.httpOutput(from:), CreateTestSuiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTestSuiteInput, CreateTestSuiteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTestSuiteOutput>())
@@ -631,6 +635,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTestCaseInput, DeleteTestCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTestCaseOutput>(DeleteTestCaseOutput.httpOutput(from:), DeleteTestCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTestCaseInput, DeleteTestCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTestCaseOutput>())
@@ -700,6 +705,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTestConfigurationInput, DeleteTestConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTestConfigurationOutput>(DeleteTestConfigurationOutput.httpOutput(from:), DeleteTestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTestConfigurationInput, DeleteTestConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTestConfigurationOutput>())
@@ -768,6 +774,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTestRunInput, DeleteTestRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTestRunOutput>(DeleteTestRunOutput.httpOutput(from:), DeleteTestRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTestRunInput, DeleteTestRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTestRunOutput>())
@@ -837,6 +844,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTestSuiteInput, DeleteTestSuiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTestSuiteOutput>(DeleteTestSuiteOutput.httpOutput(from:), DeleteTestSuiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTestSuiteInput, DeleteTestSuiteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTestSuiteOutput>())
@@ -906,6 +914,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTestCaseInput, GetTestCaseOutput>(GetTestCaseInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTestCaseOutput>(GetTestCaseOutput.httpOutput(from:), GetTestCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTestCaseInput, GetTestCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTestCaseOutput>())
@@ -975,6 +984,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTestConfigurationInput, GetTestConfigurationOutput>(GetTestConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTestConfigurationOutput>(GetTestConfigurationOutput.httpOutput(from:), GetTestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTestConfigurationInput, GetTestConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTestConfigurationOutput>())
@@ -1044,6 +1054,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTestRunStepInput, GetTestRunStepOutput>(GetTestRunStepInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTestRunStepOutput>(GetTestRunStepOutput.httpOutput(from:), GetTestRunStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTestRunStepInput, GetTestRunStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTestRunStepOutput>())
@@ -1113,6 +1124,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTestSuiteInput, GetTestSuiteOutput>(GetTestSuiteInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTestSuiteOutput>(GetTestSuiteOutput.httpOutput(from:), GetTestSuiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTestSuiteInput, GetTestSuiteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTestSuiteOutput>())
@@ -1181,6 +1193,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1250,6 +1263,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTestCasesInput, ListTestCasesOutput>(ListTestCasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestCasesOutput>(ListTestCasesOutput.httpOutput(from:), ListTestCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestCasesInput, ListTestCasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestCasesOutput>())
@@ -1319,6 +1333,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTestConfigurationsInput, ListTestConfigurationsOutput>(ListTestConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestConfigurationsOutput>(ListTestConfigurationsOutput.httpOutput(from:), ListTestConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestConfigurationsInput, ListTestConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestConfigurationsOutput>())
@@ -1388,6 +1403,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTestRunStepsInput, ListTestRunStepsOutput>(ListTestRunStepsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestRunStepsOutput>(ListTestRunStepsOutput.httpOutput(from:), ListTestRunStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestRunStepsInput, ListTestRunStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestRunStepsOutput>())
@@ -1457,6 +1473,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTestRunTestCasesInput, ListTestRunTestCasesOutput>(ListTestRunTestCasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestRunTestCasesOutput>(ListTestRunTestCasesOutput.httpOutput(from:), ListTestRunTestCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestRunTestCasesInput, ListTestRunTestCasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestRunTestCasesOutput>())
@@ -1526,6 +1543,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTestRunsInput, ListTestRunsOutput>(ListTestRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestRunsOutput>(ListTestRunsOutput.httpOutput(from:), ListTestRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestRunsInput, ListTestRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestRunsOutput>())
@@ -1595,6 +1613,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTestSuitesInput, ListTestSuitesOutput>(ListTestSuitesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestSuitesOutput>(ListTestSuitesOutput.httpOutput(from:), ListTestSuitesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestSuitesInput, ListTestSuitesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestSuitesOutput>())
@@ -1669,6 +1688,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTestRunInput, StartTestRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTestRunOutput>(StartTestRunOutput.httpOutput(from:), StartTestRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTestRunInput, StartTestRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTestRunOutput>())
@@ -1741,6 +1761,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1810,6 +1831,7 @@ extension AppTestClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1882,6 +1904,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTestCaseInput, UpdateTestCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTestCaseOutput>(UpdateTestCaseOutput.httpOutput(from:), UpdateTestCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTestCaseInput, UpdateTestCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTestCaseOutput>())
@@ -1954,6 +1977,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTestConfigurationInput, UpdateTestConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTestConfigurationOutput>(UpdateTestConfigurationOutput.httpOutput(from:), UpdateTestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTestConfigurationInput, UpdateTestConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTestConfigurationOutput>())
@@ -2026,6 +2050,7 @@ extension AppTestClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTestSuiteInput, UpdateTestSuiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTestSuiteOutput>(UpdateTestSuiteOutput.httpOutput(from:), UpdateTestSuiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTestSuiteInput, UpdateTestSuiteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTestSuiteOutput>())

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudHSMClient: ClientRuntime.Client {
     public static let clientName = "CloudHSMClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudHSMClient.CloudHSMClientConfiguration
     let serviceName = "CloudHSM"
@@ -409,6 +410,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput>(AddTagsToResourceOutput.httpOutput(from:), AddTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToResourceOutput>())
@@ -480,6 +482,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHapgInput, CreateHapgOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHapgOutput>(CreateHapgOutput.httpOutput(from:), CreateHapgOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHapgInput, CreateHapgOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHapgOutput>())
@@ -551,6 +554,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHsmInput, CreateHsmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHsmOutput>(CreateHsmOutput.httpOutput(from:), CreateHsmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHsmInput, CreateHsmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHsmOutput>())
@@ -622,6 +626,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLunaClientInput, CreateLunaClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLunaClientOutput>(CreateLunaClientOutput.httpOutput(from:), CreateLunaClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLunaClientInput, CreateLunaClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLunaClientOutput>())
@@ -693,6 +698,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHapgInput, DeleteHapgOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHapgOutput>(DeleteHapgOutput.httpOutput(from:), DeleteHapgOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHapgInput, DeleteHapgOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHapgOutput>())
@@ -764,6 +770,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHsmInput, DeleteHsmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHsmOutput>(DeleteHsmOutput.httpOutput(from:), DeleteHsmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHsmInput, DeleteHsmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHsmOutput>())
@@ -835,6 +842,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLunaClientInput, DeleteLunaClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLunaClientOutput>(DeleteLunaClientOutput.httpOutput(from:), DeleteLunaClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLunaClientInput, DeleteLunaClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLunaClientOutput>())
@@ -906,6 +914,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHapgInput, DescribeHapgOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHapgOutput>(DescribeHapgOutput.httpOutput(from:), DescribeHapgOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHapgInput, DescribeHapgOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHapgOutput>())
@@ -977,6 +986,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHsmInput, DescribeHsmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHsmOutput>(DescribeHsmOutput.httpOutput(from:), DescribeHsmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHsmInput, DescribeHsmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHsmOutput>())
@@ -1048,6 +1058,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLunaClientInput, DescribeLunaClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLunaClientOutput>(DescribeLunaClientOutput.httpOutput(from:), DescribeLunaClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLunaClientInput, DescribeLunaClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLunaClientOutput>())
@@ -1119,6 +1130,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConfigInput, GetConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigOutput>(GetConfigOutput.httpOutput(from:), GetConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigInput, GetConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigOutput>())
@@ -1190,6 +1202,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableZonesInput, ListAvailableZonesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableZonesOutput>(ListAvailableZonesOutput.httpOutput(from:), ListAvailableZonesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableZonesInput, ListAvailableZonesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableZonesOutput>())
@@ -1261,6 +1274,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHapgsInput, ListHapgsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHapgsOutput>(ListHapgsOutput.httpOutput(from:), ListHapgsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHapgsInput, ListHapgsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHapgsOutput>())
@@ -1332,6 +1346,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHsmsInput, ListHsmsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHsmsOutput>(ListHsmsOutput.httpOutput(from:), ListHsmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHsmsInput, ListHsmsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHsmsOutput>())
@@ -1403,6 +1418,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLunaClientsInput, ListLunaClientsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLunaClientsOutput>(ListLunaClientsOutput.httpOutput(from:), ListLunaClientsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLunaClientsInput, ListLunaClientsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLunaClientsOutput>())
@@ -1474,6 +1490,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1545,6 +1562,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyHapgInput, ModifyHapgOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyHapgOutput>(ModifyHapgOutput.httpOutput(from:), ModifyHapgOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyHapgInput, ModifyHapgOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyHapgOutput>())
@@ -1616,6 +1634,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyHsmInput, ModifyHsmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyHsmOutput>(ModifyHsmOutput.httpOutput(from:), ModifyHsmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyHsmInput, ModifyHsmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyHsmOutput>())
@@ -1685,6 +1704,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyLunaClientInput, ModifyLunaClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyLunaClientOutput>(ModifyLunaClientOutput.httpOutput(from:), ModifyLunaClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyLunaClientInput, ModifyLunaClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyLunaClientOutput>())
@@ -1756,6 +1776,7 @@ extension CloudHSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput>(RemoveTagsFromResourceOutput.httpOutput(from:), RemoveTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromResourceOutput>())

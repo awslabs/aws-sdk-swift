@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AutoScalingPlansClient: ClientRuntime.Client {
     public static let clientName = "AutoScalingPlansClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: AutoScalingPlansClient.AutoScalingPlansClientConfiguration
     let serviceName = "Auto Scaling Plans"
@@ -410,6 +411,7 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScalingPlanOutput>(CreateScalingPlanOutput.httpOutput(from:), CreateScalingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScalingPlanInput, CreateScalingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScalingPlanOutput>())
@@ -481,6 +483,7 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScalingPlanOutput>(DeleteScalingPlanOutput.httpOutput(from:), DeleteScalingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScalingPlanInput, DeleteScalingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScalingPlanOutput>())
@@ -552,6 +555,7 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScalingPlanResourcesOutput>(DescribeScalingPlanResourcesOutput.httpOutput(from:), DescribeScalingPlanResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingPlanResourcesInput, DescribeScalingPlanResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPlanResourcesOutput>())
@@ -623,6 +627,7 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScalingPlansOutput>(DescribeScalingPlansOutput.httpOutput(from:), DescribeScalingPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingPlansInput, DescribeScalingPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingPlansOutput>())
@@ -692,6 +697,7 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScalingPlanResourceForecastDataOutput>(GetScalingPlanResourceForecastDataOutput.httpOutput(from:), GetScalingPlanResourceForecastDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScalingPlanResourceForecastDataInput, GetScalingPlanResourceForecastDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScalingPlanResourceForecastDataOutput>())
@@ -763,6 +769,7 @@ extension AutoScalingPlansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScalingPlanOutput>(UpdateScalingPlanOutput.httpOutput(from:), UpdateScalingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScalingPlanInput, UpdateScalingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScalingPlanOutput>())

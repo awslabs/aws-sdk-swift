@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FirehoseClient: ClientRuntime.Client {
     public static let clientName = "FirehoseClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: FirehoseClient.FirehoseClientConfiguration
     let serviceName = "Firehose"
@@ -418,6 +419,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeliveryStreamOutput>(CreateDeliveryStreamOutput.httpOutput(from:), CreateDeliveryStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeliveryStreamOutput>())
@@ -487,6 +489,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeliveryStreamOutput>(DeleteDeliveryStreamOutput.httpOutput(from:), DeleteDeliveryStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryStreamOutput>())
@@ -555,6 +558,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeliveryStreamOutput>(DescribeDeliveryStreamOutput.httpOutput(from:), DescribeDeliveryStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryStreamOutput>())
@@ -618,6 +622,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeliveryStreamsOutput>(ListDeliveryStreamsOutput.httpOutput(from:), ListDeliveryStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeliveryStreamsOutput>())
@@ -688,6 +693,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForDeliveryStreamOutput>(ListTagsForDeliveryStreamOutput.httpOutput(from:), ListTagsForDeliveryStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForDeliveryStreamOutput>())
@@ -760,6 +766,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecordInput, PutRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordOutput>(PutRecordOutput.httpOutput(from:), PutRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordInput, PutRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordOutput>())
@@ -832,6 +839,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRecordBatchInput, PutRecordBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRecordBatchOutput>(PutRecordBatchOutput.httpOutput(from:), PutRecordBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRecordBatchInput, PutRecordBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRecordBatchOutput>())
@@ -904,6 +912,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeliveryStreamEncryptionOutput>(StartDeliveryStreamEncryptionOutput.httpOutput(from:), StartDeliveryStreamEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDeliveryStreamEncryptionOutput>())
@@ -975,6 +984,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDeliveryStreamEncryptionOutput>(StopDeliveryStreamEncryptionOutput.httpOutput(from:), StopDeliveryStreamEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDeliveryStreamEncryptionOutput>())
@@ -1046,6 +1056,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagDeliveryStreamOutput>(TagDeliveryStreamOutput.httpOutput(from:), TagDeliveryStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagDeliveryStreamOutput>())
@@ -1117,6 +1128,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagDeliveryStreamOutput>(UntagDeliveryStreamOutput.httpOutput(from:), UntagDeliveryStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagDeliveryStreamOutput>())
@@ -1188,6 +1200,7 @@ extension FirehoseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDestinationInput, UpdateDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDestinationOutput>(UpdateDestinationOutput.httpOutput(from:), UpdateDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDestinationInput, UpdateDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDestinationOutput>())

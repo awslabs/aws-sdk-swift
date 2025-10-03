@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -75,7 +76,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockRuntimeClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockRuntimeClient.BedrockRuntimeClientConfiguration
     let serviceName = "Bedrock Runtime"
@@ -423,6 +424,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyGuardrailOutput>(ApplyGuardrailOutput.httpOutput(from:), ApplyGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyGuardrailOutput>())
@@ -499,6 +501,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConverseInput, ConverseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConverseOutput>(ConverseOutput.httpOutput(from:), ConverseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConverseInput, ConverseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConverseOutput>())
@@ -575,6 +578,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConverseStreamInput, ConverseStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConverseStreamOutput>(ConverseStreamOutput.httpOutput(from:), ConverseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConverseStreamInput, ConverseStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConverseStreamOutput>())
@@ -661,6 +665,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountTokensInput, CountTokensOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CountTokensOutput>(CountTokensOutput.httpOutput(from:), CountTokensOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountTokensInput, CountTokensOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CountTokensOutput>())
@@ -729,6 +734,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAsyncInvokeOutput>(GetAsyncInvokeOutput.httpOutput(from:), GetAsyncInvokeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAsyncInvokeOutput>())
@@ -807,6 +813,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeModelInput, InvokeModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelOutput>(InvokeModelOutput.httpOutput(from:), InvokeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelInput, InvokeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelOutput>())
@@ -886,6 +893,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelWithBidirectionalStreamOutput>(InvokeModelWithBidirectionalStreamOutput.httpOutput(from:), InvokeModelWithBidirectionalStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelWithBidirectionalStreamOutput>())
@@ -965,6 +973,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelWithResponseStreamOutput>(InvokeModelWithResponseStreamOutput.httpOutput(from:), InvokeModelWithResponseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelWithResponseStreamOutput>())
@@ -1034,6 +1043,7 @@ extension BedrockRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>(ListAsyncInvokesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAsyncInvokesOutput>(ListAsyncInvokesOutput.httpOutput(from:), ListAsyncInvokesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAsyncInvokesOutput>())
@@ -1110,6 +1120,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAsyncInvokeOutput>(StartAsyncInvokeOutput.httpOutput(from:), StartAsyncInvokeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAsyncInvokeOutput>())

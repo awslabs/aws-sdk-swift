@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectParticipantClient: ClientRuntime.Client {
     public static let clientName = "ConnectParticipantClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectParticipantClient.ConnectParticipantClientConfiguration
     let serviceName = "ConnectParticipant"
@@ -413,6 +414,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelParticipantAuthenticationInput, CancelParticipantAuthenticationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelParticipantAuthenticationOutput>(CancelParticipantAuthenticationOutput.httpOutput(from:), CancelParticipantAuthenticationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelParticipantAuthenticationInput, CancelParticipantAuthenticationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelParticipantAuthenticationOutput>())
@@ -487,6 +489,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteAttachmentUploadOutput>(CompleteAttachmentUploadOutput.httpOutput(from:), CompleteAttachmentUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteAttachmentUploadInput, CompleteAttachmentUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteAttachmentUploadOutput>())
@@ -558,6 +561,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateParticipantConnectionInput, CreateParticipantConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateParticipantConnectionOutput>(CreateParticipantConnectionOutput.httpOutput(from:), CreateParticipantConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateParticipantConnectionInput, CreateParticipantConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateParticipantConnectionOutput>())
@@ -627,6 +631,7 @@ extension ConnectParticipantClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DescribeViewInput, DescribeViewOutput>(DescribeViewInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeViewOutput>(DescribeViewOutput.httpOutput(from:), DescribeViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeViewInput, DescribeViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeViewOutput>())
@@ -699,6 +704,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisconnectParticipantInput, DisconnectParticipantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisconnectParticipantOutput>(DisconnectParticipantOutput.httpOutput(from:), DisconnectParticipantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisconnectParticipantInput, DisconnectParticipantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisconnectParticipantOutput>())
@@ -777,6 +783,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAttachmentInput, GetAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAttachmentOutput>(GetAttachmentOutput.httpOutput(from:), GetAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAttachmentInput, GetAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAttachmentOutput>())
@@ -855,6 +862,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAuthenticationUrlInput, GetAuthenticationUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthenticationUrlOutput>(GetAuthenticationUrlOutput.httpOutput(from:), GetAuthenticationUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthenticationUrlInput, GetAuthenticationUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthenticationUrlOutput>())
@@ -941,6 +949,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTranscriptInput, GetTranscriptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTranscriptOutput>(GetTranscriptOutput.httpOutput(from:), GetTranscriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTranscriptInput, GetTranscriptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTranscriptOutput>())
@@ -1014,6 +1023,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendEventInput, SendEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendEventOutput>(SendEventOutput.httpOutput(from:), SendEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendEventInput, SendEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendEventOutput>())
@@ -1086,6 +1096,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessageInput, SendMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessageOutput>(SendMessageOutput.httpOutput(from:), SendMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessageInput, SendMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageOutput>())
@@ -1159,6 +1170,7 @@ extension ConnectParticipantClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAttachmentUploadInput, StartAttachmentUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAttachmentUploadOutput>(StartAttachmentUploadOutput.httpOutput(from:), StartAttachmentUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAttachmentUploadInput, StartAttachmentUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAttachmentUploadOutput>())

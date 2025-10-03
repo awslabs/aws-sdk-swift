@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AIOpsClient: ClientRuntime.Client {
     public static let clientName = "AIOpsClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: AIOpsClient.AIOpsClientConfiguration
     let serviceName = "AIOps"
@@ -424,6 +425,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvestigationGroupInput, CreateInvestigationGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvestigationGroupOutput>(CreateInvestigationGroupOutput.httpOutput(from:), CreateInvestigationGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvestigationGroupInput, CreateInvestigationGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvestigationGroupOutput>())
@@ -494,6 +496,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInvestigationGroupInput, DeleteInvestigationGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvestigationGroupOutput>(DeleteInvestigationGroupOutput.httpOutput(from:), DeleteInvestigationGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvestigationGroupInput, DeleteInvestigationGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvestigationGroupOutput>())
@@ -564,6 +567,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInvestigationGroupPolicyInput, DeleteInvestigationGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvestigationGroupPolicyOutput>(DeleteInvestigationGroupPolicyOutput.httpOutput(from:), DeleteInvestigationGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvestigationGroupPolicyInput, DeleteInvestigationGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvestigationGroupPolicyOutput>())
@@ -634,6 +638,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvestigationGroupInput, GetInvestigationGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvestigationGroupOutput>(GetInvestigationGroupOutput.httpOutput(from:), GetInvestigationGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvestigationGroupInput, GetInvestigationGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvestigationGroupOutput>())
@@ -704,6 +709,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvestigationGroupPolicyInput, GetInvestigationGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvestigationGroupPolicyOutput>(GetInvestigationGroupPolicyOutput.httpOutput(from:), GetInvestigationGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvestigationGroupPolicyInput, GetInvestigationGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvestigationGroupPolicyOutput>())
@@ -775,6 +781,7 @@ extension AIOpsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvestigationGroupsInput, ListInvestigationGroupsOutput>(ListInvestigationGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvestigationGroupsOutput>(ListInvestigationGroupsOutput.httpOutput(from:), ListInvestigationGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvestigationGroupsInput, ListInvestigationGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvestigationGroupsOutput>())
@@ -845,6 +852,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -918,6 +926,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInvestigationGroupPolicyInput, PutInvestigationGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInvestigationGroupPolicyOutput>(PutInvestigationGroupPolicyOutput.httpOutput(from:), PutInvestigationGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInvestigationGroupPolicyInput, PutInvestigationGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInvestigationGroupPolicyOutput>())
@@ -991,6 +1000,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1062,6 +1072,7 @@ extension AIOpsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1135,6 +1146,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInvestigationGroupInput, UpdateInvestigationGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInvestigationGroupOutput>(UpdateInvestigationGroupOutput.httpOutput(from:), UpdateInvestigationGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInvestigationGroupInput, UpdateInvestigationGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInvestigationGroupOutput>())

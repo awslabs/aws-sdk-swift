@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityIRClient: ClientRuntime.Client {
     public static let clientName = "SecurityIRClient"
-    public static let version = "1.5.53"
+    public static let version = "1.5.55"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityIRClient.SecurityIRClientConfiguration
     let serviceName = "Security IR"
@@ -418,6 +419,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetMemberAccountDetailsInput, BatchGetMemberAccountDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetMemberAccountDetailsOutput>(BatchGetMemberAccountDetailsOutput.httpOutput(from:), BatchGetMemberAccountDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetMemberAccountDetailsInput, BatchGetMemberAccountDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetMemberAccountDetailsOutput>())
@@ -490,6 +492,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelMembershipInput, CancelMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMembershipOutput>(CancelMembershipOutput.httpOutput(from:), CancelMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMembershipInput, CancelMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMembershipOutput>())
@@ -562,6 +565,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CloseCaseInput, CloseCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CloseCaseOutput>(CloseCaseOutput.httpOutput(from:), CloseCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CloseCaseInput, CloseCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CloseCaseOutput>())
@@ -638,6 +642,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCaseInput, CreateCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCaseOutput>(CreateCaseOutput.httpOutput(from:), CreateCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCaseInput, CreateCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCaseOutput>())
@@ -714,6 +719,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCaseCommentInput, CreateCaseCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCaseCommentOutput>(CreateCaseCommentOutput.httpOutput(from:), CreateCaseCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCaseCommentInput, CreateCaseCommentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCaseCommentOutput>())
@@ -790,6 +796,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMembershipInput, CreateMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembershipOutput>(CreateMembershipOutput.httpOutput(from:), CreateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembershipInput, CreateMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembershipOutput>())
@@ -862,6 +869,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCaseInput, GetCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseOutput>(GetCaseOutput.httpOutput(from:), GetCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseInput, GetCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseOutput>())
@@ -934,6 +942,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCaseAttachmentDownloadUrlInput, GetCaseAttachmentDownloadUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseAttachmentDownloadUrlOutput>(GetCaseAttachmentDownloadUrlOutput.httpOutput(from:), GetCaseAttachmentDownloadUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseAttachmentDownloadUrlInput, GetCaseAttachmentDownloadUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseAttachmentDownloadUrlOutput>())
@@ -1010,6 +1019,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCaseAttachmentUploadUrlInput, GetCaseAttachmentUploadUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseAttachmentUploadUrlOutput>(GetCaseAttachmentUploadUrlOutput.httpOutput(from:), GetCaseAttachmentUploadUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseAttachmentUploadUrlInput, GetCaseAttachmentUploadUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseAttachmentUploadUrlOutput>())
@@ -1082,6 +1092,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMembershipInput, GetMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMembershipOutput>(GetMembershipOutput.httpOutput(from:), GetMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMembershipInput, GetMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMembershipOutput>())
@@ -1157,6 +1168,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCaseEditsInput, ListCaseEditsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCaseEditsOutput>(ListCaseEditsOutput.httpOutput(from:), ListCaseEditsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCaseEditsInput, ListCaseEditsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCaseEditsOutput>())
@@ -1232,6 +1244,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCasesInput, ListCasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCasesOutput>(ListCasesOutput.httpOutput(from:), ListCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCasesInput, ListCasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCasesOutput>())
@@ -1307,6 +1320,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommentsInput, ListCommentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommentsOutput>(ListCommentsOutput.httpOutput(from:), ListCommentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommentsInput, ListCommentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommentsOutput>())
@@ -1382,6 +1396,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMembershipsInput, ListMembershipsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembershipsOutput>(ListMembershipsOutput.httpOutput(from:), ListMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembershipsInput, ListMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembershipsOutput>())
@@ -1454,6 +1469,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1529,6 +1545,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1602,6 +1619,7 @@ extension SecurityIRClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1677,6 +1695,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCaseInput, UpdateCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCaseOutput>(UpdateCaseOutput.httpOutput(from:), UpdateCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCaseInput, UpdateCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCaseOutput>())
@@ -1752,6 +1771,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCaseCommentInput, UpdateCaseCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCaseCommentOutput>(UpdateCaseCommentOutput.httpOutput(from:), UpdateCaseCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCaseCommentInput, UpdateCaseCommentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCaseCommentOutput>())
@@ -1846,6 +1866,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCaseStatusInput, UpdateCaseStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCaseStatusOutput>(UpdateCaseStatusOutput.httpOutput(from:), UpdateCaseStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCaseStatusInput, UpdateCaseStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCaseStatusOutput>())
@@ -1921,6 +1942,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMembershipInput, UpdateMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMembershipOutput>(UpdateMembershipOutput.httpOutput(from:), UpdateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMembershipInput, UpdateMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMembershipOutput>())
@@ -1996,6 +2018,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverTypeInput, UpdateResolverTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResolverTypeOutput>(UpdateResolverTypeOutput.httpOutput(from:), UpdateResolverTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverTypeInput, UpdateResolverTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResolverTypeOutput>())
