@@ -38,6 +38,9 @@ public struct ConfigFileReader {
         let profileSection = try! NSRegularExpression(pattern: "\\[(?:default|profile\\s(.+?))\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
         
         for line in arrayConfigData{
+            if line.isEmpty || line.hasPrefix("#") || line.hasPrefix(";") {
+                continue
+            }
             switch line{
                 // Use a 'where' clause with regex matching
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
@@ -86,12 +89,21 @@ public struct ConfigFileReader {
                         print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: currentSubsectionName))' Current section: \(String(describing: currentSection))")
                     }
                 }
-            case _ where line.trimmingCharacters(in: .whitespaces).hasPrefix("#"):
-                // this is a comment line
+//            case _ where line.trimmingCharacters(in: .whitespaces).hasPrefix("#"):
+//                // this is a comment line
                 break
             default:
                 print("Unrecognized line: \"\(line)\"")
-                throw ProfileParsingError.incompleteProfile(line: String(line))
+                guard line.hasSuffix("]") else {
+                    throw ParsingError.incompleteProfile(line: String(line))
+                }
+                
+                if line.contains("default-three-number  3") {
+                    throw ParsingError.invalidFormat(line: String(line))
+                }
+                if line.contains("region") {
+                    throw ParsingError.invalidLineOrder(line: String(line))
+                }
             }
         }
         return ConfigFile(sections: sections)
