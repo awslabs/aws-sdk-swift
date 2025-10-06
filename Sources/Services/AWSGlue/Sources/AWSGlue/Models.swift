@@ -3145,6 +3145,8 @@ extension GlueClientTypes {
         public var evaluatedRule: Swift.String?
         /// An evaluation message.
         public var evaluationMessage: Swift.String?
+        /// A map containing labels assigned to the data quality rule.
+        public var labels: [Swift.String: Swift.String]?
         /// The name of the data quality rule.
         public var name: Swift.String?
         /// A pass or fail status for the rule.
@@ -3157,6 +3159,7 @@ extension GlueClientTypes {
             evaluatedMetrics: [Swift.String: Swift.Double]? = nil,
             evaluatedRule: Swift.String? = nil,
             evaluationMessage: Swift.String? = nil,
+            labels: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             result: GlueClientTypes.DataQualityRuleResultStatus? = nil,
             ruleMetrics: [Swift.String: Swift.Double]? = nil
@@ -3165,6 +3168,7 @@ extension GlueClientTypes {
             self.evaluatedMetrics = evaluatedMetrics
             self.evaluatedRule = evaluatedRule
             self.evaluationMessage = evaluationMessage
+            self.labels = labels
             self.name = name
             self.result = result
             self.ruleMetrics = ruleMetrics
@@ -3174,7 +3178,7 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.DataQualityRuleResult: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataQualityRuleResult(name: \(Swift.String(describing: name)), result: \(Swift.String(describing: result)), description: \"CONTENT_REDACTED\", evaluatedMetrics: \"CONTENT_REDACTED\", evaluatedRule: \"CONTENT_REDACTED\", evaluationMessage: \"CONTENT_REDACTED\", ruleMetrics: \"CONTENT_REDACTED\")"}
+        "DataQualityRuleResult(labels: \(Swift.String(describing: labels)), name: \(Swift.String(describing: name)), result: \(Swift.String(describing: result)), description: \"CONTENT_REDACTED\", evaluatedMetrics: \"CONTENT_REDACTED\", evaluatedRule: \"CONTENT_REDACTED\", evaluationMessage: \"CONTENT_REDACTED\", ruleMetrics: \"CONTENT_REDACTED\")"}
 }
 
 extension GlueClientTypes {
@@ -43009,6 +43013,7 @@ extension GlueClientTypes.DataQualityRuleResult {
         value.evaluatedMetrics = try reader["EvaluatedMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.evaluatedRule = try reader["EvaluatedRule"].readIfPresent()
         value.ruleMetrics = try reader["RuleMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.labels = try reader["Labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

@@ -85,7 +85,7 @@ extension MemoryDBClientTypes {
     }
 }
 
-///
+/// An ACL with the specified name already exists.
 public struct ACLAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -108,7 +108,7 @@ public struct ACLAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-///
+/// The specified ACL does not exist.
 public struct ACLNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -131,7 +131,7 @@ public struct ACLNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of ACLs allowed.
 public struct ACLQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -169,7 +169,7 @@ extension MemoryDBClientTypes {
     }
 }
 
-///
+/// The specified parameter value is not valid.
 public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -192,7 +192,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-///
+/// The specified service update does not exist.
 public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -741,7 +741,7 @@ public struct BatchUpdateClusterOutput: Swift.Sendable {
     }
 }
 
-///
+/// The specified parameter combination is not valid.
 public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -764,7 +764,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
     }
 }
 
-///
+/// The snapshot is not in a valid state for the requested operation.
 public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -787,7 +787,7 @@ public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-///
+/// The required service-linked role was not found.
 public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -810,7 +810,7 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-///
+/// A snapshot with the specified name already exists.
 public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -833,7 +833,7 @@ public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-///
+/// The specified snapshot does not exist.
 public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -856,7 +856,7 @@ public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of snapshots allowed.
 public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -879,7 +879,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
 public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1125,7 +1125,7 @@ public struct CopySnapshotOutput: Swift.Sendable {
     }
 }
 
-///
+/// A default user is required and must be specified.
 public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1148,7 +1148,7 @@ public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-///
+/// A user with the specified name already exists.
 public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1171,7 +1171,7 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-///
+/// The specified user does not exist.
 public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1225,7 +1225,7 @@ public struct CreateACLOutput: Swift.Sendable {
     }
 }
 
-///
+/// A cluster with the specified name already exists.
 public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1248,7 +1248,7 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of clusters allowed for this customer.
 public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1271,7 +1271,7 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
     }
 }
 
-///
+/// The cluster does not have sufficient capacity to perform the requested operation.
 public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1294,7 +1294,7 @@ public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
-///
+/// The ACL is not in a valid state for the requested operation.
 public struct InvalidACLStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1317,7 +1317,7 @@ public struct InvalidACLStateFault: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-///
+/// The provided credentials are not valid.
 public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1363,7 +1363,7 @@ public struct InvalidMultiRegionClusterStateFault: ClientRuntime.ModeledError, A
     }
 }
 
-///
+/// The VPC network is not in a valid state for the requested operation.
 public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1409,7 +1409,7 @@ public struct MultiRegionClusterNotFoundFault: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of nodes allowed for this cluster.
 public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1432,7 +1432,7 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of nodes allowed for this customer.
 public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1455,7 +1455,7 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
     }
 }
 
-///
+/// The specified parameter group does not exist.
 public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1478,7 +1478,7 @@ public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of shards allowed per cluster.
 public struct ShardsPerClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1501,7 +1501,7 @@ public struct ShardsPerClusterQuotaExceededFault: ClientRuntime.ModeledError, AW
     }
 }
 
-///
+/// The specified subnet group does not exist.
 public struct SubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1850,7 +1850,7 @@ public struct CreateMultiRegionClusterOutput: Swift.Sendable {
     }
 }
 
-///
+/// The parameter group is not in a valid state for the requested operation.
 public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1873,7 +1873,7 @@ public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-///
+/// A parameter group with the specified name already exists.
 public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1896,7 +1896,7 @@ public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of parameter groups allowed.
 public struct ParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1982,7 +1982,7 @@ public struct CreateParameterGroupOutput: Swift.Sendable {
     }
 }
 
-///
+/// The specified cluster does not exist.
 public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2005,7 +2005,7 @@ public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-///
+/// The cluster is not in a valid state for the requested operation.
 public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2064,7 +2064,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
     }
 }
 
-///
+/// The specified subnet is not valid.
 public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2087,7 +2087,7 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-///
+/// A subnet group with the specified name already exists.
 public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2110,7 +2110,7 @@ public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of subnet groups allowed.
 public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2133,7 +2133,7 @@ public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-///
+/// The specified subnet is not allowed for this operation.
 public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2156,7 +2156,7 @@ public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of subnets allowed.
 public struct SubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2295,7 +2295,7 @@ public struct CreateSubnetGroupOutput: Swift.Sendable {
     }
 }
 
-///
+/// A user with the specified name already exists.
 public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2318,7 +2318,7 @@ public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-///
+/// The request cannot be processed because it would exceed the maximum number of users allowed.
 public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2639,7 +2639,7 @@ public struct DeleteSnapshotOutput: Swift.Sendable {
     }
 }
 
-///
+/// The subnet group is currently in use and cannot be deleted.
 public struct SubnetGroupInUseFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2685,7 +2685,7 @@ public struct DeleteSubnetGroupOutput: Swift.Sendable {
     }
 }
 
-///
+/// The user is not in a valid state for the requested operation.
 public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3028,6 +3028,145 @@ public struct DescribeMultiRegionClustersOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.multiRegionClusters = multiRegionClusters
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeMultiRegionParameterGroupsInput: Swift.Sendable {
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// The request for information on a specific multi-region parameter group.
+    public var multiRegionParameterGroupName: Swift.String?
+    /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        multiRegionParameterGroupName: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.multiRegionParameterGroupName = multiRegionParameterGroupName
+        self.nextToken = nextToken
+    }
+}
+
+extension MemoryDBClientTypes {
+
+    /// Represents the output of a CreateMultiRegionParameterGroup operation. A multi-region parameter group represents a collection of parameters that can be applied to clusters across multiple regions.
+    public struct MultiRegionParameterGroup: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the multi-region parameter group.
+        public var arn: Swift.String?
+        /// A description of the multi-region parameter group.
+        public var description: Swift.String?
+        /// The name of the parameter group family that this multi-region parameter group is compatible with.
+        public var family: Swift.String?
+        /// The name of the multi-region parameter group.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            family: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.description = description
+            self.family = family
+            self.name = name
+        }
+    }
+}
+
+public struct DescribeMultiRegionParameterGroupsOutput: Swift.Sendable {
+    /// A list of multi-region parameter groups. Each element in the list contains detailed information about one parameter group.
+    public var multiRegionParameterGroups: [MemoryDBClientTypes.MultiRegionParameterGroup]?
+    /// An optional token to include in the response. If this token is provided, the response includes only results beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+
+    public init(
+        multiRegionParameterGroups: [MemoryDBClientTypes.MultiRegionParameterGroup]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.multiRegionParameterGroups = multiRegionParameterGroups
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeMultiRegionParametersInput: Swift.Sendable {
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
+    public var maxResults: Swift.Int?
+    /// The name of the multi-region parameter group to return details for.
+    /// This member is required.
+    public var multiRegionParameterGroupName: Swift.String?
+    /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+    /// The parameter types to return. Valid values: user | system | engine-default
+    public var source: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        multiRegionParameterGroupName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        source: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.multiRegionParameterGroupName = multiRegionParameterGroupName
+        self.nextToken = nextToken
+        self.source = source
+    }
+}
+
+extension MemoryDBClientTypes {
+
+    /// Describes an individual setting that controls some aspect of MemoryDB behavior across multiple regions.
+    public struct MultiRegionParameter: Swift.Sendable {
+        /// The valid range of values for the parameter.
+        public var allowedValues: Swift.String?
+        /// The valid data type for the parameter.
+        public var dataType: Swift.String?
+        /// A description of the parameter.
+        public var description: Swift.String?
+        /// The earliest engine version to which the parameter can apply.
+        public var minimumEngineVersion: Swift.String?
+        /// The name of the parameter.
+        public var name: Swift.String?
+        /// Indicates the source of the parameter value. Valid values: user | system | engine-default
+        public var source: Swift.String?
+        /// The value of the parameter.
+        public var value: Swift.String?
+
+        public init(
+            allowedValues: Swift.String? = nil,
+            dataType: Swift.String? = nil,
+            description: Swift.String? = nil,
+            minimumEngineVersion: Swift.String? = nil,
+            name: Swift.String? = nil,
+            source: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.allowedValues = allowedValues
+            self.dataType = dataType
+            self.description = description
+            self.minimumEngineVersion = minimumEngineVersion
+            self.name = name
+            self.source = source
+            self.value = value
+        }
+    }
+}
+
+public struct DescribeMultiRegionParametersOutput: Swift.Sendable {
+    /// A list of parameters specific to a particular multi-region parameter group. Each element in the list contains detailed information about one parameter.
+    public var multiRegionParameters: [MemoryDBClientTypes.MultiRegionParameter]?
+    /// An optional token to include in the response. If this token is provided, the response includes only results beyond the token, up to the value specified by MaxResults.
+    public var nextToken: Swift.String?
+
+    public init(
+        multiRegionParameters: [MemoryDBClientTypes.MultiRegionParameter]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.multiRegionParameters = multiRegionParameters
         self.nextToken = nextToken
     }
 }
@@ -3641,7 +3780,7 @@ public struct DescribeUsersOutput: Swift.Sendable {
     }
 }
 
-///
+/// The customer has exceeded the maximum number of API requests allowed per time period.
 public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3664,7 +3803,7 @@ public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, A
     }
 }
 
-///
+/// The specified KMS key is not valid or accessible.
 public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3687,7 +3826,7 @@ public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-///
+/// The specified shard does not exist.
 public struct ShardNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3710,7 +3849,7 @@ public struct ShardNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-///
+/// Test failover is not available for this cluster configuration.
 public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3815,7 +3954,7 @@ public struct ListAllowedNodeTypeUpdatesOutput: Swift.Sendable {
     }
 }
 
-///
+/// The specified Amazon Resource Name (ARN) is not valid.
 public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -4001,7 +4140,7 @@ public struct TagResourceOutput: Swift.Sendable {
     }
 }
 
-///
+/// The specified tag does not exist.
 public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -4083,7 +4222,7 @@ public struct UpdateACLOutput: Swift.Sendable {
     }
 }
 
-///
+/// The node is not in a valid state for the requested operation.
 public struct InvalidNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -4106,7 +4245,7 @@ public struct InvalidNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-///
+/// The requested operation would result in no changes.
 public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -4382,7 +4521,7 @@ public struct UpdateParameterGroupOutput: Swift.Sendable {
     }
 }
 
-///
+/// The subnet is currently in use and cannot be deleted.
 public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -4610,6 +4749,20 @@ extension DescribeEventsInput {
 extension DescribeMultiRegionClustersInput {
 
     static func urlPathProvider(_ value: DescribeMultiRegionClustersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeMultiRegionParameterGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeMultiRegionParameterGroupsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeMultiRegionParametersInput {
+
+    static func urlPathProvider(_ value: DescribeMultiRegionParametersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5006,6 +5159,27 @@ extension DescribeMultiRegionClustersInput {
         try writer["MultiRegionClusterName"].write(value.multiRegionClusterName)
         try writer["NextToken"].write(value.nextToken)
         try writer["ShowClusterDetails"].write(value.showClusterDetails)
+    }
+}
+
+extension DescribeMultiRegionParameterGroupsInput {
+
+    static func write(value: DescribeMultiRegionParameterGroupsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MultiRegionParameterGroupName"].write(value.multiRegionParameterGroupName)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension DescribeMultiRegionParametersInput {
+
+    static func write(value: DescribeMultiRegionParametersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MultiRegionParameterGroupName"].write(value.multiRegionParameterGroupName)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Source"].write(value.source)
     }
 }
 
@@ -5503,6 +5677,32 @@ extension DescribeMultiRegionClustersOutput {
         let reader = responseReader
         var value = DescribeMultiRegionClustersOutput()
         value.multiRegionClusters = try reader["MultiRegionClusters"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.MultiRegionCluster.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeMultiRegionParameterGroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMultiRegionParameterGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMultiRegionParameterGroupsOutput()
+        value.multiRegionParameterGroups = try reader["MultiRegionParameterGroups"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.MultiRegionParameterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeMultiRegionParametersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMultiRegionParametersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMultiRegionParametersOutput()
+        value.multiRegionParameters = try reader["MultiRegionParameters"].readListIfPresent(memberReadingClosure: MemoryDBClientTypes.MultiRegionParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -6163,6 +6363,40 @@ enum DescribeMultiRegionClustersOutputError {
             case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "MultiRegionClusterNotFound": return try MultiRegionClusterNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeMultiRegionParameterGroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionParameterGroupNotFoundFault": return try MultiRegionParameterGroupNotFoundFault.makeError(baseError: baseError)
+            case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeMultiRegionParametersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MultiRegionParameterGroupNotFoundFault": return try MultiRegionParameterGroupNotFoundFault.makeError(baseError: baseError)
+            case "ServiceLinkedRoleNotFoundFault": return try ServiceLinkedRoleNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7707,6 +7941,35 @@ extension MemoryDBClientTypes.Event {
         value.sourceType = try reader["SourceType"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.MultiRegionParameterGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.MultiRegionParameterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.MultiRegionParameterGroup()
+        value.name = try reader["Name"].readIfPresent()
+        value.family = try reader["Family"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension MemoryDBClientTypes.MultiRegionParameter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MemoryDBClientTypes.MultiRegionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MemoryDBClientTypes.MultiRegionParameter()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readIfPresent()
+        value.minimumEngineVersion = try reader["MinimumEngineVersion"].readIfPresent()
         return value
     }
 }

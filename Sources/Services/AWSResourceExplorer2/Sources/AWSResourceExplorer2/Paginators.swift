@@ -11,6 +11,37 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension ResourceExplorer2Client {
+    /// Paginate over `[GetResourceExplorerSetupOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourceExplorerSetupInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceExplorerSetupOutput`
+    public func getResourceExplorerSetupPaginated(input: GetResourceExplorerSetupInput) -> ClientRuntime.PaginatorSequence<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput> {
+        return ClientRuntime.PaginatorSequence<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourceExplorerSetup(input:))
+    }
+}
+
+extension GetResourceExplorerSetupInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetResourceExplorerSetupInput {
+        return GetResourceExplorerSetupInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            taskId: self.taskId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetResourceExplorerSetupInput, OperationStackOutput == GetResourceExplorerSetupOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getResourceExplorerSetupPaginated`
+    /// to access the nested member `[ResourceExplorer2ClientTypes.RegionStatus]`
+    /// - Returns: `[ResourceExplorer2ClientTypes.RegionStatus]`
+    public func regions() async throws -> [ResourceExplorer2ClientTypes.RegionStatus] {
+        return try await self.asyncCompactMap { item in item.regions }
+    }
+}
+extension ResourceExplorer2Client {
     /// Paginate over `[ListIndexesForMembersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -102,6 +133,97 @@ extension PaginatorSequence where OperationStackInput == ListResourcesInput, Ope
     /// - Returns: `[ResourceExplorer2ClientTypes.Resource]`
     public func resources() async throws -> [ResourceExplorer2ClientTypes.Resource] {
         return try await self.asyncCompactMap { item in item.resources }
+    }
+}
+extension ResourceExplorer2Client {
+    /// Paginate over `[ListServiceIndexesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServiceIndexesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceIndexesOutput`
+    public func listServiceIndexesPaginated(input: ListServiceIndexesInput) -> ClientRuntime.PaginatorSequence<ListServiceIndexesInput, ListServiceIndexesOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceIndexesInput, ListServiceIndexesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceIndexes(input:))
+    }
+}
+
+extension ListServiceIndexesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServiceIndexesInput {
+        return ListServiceIndexesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            regions: self.regions
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListServiceIndexesInput, OperationStackOutput == ListServiceIndexesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listServiceIndexesPaginated`
+    /// to access the nested member `[ResourceExplorer2ClientTypes.Index]`
+    /// - Returns: `[ResourceExplorer2ClientTypes.Index]`
+    public func indexes() async throws -> [ResourceExplorer2ClientTypes.Index] {
+        return try await self.asyncCompactMap { item in item.indexes }
+    }
+}
+extension ResourceExplorer2Client {
+    /// Paginate over `[ListServiceViewsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServiceViewsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceViewsOutput`
+    public func listServiceViewsPaginated(input: ListServiceViewsInput) -> ClientRuntime.PaginatorSequence<ListServiceViewsInput, ListServiceViewsOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceViewsInput, ListServiceViewsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceViews(input:))
+    }
+}
+
+extension ListServiceViewsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServiceViewsInput {
+        return ListServiceViewsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListServiceViewsInput, OperationStackOutput == ListServiceViewsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listServiceViewsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func serviceViews() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.serviceViews }
+    }
+}
+extension ResourceExplorer2Client {
+    /// Paginate over `[ListStreamingAccessForServicesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStreamingAccessForServicesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamingAccessForServicesOutput`
+    public func listStreamingAccessForServicesPaginated(input: ListStreamingAccessForServicesInput) -> ClientRuntime.PaginatorSequence<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput> {
+        return ClientRuntime.PaginatorSequence<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listStreamingAccessForServices(input:))
+    }
+}
+
+extension ListStreamingAccessForServicesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListStreamingAccessForServicesInput {
+        return ListStreamingAccessForServicesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListStreamingAccessForServicesInput, OperationStackOutput == ListStreamingAccessForServicesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listStreamingAccessForServicesPaginated`
+    /// to access the nested member `[ResourceExplorer2ClientTypes.StreamingAccessDetails]`
+    /// - Returns: `[ResourceExplorer2ClientTypes.StreamingAccessDetails]`
+    public func streamingAccessForServices() async throws -> [ResourceExplorer2ClientTypes.StreamingAccessDetails] {
+        return try await self.asyncCompactMap { item in item.streamingAccessForServices }
     }
 }
 extension ResourceExplorer2Client {

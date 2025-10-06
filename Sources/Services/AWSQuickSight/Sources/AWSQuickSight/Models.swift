@@ -25288,7 +25288,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct CreateAccountCustomizationInput: Swift.Sendable {
-    /// The QuickSight customizations you're adding in the current Amazon Web Services Region. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
+    /// The QuickSight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
     /// This member is required.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The ID for the Amazon Web Services account that you want to customize QuickSight for.
@@ -25313,7 +25313,7 @@ public struct CreateAccountCustomizationInput: Swift.Sendable {
 }
 
 public struct CreateAccountCustomizationOutput: Swift.Sendable {
-    /// The QuickSight customizations you're adding in the current Amazon Web Services Region.
+    /// The QuickSight customizations you're adding.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) for the customization that you created for this Amazon Web Services account.
     public var arn: Swift.String?
@@ -32131,7 +32131,7 @@ extension QuickSightClientTypes {
 }
 
 public struct DeleteAccountCustomizationInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to delete QuickSight customizations from in this Amazon Web Services Region.
+    /// The ID for the Amazon Web Services account that you want to delete QuickSight customizations from.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The QuickSight namespace that you're deleting the customizations from.
@@ -33387,7 +33387,7 @@ public struct DescribeAccountCustomizationInput: Swift.Sendable {
 }
 
 public struct DescribeAccountCustomizationOutput: Swift.Sendable {
-    /// The QuickSight customizations that exist in the current Amazon Web Services Region.
+    /// The QuickSight customizations that exist.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) of the customization that's associated with this Amazon Web Services account.
     public var arn: Swift.String?
@@ -41419,7 +41419,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateAccountCustomizationInput: Swift.Sendable {
-    /// The QuickSight customizations you're updating in the current Amazon Web Services Region.
+    /// The QuickSight customizations you're updating.
     /// This member is required.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The ID for the Amazon Web Services account that you want to update QuickSight customizations for.
@@ -41440,7 +41440,7 @@ public struct UpdateAccountCustomizationInput: Swift.Sendable {
 }
 
 public struct UpdateAccountCustomizationOutput: Swift.Sendable {
-    /// The QuickSight customizations you're updating in the current Amazon Web Services Region.
+    /// The QuickSight customizations you're updating.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) for the updated customization for this Amazon Web Services account.
     public var arn: Swift.String?

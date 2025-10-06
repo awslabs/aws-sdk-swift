@@ -531,6 +531,8 @@ extension MediaConnectClientTypes {
         /// A name that helps you distinguish one media stream from another.
         /// This member is required.
         public var mediaStreamName: Swift.String?
+        /// The key-value pairs that can be used to tag and organize the media stream.
+        public var mediaStreamTags: [Swift.String: Swift.String]?
         /// The type of media stream.
         /// This member is required.
         public var mediaStreamType: MediaConnectClientTypes.MediaStreamType?
@@ -543,6 +545,7 @@ extension MediaConnectClientTypes {
             description: Swift.String? = nil,
             mediaStreamId: Swift.Int? = nil,
             mediaStreamName: Swift.String? = nil,
+            mediaStreamTags: [Swift.String: Swift.String]? = nil,
             mediaStreamType: MediaConnectClientTypes.MediaStreamType? = nil,
             videoFormat: Swift.String? = nil
         ) {
@@ -551,6 +554,7 @@ extension MediaConnectClientTypes {
             self.description = description
             self.mediaStreamId = mediaStreamId
             self.mediaStreamName = mediaStreamName
+            self.mediaStreamTags = mediaStreamTags
             self.mediaStreamType = mediaStreamType
             self.videoFormat = videoFormat
         }
@@ -880,10 +884,11 @@ extension MediaConnectClientTypes {
         public var ndiSpeedHqQuality: Swift.Int?
         /// An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED.
         public var outputStatus: MediaConnectClientTypes.OutputStatus?
+        /// The key-value pairs that can be used to tag and organize the output.
+        public var outputTags: [Swift.String: Swift.String]?
         /// The port to use when content is distributed to this output.
         public var port: Swift.Int?
         /// The protocol to use for the output. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
-        /// This member is required.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// The remote ID for the Zixi-pull output stream.
         public var remoteId: Swift.String?
@@ -908,6 +913,7 @@ extension MediaConnectClientTypes {
             ndiProgramName: Swift.String? = nil,
             ndiSpeedHqQuality: Swift.Int? = nil,
             outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
+            outputTags: [Swift.String: Swift.String]? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             remoteId: Swift.String? = nil,
@@ -927,6 +933,7 @@ extension MediaConnectClientTypes {
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputStatus = outputStatus
+            self.outputTags = outputTags
             self.port = port
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -1326,6 +1333,8 @@ extension MediaConnectClientTypes {
         public var encryption: MediaConnectClientTypes.Encryption?
         /// An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
         public var entitlementStatus: MediaConnectClientTypes.EntitlementStatus?
+        /// The key-value pairs that can be used to tag and organize the entitlement.
+        public var entitlementTags: [Swift.String: Swift.String]?
         /// The name of the entitlement. This value must be unique within the current flow.
         public var name: Swift.String?
         /// The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
@@ -1337,6 +1346,7 @@ extension MediaConnectClientTypes {
             description: Swift.String? = nil,
             encryption: MediaConnectClientTypes.Encryption? = nil,
             entitlementStatus: MediaConnectClientTypes.EntitlementStatus? = nil,
+            entitlementTags: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             subscribers: [Swift.String]? = nil
         ) {
@@ -1344,6 +1354,7 @@ extension MediaConnectClientTypes {
             self.description = description
             self.encryption = encryption
             self.entitlementStatus = entitlementStatus
+            self.entitlementTags = entitlementTags
             self.name = name
             self.subscribers = subscribers
         }
@@ -2577,6 +2588,8 @@ extension MediaConnectClientTypes {
         public var sourceListenerAddress: Swift.String?
         /// Source port for SRT-caller protocol.
         public var sourceListenerPort: Swift.Int?
+        /// The key-value pairs that can be used to tag and organize the source.
+        public var sourceTags: [Swift.String: Swift.String]?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public var streamId: Swift.String?
         /// The name of the VPC interface to use for this source.
@@ -2601,6 +2614,7 @@ extension MediaConnectClientTypes {
             senderIpAddress: Swift.String? = nil,
             sourceListenerAddress: Swift.String? = nil,
             sourceListenerPort: Swift.Int? = nil,
+            sourceTags: [Swift.String: Swift.String]? = nil,
             streamId: Swift.String? = nil,
             vpcInterfaceName: Swift.String? = nil,
             whitelistCidr: Swift.String? = nil
@@ -2621,6 +2635,7 @@ extension MediaConnectClientTypes {
             self.senderIpAddress = senderIpAddress
             self.sourceListenerAddress = sourceListenerAddress
             self.sourceListenerPort = sourceListenerPort
+            self.sourceTags = sourceTags
             self.streamId = streamId
             self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
@@ -2979,19 +2994,23 @@ extension MediaConnectClientTypes {
         /// The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow.
         /// This member is required.
         public var subnetId: Swift.String?
+        /// The key-value pairs that can be used to tag and organize the VPC network interface.
+        public var vpcInterfaceTags: [Swift.String: Swift.String]?
 
         public init(
             name: Swift.String? = nil,
             networkInterfaceType: MediaConnectClientTypes.NetworkInterfaceType? = nil,
             roleArn: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
-            subnetId: Swift.String? = nil
+            subnetId: Swift.String? = nil,
+            vpcInterfaceTags: [Swift.String: Swift.String]? = nil
         ) {
             self.name = name
             self.networkInterfaceType = networkInterfaceType
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
             self.subnetId = subnetId
+            self.vpcInterfaceTags = vpcInterfaceTags
         }
     }
 }
@@ -4398,6 +4417,8 @@ public struct CreateFlowInput: Swift.Sendable {
     public var entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]?
     /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
     public var flowSize: MediaConnectClientTypes.FlowSize?
+    /// The key-value pairs that can be used to tag and organize the flow.
+    public var flowTags: [Swift.String: Swift.String]?
     /// The maintenance settings you want to use for the flow.
     public var maintenance: MediaConnectClientTypes.AddMaintenance?
     /// The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
@@ -4424,6 +4445,7 @@ public struct CreateFlowInput: Swift.Sendable {
         availabilityZone: Swift.String? = nil,
         entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]? = nil,
         flowSize: MediaConnectClientTypes.FlowSize? = nil,
+        flowTags: [Swift.String: Swift.String]? = nil,
         maintenance: MediaConnectClientTypes.AddMaintenance? = nil,
         mediaStreams: [MediaConnectClientTypes.AddMediaStreamRequest]? = nil,
         name: Swift.String? = nil,
@@ -4438,6 +4460,7 @@ public struct CreateFlowInput: Swift.Sendable {
         self.availabilityZone = availabilityZone
         self.entitlements = entitlements
         self.flowSize = flowSize
+        self.flowTags = flowTags
         self.maintenance = maintenance
         self.mediaStreams = mediaStreams
         self.name = name
@@ -5348,6 +5371,8 @@ public struct UpdateFlowInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
+    /// Determines the processing capacity and feature set of the flow.
+    public var flowSize: MediaConnectClientTypes.FlowSize?
     /// The maintenance setting of the flow.
     public var maintenance: MediaConnectClientTypes.UpdateMaintenance?
     /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
@@ -5359,12 +5384,14 @@ public struct UpdateFlowInput: Swift.Sendable {
 
     public init(
         flowArn: Swift.String? = nil,
+        flowSize: MediaConnectClientTypes.FlowSize? = nil,
         maintenance: MediaConnectClientTypes.UpdateMaintenance? = nil,
         ndiConfig: MediaConnectClientTypes.NdiConfig? = nil,
         sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil,
         sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil
     ) {
         self.flowArn = flowArn
+        self.flowSize = flowSize
         self.maintenance = maintenance
         self.ndiConfig = ndiConfig
         self.sourceFailoverConfig = sourceFailoverConfig
@@ -6778,6 +6805,7 @@ extension CreateFlowInput {
         try writer["availabilityZone"].write(value.availabilityZone)
         try writer["entitlements"].writeList(value.entitlements, memberWritingClosure: MediaConnectClientTypes.GrantEntitlementRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["flowSize"].write(value.flowSize)
+        try writer["flowTags"].writeMap(value.flowTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.AddMaintenance.write(value:to:))
         try writer["mediaStreams"].writeList(value.mediaStreams, memberWritingClosure: MediaConnectClientTypes.AddMediaStreamRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -6865,6 +6893,7 @@ extension UpdateFlowInput {
 
     static func write(value: UpdateFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["flowSize"].write(value.flowSize)
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.UpdateMaintenance.write(value:to:))
         try writer["ndiConfig"].write(value.ndiConfig, with: MediaConnectClientTypes.NdiConfig.write(value:to:))
         try writer["sourceFailoverConfig"].write(value.sourceFailoverConfig, with: MediaConnectClientTypes.UpdateFailoverConfig.write(value:to:))
@@ -9691,6 +9720,7 @@ extension MediaConnectClientTypes.AddMediaStreamRequest {
         try writer["description"].write(value.description)
         try writer["mediaStreamId"].write(value.mediaStreamId)
         try writer["mediaStreamName"].write(value.mediaStreamName)
+        try writer["mediaStreamTags"].writeMap(value.mediaStreamTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["mediaStreamType"].write(value.mediaStreamType)
         try writer["videoFormat"].write(value.videoFormat)
     }
@@ -9734,6 +9764,7 @@ extension MediaConnectClientTypes.AddOutputRequest {
         try writer["ndiProgramName"].write(value.ndiProgramName)
         try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
         try writer["outputStatus"].write(value.outputStatus)
+        try writer["outputTags"].writeMap(value.outputTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
         try writer["remoteId"].write(value.remoteId)
@@ -9802,6 +9833,7 @@ extension MediaConnectClientTypes.SetSourceRequest {
         try writer["senderIpAddress"].write(value.senderIpAddress)
         try writer["sourceListenerAddress"].write(value.sourceListenerAddress)
         try writer["sourceListenerPort"].write(value.sourceListenerPort)
+        try writer["sourceTags"].writeMap(value.sourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["streamId"].write(value.streamId)
         try writer["vpcInterfaceName"].write(value.vpcInterfaceName)
         try writer["whitelistCidr"].write(value.whitelistCidr)
@@ -9845,6 +9877,7 @@ extension MediaConnectClientTypes.VpcInterfaceRequest {
         try writer["roleArn"].write(value.roleArn)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetId"].write(value.subnetId)
+        try writer["vpcInterfaceTags"].writeMap(value.vpcInterfaceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9873,6 +9906,7 @@ extension MediaConnectClientTypes.GrantEntitlementRequest {
         try writer["description"].write(value.description)
         try writer["encryption"].write(value.encryption, with: MediaConnectClientTypes.Encryption.write(value:to:))
         try writer["entitlementStatus"].write(value.entitlementStatus)
+        try writer["entitlementTags"].writeMap(value.entitlementTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["subscribers"].writeList(value.subscribers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

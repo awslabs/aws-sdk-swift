@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTEventsClient: ClientRuntime.Client {
     public static let clientName = "IoTEventsClient"
-    public static let version = "1.5.56"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTEventsClient.IoTEventsClientConfiguration
     let serviceName = "IoT Events"

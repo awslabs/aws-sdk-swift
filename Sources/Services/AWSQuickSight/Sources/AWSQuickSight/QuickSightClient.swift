@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QuickSightClient: ClientRuntime.Client {
     public static let clientName = "QuickSightClient"
-    public static let version = "1.5.56"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: QuickSightClient.QuickSightClientConfiguration
     let serviceName = "QuickSight"
@@ -583,7 +583,7 @@ extension QuickSightClient {
 
     /// Performs the `CreateAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize QuickSight by removing QuickSight sample assets and videos for all new users, see [Customizing QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
+    /// Creates Amazon QuickSight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize QuickSight by removing QuickSight sample assets and videos for all new users, see [Customizing QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateAccountCustomizationInput`)
     ///
@@ -2422,18 +2422,16 @@ extension QuickSightClient {
 
     /// Performs the `DeleteAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// This API permanently deletes all QuickSight customizations for the specified Amazon Web Services account and namespace in this Amazon Web Services Region. When you delete account customizations:
+    /// This API permanently deletes all QuickSight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations:
     ///
     /// * All customizations are removed including themes, branding, and visual settings
-    ///
-    /// * The deletion affects only the specified Amazon Web Services Region - customizations in other regions remain unchanged
     ///
     /// * This action cannot be undone through the API
     ///
     /// * Users will see default QuickSight styling after customizations are deleted
     ///
     ///
-    /// Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and QuickSight namespace.
+    /// Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all Amazon QuickSight customizations for the specified Amazon Web Services account and QuickSight namespace.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAccountCustomizationInput`)
     ///
@@ -4690,11 +4688,11 @@ extension QuickSightClient {
 
     /// Performs the `DescribeAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon QuickSight namespace in an Amazon Web Services Region. The QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon QuickSight namespace. The QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
     ///
     /// * Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use QuickSight in any supported Amazon Web Services Region.
     ///
-    /// * Amazon Web Services Region - In each Amazon Web Services Region where you sign in to QuickSight at least once, QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace. To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:
+    /// * Amazon Web Services Region - You can sign in to QuickSight in any Amazon Web Services Region. If you have a user directory, it resides in us-east-1, which is US East (N. Virginia). Generally speaking, these users have access to QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace. To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:
     ///
     /// * Use [command line options](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-options.html).
     ///
@@ -4707,7 +4705,7 @@ extension QuickSightClient {
     ///
     /// * Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// * Applied customizations - Within an Amazon Web Services Region, a set of QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
+    /// * Applied customizations - QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeAccountCustomizationInput`)
     ///
@@ -12364,7 +12362,7 @@ extension QuickSightClient {
 
     /// Performs the `UpdateAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
+    /// Updates Amazon QuickSight customizations. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAccountCustomizationInput`)
     ///

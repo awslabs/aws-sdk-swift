@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MemoryDBClient: ClientRuntime.Client {
     public static let clientName = "MemoryDBClient"
-    public static let version = "1.5.56"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: MemoryDBClient.MemoryDBClientConfiguration
     let serviceName = "MemoryDB"
@@ -380,8 +380,8 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceUpdateNotFoundFault` :
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceUpdateNotFoundFault` : The specified service update does not exist.
     public func batchUpdateCluster(input: BatchUpdateClusterInput) async throws -> BatchUpdateClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -449,14 +449,14 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidSnapshotStateFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotAlreadyExistsFault` :
-    /// - `SnapshotNotFoundFault` :
-    /// - `SnapshotQuotaExceededFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidSnapshotStateFault` : The snapshot is not in a valid state for the requested operation.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotAlreadyExistsFault` : A snapshot with the specified name already exists.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
+    /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots allowed.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -524,13 +524,13 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLAlreadyExistsFault` :
-    /// - `ACLQuotaExceededFault` :
-    /// - `DefaultUserRequired` :
-    /// - `DuplicateUserNameFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `TagQuotaPerResourceExceeded` :
-    /// - `UserNotFoundFault` :
+    /// - `ACLAlreadyExistsFault` : An ACL with the specified name already exists.
+    /// - `ACLQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of ACLs allowed.
+    /// - `DefaultUserRequired` : A default user is required and must be specified.
+    /// - `DuplicateUserNameFault` : A user with the specified name already exists.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func createACL(input: CreateACLInput) async throws -> CreateACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -598,24 +598,24 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterAlreadyExistsFault` :
-    /// - `ClusterQuotaForCustomerExceededFault` :
-    /// - `InsufficientClusterCapacityFault` :
-    /// - `InvalidACLStateFault` :
-    /// - `InvalidCredentialsException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterAlreadyExistsFault` : A cluster with the specified name already exists.
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of clusters allowed for this customer.
+    /// - `InsufficientClusterCapacityFault` : The cluster does not have sufficient capacity to perform the requested operation.
+    /// - `InvalidACLStateFault` : The ACL is not in a valid state for the requested operation.
+    /// - `InvalidCredentialsException` : The provided credentials are not valid.
     /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidVPCNetworkStateFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is not in a valid state for the requested operation.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
-    /// - `NodeQuotaForClusterExceededFault` :
-    /// - `NodeQuotaForCustomerExceededFault` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `ShardsPerClusterQuotaExceededFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the maximum number of nodes allowed for this cluster.
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of nodes allowed for this customer.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `ShardsPerClusterQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of shards allowed per cluster.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -683,12 +683,12 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterQuotaForCustomerExceededFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of clusters allowed for this customer.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterAlreadyExistsFault` : A multi-Region cluster with the specified name already exists.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createMultiRegionCluster(input: CreateMultiRegionClusterInput) async throws -> CreateMultiRegionClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -756,13 +756,13 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterGroupStateFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupAlreadyExistsFault` :
-    /// - `ParameterGroupQuotaExceededFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterGroupStateFault` : The parameter group is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupAlreadyExistsFault` : A parameter group with the specified name already exists.
+    /// - `ParameterGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of parameter groups allowed.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createParameterGroup(input: CreateParameterGroupInput) async throws -> CreateParameterGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -830,14 +830,14 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotAlreadyExistsFault` :
-    /// - `SnapshotQuotaExceededFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotAlreadyExistsFault` : A snapshot with the specified name already exists.
+    /// - `SnapshotQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of snapshots allowed.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -905,13 +905,13 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidSubnet` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SubnetGroupAlreadyExistsFault` :
-    /// - `SubnetGroupQuotaExceededFault` :
-    /// - `SubnetNotAllowedFault` :
-    /// - `SubnetQuotaExceededFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `InvalidSubnet` : The specified subnet is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SubnetGroupAlreadyExistsFault` : A subnet group with the specified name already exists.
+    /// - `SubnetGroupQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of subnet groups allowed.
+    /// - `SubnetNotAllowedFault` : The specified subnet is not allowed for this operation.
+    /// - `SubnetQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of subnets allowed.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func createSubnetGroup(input: CreateSubnetGroupInput) async throws -> CreateSubnetGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -979,12 +979,12 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DuplicateUserNameFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `TagQuotaPerResourceExceeded` :
-    /// - `UserAlreadyExistsFault` :
-    /// - `UserQuotaExceededFault` :
+    /// - `DuplicateUserNameFault` : A user with the specified name already exists.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
+    /// - `UserAlreadyExistsFault` : A user with the specified name already exists.
+    /// - `UserQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of users allowed.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1052,9 +1052,9 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `InvalidACLStateFault` :
-    /// - `InvalidParameterValueException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `InvalidACLStateFault` : The ACL is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     public func deleteACL(input: DeleteACLInput) async throws -> DeleteACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1122,12 +1122,12 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotAlreadyExistsFault` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotAlreadyExistsFault` : A snapshot with the specified name already exists.
     public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1196,7 +1196,7 @@ extension MemoryDBClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     public func deleteMultiRegionCluster(input: DeleteMultiRegionClusterInput) async throws -> DeleteMultiRegionClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -1265,11 +1265,11 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterGroupStateFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterGroupStateFault` : The parameter group is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func deleteParameterGroup(input: DeleteParameterGroupInput) async throws -> DeleteParameterGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1337,11 +1337,11 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidSnapshotStateFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidSnapshotStateFault` : The snapshot is not in a valid state for the requested operation.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
     public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1409,9 +1409,9 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SubnetGroupInUseFault` :
-    /// - `SubnetGroupNotFoundFault` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SubnetGroupInUseFault` : The subnet group is currently in use and cannot be deleted.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
     public func deleteSubnetGroup(input: DeleteSubnetGroupInput) async throws -> DeleteSubnetGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1479,9 +1479,9 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidUserStateFault` :
-    /// - `UserNotFoundFault` :
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidUserStateFault` : The user is not in a valid state for the requested operation.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1549,8 +1549,8 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `InvalidParameterCombinationException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
     public func describeACLs(input: DescribeACLsInput) async throws -> DescribeACLsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1618,10 +1618,10 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1689,9 +1689,9 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeEngineVersions(input: DescribeEngineVersionsInput) async throws -> DescribeEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1759,9 +1759,9 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1829,9 +1829,9 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     public func describeMultiRegionClusters(input: DescribeMultiRegionClustersInput) async throws -> DescribeMultiRegionClustersOutput {
         let context = Smithy.ContextBuilder()
@@ -1889,6 +1889,148 @@ extension MemoryDBClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeMultiRegionParameterGroups` operation on the `MemoryDB` service.
+    ///
+    /// Returns a list of multi-region parameter groups.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeMultiRegionParameterGroupsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeMultiRegionParameterGroupsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    public func describeMultiRegionParameterGroups(input: DescribeMultiRegionParameterGroupsInput) async throws -> DescribeMultiRegionParameterGroupsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMultiRegionParameterGroups")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(DescribeMultiRegionParameterGroupsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiRegionParameterGroupsOutput>(DescribeMultiRegionParameterGroupsOutput.httpOutput(from:), DescribeMultiRegionParameterGroupsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiRegionParameterGroupsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MemoryDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMultiRegionParameterGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(xAmzTarget: "AmazonMemoryDB.DescribeMultiRegionParameterGroups"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMultiRegionParameterGroupsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMultiRegionParameterGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMultiRegionParameterGroupsInput, DescribeMultiRegionParameterGroupsOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMultiRegionParameterGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeMultiRegionParameters` operation on the `MemoryDB` service.
+    ///
+    /// Returns the detailed parameter list for a particular multi-region parameter group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeMultiRegionParametersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeMultiRegionParametersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    public func describeMultiRegionParameters(input: DescribeMultiRegionParametersInput) async throws -> DescribeMultiRegionParametersOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMultiRegionParameters")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(DescribeMultiRegionParametersInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiRegionParametersOutput>(DescribeMultiRegionParametersOutput.httpOutput(from:), DescribeMultiRegionParametersOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiRegionParametersOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MemoryDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMultiRegionParametersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(xAmzTarget: "AmazonMemoryDB.DescribeMultiRegionParameters"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMultiRegionParametersInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMultiRegionParametersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMultiRegionParametersInput, DescribeMultiRegionParametersOutput>(serviceID: serviceName, version: MemoryDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MemoryDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMultiRegionParameters")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeParameterGroups` operation on the `MemoryDB` service.
     ///
     /// Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
@@ -1900,10 +2042,10 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeParameterGroups(input: DescribeParameterGroupsInput) async throws -> DescribeParameterGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1971,10 +2113,10 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeParameters(input: DescribeParametersInput) async throws -> DescribeParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2042,10 +2184,10 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `ReservedNodeNotFoundFault` : The requested node does not exist.
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2113,10 +2255,10 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `ReservedNodesOfferingNotFoundFault` : The requested node offering does not exist.
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func describeReservedNodesOfferings(input: DescribeReservedNodesOfferingsInput) async throws -> DescribeReservedNodesOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2184,8 +2326,8 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     public func describeServiceUpdates(input: DescribeServiceUpdatesInput) async throws -> DescribeServiceUpdatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2253,10 +2395,10 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
     public func describeSnapshots(input: DescribeSnapshotsInput) async throws -> DescribeSnapshotsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2324,8 +2466,8 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
     public func describeSubnetGroups(input: DescribeSubnetGroupsInput) async throws -> DescribeSubnetGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2393,8 +2535,8 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `UserNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func describeUsers(input: DescribeUsersInput) async throws -> DescribeUsersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2462,14 +2604,14 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `APICallRateForCustomerExceededFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidKMSKeyFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ShardNotFoundFault` :
-    /// - `TestFailoverNotAvailableFault` :
+    /// - `APICallRateForCustomerExceededFault` : The customer has exceeded the maximum number of API requests allowed per time period.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidKMSKeyFault` : The specified KMS key is not valid or accessible.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ShardNotFoundFault` : The specified shard does not exist.
+    /// - `TestFailoverNotAvailableFault` : Test failover is not available for this cluster configuration.
     public func failoverShard(input: FailoverShardInput) async throws -> FailoverShardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2537,8 +2679,8 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     public func listAllowedMultiRegionClusterUpdates(input: ListAllowedMultiRegionClusterUpdatesInput) async throws -> ListAllowedMultiRegionClusterUpdatesOutput {
         let context = Smithy.ContextBuilder()
@@ -2607,10 +2749,10 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func listAllowedNodeTypeUpdates(input: ListAllowedNodeTypeUpdatesInput) async throws -> ListAllowedNodeTypeUpdatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2678,17 +2820,17 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidARNFault` :
-    /// - `InvalidClusterStateFault` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidARNFault` : The specified Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `UserNotFoundFault` :
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2756,13 +2898,13 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `ReservedNodeAlreadyExistsFault` : You already have a reservation with the given identifier.
     /// - `ReservedNodeQuotaExceededFault` : The request cannot be processed because it would exceed the user's node quota.
     /// - `ReservedNodesOfferingNotFoundFault` : The requested node offering does not exist.
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `TagQuotaPerResourceExceeded` :
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
     public func purchaseReservedNodesOffering(input: PurchaseReservedNodesOfferingInput) async throws -> PurchaseReservedNodesOfferingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2830,11 +2972,11 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterGroupStateFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterGroupStateFault` : The parameter group is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func resetParameterGroup(input: ResetParameterGroupInput) async throws -> ResetParameterGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2902,19 +3044,19 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidARNFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidParameterValueException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidARNFault` : The specified Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `TagQuotaPerResourceExceeded` :
-    /// - `UserNotFoundFault` :
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `TagQuotaPerResourceExceeded` : The request cannot be processed because it would exceed the maximum number of tags allowed per resource.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2982,19 +3124,19 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `InvalidARNFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidParameterValueException` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `InvalidARNFault` : The specified Amazon Resource Name (ARN) is not valid.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SnapshotNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `TagNotFoundFault` :
-    /// - `UserNotFoundFault` :
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SnapshotNotFoundFault` : The specified snapshot does not exist.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `TagNotFoundFault` : The specified tag does not exist.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3062,13 +3204,13 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `DefaultUserRequired` :
-    /// - `DuplicateUserNameFault` :
-    /// - `InvalidACLStateFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `UserNotFoundFault` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `DefaultUserRequired` : A default user is required and must be specified.
+    /// - `DuplicateUserNameFault` : A user with the specified name already exists.
+    /// - `InvalidACLStateFault` : The ACL is not in a valid state for the requested operation.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func updateACL(input: UpdateACLInput) async throws -> UpdateACLOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3136,22 +3278,22 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ACLNotFoundFault` :
-    /// - `ClusterNotFoundFault` :
-    /// - `ClusterQuotaForCustomerExceededFault` :
-    /// - `InvalidACLStateFault` :
-    /// - `InvalidClusterStateFault` :
-    /// - `InvalidKMSKeyFault` :
-    /// - `InvalidNodeStateFault` :
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidVPCNetworkStateFault` :
-    /// - `NodeQuotaForClusterExceededFault` :
-    /// - `NodeQuotaForCustomerExceededFault` :
-    /// - `NoOperationFault` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `ShardsPerClusterQuotaExceededFault` :
+    /// - `ACLNotFoundFault` : The specified ACL does not exist.
+    /// - `ClusterNotFoundFault` : The specified cluster does not exist.
+    /// - `ClusterQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of clusters allowed for this customer.
+    /// - `InvalidACLStateFault` : The ACL is not in a valid state for the requested operation.
+    /// - `InvalidClusterStateFault` : The cluster is not in a valid state for the requested operation.
+    /// - `InvalidKMSKeyFault` : The specified KMS key is not valid or accessible.
+    /// - `InvalidNodeStateFault` : The node is not in a valid state for the requested operation.
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidVPCNetworkStateFault` : The VPC network is not in a valid state for the requested operation.
+    /// - `NodeQuotaForClusterExceededFault` : The request cannot be processed because it would exceed the maximum number of nodes allowed for this cluster.
+    /// - `NodeQuotaForCustomerExceededFault` : The request cannot be processed because it would exceed the maximum number of nodes allowed for this customer.
+    /// - `NoOperationFault` : The requested operation would result in no changes.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `ShardsPerClusterQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of shards allowed per cluster.
     public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3220,8 +3362,8 @@ extension MemoryDBClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidMultiRegionClusterStateFault` : The requested operation cannot be performed on the multi-Region cluster in its current state.
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
     /// - `MultiRegionClusterNotFoundFault` : The specified multi-Region cluster does not exist.
     /// - `MultiRegionParameterGroupNotFoundFault` : The specified multi-Region parameter group does not exist.
     public func updateMultiRegionCluster(input: UpdateMultiRegionClusterInput) async throws -> UpdateMultiRegionClusterOutput {
@@ -3291,11 +3433,11 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterGroupStateFault` :
-    /// - `InvalidParameterValueException` :
-    /// - `ParameterGroupNotFoundFault` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterGroupStateFault` : The parameter group is not in a valid state for the requested operation.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `ParameterGroupNotFoundFault` : The specified parameter group does not exist.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
     public func updateParameterGroup(input: UpdateParameterGroupInput) async throws -> UpdateParameterGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3363,12 +3505,12 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidSubnet` :
-    /// - `ServiceLinkedRoleNotFoundFault` :
-    /// - `SubnetGroupNotFoundFault` :
-    /// - `SubnetInUse` :
-    /// - `SubnetNotAllowedFault` :
-    /// - `SubnetQuotaExceededFault` :
+    /// - `InvalidSubnet` : The specified subnet is not valid.
+    /// - `ServiceLinkedRoleNotFoundFault` : The required service-linked role was not found.
+    /// - `SubnetGroupNotFoundFault` : The specified subnet group does not exist.
+    /// - `SubnetInUse` : The subnet is currently in use and cannot be deleted.
+    /// - `SubnetNotAllowedFault` : The specified subnet is not allowed for this operation.
+    /// - `SubnetQuotaExceededFault` : The request cannot be processed because it would exceed the maximum number of subnets allowed.
     public func updateSubnetGroup(input: UpdateSubnetGroupInput) async throws -> UpdateSubnetGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3436,10 +3578,10 @@ extension MemoryDBClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidParameterCombinationException` :
-    /// - `InvalidParameterValueException` :
-    /// - `InvalidUserStateFault` :
-    /// - `UserNotFoundFault` :
+    /// - `InvalidParameterCombinationException` : The specified parameter combination is not valid.
+    /// - `InvalidParameterValueException` : The specified parameter value is not valid.
+    /// - `InvalidUserStateFault` : The user is not in a valid state for the requested operation.
+    /// - `UserNotFoundFault` : The specified user does not exist.
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

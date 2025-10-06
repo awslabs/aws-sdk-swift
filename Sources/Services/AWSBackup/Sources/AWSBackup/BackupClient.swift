@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupClient: ClientRuntime.Client {
     public static let clientName = "BackupClient"
-    public static let version = "1.5.56"
+    public static let version = "1.5.57"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupClient.BackupClientConfiguration
     let serviceName = "Backup"
@@ -6097,7 +6097,7 @@ extension BackupClient {
 
     /// Performs the `StartCopyJob` operation on the `Backup` service.
     ///
-    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups.
+    /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups. See [Copy job retry](https://docs.aws.amazon.com/aws-backup/latest/devguide/recov-point-create-a-copy.html#backup-copy-retry) for information on how Backup retries copy job operations.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartCopyJobInput`)
     ///
